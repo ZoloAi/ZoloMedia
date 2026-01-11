@@ -1,0 +1,61 @@
+# ZoloMedia .gitignore
+# Ecosystem coordinator repository
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Thumbnails
+Thumbs.db
+
+# Vim swap files
+*.swp
+*.swo
+*~
+.*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+*.log
+logs/
+
+# OS generated
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.cache
+
+# Node modules (if any docs build)
+node_modules/
+
+# Build outputs (if any)
+dist/
+build/
+*.egg-info/
+
+# Local configuration
+*.local
+.env
+.env.local
