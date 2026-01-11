@@ -9,82 +9,141 @@
 
 ## About
 
-ZoloMedia is the coordinating repository for the Zolo ecosystem. Each component is maintained as an independent repository and included here as a git submodule, following the "Linux From Scratch" philosophy of building primitives into complex compounds.
+ZoloMedia is the **development monorepo** for the Zolo ecosystem. Components are developed together here to maintain tight coupling during active development, following the "Linux From Scratch" philosophy of building primitives into complex compounds.
 
-## Architecture
-
-```
-ZoloMedia/                  ← This repository (ecosystem coordinator)
-├── zlsp/                   ← Language Server Protocol (submodule)
-├── zKernel/                ← Core Framework (submodule)
-├── zCloud/                 ← Cloud Platform (submodule)
-├── zOS/                    ← Operating System Integration (submodule)
-└── zTheme/                 ← UI Theme Framework (submodule)
-```
-
-## Components
-
-### Core (Primitives)
-
-- **[zlsp](https://github.com/ZoloAi/zlsp)** - Language Server Protocol for `.zolo` files
-  - Semantic highlighting, diagnostics, hover, completion
-  - Pure LSP architecture (TOML model)
-  - Terminal-first (Vim/Neovim), editor-agnostic
-
-### Framework
-
-- **[zKernel](https://github.com/ZoloAi/zKernel)** - Core framework and configuration system
-  - String-first philosophy
-  - Declarative configuration
-  - Event-driven architecture
-
-### Platform
-
-- **[zCloud](https://github.com/ZoloAi/zCloud)** - Cloud-native deployment platform
-  - Media management
-  - CDN integration
-  - Analytics and quota management
-
-### System
-
-- **[zOS](https://github.com/ZoloAi/zOS)** - Operating system integration utilities
-  - Cross-platform compatibility
-  - System-level abstractions
-
-### UI
-
-- **[zTheme](https://github.com/ZoloAi/zTheme)** - Beautiful, modern UI theme framework
-  - CSS framework
-  - Component library
-  - Responsive design
+**Before publication:** Components will be extracted to independent repositories for distribution via PyPI and public use.
 
 ---
 
-## Installation
+## Current Structure
 
-### Clone with Submodules
-
-```bash
-# Clone the ecosystem
-git clone --recurse-submodules git@github.com:ZoloAi/ZoloMedia.git
-
-# Or if already cloned
-git submodule update --init --recursive
+```
+ZoloMedia/                  ← This repository (monorepo)
+├── zlsp/                   ← Language Server Protocol ✅ (Production Ready)
+├── zOS/                    ← OS Integration Utilities (Coming Next)
+├── zKernel/                ← Core Framework (Coming Soon)
+├── zCloud/                 ← Cloud Platform (Planned)
+└── zTheme/                 ← UI Framework (Planned)
 ```
 
-### Install Individual Components
+---
 
-Each component can be installed independently:
+## Components
+
+### ✅ **zlsp** - Language Server Protocol
+
+**Status:** Production Ready | LSP server working in Vim
+
+Language Server Protocol implementation for `.zolo` declarative files.
+
+- **Pure LSP Architecture** - TOML model (parser is source of truth)
+- **String-First Philosophy** - Values are strings by default
+- **Terminal-First** - Perfect Vim/Neovim support
+- **Semantic Features** - Highlighting, diagnostics, hover, completion
+- **Zero Dependencies** - Primitive component
+
+**Install:**
+```bash
+cd zlsp
+pip install -e .
+zolo-vim-install  # Automated Vim integration
+```
+
+---
+
+### 🔧 **zOS** - Operating System Integration
+
+**Status:** Coming Next | Depends on zlsp
+
+Cross-platform OS utilities and system-level abstractions.
+
+- File system operations
+- Process management
+- Environment configuration
+- Platform detection
+
+---
+
+### 📦 **zKernel** - Core Framework
+
+**Status:** Planned | Depends on zlsp + zOS
+
+Core framework and configuration system.
+
+- Declarative configuration (uses zlsp parser)
+- Event-driven architecture
+- Plugin system
+- Application framework
+
+---
+
+### 🌐 **zCloud** - Cloud Platform
+
+**Status:** Planned | Depends on zKernel
+
+Cloud-native deployment and media management platform.
+
+- Media management
+- CDN integration
+- Analytics and quota management
+- Deployment automation
+
+---
+
+### 🎨 **zTheme** - UI Framework
+
+**Status:** Planned
+
+Beautiful, modern UI theme framework.
+
+- CSS framework
+- Component library
+- Responsive design
+
+---
+
+## Development Philosophy
+
+**Dependency Flow:**
+```
+zlsp (no deps)
+  ↓
+zOS (depends on zlsp)
+  ↓
+zKernel (depends on zlsp + zOS)
+  ↓
+zCloud (depends on zKernel)
+```
+
+**Approach:**
+1. Build and perfect each component in order
+2. Maintain tight coupling during development (monorepo)
+3. Test integration continuously
+4. Before publication: Extract to independent repos
+5. Publish to PyPI as standalone packages
+
+---
+
+## Installation (Development)
+
+### Clone Repository
 
 ```bash
-# Just the language server
-pip install zlsp
+git clone git@github.com:ZoloAi/ZoloMedia.git
+cd ZoloMedia
+```
 
-# Core framework
-pip install zKernel
+### Install zlsp (Current Component)
 
-# Full stack
-pip install zCloud
+```bash
+cd zlsp
+pip install -e .
+zolo-vim-install  # Automated Vim integration
+```
+
+Test:
+```bash
+vim zlsp/examples/basic.zolo
 ```
 
 ---
@@ -103,23 +162,57 @@ pip install zCloud
 
 ---
 
-## Status
+## Status & Roadmap
 
-🚧 **Active Development** - Components are being extracted from the monorepo and established as independent repositories.
+### ✅ Phase 1: zlsp (COMPLETE)
+- [x] Pure LSP implementation
+- [x] Vim integration with vim-lsp
+- [x] Semantic highlighting
+- [x] Diagnostics, hover, completion
+- [x] Automated installation
+- [x] Production ready
 
-Current milestone: Extracting `zlsp` as the first standalone primitive component.
+### 🔧 Phase 2: zOS (IN PROGRESS)
+- [ ] Port from old Zolo repo
+- [ ] Clean up dependencies
+- [ ] Integrate with zlsp
+- [ ] Test suite
+- [ ] Documentation
+
+### 📦 Phase 3: zKernel (NEXT)
+- [ ] Port from old Zolo repo
+- [ ] Integrate with zlsp + zOS
+- [ ] Plugin system
+- [ ] Test suite
+- [ ] Documentation
+
+### 🌐 Phase 4: zCloud (PLANNED)
+- [ ] Clean architecture
+- [ ] Media management
+- [ ] CDN integration
+- [ ] Deployment
+
+### 🚀 Phase 5: Publication (FUTURE)
+- [ ] Extract components to independent repos
+- [ ] Publish to PyPI
+- [ ] Update ZoloMedia to reference published packages
+- [ ] Production deployment
 
 ---
 
 ## Contributing
 
-Each component has its own contribution guidelines. Please see individual component repositories for details.
+We're in active development! Contributions welcome after Phase 5 (publication).
+
+For now, this is a development monorepo for the core team.
 
 ---
 
 ## License
 
-See individual component repositories for license information.
+See individual component LICENSE files.
+
+- `zlsp/` - MIT License
 
 ---
 
@@ -128,7 +221,7 @@ See individual component repositories for license information.
 - 🌐 **Website:** [zolo.media](https://zolo.media)
 - 📚 **Documentation:** [docs.zolo.media](https://docs.zolo.media) *(coming soon)*
 - 💬 **Discussions:** [GitHub Discussions](https://github.com/ZoloAi/ZoloMedia/discussions)
-- 🐛 **Issues:** Component-specific issue trackers
+- 🐛 **Issues:** [GitHub Issues](https://github.com/ZoloAi/ZoloMedia/issues)
 
 ---
 
