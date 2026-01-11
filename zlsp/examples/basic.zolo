@@ -1,0 +1,26 @@
+# Basic Zolo Example
+# All values default to strings (no quotes needed!)
+
+app_name: My Application
+version: 1.0.0
+country_code: NO
+description: A simple app
+
+# Use type hints for non-string types
+server:
+  host: localhost
+  port(int): 8080
+  ssl(bool): true
+  timeout(int): 30
+  max_connections(int): 100
+
+features:
+  analytics(bool): true
+  debug(bool): false
+  rate_limit(int): 1000
+  beta_users(list): [alice, bob, charlie]
+
+pricing:
+  monthly(float): 9.99
+  annual(float): 99.99
+  trial_days(int): 14
