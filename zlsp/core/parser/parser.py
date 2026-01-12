@@ -2293,7 +2293,7 @@ def _parse_root_key_value_pairs(lines: list[str]) -> dict:
     return result
 
 
-def _emit_value_tokens(value: str, line: int, start_pos: int, emitter: TokenEmitter):
+def _emit_value_tokens(value: str, line: int, start_pos: int, emitter: TokenEmitter, type_hint: str = None):
     """
     Emit semantic tokens for a value based on its detected type.
     
@@ -2302,9 +2302,31 @@ def _emit_value_tokens(value: str, line: int, start_pos: int, emitter: TokenEmit
         line: Line number
         start_pos: Starting character position
         emitter: Token emitter
+        type_hint: Optional type hint (int, float, str, bool) for semantic highlighting
     """
     if not value:
         return
+    
+    # If type hint provided, emit based on semantic type (after hint processing)
+    if type_hint:
+        hint_lower = type_hint.lower()
+        if hint_lower == 'str':
+            # Force string token even if value looks like number/bool
+            has_valid_escape = any(seq in value for seq in ['\\n', '\\t', '\\r', '\\\\', '\\"', "\\'", '\\u'])
+            has_brackets = any(c in value for c in '[]{}')
+            if has_valid_escape or has_brackets:
+                _emit_string_with_escapes(value, line, start_pos, emitter)
+            else:
+                emitter.emit(line, start_pos, len(value), TokenType.STRING)
+            return
+        elif hint_lower == 'int' or hint_lower == 'float':
+            # Force number token
+            emitter.emit(line, start_pos, len(value), TokenType.NUMBER)
+            return
+        elif hint_lower == 'bool':
+            # Force boolean token
+            emitter.emit(line, start_pos, len(value), TokenType.BOOLEAN)
+            return
     
     # zPath (@ or ~ followed by dot-separated path)
     if _is_zpath_value(value):
@@ -2518,17 +2540,40 @@ def _emit_object_tokens(value: str, line: int, start_pos: int, emitter: TokenEmi
                 key_offset = len(pair[:colon_idx]) - len(key)
                 key_pos = pair_pos + key_offset
                 
-                # Emit key token (nested key in flow-style objects)
-                emitter.emit(line, key_pos, len(key), TokenType.NESTED_KEY)
+                # Check for type hint in key
+                match = TYPE_HINT_PATTERN.match(key)
+                type_hint_text = None
+                if match:
+                    # Key has type hint: keyname(type)
+                    clean_key = match.group(1)
+                    type_hint_text = match.group(2)
+                    
+                    # Emit key name
+                    emitter.emit(line, key_pos, len(clean_key), TokenType.NESTED_KEY)
+                    
+                    # Emit opening paren
+                    paren_pos = key_pos + len(clean_key)
+                    emitter.emit(line, paren_pos, 1, TokenType.TYPE_HINT)
+                    
+                    # Emit type hint text
+                    type_pos = paren_pos + 1
+                    emitter.emit(line, type_pos, len(type_hint_text), TokenType.TYPE_HINT)
+                    
+                    # Emit closing paren
+                    close_paren_pos = type_pos + len(type_hint_text)
+                    emitter.emit(line, close_paren_pos, 1, TokenType.TYPE_HINT)
+                else:
+                    # No type hint - emit key as single token
+                    emitter.emit(line, key_pos, len(key), TokenType.NESTED_KEY)
                 
                 # Emit colon
                 emitter.emit(line, pair_pos + colon_idx, 1, TokenType.COLON)
                 
-                # Emit value token (recursively)
+                # Emit value token (recursively) with semantic type hint
                 if val:
                     val_offset = len(pair[:colon_idx + 1]) + (len(pair[colon_idx + 1:]) - len(val))
                     val_pos = pair_pos + val_offset
-                    _emit_value_tokens(val, line, val_pos, emitter)
+                    _emit_value_tokens(val, line, val_pos, emitter, type_hint=type_hint_text)
     
     # Closing brace
     emitter.emit(line, start_pos + len(value) - 1, 1, TokenType.BRACE_STRUCTURAL)

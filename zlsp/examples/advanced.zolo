@@ -118,9 +118,63 @@ database:
     password: secret123
 
 # Flow-style objects (Phase 4.2) - IMPLEMENTED ✅
+
+# Basic inline objects
 coords: {x: 10, y: 20}
 point3d: {x: 1, y: 2, z: 3}
 empty_object: {}
+
+# Different value types (auto-detect)
+numbers_obj: {port: 8080, timeout: 30, price: 99.99}
+strings_obj: {name: Alice, city: NYC, status: active}
+mixed_types: {id: 42, name: Bob, active: true, value: null}
+stress_test: {test(str): 123}
+
+# Type hints (explicit control) - PROOF THEY WORK
+# Compare: without hints vs with hints
+no_hints: {port: 8080, enabled: true, count: 42}
+# Result: {port: 8080.0 (float), enabled: "true" (str), count: 42.0 (float)}
+
+typed_ints: {width(int): 1920, height(int): 1080}
+# Result: {width: 1920 (int), height: 1080 (int)} ← Forces int, not float!
+
+typed_floats: {temp(float): 98.6, price(float): 19.99}
+# Result: {temp: 98.6 (float), price: 19.99 (float)}
+
+typed_bools: {enabled(bool): true, debug(bool): false}
+# Result: {enabled: True (bool), debug: False (bool)} ← Forces bool, not str!
+
+# NOTE: (str) hint on numbers has quirk - converts after detection
+# typed_strings: {port(str): 8080} → "8080.0" not "8080" (converts after float detection)
+
+# Mixed type hints
+config_typed: {port(int): 8080, host: localhost, ssl(bool): true}
+
+# Special values
+nulls_obj: {optional: null, missing: null, empty: null}
+version_obj: {version: 1.0.0, build: 2.3.4-beta}
+
+# Complex values in objects
+urls_obj: {api: https://example.com:8080, docs: http://localhost:3000}
+colors_obj: {primary: #FF5733, secondary: #00BFFF, accent: #FFD700}
+
+# Nested inline objects
+nested_inline: {outer: value, inner: {nested: data, deep: {level: 3}}}
+
+# Arrays inside objects
+arrays_in_obj: {ports: [8080, 8081, 8082], tags: [web, api, prod]}
+
+# Edge cases
+single_key: {only: one}
+many_keys: {a: 1, b: 2, c: 3, d: 4, e: 5, f: 6}
+whitespace_obj: {  spaced  :  value  ,  another  :  item  }
+
+# Special characters in values
+special_chars: {path: C:\Users\Admin, ratio: 16:9, range: [1-10]}
+
+# TODO: Not yet supported (future enhancements)
+# array_values: {nums: [1, 2, 3], strs: [a, b, c]}
+# nested_deep: {level1: {level2: {level3: {level4: value}}}}
 
 # Mixed structures
 config:
