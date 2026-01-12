@@ -16,17 +16,17 @@ from typing import Optional, List
 from pygls.lsp.server import LanguageServer
 from lsprotocol import types as lsp_types
 
-# Use relative imports within zlsp package
-from .parser import tokenize
+# Use relative imports within core package
+from ..parser.parser import tokenize
 from .semantic_tokenizer import (
     encode_semantic_tokens,
     get_token_types_legend,
     get_token_modifiers_legend
 )
-from .lsp_types import ParseResult
-from .providers.diagnostics_engine import get_all_diagnostics
-from .providers.hover_provider import get_hover_info
-from .providers.completion_provider import get_completions
+from ..lsp_types import ParseResult
+from ..providers.diagnostics_engine import get_all_diagnostics
+from ..providers.hover_provider import get_hover_info
+from ..providers.completion_provider import get_completions
 
 # Configure logging
 logging.basicConfig(

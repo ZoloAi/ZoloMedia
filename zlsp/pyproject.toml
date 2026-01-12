@@ -34,8 +34,9 @@ dependencies = [
 ]
 
 [project.scripts]
-zolo-lsp = "zlsp.lsp_server:main"
-zolo-vim-install = "zlsp.vim.install:main"
+zlsp = "core.cli:main"
+zolo-lsp = "core.server.lsp_server:main"
+zolo-vim-install = "editors.vim.install:main"
 
 [project.optional-dependencies]
 dev = [
@@ -47,24 +48,26 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/ZoloAi/Zolo/tree/main/zLSP"
-Documentation = "https://github.com/ZoloAi/Zolo/tree/main/zLSP#readme"
-Repository = "https://github.com/ZoloAi/Zolo"
-"Bug Tracker" = "https://github.com/ZoloAi/Zolo/issues"
+Homepage = "https://github.com/ZoloAi/ZoloMedia"
+Documentation = "https://github.com/ZoloAi/ZoloMedia/tree/main/zlsp"
+Repository = "https://github.com/ZoloAi/ZoloMedia"
+"Bug Tracker" = "https://github.com/ZoloAi/ZoloMedia/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["zlsp*"]
-exclude = ["tests*", "examples*", "docs*", "assets*"]
+include = ["core*", "bindings*", "editors*"]
+exclude = ["tests*", "docs*"]
 
 [tool.setuptools.package-data]
-zlsp = ["vim/**/*", "assets/*"]
+core = ["**/*"]
+bindings = ["**/*"]
+editors = ["**/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_functions = ["test_*"]
-addopts = "-v --cov=zlsp --cov-report=term-missing"
+addopts = "-v --cov=core --cov=bindings --cov-report=term-missing"
 
 [tool.black]
 line-length = 100

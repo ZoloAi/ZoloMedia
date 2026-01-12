@@ -12,8 +12,8 @@ import re
 
 from .type_hints import process_type_hints, TYPE_HINT_PATTERN
 from .constants import FILE_EXT_ZOLO, FILE_EXT_YAML, FILE_EXT_YML, FILE_EXT_JSON
-from .exceptions import ZoloParseError, ZoloDumpError
-from .lsp_types import SemanticToken, TokenType, Position, Range, ParseResult, Diagnostic
+from ..exceptions import ZoloParseError, ZoloDumpError
+from ..lsp_types import SemanticToken, TokenType, Position, Range, ParseResult, Diagnostic
 
 
 def _char_to_utf16_offset(text: str, char_offset: int) -> int:

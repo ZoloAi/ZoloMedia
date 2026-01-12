@@ -10,6 +10,30 @@ Pure LSP architecture following the TOML model: single source of truth (parser) 
 - **Pure LSP** - No grammar files, parser is the source of truth
 - **Terminal-First** - Perfect Vim/Neovim support (Phase 1)
 - **Editor Agnostic** - Same LSP server for all editors (Vim, VS Code, IntelliJ)
+- **Multi-Language Support** - Python SDK (ready), C++/Java/Rust (planned)
+
+## Project Structure
+
+```
+zlsp/
+├── core/          # Language-agnostic LSP implementation
+│   ├── server/    # LSP protocol, semantic tokens
+│   ├── parser/    # Zolo parser (single source of truth)
+│   └── providers/ # Completion, hover, diagnostics
+│
+├── bindings/      # Language-specific SDKs
+│   └── python/    # Python SDK ✅ (ready)
+│       └── zlsp/  # pip install zlsp
+│
+├── editors/       # Editor integrations
+│   └── vim/       # Vim integration ✅ (ready)
+│
+└── Documentation/ # All documentation
+    ├── bindings/  # Per-language guides
+    └── editors/   # Per-editor guides
+```
+
+**Design:** Each folder (`core/`, `bindings/python/`, `editors/vim/`) can be extracted to its own repository when ready for publication. The monorepo structure makes development easier!
 
 ## Quick Start
 
@@ -32,7 +56,7 @@ pip install git+https://github.com/ZoloAi/Zolo.git#subdirectory=zLSP && zolo-vim
 **Local Development:**
 
 ```bash
-cd zLSP
+cd zlsp
 pip install -e . && zolo-vim-install
 ```
 

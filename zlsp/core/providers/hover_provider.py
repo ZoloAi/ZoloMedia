@@ -9,9 +9,9 @@ Provides hover information showing:
 """
 
 from typing import Optional
-from ..parser import tokenize
+from ..parser.parser import tokenize
 from ..lsp_types import Position, SemanticToken, TokenType
-from ..type_hints import TYPE_HINT_PATTERN
+from ..parser.type_hints import TYPE_HINT_PATTERN
 
 
 # Type hint documentation

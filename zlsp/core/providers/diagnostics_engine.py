@@ -8,7 +8,7 @@ import re
 from typing import List
 from lsprotocol import types as lsp_types
 
-from ..parser import tokenize
+from ..parser.parser import tokenize
 from ..exceptions import ZoloParseError
 from ..lsp_types import ParseResult, Position, Range
 

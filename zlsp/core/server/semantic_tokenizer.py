@@ -5,7 +5,7 @@ Converts semantic tokens to LSP delta-encoded format for efficient transmission.
 """
 
 from typing import List
-from .lsp_types import SemanticToken, TokenType
+from ..lsp_types import SemanticToken, TokenType
 
 
 # LSP token type indices (must match legend in LSP server)
