@@ -36,7 +36,7 @@ dependencies = [
 [project.scripts]
 zlsp = "core.cli:main"
 zolo-lsp = "core.server.lsp_server:main"
-zolo-vim-install = "editors.vim.install:main"
+zlsp-vim-install = "editors.vim.install:main"
 
 [project.optional-dependencies]
 dev = [

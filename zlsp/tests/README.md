@@ -206,8 +206,30 @@ When adding new features:
 4. Ensure all tests pass: `zlsp test`
 5. Check coverage: `zlsp test --coverage`
 
+## Future Test Enhancements
+
+### Editor Integration Testing (Not Yet Implemented)
+
+**Vim Integration Tests** - Testing actual Vim highlight rendering:
+- **Challenge**: Requires running Vim in a test environment
+- **What to test**:
+  - Semantic token highlights applied correctly
+  - Bold/italic/color styling matches config
+  - LSP server registration and communication
+  - Fallback syntax highlighting when LSP unavailable
+- **Approach**: Could use `vim -u test.vimrc --headless` with automated scripts
+- **Priority**: Medium (manual testing sufficient for now)
+
+**VS Code Integration Tests**:
+- Extension activation
+- Semantic token provider registration
+- Configuration loading
+
+**Note**: For now, editor integration is verified through manual testing. Automated testing requires significant infrastructure (headless editors, screenshot comparison, etc.).
+
 ## Resources
 
 - [pytest documentation](https://docs.pytest.org/)
 - [LSP specification](https://microsoft.github.io/language-server-protocol/)
 - [zlsp architecture](../Documentation/ARCHITECTURE.md)
+- [Vim testing approaches](https://vimways.org/2019/writing-vim-plugin-tests/)

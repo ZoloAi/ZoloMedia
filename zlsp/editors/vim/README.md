@@ -2,114 +2,234 @@
 
 Complete Vim/Neovim integration for `.zolo` files with LSP support.
 
+## Features
+
+✨ **Fully Automatic** - No `.vimrc` editing required!  
+🎨 **Beautiful Colors** - Refined 256-color palette for terminal compatibility  
+🚀 **LSP Features** - Hover, completion, diagnostics, and more  
+🔒 **Non-Destructive** - Only affects `.zolo` files, leaves everything else alone
+
+---
+
 ## Quick Setup
 
-### Option 1: Automatic Installation (Recommended)
+### Prerequisites
+
+**Option 1: Vim 9+ with vim-lsp**
+```vim
+" Add to your ~/.vimrc:
+call plug#begin('~/.vim/plugged')
+Plug 'prabirshrestha/vim-lsp'
+call plug#end()
+```
+
+Then run `:PlugInstall` in Vim.
+
+**Option 2: Neovim** (built-in LSP, no plugin needed)
+
+### Installation
 
 ```bash
 pip install zlsp
-zolo-vim-install
+zlsp-vim-install
 ```
 
-This will automatically:
-- Install syntax files
-- Configure LSP server
-- Set up semantic token highlighting
+That's it! 🎉
 
-### Option 2: Manual Installation
+---
 
-Add to your `~/.vimrc`:
+## What Gets Installed?
 
-```vim
-" Source Zolo color scheme
-source ~/Projects/ZoloMedia/zlsp/editors/vim/config/zolo_highlights.vim
+The installer copies files to **auto-loading directories** in `~/.vim/`:
 
-" Enable semantic tokens (required for LSP highlighting)
-let g:lsp_semantic_enabled = 1
-
-" Register zolo-lsp server with vim-lsp
-if executable('zolo-lsp')
-  augroup ZoloLSP
-    autocmd!
-    autocmd User lsp_setup call lsp#register_server({
-      \ 'name': 'zolo-lsp',
-      \ 'cmd': {server_info->['zolo-lsp']},
-      \ 'allowlist': ['zolo']
-      \ })
-  augroup END
-endif
 ```
+~/.vim/
+├── ftdetect/zolo.vim        # Detects .zolo files
+├── ftplugin/zolo.vim        # File type settings
+├── syntax/zolo.vim          # Fallback syntax (no LSP)
+├── indent/zolo.vim          # Indentation rules
+├── plugin/zolo_lsp.vim      # LSP global setup (runs on startup)
+├── after/ftplugin/zolo.vim  # LSP per-file setup (runs after vim-lsp)
+└── colors/zolo_lsp.vim      # Semantic token colors
+```
+
+**No `.vimrc` modification needed!** Everything auto-loads when you open a `.zolo` file.
+
+---
 
 ## Color Scheme
 
-The included `zolo_highlights.vim` provides a carefully tuned color scheme:
+Carefully tuned for terminal compatibility (256-color ANSI palette):
 
-| Element | Color | Description |
-|---------|-------|-------------|
-| Root keys | Orange (216) | Bold hierarchy markers |
-| Nested keys | Golden (222) | Regular weight |
-| Strings | Cream (230) | Light yellow |
-| Numbers | Dark orange (214) | Prominent |
-| Type hints | Cyan (81) | `int`, `bool`, etc. |
-| Type hint `()` | Soft yellow (227) | Parentheses |
-| Array `[]` | Pink/cream (225) | Brackets |
-| Booleans | Deep blue (33) | `true`, `false` |
-| Comments | Gray (242) | Italic |
+| Element | Color | ANSI | Description |
+|---------|-------|------|-------------|
+| Root keys | `#ffaf87` | 216 | Salmon/orange |
+| Nested keys | `#ffd787` | 222 | Golden yellow |
+| Strings | `#fffbcb` | 230 | Light cream |
+| Numbers | `#FF8C00` | 214 | Dark orange |
+| Type hints | `#5fd7ff` | 81 | Cyan |
+| Type hint `()` | `#ffff5f` | 227 | Soft yellow |
+| Array `[]` | `#ffd7ff` | 225 | Light pink |
+| Booleans | `#0087ff` | 33 | Deep blue |
+| Comments | `#6c6c6c` | 242 | Gray (italic) |
 
 ### Customizing Colors
 
-Edit `config/zolo_highlights.vim` and change the `ctermfg` values (256-color palette).
+Edit `~/.vim/colors/zolo_lsp.vim` and change the `ctermfg` values.
 
-## Files Included
+---
 
-```
-vim/
-├── config/
-│   ├── ftdetect/zolo.vim      # File type detection
-│   ├── ftplugin/zolo.vim      # File type settings
-│   ├── syntax/zolo.vim        # Fallback syntax (no LSP)
-│   ├── indent/zolo.vim        # Indentation rules
-│   ├── zolo_highlights.vim    # LSP semantic token colors
-│   └── vimrc_snippet.vim      # Example .vimrc config
-├── install.py                 # Installation script
-└── README.md                  # This file
+## Usage
+
+Open any `.zolo` file:
+
+```bash
+vim test.zolo
 ```
 
-## Requirements
+### LSP Features
 
-- Vim 8.0+ or Neovim 0.5+
-- [vim-lsp](https://github.com/prabirshrestha/vim-lsp) plugin
-- `zolo-lsp` server installed (`pip install zlsp`)
+| Key | Action |
+|-----|--------|
+| `K` | Hover info |
+| `gd` | Go to definition |
+| `gr` | Find references |
+| `]d` | Next diagnostic |
+| `[d` | Previous diagnostic |
+
+Check LSP status:
+```vim
+:LspStatus
+```
+
+---
+
+## How It Works
+
+### Auto-Loading Magic
+
+Vim has **special directories** that automatically load files when certain events happen:
+
+1. **On Vim startup** → `plugin/zolo_lsp.vim` runs
+   - Registers `zolo-lsp` server with vim-lsp
+   - Enables semantic tokens globally
+
+2. **When opening `.zolo`** → Files load in order:
+   - `ftdetect/zolo.vim` - Detects file type
+   - `ftplugin/zolo.vim` - Sets buffer options
+   - `syntax/zolo.vim` - Fallback syntax highlighting
+   - `after/ftplugin/zolo.vim` - **Loads AFTER vim-lsp** ← LSP setup here!
+   - `colors/zolo_lsp.vim` - Applies semantic colors
+
+### Why `after/ftplugin/`?
+
+The `after/` directory ensures our LSP setup runs **AFTER** vim-lsp loads, guaranteeing proper initialization order. This is how Vim plugins handle load-order dependencies.
+
+### Scoped Highlighting
+
+All color definitions use `autocmd FileType zolo` to ensure they **only affect `.zolo` files**:
+
+```vim
+autocmd FileType zolo highlight! LspSemanticRootKey ctermfg=216 ...
+```
+
+This means:
+- ✅ Your other files are unaffected
+- ✅ No conflicts with your existing color schemes
+- ✅ Completely non-destructive
+
+---
 
 ## Troubleshooting
 
 ### Colors not showing?
 
-1. Check LSP server is running: `:LspStatus`
-2. Verify semantic tokens enabled: `:echo g:lsp_semantic_enabled` (should be `1`)
-3. Restart Vim completely (`:source ~/.vimrc` may not be enough)
+1. Check LSP server is running:
+   ```vim
+   :LspStatus
+   ```
 
-### Bold text appearing unexpectedly?
+2. Verify semantic tokens are enabled:
+   ```vim
+   :echo g:lsp_semantic_enabled
+   ```
+   Should return `1`.
 
-The color scheme uses `autocmd FileType zolo` to override Vim's default syntax highlighting. This ensures consistent styling across different terminal emulators.
+3. Restart Vim completely (`:source ~/.vimrc` may not be enough).
 
-## Testing
+### vim-lsp not found?
 
-Open a `.zolo` file:
-
-```bash
-vim zlsp/examples/basic.zolo
+Add to your `~/.vimrc`:
+```vim
+call plug#begin('~/.vim/plugged')
+Plug 'prabirshrestha/vim-lsp'
+call plug#end()
 ```
 
-You should see:
-- ✅ Root keys in orange
-- ✅ Type hints in cyan with yellow parentheses
-- ✅ Booleans in blue
-- ✅ Numbers in orange
-- ✅ Strings in cream
+Then run `:PlugInstall` and restart Vim.
+
+### Installation failed?
+
+Make sure `zlsp` is installed:
+```bash
+pip install zlsp
+which zolo-lsp  # Should show path
+```
+
+---
+
+## Manual Installation
+
+If you prefer not to use `zlsp-vim-install`, you can manually copy files from `zlsp/editors/vim/config/` to `~/.vim/`:
+
+```bash
+cp -r zlsp/editors/vim/config/* ~/.vim/
+```
+
+Then add vim-lsp to your `.vimrc` (see Prerequisites).
+
+---
+
+## Uninstallation
+
+Remove the installed files:
+
+```bash
+rm -rf ~/.vim/ftdetect/zolo.vim \
+       ~/.vim/ftplugin/zolo.vim \
+       ~/.vim/syntax/zolo.vim \
+       ~/.vim/indent/zolo.vim \
+       ~/.vim/plugin/zolo_lsp.vim \
+       ~/.vim/after/ftplugin/zolo.vim \
+       ~/.vim/colors/zolo_lsp.vim
+```
+
+---
+
+## Architecture
+
+```
+zlsp/editors/vim/
+├── config/
+│   ├── ftdetect/         # File type detection
+│   ├── ftplugin/         # File type settings
+│   ├── syntax/           # Fallback syntax
+│   ├── indent/           # Indentation
+│   ├── plugin/           # Global LSP setup
+│   ├── after/ftplugin/   # LSP per-file setup (load order!)
+│   └── colors/           # Semantic token colors
+├── install.py            # Installation script
+└── README.md             # This file
+```
+
+---
 
 ## More Info
 
-- [Vim Integration Guide](../../Documentation/editors/VIM_GUIDE.md)
 - [LSP Server Docs](../../Documentation/ARCHITECTURE.md)
 - [Zolo Format Spec](../../README.md)
+- [Session Notes](../../../SESSION_NOTES.md)
+
+---
+
+**Made with ❤️ by Zolo.ai**

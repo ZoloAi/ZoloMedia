@@ -2,9 +2,9 @@
 Vim Integration Installer for zlsp
 
 Fully automated installer that:
-1. Installs Vim plugin files
-2. Sets up vim-lsp (for Vim 9+)
-3. Ensures everything works out of the box
+1. Installs Vim plugin files to auto-loading directories
+2. No .vimrc modification required (except vim-lsp plugin)
+3. Everything "just works" for .zolo files
 """
 import os
 import shutil
@@ -26,117 +26,34 @@ def detect_editor():
     return 'vim', vim_dir
 
 
-def check_vim_version():
-    """Check Vim version to determine if vim-lsp is needed."""
-    try:
-        result = subprocess.run(['vim', '--version'], 
-                              capture_output=True, text=True, timeout=2)
-        version_line = result.stdout.split('\n')[0]
-        # Extract version like "9.1" from "VIM - Vi IMproved 9.1"
-        version = version_line.split()[4] if len(version_line.split()) > 4 else "0"
-        major = int(version.split('.')[0])
-        return major >= 9, version
-    except:
-        return False, "unknown"
-
-
-def install_vim_plug():
-    """Install vim-plug plugin manager."""
-    plug_path = Path.home() / '.vim' / 'autoload' / 'plug.vim'
+def check_vim_lsp_installed(target_dir):
+    """Check if vim-lsp is already installed."""
+    plugged_dir = target_dir / 'plugged' / 'vim-lsp'
+    vimrc = Path.home() / '.vimrc'
     
-    if plug_path.exists():
-        return True, "already installed"
+    # Check if vim-lsp is in plugged directory
+    if plugged_dir.exists():
+        return True, "installed via vim-plug"
     
-    try:
-        plug_path.parent.mkdir(parents=True, exist_ok=True)
-        subprocess.run([
-            'curl', '-fLo', str(plug_path), '--create-dirs',
-            'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-        ], check=True, capture_output=True, timeout=30)
-        return True, "installed"
-    except Exception as e:
-        return False, str(e)
-
-
-def configure_vim_lsp():
-    """Add vim-lsp to .vimrc if not already present."""
-    vimrc_path = Path.home() / '.vimrc'
+    # Check if mentioned in .vimrc
+    if vimrc.exists():
+        content = vimrc.read_text()
+        if 'prabirshrestha/vim-lsp' in content:
+            return True, "configured in .vimrc"
     
-    # Read existing .vimrc
-    existing_content = ""
-    if vimrc_path.exists():
-        existing_content = vimrc_path.read_text()
-    
-    # Check if already configured
-    if 'prabirshrestha/vim-lsp' in existing_content and 'zolo-lsp' in existing_content:
-        return True, "already configured"
-    
-    # Backup existing .vimrc
-    if vimrc_path.exists():
-        backup_path = vimrc_path.with_suffix('.vimrc.backup')
-        shutil.copy2(vimrc_path, backup_path)
-    
-    # Create new .vimrc with vim-lsp and zolo-lsp server registration
-    new_content = """\
-" vim-plug plugin manager
-call plug#begin('~/.vim/plugged')
-
-" LSP client for Vim (required for zlsp)
-Plug 'prabirshrestha/vim-lsp'
-
-call plug#end()
-
-" ═══════════════════════════════════════════════════════════════
-" Zolo LSP Server Registration
-" ═══════════════════════════════════════════════════════════════
-" Register zolo-lsp server with vim-lsp
-" This must come AFTER plug#end() so vim-lsp is loaded
-if executable('zolo-lsp')
-  augroup ZoloLSP
-    autocmd!
-    autocmd User lsp_setup call lsp#register_server({
-      \\ 'name': 'zolo-lsp',
-      \\ 'cmd': {server_info->['zolo-lsp']},
-      \\ 'allowlist': ['zolo'],
-      \\ 'workspace_config': {},
-      \\ })
-  augroup END
-endif
-
-"""
-    
-    # Append existing content
-    if existing_content:
-        new_content += "\n" + '" ' + "="*60 + "\n"
-        new_content += '" Existing configuration\n'
-        new_content += '" ' + "="*60 + "\n"
-        new_content += existing_content
-    
-    try:
-        vimrc_path.write_text(new_content)
-        return True, "configured"
-    except Exception as e:
-        return False, str(e)
-
-
-def install_vim_plugins():
-    """Run :PlugInstall to install vim-lsp."""
-    try:
-        subprocess.run(['vim', '+PlugInstall', '+qall'], 
-                      check=True, capture_output=True, timeout=60)
-        return True, "installed"
-    except Exception as e:
-        return False, str(e)
+    return False, "not found"
 
 
 def create_directories(base_dir):
-    """Create necessary Vim directories."""
+    """Create necessary Vim auto-loading directories."""
     dirs = [
         base_dir / 'ftdetect',
         base_dir / 'ftplugin',
-        base_dir / 'after' / 'ftplugin',
         base_dir / 'syntax',
         base_dir / 'indent',
+        base_dir / 'plugin',
+        base_dir / 'after' / 'ftplugin',
+        base_dir / 'colors',
     ]
     
     for d in dirs:
@@ -146,36 +63,80 @@ def create_directories(base_dir):
 
 
 def install_files(source_dir, target_dir):
-    """Copy Vim plugin files to target directory."""
+    """Copy Vim plugin files to auto-loading directories."""
+    config_dir = source_dir / 'config'
+    
     files_to_copy = [
-        ('ftdetect/zolo.vim', 'ftdetect/zolo.vim'),
-        ('ftplugin/zolo.vim', 'ftplugin/zolo.vim'),
-        ('lsp_config.vim', 'after/ftplugin/zolo.vim'),
-        ('syntax/zolo.vim', 'syntax/zolo.vim'),
-        ('indent/zolo.vim', 'indent/zolo.vim'),
+        # File type detection (auto-runs on startup)
+        ('config/ftdetect/zolo.vim', 'ftdetect/zolo.vim'),
+        
+        # Basic file type settings (auto-runs for .zolo)
+        ('config/ftplugin/zolo.vim', 'ftplugin/zolo.vim'),
+        
+        # Syntax highlighting fallback (auto-runs for .zolo)
+        ('config/syntax/zolo.vim', 'syntax/zolo.vim'),
+        
+        # Indentation rules (auto-runs for .zolo)
+        ('config/indent/zolo.vim', 'indent/zolo.vim'),
+        
+        # LSP global setup (auto-runs on startup)
+        ('config/plugin/zolo_lsp.vim', 'plugin/zolo_lsp.vim'),
+        
+        # LSP per-file setup (auto-runs AFTER vim-lsp loads)
+        ('config/after/ftplugin/zolo.vim', 'after/ftplugin/zolo.vim'),
+        
+        # Color scheme (loaded by after/ftplugin)
+        ('config/colors/zolo_lsp.vim', 'colors/zolo_lsp.vim'),
     ]
     
     installed = []
+    skipped = []
+    
     for src, dest in files_to_copy:
         src_path = source_dir / src
         dest_path = target_dir / dest
         
         if not src_path.exists():
-            print(f"⚠  Warning: {src} not found, skipping...")
+            skipped.append(f"{src} (not found)")
             continue
         
+        # Create parent directories if needed
+        dest_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Copy file
         shutil.copy2(src_path, dest_path)
         installed.append(dest)
     
-    return installed
+    return installed, skipped
+
+
+def print_vim_lsp_instructions():
+    """Print instructions for installing vim-lsp."""
+    print()
+    print("  ╔═══════════════════════════════════════════════════════════╗")
+    print("  ║  vim-lsp Plugin Required                                  ║")
+    print("  ╚═══════════════════════════════════════════════════════════╝")
+    print()
+    print("  To enable LSP features, add to your ~/.vimrc:")
+    print()
+    print("    " + "─" * 55)
+    print("    call plug#begin('~/.vim/plugged')")
+    print("    Plug 'prabirshrestha/vim-lsp'")
+    print("    call plug#end()")
+    print("    " + "─" * 55)
+    print()
+    print("  Then restart Vim and run:  :PlugInstall")
+    print()
+    print("  Alternative: Use Neovim (has built-in LSP support)")
+    print()
 
 
 def main():
     """Main installation function - fully automated."""
-    print("═" * 60)
+    print("═" * 70)
     print("  zlsp Vim Integration Installer")
-    print("  (Fully Automated)")
-    print("═" * 60)
+    print("  (Auto-loading, Non-Destructive)")
+    print("═" * 70)
     print()
     
     # Get source directory (where this script is)
@@ -189,10 +150,10 @@ def main():
     print()
     
     # Step 1: Create directories
-    print("[1/5] Creating directories...")
+    print("[1/4] Creating auto-loading directories...")
     try:
         create_directories(target_dir)
-        print("  ✓ Directories created")
+        print("  ✓ Directories ready")
     except Exception as e:
         print(f"  ✗ Failed to create directories: {e}")
         sys.exit(1)
@@ -200,127 +161,98 @@ def main():
     print()
     
     # Step 2: Install Vim files
-    print("[2/5] Installing Vim files...")
+    print("[2/4] Installing Vim plugin files...")
     try:
-        installed = install_files(source_dir, target_dir)
+        installed, skipped = install_files(source_dir, target_dir)
+        
         for f in installed:
             print(f"  ✓ {f}")
+        
+        if skipped:
+            print()
+            print("  Skipped:")
+            for s in skipped:
+                print(f"    ⊗ {s}")
     except Exception as e:
         print(f"  ✗ Failed to copy files: {e}")
         sys.exit(1)
     
     print()
     
-    # Step 3: Check if vim-lsp is needed (Vim 9+ only)
-    needs_vim_lsp = False
-    if editor_type == 'vim':
-        print("[3/5] Checking Vim version...")
-        is_vim9, version = check_vim_version()
-        print(f"  → Vim version: {version}")
-        
-        if is_vim9:
-            needs_vim_lsp = True
-            print(f"  → vim-lsp plugin required for LSP features")
-        else:
-            print(f"  ⚠ Vim < 9 detected - LSP features limited")
-            print(f"    Recommendation: upgrade to Vim 9+ or use Neovim")
+    # Step 3: Check vim-lsp
+    print("[3/4] Checking for vim-lsp...")
+    vim_lsp_found, vim_lsp_status = check_vim_lsp_installed(target_dir)
+    
+    if vim_lsp_found:
+        print(f"  ✓ vim-lsp {vim_lsp_status}")
     else:
-        print("[3/5] Neovim detected...")
-        print("  ✓ Built-in LSP support - no plugin needed!")
+        print(f"  ⚠ vim-lsp {vim_lsp_status}")
+        print_vim_lsp_instructions()
     
     print()
     
-    # Step 4: Auto-install vim-lsp (if needed)
-    if needs_vim_lsp:
-        print("[4/5] Setting up vim-lsp...")
-        
-        # Install vim-plug
-        print("  → Installing vim-plug...")
-        success, msg = install_vim_plug()
-        if success:
-            print(f"  ✓ vim-plug {msg}")
-        else:
-            print(f"  ✗ vim-plug failed: {msg}")
-            print(f"    Manual installation may be required")
-        
-        # Configure .vimrc
-        print("  → Configuring ~/.vimrc...")
-        success, msg = configure_vim_lsp()
-        if success:
-            print(f"  ✓ vim-lsp {msg}")
-            if msg == "configured":
-                print(f"    (Backup saved to ~/.vimrc.backup)")
-        else:
-            print(f"  ✗ Configuration failed: {msg}")
-        
-        # Install plugins
-        print("  → Installing vim-lsp plugin...")
-        success, msg = install_vim_plugins()
-        if success:
-            print(f"  ✓ vim-lsp plugin {msg}")
-        else:
-            print(f"  ⚠ Plugin installation may need manual run")
-            print(f"    Run in Vim: :PlugInstall")
-    else:
-        print("[4/5] vim-lsp setup...")
-        print("  ⊗ Skipped (not needed)")
-    
-    print()
-    
-    # Step 5: Verify requirements
-    print("[5/5] Verifying installation...")
+    # Step 4: Verify requirements
+    print("[4/4] Verifying installation...")
     
     # Check if zolo-lsp is available
     if shutil.which('zolo-lsp'):
-        print("  ✓ zolo-lsp command available")
+        print("  ✓ zolo-lsp server available")
     else:
         print("  ⚠ zolo-lsp not found in PATH")
-        print("    Make sure zlsp is installed: pip install zlsp")
+        print("    Run: pip install zlsp")
     
     print()
-    print("═" * 60)
-    print("  ✓ Installation Complete!")
-    print("═" * 60)
-    print()
+    print("═" * 70)
     
-    # Print next steps
-    if editor_type == 'vim':
-        if needs_vim_lsp:
-            print("🎉 Ready to use!")
-            print()
-            print("Try it now:")
-            print("  vim test.zolo")
-            print()
-            print("Features:")
-            print("  • Press 'K' on a key for hover info")
-            print("  • Type '(int):' for completion")
-            print("  • Syntax errors shown in real-time")
-            print()
-            print("Check LSP status:")
-            print("  :LspStatus")
-        else:
-            print("⚠ Limited features (basic syntax only)")
-            print()
-            print("For full LSP features:")
-            print("  1. Upgrade Vim: brew install vim")
-            print("  2. Re-run: zolo-vim-install")
-            print("  OR use Neovim: brew install neovim")
+    if vim_lsp_found:
+        print("  ✓ Installation Complete!")
     else:
+        print("  ⚠ Installation Complete (vim-lsp setup needed)")
+    
+    print("═" * 70)
+    print()
+    
+    # Print usage
+    if vim_lsp_found:
         print("🎉 Ready to use!")
         print()
         print("Try it now:")
-        print("  nvim test.zolo")
+        print(f"  {'nvim' if editor_type == 'neovim' else 'vim'} test.zolo")
         print()
         print("Features:")
-        print("  • Semantic highlighting")
+        print("  • Semantic highlighting (colors from LSP)")
         print("  • Real-time diagnostics")
-        print("  • Hover information (press 'K')")
+        print("  • Hover info (press 'K')")
         print("  • Auto-completion")
+        print("  • Go to definition (gd)")
+        print()
+        print("Check LSP status:")
+        print("  :LspStatus")
+    else:
+        print("⚠️  Basic syntax only (LSP features disabled)")
+        print()
+        print("To enable full LSP features:")
+        print("  1. Add vim-lsp to your .vimrc (see instructions above)")
+        print("  2. Restart Vim and run :PlugInstall")
+        print("  3. Re-run: zlsp-vim-install")
     
     print()
     print("Documentation:")
     print(f"  • Vim guide: {source_dir}/README.md")
-    print("  • Troubleshooting: zLSP/INSTALLATION.md")
+    print(f"  • Color scheme: {target_dir}/colors/zolo_lsp.vim")
+    print()
+    
+    # Print what was installed
+    print("Installed files:")
+    print(f"  • Auto-detection:      {target_dir}/ftdetect/zolo.vim")
+    print(f"  • File type settings:  {target_dir}/ftplugin/zolo.vim")
+    print(f"  • Syntax (fallback):   {target_dir}/syntax/zolo.vim")
+    print(f"  • LSP setup:           {target_dir}/plugin/zolo_lsp.vim")
+    print(f"  • LSP per-file:        {target_dir}/after/ftplugin/zolo.vim")
+    print(f"  • Colors:              {target_dir}/colors/zolo_lsp.vim")
+    print()
+    print("✨ No .vimrc modification needed!")
+    print("   (except vim-lsp plugin if not already installed)")
     print()
 
 
