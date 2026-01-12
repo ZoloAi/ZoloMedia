@@ -12,6 +12,10 @@ if exists('b:did_zolo_lsp_ftplugin')
 endif
 let b:did_zolo_lsp_ftplugin = 1
 
+" Disable syntax file (LSP semantic tokens provide better highlighting)
+" This prevents syntax patterns from interfering with semantic tokens
+setlocal syntax=OFF
+
 " Buffer-local LSP settings
 setlocal omnifunc=lsp#complete
 setlocal signcolumn=yes

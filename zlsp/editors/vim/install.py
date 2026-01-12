@@ -3,14 +3,26 @@ Vim Integration Installer for zlsp
 
 Fully automated installer that:
 1. Installs Vim plugin files to auto-loading directories
-2. No .vimrc modification required (except vim-lsp plugin)
-3. Everything "just works" for .zolo files
+2. Generates colors from canonical theme (themes/zolo_default.yaml)
+3. No .vimrc modification required (except vim-lsp plugin)
+4. Everything "just works" for .zolo files
 """
 import os
 import shutil
 import subprocess
 import sys
 from pathlib import Path
+
+# Import theme system
+try:
+    from themes import load_theme
+    from themes.generators.vim import VimGenerator
+except ImportError:
+    # Fallback if running from different context
+    import sys
+    sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+    from themes import load_theme
+    from themes.generators.vim import VimGenerator
 
 
 def detect_editor():
@@ -53,6 +65,7 @@ def create_directories(base_dir):
         base_dir / 'indent',
         base_dir / 'plugin',
         base_dir / 'after' / 'ftplugin',
+        base_dir / 'after' / 'syntax',
         base_dir / 'colors',
     ]
     
@@ -62,37 +75,84 @@ def create_directories(base_dir):
     return dirs
 
 
-def install_files(source_dir, target_dir):
-    """Copy Vim plugin files to auto-loading directories."""
+def generate_ftplugin_with_colors(theme, target_dir):
+    """Generate after/ftplugin/zolo.vim with colors from theme."""
+    generator = VimGenerator(theme)
+    
+    # Generate the ftplugin content with embedded colors
+    lines = []
+    lines.append('" ═══════════════════════════════════════════════════════════════')
+    lines.append('" Zolo LSP - File Type Plugin (Auto-loads for .zolo files)')
+    lines.append('" ═══════════════════════════════════════════════════════════════')
+    lines.append('" File: after/ftplugin/zolo.vim')
+    lines.append('" Purpose: Runs AFTER vim-lsp loads, when opening .zolo files')
+    lines.append(f'" Generated from: themes/{theme.name}')
+    lines.append('" ═══════════════════════════════════════════════════════════════')
+    lines.append('')
+    lines.append('" Only run once per buffer')
+    lines.append("if exists('b:did_zolo_lsp_ftplugin')")
+    lines.append('  finish')
+    lines.append('endif')
+    lines.append("let b:did_zolo_lsp_ftplugin = 1")
+    lines.append('')
+    lines.append('" Buffer-local LSP settings')
+    lines.append("setlocal omnifunc=lsp#complete")
+    lines.append('setlocal signcolumn=yes')
+    lines.append('setlocal updatetime=300')
+    lines.append('')
+    lines.append('" LSP keybindings (only for .zolo files)')
+    lines.append('nnoremap <buffer> K :LspHover<CR>')
+    lines.append('nnoremap <buffer> gd :LspDefinition<CR>')
+    lines.append('nnoremap <buffer> gr :LspReferences<CR>')
+    lines.append('nnoremap <buffer> gi :LspImplementation<CR>')
+    lines.append('nnoremap <buffer> <leader>rn :LspRename<CR>')
+    lines.append('nnoremap <buffer> [d :LspPreviousDiagnostic<CR>')
+    lines.append('nnoremap <buffer> ]d :LspNextDiagnostic<CR>')
+    lines.append('')
+    lines.append('" Enable LSP formatting on save (optional)')
+    lines.append('" autocmd BufWritePre <buffer> LspDocumentFormat')
+    lines.append('')
+    lines.append('" ═══════════════════════════════════════════════════════════════')
+    lines.append('" Colors - Generated from theme')
+    lines.append('" ═══════════════════════════════════════════════════════════════')
+    lines.append('')
+    
+    # Add generated colors
+    lines.append(generator.generate())
+    lines.append('')
+    lines.append('" ═══════════════════════════════════════════════════════════════')
+    lines.append('" Note: Syntax clearing moved to after/syntax/zolo.vim')
+    lines.append('" ═══════════════════════════════════════════════════════════════')
+    lines.append('" The after/syntax/ directory loads AFTER syntax/zolo.vim,')
+    lines.append('" ensuring highlights are cleared at the right time.')
+    
+    # Write to file
+    dest_path = target_dir / 'after' / 'ftplugin' / 'zolo.vim'
+    dest_path.parent.mkdir(parents=True, exist_ok=True)
+    dest_path.write_text('\n'.join(lines))
+    
+    return dest_path
+
+
+def install_files(source_dir, target_dir, theme):
+    """Install Vim plugin files (copy static, generate dynamic)."""
     config_dir = source_dir / 'config'
     
-    files_to_copy = [
-        # File type detection (auto-runs on startup)
+    # Static files to copy (don't change)
+    static_files = [
         ('config/ftdetect/zolo.vim', 'ftdetect/zolo.vim'),
-        
-        # Basic file type settings (auto-runs for .zolo)
         ('config/ftplugin/zolo.vim', 'ftplugin/zolo.vim'),
-        
-        # Syntax highlighting fallback (auto-runs for .zolo)
         ('config/syntax/zolo.vim', 'syntax/zolo.vim'),
-        
-        # Indentation rules (auto-runs for .zolo)
         ('config/indent/zolo.vim', 'indent/zolo.vim'),
-        
-        # LSP global setup (auto-runs on startup)
         ('config/plugin/zolo_lsp.vim', 'plugin/zolo_lsp.vim'),
-        
-        # LSP per-file setup (auto-runs AFTER vim-lsp loads)
-        ('config/after/ftplugin/zolo.vim', 'after/ftplugin/zolo.vim'),
-        
-        # Color scheme (loaded by after/ftplugin)
-        ('config/colors/zolo_lsp.vim', 'colors/zolo_lsp.vim'),
+        ('config/after/syntax/zolo.vim', 'after/syntax/zolo.vim'),
     ]
     
     installed = []
     skipped = []
     
-    for src, dest in files_to_copy:
+    # Copy static files
+    for src, dest in static_files:
         src_path = source_dir / src
         dest_path = target_dir / dest
         
@@ -100,12 +160,16 @@ def install_files(source_dir, target_dir):
             skipped.append(f"{src} (not found)")
             continue
         
-        # Create parent directories if needed
         dest_path.parent.mkdir(parents=True, exist_ok=True)
-        
-        # Copy file
         shutil.copy2(src_path, dest_path)
         installed.append(dest)
+    
+    # Generate dynamic after/ftplugin with colors from theme
+    try:
+        ftplugin_path = generate_ftplugin_with_colors(theme, target_dir)
+        installed.append('after/ftplugin/zolo.vim (generated from theme)')
+    except Exception as e:
+        skipped.append(f"after/ftplugin/zolo.vim (generation failed: {e})")
     
     return installed, skipped
 
@@ -135,12 +199,23 @@ def main():
     """Main installation function - fully automated."""
     print("═" * 70)
     print("  zlsp Vim Integration Installer")
-    print("  (Auto-loading, Non-Destructive)")
+    print("  (Auto-loading, Non-Destructive, Theme-Driven)")
     print("═" * 70)
     print()
     
     # Get source directory (where this script is)
     source_dir = Path(__file__).parent
+    
+    # Load theme
+    print("[1/5] Loading color theme...")
+    try:
+        theme = load_theme('zolo_default')
+        print(f"  ✓ Loaded theme: {theme.name} v{theme.version}")
+    except Exception as e:
+        print(f"  ✗ Failed to load theme: {e}")
+        sys.exit(1)
+    
+    print()
     
     # Detect editor
     editor_type, target_dir = detect_editor()
@@ -149,8 +224,8 @@ def main():
     print(f"→ Target: {target_dir}")
     print()
     
-    # Step 1: Create directories
-    print("[1/4] Creating auto-loading directories...")
+    # Step 2: Create directories
+    print("[2/5] Creating auto-loading directories...")
     try:
         create_directories(target_dir)
         print("  ✓ Directories ready")
@@ -160,10 +235,10 @@ def main():
     
     print()
     
-    # Step 2: Install Vim files
-    print("[2/4] Installing Vim plugin files...")
+    # Step 3: Install Vim files (with theme-generated colors)
+    print("[3/5] Installing Vim plugin files...")
     try:
-        installed, skipped = install_files(source_dir, target_dir)
+        installed, skipped = install_files(source_dir, target_dir, theme)
         
         for f in installed:
             print(f"  ✓ {f}")
@@ -174,13 +249,13 @@ def main():
             for s in skipped:
                 print(f"    ⊗ {s}")
     except Exception as e:
-        print(f"  ✗ Failed to copy files: {e}")
+        print(f"  ✗ Failed to install files: {e}")
         sys.exit(1)
     
     print()
     
-    # Step 3: Check vim-lsp
-    print("[3/4] Checking for vim-lsp...")
+    # Step 4: Check vim-lsp
+    print("[4/5] Checking for vim-lsp...")
     vim_lsp_found, vim_lsp_status = check_vim_lsp_installed(target_dir)
     
     if vim_lsp_found:
@@ -191,8 +266,8 @@ def main():
     
     print()
     
-    # Step 4: Verify requirements
-    print("[4/4] Verifying installation...")
+    # Step 5: Verify requirements
+    print("[5/5] Verifying installation...")
     
     # Check if zolo-lsp is available
     if shutil.which('zolo-lsp'):

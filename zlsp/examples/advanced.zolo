@@ -1,0 +1,377 @@
+#>═══════════════════════════════════════════════════════════════<#
+#> ADVANCED ZOLO SYNTAX - Comprehensive Test File
+#> Tests all features from ZOLO_PARSER_IMPLEMENTATION_PLAN.md
+#>═══════════════════════════════════════════════════════════════<#
+
+#>═══════════════════════════════════════════════════════════════<#
+#> STRINGS - String-First Philosophy (Phase 1, 4.6b)
+#>═══════════════════════════════════════════════════════════════<#
+
+simple_string: Hello World
+string_with_spaces: This has multiple   spaces
+empty_string:
+quotes_in_value: She said "hello" to me
+single_quotes: It's a beautiful day
+mixed_quotes: "What's up?" she asked
+code_string: const x = "value"
+nested_quotes: "outer 'inner' text"
+
+#>═══════════════════════════════════════════════════════════════<#
+#> NUMBERS - RFC 8259 Compliant (Phase 1.3)
+#>═══════════════════════════════════════════════════════════════<#
+
+# Auto-detect as float (RFC 8259 default)
+port: 8080
+timeout: 30
+price: 99.99
+scientific: 1.23e-4
+negative: -42
+pi: 3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117067
+
+# Explicit type hints for precision control
+port_int(int): 8080
+timeout_int(int): 30
+price_float(float): 99.99
+zero(int): 0
+
+# Number-like strings (anti-quirks)
+octal_string: 00123
+leading_zero: 0123
+version_string: 1.0.0
+big_number: 1,000,000
+
+#>═══════════════════════════════════════════════════════════════<#
+#> BOOLEANS - Explicit Type Hints Required (Phase 1.3, 5)
+#>═══════════════════════════════════════════════════════════════<#
+
+# Without type hint → strings (anti-quirk)
+string_true: true
+string_false: false
+string_yes: YES
+string_no: NO
+string_on: on
+string_off: off
+
+# Boolean words in sentences → always strings
+message: this is true
+status: false alarm
+note: yes we can
+answer: no way
+
+# With type hint → actual booleans
+debug(bool): true
+enabled(bool): false
+production(bool): true
+
+#>═══════════════════════════════════════════════════════════════<#
+#> NULL VALUES - Auto-Detect for Primitive (Phase 4.1)
+#>═══════════════════════════════════════════════════════════════<#
+
+# Null primitive (auto-detect) → None
+optional_value: null
+missing_data: null
+
+# Null as part of string → always string (anti-quirk)
+message: null value
+description: this is null
+status: null pointer exception
+note: the null hypothesis
+error: cannot be null
+
+#>═══════════════════════════════════════════════════════════════<#
+#> ARRAYS - Bracket Syntax Only (Phase 2.1)
+#>═══════════════════════════════════════════════════════════════<#
+
+# Simple arrays
+tags: [python, yaml, json]
+numbers: [1, 2, 3, 4, 5]
+mixed: [1, hello, true]
+booleans: [true, false, true]
+
+# Empty and trailing commas (Phase 4.6g)
+empty_array: []
+trailing_comma: [a, b, c,]
+empty_items: [a, , b]
+just_commas: [,,,]
+
+# Nested arrays
+matrix: [[1, 2], [3, 4], [5, 6]]
+deep_nested: [[[1, 2]], [[3, 4]]]
+
+# Multi-line arrays (still bracketed)
+long_list: [
+  item1,
+  item2,
+  item3
+]
+
+#>═══════════════════════════════════════════════════════════════<#
+#> OBJECTS - Nested and Flow-Style (Phase 2.3, 4.2)
+#>═══════════════════════════════════════════════════════════════<#
+
+# Nested objects (indentation-based)
+database:
+  host: db.example.com
+  port: 5432
+  credentials:
+    username: admin
+    password: secret123
+    
+# Flow-style objects (Phase 4.2)
+coords: {x: 10, y: 20}
+point3d: {x: 1, y: 2, z: 3}
+empty_object: {}
+
+# Mixed structures
+config:
+  servers: [
+    {name: prod, ip: 10.0.0.1},
+    {name: staging, ip: 10.0.0.2}
+  ]
+  settings: {debug: false, timeout: 30}
+
+#>═══════════════════════════════════════════════════════════════<#
+#> MULTI-LINE STRINGS - Type Hint Required (Phase 4.6e)
+#>═══════════════════════════════════════════════════════════════<#
+
+# Multi-line with (str) hint (YAML-style indentation)
+sql_query(str): SELECT name, email
+  FROM users
+  WHERE active = true
+  ORDER BY created_at DESC
+
+# Code block with preserved indentation
+python_code(str): def hello():
+    print("Hello")
+    if True:
+        nested()
+
+# Documentation with blank lines
+readme(str): # Project Title
+  
+  This is documentation.
+  
+  ## Features
+  - Feature 1
+  - Feature 2
+
+# Inline continuation
+description(str): First line
+  Second line
+  Third line
+
+# WITHOUT (str) - pipe and quotes are LITERAL (Phase 4.6e)
+literal_pipe: Use | for OR logic
+unix_command: cat | grep pattern
+bitwise: x | y
+
+#>═══════════════════════════════════════════════════════════════<#
+#> ESCAPE SEQUENCES - Permissive Approach (Phase 4.6f)
+#>═══════════════════════════════════════════════════════════════<#
+
+# Known escapes (processed)
+newline_escape: Line 1\nLine 2\nLine 3
+tab_escape: Name\tAge\tCity
+carriage_return: Loading\rDone!
+backslash_escape: C:\\Windows\\System32
+quote_escape: She said \"hello\"
+
+# Unknown escapes (preserved)
+windows_path: C:\Users\Admin\Documents
+regex_pattern: \d+\.\w+
+latex_math: \alpha + \beta
+unknown_escape: \x41\z99
+
+# Mixed (known + unknown)
+mixed_escapes: Path: C:\Windows\nNext line
+
+#>═══════════════════════════════════════════════════════════════<#
+#> UNICODE ESCAPES - RFC 8259 Compliant (Phase 4.5)
+#>═══════════════════════════════════════════════════════════════<#
+
+# Simple Unicode escapes
+copyright: \u00A9 2024
+cafe: Caf\u00e9
+degree: 98.6\u00B0F
+
+# Surrogate pairs (emojis)
+wave: \uD83D\uDC4B
+heart: \u2764\uFE0F
+thinking: \uD83E\uDD14
+
+#>═══════════════════════════════════════════════════════════════<#
+#> SPECIAL CHARACTERS IN VALUES (Phase 4.6a-g)
+#>═══════════════════════════════════════════════════════════════<#
+
+# Colons in values (Phase 4.6a)
+url: http://example.com
+api_url: https://api.example.com:8080
+local: http://localhost:3000
+time: 14:30:00
+timestamp: 2024-01-06T14:30:00
+ratio: 16:9
+ipv6: fe80::1:2:3:4
+docker_tag: user/repo:latest
+auth_url: http://user:pass@host:8080/path
+
+# Brackets/braces in values (Phase 4.6c)
+math_expression: [1+2] equals 3
+note: Use {brackets} carefully
+range: values [1-10]
+regex_brackets: ^[a-z]+$
+
+# Hash in values (Phase 4.6d)
+hex_color: #FF5733
+hex_color2: #fffbcf
+hashtag: #python
+url_anchor: https://example.com#section
+glob_pattern: /var/log/*/error.log
+
+# Commas in values (Phase 4.6g)
+address: 123 Main St, New York, NY
+formatted_number: 1,000,000
+csv_header: name,age,city
+
+#>═══════════════════════════════════════════════════════════════<#
+#> TYPE HINTS - Explicit Control (Phase 1.3)
+#>═══════════════════════════════════════════════════════════════<#
+
+# Integer type hints
+max_connections(int): 100
+retry_count(int): 3
+
+# Float type hints
+temperature(float): 98.6
+price_exact(float): 19.99
+
+# String type hints (force string)
+port_string(str): 8080
+bool_string(str): true
+coords_string(str): [1, 2, 3]
+
+# Boolean type hints
+is_active(bool): true
+debug_mode(bool): false
+
+# List type hints (explicit)
+numbers_list(list): [1, 2, 3]
+
+# Dict type hints (explicit)
+config_dict(dict): {x: 1, y: 2}
+
+#>═══════════════════════════════════════════════════════════════<#
+#> COMMENTS - Dual Syntax (Phase 4.6d)
+#>═══════════════════════════════════════════════════════════════<#
+
+# Full-line comments (simple #)
+# This is a full-line comment
+# Multiple lines of comments
+# YAML-compatible
+
+# Inline comments with arrow syntax
+hex: #FF5733 #> This is a hex color <#
+tag: #zolo #> Hashtags work! <#
+anchor_link: section#intro #> URL anchors safe <#
+
+# Multi-line arrow comments
+value: 42 #> This is a
+  multi-line comment
+  spanning several lines <# after
+
+# Unpaired markers stay literal
+literal_hash: #tag1 and #tag2 are literal
+
+#>═══════════════════════════════════════════════════════════════<#
+#> EDGE CASES - Empty Values and Collections (Phase 4.1, 4.2)
+#>═══════════════════════════════════════════════════════════════<#
+
+# Empty values
+empty_value:
+blank:
+
+# Empty collections
+empty_list: []
+empty_dict: {}
+empty_nested: [[]]
+
+# Whitespace handling
+spaced_value:   content with spaces   
+tight_value:content
+normal_value: content
+
+#>═══════════════════════════════════════════════════════════════<#
+#> COMPLEX NESTED STRUCTURES - Real-World Examples
+#>═══════════════════════════════════════════════════════════════<#
+
+application:
+  name: ZoloApp
+  version: 2.1.0
+  
+  server:
+    host: localhost
+    port(int): 8080
+    ssl(bool): true
+    timeout(int): 30
+    
+  database:
+    primary:
+      host: db1.example.com
+      port(int): 5432
+      credentials:
+        username: admin
+        password: secure_pass_123
+    replica:
+      host: db2.example.com
+      port(int): 5432
+      
+  features:
+    analytics(bool): true
+    caching(bool): true
+    debug(bool): false
+    
+  api_endpoints: [
+    {path: /users, method: GET},
+    {path: /posts, method: POST},
+    {path: /comments, method: GET}
+  ]
+  
+  logging:
+    level: INFO
+    format(str): %(asctime)s - %(name)s - %(levelname)s
+      %(message)s
+    outputs: [console, file, syslog]
+
+#>═══════════════════════════════════════════════════════════════<#
+#> ANTI-QUIRKS - String-First Safety (Phase 5)
+#>═══════════════════════════════════════════════════════════════<#
+
+# These stay as strings (no YAML surprises!)
+country_no: NO
+country_yes: YES
+switch_on: on
+switch_off: off
+octal_num: 00123
+version_num: 1.0.0
+bool_word: true
+null_word: null
+
+# Explicit booleans when needed
+enabled(bool): true
+disabled(bool): false
+
+#>═══════════════════════════════════════════════════════════════<#
+#> INDENTATION - Python-Style (Phase 4.8)
+#>═══════════════════════════════════════════════════════════════<#
+
+# Consistent indentation (spaces used throughout this file)
+level_one:
+  level_two:
+    level_three:
+      deep_value: nested content
+      deep_array: [a, b, c]
+    back_to_three: value
+  back_to_two: value
+
+#>═══════════════════════════════════════════════════════════════<#
+#> END OF ADVANCED SYNTAX TEST
+#>═══════════════════════════════════════════════════════════════<#

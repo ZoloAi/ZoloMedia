@@ -1,0 +1,182 @@
+# ═══════════════════════════════════════════════════════════════
+# Zolo Default Theme
+# ═══════════════════════════════════════════════════════════════
+# Single source of truth for all editor color schemes
+# Version: 1.0.0
+# Author: Zolo.ai
+# ═══════════════════════════════════════════════════════════════
+
+name: "Zolo Default"
+description: "Default color scheme for .zolo files with LSP semantic tokens"
+author: "Zolo.ai"
+version: "1.0.0"
+
+# ═══════════════════════════════════════════════════════════════
+# Color Palette
+# ═══════════════════════════════════════════════════════════════
+# Define colors once in multiple formats for editor compatibility
+# All editors will use these same colors for consistency
+
+palette:
+  salmon_orange:
+    name: "Salmon Orange"
+    hex: "#ffaf87"
+    ansi: 216
+    rgb: [255, 175, 135]
+    description: "Warm orange for hierarchy markers"
+  
+  golden_yellow:
+    name: "Golden Yellow"
+    hex: "#ffd787"
+    ansi: 222
+    rgb: [255, 215, 135]
+    description: "Golden yellow for nested elements"
+  
+  light_cream:
+    name: "Light Cream"
+    hex: "#fffbcb"
+    ansi: 230
+    rgb: [255, 251, 203]
+    description: "Soft cream for text content"
+  
+  dark_orange:
+    name: "Dark Orange"
+    hex: "#FF8C00"
+    ansi: 214
+    rgb: [255, 140, 0]
+    description: "Vibrant orange for numeric values"
+  
+  cyan:
+    name: "Cyan"
+    hex: "#5fd7ff"
+    ansi: 81
+    rgb: [95, 215, 255]
+    description: "Bright cyan for type information"
+  
+  soft_yellow:
+    name: "Soft Yellow"
+    hex: "#ffff5f"
+    ansi: 227
+    rgb: [255, 255, 95]
+    description: "Soft yellow for structural elements"
+  
+  light_pink:
+    name: "Light Pink"
+    hex: "#ffd7ff"
+    ansi: 225
+    rgb: [255, 215, 255]
+    description: "Light pink/cream for brackets"
+  
+  deep_blue:
+    name: "Deep Blue"
+    hex: "#0087ff"
+    ansi: 33
+    rgb: [0, 135, 255]
+    description: "Deep blue for boolean values"
+  
+  gray:
+    name: "Gray"
+    hex: "#6c6c6c"
+    ansi: 242
+    rgb: [108, 108, 108]
+    description: "Muted gray for comments"
+
+# ═══════════════════════════════════════════════════════════════
+# Semantic Token Styles
+# ═══════════════════════════════════════════════════════════════
+# Map LSP semantic token types to colors and styles
+# These mappings are editor-agnostic
+
+tokens:
+  # Keys
+  rootKey:
+    color: salmon_orange
+    style: none
+    description: "Top-level keys (app_name, server, features)"
+  
+  nestedKey:
+    color: golden_yellow
+    style: none
+    description: "Nested keys (host, port, ssl)"
+  
+  # Values
+  string:
+    color: light_cream
+    style: none
+    description: "String values"
+  
+  versionString:
+    color: light_cream
+    style: none
+    description: "Version numbers (1.0.0, 2.1.3-beta)"
+  
+  number:
+    color: dark_orange
+    style: none
+    description: "Numeric values (8080, 100, 3.14)"
+  
+  boolean:
+    color: deep_blue
+    style: none
+    description: "Boolean values (true, false)"
+  
+  "null":
+    color: deep_blue
+    style: none
+    description: "Null values (null)"
+  
+  # Type hints
+  typeHint:
+    color: cyan
+    style: none
+    description: "Type hint text (int, bool, float, str)"
+  
+  typeHintParen:
+    color: soft_yellow
+    style: none
+    description: "Type hint parentheses ( )"
+  
+  # Structural
+  bracketStructural:
+    color: light_pink
+    style: none
+    description: "Array/list brackets [ ]"
+  
+  # Comments
+  comment:
+    color: gray
+    style: italic
+    description: "Comments"
+
+# ═══════════════════════════════════════════════════════════════
+# Editor-Specific Overrides (Optional)
+# ═══════════════════════════════════════════════════════════════
+# Use sparingly - only when an editor requires special handling
+
+overrides:
+  vim:
+    # Vim-specific: Clear conflicting default groups
+    clearGroups: ['Identifier', 'Keyword', 'Constant', 'Special']
+  
+  vscode:
+    # VS Code-specific overrides (if needed in future)
+    # Example: scope mappings, workbench integration
+    
+  cursor:
+    # Cursor-specific overrides (if needed in future)
+
+# ═══════════════════════════════════════════════════════════════
+# Theme Metadata
+# ═══════════════════════════════════════════════════════════════
+
+metadata:
+  compatibility:
+    terminal: true       # Works in terminal
+    gui: true           # Works in GUI
+    truecolor: true     # Supports 24-bit color
+    ansi256: true       # Supports 256-color ANSI
+    ansi16: false       # Not optimized for 16-color
+  
+  variants:
+    current: "default"
+    planned: ["high_contrast", "deuteranopia_friendly"]
