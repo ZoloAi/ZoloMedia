@@ -93,6 +93,7 @@ class VimGenerator(BaseGenerator):
             'typeHint': 'LspSemanticTypeHint',
             'typeHintParen': 'LspSemanticTypeHintParen',
             'bracketStructural': 'LspSemanticBracketStructural',
+            'braceStructural': 'LspSemanticBraceStructural',
             'boolean': 'LspSemanticBoolean',
             'null': 'LspSemanticNull',
             'comment': 'LspSemanticComment',

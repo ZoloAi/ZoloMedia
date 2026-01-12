@@ -116,11 +116,11 @@ database:
   credentials:
     username: admin
     password: secret123
-    
-# Flow-style objects (Phase 4.2) - TODO: Not yet implemented
-# coords: {x: 10, y: 20}
-# point3d: {x: 1, y: 2, z: 3}
-# empty_object: {}
+
+# Flow-style objects (Phase 4.2) - IMPLEMENTED ✅
+coords: {x: 10, y: 20}
+point3d: {x: 1, y: 2, z: 3}
+empty_object: {}
 
 # Mixed structures
 config:
@@ -147,9 +147,9 @@ python_code(str): def hello():
 
 # Documentation with blank lines
 readme(str): # Project Title
-  
+
   This is documentation.
-  
+
   ## Features
   - Feature 1
   - Feature 2
@@ -255,8 +255,8 @@ debug_mode(bool): false
 # List type hints (explicit)
 numbers_list(list): [1, 2, 3]
 
-# Dict type hints (explicit) - TODO: Inline dict syntax not yet implemented
-# config_dict(dict): {x: 1, y: 2}
+# Dict type hints (explicit) - IMPLEMENTED ✅
+config_dict(dict): {x: 1, y: 2}
 
 #>═══════════════════════════════════════════════════════════════<#
 #> COMMENTS - Dual Syntax (Phase 4.6d)
@@ -294,7 +294,7 @@ empty_dict: {}
 empty_nested: [[]]
 
 # Whitespace handling
-spaced_value:   content with spaces   
+spaced_value:   content with spaces
 tight_value:content
 normal_value: content
 
@@ -305,13 +305,13 @@ normal_value: content
 application:
   name: ZoloApp
   version: 2.1.0
-  
+
   server:
     host: localhost
     port(int): 8080
     ssl(bool): true
     timeout(int): 30
-    
+
   database:
     primary:
       host: db1.example.com
@@ -322,17 +322,17 @@ application:
     replica:
       host: db2.example.com
       port(int): 5432
-      
+
   features:
     analytics(bool): true
     caching(bool): true
     debug(bool): false
-    
+
   api_endpoints:
     - /users GET
     - /posts POST
     - /comments GET
-  
+
   logging:
     level: INFO
     format(str): %(asctime)s - %(name)s - %(levelname)s

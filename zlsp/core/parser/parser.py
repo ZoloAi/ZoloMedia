@@ -1591,6 +1591,52 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                 })
                 i += lines_consumed + 1
                 line_number += lines_consumed + 1
+            # Handle dash lists (YAML-style: key:\n  - item1\n  - item2)
+            elif not value and i + 1 < len(lines):
+                # Check if next line starts with dash at child indent
+                next_line = lines[i + 1]
+                next_indent = len(next_line) - len(next_line.lstrip())
+                next_stripped = next_line.strip()
+                
+                if next_stripped.startswith('- ') and next_indent > indent:
+                    # Collect dash list items
+                    reconstructed, lines_consumed, item_line_info = _collect_dash_list(lines, i + 1, indent)
+                    
+                    # Emit tokens for each dash list item line
+                    for item_line_idx, dash_pos, item_content in item_line_info:
+                        item_original_line = line_mapping.get(item_line_idx, item_line_idx)
+                        
+                        # Emit dash as BRACKET_STRUCTURAL (same color as [ ])
+                        emitter.emit(item_original_line, dash_pos, 1, TokenType.BRACKET_STRUCTURAL)
+                        
+                        # Emit token for the item content (after "- ")
+                        content_start = dash_pos + 2  # After "- "
+                        _emit_value_tokens(item_content, item_original_line, content_start, emitter)
+                    
+                    # Store structured line info with reconstructed value
+                    structured_lines.append({
+                        'indent': indent,
+                        'key': key,
+                        'value': reconstructed,
+                        'line': line,
+                        'line_number': original_line_num,
+                        'is_multiline': True,
+                        'multiline_type': 'dash_list'  # Mark as dash list for type detection
+                    })
+                    i += lines_consumed + 1
+                    line_number += lines_consumed + 1
+                else:
+                    # Empty value (no dash list)
+                    structured_lines.append({
+                        'indent': indent,
+                        'key': key,
+                        'value': value,
+                        'line': line,
+                        'line_number': original_line_num,
+                        'is_multiline': False
+                    })
+                    i += 1
+                    line_number += 1
             else:
                 # Regular value (not multi-line)
                 if value:
@@ -1702,6 +1748,37 @@ def _parse_lines(lines: list[str], line_mapping: dict = None) -> dict:
                     'multiline_type': 'array'  # Mark as array for type detection
                 })
                 i += lines_consumed + 1
+            # Handle dash lists (YAML-style: key:\n  - item1\n  - item2)
+            elif not value and i + 1 < len(lines):
+                # Check if next line starts with dash at child indent
+                next_line = lines[i + 1]
+                next_indent = len(next_line) - len(next_line.lstrip())
+                next_stripped = next_line.strip()
+                
+                if next_stripped.startswith('- ') and next_indent > indent:
+                    # Collect dash list items
+                    reconstructed, lines_consumed, _ = _collect_dash_list(lines, i + 1, indent)
+                    structured_lines.append({
+                        'indent': indent,
+                        'key': key,
+                        'value': reconstructed,
+                        'line': line,
+                        'line_number': original_line_number,
+                        'is_multiline': True,
+                        'multiline_type': 'dash_list'  # Mark as dash list for type detection
+                    })
+                    i += lines_consumed + 1
+                else:
+                    # Empty value (no dash list)
+                    structured_lines.append({
+                        'indent': indent,
+                        'key': key,
+                        'value': value,
+                        'line': line,
+                        'line_number': original_line_number,
+                        'is_multiline': False
+                    })
+                    i += 1
             else:
                 # Regular value - | and """ are literal characters
                 structured_lines.append({
@@ -1791,6 +1868,87 @@ def _collect_str_hint_multiline(lines: list[str], start_idx: int, parent_indent:
         lines_consumed += 1
     
     return '\n'.join(collected), lines_consumed
+
+
+def _collect_dash_list(lines: list[str], start_idx: int, parent_indent: int) -> tuple[str, int, list]:
+    """
+    Collect YAML-style dash list items (- item1, - item2, etc.).
+    
+    Rules:
+    - Detect lines starting with "- " at child indent level
+    - Collect consecutive dash items
+    - Stop when indent returns to parent level or less
+    - Track each item's line number for token emission
+    
+    Args:
+        lines: All lines
+        start_idx: Index to start collecting from (line after the key)
+        parent_indent: Indentation level of the parent key
+    
+    Returns:
+        Tuple of (reconstructed_array_string, lines_consumed, item_line_info)
+        - reconstructed_array_string: "[item1, item2, item3]"
+        - lines_consumed: Number of lines consumed
+        - item_line_info: List of (line_idx, dash_pos, item_content) for token emission
+    
+    Examples:
+        >>> lines = ["  - item1", "  - item2", "  - item3"]
+        >>> _collect_dash_list(lines, 0, 0)
+        ("[item1, item2, item3]", 3, [(0, 2, "item1"), (1, 2, "item2"), (2, 2, "item3")])
+    """
+    collected_items = []
+    item_line_info = []  # Track (line_idx, dash_position, content) for each item
+    lines_consumed = 0
+    expected_indent = None
+    
+    for i in range(start_idx, len(lines)):
+        line = lines[i]
+        line_indent = len(line) - len(line.lstrip())
+        stripped = line.strip()
+        
+        # Skip empty lines
+        if not stripped:
+            lines_consumed += 1
+            continue
+        
+        # Check if line starts with dash
+        if stripped.startswith('- '):
+            # Set expected indent from first dash item
+            if expected_indent is None:
+                expected_indent = line_indent
+            
+            # Verify this dash is at the expected child indent level
+            if line_indent != expected_indent:
+                # Different indent level - stop collecting
+                break
+            
+            # Extract item content (everything after "- ")
+            item_content = stripped[2:].strip()
+            
+            if item_content:
+                collected_items.append(item_content)
+                # Track line index, dash position (for tokenization), and content
+                dash_pos = line.index('-')
+                item_line_info.append((i, dash_pos, item_content))
+            
+            lines_consumed += 1
+        else:
+            # Non-dash line - check if it's at parent indent or less
+            if line_indent <= parent_indent:
+                # Back to parent level - stop collecting
+                break
+            else:
+                # Could be continuation or nested content - for now, stop
+                # TODO: Future enhancement - support nested structures under dash items
+                break
+    
+    # Reconstruct as single-line array format
+    if collected_items:
+        reconstructed = '[' + ', '.join(collected_items) + ']'
+    else:
+        reconstructed = '[]'
+    
+    return reconstructed, lines_consumed, item_line_info
 
 
 def _collect_bracket_array(lines: list[str], start_idx: int, parent_indent: int, first_value: str) -> tuple[str, int, list]:
@@ -2060,9 +2218,9 @@ def _build_nested_dict(structured_lines: list[dict], start_idx: int, current_ind
         else:
             # Leaf node - detect value type or use multi-line string
             if line_info.get('is_multiline', False):
-                # Check if it's a multi-line array (needs type detection) or string (use as-is)
-                if line_info.get('multiline_type') == 'array':
-                    # Multi-line array: run type detection on reconstructed value
+                # Check if it's a multi-line array/dash list (needs type detection) or string (use as-is)
+                if line_info.get('multiline_type') in ('array', 'dash_list'):
+                    # Multi-line array or dash list: run type detection on reconstructed value
                     typed_value = _detect_value_type(value) if value else ''
                 else:
                     # Multi-line string: already processed, use as-is

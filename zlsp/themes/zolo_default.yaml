@@ -61,11 +61,11 @@ palette:
     description: "Soft yellow for structural elements"
   
   light_pink:
-    name: "Light Pink"
-    hex: "#ffd7ff"
-    ansi: 225
-    rgb: [255, 215, 255]
-    description: "Light pink/cream for brackets"
+    name: "Dark Red"
+    hex: "#d70000"
+    ansi: 160
+    rgb: [215, 0, 0]
+    description: "Dark red for brackets and dashes"
   
   deep_blue:
     name: "Deep Blue"
@@ -80,6 +80,13 @@ palette:
     ansi: 242
     rgb: [108, 108, 108]
     description: "Muted gray for comments"
+  
+  magenta:
+    name: "Magenta"
+    hex: "#d700ff"
+    ansi: 165
+    rgb: [215, 0, 255]
+    description: "Bright magenta for object braces"
 
 # ═══════════════════════════════════════════════════════════════
 # Semantic Token Styles
@@ -141,6 +148,11 @@ tokens:
     color: light_pink
     style: none
     description: "Array/list brackets [ ]"
+  
+  braceStructural:
+    color: magenta
+    style: none
+    description: "Object/dict braces { }"
   
   # Comments
   comment:
