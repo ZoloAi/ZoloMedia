@@ -53,10 +53,10 @@ string_on: on
 string_off: off
 
 # Boolean words in sentences → always strings
-message: this is true
-status: false alarm
-note: yes we can
-answer: no way
+bool_message: this is true
+bool_status: false alarm
+bool_note: yes we can
+bool_answer: no way
 
 # With type hint → actual booleans
 debug(bool): true
@@ -72,11 +72,11 @@ optional_value: null
 missing_data: null
 
 # Null as part of string → always string (anti-quirk)
-message: null value
-description: this is null
-status: null pointer exception
-note: the null hypothesis
-error: cannot be null
+null_message: null value
+null_description: this is null
+null_status: null pointer exception
+null_note: the null hypothesis
+null_error: cannot be null
 
 #>═══════════════════════════════════════════════════════════════<#
 #> ARRAYS - Bracket Syntax Only (Phase 2.1)
@@ -85,7 +85,7 @@ error: cannot be null
 # Simple arrays
 tags: [python, yaml, json]
 numbers: [1, 2, 3, 4, 5]
-mixed: [1, hello, true]
+mixed: [1, hello, true, null]
 booleans: [true, false, true]
 
 # Empty and trailing commas (Phase 4.6g)
@@ -117,18 +117,17 @@ database:
     username: admin
     password: secret123
     
-# Flow-style objects (Phase 4.2)
-coords: {x: 10, y: 20}
-point3d: {x: 1, y: 2, z: 3}
-empty_object: {}
+# Flow-style objects (Phase 4.2) - TODO: Not yet implemented
+# coords: {x: 10, y: 20}
+# point3d: {x: 1, y: 2, z: 3}
+# empty_object: {}
 
 # Mixed structures
 config:
-  servers: [
-    {name: prod, ip: 10.0.0.1},
-    {name: staging, ip: 10.0.0.2}
-  ]
-  settings: {debug: false, timeout: 30}
+  servers:
+    - prod_server
+    - staging_server
+  timeout: 30
 
 #>═══════════════════════════════════════════════════════════════<#
 #> MULTI-LINE STRINGS - Type Hint Required (Phase 4.6e)
@@ -256,8 +255,8 @@ debug_mode(bool): false
 # List type hints (explicit)
 numbers_list(list): [1, 2, 3]
 
-# Dict type hints (explicit)
-config_dict(dict): {x: 1, y: 2}
+# Dict type hints (explicit) - TODO: Inline dict syntax not yet implemented
+# config_dict(dict): {x: 1, y: 2}
 
 #>═══════════════════════════════════════════════════════════════<#
 #> COMMENTS - Dual Syntax (Phase 4.6d)
@@ -329,11 +328,10 @@ application:
     caching(bool): true
     debug(bool): false
     
-  api_endpoints: [
-    {path: /users, method: GET},
-    {path: /posts, method: POST},
-    {path: /comments, method: GET}
-  ]
+  api_endpoints:
+    - /users GET
+    - /posts POST
+    - /comments GET
   
   logging:
     level: INFO
@@ -356,8 +354,8 @@ bool_word: true
 null_word: null
 
 # Explicit booleans when needed
-enabled(bool): true
-disabled(bool): false
+feature_enabled(bool): true
+feature_disabled(bool): false
 
 #>═══════════════════════════════════════════════════════════════<#
 #> INDENTATION - Python-Style (Phase 4.8)

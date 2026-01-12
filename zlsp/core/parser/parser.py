@@ -569,13 +569,13 @@ def _parse_zolo_content(content: str) -> Any:
     Current: Phase 1-2 Complete (Comments, Types, Arrays, Nested Objects)
     """
     # Step 1.1: Strip comments and prepare lines
-    lines = _strip_comments_and_prepare_lines(content)
+    lines, line_mapping = _strip_comments_and_prepare_lines(content)
     
     # Step 4.8: Check indentation consistency (Python-style)
     _check_indentation_consistency(lines)
     
     # Step 2.3: Parse with nested object support
-    result = _parse_lines(lines)
+    result = _parse_lines(lines, line_mapping)
     
     return result
 
@@ -665,7 +665,7 @@ def _check_indentation_consistency(lines: list[str]) -> None:
             )
 
 
-def _strip_comments_and_prepare_lines(content: str) -> list[str]:
+def _strip_comments_and_prepare_lines(content: str) -> Tuple[list[str], dict]:
     """
     Phase 1, Step 1.1: Strip comments from .zolo content.
     
@@ -682,59 +682,109 @@ def _strip_comments_and_prepare_lines(content: str) -> list[str]:
         content: Raw .zolo file content
     
     Returns:
-        List of cleaned lines (no comments, no empty lines)
+        Tuple of (cleaned_lines, line_mapping)
+        - cleaned_lines: List of cleaned lines (no comments, no empty lines)
+        - line_mapping: Dict mapping cleaned line index to original line number (1-based)
     
     Examples:
-        >>> _strip_comments_and_prepare_lines("# Full line comment\\nkey: value")
+        >>> lines, mapping = _strip_comments_and_prepare_lines("# Full line comment\\nkey: value")
+        >>> lines
         ['key: value']
+        >>> mapping[0]
+        2
         
-        >>> _strip_comments_and_prepare_lines("section:\\n    # Indented comment\\n    key: value")
+        >>> lines, mapping = _strip_comments_and_prepare_lines("section:\\n    # Indented comment\\n    key: value")
+        >>> lines
         ['section:', '    key: value']
         
-        >>> _strip_comments_and_prepare_lines("key: value #> comment <#")
+        >>> lines, mapping = _strip_comments_and_prepare_lines("key: value #> comment <#")
+        >>> lines
         ['key: value']
         
-        >>> _strip_comments_and_prepare_lines("color: #fffcbf #> nice <#")
+        >>> lines, mapping = _strip_comments_and_prepare_lines("color: #fffcbf #> nice <#")
+        >>> lines
         ['color: #fffcbf']
         
-        >>> _strip_comments_and_prepare_lines("tag: #python")
+        >>> lines, mapping = _strip_comments_and_prepare_lines("tag: #python")
+        >>> lines
         ['tag: #python']
     """
-    # First, strip all #> ... <# paired comments (including multi-line)
-    result = content
+    lines = content.splitlines()
     
-    while True:
+    # Phase 1: Identify full-line comments
+    full_line_comment_lines = set()
+    for line_num, line in enumerate(lines):
+        stripped = line.lstrip()
+        if stripped.startswith('#') and not stripped.startswith('#>'):
+            full_line_comment_lines.add(line_num)
+    
+    # Phase 2: Find all #> ... <# comments (including multi-line)
+    comment_line_ranges = []  # Store (start_line, start_col, end_line, end_col) tuples
+    
+    search_pos = 0
+    while search_pos < len(content):
         # Find opening #>
-        start = result.find('#>')
+        start = content.find('#>', search_pos)
         if start == -1:
             break  # No more arrow comments
         
-        # Find matching closing <#
-        end = result.find('<#', start + 2)
-        if end == -1:
-            # No matching <# found, treat #> as literal
-            break
-        
-        # Remove the comment (including markers)
-        result = result[:start] + result[end + 2:]
-    
-    # Now split into lines and handle full-line comments
-    cleaned_lines = []
-    for line in result.splitlines():
-        # Check if this is a full-line comment (# at start after optional whitespace)
-        stripped = line.lstrip()
-        if stripped.startswith('#'):
-            # Full-line comment, skip it
+        # Check if this #> is within a full-line comment
+        start_line = content[:start].count('\n')
+        if start_line in full_line_comment_lines:
+            # Skip this #>, it's inside a full-line comment
+            search_pos = start + 2
             continue
         
+        # Find matching closing <#
+        end = content.find('<#', start + 2)
+        if end == -1:
+            # No matching <# found, skip this #>
+            search_pos = start + 2
+            continue
+        
+        # Store this comment range (from #> to <# inclusive)
+        start_col = start - content.rfind('\n', 0, start) - 1
+        end_line = content[:end + 2].count('\n')
+        end_col = end + 2 - content.rfind('\n', 0, end + 2) - 1
+        
+        comment_line_ranges.append((start_line, start_col, end_line, end_col))
+        search_pos = end + 2
+    
+    # Phase 3: Build cleaned lines (remove comments, skip full-line comments)
+    cleaned_lines = []
+    line_mapping = {}  # Maps cleaned index -> original line number (1-based)
+    
+    for line_num, line in enumerate(lines):
+        # Skip full-line comments
+        if line_num in full_line_comment_lines:
+            continue
+        
+        # Remove inline comments from this line
+        working_line = line
+        for c_start_line, c_start_col, c_end_line, c_end_col in comment_line_ranges:
+            if c_start_line == c_end_line == line_num:
+                # Single-line comment on this line
+                working_line = working_line[:c_start_col] + working_line[c_end_col:]
+            elif c_start_line == line_num:
+                # This line starts a multi-line comment - remove from comment start to end of line
+                working_line = working_line[:c_start_col]
+            elif c_start_line < line_num < c_end_line:
+                # This line is in the middle of a multi-line comment - skip it entirely
+                working_line = ""
+                break
+            elif c_end_line == line_num:
+                # This line ends a multi-line comment - keep text after <#
+                working_line = working_line[c_end_col:]
+        
         # Strip trailing whitespace (but preserve leading indentation)
-        line = line.rstrip()
+        working_line = working_line.rstrip()
         
         # Skip empty lines
-        if line:
-            cleaned_lines.append(line)
+        if working_line:
+            line_mapping[len(cleaned_lines)] = line_num + 1  # 1-based line numbers
+            cleaned_lines.append(working_line)
     
-    return cleaned_lines
+    return cleaned_lines, line_mapping
 
 
 def _strip_comments_and_prepare_lines_with_tokens(content: str, emitter: TokenEmitter) -> Tuple[list[str], dict]:
@@ -1487,6 +1537,60 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                 })
                 i += lines_consumed + 1
                 line_number += lines_consumed + 1
+            # Handle multi-line arrays (value == '[')
+            elif value == '[':
+                # Find opening bracket position
+                value_start = colon_pos + 1
+                while value_start < len(line) and line[value_start] == ' ':
+                    value_start += 1
+                bracket_pos = value_start
+                
+                # Emit opening bracket
+                emitter.emit(original_line_num, bracket_pos, 1, TokenType.BRACKET_STRUCTURAL)
+                
+                # Collect multi-line array content
+                reconstructed, lines_consumed, item_line_info = _collect_bracket_array(
+                    lines, i + 1, indent, value
+                )
+                
+                # Emit tokens for each array item line
+                for item_line_idx, item_content, has_comma in item_line_info:
+                    item_original_line = line_mapping.get(item_line_idx, item_line_idx)
+                    item_line = lines[item_line_idx]
+                    item_indent = len(item_line) - len(item_line.lstrip())
+                    
+                    # Find where item content starts
+                    content_start = item_indent
+                    
+                    # Emit token for the item content
+                    _emit_value_tokens(item_content, item_original_line, content_start, emitter)
+                    
+                    # Emit comma if present
+                    if has_comma:
+                        comma_pos = item_indent + len(item_content)
+                        emitter.emit(item_original_line, comma_pos, 1, TokenType.COMMA)
+                
+                # Find and emit closing bracket
+                closing_line_idx = i + lines_consumed
+                if closing_line_idx < len(lines):
+                    closing_line = lines[closing_line_idx]
+                    closing_original_line = line_mapping.get(closing_line_idx, closing_line_idx)
+                    closing_bracket_pos = closing_line.find(']')
+                    if closing_bracket_pos >= 0:
+                        emitter.emit(closing_original_line, closing_bracket_pos, 1, TokenType.BRACKET_STRUCTURAL)
+                
+                # Store structured line info with reconstructed value
+                structured_lines.append({
+                    'indent': indent,
+                    'key': key,
+                    'value': reconstructed,
+                    'line': line,
+                    'line_number': original_line_num,
+                    'is_multiline': True,
+                    'multiline_type': 'array'  # Mark as array for type detection
+                })
+                i += lines_consumed + 1
+                line_number += lines_consumed + 1
             else:
                 # Regular value (not multi-line)
                 if value:
@@ -1515,7 +1619,7 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
     return _build_nested_dict(structured_lines, 0, 0)
 
 
-def _parse_lines(lines: list[str]) -> dict:
+def _parse_lines(lines: list[str], line_mapping: dict = None) -> dict:
     r"""
     Phase 2, Step 2.3 + Phase 3: Parse lines with nested object and multi-line string support.
     
@@ -1527,6 +1631,7 @@ def _parse_lines(lines: list[str]) -> dict:
     
     Args:
         lines: Cleaned lines (from Step 1.1)
+        line_mapping: Optional dict mapping cleaned line index to original line number (1-based)
     
     Returns:
         Nested dictionary structure
@@ -1541,15 +1646,21 @@ def _parse_lines(lines: list[str]) -> dict:
     if not lines:
         return {}
     
+    # Default line mapping if not provided (for backwards compatibility)
+    if line_mapping is None:
+        line_mapping = {i: i + 1 for i in range(len(lines))}
+    
     # Parse lines into structured data with indentation info and multi-line handling
     structured_lines = []
     i = 0
-    line_number = 1  # Track line numbers for error messages
     
     while i < len(lines):
         line = lines[i]
         indent = len(line) - len(line.lstrip())
         stripped = line.strip()
+        
+        # Get original line number from mapping
+        original_line_number = line_mapping.get(i, i + 1)
         
         if ':' in stripped:
             key, _, value = stripped.partition(':')
@@ -1557,7 +1668,7 @@ def _parse_lines(lines: list[str]) -> dict:
             value = value.strip()
             
             # Validate key is ASCII-only (RFC 8259 compliance)
-            _validate_ascii_only(key, line_number)
+            _validate_ascii_only(key, original_line_number)
             
             # Check if key has (str) type hint for multi-line collection
             match = TYPE_HINT_PATTERN.match(key)
@@ -1573,11 +1684,24 @@ def _parse_lines(lines: list[str]) -> dict:
                     'key': key,
                     'value': multiline_value,
                     'line': line,
-                    'line_number': line_number,
+                    'line_number': original_line_number,
                     'is_multiline': True
                 })
                 i += lines_consumed + 1
-                line_number += lines_consumed + 1
+            # Handle multi-line arrays (value == '[')
+            elif value == '[':
+                # Collect multi-line array content
+                reconstructed, lines_consumed, _ = _collect_bracket_array(lines, i + 1, indent, value)
+                structured_lines.append({
+                    'indent': indent,
+                    'key': key,
+                    'value': reconstructed,
+                    'line': line,
+                    'line_number': original_line_number,
+                    'is_multiline': True,
+                    'multiline_type': 'array'  # Mark as array for type detection
+                })
+                i += lines_consumed + 1
             else:
                 # Regular value - | and """ are literal characters
                 structured_lines.append({
@@ -1585,14 +1709,12 @@ def _parse_lines(lines: list[str]) -> dict:
                     'key': key,
                     'value': value,
                     'line': line,
-                    'line_number': line_number,
+                    'line_number': original_line_number,
                     'is_multiline': False
                 })
                 i += 1
-                line_number += 1
         else:
             i += 1
-            line_number += 1
     
     # Build nested structure
     return _build_nested_dict(structured_lines, 0, 0)
@@ -1669,6 +1791,74 @@ def _collect_str_hint_multiline(lines: list[str], start_idx: int, parent_indent:
         lines_consumed += 1
     
     return '\n'.join(collected), lines_consumed
+
+
+def _collect_bracket_array(lines: list[str], start_idx: int, parent_indent: int, first_value: str) -> tuple[str, int, list]:
+    """
+    Collect multi-line array content from opening [ to closing ].
+    
+    Rules:
+    - Opening [ is on the key line (first_value = '[')
+    - Collect lines indented MORE than parent
+    - Stop when we find ] at same or less indent than parent
+    - Track each item's line number for token emission
+    
+    Args:
+        lines: All lines
+        start_idx: Index to start collecting from (line after opening [)
+        parent_indent: Indentation level of the parent key
+        first_value: The value on the same line as the key (should be '[')
+    
+    Returns:
+        Tuple of (reconstructed_array_string, lines_consumed, item_line_info)
+        - reconstructed_array_string: "[item1, item2, item3]"
+        - lines_consumed: Number of lines consumed
+        - item_line_info: List of (line_idx, item_content, has_comma) for token emission
+    
+    Examples:
+        >>> lines = ["  item1,", "  item2,", "  item3", "]"]
+        >>> _collect_bracket_array(lines, 0, 0, "[")
+        ("[item1, item2, item3]", 4, [(0, "item1", True), (1, "item2", True), (2, "item3", False)])
+    """
+    collected_items = []
+    item_line_info = []  # Track (line_idx, content, has_comma) for each item
+    lines_consumed = 0
+    closing_bracket_line = None
+    
+    for i in range(start_idx, len(lines)):
+        line = lines[i]
+        line_indent = len(line) - len(line.lstrip())
+        stripped = line.strip()
+        
+        # Check if this is the closing bracket
+        if stripped == ']' or (stripped.startswith(']') and line_indent <= parent_indent):
+            closing_bracket_line = i
+            lines_consumed += 1
+            break
+        
+        # Skip empty lines
+        if not stripped:
+            lines_consumed += 1
+            continue
+        
+        # Collect array item
+        # Remove trailing comma if present
+        has_comma = stripped.endswith(',')
+        item_content = stripped.rstrip(',').strip()
+        
+        if item_content:
+            collected_items.append(item_content)
+            item_line_info.append((i, item_content, has_comma))
+        
+        lines_consumed += 1
+    
+    # Reconstruct as single-line array format
+    if collected_items:
+        reconstructed = '[' + ', '.join(collected_items) + ']'
+    else:
+        reconstructed = '[]'
+    
+    return reconstructed, lines_consumed, item_line_info
 
 
 def _collect_pipe_multiline(lines: list[str], start_idx: int, parent_indent: int) -> tuple[str, int]:
@@ -1870,8 +2060,13 @@ def _build_nested_dict(structured_lines: list[dict], start_idx: int, current_ind
         else:
             # Leaf node - detect value type or use multi-line string
             if line_info.get('is_multiline', False):
-                # Multi-line string is already processed, use as-is
-                typed_value = value
+                # Check if it's a multi-line array (needs type detection) or string (use as-is)
+                if line_info.get('multiline_type') == 'array':
+                    # Multi-line array: run type detection on reconstructed value
+                    typed_value = _detect_value_type(value) if value else ''
+                else:
+                    # Multi-line string: already processed, use as-is
+                    typed_value = value
             else:
                 # Detect value type (including \n escape sequences)
                 typed_value = _detect_value_type(value) if value else ''
