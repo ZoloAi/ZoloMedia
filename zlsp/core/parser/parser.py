@@ -97,6 +97,9 @@ class TokenEmitter:
         
         # Track zMachine blocks to color nested section keys (user_preferences, cpu, etc.)
         self.zmachine_blocks: List[Tuple[int, int]] = []  # [(indent_level, line_number), ...]
+        
+        # Track ZNAVBAR blocks in zEnv files to color first-level nested keys (not grandchildren)
+        self.znavbar_blocks: List[Tuple[int, int]] = []  # [(indent_level, line_number), ...]
     
     def add_comment_range(self, start_line: int, start_col: int, end_line: int, end_col: int):
         """Track a comment range to avoid overlapping tokens."""
@@ -232,6 +235,32 @@ class TokenEmitter:
     def is_in_zmachine_block(self, current_indent: int) -> bool:
         """Check if we're currently inside a zMachine block at the given indentation level."""
         return any(indent < current_indent for indent, _ in self.zmachine_blocks)
+    
+    def enter_znavbar_block(self, indent: int, line: int):
+        """Mark that we're entering a ZNAVBAR block at the given indentation level."""
+        # Clear any previous ZNAVBAR blocks (there can only be one active ZNAVBAR section)
+        self.znavbar_blocks = [(indent, line)]
+    
+    def update_znavbar_blocks(self, current_indent: int, current_line: int):
+        """Update ZNAVBAR block tracking based on current indentation level.
+        Exit blocks that have lower or equal indentation than current."""
+        # Remove blocks with indent >= current_indent (we've exited them)
+        # Special case: if current_indent is 0 (root level), clear all ZNAVBAR blocks
+        if current_indent == 0:
+            self.znavbar_blocks = []
+        else:
+            self.znavbar_blocks = [(indent, line) for indent, line in self.znavbar_blocks if indent < current_indent]
+    
+    def is_znavbar_first_level(self, current_indent: int) -> bool:
+        """Check if we're at EXACTLY the first nesting level under ZNAVBAR (not grandchildren).
+        Returns True only if current_indent is exactly one level deeper than ZNAVBAR indent."""
+        if not self.znavbar_blocks:
+            return False
+        # Get the most recent ZNAVBAR block indent
+        znavbar_indent = self.znavbar_blocks[-1][0]
+        # First-level should be EXACTLY 2 spaces deeper than ZNAVBAR (standard indent)
+        # This prevents grandchildren (4+ spaces) from being colored
+        return current_indent == znavbar_indent + 2
     
     def split_modifiers(self, key: str) -> tuple:
         """Split key into prefix modifiers, core name, and suffix modifiers.
@@ -993,13 +1022,17 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                 
                 # Emit root or nested key token
                 if indent == 0:
+                    # Clear ZNAVBAR block tracking when we encounter a new root-level key
+                    emitter.znavbar_blocks = []
+                    
                     # Split modifiers from clean_key (key without type hint)
                     prefix_mods, core_key, suffix_mods = emitter.split_modifiers(clean_key)
                     current_pos = key_start
                     
-                    # Emit prefix modifiers (purple)
+                    # Emit prefix modifiers (purple in zEnv/zUI only)
                     for mod in prefix_mods:
-                        emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
+                        if emitter.is_zenv_file or emitter.is_zui_file:
+                            emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
                         current_pos += 1
                     
                     # Determine token type for core key and emit
@@ -1009,9 +1042,15 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     # Special handling for zSpark root key in zSpark files (LIGHT GREEN - ANSI 114)
                     elif emitter.is_zspark_file and core_key == 'zSpark':
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSPARK_KEY)
+                    # Special handling for config root keys in zEnv files (PURPLE - ANSI 98)
+                    elif emitter.is_zenv_file and core_key in ('DEPLOYMENT', 'DEBUG', 'LOG_LEVEL'):
+                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZENV_CONFIG_KEY)
                     # Special handling for uppercase Z-prefixed config keys in zEnv files (GREEN)
                     elif emitter.is_zenv_file and core_key.isupper() and core_key.startswith('Z'):
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZCONFIG_KEY)
+                        # If this is ZNAVBAR, enter the block for first-level nested key tracking
+                        if core_key == 'ZNAVBAR':
+                            emitter.enter_znavbar_block(indent, original_line_num)
                     # Special handling for z-prefixed root keys in zConfig files (GREEN) - e.g., zMachine
                     elif emitter.is_zconfig_file and core_key.startswith('z') and len(core_key) > 1 and core_key[1].isupper():
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZCONFIG_KEY)
@@ -1068,9 +1107,10 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     
                     current_pos += len(core_key)
                     
-                    # Emit suffix modifiers (purple)
+                    # Emit suffix modifiers (purple in zEnv/zUI only)
                     for mod in suffix_mods:
-                        emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
+                        if emitter.is_zenv_file or emitter.is_zui_file:
+                            emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
                         current_pos += 1
                 else:
                     # Update block tracking (exit blocks we've left based on indentation)
@@ -1081,26 +1121,36 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     emitter.update_zurl_blocks(indent, original_line_num)
                     emitter.update_header_blocks(indent, original_line_num)
                     emitter.update_zmachine_blocks(indent, original_line_num)
+                    emitter.update_znavbar_blocks(indent, original_line_num)
                     
                     # Split modifiers from clean_key (key without type hint)
                     prefix_mods, core_key, suffix_mods = emitter.split_modifiers(clean_key)
                     current_pos = key_start
                     
-                    # Emit prefix modifiers (purple)
+                    # Emit prefix modifiers (purple in zEnv/zUI only)
                     for mod in prefix_mods:
-                        emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
+                        if emitter.is_zenv_file or emitter.is_zui_file:
+                            emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
                         current_pos += 1
                     
                     # Determine token type for core key and emit
-                    # Check for zRBAC key (TOMATO in all .zolo files)
+                    # Check for zRBAC key (tomato red in zEnv/zUI files only)
                     if core_key == 'zRBAC':
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_KEY)
+                        # zRBAC gets tomato red (196) only in zEnv/zUI files
+                        if emitter.is_zenv_file or emitter.is_zui_file:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_KEY)
+                        else:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
                         # Mark that we're entering a zRBAC block
                         emitter.enter_zrbac_block(indent, original_line_num)
                     # Check for zSpark nested keys (purple 98 in zSpark files only)
                     elif emitter.is_zspark_file:
                         # ALL nested keys under zSpark root get purple color
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSPARK_NESTED_KEY)
+                    # Check for ZNAVBAR first-level nested keys (ANSI 222 in zEnv files only)
+                    elif emitter.is_znavbar_first_level(indent) and emitter.is_zenv_file:
+                        # First-level nested keys under ZNAVBAR (not grandchildren)
+                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZNAVBAR_NESTED_KEY)
                     # Check for zRBAC option keys (PURPLE in zUI and zEnv files only)
                     elif emitter.is_in_zrbac_block(indent) and (emitter.is_zui_file or emitter.is_zenv_file):
                         ZRBAC_OPTIONS = {'zGuest', 'authenticated', 'require_role', 'require_auth', 'require_permission'}
@@ -1214,17 +1264,25 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                             if core_key in PLURAL_SHORTHANDS:
                                 emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
                                 emitter.enter_plural_shorthand_block(indent, original_line_num, core_key)
-                            # Check for zSub key (GOLD in both zUI and zEnv files)
+                            # Check for zSub key (purple 98 when grandchild+ in zEnv/zUI files)
                             elif core_key == 'zSub':
-                                emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
+                                # zSub in zEnv/zUI at grandchild+ level (indent >= 4) gets purple
+                                if (emitter.is_zenv_file or emitter.is_zui_file) and indent >= 4:
+                                    emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSUB_KEY)
+                                else:
+                                    emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
                             # Check for specific shorthand display event keys (strict whitelist)
                             elif core_key in {'zNavBar', 'zImage', 'zUL', 'zOL', 'zURL', 'zURLs', 'zText', 'zMD', 'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'}:
                                 emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
                             else:
                                 emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zSub key (GOLD in both zUI and zEnv files)
+                    # Check for zSub key (purple 98 when grandchild+ in zEnv/zUI files)
                     elif core_key == 'zSub':
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
+                        # zSub in zEnv/zUI at grandchild+ level (indent >= 4) gets purple
+                        if (emitter.is_zenv_file or emitter.is_zui_file) and indent >= 4:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSUB_KEY)
+                        else:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
                     # Check for underscore-prefixed keys (Bifrost keys)
                     elif core_key.startswith('_'):
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.BIFROST_KEY)
@@ -1236,9 +1294,10 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     
                     current_pos += len(core_key)
                     
-                    # Emit suffix modifiers (purple)
+                    # Emit suffix modifiers (purple in zEnv/zUI only)
                     for mod in suffix_mods:
-                        emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
+                        if emitter.is_zenv_file or emitter.is_zui_file:
+                            emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
                         current_pos += 1
                 
                 # Emit type hint token (after modifiers and core key)
@@ -1249,13 +1308,17 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
             else:
                 # No type hint
                 if indent == 0:
+                    # Clear ZNAVBAR block tracking when we encounter a new root-level key
+                    emitter.znavbar_blocks = []
+                    
                     # Split modifiers from key name
                     prefix_mods, core_key, suffix_mods = emitter.split_modifiers(key)
                     current_pos = key_start
                     
-                    # Emit prefix modifiers (purple)
+                    # Emit prefix modifiers (purple in zEnv/zUI only)
                     for mod in prefix_mods:
-                        emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
+                        if emitter.is_zenv_file or emitter.is_zui_file:
+                            emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
                         current_pos += 1
                     
                     # Determine token type for core key and emit
@@ -1265,9 +1328,15 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     # Special handling for zSpark root key in zSpark files (LIGHT GREEN - ANSI 114)
                     elif emitter.is_zspark_file and core_key == 'zSpark':
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSPARK_KEY)
+                    # Special handling for config root keys in zEnv files (PURPLE - ANSI 98)
+                    elif emitter.is_zenv_file and core_key in ('DEPLOYMENT', 'DEBUG', 'LOG_LEVEL'):
+                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZENV_CONFIG_KEY)
                     # Special handling for uppercase Z-prefixed config keys in zEnv files (GREEN)
                     elif emitter.is_zenv_file and core_key.isupper() and core_key.startswith('Z'):
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZCONFIG_KEY)
+                        # If this is ZNAVBAR, enter the block for first-level nested key tracking
+                        if core_key == 'ZNAVBAR':
+                            emitter.enter_znavbar_block(indent, original_line_num)
                     # Special handling for z-prefixed root keys in zConfig files (GREEN) - e.g., zMachine
                     elif emitter.is_zconfig_file and core_key.startswith('z') and len(core_key) > 1 and core_key[1].isupper():
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZCONFIG_KEY)
@@ -1324,9 +1393,10 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     
                     current_pos += len(core_key)
                     
-                    # Emit suffix modifiers (purple)
+                    # Emit suffix modifiers (purple in zEnv/zUI only)
                     for mod in suffix_mods:
-                        emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
+                        if emitter.is_zenv_file or emitter.is_zui_file:
+                            emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
                         current_pos += 1
                 else:
                     # Update block tracking (exit blocks we've left based on indentation)
@@ -1337,27 +1407,37 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     emitter.update_zurl_blocks(indent, original_line_num)
                     emitter.update_header_blocks(indent, original_line_num)
                     emitter.update_zmachine_blocks(indent, original_line_num)
+                    emitter.update_znavbar_blocks(indent, original_line_num)
                     emitter.update_plural_shorthand_blocks(indent, original_line_num)
                     
                     # Split modifiers from key name
                     prefix_mods, core_key, suffix_mods = emitter.split_modifiers(key)
                     current_pos = key_start
                     
-                    # Emit prefix modifiers (purple)
+                    # Emit prefix modifiers (purple in zEnv/zUI only)
                     for mod in prefix_mods:
-                        emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
+                        if emitter.is_zenv_file or emitter.is_zui_file:
+                            emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
                         current_pos += 1
                     
                     # Determine token type for core key and emit
-                    # Check for zRBAC key (TOMATO in all .zolo files)
+                    # Check for zRBAC key (tomato red in zEnv/zUI files only)
                     if core_key == 'zRBAC':
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_KEY)
+                        # zRBAC gets tomato red (196) only in zEnv/zUI files
+                        if emitter.is_zenv_file or emitter.is_zui_file:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_KEY)
+                        else:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
                         # Mark that we're entering a zRBAC block
                         emitter.enter_zrbac_block(indent, original_line_num)
                     # Check for zSpark nested keys (purple 98 in zSpark files only)
                     elif emitter.is_zspark_file:
                         # ALL nested keys under zSpark root get purple color
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSPARK_NESTED_KEY)
+                    # Check for ZNAVBAR first-level nested keys (ANSI 222 in zEnv files only)
+                    elif emitter.is_znavbar_first_level(indent) and emitter.is_zenv_file:
+                        # First-level nested keys under ZNAVBAR (not grandchildren)
+                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZNAVBAR_NESTED_KEY)
                     # Check for zRBAC option keys (PURPLE in zUI and zEnv files only)
                     elif emitter.is_in_zrbac_block(indent) and (emitter.is_zui_file or emitter.is_zenv_file):
                         ZRBAC_OPTIONS = {'zGuest', 'authenticated', 'require_role', 'require_auth', 'require_permission'}
@@ -1471,17 +1551,25 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                             if core_key in PLURAL_SHORTHANDS:
                                 emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
                                 emitter.enter_plural_shorthand_block(indent, original_line_num, core_key)
-                            # Check for zSub key (GOLD in both zUI and zEnv files)
+                            # Check for zSub key (purple 98 when grandchild+ in zEnv/zUI files)
                             elif core_key == 'zSub':
-                                emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
+                                # zSub in zEnv/zUI at grandchild+ level (indent >= 4) gets purple
+                                if (emitter.is_zenv_file or emitter.is_zui_file) and indent >= 4:
+                                    emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSUB_KEY)
+                                else:
+                                    emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
                             # Check for specific shorthand display event keys (strict whitelist)
                             elif core_key in {'zNavBar', 'zImage', 'zUL', 'zOL', 'zURL', 'zURLs', 'zText', 'zMD', 'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'}:
                                 emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
                             else:
                                 emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zSub key (GOLD in both zUI and zEnv files)
+                    # Check for zSub key (purple 98 when grandchild+ in zEnv/zUI files)
                     elif core_key == 'zSub':
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
+                        # zSub in zEnv/zUI at grandchild+ level (indent >= 4) gets purple
+                        if (emitter.is_zenv_file or emitter.is_zui_file) and indent >= 4:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSUB_KEY)
+                        else:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
                     # Check for underscore-prefixed keys (Bifrost keys)
                     elif core_key.startswith('_'):
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.BIFROST_KEY)
@@ -1493,9 +1581,10 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     
                     current_pos += len(core_key)
                     
-                    # Emit suffix modifiers (purple)
+                    # Emit suffix modifiers (purple in zEnv/zUI only)
                     for mod in suffix_mods:
-                        emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
+                        if emitter.is_zenv_file or emitter.is_zui_file:
+                            emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
                         current_pos += 1
                 has_str_hint = False
             

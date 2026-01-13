@@ -17,14 +17,17 @@ class TokenType(Enum):
     ZMETA_KEY = "zmetaKey"  # Special key for zMeta in zUI files
     BIFROST_KEY = "bifrostKey"  # Underscore-prefixed keys: _zClass, etc.
     UI_ELEMENT_KEY = "uiElementKey"  # z-prefixed UI keys: zImage, zNavBar, zUL, zSub, etc.
-    ZCONFIG_KEY = "zconfigKey"  # Uppercase Z-prefixed config keys in zEnv files: ZNAVBAR, ZDATA_*, etc.
+    ZCONFIG_KEY = "zconfigKey"  # z-prefixed root keys in zConfig.*.zolo files (e.g., zMachine) - light green
     ZSPARK_KEY = "zsparkKey"  # zSpark root key in zSpark.*.zolo files (light green)
+    ZENV_CONFIG_KEY = "zenvConfigKey"  # Config root keys in zEnv.*.zolo files (DEPLOYMENT, DEBUG, LOG_LEVEL) - purple 98
+    ZNAVBAR_NESTED_KEY = "znavbarNestedKey"  # First-level nested keys under ZNAVBAR in zEnv files (not grandchildren) - ANSI 222
+    ZSUB_KEY = "zsubKey"  # zSub key in zEnv/zUI files at grandchild+ level (indent >= 4) - purple 98
     ZSPARK_NESTED_KEY = "zsparkNestedKey"  # ALL nested keys under zSpark root in zSpark files (purple 98)
     ZSPARK_MODE_VALUE = "zsparkModeValue"  # zMode value (Terminal/zBifrost) - tomato red 196
     ZSPARK_VAFILE_VALUE = "zsparkVaFileValue"  # zVaFile value (zUI.*) - dark green 40
     ZSPARK_SPECIAL_VALUE = "zsparkSpecialValue"  # zBlock value - light purple 99
     ENV_CONFIG_VALUE = "envConfigValue"  # Environment/config constants (PROD, DEBUG, INFO, etc.) - bright yellow 226
-    ZRBAC_KEY = "zrbacKey"  # zRBAC access control metadata key (tomato color)
+    ZRBAC_KEY = "zrbacKey"  # zRBAC access control key in zEnv/zUI files (tomato red 196)
     ZRBAC_OPTION_KEY = "zrbacOptionKey"  # zRBAC nested option keys: zGuest, authenticated, require_role, etc. (purple)
     ZMACHINE_EDITABLE_KEY = "zmachineEditableKey"  # Editable zMachine section keys (blue/cyan - INFO)
     ZMACHINE_LOCKED_KEY = "zmachineLockedKey"  # Auto-detected zMachine section keys (red/orange - ERROR)

@@ -74,6 +74,20 @@ palette:
     rgb: [0, 135, 255]
     description: "Deep blue for boolean values"
   
+  test_blue:
+    name: "Test Blue"
+    hex: "#0000d7"
+    ansi: 20
+    rgb: [0, 0, 215]
+    description: "Test color for ZNAVBAR nested keys"
+  
+  dark_orange_208:
+    name: "Dark Orange"
+    hex: "#ff8700"
+    ansi: 208
+    rgb: [255, 135, 0]
+    description: "Dark orange for ZNAVBAR nested keys"
+  
   gray:
     name: "Gray"
     hex: "#6c6c6c"
@@ -167,6 +181,31 @@ tokens:
     color: light_green
     style: none
     description: "zSpark root key in zSpark.*.zolo files"
+  
+  zenvConfigKey:
+    color: dark_gray
+    style: none
+    description: "Config root keys in zEnv.*.zolo files (DEPLOYMENT, DEBUG, LOG_LEVEL)"
+  
+  znavbarNestedKey:
+    color: dark_orange_208
+    style: none
+    description: "First-level nested keys under ZNAVBAR in zEnv files (not grandchildren)"
+  
+  zsubKey:
+    color: dark_gray
+    style: none
+    description: "zSub key in zEnv/zUI files at grandchild+ level (indent >= 4)"
+  
+  zrbacKey:
+    color: bright_orange
+    style: none
+    description: "zRBAC access control key in zEnv/zUI files (child of any key)"
+  
+  zrbacOptionKey:
+    color: dark_gray
+    style: none
+    description: "zKey modifiers (^, ~, !, *) in zEnv/zUI files"
   
   zconfigKey:
     color: light_green

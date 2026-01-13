@@ -1,0 +1,179 @@
+# ===============================================
+# zEnv.example.zolo
+# ===============================================
+
+# Deployment Configuration (Environment-specific values)
+DEPLOYMENT: Development
+LOG_LEVEL: DEBUG
+
+# Global Navbar Definition with RBAC
+ZNAVBAR:
+  #> Public pages (no RBAC) <#
+  zVaF: null
+  zAbout: null
+
+  #> Parent page with sub-items <#
+  zProducts:
+    zSub: [zCLI, zBifrost, zTheme, zTrivia]
+
+  #> Admin-only pages <#
+  zAccount:
+    zRBAC:
+      require_role: [zAdmin]
+
+  #> Authenticated-only actions <#
+  ^logout:
+    zRBAC:
+      authenticated: true
+
+  #> Guest-only actions <#
+  zRegister:
+    zRBAC:
+      authenticated: false
+
+  ^zLogin:
+    zRBAC:
+      authenticated: false
+
+# Static File Mounts (zPath Examples)
+ZSERVER_MOUNTS:
+  /bifrost/: /Users/galnachshon/Projects/zolo-zcli/bifrost/
+  /ztheme/: /Users/galnachshon/Projects/zolo-zcli/zTheme/
+
+# ============================================================================
+# Database Configuration - zPath Syntax Examples
+# ============================================================================
+# Convention: ZDATA_{SCHEMA_NAME}_URL for auto-discovery
+# Format: Use zPath syntax for workspace and user config paths:
+#   @.Data                           - CSV in workspace Data/ folder
+#   ~.zMachine.data/production.db    - SQLite in user config dir
+#   postgresql://user:pass@host/db   - PostgreSQL with credentials
+
+# Workspace-relative paths (@ prefix)
+ZDATA_CONTACTS_URL: @.Data
+ZDATA_USERS_URL: @.Data
+ZDATA_ROLES_URL: @.Data
+ZDATA_USER_ROLES_URL: @.Data
+ZDATA_SERVICES_URL: @.Data
+ZDATA_SUBSCRIPTIONS_URL: @.Data
+ZDATA_API_KEYS_URL: @.Data
+ZDATA_USER_FILES_URL: @.Data
+ZDATA_POSTS_URL: @.Data
+ZDATA_POST_MEDIA_URL: @.Data
+ZDATA_VIDEOS_URL: @.Data
+ZDATA_VIDEO_QUALITIES_URL: @.Data
+ZDATA_CDN_CONFIG_URL: @.Data
+ZDATA_CDN_INVALIDATIONS_URL: @.Data
+
+# User config paths (~ prefix)
+ZDATA_PRODUCTION_URL: ~.zMachine.data/production.db
+ZDATA_BACKUP_URL: ~.zCloud.backups/latest.db
+
+# Test Schemas
+ZDATA_TEST_NOMIGRATION_URL: @.Data
+ZDATA_TEST_MIGRATION_URL: @.Data
+
+# ============================================================================
+# Storage Backend Configuration (Phase 1.3b - AWS S3)
+# ============================================================================
+STORAGE_BACKEND: s3
+
+# AWS S3 Configuration
+STORAGE_S3_BUCKET: zcloud-storage-dev
+STORAGE_S3_REGION: us-east-1
+
+# AWS Credentials (Development)
+AWS_ACCESS_KEY_ID: AKIAIOSFODNN7EXAMPLE
+AWS_SECRET_ACCESS_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+
+# ============================================================================
+# Application Settings
+# ============================================================================
+APP_NAME: zCloud
+APP_VERSION: 1.0.0
+
+# ============================================================================
+# Server Configuration
+# ============================================================================
+# Development defaults
+HTTP_HOST: localhost
+HTTP_PORT: 5000
+WEBSOCKET_HOST: localhost
+WEBSOCKET_PORT: 8765
+
+# Production overrides (SSL/TLS enabled)
+# HTTP_SSL_ENABLED: true
+# HTTP_SSL_CERT: certs/demo.cert
+# HTTP_SSL_KEY: certs/demo.key
+# WEBSOCKET_SSL_ENABLED: true
+# WEBSOCKET_SSL_CERT: certs/demo.cert
+# WEBSOCKET_SSL_KEY: certs/demo.key
+# WEBSOCKET_REQUIRE_AUTH: true
+# WEBSOCKET_ALLOWED_ORIGINS: https://yourdomain.com
+
+# ============================================================================
+# Environment-Specific Settings Examples
+# ============================================================================
+# Development Environment
+DEV_DEBUG_MODE: true
+DEV_LOG_LEVEL: DEBUG
+DEV_ENVIRONMENT: Development
+
+# Production Environment
+PROD_DEBUG_MODE: false
+PROD_LOG_LEVEL: PROD
+PROD_ENVIRONMENT: Production
+
+# Session Configuration
+SESSION_LEVEL: SESSION
+SESSION_TIMEOUT: 3600
+
+# Info-level settings
+INFO_LOGGING: INFO
+INFO_VERBOSE: true
+
+# Warning and Error settings
+WARNING_THRESHOLD: WARNING
+ERROR_HANDLER: ERROR
+CRITICAL_ALERTS: CRITICAL
+
+# ============================================================================
+# Complex Data Structures (Testing all syntax)
+# ============================================================================
+# Nested objects
+database_config:
+  primary:
+    url: @.Data/primary.db
+    readonly: false
+    pool_size: 10
+  replica:
+    url: ~.zCloud.replicas/replica1.db
+    readonly: true
+    pool_size: 5
+
+# Arrays
+supported_formats: [json, yaml, zolo, xml]
+log_levels: [DEBUG, SESSION, INFO, WARNING, ERROR, CRITICAL, PROD]
+
+# Mixed types
+feature_flags:
+  enable_websocket: true
+  max_connections: 100
+  timeout_seconds: 30.5
+  fallback_mode: Development
+
+# ============================================================================
+# zPath Examples for Theme Testing
+# ============================================================================
+# These should all be highlighted in bright cyan (ANSI 51)
+workspace_paths:
+  data_dir: @.Data
+  config_dir: @.Config
+  logs_dir: @.Logs
+  temp_dir: @.Temp
+
+user_paths:
+  config_home: ~.zCloud.config
+  data_home: ~.zCloud.data
+  cache_home: ~.zCloud.cache
+  logs_home: ~.zCloud.logs

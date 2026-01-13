@@ -1,126 +1,140 @@
 " ═══════════════════════════════════════════════════════════════
-" Zolo LSP Semantic Token Colors
+" Zolo Default - Vim Color Scheme
 " ═══════════════════════════════════════════════════════════════
-" File: zolo_highlights.vim
-" Purpose: Color scheme for .zolo files with LSP semantic tokens
-" Usage: Add to .vimrc: source ~/Projects/ZoloMedia/zlsp/editors/vim/config/zolo_highlights.vim
-"
-" NOTE: Format is LspSemanticTokenName (no underscore!)
-" Using ctermfg for terminal compatibility (256-color palette)
-" ═══════════════════════════════════════════════════════════════
-
-" IMPORTANT: Clear default syntax highlighting that might interfere
-highlight Identifier gui=NONE cterm=NONE
-highlight clear Keyword
-highlight clear Constant
-highlight clear Special
-
-" Root keys (salmon/orange) - TESTING: NO BOLD
-highlight! LspSemanticRootKey guifg=#ffaf87 ctermfg=216 gui=NONE cterm=NONE
-
-" Nested keys (lighter orange) - TESTING: NO BOLD
-highlight! LspSemanticNestedKey guifg=#ffd787 ctermfg=222 gui=NONE cterm=NONE
-
-" Strings (light yellow)
-highlight LspSemanticString guifg=#fffbcb ctermfg=230 gui=NONE cterm=NONE
-
-" Version strings (like strings - light yellow/cream)
-highlight LspSemanticVersionString guifg=#fffbcb ctermfg=230 gui=NONE cterm=NONE
-
-" Numbers (dark orange) - TESTING: NO BOLD
-highlight LspSemanticNumber guifg=#FF8C00 ctermfg=214 gui=NONE cterm=NONE
-
-" Type hints - revert to cyan for the text inside
-highlight LspSemanticTypeHint guifg=#5fd7ff ctermfg=81 gui=NONE cterm=NONE
-
-" Type hint parentheses (soft yellow)
-syntax match zoloTypeHintParen /[()]/ containedin=zoloTypeHint contained
-highlight zoloTypeHintParen guifg=#ffff5f ctermfg=227 gui=NONE cterm=NONE
-
-" Array brackets (lighter yellow/cream)
-highlight LspSemanticBracketStructural guifg=#ffd7ff ctermfg=225 gui=NONE cterm=NONE
-
-" Booleans (deep blue)
-highlight LspSemanticBoolean guifg=#0087ff ctermfg=33 gui=NONE cterm=NONE
-
-" Comments (gray, italic)
-highlight LspSemanticComment guifg=#6c6c6c ctermfg=242 gui=italic cterm=italic
-
-" ═══════════════════════════════════════════════════════════════
-" zKernel-specific Tokens
+" Default color scheme for .zolo files with LSP semantic tokens
+" Version: 1.0.0
+" Author: Zolo.ai
+" Generated automatically from zlsp/themes/zolo_default.yaml
+" DO NOT EDIT - Changes will be overwritten!
 " ═══════════════════════════════════════════════════════════════
 
-" zSpark root key (light green)
-highlight! LspSemanticZsparkKey guifg=#87d787 ctermfg=114 gui=NONE cterm=NONE
+" Clear conflicting default syntax groups
+highlight! Identifier gui=NONE cterm=NONE
+highlight! Keyword gui=NONE cterm=NONE
+highlight! Constant gui=NONE cterm=NONE
+highlight! Special gui=NONE cterm=NONE
 
-" zConfig root key (light green)
-highlight! LspSemanticZconfigKey guifg=#87d787 ctermfg=114 gui=NONE cterm=NONE
+" Semantic token highlights
+" Top-level keys (app_name, server, features)
+highlight! LspSemanticRootKey ctermfg=216 guifg=#ffaf87 cterm=NONE gui=NONE term=NONE
 
-" zMachine editable keys (deep blue - user preferences)
-highlight! LspSemanticZmachineEditableKey guifg=#0087ff ctermfg=33 gui=NONE cterm=NONE
+" Nested keys (host, port, ssl)
+highlight! LspSemanticNestedKey ctermfg=222 guifg=#ffd787 cterm=NONE gui=NONE term=NONE
 
-" zMachine locked keys (dark red - auto-detected hardware)
-highlight! LspSemanticZmachineLockedKey guifg=#d70000 ctermfg=160 gui=NONE cterm=NONE
+" zSpark root key in zSpark.*.zolo files
+highlight! LspSemanticZsparkKey ctermfg=114 guifg=#87d787 cterm=NONE gui=NONE term=NONE
 
-" zSpark nested keys (purple)
-highlight! LspSemanticZsparkNestedKey guifg=#875fd7 ctermfg=98 gui=NONE cterm=NONE
+" Config root keys in zEnv.*.zolo files (DEPLOYMENT, DEBUG, LOG_LEVEL)
+highlight! LspSemanticZenvConfigKey ctermfg=98 guifg=#875fd7 cterm=NONE gui=NONE term=NONE
 
-" zMode value (tomato red)
-highlight! LspSemanticZsparkModeValue guifg=#ff0000 ctermfg=196 gui=NONE cterm=NONE
+" First-level nested keys under ZNAVBAR in zEnv files (not grandchildren)
+highlight! LspSemanticZnavbarNestedKey ctermfg=208 guifg=#ff8700 cterm=NONE gui=NONE term=NONE
 
-" zVaFile value (dark green)
-highlight! LspSemanticZsparkVaFileValue guifg=#00d700 ctermfg=40 gui=NONE cterm=NONE
+" zSub key in zEnv/zUI files at grandchild+ level (indent >= 4)
+highlight! LspSemanticZsubKey ctermfg=98 guifg=#875fd7 cterm=NONE gui=NONE term=NONE
 
-" zBlock value (salmon orange)
-highlight! LspSemanticZsparkSpecialValue guifg=#ffaf87 ctermfg=216 gui=NONE cterm=NONE
+" zRBAC access control key in zEnv/zUI files (child of any key)
+highlight! LspSemanticZrbacKey ctermfg=196 guifg=#ff0000 cterm=NONE gui=NONE term=NONE
 
-" Environment/config values (bright yellow)
-highlight! LspSemanticEnvConfigValue guifg=#ffff00 ctermfg=226 gui=NONE cterm=NONE
+" zKey modifiers (^, ~, !, *) in zEnv/zUI files
+highlight! LspSemanticZrbacOptionKey ctermfg=98 guifg=#875fd7 cterm=NONE gui=NONE term=NONE
 
-" zPath values (bright cyan)
-highlight! LspSemanticZpathValue guifg=#00ffff ctermfg=51 gui=NONE cterm=NONE
+" z-prefixed root keys in zConfig.*.zolo files (e.g., zMachine)
+highlight! LspSemanticZconfigKey ctermfg=114 guifg=#87d787 cterm=NONE gui=NONE term=NONE
 
-" Escape sequences (bright orange)
-highlight! LspSemanticEscapeSequence guifg=#ff0000 ctermfg=196 gui=NONE cterm=NONE
+" User-editable nested keys under zMachine (preferences, limits)
+highlight! LspSemanticZmachineEditableKey ctermfg=33 guifg=#0087ff cterm=NONE gui=NONE term=NONE
 
-" Time strings (distinct from regular strings)
-highlight! LspSemanticTimeString guifg=#ffd7af ctermfg=223 gui=NONE cterm=NONE
+" Auto-detected locked nested keys under zMachine (hardware, system)
+highlight! LspSemanticZmachineLockedKey ctermfg=160 guifg=#d70000 cterm=NONE gui=NONE term=NONE
 
-" Timestamp strings (distinct from regular strings)
-highlight! LspSemanticTimestampString guifg=#ffd7af ctermfg=223 gui=NONE cterm=NONE
+" All nested keys under zSpark root in zSpark files
+highlight! LspSemanticZsparkNestedKey ctermfg=98 guifg=#875fd7 cterm=NONE gui=NONE term=NONE
 
-" Ratio strings (distinct from regular strings)
-highlight! LspSemanticRatioString guifg=#ffd7af ctermfg=223 gui=NONE cterm=NONE
+" zMode value (Terminal/zBifrost) in zSpark files - tomato red
+highlight! LspSemanticZsparkModeValue ctermfg=196 guifg=#ff0000 cterm=NONE gui=NONE term=NONE
+
+" zVaFile value (zUI.*) in zSpark files - dark green
+highlight! LspSemanticZsparkVaFileValue ctermfg=40 guifg=#00d700 cterm=NONE gui=NONE term=NONE
+
+" zBlock value in zSpark files - salmon orange
+highlight! LspSemanticZsparkSpecialValue ctermfg=216 guifg=#ffaf87 cterm=NONE gui=NONE term=NONE
+
+" Environment/config constants (PROD, DEBUG, INFO, etc.)
+highlight! LspSemanticEnvConfigValue ctermfg=226 guifg=#ffff00 cterm=NONE gui=NONE term=NONE
+
+" String values
+highlight! LspSemanticString ctermfg=230 guifg=#fffbcb cterm=NONE gui=NONE term=NONE
+
+" Version numbers (1.0.0, 2.1.3-beta)
+highlight! LspSemanticVersionString ctermfg=230 guifg=#fffbcb cterm=NONE gui=NONE term=NONE
+
+" Time values (14:30:00, 09:15:30)
+highlight! LspSemanticTimeString ctermfg=230 guifg=#fffbcb cterm=NONE gui=NONE term=NONE
+
+" Timestamp values (2024-01-06T14:30:00)
+highlight! LspSemanticTimestampString ctermfg=230 guifg=#fffbcb cterm=NONE gui=NONE term=NONE
+
+" Ratio values (16:9, 4:3, 21:9)
+highlight! LspSemanticRatioString ctermfg=230 guifg=#fffbcb cterm=NONE gui=NONE term=NONE
+
+" Numeric values (8080, 100, 3.14)
+highlight! LspSemanticNumber ctermfg=214 guifg=#FF8C00 cterm=NONE gui=NONE term=NONE
+
+" Escape sequences (\n, \t, \", \\, \uXXXX)
+highlight! LspSemanticEscapeSequence ctermfg=196 guifg=#ff0000 cterm=NONE gui=NONE term=NONE
+
+" Type hint text (int, bool, float, str)
+highlight! LspSemanticTypeHint ctermfg=141 guifg=#af87ff cterm=NONE gui=NONE term=NONE
+
+" Type hint parentheses ( )
+highlight! LspSemanticTypeHintParen ctermfg=227 guifg=#ffff5f cterm=NONE gui=NONE term=NONE
+
+" Array/list brackets [ ]
+highlight! LspSemanticBracketStructural ctermfg=159 guifg=#afffff cterm=NONE gui=NONE term=NONE
+
+" Object/dict braces { }
+highlight! LspSemanticBraceStructural ctermfg=165 guifg=#d700ff cterm=NONE gui=NONE term=NONE
+
+" Brackets [ ] inside string values
+highlight! LspSemanticStringBracket ctermfg=159 guifg=#afffff cterm=NONE gui=NONE term=NONE
+
+" Braces { } inside string values
+highlight! LspSemanticStringBrace ctermfg=165 guifg=#d700ff cterm=NONE gui=NONE term=NONE
+
+" Boolean values (true, false)
+highlight! LspSemanticBoolean ctermfg=33 guifg=#0087ff cterm=NONE gui=NONE term=NONE
+
+" Null values (null)
+highlight! LspSemanticNull ctermfg=33 guifg=#0087ff cterm=NONE gui=NONE term=NONE
+
+" zPath values (@.logs, ~.config) in zKernel files
+highlight! LspSemanticZpathValue ctermfg=51 guifg=#00ffff cterm=NONE gui=NONE term=NONE
+
+" Comments
+highlight! LspSemanticComment ctermfg=242 guifg=#6c6c6c cterm=italic gui=italic term=NONE
 
 " ═══════════════════════════════════════════════════════════════
-" Force LSP Semantic Highlights (override after filetype loads)
+" Color Palette Reference
 " ═══════════════════════════════════════════════════════════════
-augroup LspSemanticFix
-  autocmd!
-  autocmd FileType zolo highlight! LspSemanticRootKey ctermfg=216 guifg=#ffaf87 cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticNestedKey ctermfg=222 guifg=#ffd787 cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticString ctermfg=230 guifg=#fffbcb cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticVersionString ctermfg=230 guifg=#fffbcb cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticNumber ctermfg=214 guifg=#FF8C00 cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticTypeHint ctermfg=81 guifg=#5fd7ff cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticBoolean ctermfg=33 guifg=#0087ff cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticComment ctermfg=242 guifg=#6c6c6c cterm=italic gui=italic term=NONE
-  autocmd FileType zolo highlight! LspSemanticBracketStructural ctermfg=225 guifg=#ffd7ff cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo syntax match zoloTypeHintParen /[()]/ containedin=zoloTypeHint contained
-  autocmd FileType zolo highlight! zoloTypeHintParen ctermfg=227 guifg=#ffff5f cterm=NONE gui=NONE term=NONE
-  " zKernel-specific tokens
-  autocmd FileType zolo highlight! LspSemanticZsparkKey ctermfg=114 guifg=#87d787 cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticZconfigKey ctermfg=114 guifg=#87d787 cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticZmachineEditableKey ctermfg=33 guifg=#0087ff cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticZmachineLockedKey ctermfg=160 guifg=#d70000 cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticZsparkNestedKey ctermfg=98 guifg=#875fd7 cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticZsparkModeValue ctermfg=196 guifg=#ff0000 cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticZsparkVaFileValue ctermfg=40 guifg=#00d700 cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticZsparkSpecialValue ctermfg=216 guifg=#ffaf87 cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticEnvConfigValue ctermfg=226 guifg=#ffff00 cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticZpathValue ctermfg=51 guifg=#00ffff cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticEscapeSequence ctermfg=196 guifg=#ff0000 cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticTimeString ctermfg=223 guifg=#ffd7af cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticTimestampString ctermfg=223 guifg=#ffd7af cterm=NONE gui=NONE term=NONE
-  autocmd FileType zolo highlight! LspSemanticRatioString ctermfg=223 guifg=#ffd7af cterm=NONE gui=NONE term=NONE
-augroup END
+" 216 - #ffaf87 - Salmon Orange        Warm orange for hierarchy markers
+" 222 - #ffd787 - Golden Yellow        Golden yellow for nested elements
+" 230 - #fffbcb - Light Cream          Soft cream for text content
+" 214 - #FF8C00 - Dark Orange          Vibrant orange for numeric values
+" 141 - #af87ff - Light Purple         Light purple for type information
+" 227 - #ffff5f - Soft Yellow          Soft yellow for structural elements
+" 159 - #afffff - Light Cyan           Light cyan for brackets and dashes
+"  33 - #0087ff - Deep Blue            Deep blue for boolean values
+"  20 - #0000d7 - Test Blue            Test color for ZNAVBAR nested keys
+" 208 - #ff8700 - Dark Orange          Dark orange for ZNAVBAR nested keys
+" 242 - #6c6c6c - Gray                 Muted gray for comments
+" 165 - #d700ff - Magenta              Bright magenta for object braces
+" 196 - #ff0000 - Bright Red           Bright red for escape sequences
+" 160 - #d70000 - Dark Red             Dark red for locked/restricted items
+" 114 - #87d787 - Light Green          Light green for zSpark root key
+"  98 - #875fd7 - Purple               Purple for zPath values
+"  40 - #00d700 - Dark Green           Dark green for zSpark special keys
+"  99 - #875fff - Light Purple         Light purple for zSpark special values
+"  51 - #00ffff - Bright Cyan          Bright cyan for zPath values
+" 226 - #ffff00 - Bright Yellow        Bright yellow for environment/config constants
+" ═══════════════════════════════════════════════════════════════
