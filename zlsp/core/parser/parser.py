@@ -1006,9 +1006,9 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     # Special handling for zMeta and component name in zUI files
                     if emitter.is_zui_file and (core_key == 'zMeta' or core_key == emitter.zui_component_name):
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZMETA_KEY)
-                    # Special handling for zSpark key and component name in zSpark files (GREEN)
-                    elif emitter.is_zspark_file and (core_key == 'zSpark' or core_key == emitter.zspark_component_name):
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZCONFIG_KEY)
+                    # Special handling for zSpark root key in zSpark files (LIGHT GREEN - ANSI 114)
+                    elif emitter.is_zspark_file and core_key == 'zSpark':
+                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSPARK_KEY)
                     # Special handling for uppercase Z-prefixed config keys in zEnv files (GREEN)
                     elif emitter.is_zenv_file and core_key.isupper() and core_key.startswith('Z'):
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZCONFIG_KEY)
@@ -1258,9 +1258,9 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     # Special handling for zMeta and component name in zUI files
                     if emitter.is_zui_file and (core_key == 'zMeta' or core_key == emitter.zui_component_name):
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZMETA_KEY)
-                    # Special handling for zSpark key and component name in zSpark files (GREEN)
-                    elif emitter.is_zspark_file and (core_key == 'zSpark' or core_key == emitter.zspark_component_name):
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZCONFIG_KEY)
+                    # Special handling for zSpark root key in zSpark files (LIGHT GREEN - ANSI 114)
+                    elif emitter.is_zspark_file and core_key == 'zSpark':
+                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSPARK_KEY)
                     # Special handling for uppercase Z-prefixed config keys in zEnv files (GREEN)
                     elif emitter.is_zenv_file and core_key.isupper() and core_key.startswith('Z'):
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZCONFIG_KEY)
@@ -2329,7 +2329,9 @@ def _emit_value_tokens(value: str, line: int, start_pos: int, emitter: TokenEmit
         return
     
     # zPath (@ or ~ followed by dot-separated path)
-    if _is_zpath_value(value):
+    # ONLY in zKernel files (zUI, zSpark, zEnv, zConfig) - string-first for regular .zolo
+    is_zkernel_file = emitter.is_zui_file or emitter.is_zspark_file or emitter.is_zenv_file or emitter.is_zconfig_file
+    if is_zkernel_file and _is_zpath_value(value):
         emitter.emit_zpath_tokens(value, line, start_pos)
         return
     

@@ -241,6 +241,13 @@ hex_color: #FF5733
 hex_color2: #fffbcf
 hashtag: #python
 url_anchor: https://example.com#section
+
+# zPath-like syntax (Phase 4.6e) - Treated as STRINGS in regular .zolo files
+# Only in zKernel files (zUI, zSpark, etc.) are these special zPath tokens
+at_path: @.logs
+at_nested: @.UI.zProducts.zTheme
+tilde_path: ~.config.settings
+tilde_nested: ~.data.users.profile
 glob_pattern: /var/log/*/error.log
 
 # Commas in values (Phase 4.6g)

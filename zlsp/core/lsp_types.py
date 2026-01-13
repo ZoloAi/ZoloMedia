@@ -18,6 +18,7 @@ class TokenType(Enum):
     BIFROST_KEY = "bifrostKey"  # Underscore-prefixed keys: _zClass, etc.
     UI_ELEMENT_KEY = "uiElementKey"  # z-prefixed UI keys: zImage, zNavBar, zUL, zSub, etc.
     ZCONFIG_KEY = "zconfigKey"  # Uppercase Z-prefixed config keys in zEnv files: ZNAVBAR, ZDATA_*, etc.
+    ZSPARK_KEY = "zsparkKey"  # zSpark root key in zSpark.*.zolo files (light green)
     ZRBAC_KEY = "zrbacKey"  # zRBAC access control metadata key (tomato color)
     ZRBAC_OPTION_KEY = "zrbacOptionKey"  # zRBAC nested option keys: zGuest, authenticated, require_role, etc. (purple)
     ZMACHINE_EDITABLE_KEY = "zmachineEditableKey"  # Editable zMachine section keys (blue/cyan - INFO)

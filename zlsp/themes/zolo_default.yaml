@@ -94,6 +94,20 @@ palette:
     ansi: 196
     rgb: [255, 0, 0]
     description: "Bright red for escape sequences"
+  
+  light_green:
+    name: "Light Green"
+    hex: "#87d787"
+    ansi: 114
+    rgb: [135, 215, 135]
+    description: "Light green for zSpark root key"
+  
+  dark_gray:
+    name: "Purple"
+    hex: "#875fd7"
+    ansi: 98
+    rgb: [135, 95, 215]
+    description: "Purple for zPath values"
 
 # ═══════════════════════════════════════════════════════════════
 # Semantic Token Styles
@@ -112,6 +126,12 @@ tokens:
     color: golden_yellow
     style: none
     description: "Nested keys (host, port, ssl)"
+  
+  # zKernel-specific keys
+  zsparkKey:
+    color: light_green
+    style: none
+    description: "zSpark root key in zSpark.*.zolo files"
   
   # Values
   string:
@@ -153,6 +173,11 @@ tokens:
     color: deep_blue
     style: none
     description: "Null values (null)"
+  
+  zpathValue:
+    color: dark_gray
+    style: none
+    description: "zPath values (@.logs, ~.config) in zKernel files"
   
   escapeSequence:
     color: bright_orange

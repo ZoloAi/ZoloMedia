@@ -87,6 +87,7 @@ class VimGenerator(BaseGenerator):
         token_mapping = {
             'rootKey': 'LspSemanticRootKey',
             'nestedKey': 'LspSemanticNestedKey',
+            'zsparkKey': 'LspSemanticZsparkKey',
             'string': 'LspSemanticString',
             'versionString': 'LspSemanticVersionString',
             'timeString': 'LspSemanticTimeString',
@@ -102,6 +103,7 @@ class VimGenerator(BaseGenerator):
             'stringBrace': 'LspSemanticStringBrace',
             'boolean': 'LspSemanticBoolean',
             'null': 'LspSemanticNull',
+            'zpathValue': 'LspSemanticZpathValue',
             'comment': 'LspSemanticComment',
         }
         
