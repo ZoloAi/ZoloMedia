@@ -88,6 +88,8 @@ class VimGenerator(BaseGenerator):
             'rootKey': 'LspSemanticRootKey',
             'nestedKey': 'LspSemanticNestedKey',
             'zmetaKey': 'LspSemanticZmetaKey',
+            'zkernelDataKey': 'LspSemanticZkernelDataKey',
+            'zschemaPropertyKey': 'LspSemanticZschemaPropertyKey',
             'bifrostKey': 'LspSemanticBifrostKey',
             'uiElementKey': 'LspSemanticUiElementKey',
             'zsparkKey': 'LspSemanticZsparkKey',

@@ -1,0 +1,122 @@
+zMeta:
+  Data_Type: csv
+  Data_Label: zCloud Users
+  Data_Source: ZDATA_USERS_URL
+  Schema_Name: zSchema.users
+
+  # Enable migrations (Phase 0 implementation)
+  zMigration: true
+  zMigrationVersion: v1.4.0  #> Phase 2.1: Added cover_url and media timestamp fields <#
+
+users:
+  id:
+    type: int
+    pk: true
+    auto_increment: true
+
+  email:
+    type: str
+    required: true
+    unique: true
+    rules:
+      format: email
+      min_length: 5
+      max_length: 255
+
+  password:
+    type: str
+    required: true
+    zHash: bcrypt
+    rules:
+      min_length: 8
+      max_length: 255
+
+  name:
+    type: str
+    required: true
+    rules:
+      min_length: 2
+      max_length: 100
+
+  company:
+    type: str
+    required: false
+    default: ""
+    rules:
+      max_length: 100
+    comment: Company or organization name
+
+  avatar_url:
+    type: str
+    required: false
+    rules:
+      max_length: 512
+    comment: Storage key for avatar (references user_files.storage_key)
+
+  avatar_updated_at:
+    type: datetime
+    required: false
+    comment: Timestamp of last avatar update
+
+  cover_url:
+    type: str
+    required: false
+    rules:
+      max_length: 512
+    comment: Storage key for cover image (references user_files.storage_key)
+
+  cover_updated_at:
+    type: datetime
+    required: false
+    comment: Timestamp of last cover image update
+
+  phone:
+    type: str
+    required: false
+    rules:
+      pattern: ^\+?[\d\s\-\(\)]+$
+      min_length: 10
+      max_length: 20
+
+  status:
+    type: str
+    default: active
+    rules:
+      pattern: ^(active|suspended|pending)$
+
+  created_at:
+    type: datetime
+    default: now
+
+  updated_at:
+    type: datetime
+    default: now
+
+  # Storage management fields (Phase 1.5)
+  storage_quota:
+    type: int
+    default: 1073741824  # 1GB for developers (1024^3)
+    rules:
+      min: 0
+    comment: Storage quota in bytes (default 1GB)
+
+  storage_used:
+    type: int
+    default: 0
+    rules:
+      min: 0
+    comment: Current storage usage in bytes
+
+  storage_backend:
+    type: str
+    default: local
+    rules:
+      pattern: ^(local|lfs|s3|azure)$
+    comment: Storage backend type (future: LFS, S3, Azure)
+
+  storage_path:
+    type: str
+    required: false
+    rules:
+      max_length: 255
+    comment: Sharded storage path (e.g., '00/01/2345' for user 12345)

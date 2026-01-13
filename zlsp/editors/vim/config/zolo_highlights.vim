@@ -21,8 +21,14 @@ highlight! LspSemanticRootKey ctermfg=216 guifg=#ffaf87 cterm=NONE gui=NONE term
 " Nested keys (host, port, ssl)
 highlight! LspSemanticNestedKey ctermfg=222 guifg=#ffd787 cterm=NONE gui=NONE term=NONE
 
-" zMeta and component name in zUI.*.zolo files (e.g., zMeta, zVaF)
+" zMeta in zUI/zSchema files, zVaF and component name in zUI files (Zolo convention root keys)
 highlight! LspSemanticZmetaKey ctermfg=114 guifg=#87d787 cterm=NONE gui=NONE term=NONE
+
+" zKernel zData keys under zMeta in zSchema.*.zolo files (Data_Type, Data_Label, Data_Source, Schema_Name, zMigration, zMigrationVersion)
+highlight! LspSemanticZkernelDataKey ctermfg=98 guifg=#875fd7 cterm=NONE gui=NONE term=NONE
+
+" Field property keys in zSchema.*.zolo files (type, pk, auto_increment, unique, required, default, rules, zHash, comment, format, min_length, max_length, pattern, min, max)
+highlight! LspSemanticZschemaPropertyKey ctermfg=98 guifg=#875fd7 cterm=NONE gui=NONE term=NONE
 
 " Bifrost underscore keys (_zClass, _zId) in zUI.*.zolo files
 highlight! LspSemanticBifrostKey ctermfg=51 guifg=#00ffff cterm=NONE gui=NONE term=NONE

@@ -51,6 +51,7 @@ class TokenEmitter:
         self.is_zenv_file = filename and Path(filename).name.startswith('zEnv.') if filename else False
         self.is_zspark_file = filename and Path(filename).name.startswith('zSpark.') if filename else False
         self.is_zconfig_file = filename and Path(filename).name.startswith('zConfig.') if filename else False
+        self.is_zschema_file = filename and Path(filename).name.startswith('zSchema.') if filename else False
         
         # Extract component name from zUI files (e.g., "zVaF" from "zUI.zVaF.zolo")
         self.zui_component_name = None
@@ -100,6 +101,9 @@ class TokenEmitter:
         
         # Track ZNAVBAR blocks in zEnv files to color first-level nested keys (not grandchildren)
         self.znavbar_blocks: List[Tuple[int, int]] = []  # [(indent_level, line_number), ...]
+        
+        # Track zMeta blocks in zSchema files to color zKernel zData keys (Data_Type, zMigration, etc.)
+        self.zmeta_blocks: List[Tuple[int, int]] = []  # [(indent_level, line_number), ...]
     
     def add_comment_range(self, start_line: int, start_col: int, end_line: int, end_col: int):
         """Track a comment range to avoid overlapping tokens."""
@@ -261,6 +265,31 @@ class TokenEmitter:
         # First-level should be EXACTLY 2 spaces deeper than ZNAVBAR (standard indent)
         # This prevents grandchildren (4+ spaces) from being colored
         return current_indent == znavbar_indent + 2
+    
+    def enter_zmeta_block(self, indent: int, line: int):
+        """Mark that we're entering a zMeta block at the given indentation level."""
+        # Clear any previous zMeta blocks (there can only be one active zMeta section)
+        self.zmeta_blocks = [(indent, line)]
+    
+    def update_zmeta_blocks(self, current_indent: int, current_line: int):
+        """Update zMeta block tracking based on current indentation level.
+        Exit blocks that have lower or equal indentation than current."""
+        # Remove blocks with indent >= current_indent (we've exited them)
+        # Special case: if current_indent is 0 (root level), clear all zMeta blocks
+        if current_indent == 0:
+            self.zmeta_blocks = []
+        else:
+            self.zmeta_blocks = [(indent, line) for indent, line in self.zmeta_blocks if indent < current_indent]
+    
+    def is_inside_zmeta(self, current_indent: int) -> bool:
+        """Check if we're at the first nesting level under zMeta (not deeper).
+        Returns True only if current_indent is exactly one level deeper than zMeta indent."""
+        if not self.zmeta_blocks:
+            return False
+        # Get the most recent zMeta block indent
+        zmeta_indent = self.zmeta_blocks[-1][0]
+        # First-level should be EXACTLY 2 spaces deeper than zMeta (standard indent)
+        return current_indent == zmeta_indent + 2
     
     def split_modifiers(self, key: str) -> tuple:
         """Split key into prefix modifiers, core name, and suffix modifiers.
@@ -1022,8 +1051,9 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                 
                 # Emit root or nested key token
                 if indent == 0:
-                    # Clear ZNAVBAR block tracking when we encounter a new root-level key
+                    # Clear ZNAVBAR and zMeta block tracking when we encounter a new root-level key
                     emitter.znavbar_blocks = []
+                    emitter.zmeta_blocks = []
                     
                     # Split modifiers from clean_key (key without type hint)
                     prefix_mods, core_key, suffix_mods = emitter.split_modifiers(clean_key)
@@ -1037,8 +1067,13 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     
                     # Determine token type for core key and emit
                     # Special handling for zMeta, zVaF, and component name in zUI files
-                    if emitter.is_zui_file and (core_key == 'zMeta' or core_key == 'zVaF' or core_key == emitter.zui_component_name):
+                    # Special handling for zMeta in zSchema files
+                    if (emitter.is_zui_file and (core_key == 'zMeta' or core_key == 'zVaF' or core_key == emitter.zui_component_name)) or \
+                       (emitter.is_zschema_file and core_key == 'zMeta'):
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZMETA_KEY)
+                        # If this is zMeta in a zSchema file, enter the block for zKernel data key tracking
+                        if emitter.is_zschema_file and core_key == 'zMeta':
+                            emitter.enter_zmeta_block(indent, original_line_num)
                     # Special handling for zSpark root key in zSpark files (LIGHT GREEN - ANSI 114)
                     elif emitter.is_zspark_file and core_key == 'zSpark':
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSPARK_KEY)
@@ -1107,6 +1142,7 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     emitter.update_header_blocks(indent, original_line_num)
                     emitter.update_zmachine_blocks(indent, original_line_num)
                     emitter.update_znavbar_blocks(indent, original_line_num)
+                    emitter.update_zmeta_blocks(indent, original_line_num)
                     
                     # Split modifiers from clean_key (key without type hint)
                     prefix_mods, core_key, suffix_mods = emitter.split_modifiers(clean_key)
@@ -1136,6 +1172,22 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     elif emitter.is_znavbar_first_level(indent) and emitter.is_zenv_file:
                         # First-level nested keys under ZNAVBAR (not grandchildren)
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZNAVBAR_NESTED_KEY)
+                    # Check for zKernel zData keys under zMeta in zSchema files (PURPLE 98)
+                    elif emitter.is_inside_zmeta(indent) and emitter.is_zschema_file:
+                        ZKERNEL_DATA_KEYS = {'Data_Type', 'Data_Label', 'Data_Source', 'Schema_Name', 'zMigration', 'zMigrationVersion'}
+                        if core_key in ZKERNEL_DATA_KEYS:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZKERNEL_DATA_KEY)
+                        else:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
+                    # Check for zSchema property keys (field properties and validation rules) - PURPLE 98
+                    elif emitter.is_zschema_file and indent >= 4:
+                        # Field-level properties (type, pk, unique, etc.) and validation properties (format, min_length, etc.)
+                        ZSCHEMA_FIELD_PROPERTIES = {'type', 'pk', 'auto_increment', 'unique', 'required', 'default', 'rules', 'zHash', 'comment'}
+                        ZSCHEMA_VALIDATION_PROPERTIES = {'format', 'min_length', 'max_length', 'pattern', 'min', 'max'}
+                        if core_key in ZSCHEMA_FIELD_PROPERTIES or core_key in ZSCHEMA_VALIDATION_PROPERTIES:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSCHEMA_PROPERTY_KEY)
+                        else:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
                     # Check for zRBAC option keys (PURPLE in zUI and zEnv files only)
                     elif emitter.is_in_zrbac_block(indent) and (emitter.is_zui_file or emitter.is_zenv_file):
                         ZRBAC_OPTIONS = {'zGuest', 'authenticated', 'require_role', 'require_auth', 'require_permission'}
@@ -1293,8 +1345,9 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
             else:
                 # No type hint
                 if indent == 0:
-                    # Clear ZNAVBAR block tracking when we encounter a new root-level key
+                    # Clear ZNAVBAR and zMeta block tracking when we encounter a new root-level key
                     emitter.znavbar_blocks = []
+                    emitter.zmeta_blocks = []
                     
                     # Split modifiers from key name
                     prefix_mods, core_key, suffix_mods = emitter.split_modifiers(key)
@@ -1308,8 +1361,13 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     
                     # Determine token type for core key and emit
                     # Special handling for zMeta, zVaF, and component name in zUI files
-                    if emitter.is_zui_file and (core_key == 'zMeta' or core_key == 'zVaF' or core_key == emitter.zui_component_name):
+                    # Special handling for zMeta in zSchema files
+                    if (emitter.is_zui_file and (core_key == 'zMeta' or core_key == 'zVaF' or core_key == emitter.zui_component_name)) or \
+                       (emitter.is_zschema_file and core_key == 'zMeta'):
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZMETA_KEY)
+                        # If this is zMeta in a zSchema file, enter the block for zKernel data key tracking
+                        if emitter.is_zschema_file and core_key == 'zMeta':
+                            emitter.enter_zmeta_block(indent, original_line_num)
                     # Special handling for zSpark root key in zSpark files (LIGHT GREEN - ANSI 114)
                     elif emitter.is_zspark_file and core_key == 'zSpark':
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSPARK_KEY)
@@ -1378,6 +1436,7 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     emitter.update_header_blocks(indent, original_line_num)
                     emitter.update_zmachine_blocks(indent, original_line_num)
                     emitter.update_znavbar_blocks(indent, original_line_num)
+                    emitter.update_zmeta_blocks(indent, original_line_num)
                     emitter.update_plural_shorthand_blocks(indent, original_line_num)
                     
                     # Split modifiers from key name
@@ -1408,6 +1467,22 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     elif emitter.is_znavbar_first_level(indent) and emitter.is_zenv_file:
                         # First-level nested keys under ZNAVBAR (not grandchildren)
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZNAVBAR_NESTED_KEY)
+                    # Check for zKernel zData keys under zMeta in zSchema files (PURPLE 98)
+                    elif emitter.is_inside_zmeta(indent) and emitter.is_zschema_file:
+                        ZKERNEL_DATA_KEYS = {'Data_Type', 'Data_Label', 'Data_Source', 'Schema_Name', 'zMigration', 'zMigrationVersion'}
+                        if core_key in ZKERNEL_DATA_KEYS:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZKERNEL_DATA_KEY)
+                        else:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
+                    # Check for zSchema property keys (field properties and validation rules) - PURPLE 98
+                    elif emitter.is_zschema_file and indent >= 4:
+                        # Field-level properties (type, pk, unique, etc.) and validation properties (format, min_length, etc.)
+                        ZSCHEMA_FIELD_PROPERTIES = {'type', 'pk', 'auto_increment', 'unique', 'required', 'default', 'rules', 'zHash', 'comment'}
+                        ZSCHEMA_VALIDATION_PROPERTIES = {'format', 'min_length', 'max_length', 'pattern', 'min', 'max'}
+                        if core_key in ZSCHEMA_FIELD_PROPERTIES or core_key in ZSCHEMA_VALIDATION_PROPERTIES:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSCHEMA_PROPERTY_KEY)
+                        else:
+                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
                     # Check for zRBAC option keys (PURPLE in zUI and zEnv files only)
                     elif emitter.is_in_zrbac_block(indent) and (emitter.is_zui_file or emitter.is_zenv_file):
                         ZRBAC_OPTIONS = {'zGuest', 'authenticated', 'require_role', 'require_auth', 'require_permission'}

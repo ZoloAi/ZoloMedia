@@ -187,7 +187,17 @@ tokens:
   zmetaKey:
     color: light_green
     style: none
-    description: "zMeta, zVaF, and component name in zUI.*.zolo files (Zolo convention root keys)"
+    description: "zMeta in zUI/zSchema files, zVaF and component name in zUI files (Zolo convention root keys)"
+  
+  zkernelDataKey:
+    color: dark_gray
+    style: none
+    description: "zKernel zData keys under zMeta in zSchema.*.zolo files (Data_Type, Data_Label, Data_Source, Schema_Name, zMigration, zMigrationVersion)"
+  
+  zschemaPropertyKey:
+    color: dark_gray
+    style: none
+    description: "Field property keys in zSchema.*.zolo files (type, pk, auto_increment, unique, required, default, rules, zHash, comment, format, min_length, max_length, pattern, min, max)"
   
   bifrostKey:
     color: dark_cyan

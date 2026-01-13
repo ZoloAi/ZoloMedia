@@ -15,6 +15,8 @@ class TokenType(Enum):
     ROOT_KEY = "rootKey"
     NESTED_KEY = "nestedKey"
     ZMETA_KEY = "zmetaKey"  # Special key for zMeta in zUI files
+    ZKERNEL_DATA_KEY = "zkernelDataKey"  # zKernel zData keys under zMeta in zSchema.*.zolo files (purple 98)
+    ZSCHEMA_PROPERTY_KEY = "zschemaPropertyKey"  # Field property keys in zSchema files (type, pk, rules, etc.) - purple 98
     BIFROST_KEY = "bifrostKey"  # Underscore-prefixed keys: _zClass, etc.
     UI_ELEMENT_KEY = "uiElementKey"  # z-prefixed UI keys: zImage, zNavBar, zUL, zSub, etc.
     ZCONFIG_KEY = "zconfigKey"  # z-prefixed root keys in zConfig.*.zolo files (e.g., zMachine) - light green
