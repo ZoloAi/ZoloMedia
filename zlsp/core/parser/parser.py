@@ -3170,7 +3170,7 @@ def _is_env_config_value(value: str) -> bool:
     # Whitelist of common ALL-CAPS environment/config constants
     ENV_CONSTANTS = {
         # Log levels
-        'PROD', 'DEBUG', 'INFO', 'WARN', 'WARNING', 'ERROR', 'TRACE', 'FATAL',
+        'PROD', 'DEBUG', 'SESSION', 'INFO', 'WARN', 'WARNING', 'ERROR', 'CRITICAL', 'TRACE', 'FATAL',
         # Environments
         'DEV', 'DEVELOPMENT', 'STAGING', 'PRODUCTION', 'TEST', 'LOCAL',
         # States
