@@ -64,7 +64,7 @@ def get_hover_info(content: str, line: int, character: int) -> Optional[str]:
         return None
     
     # Get hover info based on token type
-    if token.token_type == TokenType.TYPE_HINT:
+    if token.token_type in (TokenType.TYPE_HINT, TokenType.TYPE_HINT_PAREN):
         return _get_type_hint_hover(token, content)
     
     elif token.token_type in (TokenType.ROOT_KEY, TokenType.NESTED_KEY):

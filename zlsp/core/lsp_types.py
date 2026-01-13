@@ -23,6 +23,7 @@ class TokenType(Enum):
     ZMACHINE_EDITABLE_KEY = "zmachineEditableKey"  # Editable zMachine section keys (blue/cyan - INFO)
     ZMACHINE_LOCKED_KEY = "zmachineLockedKey"  # Auto-detected zMachine section keys (red/orange - ERROR)
     TYPE_HINT = "typeHint"
+    TYPE_HINT_PAREN = "typeHintParen"
     NUMBER = "number"
     STRING = "string"
     BOOLEAN = "boolean"

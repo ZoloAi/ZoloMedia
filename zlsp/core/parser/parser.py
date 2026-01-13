@@ -1622,7 +1622,7 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                         'line_number': original_line_num,
                         'is_multiline': True,
                         'multiline_type': 'dash_list'  # Mark as dash list for type detection
-                    })
+                })
                     i += lines_consumed + 1
                     line_number += lines_consumed + 1
                 else:
@@ -2326,7 +2326,7 @@ def _emit_value_tokens(value: str, line: int, start_pos: int, emitter: TokenEmit
         elif hint_lower == 'bool':
             # Force boolean token
             emitter.emit(line, start_pos, len(value), TokenType.BOOLEAN)
-            return
+        return
     
     # zPath (@ or ~ followed by dot-separated path)
     if _is_zpath_value(value):
@@ -2395,7 +2395,8 @@ def _emit_value_tokens(value: str, line: int, start_pos: int, emitter: TokenEmit
 def _emit_string_with_escapes(value: str, line: int, start_pos: int, emitter: TokenEmitter):
     """
     Emit string token with escape sequence tokens.
-    Also emits individual tokens for brackets/braces to prevent TextMate from coloring them as structural.
+    String-first philosophy: Only escape sequences get special highlighting.
+    Brackets/braces inside strings are just regular string characters.
     """
     pos = 0
     last_emit = 0
@@ -2425,19 +2426,6 @@ def _emit_string_with_escapes(value: str, line: int, start_pos: int, emitter: To
                 # DON'T emit anything, just skip the backslash
                 # The backslash and next char will be included in the final STRING token
                 pos += 1  # Only skip the backslash, next char will be part of string
-        # Handle brackets/braces - emit them individually with specific types
-        elif value[pos] in '[]{}':
-            # Emit string before bracket/brace
-            if pos > last_emit:
-                emitter.emit(line, start_pos + last_emit, pos - last_emit, TokenType.STRING)
-            
-            # Emit the bracket/brace with a specific token type to override VSCode's bracket matcher
-            if value[pos] in '[]':
-                emitter.emit(line, start_pos + pos, 1, TokenType.STRING_BRACKET)
-            else:  # '{' or '}'
-                emitter.emit(line, start_pos + pos, 1, TokenType.STRING_BRACE)
-            pos += 1
-            last_emit = pos
         else:
             pos += 1
     
@@ -2553,7 +2541,7 @@ def _emit_object_tokens(value: str, line: int, start_pos: int, emitter: TokenEmi
                     
                     # Emit opening paren
                     paren_pos = key_pos + len(clean_key)
-                    emitter.emit(line, paren_pos, 1, TokenType.TYPE_HINT)
+                    emitter.emit(line, paren_pos, 1, TokenType.TYPE_HINT_PAREN)
                     
                     # Emit type hint text
                     type_pos = paren_pos + 1
@@ -2561,7 +2549,7 @@ def _emit_object_tokens(value: str, line: int, start_pos: int, emitter: TokenEmi
                     
                     # Emit closing paren
                     close_paren_pos = type_pos + len(type_hint_text)
-                    emitter.emit(line, close_paren_pos, 1, TokenType.TYPE_HINT)
+                    emitter.emit(line, close_paren_pos, 1, TokenType.TYPE_HINT_PAREN)
                 else:
                     # No type hint - emit key as single token
                     emitter.emit(line, key_pos, len(key), TokenType.NESTED_KEY)

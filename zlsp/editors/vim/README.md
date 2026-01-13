@@ -171,7 +171,7 @@ Then run `:PlugInstall` and restart Vim.
 ### Installation failed?
 
 Make sure `zlsp` is installed:
-```bash
+   ```bash
 pip install zlsp
 which zolo-lsp  # Should show path
 ```
@@ -182,7 +182,7 @@ which zolo-lsp  # Should show path
 
 If you prefer not to use `zlsp-vim-install`, you can manually copy files from `zlsp/editors/vim/config/` to `~/.vim/`:
 
-```bash
+   ```bash
 cp -r zlsp/editors/vim/config/* ~/.vim/
 ```
 

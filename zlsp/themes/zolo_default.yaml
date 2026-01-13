@@ -47,11 +47,11 @@ palette:
     description: "Vibrant orange for numeric values"
   
   cyan:
-    name: "Cyan"
-    hex: "#5fd7ff"
-    ansi: 81
-    rgb: [95, 215, 255]
-    description: "Bright cyan for type information"
+    name: "Light Purple"
+    hex: "#af87ff"
+    ansi: 141
+    rgb: [175, 135, 255]
+    description: "Light purple for type information"
   
   soft_yellow:
     name: "Soft Yellow"
@@ -61,11 +61,11 @@ palette:
     description: "Soft yellow for structural elements"
   
   light_pink:
-    name: "Dark Red"
-    hex: "#d70000"
-    ansi: 160
-    rgb: [215, 0, 0]
-    description: "Dark red for brackets and dashes"
+    name: "Light Cyan"
+    hex: "#afffff"
+    ansi: 159
+    rgb: [175, 255, 255]
+    description: "Light cyan for brackets and dashes"
   
   deep_blue:
     name: "Deep Blue"
@@ -87,6 +87,13 @@ palette:
     ansi: 165
     rgb: [215, 0, 255]
     description: "Bright magenta for object braces"
+  
+  bright_orange:
+    name: "Bright Red"
+    hex: "#ff0000"
+    ansi: 196
+    rgb: [255, 0, 0]
+    description: "Bright red for escape sequences"
 
 # ═══════════════════════════════════════════════════════════════
 # Semantic Token Styles
@@ -117,6 +124,21 @@ tokens:
     style: none
     description: "Version numbers (1.0.0, 2.1.3-beta)"
   
+  timeString:
+    color: light_cream
+    style: none
+    description: "Time values (14:30:00, 09:15:30)"
+  
+  timestampString:
+    color: light_cream
+    style: none
+    description: "Timestamp values (2024-01-06T14:30:00)"
+  
+  ratioString:
+    color: light_cream
+    style: none
+    description: "Ratio values (16:9, 4:3, 21:9)"
+  
   number:
     color: dark_orange
     style: none
@@ -131,6 +153,11 @@ tokens:
     color: deep_blue
     style: none
     description: "Null values (null)"
+  
+  escapeSequence:
+    color: bright_orange
+    style: none
+    description: "Escape sequences (\\n, \\t, \\\", \\\\, \\uXXXX)"
   
   # Type hints
   typeHint:
@@ -153,6 +180,16 @@ tokens:
     color: magenta
     style: none
     description: "Object/dict braces { }"
+  
+  stringBracket:
+    color: light_pink
+    style: none
+    description: "Brackets [ ] inside string values"
+  
+  stringBrace:
+    color: magenta
+    style: none
+    description: "Braces { } inside string values"
   
   # Comments
   comment:

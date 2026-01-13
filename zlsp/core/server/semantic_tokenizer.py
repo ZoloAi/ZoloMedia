@@ -38,6 +38,7 @@ TOKEN_TYPE_MAP = {
     TokenType.ZPATH_VALUE: 25,
     TokenType.ZMACHINE_EDITABLE_KEY: 26,
     TokenType.ZMACHINE_LOCKED_KEY: 27,
+    TokenType.TYPE_HINT_PAREN: 28,
 }
 
 # Token type legend for LSP (must be registered with client)
@@ -70,6 +71,7 @@ TOKEN_TYPES_LEGEND = [
     "zpathValue",
     "zmachineEditableKey",
     "zmachineLockedKey",
+    "typeHintParen",
 ]
 
 TOKEN_MODIFIERS_LEGEND = []  # No modifiers yet
