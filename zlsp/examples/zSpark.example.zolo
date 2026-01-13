@@ -1,5 +1,6 @@
 zSpark:
   title: zCloud
+  deployment: Development
   logger: PROD
   logger_path: @.logs
   zMode: Terminal

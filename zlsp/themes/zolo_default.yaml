@@ -95,6 +95,13 @@ palette:
     rgb: [255, 0, 0]
     description: "Bright red for escape sequences"
   
+  dark_red:
+    name: "Dark Red"
+    hex: "#d70000"
+    ansi: 160
+    rgb: [215, 0, 0]
+    description: "Dark red for locked/restricted items"
+  
   light_green:
     name: "Light Green"
     hex: "#87d787"
@@ -160,6 +167,21 @@ tokens:
     color: light_green
     style: none
     description: "zSpark root key in zSpark.*.zolo files"
+  
+  zconfigKey:
+    color: light_green
+    style: none
+    description: "z-prefixed root keys in zConfig.*.zolo files (e.g., zMachine)"
+  
+  zmachineEditableKey:
+    color: deep_blue
+    style: none
+    description: "User-editable nested keys under zMachine (preferences, limits)"
+  
+  zmachineLockedKey:
+    color: dark_red
+    style: none
+    description: "Auto-detected locked nested keys under zMachine (hardware, system)"
   
   zsparkNestedKey:
     color: dark_gray

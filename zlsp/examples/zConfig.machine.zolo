@@ -1,0 +1,92 @@
+zMachine:
+  machine_identity:
+    os: Darwin
+    os_version: 24.5.0
+    os_name: macOS-15.5-arm64-arm-64bit
+    hostname: Gals-iMac.local
+    architecture: arm64
+
+  python_runtime:
+    version: 3.12.4
+    implementation: CPython
+    build: v3.12.4:8e8a4baf65
+    compiler: Clang 13.0.0 (clang-1300.0.29.30)
+    libc_ver: ''
+    executable: /Library/Frameworks/Python.framework/Versions/3.12/bin/python3
+
+  user_preferences:
+    browser: Chrome
+    ide: code
+    image_viewer: Preview
+    video_player: QuickTime Player
+    audio_player: Music
+    terminal: dumb
+    shell: /bin/zsh
+    lang: unknown
+    timezone: system
+
+  time_date_formatting:
+    time_format: HH:MM:SS
+    date_format: ddmmyyyy
+    datetime_format: ddmmyyyy HH:MM:SS
+
+  user_paths:
+    home: /Users/galnachshon
+    cwd: /Users/galnachshon/Projects/Zolo
+    username: galnachshon
+    path: /Users/galnachshon/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Users/galnachshon/.local/bin
+
+  cpu:
+    processor: arm
+    cores_total: 8
+    cores_physical: 8
+    cores_logical: 8
+    cores_performance: 4
+    cores_efficiency: 4
+
+  memory:
+    total_gb: 16
+
+  gpu:
+    available: true
+    type: Apple M1
+    vendor: Apple
+    memory_gb: 16
+    compute:
+      - Metal
+
+  network:
+    interfaces:
+      - gif0
+      - stf0
+      - anpi1
+      - anpi0
+      - en0
+      - en4
+      - en5
+      - en2
+      - en3
+      - en6
+      - bridge0
+      - ap1
+      - en1
+      - utun0
+      - awdl0
+      - llw0
+      - utun1
+      - utun2
+      - utun3
+    primary: en1
+    ip_local: 10.0.0.6
+    mac_address: 3a:6f:99:c6:1a:90
+    gateway: 10.0.0.138
+    ip_public: null
+
+  launch_commands:
+    browser: open -a "Google Chrome"
+    ide: code
+    image_viewer: open -a Preview
+    video_player: open -a "QuickTime Player"
+    audio_player: open -a Music
+
+  custom: null

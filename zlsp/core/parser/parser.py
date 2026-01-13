@@ -2336,6 +2336,45 @@ def _emit_value_tokens(value: str, line: int, start_pos: int, emitter: TokenEmit
             ))
         return
     
+    # deployment value - only Production or Development allowed in zSpark files
+    if emitter.is_zspark_file and key == 'deployment':
+        # Check for environment/config value (will be bright yellow)
+        if _is_env_config_value(value):
+            # Validate deployment value
+            if value not in ('Production', 'Development'):
+                from ..lsp_types import Diagnostic, Range, Position
+                emitter.diagnostics.append(Diagnostic(
+                    range=Range(
+                        start=Position(line=line, character=start_pos),
+                        end=Position(line=line, character=start_pos + len(value))
+                    ),
+                    message=f"Invalid deployment value: '{value}'. Expected 'Production' or 'Development'.",
+                    severity=1,  # Error
+                    source="zolo-lsp"
+                ))
+            emitter.emit(line, start_pos, len(value), TokenType.ENV_CONFIG_VALUE)
+            return
+    
+    # logger value - only valid log levels allowed in zSpark files
+    if emitter.is_zspark_file and key == 'logger':
+        valid_levels = ('DEBUG', 'SESSION', 'INFO', 'WARNING', 'ERROR', 'CRITICAL', 'PROD')
+        # Check for environment/config value (will be bright yellow)
+        if _is_env_config_value(value):
+            # Validate logger value
+            if value not in valid_levels:
+                from ..lsp_types import Diagnostic, Range, Position
+                emitter.diagnostics.append(Diagnostic(
+                    range=Range(
+                        start=Position(line=line, character=start_pos),
+                        end=Position(line=line, character=start_pos + len(value))
+                    ),
+                    message=f"Invalid logger value: '{value}'. Expected one of: {', '.join(valid_levels)}.",
+                    severity=1,  # Error
+                    source="zolo-lsp"
+                ))
+            emitter.emit(line, start_pos, len(value), TokenType.ENV_CONFIG_VALUE)
+            return
+    
     # zVaFile value (must be zUI.*) - dark green in zSpark files
     if emitter.is_zspark_file and key == 'zVaFile':
         emitter.emit(line, start_pos, len(value), TokenType.ZSPARK_VAFILE_VALUE)
@@ -3009,10 +3048,9 @@ def _is_env_config_value(value: str) -> bool:
     """
     Check if value is an environment/configuration constant.
     
-    Detects ALL-CAPS strings that represent configuration states:
-    - Log levels: PROD, DEBUG, INFO, WARN, ERROR, TRACE
-    - Environments: DEV, DEVELOPMENT, STAGING, PRODUCTION, TEST
-    - States: ENABLED, DISABLED, ACTIVE, INACTIVE, ON, OFF
+    Detects configuration states in two patterns:
+    1. ALL-CAPS: PROD, DEBUG, INFO, ENABLED, etc.
+    2. Mixed-case deployment terms: Development, Production, Staging, etc.
     
     Args:
         value: String to check
@@ -3023,15 +3061,24 @@ def _is_env_config_value(value: str) -> bool:
     if not value or len(value) < 2:
         return False
     
-    # Must be all uppercase
-    if not value.isupper():
-        return False
-    
     # Must be alphabetic only (no numbers, no special chars)
     if not value.isalpha():
         return False
     
-    # Whitelist of common environment/config constants
+    # Check mixed-case deployment/environment terms first (case-insensitive)
+    DEPLOYMENT_TERMS = {
+        'development', 'production', 'staging', 'testing',
+        'local', 'remote', 'beta', 'alpha', 'release'
+    }
+    
+    if value.lower() in DEPLOYMENT_TERMS:
+        return True
+    
+    # Must be all uppercase for other constants
+    if not value.isupper():
+        return False
+    
+    # Whitelist of common ALL-CAPS environment/config constants
     ENV_CONSTANTS = {
         # Log levels
         'PROD', 'DEBUG', 'INFO', 'WARN', 'WARNING', 'ERROR', 'TRACE', 'FATAL',
