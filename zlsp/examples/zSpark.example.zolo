@@ -3,9 +3,9 @@ zSpark:
   logger: PROD
   logger_path: @.logs
   zMode: Terminal
-  #zServer:
-  #    enabled: True
-  #    zShell: True
+  zServer:
+    enabled: True
+    zShell: True
   app_storage: True
   zVaFolder: @.UI.zProducts.zTheme
   zVaFile: zUI.zBreakpoints

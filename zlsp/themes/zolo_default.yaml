@@ -108,6 +108,34 @@ palette:
     ansi: 98
     rgb: [135, 95, 215]
     description: "Purple for zPath values"
+  
+  dark_green:
+    name: "Dark Green"
+    hex: "#00d700"
+    ansi: 40
+    rgb: [0, 215, 0]
+    description: "Dark green for zSpark special keys"
+  
+  light_purple:
+    name: "Light Purple"
+    hex: "#875fff"
+    ansi: 99
+    rgb: [135, 95, 255]
+    description: "Light purple for zSpark special values"
+  
+  dark_cyan:
+    name: "Bright Cyan"
+    hex: "#00ffff"
+    ansi: 51
+    rgb: [0, 255, 255]
+    description: "Bright cyan for zPath values"
+  
+  bright_yellow:
+    name: "Bright Yellow"
+    hex: "#ffff00"
+    ansi: 226
+    rgb: [255, 255, 0]
+    description: "Bright yellow for environment/config constants"
 
 # ═══════════════════════════════════════════════════════════════
 # Semantic Token Styles
@@ -132,6 +160,31 @@ tokens:
     color: light_green
     style: none
     description: "zSpark root key in zSpark.*.zolo files"
+  
+  zsparkNestedKey:
+    color: dark_gray
+    style: none
+    description: "All nested keys under zSpark root in zSpark files"
+  
+  zsparkModeValue:
+    color: bright_orange
+    style: none
+    description: "zMode value (Terminal/zBifrost) in zSpark files - tomato red"
+  
+  zsparkVaFileValue:
+    color: dark_green
+    style: none
+    description: "zVaFile value (zUI.*) in zSpark files - dark green"
+  
+  zsparkSpecialValue:
+    color: salmon_orange
+    style: none
+    description: "zBlock value in zSpark files - salmon orange"
+  
+  envConfigValue:
+    color: bright_yellow
+    style: none
+    description: "Environment/config constants (PROD, DEBUG, INFO, etc.)"
   
   # Values
   string:
@@ -175,7 +228,7 @@ tokens:
     description: "Null values (null)"
   
   zpathValue:
-    color: dark_gray
+    color: dark_cyan
     style: none
     description: "zPath values (@.logs, ~.config) in zKernel files"
   

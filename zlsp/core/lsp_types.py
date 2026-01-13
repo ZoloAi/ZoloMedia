@@ -19,6 +19,11 @@ class TokenType(Enum):
     UI_ELEMENT_KEY = "uiElementKey"  # z-prefixed UI keys: zImage, zNavBar, zUL, zSub, etc.
     ZCONFIG_KEY = "zconfigKey"  # Uppercase Z-prefixed config keys in zEnv files: ZNAVBAR, ZDATA_*, etc.
     ZSPARK_KEY = "zsparkKey"  # zSpark root key in zSpark.*.zolo files (light green)
+    ZSPARK_NESTED_KEY = "zsparkNestedKey"  # ALL nested keys under zSpark root in zSpark files (purple 98)
+    ZSPARK_MODE_VALUE = "zsparkModeValue"  # zMode value (Terminal/zBifrost) - tomato red 196
+    ZSPARK_VAFILE_VALUE = "zsparkVaFileValue"  # zVaFile value (zUI.*) - dark green 40
+    ZSPARK_SPECIAL_VALUE = "zsparkSpecialValue"  # zBlock value - light purple 99
+    ENV_CONFIG_VALUE = "envConfigValue"  # Environment/config constants (PROD, DEBUG, INFO, etc.) - bright yellow 226
     ZRBAC_KEY = "zrbacKey"  # zRBAC access control metadata key (tomato color)
     ZRBAC_OPTION_KEY = "zrbacOptionKey"  # zRBAC nested option keys: zGuest, authenticated, require_role, etc. (purple)
     ZMACHINE_EDITABLE_KEY = "zmachineEditableKey"  # Editable zMachine section keys (blue/cyan - INFO)

@@ -1,0 +1,17 @@
+# zSpark Validation Test
+# This file demonstrates intelligent zMode validation
+
+zSpark:
+  title: Test Application
+  
+  # ✅ Valid zMode values:
+  zMode: Terminal       # This is valid
+  # zMode: zBifrost    # This would also be valid
+  
+  # ❌ Try uncommenting this to see the error:
+  # zMode: Production  # ERROR: Invalid zMode value
+  # zMode: Web         # ERROR: Invalid zMode value
+  # zMode: terminal    # ERROR: Case-sensitive! Must be 'Terminal'
+  
+  logger: DEBUG
+  app_storage: True

@@ -1097,6 +1097,10 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_KEY)
                         # Mark that we're entering a zRBAC block
                         emitter.enter_zrbac_block(indent, original_line_num)
+                    # Check for zSpark nested keys (purple 98 in zSpark files only)
+                    elif emitter.is_zspark_file:
+                        # ALL nested keys under zSpark root get purple color
+                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSPARK_NESTED_KEY)
                     # Check for zRBAC option keys (PURPLE in zUI and zEnv files only)
                     elif emitter.is_in_zrbac_block(indent) and (emitter.is_zui_file or emitter.is_zenv_file):
                         ZRBAC_OPTIONS = {'zGuest', 'authenticated', 'require_role', 'require_auth', 'require_permission'}
@@ -1350,6 +1354,10 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_KEY)
                         # Mark that we're entering a zRBAC block
                         emitter.enter_zrbac_block(indent, original_line_num)
+                    # Check for zSpark nested keys (purple 98 in zSpark files only)
+                    elif emitter.is_zspark_file:
+                        # ALL nested keys under zSpark root get purple color
+                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSPARK_NESTED_KEY)
                     # Check for zRBAC option keys (PURPLE in zUI and zEnv files only)
                     elif emitter.is_in_zrbac_block(indent) and (emitter.is_zui_file or emitter.is_zenv_file):
                         ZRBAC_OPTIONS = {'zGuest', 'authenticated', 'require_role', 'require_auth', 'require_permission'}
@@ -1644,7 +1652,10 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                     # Skip whitespace after colon
                     while value_start < len(line) and line[value_start] == ' ':
                         value_start += 1
-                    _emit_value_tokens(value, original_line_num, value_start, emitter)
+                    # Extract core key (without modifiers and type hints) for context-aware coloring
+                    clean_key = TYPE_HINT_PATTERN.match(key).group(1) if TYPE_HINT_PATTERN.match(key) else key
+                    _, core_key, _ = emitter.split_modifiers(clean_key)
+                    _emit_value_tokens(value, original_line_num, value_start, emitter, key=core_key)
                 
                 # Store structured line info
                 structured_lines.append({
@@ -2293,7 +2304,7 @@ def _parse_root_key_value_pairs(lines: list[str]) -> dict:
     return result
 
 
-def _emit_value_tokens(value: str, line: int, start_pos: int, emitter: TokenEmitter, type_hint: str = None):
+def _emit_value_tokens(value: str, line: int, start_pos: int, emitter: TokenEmitter, type_hint: str = None, key: str = None):
     """
     Emit semantic tokens for a value based on its detected type.
     
@@ -2303,8 +2314,60 @@ def _emit_value_tokens(value: str, line: int, start_pos: int, emitter: TokenEmit
         start_pos: Starting character position
         emitter: Token emitter
         type_hint: Optional type hint (int, float, str, bool) for semantic highlighting
+        key: Optional key name for context-aware coloring
     """
     if not value:
+        return
+    
+    # zMode value (Terminal/zBifrost) - tomato red in zSpark files
+    if emitter.is_zspark_file and key == 'zMode':
+        emitter.emit(line, start_pos, len(value), TokenType.ZSPARK_MODE_VALUE)
+        # Validate zMode value
+        if value not in ('Terminal', 'zBifrost'):
+            from ..lsp_types import Diagnostic, Range, Position
+            emitter.diagnostics.append(Diagnostic(
+                range=Range(
+                    start=Position(line=line, character=start_pos),
+                    end=Position(line=line, character=start_pos + len(value))
+                ),
+                message=f"Invalid zMode value: '{value}'. Expected 'Terminal' or 'zBifrost'.",
+                severity=1,  # Error
+                source="zolo-lsp"
+            ))
+        return
+    
+    # zVaFile value (must be zUI.*) - dark green in zSpark files
+    if emitter.is_zspark_file and key == 'zVaFile':
+        emitter.emit(line, start_pos, len(value), TokenType.ZSPARK_VAFILE_VALUE)
+        # Validate zVaFile format: must be zUI.* with no file extension
+        if not value.startswith('zUI.'):
+            from ..lsp_types import Diagnostic, Range, Position
+            emitter.diagnostics.append(Diagnostic(
+                range=Range(
+                    start=Position(line=line, character=start_pos),
+                    end=Position(line=line, character=start_pos + len(value))
+                ),
+                message=f"Invalid zVaFile value: '{value}'. Must start with 'zUI.' (e.g., 'zUI.zBreakpoints').",
+                severity=1,  # Error
+                source="zolo-lsp"
+            ))
+        elif value.count('.') > 1:
+            # Check for file extension (more than one dot means likely a file extension)
+            from ..lsp_types import Diagnostic, Range, Position
+            emitter.diagnostics.append(Diagnostic(
+                range=Range(
+                    start=Position(line=line, character=start_pos),
+                    end=Position(line=line, character=start_pos + len(value))
+                ),
+                message=f"Invalid zVaFile value: '{value}'. Must not have a file extension (e.g., 'zUI.zBreakpoints', not 'zUI.zBreakpoints.json').",
+                severity=1,  # Error
+                source="zolo-lsp"
+            ))
+        return
+    
+    # zBlock value - light purple in zSpark files
+    if emitter.is_zspark_file and key == 'zBlock':
+        emitter.emit(line, start_pos, len(value), TokenType.ZSPARK_SPECIAL_VALUE)
         return
     
     # If type hint provided, emit based on semantic type (after hint processing)
@@ -2358,6 +2421,11 @@ def _emit_value_tokens(value: str, line: int, start_pos: int, emitter: TokenEmit
     # Null
     if value == 'null':
         emitter.emit(line, start_pos, len(value), TokenType.NULL)
+        return
+    
+    # Environment/Configuration constants (PROD, DEBUG, INFO, etc.)
+    if _is_env_config_value(value):
+        emitter.emit(line, start_pos, len(value), TokenType.ENV_CONFIG_VALUE)
         return
     
     # Check for specific string types
@@ -2935,6 +3003,48 @@ def _is_zpath_value(value: str) -> bool:
         return False
     
     return True
+
+
+def _is_env_config_value(value: str) -> bool:
+    """
+    Check if value is an environment/configuration constant.
+    
+    Detects ALL-CAPS strings that represent configuration states:
+    - Log levels: PROD, DEBUG, INFO, WARN, ERROR, TRACE
+    - Environments: DEV, DEVELOPMENT, STAGING, PRODUCTION, TEST
+    - States: ENABLED, DISABLED, ACTIVE, INACTIVE, ON, OFF
+    
+    Args:
+        value: String to check
+    
+    Returns:
+        True if value matches env/config pattern, False otherwise
+    """
+    if not value or len(value) < 2:
+        return False
+    
+    # Must be all uppercase
+    if not value.isupper():
+        return False
+    
+    # Must be alphabetic only (no numbers, no special chars)
+    if not value.isalpha():
+        return False
+    
+    # Whitelist of common environment/config constants
+    ENV_CONSTANTS = {
+        # Log levels
+        'PROD', 'DEBUG', 'INFO', 'WARN', 'WARNING', 'ERROR', 'TRACE', 'FATAL',
+        # Environments
+        'DEV', 'DEVELOPMENT', 'STAGING', 'PRODUCTION', 'TEST', 'LOCAL',
+        # States
+        'ENABLED', 'DISABLED', 'ACTIVE', 'INACTIVE', 'ON', 'OFF',
+        'YES', 'NO',
+        # Modes
+        'STRICT', 'PERMISSIVE', 'NORMAL', 'VERBOSE', 'QUIET', 'SILENT',
+    }
+    
+    return value in ENV_CONSTANTS
 
 
 def _is_valid_number(value: str) -> bool:
