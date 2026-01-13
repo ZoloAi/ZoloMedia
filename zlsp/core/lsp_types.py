@@ -119,11 +119,13 @@ class SemanticToken:
         return self.range.end.character
     
     def __repr__(self):
+        # Handle both TokenType enum and int values
+        token_value = self.token_type.value if hasattr(self.token_type, 'value') else self.token_type
         return (
             f"SemanticToken(line={self.line}, "
             f"start={self.start_char}, "
             f"length={self.length}, "
-            f"type={self.token_type.value})"
+            f"type={token_value})"
         )
 
 

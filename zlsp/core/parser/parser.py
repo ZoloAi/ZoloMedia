@@ -1036,8 +1036,8 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                         current_pos += 1
                     
                     # Determine token type for core key and emit
-                    # Special handling for zMeta and component name in zUI files
-                    if emitter.is_zui_file and (core_key == 'zMeta' or core_key == emitter.zui_component_name):
+                    # Special handling for zMeta, zVaF, and component name in zUI files
+                    if emitter.is_zui_file and (core_key == 'zMeta' or core_key == 'zVaF' or core_key == emitter.zui_component_name):
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZMETA_KEY)
                     # Special handling for zSpark root key in zSpark files (LIGHT GREEN - ANSI 114)
                     elif emitter.is_zspark_file and core_key == 'zSpark':
@@ -1082,21 +1082,6 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                         diagnostic = Diagnostic(
                             range=error_range,
                             message=f"'zRBAC' cannot be at root level. It must be nested under a parent key.",
-                            severity=1  # Error
-                        )
-                        emitter.diagnostics.append(diagnostic)
-                        # Still emit as ROOT_KEY token for highlighting
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ROOT_KEY)
-                    # Check for z-prefixed UI elements at root level (ERROR in zUI files)
-                    elif emitter.is_zui_file and core_key.startswith('z') and core_key[1:2].isupper():
-                        # This is a UI element at root level - emit error
-                        error_range = Range(
-                            Position(original_line_num, current_pos),
-                            Position(original_line_num, current_pos + len(core_key))
-                        )
-                        diagnostic = Diagnostic(
-                            range=error_range,
-                            message=f"UI element '{core_key}' cannot be at root level. It must be nested under a root key.",
                             severity=1  # Error
                         )
                         emitter.diagnostics.append(diagnostic)
@@ -1322,8 +1307,8 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                         current_pos += 1
                     
                     # Determine token type for core key and emit
-                    # Special handling for zMeta and component name in zUI files
-                    if emitter.is_zui_file and (core_key == 'zMeta' or core_key == emitter.zui_component_name):
+                    # Special handling for zMeta, zVaF, and component name in zUI files
+                    if emitter.is_zui_file and (core_key == 'zMeta' or core_key == 'zVaF' or core_key == emitter.zui_component_name):
                         emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZMETA_KEY)
                     # Special handling for zSpark root key in zSpark files (LIGHT GREEN - ANSI 114)
                     elif emitter.is_zspark_file and core_key == 'zSpark':
@@ -1368,21 +1353,6 @@ def _parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: Toke
                         diagnostic = Diagnostic(
                             range=error_range,
                             message=f"'zRBAC' cannot be at root level. It must be nested under a parent key.",
-                            severity=1  # Error
-                        )
-                        emitter.diagnostics.append(diagnostic)
-                        # Still emit as ROOT_KEY token for highlighting
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ROOT_KEY)
-                    # Check for z-prefixed UI elements at root level (ERROR in zUI files)
-                    elif emitter.is_zui_file and core_key.startswith('z') and core_key[1:2].isupper():
-                        # This is a UI element at root level - emit error
-                        error_range = Range(
-                            Position(original_line_num, current_pos),
-                            Position(original_line_num, current_pos + len(core_key))
-                        )
-                        diagnostic = Diagnostic(
-                            range=error_range,
-                            message=f"UI element '{core_key}' cannot be at root level. It must be nested under a root key.",
                             severity=1  # Error
                         )
                         emitter.diagnostics.append(diagnostic)

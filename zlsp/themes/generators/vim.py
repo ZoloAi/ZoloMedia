@@ -87,6 +87,9 @@ class VimGenerator(BaseGenerator):
         token_mapping = {
             'rootKey': 'LspSemanticRootKey',
             'nestedKey': 'LspSemanticNestedKey',
+            'zmetaKey': 'LspSemanticZmetaKey',
+            'bifrostKey': 'LspSemanticBifrostKey',
+            'uiElementKey': 'LspSemanticUiElementKey',
             'zsparkKey': 'LspSemanticZsparkKey',
             'zenvConfigKey': 'LspSemanticZenvConfigKey',
             'znavbarNestedKey': 'LspSemanticZnavbarNestedKey',

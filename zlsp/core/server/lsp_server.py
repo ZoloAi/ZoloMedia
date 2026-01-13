@@ -233,7 +233,9 @@ def semantic_tokens_full(params: lsp_types.SemanticTokensParams):
                     token_text = line_text[token.start_char:token.start_char + token.length] if token.start_char + token.length <= len(line_text) else "???"
                 else:
                     token_text = "???"
-                logger.info(f"  Token {i}: line={token.line}, start={token.start_char}, len={token.length}, type={token.token_type.name}, text={token_text!r}")
+                # Handle both TokenType enum and int values
+                token_type_name = token.token_type.name if hasattr(token.token_type, 'name') else str(token.token_type)
+                logger.info(f"  Token {i}: line={token.line}, start={token.start_char}, len={token.length}, type={token_type_name}, text={token_text!r}")
         
         # Encode tokens for LSP
         encoded = encode_semantic_tokens(parse_result.tokens)

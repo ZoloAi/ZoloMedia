@@ -1,0 +1,35 @@
+zMeta:
+  zNavBar: true
+
+zVaF:
+  _zClass: zHero zHero-full
+  zImage:
+    src: @.static.brand.zLogo_MainAlpha.png
+    alt_text: Zolo
+
+  zUL:
+    _zClass: zList-inline zmt-3
+    zURLs:
+      github_cli:
+        _zClass: zBtn zBtn-lg zBtn-block zmb-2
+        label: zCLI
+        href: https://github.com/ZoloAi/zolo-zcli
+        target: _blank
+        color: PRIMARY
+      ztheme:
+        _zClass: zBtn zBtn-lg zBtn-block zmb-2
+        label: zTheme
+        href: @.UI.zProducts.zUI.zTheme.zTheme_Details
+        color: SECONDARY
+      zbrain:
+        _zClass: zBtn zBtn-lg zBtn-block zmb-2
+        label: zBrain
+        href: "#"
+        target: _self
+        color: INFO
+      zphilosophy:
+        _zClass: zBtn zBtn-lg zBtn-block zmb-2
+        label: zPhilosophy
+        href: "#"
+        target: _self
+        color: WARNING

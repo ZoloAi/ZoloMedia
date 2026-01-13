@@ -157,6 +157,13 @@ palette:
     ansi: 226
     rgb: [255, 255, 0]
     description: "Bright yellow for environment/config constants"
+  
+  orange_red:
+    name: "Orange Red"
+    hex: "#ff5f00"
+    ansi: 202
+    rgb: [255, 95, 0]
+    description: "Orange-red for UI element keys"
 
 # ═══════════════════════════════════════════════════════════════
 # Semantic Token Styles
@@ -177,6 +184,21 @@ tokens:
     description: "Nested keys (host, port, ssl)"
   
   # zKernel-specific keys
+  zmetaKey:
+    color: light_green
+    style: none
+    description: "zMeta, zVaF, and component name in zUI.*.zolo files (Zolo convention root keys)"
+  
+  bifrostKey:
+    color: dark_cyan
+    style: none
+    description: "Bifrost underscore keys (_zClass, _zId) in zUI.*.zolo files"
+  
+  uiElementKey:
+    color: orange_red
+    style: none
+    description: "UI element keys (zImage, zText, zURL, zH1-zH6, zNavBar, zUL) in zUI.*.zolo files"
+  
   zsparkKey:
     color: light_green
     style: none

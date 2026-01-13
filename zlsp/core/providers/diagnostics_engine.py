@@ -46,6 +46,15 @@ def get_diagnostics(content: str, filename: str = None) -> List[lsp_types.Diagno
         
         # Add structured diagnostics from parser (new validation errors)
         for diag in result.diagnostics:
+            # Convert int severity to LSP DiagnosticSeverity enum
+            severity_map = {
+                1: lsp_types.DiagnosticSeverity.Error,
+                2: lsp_types.DiagnosticSeverity.Warning,
+                3: lsp_types.DiagnosticSeverity.Information,
+                4: lsp_types.DiagnosticSeverity.Hint
+            }
+            severity = severity_map.get(diag.severity, lsp_types.DiagnosticSeverity.Error)
+            
             lsp_diagnostic = lsp_types.Diagnostic(
                 range=lsp_types.Range(
                     start=lsp_types.Position(
@@ -58,7 +67,7 @@ def get_diagnostics(content: str, filename: str = None) -> List[lsp_types.Diagno
                     )
                 ),
                 message=diag.message,
-                severity=diag.severity,  # 1=Error, 2=Warning, 3=Info, 4=Hint
+                severity=severity,
                 source=diag.source
             )
             diagnostics.append(lsp_diagnostic)

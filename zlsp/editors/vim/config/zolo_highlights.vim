@@ -21,6 +21,15 @@ highlight! LspSemanticRootKey ctermfg=216 guifg=#ffaf87 cterm=NONE gui=NONE term
 " Nested keys (host, port, ssl)
 highlight! LspSemanticNestedKey ctermfg=222 guifg=#ffd787 cterm=NONE gui=NONE term=NONE
 
+" zMeta and component name in zUI.*.zolo files (e.g., zMeta, zVaF)
+highlight! LspSemanticZmetaKey ctermfg=114 guifg=#87d787 cterm=NONE gui=NONE term=NONE
+
+" Bifrost underscore keys (_zClass, _zId) in zUI.*.zolo files
+highlight! LspSemanticBifrostKey ctermfg=51 guifg=#00ffff cterm=NONE gui=NONE term=NONE
+
+" UI element keys (zImage, zText, zURL, zH1-zH6, zNavBar, zUL) in zUI.*.zolo files
+highlight! LspSemanticUiElementKey ctermfg=202 guifg=#ff5f00 cterm=NONE gui=NONE term=NONE
+
 " zSpark root key in zSpark.*.zolo files
 highlight! LspSemanticZsparkKey ctermfg=114 guifg=#87d787 cterm=NONE gui=NONE term=NONE
 
@@ -137,4 +146,5 @@ highlight! LspSemanticComment ctermfg=242 guifg=#6c6c6c cterm=italic gui=italic 
 "  99 - #875fff - Light Purple         Light purple for zSpark special values
 "  51 - #00ffff - Bright Cyan          Bright cyan for zPath values
 " 226 - #ffff00 - Bright Yellow        Bright yellow for environment/config constants
+" 202 - #ff5f00 - Orange Red           Orange-red for UI element keys
 " ═══════════════════════════════════════════════════════════════
