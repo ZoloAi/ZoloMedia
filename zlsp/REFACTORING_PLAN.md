@@ -86,12 +86,12 @@
 - [x] `__pycache__/` not tracked ✅
 
 #### 1.3 Package Configuration
-- [ ] Create `zlsp/core/version.py` with `__version__ = "1.0.0"`
-- [ ] Update `pyproject.toml` to use dynamic version: `version = {attr = "core.version.__version__"}`
-- [ ] Create `MANIFEST.in` for non-Python files (themes, vim configs)
-- [ ] Create `mypy.ini` for type checking configuration
-- [ ] Add `uv.lock` support (optional, for modern dep management)
-- [ ] Consolidate `setup.py` - move all config to `pyproject.toml`
+- [x] Create `zlsp/core/version.py` with `__version__ = "1.0.0"` ✅
+- [x] Update `pyproject.toml` to use dynamic version: `version = {attr = "core.version.__version__"}` ✅
+- [x] Create `MANIFEST.in` for non-Python files (themes, vim configs) ✅
+- [x] Create `mypy.ini` for type checking configuration ✅
+- [ ] Add `uv.lock` support (optional, for modern dep management) - Skip for now
+- [ ] Consolidate `setup.py` - move all config to `pyproject.toml` - Later
 
 ---
 
