@@ -1,21 +1,26 @@
 """
-Diagnostics Engine for .zolo Language Server
+Diagnostics Engine for .zolo Language Server (Thin Wrapper)
 
 Converts parse errors and validation issues into LSP diagnostics.
+
+This is a THIN WRAPPER that delegates to DiagnosticFormatter.
+All logic is in provider_modules/diagnostic_formatter.py for modularity.
 """
 
-import re
-from typing import List
+from typing import List, Optional
 from lsprotocol import types as lsp_types
 
 from ..parser.parser import tokenize
 from ..exceptions import ZoloParseError
-from ..lsp_types import ParseResult, Position, Range
+from .provider_modules.diagnostic_formatter import DiagnosticFormatter
 
 
-def get_diagnostics(content: str, filename: str = None) -> List[lsp_types.Diagnostic]:
+def get_diagnostics(
+    content: str,
+    filename: Optional[str] = None
+) -> List[lsp_types.Diagnostic]:
     """
-    Parse .zolo content and return diagnostics.
+    Parse .zolo content and return diagnostics (thin wrapper).
     
     Converts parse errors and validation issues into LSP diagnostic format.
     
@@ -26,11 +31,14 @@ def get_diagnostics(content: str, filename: str = None) -> List[lsp_types.Diagno
     Returns:
         List of LSP diagnostics
     
-    Examples:
-        >>> content = "name: value\\nname: duplicate"
-        >>> diagnostics = get_diagnostics(content)
-        >>> diagnostics[0].message
-        "Duplicate key 'name' found..."
+    Implementation:
+        This function is a thin wrapper that:
+        1. Calls tokenize() to parse content
+        2. Delegates error conversion to DiagnosticFormatter
+        3. Returns LSP diagnostics
+    
+    All diagnostic formatting logic is in provider_modules/diagnostic_formatter.py.
+    Zero duplication!
     """
     diagnostics = []
     
@@ -38,182 +46,55 @@ def get_diagnostics(content: str, filename: str = None) -> List[lsp_types.Diagno
         # Parse content with filename for context-aware validation
         result = tokenize(content, filename=filename)
         
-        # Convert parse errors to diagnostics (legacy string-based errors)
+        # Convert string-based errors (legacy) using DiagnosticFormatter
         for error in result.errors:
-            diagnostic = _error_to_diagnostic(error, content)
-            if diagnostic:
-                diagnostics.append(diagnostic)
+            diagnostic = DiagnosticFormatter.from_error_message(error, content)
+            diagnostics.append(diagnostic)
         
-        # Add structured diagnostics from parser (new validation errors)
+        # Convert structured diagnostics from parser (new)
         for diag in result.diagnostics:
-            # Convert int severity to LSP DiagnosticSeverity enum
-            severity_map = {
-                1: lsp_types.DiagnosticSeverity.Error,
-                2: lsp_types.DiagnosticSeverity.Warning,
-                3: lsp_types.DiagnosticSeverity.Information,
-                4: lsp_types.DiagnosticSeverity.Hint
-            }
-            severity = severity_map.get(diag.severity, lsp_types.DiagnosticSeverity.Error)
-            
-            lsp_diagnostic = lsp_types.Diagnostic(
-                range=lsp_types.Range(
-                    start=lsp_types.Position(
-                        line=diag.range.start.line,
-                        character=diag.range.start.character
-                    ),
-                    end=lsp_types.Position(
-                        line=diag.range.end.line,
-                        character=diag.range.end.character
-                    )
-                ),
-                message=diag.message,
-                severity=severity,
-                source=diag.source
-            )
+            lsp_diagnostic = DiagnosticFormatter.from_internal_diagnostic(diag)
             diagnostics.append(lsp_diagnostic)
     
     except ZoloParseError as e:
         # Handle parse errors that weren't caught by tokenize()
-        diagnostic = _error_to_diagnostic(str(e), content)
-        if diagnostic:
-            diagnostics.append(diagnostic)
+        diagnostic = DiagnosticFormatter.from_error_message(str(e), content)
+        diagnostics.append(diagnostic)
     
     except Exception as e:
         # Catch-all for unexpected errors
-        diagnostic = lsp_types.Diagnostic(
-            range=lsp_types.Range(
-                start=lsp_types.Position(line=0, character=0),
-                end=lsp_types.Position(line=0, character=1)
-            ),
-            message=f"Unexpected error: {str(e)}",
-            severity=lsp_types.DiagnosticSeverity.Error,
-            source="zolo-lsp"
-        )
+        diagnostic = DiagnosticFormatter.create_unexpected_error(e)
         diagnostics.append(diagnostic)
     
     return diagnostics
 
 
-def _error_to_diagnostic(error_msg: str, content: str) -> lsp_types.Diagnostic:
-    """
-    Convert an error message to an LSP diagnostic.
-    
-    Attempts to extract line number and position information from error message.
-    
-    Args:
-        error_msg: Error message string
-        content: Full file content (for context)
-    
-    Returns:
-        LSP Diagnostic object
-    """
-    # Extract line number from error message
-    # Common patterns:
-    # - "... at line 42"
-    # - "... line 42:"
-    # - "Duplicate key 'name' found at line 10."
-    
-    line_num = 0
-    char_pos = 0
-    error_length = 1
-    
-    # Try to extract line number
-    line_match = re.search(r'(?:at line|line)\s+(\d+)', error_msg)
-    if line_match:
-        line_num = int(line_match.group(1)) - 1  # Convert to 0-based
-    
-    # Try to extract more specific position info
-    # For duplicate key errors, try to find the key name and highlight it
-    key_match = re.search(r"key '([^']+)'", error_msg)
-    if key_match:
-        key_name = key_match.group(1)
-        # Find key in the specified line
-        lines = content.splitlines()
-        if 0 <= line_num < len(lines):
-            line_content = lines[line_num]
-            key_pos = line_content.find(key_name)
-            if key_pos != -1:
-                char_pos = key_pos
-                error_length = len(key_name)
-    
-    # Try to extract character position for indentation errors
-    if 'indentation' in error_msg.lower():
-        # Highlight the entire line for indentation errors
-        lines = content.splitlines()
-        if 0 <= line_num < len(lines):
-            error_length = len(lines[line_num].rstrip())
-    
-    # Try to extract character position for non-ASCII errors
-    if 'non-ascii' in error_msg.lower() or 'unicode' in error_msg.lower():
-        # Try to find the Unicode escape sequence in the error message
-        unicode_match = re.search(r'\\u([0-9A-Fa-f]{4})', error_msg)
-        if unicode_match:
-            # Find the offending character in the line
-            lines = content.splitlines()
-            if 0 <= line_num < len(lines):
-                # For now, highlight the entire line
-                error_length = len(lines[line_num].rstrip())
-    
-    # Determine severity
-    severity = lsp_types.DiagnosticSeverity.Error
-    if 'warning' in error_msg.lower():
-        severity = lsp_types.DiagnosticSeverity.Warning
-    elif 'hint' in error_msg.lower():
-        severity = lsp_types.DiagnosticSeverity.Hint
-    
-    # Create diagnostic
-    diagnostic = lsp_types.Diagnostic(
-        range=lsp_types.Range(
-            start=lsp_types.Position(line=line_num, character=char_pos),
-            end=lsp_types.Position(line=line_num, character=char_pos + error_length)
-        ),
-        message=error_msg,
-        severity=severity,
-        source="zolo-parser"
-    )
-    
-    return diagnostic
-
-
 def validate_document(content: str) -> List[lsp_types.Diagnostic]:
     """
-    Validate a .zolo document for common issues.
+    Validate a .zolo document for style issues (thin wrapper).
     
     This goes beyond parsing to check for:
-    - Style issues (e.g., inconsistent naming)
-    - Best practices
-    - Potential problems
+    - Style issues (e.g., trailing whitespace)
+    - Best practices (TODO)
+    - Potential problems (TODO)
     
     Args:
         content: Raw .zolo file content
     
     Returns:
         List of diagnostics (warnings and hints)
+    
+    Implementation:
+        Delegates to DiagnosticFormatter.validate_style()
     """
-    diagnostics = []
-    lines = content.splitlines()
-    
-    # Check for trailing whitespace (informational)
-    for line_num, line in enumerate(lines):
-        if line != line.rstrip():
-            diagnostic = lsp_types.Diagnostic(
-                range=lsp_types.Range(
-                    start=lsp_types.Position(line=line_num, character=len(line.rstrip())),
-                    end=lsp_types.Position(line=line_num, character=len(line))
-                ),
-                message="Trailing whitespace",
-                severity=lsp_types.DiagnosticSeverity.Information,
-                source="zolo-linter"
-            )
-            diagnostics.append(diagnostic)
-    
-    # Check for mixed quote styles in values (hint)
-    # TODO: Implement more validation rules
-    
-    return diagnostics
+    return DiagnosticFormatter.validate_style(content)
 
 
-def get_all_diagnostics(content: str, include_style: bool = True, filename: str = None) -> List[lsp_types.Diagnostic]:
+def get_all_diagnostics(
+    content: str,
+    include_style: bool = True,
+    filename: Optional[str] = None
+) -> List[lsp_types.Diagnostic]:
     """
     Get all diagnostics for a document (errors + optional style warnings).
     
