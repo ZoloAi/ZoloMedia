@@ -8,9 +8,9 @@ Zolo LSP follows the **TOML model** for language tooling: a single source of tru
 
 ```
 ┌─────────────────────────────────────────────────┐
-│            parser.py (2,700+ lines)             │
+│       parser.py (364 lines) - Thin API          │
 │  ═══════════════════════════════════════════    │
-│  THE BRAIN - Single Source of Truth            │
+│  PUBLIC API - Orchestration Layer               │
 │                                                  │
 │  • tokenize() → ParseResult                     │  ← String-first
 │    - Semantic tokens (for highlighting)         │     philosophy
@@ -20,13 +20,30 @@ Zolo LSP follows the **TOML model** for language tooling: a single source of tru
 │  • load/loads() → Parse .zolo files             │
 │  • dump/dumps() → Write .zolo files             │
 │                                                  │
-│  String-first: Values are strings by default    │
-│  Type hints: (int), (float), (bool) override    │
+│  Delegates to parser_modules/ (modular!)        │
 └─────────────────┬───────────────────────────────┘
                   │
                   ↓
 ┌─────────────────────────────────────────────────┐
-│         lsp_server.py (~350 lines)              │
+│         parser_modules/ (8 modules)             │
+│  ═══════════════════════════════════════════    │
+│  THE BRAIN - Modular Parser Implementation     │
+│                                                  │
+│  • line_parsers.py (843 lines)                  │  ← Core parsing
+│  • token_emitter.py (171 lines)                 │  ← Token emission
+│  • block_tracker.py (71 lines)                  │  ← Context tracking
+│  • key_detector.py (98 lines)                   │  ← Key classification
+│  • file_type_detector.py (61 lines)             │  ← File type logic
+│  • value_validators.py (53 lines)               │  ← Value validation
+│  • serializer.py (56 lines)                     │  ← .zolo serialization
+│  • + 5 more utility modules                     │
+│                                                  │
+│  Industry-grade: <500 lines per file!           │
+└─────────────────┬───────────────────────────────┘
+                  │
+                  ↓
+┌─────────────────────────────────────────────────┐
+│         lsp_server.py (367 lines)               │
 │  ═══════════════════════════════════════════    │
 │  THE WRAPPER - Thin LSP Protocol Layer         │
 │                                                  │
@@ -40,6 +57,33 @@ Zolo LSP follows the **TOML model** for language tooling: a single source of tru
 │  • Hover (type hint docs)                       │
 │  • Completion (type hints, values)              │
 └─────────────────┬───────────────────────────────┘
+                  │
+                  ↓
+┌─────────────────────────────────────────────────┐
+│           providers/ (3 thin wrappers)          │
+│  ═══════════════════════════════════════════    │
+│  THIN WRAPPERS - Delegate to Modules           │
+│                                                  │
+│  • completion_provider.py (62 lines)            │  ← Was 301!
+│  • hover_provider.py (55 lines)                 │  ← Was 285!
+│  • diagnostics_engine.py (114 lines)            │  ← Was 234!
+│                                                  │
+│  -72% code reduction through modularization!    │
+└─────────────────┬───────────────────────────────┘
+                  │
+                  ↓
+┌─────────────────────────────────────────────────┐
+│         provider_modules/ (4 modules)           │
+│  ═══════════════════════════════════════════    │
+│  THE LOGIC - Modular Provider Implementation   │
+│                                                  │
+│  • documentation_registry.py (263 lines)        │  ← SSOT for docs
+│  • completion_registry.py (321 lines)           │  ← Context-aware
+│  • hover_renderer.py (266 lines)                │  ← Hover formatting
+│  • diagnostic_formatter.py (239 lines)          │  ← Error formatting
+│                                                  │
+│  Zero duplication! 88-97% test coverage!        │
+└─────────────────────────────────────────────────┘
                   │
                   ↓
          ┌────────┴────────┐
@@ -355,40 +399,64 @@ parser.py (Python) → zolo-lsp → Editors
 - No GUI dependencies
 - Fast, lightweight
 
-## Phase Roadmap
+## Refactoring Achievements (Phase 1-3)
 
-### ✅ Phase 1: Terminal-First (DONE)
-- [x] Parser with string-first logic
-- [x] LSP server wrapping parser
-- [x] Vim LSP client configuration
-- [x] Installation script
-- [x] Documentation
+### ✅ Phase 1: Cleanup & Git Hygiene (DONE)
+- [x] Updated .gitignore for Python projects
+- [x] Created version.py for single source version
+- [x] Configured pyproject.toml and MANIFEST.in
+- [x] Updated LICENSE with MIT + Ethical Use Clause
+- [x] Removed debug/test files
 
-### 🔜 Phase 2: VS Code (Future)
-- [ ] VS Code extension (thin LSP client)
-- [ ] Marketplace publishing
-- [ ] Same LSP server, different client
+### ✅ Phase 2: Parser Modularization (DONE)
+- [x] Broke monolithic parser.py (2,700 → 364 lines, -86%)
+- [x] Created parser_modules/ with 13 focused modules
+- [x] Extracted BlockTracker, FileTypeDetector, KeyDetector, ValueValidator
+- [x] Each module <500 lines for maintainability
+- [x] Removed YAML dependency - pure .zolo format!
+- [x] 162 tests, 98% coverage for key modules
 
-### 🔜 Phase 3: Other Editors (Future)
-- [ ] IntelliJ plugin
-- [ ] Sublime Text
-- [ ] Emacs
+### ✅ Phase 3: Provider Modularization (DONE)
+- [x] Refactored all 3 providers (820 → 231 lines, -72%)
+- [x] Created provider_modules/ with 4 focused modules
+- [x] DocumentationRegistry - SSOT for all documentation
+- [x] CompletionRegistry - context-aware completions
+- [x] HoverRenderer - hover formatting
+- [x] DiagnosticFormatter - error formatting
+- [x] 99 provider tests, 88-97% coverage each module
 
-### 🔜 Phase 4: Advanced Features (Future)
-- [ ] Go-to-definition
-- [ ] Find references
-- [ ] Rename refactoring
-- [ ] Code actions
+**Result:** Industry-grade modular architecture, zero duplication!
 
-All phases use the same `parser.py` brain!
+### 🔜 Phase 4: Documentation Refresh (In Progress)
+- [ ] Update ARCHITECTURE.md (this file!)
+- [ ] Update README.md with achievements
+- [ ] Polish existing documentation
+
+### 🔜 Phase 5: Testing Expansion (Next)
+- [ ] Integration tests for end-to-end workflows
+- [ ] Test all 5 special file types
+- [ ] Strategic coverage expansion
+
+### 🔜 Phase 6-7: VS Code & Advanced Features (Future)
+- [ ] VS Code extension (reuse same LSP server!)
+- [ ] Advanced LSP features (go-to-definition, etc.)
 
 ## Contributing
 
-**Core principle:** Keep `parser.py` as the single source of truth.
+**Core principle:** Parser and providers are the single source of truth.
 
-- New syntax? → Add to `parser.py`
-- New highlighting? → Update `tokenize()` in `parser.py`
-- New LSP feature? → Add provider that calls `parser.py`
+- New syntax? → Add to `parser_modules/` (likely line_parsers.py)
+- New token type? → Update `lsp_types.py` and semantic_tokenizer.py
+- New file type? → Extend `file_type_detector.py`
+- New validation? → Add to `value_validators.py` or `diagnostic_formatter.py`
+- New completion? → Update `completion_registry.py`
+- New documentation? → Add to `documentation_registry.py` (SSOT!)
+
+**Architecture guidelines:**
+- Keep modules <500 lines (ideally <400)
+- Write tests for all new functionality
+- Follow thin wrapper pattern (providers delegate to modules)
+- Never duplicate logic - use SSOT principle
 
 **Never:** Duplicate parsing logic in grammar files or LSP server.
 

@@ -1,12 +1,23 @@
 """
 Zolo Language Server Protocol Implementation
 
-Full-featured LSP server for .zolo files providing:
-- Semantic highlighting
-- Diagnostics (error detection)
-- Hover information
-- Code completion
-- Go-to-definition
+Full-featured LSP server for .zolo files following the "thin wrapper" pattern:
+- Parser does ALL the work (tokenize() is the brain)
+- LSP server just wraps parser output in LSP protocol
+- Providers delegate to provider_modules/ (modular!)
+
+Features Provided:
+- Semantic highlighting (context-aware token types)
+- Diagnostics (real-time error detection)
+- Hover information (type hint docs, key info)
+- Code completion (type hints, values, file-type-specific)
+- Future: Go-to-definition, find references, rename
+
+Architecture:
+- ZoloLanguageServer: Main server with parse caching
+- @feature decorators: LSP protocol handlers (pygls framework)
+- Delegates to: providers/ (completion, hover, diagnostics)
+- Parser output: Drives everything (single source of truth)
 """
 
 import logging
@@ -44,33 +55,67 @@ SEMANTIC_TOKENS_LEGEND = lsp_types.SemanticTokensLegend(
 
 
 class ZoloLanguageServer(LanguageServer):
-    """Language Server for .zolo files."""
+    """
+    Language Server for .zolo files with parse caching.
+    
+    Extends pygls.lsp.server.LanguageServer with .zolo-specific functionality:
+    - Caches parse results to avoid re-parsing on every request
+    - Extracts filenames for context-aware tokenization (zUI, zEnv, etc.)
+    - Handles parse errors gracefully
+    
+    Attributes:
+        parse_cache (dict): Maps URI → ParseResult for performance
+    """
     
     def __init__(self):
         super().__init__("zolo-lsp", "v1.0")
         self.parse_cache = {}  # Cache parsed results by URI
     
     def get_parse_result(self, uri: str, content: str) -> ParseResult:
-        """Get cached parse result or parse content."""
+        """
+        Get cached parse result or parse content.
+        
+        Implements a simple cache-aside pattern:
+        1. Check cache first
+        2. On miss, parse content with tokenize()
+        3. Store result in cache
+        
+        Args:
+            uri: Document URI (e.g., file:///path/to/file.zolo)
+            content: Raw document text
+        
+        Returns:
+            ParseResult with data, tokens, diagnostics
+        
+        Note:
+            This is a simple cache - production should invalidate on version changes.
+            Currently invalidates manually on didChange/didSave events.
+        """
         # Simple cache - in production, should check document version
         if uri not in self.parse_cache:
             try:
                 # Extract filename from URI for context-aware tokenization
+                # (e.g., "zUI.*.zolo" triggers UI element highlighting)
                 from urllib.parse import urlparse, unquote
                 parsed_uri = urlparse(uri)
                 filename = Path(unquote(parsed_uri.path)).name if parsed_uri.path else None
                 
+                # Parse with tokenization (the brain!)
                 result = tokenize(content, filename=filename)
                 self.parse_cache[uri] = result
             except Exception as e:
                 logger.error(f"Parse error for {uri}: {e}")
-                # Return empty result on error
+                # Return empty result on error (graceful degradation)
                 result = ParseResult(data=None, tokens=[], errors=[str(e)])
                 self.parse_cache[uri] = result
         return self.parse_cache[uri]
     
     def invalidate_cache(self, uri: str):
-        """Invalidate cached parse result."""
+        """
+        Invalidate cached parse result for a document.
+        
+        Called when document changes (didChange, didSave) to force re-parsing.
+        """
         if uri in self.parse_cache:
             del self.parse_cache[uri]
 
@@ -98,7 +143,22 @@ SEMANTIC_OPTIONS = lsp_types.SemanticTokensRegistrationOptions(
 @zolo_server.feature(lsp_types.INITIALIZE)
 def initialize(params: lsp_types.InitializeParams):
     """
-    Initialize the language server.
+    Initialize the language server (LSP handshake).
+    
+    Called once when editor first connects to LSP server.
+    pygls auto-generates capabilities from @feature decorators, so we just log.
+    
+    Args:
+        params: Initialization parameters from client (editor)
+    
+    Returns:
+        None - pygls auto-generates InitializeResult from decorators
+    
+    Capabilities Advertised (via @feature decorators):
+        - textDocumentSync (open, change, save, close)
+        - semanticTokensProvider (full document)
+        - hoverProvider
+        - completionProvider
     """
     logger.info("Initializing Zolo Language Server")
     logger.info(f"Client: {params.client_info.name if params.client_info else 'Unknown'}")
@@ -113,9 +173,23 @@ def initialize(params: lsp_types.InitializeParams):
 @zolo_server.feature(lsp_types.TEXT_DOCUMENT_DID_OPEN)
 async def did_open(params: lsp_types.DidOpenTextDocumentParams):
     """
-    Handle document opened event.
+    Handle document opened event (user opens .zolo file in editor).
     
-    Parse document and publish diagnostics.
+    Flow:
+    1. Get document content from workspace
+    2. Parse content with tokenize() (cached for performance)
+    3. Publish diagnostics (errors/warnings) to editor
+    
+    Args:
+        params: Contains document URI, content, language ID
+    
+    Side Effects:
+        - Caches parse result in zolo_server.parse_cache
+        - Publishes diagnostics via LSP (async)
+    
+    Note:
+        This is the first time we see the document, so we always parse.
+        Subsequent requests (hover, completion) reuse cached parse result.
     """
     uri = params.text_document.uri
     logger.info(f"========== DOCUMENT OPENED ==========")
@@ -127,12 +201,12 @@ async def did_open(params: lsp_types.DidOpenTextDocumentParams):
     
     logger.info(f"Content length: {len(content)} characters")
     
-    # Parse and cache
+    # Parse and cache (tokenize() does the heavy lifting)
     parse_result = zolo_server.get_parse_result(uri, content)
     
     logger.info(f"Parsed {len(parse_result.tokens)} tokens")
     
-    # Publish diagnostics
+    # Publish diagnostics (errors/warnings show up in editor)
     await publish_diagnostics(uri, parse_result)
     
     logger.info(f"========== END DOCUMENT OPENED ==========")  
@@ -203,9 +277,33 @@ def did_close(params: lsp_types.DidCloseTextDocumentParams):
 @zolo_server.feature(lsp_types.TEXT_DOCUMENT_SEMANTIC_TOKENS_FULL, SEMANTIC_OPTIONS)
 def semantic_tokens_full(params: lsp_types.SemanticTokensParams):
     """
-    Provide semantic tokens for the entire document.
+    Provide semantic tokens for the entire document (LSP semantic highlighting).
     
-    This enables accurate syntax highlighting based on semantic understanding.
+    This is the CORE feature that makes Zolo LSP shine!
+    Unlike simple syntax highlighting (regex-based), semantic tokens understand:
+    - File type context (zUI vs zEnv vs zSchema)
+    - Indentation level (root vs nested vs grandchild)
+    - Key meaning (zMeta, zRBAC, zSub, UI elements)
+    - Type hints, modifiers, special values
+    
+    Flow:
+    1. Get cached parse result (or parse if not cached)
+    2. Parse result contains SemanticToken[] from tokenize()
+    3. Encode tokens into LSP format (delta-encoded integers)
+    4. Editor applies colors based on token types
+    
+    Args:
+        params: Contains document URI
+    
+    Returns:
+        SemanticTokens with delta-encoded token data
+    
+    LSP Encoding:
+        Each token = 5 integers: [deltaLine, deltaStart, length, tokenType, modifiers]
+        Delta encoding = relative to previous token (space-efficient)
+    
+    Note:
+        Parser does ALL the work! This handler just wraps parser output.
     """
     uri = params.text_document.uri
     logger.info(f"========== SEMANTIC TOKENS REQUEST ==========")

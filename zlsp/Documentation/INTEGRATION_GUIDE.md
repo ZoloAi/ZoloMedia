@@ -1,49 +1,60 @@
 # Zolo Integration Guide for zKernel
 
+> **Note**: This guide is for zKernel developers who want to use the `.zolo` parser.  
+> **Status**: zlsp is now in monorepo structure. Package name is `zlsp`, not `zolo`.  
+> **Updated**: January 2026 to reflect Phase 1-3 refactoring.
+
 ## Overview
 
-The `zolo` library is now a **standalone package** that can be used independently of zKernel. This document explains how zKernel integrates with the standalone `zolo` library.
+The `zlsp` package provides a pure Python parser for `.zolo` files with an optional LSP server for editor support. This document explains how zKernel can integrate with zlsp's parser.
 
-## Architecture
+## Architecture (Current - Monorepo)
 
 ```
-/zolo/                          # Standalone library (pip installable)
-  ├── __init__.py              # Public API
-  ├── parser.py                # Core parsing
-  ├── type_hints.py            # Type hint processing
-  ├── constants.py             # Constants
-  └── exceptions.py            # Exceptions
+/ZoloMedia/zlsp/                   # Monorepo structure (pip install zlsp)
+  ├── core/                        # Core implementation
+  │   ├── parser/                  # Parser (public API)
+  │   │   ├── parser.py            # load(), loads(), dump(), dumps(), tokenize()
+  │   │   └── parser_modules/      # Modular implementation (Phase 2)
+  │   ├── providers/               # LSP providers (optional for zKernel)
+  │   └── server/                  # LSP server (optional for zKernel)
+  ├── bindings/
+  │   └── python/                  # Python SDK
+  └── setup.py                     # pip install zlsp
 
 /zKernel/                          # zKernel framework
   └── L2_Core/g_zParser/
       └── parser_modules/
-          └── parser_file.py   # Imports: import zolo (or from zolo import ...)
+          └── parser_file.py       # Imports: from zlsp.core.parser import load, loads
 ```
 
 ## Integration Options
 
-### Option 1: Use Standalone Zolo (Recommended)
+### Option 1: Use zlsp Parser (Recommended)
 
-**zKernel imports from standalone `zolo` library:**
+**zKernel imports from `zlsp` package:**
 
 ```python
 # zKernel/L2_Core/g_zParser/parser_modules/parser_file.py
 
-import zolo
-from zolo.exceptions import ZoloParseError
+from zlsp.core.parser import load, loads
+from zlsp.core.exceptions import ZoloParseError
 
-def parse_yaml(raw_content, logger, file_extension=None):
-    """Parse YAML/Zolo content."""
+def parse_file(file_path, logger):
+    """Parse .zolo file using zlsp."""
     try:
-        # Use standalone zolo library
-        string_first = (file_extension == '.zolo')
-        parsed = yaml.safe_load(raw_content)
-        
-        # Import type hint processor from zolo
-        from zolo.type_hints import process_type_hints
-        parsed = process_type_hints(parsed, string_first=string_first)
-        
-        return parsed
+        # Use zlsp parser
+        data = load(file_path)
+        return data
+    except ZoloParseError as e:
+        logger.error(f"Parse error: {e}")
+        return None
+
+def parse_string(content, logger, file_extension='.zolo'):
+    """Parse string content using zlsp."""
+    try:
+        data = loads(content, file_extension=file_extension)
+        return data
     except ZoloParseError as e:
         logger.error(f"Parse error: {e}")
         return None
@@ -56,56 +67,55 @@ def parse_yaml(raw_content, logger, file_extension=None):
 - ✅ Version management via pip
 - ✅ Easier testing (test zolo independently)
 
-### Option 2: Vendored Copy (If Needed)
+### Option 2: Vendored Copy (Not Recommended)
 
-If zKernel needs a specific version or modifications:
+If zKernel needs a specific version, use pip with version pinning instead:
 
-```
-/zKernel/
-  └── vendor/
-      └── zolo/          # Vendored copy of zolo
+```bash
+pip install zlsp==1.0.0  # Pin specific version
 ```
 
 ## For zKernel Developers
 
-### Using Zolo in zKernel
+### Using zlsp Parser in zKernel
 
 ```python
 # Simple usage
-import zolo
+from zlsp.core.parser import load, loads, dump, dumps
 
 # Load .zolo file (string-first)
-data = zolo.load('config.zolo')
+data = load('config.zolo')
 
-# Load .yaml file (native types)
-data = zolo.load('config.yaml')
+# Load .json file
+data = load('config.json')
 
 # Load from string
-data = zolo.loads('port: 8080', file_extension='.zolo')
+data = loads('port: 8080', file_extension='.zolo')
+
+# Dump to .zolo file
+dump({'port': 8080, 'host': 'localhost'}, 'output.zolo')
 ```
 
-### Type Hint Processing
+### Type Hint Processing (Automatic!)
+
+Type hints are processed automatically by `load()` and `loads()`:
 
 ```python
-from zolo.type_hints import process_type_hints
-
-# After YAML parsing, apply type hints
-parsed = yaml.safe_load(content)
-parsed = process_type_hints(parsed, string_first=True)  # For .zolo
-parsed = process_type_hints(parsed, string_first=False)  # For .yaml
+# Type hints work automatically
+data = loads('port(int): 8080')  # Returns {'port': 8080} (int, not string!)
 ```
 
 ### Exception Handling
 
 ```python
-from zolo.exceptions import ZoloParseError, ZoloTypeError
+from zlsp.core.exceptions import ZoloParseError, ZoloDumpError
 
 try:
-    data = zolo.load('config.zolo')
+    data = load('config.zolo')
 except ZoloParseError as e:
     logger.error(f"Failed to parse: {e}")
-except ZoloTypeError as e:
-    logger.error(f"Type conversion error: {e}")
+except FileNotFoundError as e:
+    logger.error(f"File not found: {e}")
 ```
 
 ## Installation
@@ -113,15 +123,19 @@ except ZoloTypeError as e:
 ### For Development
 
 ```bash
-# Install zolo in editable mode from local directory
-pip install -e /path/to/zolo-zcli/zolo
+# Install zlsp in editable mode from monorepo
+cd /path/to/ZoloMedia/zlsp
+pip install -e .
 ```
 
-### For Production
+### For Production (when published)
 
 ```bash
-# Install from PyPI (when published)
-pip install zolo
+# Install from PyPI or GitHub
+pip install zlsp
+
+# Or from GitHub monorepo
+pip install git+https://github.com/ZoloAi/ZoloMedia.git#subdirectory=zlsp
 ```
 
 ### For zKernel
@@ -131,22 +145,23 @@ Add to `pyproject.toml` or `requirements.txt`:
 ```toml
 # pyproject.toml
 dependencies = [
-    "zolo>=1.0.0",
+    "zlsp>=1.0.0",
     # ... other deps
 ]
 ```
 
-## Migration Path
+## Integration Status
 
-### Phase 1: Extract (✅ Done)
-- Create standalone `/zolo/` directory
-- Move type hint logic to `zolo/type_hints.py`
-- Create clean API in `zolo/parser.py`
-- Add tests and examples
+### ✅ Phase 1-3: Refactoring (Done)
+- Parser modularized (2,700 → 364 lines, +13 modules)
+- Providers modularized (820 → 231 lines, +4 modules)
+- 261 tests, 63% coverage
+- Industry-grade architecture
 
-### Phase 2: Update zKernel (Current)
-- Update `zKernel/L2_Core/g_zParser/parser_modules/parser_file.py`
-- Replace internal logic with `import zolo`
+### 🔜 Phase 4-5: Documentation & Testing (Current)
+- Update documentation for modular structure
+- Add integration tests
+- Expand coverage strategically
 - Test zKernel still works with standalone zolo
 
 ### Phase 3: Publish (Future)

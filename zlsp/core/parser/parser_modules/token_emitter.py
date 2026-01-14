@@ -336,6 +336,11 @@ class TokenEmitter:
         """
         Emit a semantic token with UTF-16 position conversion.
         
+        This is the LOW-LEVEL token emission function called by all other emitters.
+        Handles two critical concerns:
+        1. Comment overlap prevention (don't highlight code inside comments)
+        2. UTF-16 conversion (LSP requires UTF-16, Python uses Unicode code points)
+        
         Args:
             line: Line number (0-based)
             start_char: Character offset in Python string (NOT UTF-16)
@@ -350,7 +355,9 @@ class TokenEmitter:
             return
         line_text = self.lines[line]
         
-        # For non-comment tokens, check if they overlap with comments and truncate if needed
+        # ===== COMMENT OVERLAP PREVENTION =====
+        # Don't emit tokens for code that's been commented out!
+        # Example: "key: value # comment" - don't highlight "comment" as a key
         if token_type != TokenType.COMMENT:
             end_char = start_char + length
             
@@ -358,16 +365,21 @@ class TokenEmitter:
             for c_start_line, c_start_col, c_end_line, c_end_col in self.comment_ranges:
                 if line == c_start_line and start_char < c_start_col < end_char:
                     # Token would extend into a comment - truncate it
+                    # Example: "ke# comment" - truncate to just "ke"
                     length = c_start_col - start_char
                     end_char = start_char + length
                     if length <= 0:
                         return  # Token is entirely within comment
                     break
         
-        # Convert Python character positions to UTF-16 code unit positions
+        # ===== UTF-16 CONVERSION =====
+        # LSP protocol requires UTF-16 positions (historical reasons: JavaScript/TypeScript)
+        # Python uses Unicode code points (correct way)
+        # This matters for emoji (💀 = 2 UTF-16 units, 1 code point) and rare characters
         utf16_start = _char_to_utf16_offset(line_text, start_char)
         utf16_end = _char_to_utf16_offset(line_text, start_char + length)
         
+        # Create and append token
         token = SemanticToken(
             range=Range(
                 start=Position(line=line, character=utf16_start),
