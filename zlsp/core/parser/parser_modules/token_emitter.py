@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import List, Optional, Tuple
 
 from .block_tracker import BlockTracker
+from .file_type_detector import FileTypeDetector, FileType
 from ...lsp_types import SemanticToken, TokenType, Position, Range, Diagnostic
 
 
@@ -57,29 +58,24 @@ class TokenEmitter:
         self.comment_ranges: List[Tuple[int, int, int, int]] = []  # [(start_line, start_col, end_line, end_col), ...]
         self.filename = filename
         
-        # File type detection
-        self.is_zui_file = filename and Path(filename).name.startswith('zUI.') if filename else False
-        self.is_zenv_file = filename and Path(filename).name.startswith('zEnv.') if filename else False
-        self.is_zspark_file = filename and Path(filename).name.startswith('zSpark.') if filename else False
-        self.is_zconfig_file = filename and Path(filename).name.startswith('zConfig.') if filename else False
-        self.is_zschema_file = filename and Path(filename).name.startswith('zSchema.') if filename else False
+        # 🎯 FILE TYPE DETECTION - using FileTypeDetector
+        self.file_detector = FileTypeDetector(filename)
         
-        # Extract component names from special file types
-        self.zui_component_name = self._extract_component('zUI.', 4) if self.is_zui_file else None
-        self.zspark_component_name = self._extract_component('zSpark.', 7) if self.is_zspark_file else None
-        self.zconfig_component_name = self._extract_component('zConfig.', 8) if self.is_zconfig_file else None
+        # Convenience properties for backward compatibility
+        self.is_zui_file = self.file_detector.is_zui()
+        self.is_zenv_file = self.file_detector.is_zenv()
+        self.is_zspark_file = self.file_detector.is_zspark()
+        self.is_zconfig_file = self.file_detector.is_zconfig()
+        self.is_zschema_file = self.file_detector.is_zschema()
+        
+        # Component names (for zUI.zVaF.zolo -> "zVaF", etc.)
+        component = self.file_detector.component_name
+        self.zui_component_name = component if self.is_zui_file else None
+        self.zspark_component_name = component if self.is_zspark_file else None
+        self.zconfig_component_name = component if self.is_zconfig_file else None
         
         # 🎉 UNIFIED BLOCK TRACKING - replaces 17+ individual lists!
         self.block_tracker = BlockTracker()
-    
-    def _extract_component(self, prefix: str, prefix_len: int) -> Optional[str]:
-        """Extract component name from filename (e.g., 'zVaF' from 'zUI.zVaF.zolo')."""
-        if not self.filename:
-            return None
-        name = Path(self.filename).stem
-        if name.startswith(prefix):
-            return name[prefix_len:]
-        return None
     
     # ========================================================================
     # COMMENT TRACKING

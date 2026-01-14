@@ -12,6 +12,13 @@ from .block_tracker import BlockTracker
 from .type_hints import process_type_hints, TYPE_HINT_PATTERN
 from .token_emitter import TokenEmitter
 from .serializer import dumps as serialize_zolo
+from .file_type_detector import (
+    FileType,
+    FileTypeDetector,
+    detect_file_type,
+    extract_component_name,
+    get_file_info,
+)
 from .validators import (
     validate_ascii_only,
     is_zpath_value,
@@ -122,6 +129,12 @@ __all__ = [
     'process_type_hints',
     'TYPE_HINT_PATTERN',
     'serialize_zolo',
+    # File type detection
+    'FileType',
+    'FileTypeDetector',
+    'detect_file_type',
+    'extract_component_name',
+    'get_file_info',
     # Validators
     'validate_ascii_only',
     'is_zpath_value',
