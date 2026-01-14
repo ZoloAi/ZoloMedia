@@ -20,6 +20,7 @@ from .multiline_collectors import (
 from .value_processors import detect_value_type
 from .token_emitters import emit_value_tokens
 from .validators import validate_ascii_only
+from .key_detector import KeyDetector
 
 # Forward reference
 TYPE_CHECKING = False
@@ -146,35 +147,13 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
                         current_pos += 1
                     
-                    # Determine token type for core key and emit
-                    # Special handling for zMeta, zVaF, and component name in zUI files
-                    # Special handling for zMeta in zSchema files
-                    if (emitter.is_zui_file and (core_key == 'zMeta' or core_key == 'zVaF' or core_key == emitter.zui_component_name)) or \
-                       (emitter.is_zschema_file and core_key == 'zMeta'):
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZMETA_KEY)
-                        # If this is zMeta in a zSchema file, enter the block for zKernel data key tracking
-                        if emitter.is_zschema_file and core_key == 'zMeta':
-                            emitter.enter_zmeta_block(indent, original_line_num)
-                    # Special handling for zSpark root key in zSpark files (LIGHT GREEN - ANSI 114)
-                    elif emitter.is_zspark_file and core_key == 'zSpark':
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSPARK_KEY)
-                    # Special handling for config root keys in zEnv files (PURPLE - ANSI 98)
-                    elif emitter.is_zenv_file and core_key in ('DEPLOYMENT', 'DEBUG', 'LOG_LEVEL'):
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZENV_CONFIG_KEY)
-                    # Special handling for uppercase Z-prefixed config keys in zEnv files (GREEN)
-                    elif emitter.is_zenv_file and core_key.isupper() and core_key.startswith('Z'):
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZCONFIG_KEY)
-                        # If this is ZNAVBAR, enter the block for first-level nested key tracking
-                        if core_key == 'ZNAVBAR':
-                            emitter.enter_znavbar_block(indent, original_line_num)
-                    # Special handling for z-prefixed root keys in zConfig files (GREEN) - e.g., zMachine
-                    elif emitter.is_zconfig_file and core_key.startswith('z') and len(core_key) > 1 and core_key[1].isupper():
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZCONFIG_KEY)
-                        # If this is zMachine, enter the block for nested key tracking
-                        if core_key == 'zMachine':
-                            emitter.enter_zmachine_block(indent, original_line_num)
-                    # Check for zSub at root level (ERROR - zSub must always be nested)
-                    elif core_key == 'zSub':
+                    # ====== ROOT KEY DETECTION (using KeyDetector) ======
+                    # Detect token type using KeyDetector (replaces 58 lines of conditionals)
+                    token_type = KeyDetector.detect_root_key(core_key, emitter, indent)
+                    emitter.emit(original_line_num, current_pos, len(core_key), token_type)
+                    
+                    # Check for block entry and emit diagnostics for invalid root keys
+                    if core_key == 'zSub':
                         # zSub at root level - emit error
                         error_range = Range(
                             Position(original_line_num, current_pos),
@@ -186,9 +165,6 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             severity=1  # Error
                         )
                         emitter.diagnostics.append(diagnostic)
-                        # Still emit as ROOT_KEY token for highlighting
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ROOT_KEY)
-                    # Check for zRBAC at root level (ERROR - zRBAC must always be nested)
                     elif core_key == 'zRBAC':
                         # zRBAC at root level - emit error
                         error_range = Range(
@@ -201,10 +177,15 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             severity=1  # Error
                         )
                         emitter.diagnostics.append(diagnostic)
-                        # Still emit as ROOT_KEY token for highlighting
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ROOT_KEY)
                     else:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ROOT_KEY)
+                        # Check for block entry
+                        block_type = KeyDetector.should_enter_block(core_key, emitter)
+                        if block_type == 'zmeta':
+                            emitter.enter_zmeta_block(indent, original_line_num)
+                        elif block_type == 'znavbar':
+                            emitter.enter_znavbar_block(indent, original_line_num)
+                        elif core_key == 'zMachine':
+                            emitter.enter_zmachine_block(indent, original_line_num)
                     
                     current_pos += len(core_key)
                     

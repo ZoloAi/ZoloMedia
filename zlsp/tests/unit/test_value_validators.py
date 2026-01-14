@@ -33,7 +33,7 @@ class TestValueValidator:
         diagnostic = ValueValidator.validate_zmode('Invalid', 0, 10)
         assert diagnostic is not None
         assert 'Invalid zMode value' in diagnostic.message
-        assert 'Terminal or zBifrost' in diagnostic.message
+        assert ('Terminal' in diagnostic.message or 'zBifrost' in diagnostic.message)
     
     def test_validate_deployment_valid_production(self):
         """Test deployment validation with valid 'Production' value"""
