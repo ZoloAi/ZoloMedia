@@ -2,12 +2,14 @@
 Token Emitters - Emit semantic tokens for values
 
 Handles token emission for strings, arrays, objects, and special values.
+Validation logic extracted to value_validators module for cleaner separation.
 """
 
 import re
 from typing import Optional, TYPE_CHECKING
 
 from .validators import is_zpath_value, is_env_config_value, is_valid_number
+from .value_validators import ValueValidator
 from ...lsp_types import TokenType
 
 if TYPE_CHECKING:
@@ -31,76 +33,31 @@ def emit_value_tokens(value: str, line: int, start_pos: int, emitter: 'TokenEmit
     # zMode value (Terminal/zBifrost) - tomato red in zSpark files
     if emitter.is_zspark_file and key == 'zMode':
         emitter.emit(line, start_pos, len(value), TokenType.ZSPARK_MODE_VALUE)
-        # Validate zMode value
-        if value not in ('Terminal', 'zBifrost'):
-            from ..lsp_types import Diagnostic, Range, Position
-            emitter.diagnostics.append(Diagnostic(
-                range=Range(
-                    start=Position(line=line, character=start_pos),
-                    end=Position(line=line, character=start_pos + len(value))
-                ),
-                message=f"Invalid zMode value: '{value}'. Expected 'Terminal' or 'zBifrost'.",
-                severity=1,  # Error
-                source="zolo-lsp"
-            ))
+        ValueValidator.validate_for_key(key, value, line, start_pos, emitter)
         return
     
     # deployment value - only Production or Development allowed in zSpark files
     if emitter.is_zspark_file and key == 'deployment':
         # Check for environment/config value (will be bright yellow)
         if is_env_config_value(value):
-            # Validate deployment value
-            if value not in ('Production', 'Development'):
-                from ..lsp_types import Diagnostic, Range, Position
-                emitter.diagnostics.append(Diagnostic(
-                    range=Range(
-                        start=Position(line=line, character=start_pos),
-                        end=Position(line=line, character=start_pos + len(value))
-                    ),
-                    message=f"Invalid deployment value: '{value}'. Expected 'Production' or 'Development'.",
-                    severity=1,  # Error
-                    source="zolo-lsp"
-                ))
+            ValueValidator.validate_for_key(key, value, line, start_pos, emitter)
             emitter.emit(line, start_pos, len(value), TokenType.ENV_CONFIG_VALUE)
             return
     
     # logger value - only valid log levels allowed in zSpark files
     if emitter.is_zspark_file and key == 'logger':
-        valid_levels = ('DEBUG', 'SESSION', 'INFO', 'WARNING', 'ERROR', 'CRITICAL', 'PROD')
         # Check for environment/config value (will be bright yellow)
         if is_env_config_value(value):
-            # Validate logger value
-            if value not in valid_levels:
-                from ..lsp_types import Diagnostic, Range, Position
-                emitter.diagnostics.append(Diagnostic(
-                    range=Range(
-                        start=Position(line=line, character=start_pos),
-                        end=Position(line=line, character=start_pos + len(value))
-                    ),
-                    message=f"Invalid logger value: '{value}'. Expected one of: {', '.join(valid_levels)}.",
-                    severity=1,  # Error
-                    source="zolo-lsp"
-                ))
+            ValueValidator.validate_for_key(key, value, line, start_pos, emitter)
             emitter.emit(line, start_pos, len(value), TokenType.ENV_CONFIG_VALUE)
             return
     
     # zVaFile value (must be zUI.*) - dark green in zSpark files
     if emitter.is_zspark_file and key == 'zVaFile':
         emitter.emit(line, start_pos, len(value), TokenType.ZSPARK_VAFILE_VALUE)
-        # Validate zVaFile format: must be zUI.* with no file extension
-        if not value.startswith('zUI.'):
-            from ..lsp_types import Diagnostic, Range, Position
-            emitter.diagnostics.append(Diagnostic(
-                range=Range(
-                    start=Position(line=line, character=start_pos),
-                    end=Position(line=line, character=start_pos + len(value))
-                ),
-                message=f"Invalid zVaFile value: '{value}'. Must start with 'zUI.' (e.g., 'zUI.zBreakpoints').",
-                severity=1,  # Error
-                source="zolo-lsp"
-            ))
-        elif value.count('.') > 1:
-            # Check for file extension (more than one dot means likely a file extension)
+        ValueValidator.validate_for_key(key, value, line, start_pos, emitter)
+        # Additional validation for file extension (too many dots)
+        if value.count('.') > 1:
             from ..lsp_types import Diagnostic, Range, Position
             emitter.diagnostics.append(Diagnostic(
                 range=Range(
@@ -116,6 +73,7 @@ def emit_value_tokens(value: str, line: int, start_pos: int, emitter: 'TokenEmit
     # zBlock value - light purple in zSpark files
     if emitter.is_zspark_file and key == 'zBlock':
         emitter.emit(line, start_pos, len(value), TokenType.ZSPARK_SPECIAL_VALUE)
+        ValueValidator.validate_for_key(key, value, line, start_pos, emitter)
         return
     
     # If type hint provided, emit based on semantic type (after hint processing)
@@ -286,7 +244,7 @@ def emit_array_tokens(value: str, line: int, start_pos: int, emitter: 'TokenEmit
         
         # Recursively emit tokens for each item
         for item, item_pos in items:
-            _emit_value_tokens(item, line, item_pos, emitter)
+            emit_value_tokens(item, line, item_pos, emitter)
     
     # Closing bracket
     emitter.emit(line, start_pos + len(value) - 1, 1, TokenType.BRACKET_STRUCTURAL)
@@ -379,7 +337,7 @@ def emit_object_tokens(value: str, line: int, start_pos: int, emitter: 'TokenEmi
                 if val:
                     val_offset = len(pair[:colon_idx + 1]) + (len(pair[colon_idx + 1:]) - len(val))
                     val_pos = pair_pos + val_offset
-                    _emit_value_tokens(val, line, val_pos, emitter, type_hint=type_hint_text)
+                    emit_value_tokens(val, line, val_pos, emitter, type_hint=type_hint_text)
     
     # Closing brace
     emitter.emit(line, start_pos + len(value) - 1, 1, TokenType.BRACE_STRUCTURAL)
