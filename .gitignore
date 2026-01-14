@@ -55,6 +55,17 @@ dist/
 build/
 *.egg-info/
 
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Type checking & linting
+.mypy_cache/
+.ruff_cache/
+.pylint.d/
+
 # Local configuration
 *.local
 .env
