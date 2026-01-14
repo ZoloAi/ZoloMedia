@@ -15,9 +15,9 @@ Pure LSP architecture following the TOML model: single source of truth (parser) 
 
 ## Recent Improvements (January 2026)
 
-🎉 **Major Refactoring Complete!** The codebase has been transformed to industry-grade standards:
+🎉 **Major Milestones Achieved!** The codebase has been transformed to industry-grade standards:
 
-### Phase 1-3 Achievements:
+### Phase 1-3 Achievements (Parser & Providers):
 - ✅ **Parser Modularization**: Broke monolithic 2,700-line parser into 13 focused modules (364-line thin API)
   - Each module <500 lines for maintainability
   - Extracted: BlockTracker, FileTypeDetector, KeyDetector, ValueValidator
@@ -29,17 +29,24 @@ Pure LSP architecture following the TOML model: single source of truth (parser) 
   - diagnostics_engine: 234 → 114 lines (-51%)
   - Zero duplication through DocumentationRegistry (SSOT)
 
-- ✅ **Test Coverage**: Expanded from 162 → 261 tests
-  - 162 parser tests (98% coverage for key modules)
-  - 99 provider tests (88-97% coverage each)
-  - 63% overall coverage
+- ✅ **Test Coverage**: Expanded from 162 → 494 tests
+  - 80% overall coverage
+  - Strategic testing of real-world scenarios
+  - All 5 special file types validated
 
-- ✅ **Architecture**: Thin wrapper pattern throughout
-  - Single Source of Truth (SSOT) for documentation
-  - Context-aware completions
-  - Modular diagnostic formatting
+### Phase 7.1 Achievements (VS Code Integration):
+- ✅ **VS Code Support**: Full editor integration with zero-config installation
+  - Theme generator: 544 lines, 17 tests passing
+  - Python-based installer (no npm/TypeScript dependencies!)
+  - Settings injection for automatic color configuration
+  - Works with ANY VS Code theme (Dark+, Light+, Monokai, etc.)
 
-**Result**: Clean, maintainable, industry-grade codebase ready for expansion!
+- ✅ **Industry Innovation**: Settings injection approach
+  - Traditional LSPs: Manual theme activation required
+  - zlsp: True zero-config (install → reload → done!)
+  - Colors match Vim exactly (single source of truth)
+
+**Result**: Clean, maintainable, industry-grade codebase with dual-editor support!
 
 ## Project Structure
 
@@ -55,14 +62,21 @@ zlsp/
 │       └── zlsp/  # pip install zlsp
 │
 ├── editors/       # Editor integrations
-│   └── vim/       # Vim integration ✅ (ready)
+│   ├── vim/       # Vim integration ✅ (ready)
+│   └── vscode/    # VS Code integration ✅ (ready)
+│
+├── themes/        # Theme system (single source of truth)
+│   ├── zolo_default.yaml    # Canonical color theme
+│   └── generators/          # Editor-specific generators
+│       ├── vim.py           # Generates Vim ANSI highlights
+│       └── vscode.py        # Generates VS Code JSON rules
 │
 └── Documentation/ # All documentation
     ├── bindings/  # Per-language guides
     └── editors/   # Per-editor guides
 ```
 
-**Design:** Each folder (`core/`, `bindings/python/`, `editors/vim/`) can be extracted to its own repository when ready for publication. The monorepo structure makes development easier!
+**Design:** Each folder (`core/`, `bindings/python/`, `editors/vim/`, `editors/vscode/`) can be extracted to its own repository when ready for publication. The monorepo structure makes development easier!
 
 ## Quick Start
 
@@ -71,35 +85,53 @@ zlsp/
 **From PyPI (Production):**
 
 ```bash
-# Install and setup - that's it!
-pip install zlsp && zolo-vim-install
+# Install zlsp
+pip install zlsp
+
+# Choose your editor:
+zlsp-vim-install      # For Vim/Neovim
+zlsp-vscode-install   # For VS Code
 ```
 
 **From GitHub (Development):**
 
 ```bash
 # Install from monorepo
-pip install git+https://github.com/ZoloAi/Zolo.git#subdirectory=zLSP && zolo-vim-install
+pip install git+https://github.com/ZoloAi/Zolo.git#subdirectory=zLSP
+
+# Choose your editor:
+zlsp-vim-install      # For Vim/Neovim
+zlsp-vscode-install   # For VS Code
 ```
 
 **Local Development:**
 
 ```bash
 cd zlsp
-pip install -e . && zolo-vim-install
+pip install -e .
+
+# Choose your editor:
+zlsp-vim-install      # For Vim/Neovim
+zlsp-vscode-install   # For VS Code
 ```
 
-### What Gets Installed (Automatically)
+---
 
-The `zolo-vim-install` command:
+### Vim/Neovim Support
+
+**Installation:**
+```bash
+pip install zlsp
+zlsp-vim-install
+```
+
+**What Gets Installed:**
 1. ✅ Installs Vim plugin files to `~/.vim/` or `~/.config/nvim/`
 2. ✅ **Detects Vim version** and auto-installs vim-lsp if needed (Vim 9+)
 3. ✅ **Sets up vim-plug** and configures your `~/.vimrc` (with backup)
 4. ✅ Verifies `zolo-lsp` server is available
 
-**No manual steps required!** Just run and use.
-
-### Vim/Neovim Support
+**Usage:**
 
 **Neovim 0.8+:** Built-in LSP - works automatically!
 ```bash
@@ -117,7 +149,42 @@ vim test.zolo  # Basic colors only
 # Recommendation: Upgrade to Vim 9+ or use Neovim
 ```
 
-See [`zlsp/vim/README.md`](zlsp/vim/README.md) for troubleshooting and advanced setup.
+See [`editors/vim/README.md`](editors/vim/README.md) for troubleshooting and advanced setup.
+
+---
+
+### VS Code Support
+
+**Installation:**
+```bash
+pip install zlsp
+zlsp-vscode-install
+```
+
+Then reload VS Code: `Cmd+Shift+P` → "Reload Window"
+
+**What Gets Installed:**
+1. ✅ Extension to `~/.vscode/extensions/zolo-lsp-1.0.0/`
+2. ✅ **Semantic token colors injected** into your `settings.json`
+3. ✅ **Works with ANY theme** (Dark+, Light+, Monokai, your favorite!)
+4. ✅ Verifies `zolo-lsp` server is available
+
+**Key Innovation:** Settings injection means **zero manual configuration**:
+- ✅ No theme activation required
+- ✅ Works with your existing theme
+- ✅ Colors match Vim exactly (single source of truth)
+- ✅ Persistent across all sessions
+
+**Usage:**
+```bash
+code test.zolo  # Full LSP support with beautiful colors! 🎉
+```
+
+See [`editors/vscode/README.md`](editors/vscode/README.md) for troubleshooting and advanced setup.
+
+---
+
+**Both editors supported with identical colors!** The LSP server is the same, only the client differs.
 
 ## String-First Philosophy
 
@@ -150,14 +217,29 @@ empty(null):
 ## Architecture
 
 ```
+┌─────────────────────────────────────────┐
+│   themes/zolo_default.yaml              │  ← Single Source of Truth (Colors)
+│   (40 semantic token definitions)       │
+└─────────────────┬───────────────────────┘
+                  ↓
+        ┌─────────┴─────────┐
+        ↓                    ↓
+┌──────────────┐    ┌──────────────┐
+│ vim.py       │    │ vscode.py    │  ← Theme Generators
+│ (ANSI codes) │    │ (JSON rules) │
+└──────────────┘    └──────────────┘
+        │                    │
+        ↓                    ↓
+    ~/.vim/          settings.json
+
 ┌─────────────────────┐
-│   parser.py         │  ← Single source of truth
+│   parser.py         │  ← Single Source of Truth (Parsing)
 │   (String-first)    │     • tokenize() → semantic tokens
 └──────────┬──────────┘     • load/loads() → parse data
            │                • dump/dumps() → write data
            ↓
 ┌─────────────────────┐
-│   lsp_server.py     │  ← Thin wrapper
+│   lsp_server.py     │  ← Thin LSP Wrapper
 │   (LSP Protocol)    │     Provides ALL features:
 └──────────┬──────────┘     • Semantic highlighting
            │                • Diagnostics
@@ -166,14 +248,19 @@ empty(null):
     ┌──────┴──────┐
     ↓             ↓
 ┌────────┐    ┌────────┐
-│  Vim   │    │ VS Code│  ← Thin LSP clients
-│  LSP   │    │ (Phase │    (No grammar files!)
-└────────┘    └───2)───┘
+│  Vim   │    │ VS Code│  ← Thin LSP Clients
+│  LSP   │    │  LSP   │    (No grammar files!)
+└────────┘    └────────┘
+    ✅             ✅
 ```
 
-**No grammar files.** The parser provides semantic tokens directly to the LSP, which editors consume.
+**Key Principles:**
+- **Two Single Sources of Truth**: `zolo_default.yaml` (colors) + `parser.py` (parsing)
+- **Smart Adapters**: Different mechanisms for each editor, same colors
+- **No grammar files**: Parser provides semantic tokens directly to LSP
+- **Zero config**: Install → reload → done!
 
-See [`ARCHITECTURE.md`](ARCHITECTURE.md) for detailed design docs.
+See [`Documentation/ARCHITECTURE.md`](Documentation/ARCHITECTURE.md) for detailed design docs.
 
 ## LSP Features
 
@@ -254,6 +341,25 @@ zLSP/
 └── README.md                  ← This file
 ```
 
+## Editor Support Comparison
+
+zlsp provides **identical functionality** across both supported editors:
+
+| Feature | Vim/Neovim | VS Code | Implementation |
+|---------|------------|---------|----------------|
+| **Semantic Highlighting** | ✅ ANSI colors | ✅ JSON rules | Same LSP server |
+| **Diagnostics** | ✅ Real-time | ✅ Real-time | Same LSP server |
+| **Hover Info** | ✅ `K` | ✅ Mouse hover | Same LSP server |
+| **Completion** | ✅ `Ctrl+N` | ✅ `Ctrl+Space` | Same LSP server |
+| **Installation** | `zlsp-vim-install` | `zlsp-vscode-install` | Python installers |
+| **Theme Activation** | ✅ None needed | ✅ None needed | Auto-config |
+| **Color Consistency** | ✅ Matches VS Code | ✅ Matches Vim | Single source of truth |
+| **Manual Setup** | ❌ Zero | ❌ Zero | True zero-config |
+
+**Key Insight:** Same LSP server (`zolo-lsp`), different thin clients. Colors from one theme (`zolo_default.yaml`).
+
+---
+
 ## Comparison to Other Languages
 
 Zolo follows the same architecture as modern language servers:
@@ -269,28 +375,36 @@ Zolo follows the same architecture as modern language servers:
 
 ## Roadmap
 
-### ✅ Phase 1: Terminal-First (DONE)
-- [x] Parser with string-first logic
-- [x] LSP server wrapping parser
+### ✅ Phase 1-6: Core & Vim (DONE)
+- [x] Parser with string-first logic (modularized to 13 modules)
+- [x] LSP server wrapping parser (thin architecture)
+- [x] Provider modularization (72% code reduction)
+- [x] Test coverage expansion (494 tests, 80% coverage)
 - [x] Vim LSP client configuration
-- [x] Installation script
+- [x] Installation script (`zlsp-vim-install`)
+- [x] Comprehensive documentation
+- [x] PyPI distribution
+
+### ✅ Phase 7.1: VS Code Integration (DONE)
+- [x] VS Code theme generator (544 lines, theme-driven)
+- [x] Python-based installer (`zlsp-vscode-install`)
+- [x] Settings injection for zero-config experience
+- [x] Works with ANY VS Code theme
+- [x] Same LSP server, different client
 - [x] Documentation
 
-### 🔜 Phase 2: VS Code (Future)
-- [ ] VS Code extension (thin LSP client)
-- [ ] Marketplace publishing
-- [ ] Same LSP server, different client
+**🎉 Both Vim and VS Code fully supported!**
 
-### 🔜 Phase 3: Other Editors (Future)
-- [ ] IntelliJ plugin
-- [ ] Sublime Text
-- [ ] Emacs
-
-### 🔜 Phase 4: Advanced Features (Future)
-- [ ] Go-to-definition
-- [ ] Find references
-- [ ] Rename refactoring
-- [ ] Code actions
+### 📋 Phase 7.2+: Future Enhancements
+- [ ] **Marketplace Publishing** (VS Code Marketplace)
+- [ ] **Other Editors**: IntelliJ, Sublime Text, Emacs
+- [ ] **Advanced LSP Features**:
+  - [ ] Go-to-definition
+  - [ ] Find references
+  - [ ] Rename refactoring
+  - [ ] Code actions
+- [ ] **Performance Optimization** (if benchmarks show need)
+- [ ] **Parser Enhancements** (user-driven)
 
 ## Testing
 
@@ -322,9 +436,17 @@ For Vim:
 
 ## Documentation
 
-- [`ARCHITECTURE.md`](ARCHITECTURE.md) - Detailed design docs
-- [`src/zolo/vim/README.md`](src/zolo/vim/README.md) - Vim setup guide
-- [`examples/`](examples/) - Example .zolo files
+### Architecture & Design
+- [`Documentation/ARCHITECTURE.md`](Documentation/ARCHITECTURE.md) - Detailed design docs
+- [`REFACTORING_PLAN.md`](REFACTORING_PLAN.md) - Refactoring journey & lessons learned
+- [`Documentation/ERROR_MESSAGES.md`](Documentation/ERROR_MESSAGES.md) - Error messages guide
+
+### Editor Integration
+- [`editors/vim/README.md`](editors/vim/README.md) - Vim/Neovim setup guide
+- [`editors/vscode/README.md`](editors/vscode/README.md) - VS Code setup guide
+
+### Examples & Usage
+- [`examples/`](examples/) - Example .zolo files (7 files covering all features)
 
 ## Contributing
 

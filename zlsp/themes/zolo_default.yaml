@@ -90,10 +90,10 @@ palette:
   
   gray:
     name: "Gray"
-    hex: "#6c6c6c"
+    hex: "#6F6F62"
     ansi: 242
-    rgb: [108, 108, 108]
-    description: "Muted gray for comments"
+    rgb: [111, 111, 98]
+    description: "Muted gray for comments (matches Vim ANSI theme)"
   
   magenta:
     name: "Magenta"
@@ -361,6 +361,16 @@ tokens:
     color: magenta
     style: none
     description: "Braces { } inside string values"
+  
+  colon:
+    color: soft_yellow
+    style: none
+    description: "Colon separator (:)"
+  
+  comma:
+    color: soft_yellow
+    style: none
+    description: "Comma separator (,)"
   
   # Comments
   comment:

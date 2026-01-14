@@ -62,6 +62,8 @@ zlsp = "core.cli:main"
 zolo-lsp = "core.server.lsp_server:main"
 zlsp-vim-install = "editors.vim.install:main"
 zlsp-vim-uninstall = "editors.vim.uninstall:main"
+zlsp-vscode-install = "editors.vscode.install:main"
+zlsp-vscode-uninstall = "editors.vscode.uninstall:main"
 
 [project.optional-dependencies]
 dev = [
