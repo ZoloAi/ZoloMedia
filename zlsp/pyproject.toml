@@ -106,6 +106,9 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_functions = ["test_*"]
 addopts = "-v --cov=core --cov=bindings --cov-report=term-missing"
+markers = [
+    "slow: Slow tests that take significant time to run",
+]
 
 [tool.black]
 line-length = 100

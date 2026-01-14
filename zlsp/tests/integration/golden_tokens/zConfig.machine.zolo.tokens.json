@@ -1,0 +1,1925 @@
+{
+  "file": "zConfig.machine.zolo",
+  "file_type": "zconfig",
+  "line_count": 92,
+  "token_count": 213,
+  "tokens": [
+    {
+      "end": 8,
+      "length": 8,
+      "line": 0,
+      "modifiers": [],
+      "start": 0,
+      "text": "zMachine",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 0,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 16,
+      "line": 1,
+      "modifiers": [],
+      "start": 2,
+      "text": "machine_identity",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 1,
+      "modifiers": [],
+      "start": 18,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 6,
+      "length": 2,
+      "line": 2,
+      "modifiers": [],
+      "start": 4,
+      "text": "os",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 2,
+      "modifiers": [],
+      "start": 6,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 14,
+      "length": 6,
+      "line": 2,
+      "modifiers": [],
+      "start": 8,
+      "text": "Darwin",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 14,
+      "length": 10,
+      "line": 3,
+      "modifiers": [],
+      "start": 4,
+      "text": "os_version",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 15,
+      "length": 1,
+      "line": 3,
+      "modifiers": [],
+      "start": 14,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 22,
+      "length": 6,
+      "line": 3,
+      "modifiers": [],
+      "start": 16,
+      "text": "24.5.0",
+      "type": "TokenType.VERSION_STRING"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 4,
+      "modifiers": [],
+      "start": 4,
+      "text": "os_name",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 4,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 39,
+      "length": 26,
+      "line": 4,
+      "modifiers": [],
+      "start": 13,
+      "text": "macOS-15.5-arm64-arm-64bit",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 5,
+      "modifiers": [],
+      "start": 4,
+      "text": "hostname",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 5,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 29,
+      "length": 15,
+      "line": 5,
+      "modifiers": [],
+      "start": 14,
+      "text": "Gals-iMac.local",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 16,
+      "length": 12,
+      "line": 6,
+      "modifiers": [],
+      "start": 4,
+      "text": "architecture",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 6,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 23,
+      "length": 5,
+      "line": 6,
+      "modifiers": [],
+      "start": 18,
+      "text": "arm64",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 16,
+      "length": 14,
+      "line": 8,
+      "modifiers": [],
+      "start": 2,
+      "text": "python_runtime",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 8,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 9,
+      "modifiers": [],
+      "start": 4,
+      "text": "version",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 9,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 6,
+      "line": 9,
+      "modifiers": [],
+      "start": 13,
+      "text": "3.12.4",
+      "type": "TokenType.VERSION_STRING"
+    },
+    {
+      "end": 18,
+      "length": 14,
+      "line": 10,
+      "modifiers": [],
+      "start": 4,
+      "text": "implementation",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 10,
+      "modifiers": [],
+      "start": 18,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 27,
+      "length": 7,
+      "line": 10,
+      "modifiers": [],
+      "start": 20,
+      "text": "CPython",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 11,
+      "modifiers": [],
+      "start": 4,
+      "text": "build",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 11,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 29,
+      "length": 18,
+      "line": 11,
+      "modifiers": [],
+      "start": 11,
+      "text": "v3.12.4:8e8a4baf65",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 12,
+      "modifiers": [],
+      "start": 4,
+      "text": "compiler",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 12,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 47,
+      "length": 33,
+      "line": 12,
+      "modifiers": [],
+      "start": 14,
+      "text": "Clang 13.0.0 (clang-1300.0.29.30)",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 13,
+      "modifiers": [],
+      "start": 4,
+      "text": "libc_ver",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 13,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 2,
+      "line": 13,
+      "modifiers": [],
+      "start": 14,
+      "text": "''",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 14,
+      "length": 10,
+      "line": 14,
+      "modifiers": [],
+      "start": 4,
+      "text": "executable",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 15,
+      "length": 1,
+      "line": 14,
+      "modifiers": [],
+      "start": 14,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 78,
+      "length": 62,
+      "line": 14,
+      "modifiers": [],
+      "start": 16,
+      "text": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 18,
+      "length": 16,
+      "line": 16,
+      "modifiers": [],
+      "start": 2,
+      "text": "user_preferences",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 16,
+      "modifiers": [],
+      "start": 18,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 17,
+      "modifiers": [],
+      "start": 4,
+      "text": "browser",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 17,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 6,
+      "line": 17,
+      "modifiers": [],
+      "start": 13,
+      "text": "Chrome",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 3,
+      "line": 18,
+      "modifiers": [],
+      "start": 4,
+      "text": "ide",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 8,
+      "length": 1,
+      "line": 18,
+      "modifiers": [],
+      "start": 7,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 4,
+      "line": 18,
+      "modifiers": [],
+      "start": 9,
+      "text": "code",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 16,
+      "length": 12,
+      "line": 19,
+      "modifiers": [],
+      "start": 4,
+      "text": "image_viewer",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 19,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 25,
+      "length": 7,
+      "line": 19,
+      "modifiers": [],
+      "start": 18,
+      "text": "Preview",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 16,
+      "length": 12,
+      "line": 20,
+      "modifiers": [],
+      "start": 4,
+      "text": "video_player",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 20,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 34,
+      "length": 16,
+      "line": 20,
+      "modifiers": [],
+      "start": 18,
+      "text": "QuickTime Player",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 16,
+      "length": 12,
+      "line": 21,
+      "modifiers": [],
+      "start": 4,
+      "text": "audio_player",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 21,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 23,
+      "length": 5,
+      "line": 21,
+      "modifiers": [],
+      "start": 18,
+      "text": "Music",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 22,
+      "modifiers": [],
+      "start": 4,
+      "text": "terminal",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 22,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 4,
+      "line": 22,
+      "modifiers": [],
+      "start": 14,
+      "text": "dumb",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 23,
+      "modifiers": [],
+      "start": 4,
+      "text": "shell",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 23,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 8,
+      "line": 23,
+      "modifiers": [],
+      "start": 11,
+      "text": "/bin/zsh",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 24,
+      "modifiers": [],
+      "start": 4,
+      "text": "lang",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 24,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 17,
+      "length": 7,
+      "line": 24,
+      "modifiers": [],
+      "start": 10,
+      "text": "unknown",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 25,
+      "modifiers": [],
+      "start": 4,
+      "text": "timezone",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 25,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 20,
+      "length": 6,
+      "line": 25,
+      "modifiers": [],
+      "start": 14,
+      "text": "system",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 22,
+      "length": 20,
+      "line": 27,
+      "modifiers": [],
+      "start": 2,
+      "text": "time_date_formatting",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 23,
+      "length": 1,
+      "line": 27,
+      "modifiers": [],
+      "start": 22,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 15,
+      "length": 11,
+      "line": 28,
+      "modifiers": [],
+      "start": 4,
+      "text": "time_format",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 28,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 25,
+      "length": 8,
+      "line": 28,
+      "modifiers": [],
+      "start": 17,
+      "text": "HH:MM:SS",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 15,
+      "length": 11,
+      "line": 29,
+      "modifiers": [],
+      "start": 4,
+      "text": "date_format",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 29,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 25,
+      "length": 8,
+      "line": 29,
+      "modifiers": [],
+      "start": 17,
+      "text": "ddmmyyyy",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 19,
+      "length": 15,
+      "line": 30,
+      "modifiers": [],
+      "start": 4,
+      "text": "datetime_format",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 20,
+      "length": 1,
+      "line": 30,
+      "modifiers": [],
+      "start": 19,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 38,
+      "length": 17,
+      "line": 30,
+      "modifiers": [],
+      "start": 21,
+      "text": "ddmmyyyy HH:MM:SS",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 10,
+      "line": 32,
+      "modifiers": [],
+      "start": 2,
+      "text": "user_paths",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 32,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 33,
+      "modifiers": [],
+      "start": 4,
+      "text": "home",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 33,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 28,
+      "length": 18,
+      "line": 33,
+      "modifiers": [],
+      "start": 10,
+      "text": "/Users/galnachshon",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 3,
+      "line": 34,
+      "modifiers": [],
+      "start": 4,
+      "text": "cwd",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 8,
+      "length": 1,
+      "line": 34,
+      "modifiers": [],
+      "start": 7,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 41,
+      "length": 32,
+      "line": 34,
+      "modifiers": [],
+      "start": 9,
+      "text": "/Users/galnachshon/Projects/Zolo",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 35,
+      "modifiers": [],
+      "start": 4,
+      "text": "username",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 35,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 25,
+      "length": 11,
+      "line": 35,
+      "modifiers": [],
+      "start": 14,
+      "text": "galnachshon",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 36,
+      "modifiers": [],
+      "start": 4,
+      "text": "path",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 36,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 523,
+      "length": 513,
+      "line": 36,
+      "modifiers": [],
+      "start": 10,
+      "text": "/Users/galnachshon/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/Library/Frameworks/Python.framework/Versions/3.12/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/usr/local/share/dotnet:~/.dotnet/tools:/Users/galnachshon/.local/bin",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 5,
+      "length": 3,
+      "line": 38,
+      "modifiers": [],
+      "start": 2,
+      "text": "cpu",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 6,
+      "length": 1,
+      "line": 38,
+      "modifiers": [],
+      "start": 5,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 9,
+      "line": 39,
+      "modifiers": [],
+      "start": 4,
+      "text": "processor",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 39,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 3,
+      "line": 39,
+      "modifiers": [],
+      "start": 15,
+      "text": "arm",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 15,
+      "length": 11,
+      "line": 40,
+      "modifiers": [],
+      "start": 4,
+      "text": "cores_total",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 40,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 40,
+      "modifiers": [],
+      "start": 17,
+      "text": "8",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 18,
+      "length": 14,
+      "line": 41,
+      "modifiers": [],
+      "start": 4,
+      "text": "cores_physical",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 41,
+      "modifiers": [],
+      "start": 18,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 1,
+      "line": 41,
+      "modifiers": [],
+      "start": 20,
+      "text": "8",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 17,
+      "length": 13,
+      "line": 42,
+      "modifiers": [],
+      "start": 4,
+      "text": "cores_logical",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 42,
+      "modifiers": [],
+      "start": 17,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 20,
+      "length": 1,
+      "line": 42,
+      "modifiers": [],
+      "start": 19,
+      "text": "8",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 21,
+      "length": 17,
+      "line": 43,
+      "modifiers": [],
+      "start": 4,
+      "text": "cores_performance",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 22,
+      "length": 1,
+      "line": 43,
+      "modifiers": [],
+      "start": 21,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 24,
+      "length": 1,
+      "line": 43,
+      "modifiers": [],
+      "start": 23,
+      "text": "4",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 20,
+      "length": 16,
+      "line": 44,
+      "modifiers": [],
+      "start": 4,
+      "text": "cores_efficiency",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 21,
+      "length": 1,
+      "line": 44,
+      "modifiers": [],
+      "start": 20,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 23,
+      "length": 1,
+      "line": 44,
+      "modifiers": [],
+      "start": 22,
+      "text": "4",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 8,
+      "length": 6,
+      "line": 46,
+      "modifiers": [],
+      "start": 2,
+      "text": "memory",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 46,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 47,
+      "modifiers": [],
+      "start": 4,
+      "text": "total_gb",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 47,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 2,
+      "line": 47,
+      "modifiers": [],
+      "start": 14,
+      "text": "16",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 5,
+      "length": 3,
+      "line": 49,
+      "modifiers": [],
+      "start": 2,
+      "text": "gpu",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 6,
+      "length": 1,
+      "line": 49,
+      "modifiers": [],
+      "start": 5,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 9,
+      "line": 50,
+      "modifiers": [],
+      "start": 4,
+      "text": "available",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 50,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 4,
+      "line": 50,
+      "modifiers": [],
+      "start": 15,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 51,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 51,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 8,
+      "line": 51,
+      "modifiers": [],
+      "start": 10,
+      "text": "Apple M1",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 10,
+      "length": 6,
+      "line": 52,
+      "modifiers": [],
+      "start": 4,
+      "text": "vendor",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 11,
+      "length": 1,
+      "line": 52,
+      "modifiers": [],
+      "start": 10,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 17,
+      "length": 5,
+      "line": 52,
+      "modifiers": [],
+      "start": 12,
+      "text": "Apple",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 13,
+      "length": 9,
+      "line": 53,
+      "modifiers": [],
+      "start": 4,
+      "text": "memory_gb",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 53,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 17,
+      "length": 2,
+      "line": 53,
+      "modifiers": [],
+      "start": 15,
+      "text": "16",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 54,
+      "modifiers": [],
+      "start": 4,
+      "text": "compute",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 54,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 55,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 55,
+      "modifiers": [],
+      "start": 8,
+      "text": "Metal",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 9,
+      "length": 7,
+      "line": 57,
+      "modifiers": [],
+      "start": 2,
+      "text": "network",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 57,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 14,
+      "length": 10,
+      "line": 58,
+      "modifiers": [],
+      "start": 4,
+      "text": "interfaces",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 15,
+      "length": 1,
+      "line": 58,
+      "modifiers": [],
+      "start": 14,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 59,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 12,
+      "length": 4,
+      "line": 59,
+      "modifiers": [],
+      "start": 8,
+      "text": "gif0",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 60,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 12,
+      "length": 4,
+      "line": 60,
+      "modifiers": [],
+      "start": 8,
+      "text": "stf0",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 61,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 61,
+      "modifiers": [],
+      "start": 8,
+      "text": "anpi1",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 62,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 62,
+      "modifiers": [],
+      "start": 8,
+      "text": "anpi0",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 63,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 11,
+      "length": 3,
+      "line": 63,
+      "modifiers": [],
+      "start": 8,
+      "text": "en0",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 64,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 11,
+      "length": 3,
+      "line": 64,
+      "modifiers": [],
+      "start": 8,
+      "text": "en4",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 65,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 11,
+      "length": 3,
+      "line": 65,
+      "modifiers": [],
+      "start": 8,
+      "text": "en5",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 66,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 11,
+      "length": 3,
+      "line": 66,
+      "modifiers": [],
+      "start": 8,
+      "text": "en2",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 67,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 11,
+      "length": 3,
+      "line": 67,
+      "modifiers": [],
+      "start": 8,
+      "text": "en3",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 68,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 11,
+      "length": 3,
+      "line": 68,
+      "modifiers": [],
+      "start": 8,
+      "text": "en6",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 69,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 15,
+      "length": 7,
+      "line": 69,
+      "modifiers": [],
+      "start": 8,
+      "text": "bridge0",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 70,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 11,
+      "length": 3,
+      "line": 70,
+      "modifiers": [],
+      "start": 8,
+      "text": "ap1",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 71,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 11,
+      "length": 3,
+      "line": 71,
+      "modifiers": [],
+      "start": 8,
+      "text": "en1",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 72,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 72,
+      "modifiers": [],
+      "start": 8,
+      "text": "utun0",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 73,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 73,
+      "modifiers": [],
+      "start": 8,
+      "text": "awdl0",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 74,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 12,
+      "length": 4,
+      "line": 74,
+      "modifiers": [],
+      "start": 8,
+      "text": "llw0",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 75,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 75,
+      "modifiers": [],
+      "start": 8,
+      "text": "utun1",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 76,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 76,
+      "modifiers": [],
+      "start": 8,
+      "text": "utun2",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 77,
+      "modifiers": [],
+      "start": 6,
+      "text": "-",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 77,
+      "modifiers": [],
+      "start": 8,
+      "text": "utun3",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 78,
+      "modifiers": [],
+      "start": 4,
+      "text": "primary",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 78,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 3,
+      "line": 78,
+      "modifiers": [],
+      "start": 13,
+      "text": "en1",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 79,
+      "modifiers": [],
+      "start": 4,
+      "text": "ip_local",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 79,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 22,
+      "length": 8,
+      "line": 79,
+      "modifiers": [],
+      "start": 14,
+      "text": "10.0.0.6",
+      "type": "TokenType.VERSION_STRING"
+    },
+    {
+      "end": 15,
+      "length": 11,
+      "line": 80,
+      "modifiers": [],
+      "start": 4,
+      "text": "mac_address",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 80,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 34,
+      "length": 17,
+      "line": 80,
+      "modifiers": [],
+      "start": 17,
+      "text": "3a:6f:99:c6:1a:90",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 81,
+      "modifiers": [],
+      "start": 4,
+      "text": "gateway",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 81,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 23,
+      "length": 10,
+      "line": 81,
+      "modifiers": [],
+      "start": 13,
+      "text": "10.0.0.138",
+      "type": "TokenType.VERSION_STRING"
+    },
+    {
+      "end": 13,
+      "length": 9,
+      "line": 82,
+      "modifiers": [],
+      "start": 4,
+      "text": "ip_public",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 82,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 4,
+      "line": 82,
+      "modifiers": [],
+      "start": 15,
+      "text": "null",
+      "type": "TokenType.NULL"
+    },
+    {
+      "end": 17,
+      "length": 15,
+      "line": 84,
+      "modifiers": [],
+      "start": 2,
+      "text": "launch_commands",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 84,
+      "modifiers": [],
+      "start": 17,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 85,
+      "modifiers": [],
+      "start": 4,
+      "text": "browser",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 85,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 36,
+      "length": 23,
+      "line": 85,
+      "modifiers": [],
+      "start": 13,
+      "text": "open -a \"Google Chrome\"",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 3,
+      "line": 86,
+      "modifiers": [],
+      "start": 4,
+      "text": "ide",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 8,
+      "length": 1,
+      "line": 86,
+      "modifiers": [],
+      "start": 7,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 4,
+      "line": 86,
+      "modifiers": [],
+      "start": 9,
+      "text": "code",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 16,
+      "length": 12,
+      "line": 87,
+      "modifiers": [],
+      "start": 4,
+      "text": "image_viewer",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 87,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 33,
+      "length": 15,
+      "line": 87,
+      "modifiers": [],
+      "start": 18,
+      "text": "open -a Preview",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 16,
+      "length": 12,
+      "line": 88,
+      "modifiers": [],
+      "start": 4,
+      "text": "video_player",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 88,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 44,
+      "length": 26,
+      "line": 88,
+      "modifiers": [],
+      "start": 18,
+      "text": "open -a \"QuickTime Player\"",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 16,
+      "length": 12,
+      "line": 89,
+      "modifiers": [],
+      "start": 4,
+      "text": "audio_player",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 89,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 31,
+      "length": 13,
+      "line": 89,
+      "modifiers": [],
+      "start": 18,
+      "text": "open -a Music",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 8,
+      "length": 6,
+      "line": 91,
+      "modifiers": [],
+      "start": 2,
+      "text": "custom",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 91,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 14,
+      "length": 4,
+      "line": 91,
+      "modifiers": [],
+      "start": 10,
+      "text": "null",
+      "type": "TokenType.NULL"
+    }
+  ]
+}

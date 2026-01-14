@@ -1,0 +1,341 @@
+{
+  "file": "zSpark.example.zolo",
+  "file_type": "zspark",
+  "line_count": 13,
+  "token_count": 37,
+  "tokens": [
+    {
+      "end": 6,
+      "length": 6,
+      "line": 0,
+      "modifiers": [],
+      "start": 0,
+      "text": "zSpark",
+      "type": "TokenType.ZSPARK_KEY"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 0,
+      "modifiers": [],
+      "start": 6,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 7,
+      "length": 5,
+      "line": 1,
+      "modifiers": [],
+      "start": 2,
+      "text": "title",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 8,
+      "length": 1,
+      "line": 1,
+      "modifiers": [],
+      "start": 7,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 15,
+      "length": 6,
+      "line": 1,
+      "modifiers": [],
+      "start": 9,
+      "text": "zCloud",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 10,
+      "line": 2,
+      "modifiers": [],
+      "start": 2,
+      "text": "deployment",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 2,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 25,
+      "length": 11,
+      "line": 2,
+      "modifiers": [],
+      "start": 14,
+      "text": "Development",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 8,
+      "length": 6,
+      "line": 3,
+      "modifiers": [],
+      "start": 2,
+      "text": "logger",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 3,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 14,
+      "length": 4,
+      "line": 3,
+      "modifiers": [],
+      "start": 10,
+      "text": "PROD",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 13,
+      "length": 11,
+      "line": 4,
+      "modifiers": [],
+      "start": 2,
+      "text": "logger_path",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 4,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 6,
+      "line": 4,
+      "modifiers": [],
+      "start": 15,
+      "text": "@.logs",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 7,
+      "length": 5,
+      "line": 5,
+      "modifiers": [],
+      "start": 2,
+      "text": "zMode",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 8,
+      "length": 1,
+      "line": 5,
+      "modifiers": [],
+      "start": 7,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 17,
+      "length": 8,
+      "line": 5,
+      "modifiers": [],
+      "start": 9,
+      "text": "Terminal",
+      "type": "TokenType.ZSPARK_MODE_VALUE"
+    },
+    {
+      "end": 9,
+      "length": 7,
+      "line": 6,
+      "modifiers": [],
+      "start": 2,
+      "text": "zServer",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 6,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 7,
+      "modifiers": [],
+      "start": 4,
+      "text": "enabled",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 7,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 17,
+      "length": 4,
+      "line": 7,
+      "modifiers": [],
+      "start": 13,
+      "text": "True",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 10,
+      "length": 6,
+      "line": 8,
+      "modifiers": [],
+      "start": 4,
+      "text": "zShell",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 11,
+      "length": 1,
+      "line": 8,
+      "modifiers": [],
+      "start": 10,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 4,
+      "line": 8,
+      "modifiers": [],
+      "start": 12,
+      "text": "True",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 13,
+      "length": 11,
+      "line": 9,
+      "modifiers": [],
+      "start": 2,
+      "text": "app_storage",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 9,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 4,
+      "line": 9,
+      "modifiers": [],
+      "start": 15,
+      "text": "True",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 11,
+      "length": 9,
+      "line": 10,
+      "modifiers": [],
+      "start": 2,
+      "text": "zVaFolder",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 10,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 34,
+      "length": 21,
+      "line": 10,
+      "modifiers": [],
+      "start": 13,
+      "text": "@.UI.zProducts.zTheme",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 9,
+      "length": 7,
+      "line": 11,
+      "modifiers": [],
+      "start": 2,
+      "text": "zVaFile",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 11,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 27,
+      "length": 16,
+      "line": 11,
+      "modifiers": [],
+      "start": 11,
+      "text": "zUI.zBreakpoints",
+      "type": "TokenType.ZSPARK_VAFILE_VALUE"
+    },
+    {
+      "end": 8,
+      "length": 6,
+      "line": 12,
+      "modifiers": [],
+      "start": 2,
+      "text": "zBlock",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 12,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 30,
+      "length": 20,
+      "line": 12,
+      "modifiers": [],
+      "start": 10,
+      "text": "zBreakpoints_Details",
+      "type": "TokenType.ZSPARK_SPECIAL_VALUE"
+    }
+  ]
+}

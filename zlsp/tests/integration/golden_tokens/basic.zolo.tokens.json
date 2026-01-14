@@ -1,0 +1,674 @@
+{
+  "file": "basic.zolo",
+  "file_type": null,
+  "line_count": 26,
+  "token_count": 74,
+  "tokens": [
+    {
+      "end": 20,
+      "length": 20,
+      "line": 0,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Basic Zolo Example",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 51,
+      "length": 51,
+      "line": 1,
+      "modifiers": [],
+      "start": 0,
+      "text": "# All values default to strings (no quotes needed!)",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 8,
+      "length": 8,
+      "line": 3,
+      "modifiers": [],
+      "start": 0,
+      "text": "app_name",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 3,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 24,
+      "length": 14,
+      "line": 3,
+      "modifiers": [],
+      "start": 10,
+      "text": "My Application",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 7,
+      "line": 4,
+      "modifiers": [],
+      "start": 0,
+      "text": "version",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 8,
+      "length": 1,
+      "line": 4,
+      "modifiers": [],
+      "start": 7,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 14,
+      "length": 5,
+      "line": 4,
+      "modifiers": [],
+      "start": 9,
+      "text": "1.0.0",
+      "type": "TokenType.VERSION_STRING"
+    },
+    {
+      "end": 12,
+      "length": 12,
+      "line": 5,
+      "modifiers": [],
+      "start": 0,
+      "text": "country_code",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 5,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 2,
+      "line": 5,
+      "modifiers": [],
+      "start": 14,
+      "text": "NO",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 11,
+      "length": 11,
+      "line": 6,
+      "modifiers": [],
+      "start": 0,
+      "text": "description",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 6,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 25,
+      "length": 12,
+      "line": 6,
+      "modifiers": [],
+      "start": 13,
+      "text": "A simple app",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 37,
+      "length": 37,
+      "line": 8,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Use type hints for non-string types",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 6,
+      "length": 6,
+      "line": 9,
+      "modifiers": [],
+      "start": 0,
+      "text": "server",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 9,
+      "modifiers": [],
+      "start": 6,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 6,
+      "length": 4,
+      "line": 10,
+      "modifiers": [],
+      "start": 2,
+      "text": "host",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 10,
+      "modifiers": [],
+      "start": 6,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 17,
+      "length": 9,
+      "line": 10,
+      "modifiers": [],
+      "start": 8,
+      "text": "localhost",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 6,
+      "length": 4,
+      "line": 11,
+      "modifiers": [],
+      "start": 2,
+      "text": "port",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 10,
+      "length": 3,
+      "line": 11,
+      "modifiers": [],
+      "start": 7,
+      "text": "int",
+      "type": "TokenType.TYPE_HINT"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 11,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 17,
+      "length": 4,
+      "line": 11,
+      "modifiers": [],
+      "start": 13,
+      "text": "8080",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 5,
+      "length": 3,
+      "line": 12,
+      "modifiers": [],
+      "start": 2,
+      "text": "ssl",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 10,
+      "length": 4,
+      "line": 12,
+      "modifiers": [],
+      "start": 6,
+      "text": "bool",
+      "type": "TokenType.TYPE_HINT"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 12,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 17,
+      "length": 4,
+      "line": 12,
+      "modifiers": [],
+      "start": 13,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 9,
+      "length": 7,
+      "line": 13,
+      "modifiers": [],
+      "start": 2,
+      "text": "timeout",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 3,
+      "line": 13,
+      "modifiers": [],
+      "start": 10,
+      "text": "int",
+      "type": "TokenType.TYPE_HINT"
+    },
+    {
+      "end": 15,
+      "length": 1,
+      "line": 13,
+      "modifiers": [],
+      "start": 14,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 2,
+      "line": 13,
+      "modifiers": [],
+      "start": 16,
+      "text": "30",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 17,
+      "length": 15,
+      "line": 14,
+      "modifiers": [],
+      "start": 2,
+      "text": "max_connections",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 21,
+      "length": 3,
+      "line": 14,
+      "modifiers": [],
+      "start": 18,
+      "text": "int",
+      "type": "TokenType.TYPE_HINT"
+    },
+    {
+      "end": 23,
+      "length": 1,
+      "line": 14,
+      "modifiers": [],
+      "start": 22,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 27,
+      "length": 3,
+      "line": 14,
+      "modifiers": [],
+      "start": 24,
+      "text": "100",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 8,
+      "length": 8,
+      "line": 16,
+      "modifiers": [],
+      "start": 0,
+      "text": "features",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 16,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 11,
+      "length": 9,
+      "line": 17,
+      "modifiers": [],
+      "start": 2,
+      "text": "analytics",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 16,
+      "length": 4,
+      "line": 17,
+      "modifiers": [],
+      "start": 12,
+      "text": "bool",
+      "type": "TokenType.TYPE_HINT"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 17,
+      "modifiers": [],
+      "start": 17,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 23,
+      "length": 4,
+      "line": 17,
+      "modifiers": [],
+      "start": 19,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 7,
+      "length": 5,
+      "line": 18,
+      "modifiers": [],
+      "start": 2,
+      "text": "debug",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 4,
+      "line": 18,
+      "modifiers": [],
+      "start": 8,
+      "text": "bool",
+      "type": "TokenType.TYPE_HINT"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 18,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 20,
+      "length": 5,
+      "line": 18,
+      "modifiers": [],
+      "start": 15,
+      "text": "false",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 12,
+      "length": 10,
+      "line": 19,
+      "modifiers": [],
+      "start": 2,
+      "text": "rate_limit",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 16,
+      "length": 3,
+      "line": 19,
+      "modifiers": [],
+      "start": 13,
+      "text": "int",
+      "type": "TokenType.TYPE_HINT"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 19,
+      "modifiers": [],
+      "start": 17,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 23,
+      "length": 4,
+      "line": 19,
+      "modifiers": [],
+      "start": 19,
+      "text": "1000",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 12,
+      "length": 10,
+      "line": 20,
+      "modifiers": [],
+      "start": 2,
+      "text": "beta_users",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 17,
+      "length": 4,
+      "line": 20,
+      "modifiers": [],
+      "start": 13,
+      "text": "list",
+      "type": "TokenType.TYPE_HINT"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 20,
+      "modifiers": [],
+      "start": 18,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 1,
+      "line": 20,
+      "modifiers": [],
+      "start": 20,
+      "text": "[",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 26,
+      "length": 5,
+      "line": 20,
+      "modifiers": [],
+      "start": 21,
+      "text": "alice",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 27,
+      "length": 1,
+      "line": 20,
+      "modifiers": [],
+      "start": 26,
+      "text": ",",
+      "type": "TokenType.COMMA"
+    },
+    {
+      "end": 31,
+      "length": 3,
+      "line": 20,
+      "modifiers": [],
+      "start": 28,
+      "text": "bob",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 32,
+      "length": 1,
+      "line": 20,
+      "modifiers": [],
+      "start": 31,
+      "text": ",",
+      "type": "TokenType.COMMA"
+    },
+    {
+      "end": 40,
+      "length": 7,
+      "line": 20,
+      "modifiers": [],
+      "start": 33,
+      "text": "charlie",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 41,
+      "length": 1,
+      "line": 20,
+      "modifiers": [],
+      "start": 40,
+      "text": "]",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 7,
+      "length": 7,
+      "line": 22,
+      "modifiers": [],
+      "start": 0,
+      "text": "pricing",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 8,
+      "length": 1,
+      "line": 22,
+      "modifiers": [],
+      "start": 7,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 9,
+      "length": 7,
+      "line": 23,
+      "modifiers": [],
+      "start": 2,
+      "text": "monthly",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 15,
+      "length": 5,
+      "line": 23,
+      "modifiers": [],
+      "start": 10,
+      "text": "float",
+      "type": "TokenType.TYPE_HINT"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 23,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 22,
+      "length": 4,
+      "line": 23,
+      "modifiers": [],
+      "start": 18,
+      "text": "9.99",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 8,
+      "length": 6,
+      "line": 24,
+      "modifiers": [],
+      "start": 2,
+      "text": "annual",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 5,
+      "line": 24,
+      "modifiers": [],
+      "start": 9,
+      "text": "float",
+      "type": "TokenType.TYPE_HINT"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 24,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 22,
+      "length": 5,
+      "line": 24,
+      "modifiers": [],
+      "start": 17,
+      "text": "99.99",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 12,
+      "length": 10,
+      "line": 25,
+      "modifiers": [],
+      "start": 2,
+      "text": "trial_days",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 16,
+      "length": 3,
+      "line": 25,
+      "modifiers": [],
+      "start": 13,
+      "text": "int",
+      "type": "TokenType.TYPE_HINT"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 25,
+      "modifiers": [],
+      "start": 17,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 2,
+      "line": 25,
+      "modifiers": [],
+      "start": 19,
+      "text": "14",
+      "type": "TokenType.NUMBER"
+    }
+  ]
+}

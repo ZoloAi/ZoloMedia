@@ -1,0 +1,2510 @@
+{
+  "file": "zSchema.example.zolo",
+  "file_type": "zschema",
+  "line_count": 122,
+  "token_count": 278,
+  "tokens": [
+    {
+      "end": 5,
+      "length": 5,
+      "line": 0,
+      "modifiers": [],
+      "start": 0,
+      "text": "zMeta",
+      "type": "TokenType.ZMETA_KEY"
+    },
+    {
+      "end": 6,
+      "length": 1,
+      "line": 0,
+      "modifiers": [],
+      "start": 5,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 11,
+      "length": 9,
+      "line": 1,
+      "modifiers": [],
+      "start": 2,
+      "text": "Data_Type",
+      "type": "TokenType.ZKERNEL_DATA_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 1,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 3,
+      "line": 1,
+      "modifiers": [],
+      "start": 13,
+      "text": "csv",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 10,
+      "line": 2,
+      "modifiers": [],
+      "start": 2,
+      "text": "Data_Label",
+      "type": "TokenType.ZKERNEL_DATA_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 2,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 26,
+      "length": 12,
+      "line": 2,
+      "modifiers": [],
+      "start": 14,
+      "text": "zCloud Users",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 13,
+      "length": 11,
+      "line": 3,
+      "modifiers": [],
+      "start": 2,
+      "text": "Data_Source",
+      "type": "TokenType.ZKERNEL_DATA_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 3,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 30,
+      "length": 15,
+      "line": 3,
+      "modifiers": [],
+      "start": 15,
+      "text": "ZDATA_USERS_URL",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 13,
+      "length": 11,
+      "line": 4,
+      "modifiers": [],
+      "start": 2,
+      "text": "Schema_Name",
+      "type": "TokenType.ZKERNEL_DATA_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 4,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 28,
+      "length": 13,
+      "line": 4,
+      "modifiers": [],
+      "start": 15,
+      "text": "zSchema.users",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 46,
+      "length": 44,
+      "line": 6,
+      "modifiers": [],
+      "start": 2,
+      "text": "# Enable migrations (Phase 0 implementation)",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 12,
+      "length": 10,
+      "line": 7,
+      "modifiers": [],
+      "start": 2,
+      "text": "zMigration",
+      "type": "TokenType.ZKERNEL_DATA_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 7,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 4,
+      "line": 7,
+      "modifiers": [],
+      "start": 14,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 19,
+      "length": 17,
+      "line": 8,
+      "modifiers": [],
+      "start": 2,
+      "text": "zMigrationVersion",
+      "type": "TokenType.ZKERNEL_DATA_KEY"
+    },
+    {
+      "end": 20,
+      "length": 1,
+      "line": 8,
+      "modifiers": [],
+      "start": 19,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 27,
+      "length": 6,
+      "line": 8,
+      "modifiers": [],
+      "start": 21,
+      "text": "v1.4.0",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 88,
+      "length": 59,
+      "line": 8,
+      "modifiers": [],
+      "start": 29,
+      "text": "#> Phase 2.1: Added cover_url and media timestamp fields <#",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 5,
+      "length": 5,
+      "line": 10,
+      "modifiers": [],
+      "start": 0,
+      "text": "users",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 6,
+      "length": 1,
+      "line": 10,
+      "modifiers": [],
+      "start": 5,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 4,
+      "length": 2,
+      "line": 11,
+      "modifiers": [],
+      "start": 2,
+      "text": "id",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 5,
+      "length": 1,
+      "line": 11,
+      "modifiers": [],
+      "start": 4,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 12,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 12,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 3,
+      "line": 12,
+      "modifiers": [],
+      "start": 10,
+      "text": "int",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 6,
+      "length": 2,
+      "line": 13,
+      "modifiers": [],
+      "start": 4,
+      "text": "pk",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 13,
+      "modifiers": [],
+      "start": 6,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 12,
+      "length": 4,
+      "line": 13,
+      "modifiers": [],
+      "start": 8,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 18,
+      "length": 14,
+      "line": 14,
+      "modifiers": [],
+      "start": 4,
+      "text": "auto_increment",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 14,
+      "modifiers": [],
+      "start": 18,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 24,
+      "length": 4,
+      "line": 14,
+      "modifiers": [],
+      "start": 20,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 7,
+      "length": 5,
+      "line": 16,
+      "modifiers": [],
+      "start": 2,
+      "text": "email",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 8,
+      "length": 1,
+      "line": 16,
+      "modifiers": [],
+      "start": 7,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 17,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 17,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 3,
+      "line": 17,
+      "modifiers": [],
+      "start": 10,
+      "text": "str",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 18,
+      "modifiers": [],
+      "start": 4,
+      "text": "required",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 18,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 4,
+      "line": 18,
+      "modifiers": [],
+      "start": 14,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 10,
+      "length": 6,
+      "line": 19,
+      "modifiers": [],
+      "start": 4,
+      "text": "unique",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 11,
+      "length": 1,
+      "line": 19,
+      "modifiers": [],
+      "start": 10,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 4,
+      "line": 19,
+      "modifiers": [],
+      "start": 12,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 20,
+      "modifiers": [],
+      "start": 4,
+      "text": "rules",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 20,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 12,
+      "length": 6,
+      "line": 21,
+      "modifiers": [],
+      "start": 6,
+      "text": "format",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 21,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 5,
+      "line": 21,
+      "modifiers": [],
+      "start": 14,
+      "text": "email",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 16,
+      "length": 10,
+      "line": 22,
+      "modifiers": [],
+      "start": 6,
+      "text": "min_length",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 22,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 22,
+      "modifiers": [],
+      "start": 18,
+      "text": "5",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 16,
+      "length": 10,
+      "line": 23,
+      "modifiers": [],
+      "start": 6,
+      "text": "max_length",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 23,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 3,
+      "line": 23,
+      "modifiers": [],
+      "start": 18,
+      "text": "255",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 10,
+      "length": 8,
+      "line": 25,
+      "modifiers": [],
+      "start": 2,
+      "text": "password",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 11,
+      "length": 1,
+      "line": 25,
+      "modifiers": [],
+      "start": 10,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 26,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 26,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 3,
+      "line": 26,
+      "modifiers": [],
+      "start": 10,
+      "text": "str",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 27,
+      "modifiers": [],
+      "start": 4,
+      "text": "required",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 27,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 4,
+      "line": 27,
+      "modifiers": [],
+      "start": 14,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 28,
+      "modifiers": [],
+      "start": 4,
+      "text": "zHash",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 28,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 17,
+      "length": 6,
+      "line": 28,
+      "modifiers": [],
+      "start": 11,
+      "text": "bcrypt",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 29,
+      "modifiers": [],
+      "start": 4,
+      "text": "rules",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 29,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 10,
+      "line": 30,
+      "modifiers": [],
+      "start": 6,
+      "text": "min_length",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 30,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 30,
+      "modifiers": [],
+      "start": 18,
+      "text": "8",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 16,
+      "length": 10,
+      "line": 31,
+      "modifiers": [],
+      "start": 6,
+      "text": "max_length",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 31,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 3,
+      "line": 31,
+      "modifiers": [],
+      "start": 18,
+      "text": "255",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 6,
+      "length": 4,
+      "line": 33,
+      "modifiers": [],
+      "start": 2,
+      "text": "name",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 33,
+      "modifiers": [],
+      "start": 6,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 34,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 34,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 3,
+      "line": 34,
+      "modifiers": [],
+      "start": 10,
+      "text": "str",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 35,
+      "modifiers": [],
+      "start": 4,
+      "text": "required",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 35,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 4,
+      "line": 35,
+      "modifiers": [],
+      "start": 14,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 36,
+      "modifiers": [],
+      "start": 4,
+      "text": "rules",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 36,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 10,
+      "line": 37,
+      "modifiers": [],
+      "start": 6,
+      "text": "min_length",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 37,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 37,
+      "modifiers": [],
+      "start": 18,
+      "text": "2",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 16,
+      "length": 10,
+      "line": 38,
+      "modifiers": [],
+      "start": 6,
+      "text": "max_length",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 38,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 3,
+      "line": 38,
+      "modifiers": [],
+      "start": 18,
+      "text": "100",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 9,
+      "length": 7,
+      "line": 40,
+      "modifiers": [],
+      "start": 2,
+      "text": "company",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 40,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 41,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 41,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 3,
+      "line": 41,
+      "modifiers": [],
+      "start": 10,
+      "text": "str",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 42,
+      "modifiers": [],
+      "start": 4,
+      "text": "required",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 42,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 5,
+      "line": 42,
+      "modifiers": [],
+      "start": 14,
+      "text": "false",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 43,
+      "modifiers": [],
+      "start": 4,
+      "text": "default",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 43,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 15,
+      "length": 2,
+      "line": 43,
+      "modifiers": [],
+      "start": 13,
+      "text": "\"\"",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 44,
+      "modifiers": [],
+      "start": 4,
+      "text": "rules",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 44,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 10,
+      "line": 45,
+      "modifiers": [],
+      "start": 6,
+      "text": "max_length",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 45,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 3,
+      "line": 45,
+      "modifiers": [],
+      "start": 18,
+      "text": "100",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 46,
+      "modifiers": [],
+      "start": 4,
+      "text": "comment",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 46,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 41,
+      "length": 28,
+      "line": 46,
+      "modifiers": [],
+      "start": 13,
+      "text": "Company or organization name",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 10,
+      "line": 48,
+      "modifiers": [],
+      "start": 2,
+      "text": "avatar_url",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 48,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 49,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 49,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 3,
+      "line": 49,
+      "modifiers": [],
+      "start": 10,
+      "text": "str",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 50,
+      "modifiers": [],
+      "start": 4,
+      "text": "required",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 50,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 5,
+      "line": 50,
+      "modifiers": [],
+      "start": 14,
+      "text": "false",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 51,
+      "modifiers": [],
+      "start": 4,
+      "text": "rules",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 51,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 10,
+      "line": 52,
+      "modifiers": [],
+      "start": 6,
+      "text": "max_length",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 52,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 3,
+      "line": 52,
+      "modifiers": [],
+      "start": 18,
+      "text": "512",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 53,
+      "modifiers": [],
+      "start": 4,
+      "text": "comment",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 53,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 71,
+      "length": 58,
+      "line": 53,
+      "modifiers": [],
+      "start": 13,
+      "text": "Storage key for avatar (references user_files.storage_key)",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 19,
+      "length": 17,
+      "line": 55,
+      "modifiers": [],
+      "start": 2,
+      "text": "avatar_updated_at",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 20,
+      "length": 1,
+      "line": 55,
+      "modifiers": [],
+      "start": 19,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 56,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 56,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 8,
+      "line": 56,
+      "modifiers": [],
+      "start": 10,
+      "text": "datetime",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 57,
+      "modifiers": [],
+      "start": 4,
+      "text": "required",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 57,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 5,
+      "line": 57,
+      "modifiers": [],
+      "start": 14,
+      "text": "false",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 58,
+      "modifiers": [],
+      "start": 4,
+      "text": "comment",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 58,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 44,
+      "length": 31,
+      "line": 58,
+      "modifiers": [],
+      "start": 13,
+      "text": "Timestamp of last avatar update",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 11,
+      "length": 9,
+      "line": 60,
+      "modifiers": [],
+      "start": 2,
+      "text": "cover_url",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 60,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 61,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 61,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 3,
+      "line": 61,
+      "modifiers": [],
+      "start": 10,
+      "text": "str",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 62,
+      "modifiers": [],
+      "start": 4,
+      "text": "required",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 62,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 5,
+      "line": 62,
+      "modifiers": [],
+      "start": 14,
+      "text": "false",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 63,
+      "modifiers": [],
+      "start": 4,
+      "text": "rules",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 63,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 10,
+      "line": 64,
+      "modifiers": [],
+      "start": 6,
+      "text": "max_length",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 64,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 3,
+      "line": 64,
+      "modifiers": [],
+      "start": 18,
+      "text": "512",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 65,
+      "modifiers": [],
+      "start": 4,
+      "text": "comment",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 65,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 76,
+      "length": 63,
+      "line": 65,
+      "modifiers": [],
+      "start": 13,
+      "text": "Storage key for cover image (references user_files.storage_key)",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 18,
+      "length": 16,
+      "line": 67,
+      "modifiers": [],
+      "start": 2,
+      "text": "cover_updated_at",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 67,
+      "modifiers": [],
+      "start": 18,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 68,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 68,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 8,
+      "line": 68,
+      "modifiers": [],
+      "start": 10,
+      "text": "datetime",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 69,
+      "modifiers": [],
+      "start": 4,
+      "text": "required",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 69,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 5,
+      "line": 69,
+      "modifiers": [],
+      "start": 14,
+      "text": "false",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 70,
+      "modifiers": [],
+      "start": 4,
+      "text": "comment",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 70,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 49,
+      "length": 36,
+      "line": 70,
+      "modifiers": [],
+      "start": 13,
+      "text": "Timestamp of last cover image update",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 7,
+      "length": 5,
+      "line": 72,
+      "modifiers": [],
+      "start": 2,
+      "text": "phone",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 8,
+      "length": 1,
+      "line": 72,
+      "modifiers": [],
+      "start": 7,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 73,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 73,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 3,
+      "line": 73,
+      "modifiers": [],
+      "start": 10,
+      "text": "str",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 74,
+      "modifiers": [],
+      "start": 4,
+      "text": "required",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 74,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 5,
+      "line": 74,
+      "modifiers": [],
+      "start": 14,
+      "text": "false",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 75,
+      "modifiers": [],
+      "start": 4,
+      "text": "rules",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 75,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 7,
+      "line": 76,
+      "modifiers": [],
+      "start": 6,
+      "text": "pattern",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 76,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 33,
+      "length": 18,
+      "line": 76,
+      "modifiers": [],
+      "start": 15,
+      "text": "^\\+?[\\d\\s\\-\\(\\)]+$",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 16,
+      "length": 10,
+      "line": 77,
+      "modifiers": [],
+      "start": 6,
+      "text": "min_length",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 77,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 20,
+      "length": 2,
+      "line": 77,
+      "modifiers": [],
+      "start": 18,
+      "text": "10",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 16,
+      "length": 10,
+      "line": 78,
+      "modifiers": [],
+      "start": 6,
+      "text": "max_length",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 78,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 20,
+      "length": 2,
+      "line": 78,
+      "modifiers": [],
+      "start": 18,
+      "text": "20",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 8,
+      "length": 6,
+      "line": 80,
+      "modifiers": [],
+      "start": 2,
+      "text": "status",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 80,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 81,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 81,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 3,
+      "line": 81,
+      "modifiers": [],
+      "start": 10,
+      "text": "str",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 82,
+      "modifiers": [],
+      "start": 4,
+      "text": "default",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 82,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 6,
+      "line": 82,
+      "modifiers": [],
+      "start": 13,
+      "text": "active",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 83,
+      "modifiers": [],
+      "start": 4,
+      "text": "rules",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 83,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 7,
+      "line": 84,
+      "modifiers": [],
+      "start": 6,
+      "text": "pattern",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 84,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 43,
+      "length": 28,
+      "line": 84,
+      "modifiers": [],
+      "start": 15,
+      "text": "^(active|suspended|pending)$",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 10,
+      "line": 86,
+      "modifiers": [],
+      "start": 2,
+      "text": "created_at",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 86,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 87,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 87,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 8,
+      "line": 87,
+      "modifiers": [],
+      "start": 10,
+      "text": "datetime",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 88,
+      "modifiers": [],
+      "start": 4,
+      "text": "default",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 88,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 3,
+      "line": 88,
+      "modifiers": [],
+      "start": 13,
+      "text": "now",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 10,
+      "line": 90,
+      "modifiers": [],
+      "start": 2,
+      "text": "updated_at",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 90,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 91,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 91,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 8,
+      "line": 91,
+      "modifiers": [],
+      "start": 10,
+      "text": "datetime",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 92,
+      "modifiers": [],
+      "start": 4,
+      "text": "default",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 92,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 3,
+      "line": 92,
+      "modifiers": [],
+      "start": 13,
+      "text": "now",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 41,
+      "length": 39,
+      "line": 94,
+      "modifiers": [],
+      "start": 2,
+      "text": "# Storage management fields (Phase 1.5)",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 15,
+      "length": 13,
+      "line": 95,
+      "modifiers": [],
+      "start": 2,
+      "text": "storage_quota",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 95,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 96,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 96,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 3,
+      "line": 96,
+      "modifiers": [],
+      "start": 10,
+      "text": "int",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 97,
+      "modifiers": [],
+      "start": 4,
+      "text": "default",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 97,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 54,
+      "length": 41,
+      "line": 97,
+      "modifiers": [],
+      "start": 13,
+      "text": "1073741824  # 1GB for developers (1024^3)",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 98,
+      "modifiers": [],
+      "start": 4,
+      "text": "rules",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 98,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 9,
+      "length": 3,
+      "line": 99,
+      "modifiers": [],
+      "start": 6,
+      "text": "min",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 99,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 99,
+      "modifiers": [],
+      "start": 11,
+      "text": "0",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 100,
+      "modifiers": [],
+      "start": 4,
+      "text": "comment",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 100,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 49,
+      "length": 36,
+      "line": 100,
+      "modifiers": [],
+      "start": 13,
+      "text": "Storage quota in bytes (default 1GB)",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 14,
+      "length": 12,
+      "line": 102,
+      "modifiers": [],
+      "start": 2,
+      "text": "storage_used",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 15,
+      "length": 1,
+      "line": 102,
+      "modifiers": [],
+      "start": 14,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 103,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 103,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 3,
+      "line": 103,
+      "modifiers": [],
+      "start": 10,
+      "text": "int",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 104,
+      "modifiers": [],
+      "start": 4,
+      "text": "default",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 104,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 104,
+      "modifiers": [],
+      "start": 13,
+      "text": "0",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 105,
+      "modifiers": [],
+      "start": 4,
+      "text": "rules",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 105,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 9,
+      "length": 3,
+      "line": 106,
+      "modifiers": [],
+      "start": 6,
+      "text": "min",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 106,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 106,
+      "modifiers": [],
+      "start": 11,
+      "text": "0",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 107,
+      "modifiers": [],
+      "start": 4,
+      "text": "comment",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 107,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 43,
+      "length": 30,
+      "line": 107,
+      "modifiers": [],
+      "start": 13,
+      "text": "Current storage usage in bytes",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 17,
+      "length": 15,
+      "line": 109,
+      "modifiers": [],
+      "start": 2,
+      "text": "storage_backend",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 109,
+      "modifiers": [],
+      "start": 17,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 110,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 110,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 3,
+      "line": 110,
+      "modifiers": [],
+      "start": 10,
+      "text": "str",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 111,
+      "modifiers": [],
+      "start": 4,
+      "text": "default",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 111,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 5,
+      "line": 111,
+      "modifiers": [],
+      "start": 13,
+      "text": "local",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 112,
+      "modifiers": [],
+      "start": 4,
+      "text": "rules",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 112,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 7,
+      "line": 113,
+      "modifiers": [],
+      "start": 6,
+      "text": "pattern",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 113,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 37,
+      "length": 22,
+      "line": 113,
+      "modifiers": [],
+      "start": 15,
+      "text": "^(local|lfs|s3|azure)$",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 114,
+      "modifiers": [],
+      "start": 4,
+      "text": "comment",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 114,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 58,
+      "length": 45,
+      "line": 114,
+      "modifiers": [],
+      "start": 13,
+      "text": "Storage backend type (future: LFS, S3, Azure)",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 14,
+      "length": 12,
+      "line": 116,
+      "modifiers": [],
+      "start": 2,
+      "text": "storage_path",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 15,
+      "length": 1,
+      "line": 116,
+      "modifiers": [],
+      "start": 14,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 117,
+      "modifiers": [],
+      "start": 4,
+      "text": "type",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 117,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 3,
+      "line": 117,
+      "modifiers": [],
+      "start": 10,
+      "text": "str",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 118,
+      "modifiers": [],
+      "start": 4,
+      "text": "required",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 118,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 5,
+      "line": 118,
+      "modifiers": [],
+      "start": 14,
+      "text": "false",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 119,
+      "modifiers": [],
+      "start": 4,
+      "text": "rules",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 119,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 10,
+      "line": 120,
+      "modifiers": [],
+      "start": 6,
+      "text": "max_length",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 120,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 3,
+      "line": 120,
+      "modifiers": [],
+      "start": 18,
+      "text": "255",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 121,
+      "modifiers": [],
+      "start": 4,
+      "text": "comment",
+      "type": "TokenType.ZSCHEMA_PROPERTY_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 121,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 69,
+      "length": 56,
+      "line": 121,
+      "modifiers": [],
+      "start": 13,
+      "text": "Sharded storage path (e.g., '00/01/2345' for user 12345)",
+      "type": "TokenType.STRING"
+    }
+  ]
+}

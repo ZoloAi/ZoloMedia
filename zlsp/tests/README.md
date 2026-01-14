@@ -77,34 +77,85 @@ def test_semantic_tokens_full_workflow():
     # Verify output
 ```
 
+### 🖼️ Visual Regression Tests (`tests/visual/`)
+
+**Purpose:** Test cross-editor visual consistency  
+**Speed:** Very slow (~2min for all 7 files)
+
+**What to test:**
+- Vim vs VS Code pixel-perfect rendering
+- Semantic token color consistency
+- LSP highlight accuracy
+- Editor adapter correctness
+
+**Example:**
+```python
+@pytest.mark.visual
+@pytest.mark.slow
+def test_vscode_matches_vim_baseline():
+    """Test that VS Code renders identically to Vim."""
+    # Capture Vim golden baseline
+    # Capture VS Code screenshot
+    # Compare pixel-by-pixel
+    # Generate diff report if mismatch
+```
+
+**Running Visual Tests:**
+```bash
+# Capture golden baselines (first time)
+pytest tests/visual/ --capture-golden
+
+# Run visual tests
+zlsp test --visual
+
+# Update baselines after theme changes
+pytest tests/visual/ --update-golden
+
+# Skip visual tests
+zlsp test --quick  # or pytest -m "not visual"
+```
+
+**See:** [tests/visual/README.md](visual/README.md) for detailed documentation
+
 ## Running Tests
 
 ### Run All Tests
 ```bash
-zlsp test
+zlsp test                  # Full suite (unit + integration + e2e + visual)
 ```
 
 ### Run Specific Test Level
 ```bash
-zlsp test --unit           # Fast unit tests only
+zlsp test --quick          # Quick tests (unit + integration, skip slow)
+zlsp test --unit           # Unit tests only (fastest)
 zlsp test --integration    # Integration tests only
 zlsp test --e2e            # End-to-end tests only
+zlsp test --visual         # Visual regression tests only (slowest)
 ```
 
 ### Run with Coverage
 ```bash
-zlsp test --coverage       # Shows coverage report
+zlsp test --coverage       # Coverage report (terminal + HTML)
+zlsp test --quick --coverage  # Coverage for quick tests only
 ```
 
 ### Run Specific Test
 ```bash
 zlsp test -k test_parser   # Run tests matching "test_parser"
 zlsp test -k "test_type"   # Run tests matching "test_type"
+zlsp test -x               # Stop on first failure (fail-fast)
 ```
 
 ### Verbose Output
 ```bash
 zlsp test -v               # Verbose output
+zlsp test -vv              # Very verbose output
+```
+
+### Skip Visual Tests
+```bash
+# Run all except visual (for CI or quick validation)
+pytest tests -m "not visual" -v
 ```
 
 ## Writing Tests
@@ -131,14 +182,30 @@ def test_with_fixture(sample_zolo_content):
 ### Test Markers
 
 ```python
+@pytest.mark.unit
+def test_unit_test():
+    """Mark as unit test."""
+    pass
+
+@pytest.mark.integration
+def test_integration_test():
+    """Mark as integration test."""
+    pass
+
+@pytest.mark.e2e
+def test_e2e_test():
+    """Mark as end-to-end test."""
+    pass
+
 @pytest.mark.slow
 def test_slow_operation():
     """Mark tests that are slow."""
     pass
 
-@pytest.mark.unit
-def test_unit_test():
-    """Mark as unit test."""
+@pytest.mark.visual
+@pytest.mark.slow  # Visual tests are always slow
+def test_visual_regression():
+    """Mark as visual regression test."""
     pass
 ```
 
@@ -206,26 +273,43 @@ When adding new features:
 4. Ensure all tests pass: `zlsp test`
 5. Check coverage: `zlsp test --coverage`
 
+## Test Execution Matrix
+
+| Command | Unit | Integration | E2E | Visual | Time | Use Case |
+|---------|------|-------------|-----|--------|------|----------|
+| `zlsp test --quick` | ✅ | ✅ | ❌ | ❌ | ~5s | Dev loop |
+| `zlsp test --unit` | ✅ | ❌ | ❌ | ❌ | <1s | TDD |
+| `pytest -m "not visual"` | ✅ | ✅ | ✅ | ❌ | ~15s | Pre-commit |
+| `zlsp test` | ✅ | ✅ | ✅ | ✅ | ~3min | Full validation |
+| `zlsp test --visual` | ❌ | ❌ | ❌ | ✅ | ~2min | Theme changes |
+
 ## Future Test Enhancements
 
-### Editor Integration Testing (Not Yet Implemented)
+### ✅ Editor Integration Testing (IMPLEMENTED)
 
-**Vim Integration Tests** - Testing actual Vim highlight rendering:
-- **Challenge**: Requires running Vim in a test environment
-- **What to test**:
-  - Semantic token highlights applied correctly
-  - Bold/italic/color styling matches config
-  - LSP server registration and communication
-  - Fallback syntax highlighting when LSP unavailable
-- **Approach**: Could use `vim -u test.vimrc --headless` with automated scripts
-- **Priority**: Medium (manual testing sufficient for now)
+**Visual Regression Testing** - Pixel-perfect cross-editor consistency:
+- ✅ **Implemented**: `tests/visual/` directory
+- ✅ **Vim Driver**: Real Terminal.app screenshot capture
+- ✅ **VS Code Driver**: Window screenshot capture
+- ✅ **Image Comparison**: Pixel-by-pixel diff with visual reports
+- ✅ **Golden Baselines**: Vim as single source of visual truth
+- ✅ **Commands**: `zlsp test --visual`
 
-**VS Code Integration Tests**:
-- Extension activation
-- Semantic token provider registration
-- Configuration loading
+**See:** [tests/visual/README.md](visual/README.md) for detailed documentation
 
-**Note**: For now, editor integration is verified through manual testing. Automated testing requires significant infrastructure (headless editors, screenshot comparison, etc.).
+### Future Enhancements
+
+**Additional Editor Support**:
+- [ ] Emacs visual regression tests
+- [ ] Neovim visual regression tests (separate from Vim)
+- [ ] Sublime Text visual regression tests
+- [ ] IntelliJ IDEA visual regression tests
+
+**Advanced Visual Testing**:
+- [ ] Semantic token animation testing (colors update during typing)
+- [ ] Performance profiling (LSP latency impact)
+- [ ] Color accessibility testing (WCAG contrast ratios)
+- [ ] Visual fuzzing (random .zolo files)
 
 ## Resources
 

@@ -1,0 +1,3140 @@
+{
+  "file": "zEnv.example.zolo",
+  "file_type": "zenv",
+  "line_count": 179,
+  "token_count": 348,
+  "tokens": [
+    {
+      "end": 49,
+      "length": 49,
+      "line": 0,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ===============================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 19,
+      "length": 19,
+      "line": 1,
+      "modifiers": [],
+      "start": 0,
+      "text": "# zEnv.example.zolo",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 49,
+      "length": 49,
+      "line": 2,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ===============================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 56,
+      "length": 56,
+      "line": 4,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Deployment Configuration (Environment-specific values)",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 10,
+      "length": 10,
+      "line": 5,
+      "modifiers": [],
+      "start": 0,
+      "text": "DEPLOYMENT",
+      "type": "TokenType.ZENV_CONFIG_KEY"
+    },
+    {
+      "end": 11,
+      "length": 1,
+      "line": 5,
+      "modifiers": [],
+      "start": 10,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 23,
+      "length": 11,
+      "line": 5,
+      "modifiers": [],
+      "start": 12,
+      "text": "Development",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 9,
+      "length": 9,
+      "line": 6,
+      "modifiers": [],
+      "start": 0,
+      "text": "LOG_LEVEL",
+      "type": "TokenType.ZENV_CONFIG_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 6,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 5,
+      "line": 6,
+      "modifiers": [],
+      "start": 11,
+      "text": "DEBUG",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 36,
+      "length": 36,
+      "line": 8,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Global Navbar Definition with RBAC",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 7,
+      "length": 7,
+      "line": 9,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZNAVBAR",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 8,
+      "length": 1,
+      "line": 9,
+      "modifiers": [],
+      "start": 7,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 30,
+      "length": 28,
+      "line": 10,
+      "modifiers": [],
+      "start": 2,
+      "text": "#> Public pages (no RBAC) <#",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 6,
+      "length": 4,
+      "line": 11,
+      "modifiers": [],
+      "start": 2,
+      "text": "zVaF",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 7,
+      "length": 1,
+      "line": 11,
+      "modifiers": [],
+      "start": 6,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 12,
+      "length": 4,
+      "line": 11,
+      "modifiers": [],
+      "start": 8,
+      "text": "null",
+      "type": "TokenType.NULL"
+    },
+    {
+      "end": 8,
+      "length": 6,
+      "line": 12,
+      "modifiers": [],
+      "start": 2,
+      "text": "zAbout",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 12,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 14,
+      "length": 4,
+      "line": 12,
+      "modifiers": [],
+      "start": 10,
+      "text": "null",
+      "type": "TokenType.NULL"
+    },
+    {
+      "end": 34,
+      "length": 32,
+      "line": 14,
+      "modifiers": [],
+      "start": 2,
+      "text": "#> Parent page with sub-items <#",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 11,
+      "length": 9,
+      "line": 15,
+      "modifiers": [],
+      "start": 2,
+      "text": "zProducts",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 15,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 8,
+      "length": 4,
+      "line": 16,
+      "modifiers": [],
+      "start": 4,
+      "text": "zSub",
+      "type": "TokenType.ZSUB_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 16,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 11,
+      "length": 1,
+      "line": 16,
+      "modifiers": [],
+      "start": 10,
+      "text": "[",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 15,
+      "length": 4,
+      "line": 16,
+      "modifiers": [],
+      "start": 11,
+      "text": "zCLI",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 16,
+      "modifiers": [],
+      "start": 15,
+      "text": ",",
+      "type": "TokenType.COMMA"
+    },
+    {
+      "end": 25,
+      "length": 8,
+      "line": 16,
+      "modifiers": [],
+      "start": 17,
+      "text": "zBifrost",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 26,
+      "length": 1,
+      "line": 16,
+      "modifiers": [],
+      "start": 25,
+      "text": ",",
+      "type": "TokenType.COMMA"
+    },
+    {
+      "end": 33,
+      "length": 6,
+      "line": 16,
+      "modifiers": [],
+      "start": 27,
+      "text": "zTheme",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 34,
+      "length": 1,
+      "line": 16,
+      "modifiers": [],
+      "start": 33,
+      "text": ",",
+      "type": "TokenType.COMMA"
+    },
+    {
+      "end": 42,
+      "length": 7,
+      "line": 16,
+      "modifiers": [],
+      "start": 35,
+      "text": "zTrivia",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 43,
+      "length": 1,
+      "line": 16,
+      "modifiers": [],
+      "start": 42,
+      "text": "]",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 24,
+      "length": 22,
+      "line": 18,
+      "modifiers": [],
+      "start": 2,
+      "text": "#> Admin-only pages <#",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 10,
+      "length": 8,
+      "line": 19,
+      "modifiers": [],
+      "start": 2,
+      "text": "zAccount",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 11,
+      "length": 1,
+      "line": 19,
+      "modifiers": [],
+      "start": 10,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 20,
+      "modifiers": [],
+      "start": 4,
+      "text": "zRBAC",
+      "type": "TokenType.ZRBAC_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 20,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 12,
+      "line": 21,
+      "modifiers": [],
+      "start": 6,
+      "text": "require_role",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 21,
+      "modifiers": [],
+      "start": 18,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 1,
+      "line": 21,
+      "modifiers": [],
+      "start": 20,
+      "text": "[",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 27,
+      "length": 6,
+      "line": 21,
+      "modifiers": [],
+      "start": 21,
+      "text": "zAdmin",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 28,
+      "length": 1,
+      "line": 21,
+      "modifiers": [],
+      "start": 27,
+      "text": "]",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 34,
+      "length": 32,
+      "line": 23,
+      "modifiers": [],
+      "start": 2,
+      "text": "#> Authenticated-only actions <#",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 3,
+      "length": 1,
+      "line": 24,
+      "modifiers": [],
+      "start": 2,
+      "text": "^",
+      "type": "TokenType.ZRBAC_OPTION_KEY"
+    },
+    {
+      "end": 9,
+      "length": 6,
+      "line": 24,
+      "modifiers": [],
+      "start": 3,
+      "text": "logout",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 24,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 25,
+      "modifiers": [],
+      "start": 4,
+      "text": "zRBAC",
+      "type": "TokenType.ZRBAC_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 25,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 13,
+      "line": 26,
+      "modifiers": [],
+      "start": 6,
+      "text": "authenticated",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 20,
+      "length": 1,
+      "line": 26,
+      "modifiers": [],
+      "start": 19,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 25,
+      "length": 4,
+      "line": 26,
+      "modifiers": [],
+      "start": 21,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 26,
+      "length": 24,
+      "line": 28,
+      "modifiers": [],
+      "start": 2,
+      "text": "#> Guest-only actions <#",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 11,
+      "length": 9,
+      "line": 29,
+      "modifiers": [],
+      "start": 2,
+      "text": "zRegister",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 29,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 30,
+      "modifiers": [],
+      "start": 4,
+      "text": "zRBAC",
+      "type": "TokenType.ZRBAC_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 30,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 13,
+      "line": 31,
+      "modifiers": [],
+      "start": 6,
+      "text": "authenticated",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 20,
+      "length": 1,
+      "line": 31,
+      "modifiers": [],
+      "start": 19,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 26,
+      "length": 5,
+      "line": 31,
+      "modifiers": [],
+      "start": 21,
+      "text": "false",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 3,
+      "length": 1,
+      "line": 33,
+      "modifiers": [],
+      "start": 2,
+      "text": "^",
+      "type": "TokenType.ZRBAC_OPTION_KEY"
+    },
+    {
+      "end": 9,
+      "length": 6,
+      "line": 33,
+      "modifiers": [],
+      "start": 3,
+      "text": "zLogin",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 33,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 34,
+      "modifiers": [],
+      "start": 4,
+      "text": "zRBAC",
+      "type": "TokenType.ZRBAC_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 34,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 13,
+      "line": 35,
+      "modifiers": [],
+      "start": 6,
+      "text": "authenticated",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 20,
+      "length": 1,
+      "line": 35,
+      "modifiers": [],
+      "start": 19,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 26,
+      "length": 5,
+      "line": 35,
+      "modifiers": [],
+      "start": 21,
+      "text": "false",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 37,
+      "length": 37,
+      "line": 37,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Static File Mounts (zPath Examples)",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 14,
+      "length": 14,
+      "line": 38,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZSERVER_MOUNTS",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 15,
+      "length": 1,
+      "line": 38,
+      "modifiers": [],
+      "start": 14,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 11,
+      "length": 9,
+      "line": 39,
+      "modifiers": [],
+      "start": 2,
+      "text": "/bifrost/",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 39,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 59,
+      "length": 46,
+      "line": 39,
+      "modifiers": [],
+      "start": 13,
+      "text": "/Users/galnachshon/Projects/zolo-zcli/bifrost/",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 10,
+      "length": 8,
+      "line": 40,
+      "modifiers": [],
+      "start": 2,
+      "text": "/ztheme/",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 11,
+      "length": 1,
+      "line": 40,
+      "modifiers": [],
+      "start": 10,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 57,
+      "length": 45,
+      "line": 40,
+      "modifiers": [],
+      "start": 12,
+      "text": "/Users/galnachshon/Projects/zolo-zcli/zTheme/",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 78,
+      "length": 78,
+      "line": 42,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ============================================================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 48,
+      "length": 48,
+      "line": 43,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Database Configuration - zPath Syntax Examples",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 78,
+      "length": 78,
+      "line": 44,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ============================================================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 56,
+      "length": 56,
+      "line": 45,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Convention: ZDATA_{SCHEMA_NAME}_URL for auto-discovery",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 63,
+      "length": 63,
+      "line": 46,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Format: Use zPath syntax for workspace and user config paths:",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 68,
+      "length": 68,
+      "line": 47,
+      "modifiers": [],
+      "start": 0,
+      "text": "#   @.Data                           - CSV in workspace Data/ folder",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 64,
+      "length": 64,
+      "line": 48,
+      "modifiers": [],
+      "start": 0,
+      "text": "#   ~.zMachine.data/production.db    - SQLite in user config dir",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 66,
+      "length": 66,
+      "line": 49,
+      "modifiers": [],
+      "start": 0,
+      "text": "#   postgresql://user:pass@host/db   - PostgreSQL with credentials",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 37,
+      "length": 37,
+      "line": 51,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Workspace-relative paths (@ prefix)",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 18,
+      "length": 18,
+      "line": 52,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_CONTACTS_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 52,
+      "modifiers": [],
+      "start": 18,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 26,
+      "length": 6,
+      "line": 52,
+      "modifiers": [],
+      "start": 20,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 15,
+      "length": 15,
+      "line": 53,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_USERS_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 53,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 23,
+      "length": 6,
+      "line": 53,
+      "modifiers": [],
+      "start": 17,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 15,
+      "length": 15,
+      "line": 54,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_ROLES_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 54,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 23,
+      "length": 6,
+      "line": 54,
+      "modifiers": [],
+      "start": 17,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 20,
+      "length": 20,
+      "line": 55,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_USER_ROLES_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 21,
+      "length": 1,
+      "line": 55,
+      "modifiers": [],
+      "start": 20,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 28,
+      "length": 6,
+      "line": 55,
+      "modifiers": [],
+      "start": 22,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 18,
+      "length": 18,
+      "line": 56,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_SERVICES_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 56,
+      "modifiers": [],
+      "start": 18,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 26,
+      "length": 6,
+      "line": 56,
+      "modifiers": [],
+      "start": 20,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 23,
+      "length": 23,
+      "line": 57,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_SUBSCRIPTIONS_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 24,
+      "length": 1,
+      "line": 57,
+      "modifiers": [],
+      "start": 23,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 31,
+      "length": 6,
+      "line": 57,
+      "modifiers": [],
+      "start": 25,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 18,
+      "length": 18,
+      "line": 58,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_API_KEYS_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 58,
+      "modifiers": [],
+      "start": 18,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 26,
+      "length": 6,
+      "line": 58,
+      "modifiers": [],
+      "start": 20,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 20,
+      "length": 20,
+      "line": 59,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_USER_FILES_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 21,
+      "length": 1,
+      "line": 59,
+      "modifiers": [],
+      "start": 20,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 28,
+      "length": 6,
+      "line": 59,
+      "modifiers": [],
+      "start": 22,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 15,
+      "length": 15,
+      "line": 60,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_POSTS_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 60,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 23,
+      "length": 6,
+      "line": 60,
+      "modifiers": [],
+      "start": 17,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 20,
+      "length": 20,
+      "line": 61,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_POST_MEDIA_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 21,
+      "length": 1,
+      "line": 61,
+      "modifiers": [],
+      "start": 20,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 28,
+      "length": 6,
+      "line": 61,
+      "modifiers": [],
+      "start": 22,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 16,
+      "length": 16,
+      "line": 62,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_VIDEOS_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 62,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 24,
+      "length": 6,
+      "line": 62,
+      "modifiers": [],
+      "start": 18,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 25,
+      "length": 25,
+      "line": 63,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_VIDEO_QUALITIES_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 26,
+      "length": 1,
+      "line": 63,
+      "modifiers": [],
+      "start": 25,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 33,
+      "length": 6,
+      "line": 63,
+      "modifiers": [],
+      "start": 27,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 20,
+      "length": 20,
+      "line": 64,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_CDN_CONFIG_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 21,
+      "length": 1,
+      "line": 64,
+      "modifiers": [],
+      "start": 20,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 28,
+      "length": 6,
+      "line": 64,
+      "modifiers": [],
+      "start": 22,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 27,
+      "length": 27,
+      "line": 65,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_CDN_INVALIDATIONS_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 28,
+      "length": 1,
+      "line": 65,
+      "modifiers": [],
+      "start": 27,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 35,
+      "length": 6,
+      "line": 65,
+      "modifiers": [],
+      "start": 29,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 30,
+      "length": 30,
+      "line": 67,
+      "modifiers": [],
+      "start": 0,
+      "text": "# User config paths (~ prefix)",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 20,
+      "length": 20,
+      "line": 68,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_PRODUCTION_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 21,
+      "length": 1,
+      "line": 68,
+      "modifiers": [],
+      "start": 20,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 51,
+      "length": 29,
+      "line": 68,
+      "modifiers": [],
+      "start": 22,
+      "text": "~.zMachine.data/production.db",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 16,
+      "length": 16,
+      "line": 69,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_BACKUP_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 69,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 44,
+      "length": 26,
+      "line": 69,
+      "modifiers": [],
+      "start": 18,
+      "text": "~.zCloud.backups/latest.db",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 14,
+      "length": 14,
+      "line": 71,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Test Schemas",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 26,
+      "length": 26,
+      "line": 72,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_TEST_NOMIGRATION_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 27,
+      "length": 1,
+      "line": 72,
+      "modifiers": [],
+      "start": 26,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 34,
+      "length": 6,
+      "line": 72,
+      "modifiers": [],
+      "start": 28,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 24,
+      "length": 24,
+      "line": 73,
+      "modifiers": [],
+      "start": 0,
+      "text": "ZDATA_TEST_MIGRATION_URL",
+      "type": "TokenType.ZCONFIG_KEY"
+    },
+    {
+      "end": 25,
+      "length": 1,
+      "line": 73,
+      "modifiers": [],
+      "start": 24,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 32,
+      "length": 6,
+      "line": 73,
+      "modifiers": [],
+      "start": 26,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 78,
+      "length": 78,
+      "line": 75,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ============================================================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 53,
+      "length": 53,
+      "line": 76,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Storage Backend Configuration (Phase 1.3b - AWS S3)",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 78,
+      "length": 78,
+      "line": 77,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ============================================================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 15,
+      "length": 15,
+      "line": 78,
+      "modifiers": [],
+      "start": 0,
+      "text": "STORAGE_BACKEND",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 78,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 2,
+      "line": 78,
+      "modifiers": [],
+      "start": 17,
+      "text": "s3",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 22,
+      "length": 22,
+      "line": 80,
+      "modifiers": [],
+      "start": 0,
+      "text": "# AWS S3 Configuration",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 17,
+      "length": 17,
+      "line": 81,
+      "modifiers": [],
+      "start": 0,
+      "text": "STORAGE_S3_BUCKET",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 81,
+      "modifiers": [],
+      "start": 17,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 37,
+      "length": 18,
+      "line": 81,
+      "modifiers": [],
+      "start": 19,
+      "text": "zcloud-storage-dev",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 17,
+      "length": 17,
+      "line": 82,
+      "modifiers": [],
+      "start": 0,
+      "text": "STORAGE_S3_REGION",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 82,
+      "modifiers": [],
+      "start": 17,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 28,
+      "length": 9,
+      "line": 82,
+      "modifiers": [],
+      "start": 19,
+      "text": "us-east-1",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 46,
+      "length": 46,
+      "line": 84,
+      "modifiers": [],
+      "start": 0,
+      "text": "# AWS Credentials (Development - EXAMPLE ONLY)",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 17,
+      "length": 17,
+      "line": 85,
+      "modifiers": [],
+      "start": 0,
+      "text": "AWS_ACCESS_KEY_ID",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 85,
+      "modifiers": [],
+      "start": 17,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 39,
+      "length": 20,
+      "line": 85,
+      "modifiers": [],
+      "start": 19,
+      "text": "AKIAIOSFODNN7EXAMPLE",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 21,
+      "length": 21,
+      "line": 86,
+      "modifiers": [],
+      "start": 0,
+      "text": "AWS_SECRET_ACCESS_KEY",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 22,
+      "length": 1,
+      "line": 86,
+      "modifiers": [],
+      "start": 21,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 63,
+      "length": 40,
+      "line": 86,
+      "modifiers": [],
+      "start": 23,
+      "text": "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 78,
+      "length": 78,
+      "line": 88,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ============================================================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 22,
+      "length": 22,
+      "line": 89,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Application Settings",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 78,
+      "length": 78,
+      "line": 90,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ============================================================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 8,
+      "length": 8,
+      "line": 91,
+      "modifiers": [],
+      "start": 0,
+      "text": "APP_NAME",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 91,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 6,
+      "line": 91,
+      "modifiers": [],
+      "start": 10,
+      "text": "zCloud",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 11,
+      "length": 11,
+      "line": 92,
+      "modifiers": [],
+      "start": 0,
+      "text": "APP_VERSION",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 92,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 5,
+      "line": 92,
+      "modifiers": [],
+      "start": 13,
+      "text": "1.0.0",
+      "type": "TokenType.VERSION_STRING"
+    },
+    {
+      "end": 78,
+      "length": 78,
+      "line": 94,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ============================================================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 22,
+      "length": 22,
+      "line": 95,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Server Configuration",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 78,
+      "length": 78,
+      "line": 96,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ============================================================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 22,
+      "length": 22,
+      "line": 97,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Development defaults",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 9,
+      "length": 9,
+      "line": 98,
+      "modifiers": [],
+      "start": 0,
+      "text": "HTTP_HOST",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 98,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 20,
+      "length": 9,
+      "line": 98,
+      "modifiers": [],
+      "start": 11,
+      "text": "localhost",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 9,
+      "length": 9,
+      "line": 99,
+      "modifiers": [],
+      "start": 0,
+      "text": "HTTP_PORT",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 99,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 15,
+      "length": 4,
+      "line": 99,
+      "modifiers": [],
+      "start": 11,
+      "text": "5000",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 14,
+      "length": 14,
+      "line": 100,
+      "modifiers": [],
+      "start": 0,
+      "text": "WEBSOCKET_HOST",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 15,
+      "length": 1,
+      "line": 100,
+      "modifiers": [],
+      "start": 14,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 25,
+      "length": 9,
+      "line": 100,
+      "modifiers": [],
+      "start": 16,
+      "text": "localhost",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 14,
+      "length": 14,
+      "line": 101,
+      "modifiers": [],
+      "start": 0,
+      "text": "WEBSOCKET_PORT",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 15,
+      "length": 1,
+      "line": 101,
+      "modifiers": [],
+      "start": 14,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 20,
+      "length": 4,
+      "line": 101,
+      "modifiers": [],
+      "start": 16,
+      "text": "8765",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 40,
+      "length": 40,
+      "line": 103,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Production overrides (SSL/TLS enabled)",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 24,
+      "length": 24,
+      "line": 104,
+      "modifiers": [],
+      "start": 0,
+      "text": "# HTTP_SSL_ENABLED: true",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 32,
+      "length": 32,
+      "line": 105,
+      "modifiers": [],
+      "start": 0,
+      "text": "# HTTP_SSL_CERT: certs/demo.cert",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 30,
+      "length": 30,
+      "line": 106,
+      "modifiers": [],
+      "start": 0,
+      "text": "# HTTP_SSL_KEY: certs/demo.key",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 29,
+      "length": 29,
+      "line": 107,
+      "modifiers": [],
+      "start": 0,
+      "text": "# WEBSOCKET_SSL_ENABLED: true",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 37,
+      "length": 37,
+      "line": 108,
+      "modifiers": [],
+      "start": 0,
+      "text": "# WEBSOCKET_SSL_CERT: certs/demo.cert",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 35,
+      "length": 35,
+      "line": 109,
+      "modifiers": [],
+      "start": 0,
+      "text": "# WEBSOCKET_SSL_KEY: certs/demo.key",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 30,
+      "length": 30,
+      "line": 110,
+      "modifiers": [],
+      "start": 0,
+      "text": "# WEBSOCKET_REQUIRE_AUTH: true",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 51,
+      "length": 51,
+      "line": 111,
+      "modifiers": [],
+      "start": 0,
+      "text": "# WEBSOCKET_ALLOWED_ORIGINS: https://yourdomain.com",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 78,
+      "length": 78,
+      "line": 113,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ============================================================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 40,
+      "length": 40,
+      "line": 114,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Environment-Specific Settings Examples",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 78,
+      "length": 78,
+      "line": 115,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ============================================================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 25,
+      "length": 25,
+      "line": 116,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Development Environment",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 14,
+      "length": 14,
+      "line": 117,
+      "modifiers": [],
+      "start": 0,
+      "text": "DEV_DEBUG_MODE",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 15,
+      "length": 1,
+      "line": 117,
+      "modifiers": [],
+      "start": 14,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 20,
+      "length": 4,
+      "line": 117,
+      "modifiers": [],
+      "start": 16,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 13,
+      "length": 13,
+      "line": 118,
+      "modifiers": [],
+      "start": 0,
+      "text": "DEV_LOG_LEVEL",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 118,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 20,
+      "length": 5,
+      "line": 118,
+      "modifiers": [],
+      "start": 15,
+      "text": "DEBUG",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 15,
+      "length": 15,
+      "line": 119,
+      "modifiers": [],
+      "start": 0,
+      "text": "DEV_ENVIRONMENT",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 119,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 28,
+      "length": 11,
+      "line": 119,
+      "modifiers": [],
+      "start": 17,
+      "text": "Development",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 24,
+      "length": 24,
+      "line": 121,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Production Environment",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 15,
+      "length": 15,
+      "line": 122,
+      "modifiers": [],
+      "start": 0,
+      "text": "PROD_DEBUG_MODE",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 122,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 22,
+      "length": 5,
+      "line": 122,
+      "modifiers": [],
+      "start": 17,
+      "text": "false",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 14,
+      "length": 14,
+      "line": 123,
+      "modifiers": [],
+      "start": 0,
+      "text": "PROD_LOG_LEVEL",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 15,
+      "length": 1,
+      "line": 123,
+      "modifiers": [],
+      "start": 14,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 20,
+      "length": 4,
+      "line": 123,
+      "modifiers": [],
+      "start": 16,
+      "text": "PROD",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 16,
+      "length": 16,
+      "line": 124,
+      "modifiers": [],
+      "start": 0,
+      "text": "PROD_ENVIRONMENT",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 124,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 28,
+      "length": 10,
+      "line": 124,
+      "modifiers": [],
+      "start": 18,
+      "text": "Production",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 23,
+      "length": 23,
+      "line": 126,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Session Configuration",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 13,
+      "length": 13,
+      "line": 127,
+      "modifiers": [],
+      "start": 0,
+      "text": "SESSION_LEVEL",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 127,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 22,
+      "length": 7,
+      "line": 127,
+      "modifiers": [],
+      "start": 15,
+      "text": "SESSION",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 15,
+      "length": 15,
+      "line": 128,
+      "modifiers": [],
+      "start": 0,
+      "text": "SESSION_TIMEOUT",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 128,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 4,
+      "line": 128,
+      "modifiers": [],
+      "start": 17,
+      "text": "3600",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 21,
+      "length": 21,
+      "line": 130,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Info-level settings",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 12,
+      "length": 12,
+      "line": 131,
+      "modifiers": [],
+      "start": 0,
+      "text": "INFO_LOGGING",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 131,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 4,
+      "line": 131,
+      "modifiers": [],
+      "start": 14,
+      "text": "INFO",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 12,
+      "length": 12,
+      "line": 132,
+      "modifiers": [],
+      "start": 0,
+      "text": "INFO_VERBOSE",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 132,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 4,
+      "line": 132,
+      "modifiers": [],
+      "start": 14,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 28,
+      "length": 28,
+      "line": 134,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Warning and Error settings",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 17,
+      "length": 17,
+      "line": 135,
+      "modifiers": [],
+      "start": 0,
+      "text": "WARNING_THRESHOLD",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 135,
+      "modifiers": [],
+      "start": 17,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 26,
+      "length": 7,
+      "line": 135,
+      "modifiers": [],
+      "start": 19,
+      "text": "WARNING",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 13,
+      "length": 13,
+      "line": 136,
+      "modifiers": [],
+      "start": 0,
+      "text": "ERROR_HANDLER",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 136,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 20,
+      "length": 5,
+      "line": 136,
+      "modifiers": [],
+      "start": 15,
+      "text": "ERROR",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 15,
+      "length": 15,
+      "line": 137,
+      "modifiers": [],
+      "start": 0,
+      "text": "CRITICAL_ALERTS",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 137,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 25,
+      "length": 8,
+      "line": 137,
+      "modifiers": [],
+      "start": 17,
+      "text": "CRITICAL",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 78,
+      "length": 78,
+      "line": 139,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ============================================================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 46,
+      "length": 46,
+      "line": 140,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Complex Data Structures (Testing all syntax)",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 78,
+      "length": 78,
+      "line": 141,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ============================================================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 16,
+      "length": 16,
+      "line": 142,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Nested objects",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 15,
+      "length": 15,
+      "line": 143,
+      "modifiers": [],
+      "start": 0,
+      "text": "database_config",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 143,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 9,
+      "length": 7,
+      "line": 144,
+      "modifiers": [],
+      "start": 2,
+      "text": "primary",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 144,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 7,
+      "length": 3,
+      "line": 145,
+      "modifiers": [],
+      "start": 4,
+      "text": "url",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 8,
+      "length": 1,
+      "line": 145,
+      "modifiers": [],
+      "start": 7,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 26,
+      "length": 17,
+      "line": 145,
+      "modifiers": [],
+      "start": 9,
+      "text": "@.Data/primary.db",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 146,
+      "modifiers": [],
+      "start": 4,
+      "text": "readonly",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 146,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 5,
+      "line": 146,
+      "modifiers": [],
+      "start": 14,
+      "text": "false",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 13,
+      "length": 9,
+      "line": 147,
+      "modifiers": [],
+      "start": 4,
+      "text": "pool_size",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 147,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 17,
+      "length": 2,
+      "line": 147,
+      "modifiers": [],
+      "start": 15,
+      "text": "10",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 9,
+      "length": 7,
+      "line": 148,
+      "modifiers": [],
+      "start": 2,
+      "text": "replica",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 148,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 7,
+      "length": 3,
+      "line": 149,
+      "modifiers": [],
+      "start": 4,
+      "text": "url",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 8,
+      "length": 1,
+      "line": 149,
+      "modifiers": [],
+      "start": 7,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 38,
+      "length": 29,
+      "line": 149,
+      "modifiers": [],
+      "start": 9,
+      "text": "~.zCloud.replicas/replica1.db",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 150,
+      "modifiers": [],
+      "start": 4,
+      "text": "readonly",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 150,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 4,
+      "line": 150,
+      "modifiers": [],
+      "start": 14,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 13,
+      "length": 9,
+      "line": 151,
+      "modifiers": [],
+      "start": 4,
+      "text": "pool_size",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 151,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 151,
+      "modifiers": [],
+      "start": 15,
+      "text": "5",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 8,
+      "length": 8,
+      "line": 153,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Arrays",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 17,
+      "length": 17,
+      "line": 154,
+      "modifiers": [],
+      "start": 0,
+      "text": "supported_formats",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 154,
+      "modifiers": [],
+      "start": 17,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 20,
+      "length": 1,
+      "line": 154,
+      "modifiers": [],
+      "start": 19,
+      "text": "[",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 24,
+      "length": 4,
+      "line": 154,
+      "modifiers": [],
+      "start": 20,
+      "text": "json",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 25,
+      "length": 1,
+      "line": 154,
+      "modifiers": [],
+      "start": 24,
+      "text": ",",
+      "type": "TokenType.COMMA"
+    },
+    {
+      "end": 30,
+      "length": 4,
+      "line": 154,
+      "modifiers": [],
+      "start": 26,
+      "text": "yaml",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 31,
+      "length": 1,
+      "line": 154,
+      "modifiers": [],
+      "start": 30,
+      "text": ",",
+      "type": "TokenType.COMMA"
+    },
+    {
+      "end": 36,
+      "length": 4,
+      "line": 154,
+      "modifiers": [],
+      "start": 32,
+      "text": "zolo",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 37,
+      "length": 1,
+      "line": 154,
+      "modifiers": [],
+      "start": 36,
+      "text": ",",
+      "type": "TokenType.COMMA"
+    },
+    {
+      "end": 41,
+      "length": 3,
+      "line": 154,
+      "modifiers": [],
+      "start": 38,
+      "text": "xml",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 42,
+      "length": 1,
+      "line": 154,
+      "modifiers": [],
+      "start": 41,
+      "text": "]",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 10,
+      "length": 10,
+      "line": 155,
+      "modifiers": [],
+      "start": 0,
+      "text": "log_levels",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 11,
+      "length": 1,
+      "line": 155,
+      "modifiers": [],
+      "start": 10,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 155,
+      "modifiers": [],
+      "start": 12,
+      "text": "[",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 18,
+      "length": 5,
+      "line": 155,
+      "modifiers": [],
+      "start": 13,
+      "text": "DEBUG",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 155,
+      "modifiers": [],
+      "start": 18,
+      "text": ",",
+      "type": "TokenType.COMMA"
+    },
+    {
+      "end": 27,
+      "length": 7,
+      "line": 155,
+      "modifiers": [],
+      "start": 20,
+      "text": "SESSION",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 28,
+      "length": 1,
+      "line": 155,
+      "modifiers": [],
+      "start": 27,
+      "text": ",",
+      "type": "TokenType.COMMA"
+    },
+    {
+      "end": 33,
+      "length": 4,
+      "line": 155,
+      "modifiers": [],
+      "start": 29,
+      "text": "INFO",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 34,
+      "length": 1,
+      "line": 155,
+      "modifiers": [],
+      "start": 33,
+      "text": ",",
+      "type": "TokenType.COMMA"
+    },
+    {
+      "end": 42,
+      "length": 7,
+      "line": 155,
+      "modifiers": [],
+      "start": 35,
+      "text": "WARNING",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 43,
+      "length": 1,
+      "line": 155,
+      "modifiers": [],
+      "start": 42,
+      "text": ",",
+      "type": "TokenType.COMMA"
+    },
+    {
+      "end": 49,
+      "length": 5,
+      "line": 155,
+      "modifiers": [],
+      "start": 44,
+      "text": "ERROR",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 50,
+      "length": 1,
+      "line": 155,
+      "modifiers": [],
+      "start": 49,
+      "text": ",",
+      "type": "TokenType.COMMA"
+    },
+    {
+      "end": 59,
+      "length": 8,
+      "line": 155,
+      "modifiers": [],
+      "start": 51,
+      "text": "CRITICAL",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 60,
+      "length": 1,
+      "line": 155,
+      "modifiers": [],
+      "start": 59,
+      "text": ",",
+      "type": "TokenType.COMMA"
+    },
+    {
+      "end": 65,
+      "length": 4,
+      "line": 155,
+      "modifiers": [],
+      "start": 61,
+      "text": "PROD",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 66,
+      "length": 1,
+      "line": 155,
+      "modifiers": [],
+      "start": 65,
+      "text": "]",
+      "type": "TokenType.BRACKET_STRUCTURAL"
+    },
+    {
+      "end": 13,
+      "length": 13,
+      "line": 157,
+      "modifiers": [],
+      "start": 0,
+      "text": "# Mixed types",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 13,
+      "length": 13,
+      "line": 158,
+      "modifiers": [],
+      "start": 0,
+      "text": "feature_flags",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 158,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 16,
+      "line": 159,
+      "modifiers": [],
+      "start": 2,
+      "text": "enable_websocket",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 19,
+      "length": 1,
+      "line": 159,
+      "modifiers": [],
+      "start": 18,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 24,
+      "length": 4,
+      "line": 159,
+      "modifiers": [],
+      "start": 20,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 17,
+      "length": 15,
+      "line": 160,
+      "modifiers": [],
+      "start": 2,
+      "text": "max_connections",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 160,
+      "modifiers": [],
+      "start": 17,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 22,
+      "length": 3,
+      "line": 160,
+      "modifiers": [],
+      "start": 19,
+      "text": "100",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 17,
+      "length": 15,
+      "line": 161,
+      "modifiers": [],
+      "start": 2,
+      "text": "timeout_seconds",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 161,
+      "modifiers": [],
+      "start": 17,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 23,
+      "length": 4,
+      "line": 161,
+      "modifiers": [],
+      "start": 19,
+      "text": "30.5",
+      "type": "TokenType.NUMBER"
+    },
+    {
+      "end": 15,
+      "length": 13,
+      "line": 162,
+      "modifiers": [],
+      "start": 2,
+      "text": "fallback_mode",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 162,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 28,
+      "length": 11,
+      "line": 162,
+      "modifiers": [],
+      "start": 17,
+      "text": "Development",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 78,
+      "length": 78,
+      "line": 164,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ============================================================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 34,
+      "length": 34,
+      "line": 165,
+      "modifiers": [],
+      "start": 0,
+      "text": "# zPath Examples for Theme Testing",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 78,
+      "length": 78,
+      "line": 166,
+      "modifiers": [],
+      "start": 0,
+      "text": "# ============================================================================",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 58,
+      "length": 58,
+      "line": 167,
+      "modifiers": [],
+      "start": 0,
+      "text": "# These should all be highlighted in bright cyan (ANSI 51)",
+      "type": "TokenType.COMMENT"
+    },
+    {
+      "end": 15,
+      "length": 15,
+      "line": 168,
+      "modifiers": [],
+      "start": 0,
+      "text": "workspace_paths",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 168,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 10,
+      "length": 8,
+      "line": 169,
+      "modifiers": [],
+      "start": 2,
+      "text": "data_dir",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 11,
+      "length": 1,
+      "line": 169,
+      "modifiers": [],
+      "start": 10,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 6,
+      "line": 169,
+      "modifiers": [],
+      "start": 12,
+      "text": "@.Data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 12,
+      "length": 10,
+      "line": 170,
+      "modifiers": [],
+      "start": 2,
+      "text": "config_dir",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 170,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 22,
+      "length": 8,
+      "line": 170,
+      "modifiers": [],
+      "start": 14,
+      "text": "@.Config",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 10,
+      "length": 8,
+      "line": 171,
+      "modifiers": [],
+      "start": 2,
+      "text": "logs_dir",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 11,
+      "length": 1,
+      "line": 171,
+      "modifiers": [],
+      "start": 10,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 6,
+      "line": 171,
+      "modifiers": [],
+      "start": 12,
+      "text": "@.Logs",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 10,
+      "length": 8,
+      "line": 172,
+      "modifiers": [],
+      "start": 2,
+      "text": "temp_dir",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 11,
+      "length": 1,
+      "line": 172,
+      "modifiers": [],
+      "start": 10,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 6,
+      "line": 172,
+      "modifiers": [],
+      "start": 12,
+      "text": "@.Temp",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 10,
+      "length": 10,
+      "line": 174,
+      "modifiers": [],
+      "start": 0,
+      "text": "user_paths",
+      "type": "TokenType.ROOT_KEY"
+    },
+    {
+      "end": 11,
+      "length": 1,
+      "line": 174,
+      "modifiers": [],
+      "start": 10,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 13,
+      "length": 11,
+      "line": 175,
+      "modifiers": [],
+      "start": 2,
+      "text": "config_home",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 175,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 30,
+      "length": 15,
+      "line": 175,
+      "modifiers": [],
+      "start": 15,
+      "text": "~.zCloud.config",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 11,
+      "length": 9,
+      "line": 176,
+      "modifiers": [],
+      "start": 2,
+      "text": "data_home",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 176,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 26,
+      "length": 13,
+      "line": 176,
+      "modifiers": [],
+      "start": 13,
+      "text": "~.zCloud.data",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 12,
+      "length": 10,
+      "line": 177,
+      "modifiers": [],
+      "start": 2,
+      "text": "cache_home",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 177,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 28,
+      "length": 14,
+      "line": 177,
+      "modifiers": [],
+      "start": 14,
+      "text": "~.zCloud.cache",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 11,
+      "length": 9,
+      "line": 178,
+      "modifiers": [],
+      "start": 2,
+      "text": "logs_home",
+      "type": "TokenType.ZNAVBAR_NESTED_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 178,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 26,
+      "length": 13,
+      "line": 178,
+      "modifiers": [],
+      "start": 13,
+      "text": "~.zCloud.logs",
+      "type": "TokenType.ZPATH_VALUE"
+    }
+  ]
+}

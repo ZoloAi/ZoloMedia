@@ -1,0 +1,818 @@
+{
+  "file": "zUI.example.zolo",
+  "file_type": "zui",
+  "line_count": 35,
+  "token_count": 90,
+  "tokens": [
+    {
+      "end": 5,
+      "length": 5,
+      "line": 0,
+      "modifiers": [],
+      "start": 0,
+      "text": "zMeta",
+      "type": "TokenType.ZMETA_KEY"
+    },
+    {
+      "end": 6,
+      "length": 1,
+      "line": 0,
+      "modifiers": [],
+      "start": 5,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 9,
+      "length": 7,
+      "line": 1,
+      "modifiers": [],
+      "start": 2,
+      "text": "zNavBar",
+      "type": "TokenType.UI_ELEMENT_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 1,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 15,
+      "length": 4,
+      "line": 1,
+      "modifiers": [],
+      "start": 11,
+      "text": "true",
+      "type": "TokenType.BOOLEAN"
+    },
+    {
+      "end": 4,
+      "length": 4,
+      "line": 3,
+      "modifiers": [],
+      "start": 0,
+      "text": "zVaF",
+      "type": "TokenType.ZMETA_KEY"
+    },
+    {
+      "end": 5,
+      "length": 1,
+      "line": 3,
+      "modifiers": [],
+      "start": 4,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 9,
+      "length": 7,
+      "line": 4,
+      "modifiers": [],
+      "start": 2,
+      "text": "_zClass",
+      "type": "TokenType.BIFROST_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 4,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 27,
+      "length": 16,
+      "line": 4,
+      "modifiers": [],
+      "start": 11,
+      "text": "zHero zHero-full",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 8,
+      "length": 6,
+      "line": 5,
+      "modifiers": [],
+      "start": 2,
+      "text": "zImage",
+      "type": "TokenType.UI_ELEMENT_KEY"
+    },
+    {
+      "end": 9,
+      "length": 1,
+      "line": 5,
+      "modifiers": [],
+      "start": 8,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 7,
+      "length": 3,
+      "line": 6,
+      "modifiers": [],
+      "start": 4,
+      "text": "src",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 8,
+      "length": 1,
+      "line": 6,
+      "modifiers": [],
+      "start": 7,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 43,
+      "length": 34,
+      "line": 6,
+      "modifiers": [],
+      "start": 9,
+      "text": "@.static.brand.zLogo_MainAlpha.png",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 12,
+      "length": 8,
+      "line": 7,
+      "modifiers": [],
+      "start": 4,
+      "text": "alt_text",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 7,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 18,
+      "length": 4,
+      "line": 7,
+      "modifiers": [],
+      "start": 14,
+      "text": "Zolo",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 5,
+      "length": 3,
+      "line": 9,
+      "modifiers": [],
+      "start": 2,
+      "text": "zUL",
+      "type": "TokenType.UI_ELEMENT_KEY"
+    },
+    {
+      "end": 6,
+      "length": 1,
+      "line": 9,
+      "modifiers": [],
+      "start": 5,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 11,
+      "length": 7,
+      "line": 10,
+      "modifiers": [],
+      "start": 4,
+      "text": "_zClass",
+      "type": "TokenType.BIFROST_KEY"
+    },
+    {
+      "end": 12,
+      "length": 1,
+      "line": 10,
+      "modifiers": [],
+      "start": 11,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 31,
+      "length": 18,
+      "line": 10,
+      "modifiers": [],
+      "start": 13,
+      "text": "zList-inline zmt-3",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 9,
+      "length": 5,
+      "line": 11,
+      "modifiers": [],
+      "start": 4,
+      "text": "zURLs",
+      "type": "TokenType.UI_ELEMENT_KEY"
+    },
+    {
+      "end": 10,
+      "length": 1,
+      "line": 11,
+      "modifiers": [],
+      "start": 9,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 16,
+      "length": 10,
+      "line": 12,
+      "modifiers": [],
+      "start": 6,
+      "text": "github_cli",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 17,
+      "length": 1,
+      "line": 12,
+      "modifiers": [],
+      "start": 16,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 15,
+      "length": 7,
+      "line": 13,
+      "modifiers": [],
+      "start": 8,
+      "text": "_zClass",
+      "type": "TokenType.BIFROST_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 13,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 46,
+      "length": 29,
+      "line": 13,
+      "modifiers": [],
+      "start": 17,
+      "text": "zBtn zBtn-lg zBtn-block zmb-2",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 14,
+      "modifiers": [],
+      "start": 8,
+      "text": "label",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 14,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 4,
+      "line": 14,
+      "modifiers": [],
+      "start": 15,
+      "text": "zCLI",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 4,
+      "line": 15,
+      "modifiers": [],
+      "start": 8,
+      "text": "href",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 15,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 49,
+      "length": 35,
+      "line": 15,
+      "modifiers": [],
+      "start": 14,
+      "text": "https://github.com/ZoloAi/zolo-zcli",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 14,
+      "length": 6,
+      "line": 16,
+      "modifiers": [],
+      "start": 8,
+      "text": "target",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 15,
+      "length": 1,
+      "line": 16,
+      "modifiers": [],
+      "start": 14,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 22,
+      "length": 6,
+      "line": 16,
+      "modifiers": [],
+      "start": 16,
+      "text": "_blank",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 17,
+      "modifiers": [],
+      "start": 8,
+      "text": "color",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 17,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 22,
+      "length": 7,
+      "line": 17,
+      "modifiers": [],
+      "start": 15,
+      "text": "PRIMARY",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 6,
+      "line": 18,
+      "modifiers": [],
+      "start": 6,
+      "text": "ztheme",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 18,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 15,
+      "length": 7,
+      "line": 19,
+      "modifiers": [],
+      "start": 8,
+      "text": "_zClass",
+      "type": "TokenType.BIFROST_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 19,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 46,
+      "length": 29,
+      "line": 19,
+      "modifiers": [],
+      "start": 17,
+      "text": "zBtn zBtn-lg zBtn-block zmb-2",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 20,
+      "modifiers": [],
+      "start": 8,
+      "text": "label",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 20,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 6,
+      "line": 20,
+      "modifiers": [],
+      "start": 15,
+      "text": "zTheme",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 4,
+      "line": 21,
+      "modifiers": [],
+      "start": 8,
+      "text": "href",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 21,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 54,
+      "length": 40,
+      "line": 21,
+      "modifiers": [],
+      "start": 14,
+      "text": "@.UI.zProducts.zUI.zTheme.zTheme_Details",
+      "type": "TokenType.ZPATH_VALUE"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 22,
+      "modifiers": [],
+      "start": 8,
+      "text": "color",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 22,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 24,
+      "length": 9,
+      "line": 22,
+      "modifiers": [],
+      "start": 15,
+      "text": "SECONDARY",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 6,
+      "line": 23,
+      "modifiers": [],
+      "start": 6,
+      "text": "zbrain",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 23,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 15,
+      "length": 7,
+      "line": 24,
+      "modifiers": [],
+      "start": 8,
+      "text": "_zClass",
+      "type": "TokenType.BIFROST_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 24,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 46,
+      "length": 29,
+      "line": 24,
+      "modifiers": [],
+      "start": 17,
+      "text": "zBtn zBtn-lg zBtn-block zmb-2",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 25,
+      "modifiers": [],
+      "start": 8,
+      "text": "label",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 25,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 6,
+      "line": 25,
+      "modifiers": [],
+      "start": 15,
+      "text": "zBrain",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 4,
+      "line": 26,
+      "modifiers": [],
+      "start": 8,
+      "text": "href",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 26,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 17,
+      "length": 3,
+      "line": 26,
+      "modifiers": [],
+      "start": 14,
+      "text": "\"#\"",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 14,
+      "length": 6,
+      "line": 27,
+      "modifiers": [],
+      "start": 8,
+      "text": "target",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 15,
+      "length": 1,
+      "line": 27,
+      "modifiers": [],
+      "start": 14,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 5,
+      "line": 27,
+      "modifiers": [],
+      "start": 16,
+      "text": "_self",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 28,
+      "modifiers": [],
+      "start": 8,
+      "text": "color",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 28,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 19,
+      "length": 4,
+      "line": 28,
+      "modifiers": [],
+      "start": 15,
+      "text": "INFO",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    },
+    {
+      "end": 17,
+      "length": 11,
+      "line": 29,
+      "modifiers": [],
+      "start": 6,
+      "text": "zphilosophy",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 18,
+      "length": 1,
+      "line": 29,
+      "modifiers": [],
+      "start": 17,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 15,
+      "length": 7,
+      "line": 30,
+      "modifiers": [],
+      "start": 8,
+      "text": "_zClass",
+      "type": "TokenType.BIFROST_KEY"
+    },
+    {
+      "end": 16,
+      "length": 1,
+      "line": 30,
+      "modifiers": [],
+      "start": 15,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 46,
+      "length": 29,
+      "line": 30,
+      "modifiers": [],
+      "start": 17,
+      "text": "zBtn zBtn-lg zBtn-block zmb-2",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 31,
+      "modifiers": [],
+      "start": 8,
+      "text": "label",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 31,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 26,
+      "length": 11,
+      "line": 31,
+      "modifiers": [],
+      "start": 15,
+      "text": "zPhilosophy",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 12,
+      "length": 4,
+      "line": 32,
+      "modifiers": [],
+      "start": 8,
+      "text": "href",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 13,
+      "length": 1,
+      "line": 32,
+      "modifiers": [],
+      "start": 12,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 17,
+      "length": 3,
+      "line": 32,
+      "modifiers": [],
+      "start": 14,
+      "text": "\"#\"",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 14,
+      "length": 6,
+      "line": 33,
+      "modifiers": [],
+      "start": 8,
+      "text": "target",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 15,
+      "length": 1,
+      "line": 33,
+      "modifiers": [],
+      "start": 14,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 21,
+      "length": 5,
+      "line": 33,
+      "modifiers": [],
+      "start": 16,
+      "text": "_self",
+      "type": "TokenType.STRING"
+    },
+    {
+      "end": 13,
+      "length": 5,
+      "line": 34,
+      "modifiers": [],
+      "start": 8,
+      "text": "color",
+      "type": "TokenType.NESTED_KEY"
+    },
+    {
+      "end": 14,
+      "length": 1,
+      "line": 34,
+      "modifiers": [],
+      "start": 13,
+      "text": ":",
+      "type": "TokenType.COLON"
+    },
+    {
+      "end": 22,
+      "length": 7,
+      "line": 34,
+      "modifiers": [],
+      "start": 15,
+      "text": "WARNING",
+      "type": "TokenType.ENV_CONFIG_VALUE"
+    }
+  ]
+}

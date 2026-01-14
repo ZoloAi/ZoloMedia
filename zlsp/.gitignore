@@ -1,1 +1,13 @@
+# VS Code marketplace package (generated)
 editors/vscode/marketplace-package/
+
+# Visual regression test screenshots (ephemeral, not golden baselines)
+tests/visual/screenshots/*.png
+tests/visual/screenshots/*.jpg
+
+# Visual test reports
+visual-report.html
+.pytest_cache/
+
+# Keep golden baselines (these should be committed)
+!tests/visual/golden/*.png
