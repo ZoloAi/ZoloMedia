@@ -1638,7 +1638,117 @@ zlsp-vscode-install
 
 ---
 
-#### **7.1.7: VS Code Marketplace Publishing** (Priority: 🟢 Low - Future)
+#### **7.1.7: VS Code Marketplace Publishing** ✅ **COMPLETE!** (Priority: 🟢 Low)
+
+**Goal:** Create marketplace-ready package while maintaining single source of truth
+
+**Status:** ✅ **Implementation Complete! Ready for publishing.**
+
+**Created Files:**
+- [x] `editors/vscode/install.py --marketplace` flag (generates marketplace package) ✅
+- [x] `editors/vscode/marketplace-package/` (generated directory structure) ✅
+- [x] `editors/vscode/MARKETPLACE.md` (comprehensive publishing guide) ✅
+- [x] `themes/semantic-colors.json` (bundled theme, 40 token colors) ✅
+
+**Updated Files:**
+- [x] `editors/vscode/install.py` (added marketplace generator) ✅
+- [x] `editors/vscode/uninstall.py` (added settings cleanup) ✅
+- [x] `themes/generators/vscode.py` (added `generate_semantic_token_color_customizations()`) ✅
+- [x] `editors/vscode/README.md` (documented dual paths & uninstallation) ✅
+
+**Key Features Implemented:**
+
+1. **Marketplace Package Generator:**
+   ```bash
+   python3 editors/vscode/install.py --marketplace
+   ```
+   - Generates complete VS Code extension in `marketplace-package/`
+   - Bundles `semantic-colors.json` from canonical theme
+   - Extension.js uses VS Code API for settings injection
+   - Auto-detects `zolo-lsp` server availability
+   - Shows helpful prompts when LSP missing
+
+2. **Dual-Mode Extension.js:**
+   - **Local mode:** File-based settings injection (Python installer)
+   - **Marketplace mode:** VS Code API settings injection
+   ```javascript
+   await config.update(
+       'editor.semanticTokenColorCustomizations',
+       { '[zolo]': { enabled: true, rules: themeData.rules } },
+       vscode.ConfigurationTarget.Global
+   );
+   ```
+
+3. **Complete Uninstaller:**
+   - `zlsp-vscode-uninstall` now does full cleanup:
+     - ✅ Removes extension directory
+     - ✅ Cleans up `settings.json` (removes `[zolo]` section)
+     - ✅ Creates backup before modifying settings
+     - ✅ Handles VS Code UI uninstall limitations
+   - Documents industry-standard behavior (settings remain after VS Code UI uninstall)
+
+4. **Single Source of Truth Maintained:**
+   ```
+   themes/zolo_default.yaml (SSOT)
+       ↓
+   [VSCodeGenerator]
+       ↓
+       ┌─────────────┴──────────────┐
+       ↓                             ↓
+   [Python Installer]        [Marketplace Extension]
+   File write                VS Code API
+       ↓                             ↓
+       └──────────┬──────────────────┘
+                  ↓
+           settings.json
+           (40 token colors)
+   ```
+
+**Installation Methods:**
+
+| Method | Steps | Settings Injection | LSP Check |
+|--------|-------|-------------------|-----------|
+| **Python** | `pip install zlsp && zlsp-vscode-install` | File write | Assumed present |
+| **Marketplace** | Install from marketplace → `pip install zlsp` | VS Code API | Prompts if missing |
+
+**Both maintain SSOT and provide identical functionality!**
+
+**Uninstallation Methods:**
+
+| Method | Extension Removed | Settings Cleaned |
+|--------|------------------|------------------|
+| **VS Code UI** | ✅ Yes | ❌ No (VS Code limitation) |
+| **zlsp-vscode-uninstall** | ✅ Yes | ✅ Yes (complete cleanup) |
+
+**Publishing Steps:**
+1. `python3 editors/vscode/install.py --marketplace`
+2. `cd editors/vscode/marketplace-package`
+3. `npm install`
+4. `vsce package` → creates `zolo-lsp-1.0.0.vsix`
+5. Test: `code --install-extension zolo-lsp-1.0.0.vsix`
+6. Publish: `vsce publish`
+
+**Documentation:**
+- ✅ User guide updated with dual installation paths
+- ✅ Marketplace publishing guide created
+- ✅ Uninstallation fully documented (both methods)
+- ✅ Architecture diagrams show both paths maintain SSOT
+
+**Success Metrics:**
+- ✅ Single source of truth maintained (zolo_default.yaml)
+- ✅ Zero-config experience (both paths)
+- ✅ Identical colors (Python = Marketplace = Vim)
+- ✅ Complete cleanup on uninstall
+- ✅ User-friendly prompts for missing LSP
+- ✅ Industry-standard behavior documented
+
+**Time Taken:** 1 day (architecture discovery + implementation)
+
+**Ready For:** Marketplace publishing, user testing
+
+---
+
+#### **7.1.8: Future Enhancements** (Priority: 🟢 Low - Optional)
 
 **Note:** This is optional - users can install via `zlsp-vscode-install`
 

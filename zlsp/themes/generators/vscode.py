@@ -488,6 +488,52 @@ class VSCodeGenerator(BaseGenerator):
         
         return styles
     
+    def generate_semantic_token_color_customizations(self) -> Dict[str, Any]:
+        """
+        Generate semantic token color customizations for VS Code settings.
+        
+        This generates the 'rules' object for editor.semanticTokenColorCustomizations.
+        Used by marketplace extension to inject colors via VS Code API.
+        
+        Returns:
+            Dictionary mapping token types to colors and font styles
+        """
+        rules = {}
+        
+        # Map all 40 token types from theme
+        token_types_to_map = [
+            'comment', 'rootKey', 'nestedKey', 'zmetaKey', 'zkernelDataKey',
+            'zschemaPropertyKey', 'bifrostKey', 'uiElementKey', 'zconfigKey',
+            'zsparkKey', 'zenvConfigKey', 'znavbarNestedKey', 'zsubKey',
+            'zsparkNestedKey', 'zsparkModeValue', 'zsparkVaFileValue',
+            'zsparkSpecialValue', 'envConfigValue', 'zrbacKey', 'zrbacOptionKey',
+            'typeHint', 'number', 'string', 'boolean', 'null',
+            'bracketStructural', 'braceStructural', 'stringBracket', 'stringBrace',
+            'colon', 'comma', 'escapeSequence', 'versionString', 'timestampString',
+            'timeString', 'ratioString', 'zpathValue', 'zmachineEditableKey',
+            'zmachineLockedKey', 'typeHintParen'
+        ]
+        
+        for token_type in token_types_to_map:
+            token_style = self.theme.get_token_style(token_type)
+            if token_style:
+                color = token_style.get('hex', '#ffffff')
+                style = token_style.get('style', 'none')
+                
+                color_entry = {"foreground": color}
+                
+                # Add font style if present
+                if style == 'bold':
+                    color_entry['fontStyle'] = 'bold'
+                elif style == 'italic':
+                    color_entry['fontStyle'] = 'italic'
+                elif style == 'bold,italic':
+                    color_entry['fontStyle'] = 'bold italic'
+                
+                rules[token_type] = color_entry
+        
+        return rules
+    
     def generate(self) -> str:
         """
         Generate a summary of what would be created.

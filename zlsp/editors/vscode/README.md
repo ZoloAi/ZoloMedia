@@ -19,19 +19,28 @@ Complete Visual Studio Code integration for `.zolo` files with LSP support.
 - **Visual Studio Code** 1.75 or later
 - **Python 3.8+** (for zlsp installation)
 
-### Installation
+### Installation Options
+
+**🎯 Recommended: Python Installer (Primary)**
 
 ```bash
 pip install zlsp
 zlsp-vscode-install
 ```
 
-Then reload VS Code:
-```
-Cmd+Shift+P → "Reload Window"
-```
+Then reload VS Code: `Cmd+Shift+P` → "Reload Window"
 
-That's it! 🎉
+**📦 Alternative: VS Code Marketplace (Future)**
+
+Coming soon! The extension will be available on VS Code Marketplace with the same zero-config experience:
+
+1. Install from marketplace: Search "Zolo Language Support"
+2. Extension auto-detects if `zolo-lsp` is installed
+3. If not found, shows prompt: "Install LSP server: `pip install zlsp`"
+4. After installing, reload VS Code
+5. Colors auto-inject via VS Code API
+
+**Both methods maintain single source of truth and work identically!**
 
 ---
 
@@ -143,7 +152,7 @@ code test.zolo
 
 ## How It Works
 
-### Architecture
+### Architecture (Dual Paths, Same Source)
 
 ```
 ┌──────────────────────────────────────┐
@@ -153,19 +162,36 @@ code test.zolo
                  ↓
         [VSCodeGenerator]
                  ↓
-    ┌────────────┴────────────┐
-    ↓                          ↓
-┌─────────────┐      ┌──────────────────┐
-│ Extension   │      │ User settings    │
-│ Files       │      │ (colors)         │
-└─────────────┘      └──────────────────┘
-         ↓                    ↓
-    ┌────────────────────────┘
-    ↓
-[VS Code with .zolo support]
+    ┌────────────┴────────────────┐
+    ↓                              ↓
+[Python Installer]        [Marketplace Extension]
+zlsp-vscode-install       (future)
+    ↓                              ↓
+Writes to                  Writes via
+settings.json              VS Code API
+(file system)              (ConfigurationTarget.Global)
+    ↓                              ↓
+    └────────────┬─────────────────┘
+                 ↓
+         Same Result:
+    settings.json updated
+    40 token colors injected
 ```
 
-**Key Principle:** Everything derives from `themes/zolo_default.yaml` - the canonical theme.
+**Key Principle:** Both paths maintain single source of truth (`themes/zolo_default.yaml`).
+
+**Installation Method Comparison:**
+
+| Aspect | Python Installer | Marketplace |
+|--------|-----------------|-------------|
+| **Color Source** | zolo_default.yaml | zolo_default.yaml (bundled) |
+| **Settings Injection** | File write | VS Code API |
+| **LSP Server** | Checked, assumed installed | Checked, prompts if missing |
+| **User Experience** | 2 commands | 1 click + 1 command |
+| **Maintains SSOT** | ✅ Yes | ✅ Yes |
+| **Zero Config** | ✅ Yes | ✅ Yes |
+
+**Both are valid, both maintain architectural integrity!**
 
 ### Zero-Config Experience
 
@@ -324,26 +350,94 @@ Enable trace logging:
 
 ## Uninstallation
 
-Remove the extension and settings:
+### Complete Cleanup (Recommended)
+
+Use our Python uninstaller for complete removal:
 
 ```bash
 zlsp-vscode-uninstall
 ```
 
-This will:
-1. Remove extension directory: `~/.vscode/extensions/zolo-lsp-1.0.0/`
-2. Clean up settings: Remove `"[zolo]"` section from `settings.json`
-3. Create backup of original settings
+**This will:**
+1. ✅ Remove extension directory: `~/.vscode/extensions/zolo-lsp-1.0.0/`
+2. ✅ Clean up settings: Remove `"[zolo]"` section from `settings.json`
+3. ✅ Create backup: `settings.json.backup.TIMESTAMP` (safety!)
+4. ✅ Confirm before removing
 
-**Manual uninstallation:**
+**Example output:**
+```
+[1/3] Checking for installed extension...
+  ✓ Found: ~/.vscode/extensions/zolo-lsp-1.0.0
 
+[2/3] Checking for settings...
+  ✓ Found Zolo settings: ~/Library/Application Support/Code/User/settings.json
+
+Will remove:
+  • Extension: ~/.vscode/extensions/zolo-lsp-1.0.0
+  • Settings: '[zolo]' section in settings.json
+
+Proceed with uninstallation? (y/N): y
+
+[3/3] Uninstalling...
+  ✓ Backup created: settings.json.backup.20260115_143022
+  ✓ Extension directory removed
+  ✓ Removed '[zolo]' section from semantic token customizations
+
+✓ Uninstallation Complete!
+```
+
+---
+
+### VS Code UI Uninstall (Partial Cleanup)
+
+**If you uninstall via VS Code Extensions UI:**
+- ✅ Extension directory removed automatically
+- ❌ Settings remain in `settings.json` (VS Code limitation)
+
+**To clean up settings after VS Code UI uninstall:**
+```bash
+# Option 1: Use our cleanup (doesn't require extension)
+python3 -c "from editors.vscode.uninstall import remove_semantic_token_colors_from_settings, get_vscode_user_settings_path; remove_semantic_token_colors_from_settings(get_vscode_user_settings_path())"
+
+# Option 2: Manual cleanup
+code ~/Library/Application\ Support/Code/User/settings.json
+# Delete the "[zolo]" section under "editor.semanticTokenColorCustomizations"
+```
+
+**Note:** Industry standard - most VS Code extensions (rust-analyzer, Pylance, ESLint) leave settings after uninstall. This is a VS Code API limitation (no uninstall hooks).
+
+---
+
+### Manual Uninstallation
+
+**macOS:**
 ```bash
 # Remove extension
 rm -rf ~/.vscode/extensions/zolo-lsp-*
 
-# Remove settings (edit settings.json manually)
+# Remove settings
 code ~/Library/Application\ Support/Code/User/settings.json
-# Delete the "[zolo]" section under "editor.semanticTokenColorCustomizations"
+# Delete the "[zolo]" section
+```
+
+**Linux:**
+```bash
+# Remove extension
+rm -rf ~/.vscode/extensions/zolo-lsp-*
+
+# Remove settings
+code ~/.config/Code/User/settings.json
+# Delete the "[zolo]" section
+```
+
+**Windows:**
+```bash
+# Remove extension
+rmdir /s "%USERPROFILE%\.vscode\extensions\zolo-lsp-*"
+
+# Remove settings
+code %APPDATA%\Code\User\settings.json
+# Delete the "[zolo]" section
 ```
 
 ---
