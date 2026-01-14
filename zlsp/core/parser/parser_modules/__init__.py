@@ -20,6 +20,7 @@ from .file_type_detector import (
     get_file_info,
 )
 from .value_validators import ValueValidator, validate_special_value
+from .key_detector import KeyDetector, detect_key_type
 from .validators import (
     validate_ascii_only,
     is_zpath_value,
