@@ -8,13 +8,13 @@ Type hints use parentheses notation: key_name(type): value
 import re
 from typing import Any, Optional, Pattern
 
-from .constants import (
+from ..constants import (
     TYPE_INT, TYPE_FLOAT, TYPE_BOOL, TYPE_STR,
     TYPE_LIST, TYPE_DICT, TYPE_RAW,
     TYPE_DATE, TYPE_TIME, TYPE_URL, TYPE_PATH,
     SUPPORTED_TYPES, BOOL_TRUE_VALUES
 )
-from ..exceptions import ZoloTypeError
+from ...exceptions import ZoloTypeError
 
 
 # Compiled regex pattern for type hints: key_name(type)

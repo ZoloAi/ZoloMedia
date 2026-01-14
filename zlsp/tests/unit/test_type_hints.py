@@ -3,7 +3,7 @@ Unit tests for core.parser.type_hints module
 """
 
 import pytest
-from core.parser.type_hints import (
+from core.parser.parser_modules.type_hints import (
     process_type_hints,
     convert_value_by_type,
     has_type_hint,
