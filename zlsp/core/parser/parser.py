@@ -11,8 +11,6 @@ import json
 from pathlib import Path
 from typing import Any, Union, Optional, IO
 
-import yaml
-
 # Import from modular components
 from .parser_modules import (
     # Core classes
@@ -25,6 +23,8 @@ from .parser_modules import (
     check_indentation_consistency,
     parse_lines,
     parse_lines_with_tokens,
+    # Serialization
+    serialize_zolo,
 )
 
 # Import constants
@@ -87,11 +87,11 @@ def tokenize(content: str, filename: Optional[str] = None) -> ParseResult:
 
 def load(fp: Union[str, Path, IO], file_extension: Optional[str] = None) -> Any:
     """
-    Load data from a .zolo file (or compatible format).
+    Load data from a .zolo file (or JSON).
 
     Args:
         fp: File path (str/Path) or file-like object
-        file_extension: Optional file extension override (.zolo, .yaml, .json)
+        file_extension: Optional file extension override (.zolo, .json)
                        If None, will detect from file path or default to .zolo
 
     Returns:
@@ -102,11 +102,11 @@ def load(fp: Union[str, Path, IO], file_extension: Optional[str] = None) -> Any:
         FileNotFoundError: If file doesn't exist
 
     Examples:
-        >>> # Load .zolo file (string-first)
+        >>> # Load .zolo file
         >>> data = zolo.load('config.zolo')
 
-        >>> # Load .yaml file (native types)
-        >>> data = zolo.load('config.yaml')
+        >>> # Load JSON file
+        >>> data = zolo.load('config.json')
 
         >>> # Load with explicit extension
         >>> data = zolo.load('config.txt', file_extension='.zolo')
@@ -148,11 +148,11 @@ def load(fp: Union[str, Path, IO], file_extension: Optional[str] = None) -> Any:
 
 def loads(s: str, file_extension: Optional[str] = None) -> Any:
     """
-    Load data from a .zolo string (or compatible format).
+    Load data from a .zolo string (or JSON).
 
     Args:
         s: String content to parse
-        file_extension: Optional file extension hint (.zolo, .yaml, .json)
+        file_extension: Optional file extension hint (.zolo, .json)
                        Defaults to .zolo if not provided
 
     Returns:
@@ -162,17 +162,17 @@ def loads(s: str, file_extension: Optional[str] = None) -> Any:
         ZoloParseError: If parsing fails
 
     Examples:
-        >>> # Parse .zolo string (string-first)
+        >>> # Parse .zolo string
         >>> data = zolo.loads('port: 8080')
-        {'port': '8080'}  # String by default
+        {'port': 8080.0}  # Parsed as number
 
         >>> # Parse with type hint
-        >>> data = zolo.loads('port(int): 8080')
-        {'port': 8080}  # Integer via type hint
+        >>> data = zolo.loads('port(str): 8080')
+        {'port': '8080'}  # String via type hint
 
-        >>> # Parse .yaml string (native types)
-        >>> data = zolo.loads('port: 8080', file_extension='.yaml')
-        {'port': 8080}  # Integer via YAML
+        >>> # Parse JSON string
+        >>> data = zolo.loads('{"port": 8080}', file_extension='.json')
+        {'port': 8080}  # Parsed as JSON
     """
     if not s or not s.strip():
         return None
@@ -186,10 +186,8 @@ def loads(s: str, file_extension: Optional[str] = None) -> Any:
     if not file_extension.startswith('.'):
         file_extension = '.' + file_extension
 
-    # Determine if string-first should be applied
-    # .zolo files now use RFC 8259 type detection (like JSON)
+    # .zolo files use RFC 8259 type detection (like JSON)
     # string_first = False means: respect native types (int, float, bool, null)
-    # Only YAML files (.yaml/.yml) would use string_first if we wanted that
     string_first = False
 
     # Parse based on format
@@ -198,34 +196,42 @@ def loads(s: str, file_extension: Optional[str] = None) -> Any:
             # Parse as JSON
             parsed = json.loads(s)
         elif file_extension == FILE_EXT_ZOLO:
-            # Custom .zolo parser (no YAML quirks)
+            # Custom .zolo parser (pure, no YAML)
             parsed = _parse_zolo_content(s)
         else:
-            # Parse as YAML (for .yaml, .yml files)
-            parsed = yaml.safe_load(s)
+            # Unsupported format
+            raise ZoloParseError(
+                f"Unsupported file format: {file_extension}. "
+                f"Only .zolo and .json are supported."
+            )
 
         # Process type hints
         parsed = process_type_hints(parsed, string_first=string_first)
 
         return parsed
 
-    except yaml.YAMLError as e:
-        raise ZoloParseError(f"YAML parsing error: {e}") from e
     except json.JSONDecodeError as e:
         raise ZoloParseError(f"JSON parsing error: {e}") from e
+    except ZoloParseError:
+        raise  # Re-raise our own exceptions
     except Exception as e:
         raise ZoloParseError(f"Parsing error: {e}") from e
 
 
-def dump(data: Any, fp: Union[str, Path, IO], file_extension: Optional[str] = None, **kwargs) -> None:
+def dump(
+    data: Any,
+    fp: Union[str, Path, IO],
+    file_extension: Optional[str] = None,
+    **kwargs
+) -> None:
     """
-    Dump data to a .zolo file (or compatible format).
+    Dump data to a .zolo file (or JSON).
 
     Args:
         data: Data to serialize (dict, list, or scalar)
         fp: File path (str/Path) or file-like object
-        file_extension: Optional file extension override (.zolo, .yaml, .json)
-        **kwargs: Format-specific options (indent, etc.)
+        file_extension: Optional file extension override (.zolo, .json)
+        **kwargs: Format-specific options (indent for JSON, etc.)
 
     Raises:
         ZoloDumpError: If serialization fails
@@ -255,12 +261,12 @@ def dump(data: Any, fp: Union[str, Path, IO], file_extension: Optional[str] = No
 
 def dumps(data: Any, file_extension: Optional[str] = None, **kwargs) -> str:
     """
-    Dump data to a .zolo string (or compatible format).
+    Dump data to a .zolo string (or JSON).
 
     Args:
         data: Data to serialize (dict, list, or scalar)
-        file_extension: Optional file extension hint (.zolo, .yaml, .json)
-        **kwargs: Format-specific options (indent, etc.)
+        file_extension: Optional file extension hint (.zolo, .json)
+        **kwargs: Format-specific options (indent for JSON, etc.)
 
     Returns:
         Serialized string
@@ -292,12 +298,17 @@ def dumps(data: Any, file_extension: Optional[str] = None, **kwargs) -> str:
             indent = kwargs.get('indent', 2)
             return json.dumps(data, indent=indent, ensure_ascii=False)
         elif file_extension == FILE_EXT_ZOLO:
-            # Serialize as YAML (for now - custom serializer TODO)
-            return yaml.dump(data, default_flow_style=False, allow_unicode=True, sort_keys=False)
+            # Serialize as pure .zolo format (no YAML dependency!)
+            return serialize_zolo(data)
         else:
-            # Serialize as YAML
-            return yaml.dump(data, default_flow_style=False, allow_unicode=True, sort_keys=False)
+            # Unsupported format
+            raise ZoloDumpError(
+                f"Unsupported file format: {file_extension}. "
+                f"Only .zolo and .json are supported."
+            )
 
+    except ZoloDumpError:
+        raise  # Re-raise our own exceptions
     except Exception as e:
         raise ZoloDumpError(f"Serialization error: {e}") from e
 
@@ -308,7 +319,7 @@ def dumps(data: Any, file_extension: Optional[str] = None, **kwargs) -> str:
 
 def _parse_zolo_content(content: str) -> Any:
     """
-    Custom .zolo parser without YAML quirks.
+    Pure .zolo parser - independent format, no YAML dependency.
 
     Orchestrates the parsing pipeline:
     1. Strip comments and prepare lines

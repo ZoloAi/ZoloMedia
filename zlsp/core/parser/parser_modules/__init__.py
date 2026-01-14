@@ -11,6 +11,7 @@ Architecture inspired by zKernel subsystem structure.
 from .block_tracker import BlockTracker
 from .type_hints import process_type_hints, TYPE_HINT_PATTERN
 from .token_emitter import TokenEmitter
+from .serializer import dumps as serialize_zolo
 from .validators import (
     validate_ascii_only,
     is_zpath_value,
@@ -120,6 +121,7 @@ __all__ = [
     'TokenEmitter',
     'process_type_hints',
     'TYPE_HINT_PATTERN',
+    'serialize_zolo',
     # Validators
     'validate_ascii_only',
     'is_zpath_value',
