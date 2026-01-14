@@ -216,180 +216,26 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
                         current_pos += 1
                     
-                    # Determine token type for core key and emit
-                    # Check for zRBAC key (tomato red in zEnv/zUI files only)
+                    # ====== NESTED KEY DETECTION (using KeyDetector) ======
+                    # Detect token type using KeyDetector (replaces 173 lines of conditionals!)
+                    token_type = KeyDetector.detect_nested_key(core_key, emitter, indent)
+                    emitter.emit(original_line_num, current_pos, len(core_key), token_type)
+                    
+                    # Check for block entry (UI elements, zRBAC, etc.)
                     if core_key == 'zRBAC':
-                        # zRBAC gets tomato red (196) only in zEnv/zUI files
-                        if emitter.is_zenv_file or emitter.is_zui_file:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                        # Mark that we're entering a zRBAC block
                         emitter.enter_zrbac_block(indent, original_line_num)
-                    # Check for zSpark nested keys (purple 98 in zSpark files only)
-                    elif emitter.is_zspark_file:
-                        # ALL nested keys under zSpark root get purple color
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSPARK_NESTED_KEY)
-                    # Check for ZNAVBAR first-level nested keys (ANSI 222 in zEnv files only)
-                    elif emitter.is_znavbar_first_level(indent) and emitter.is_zenv_file:
-                        # First-level nested keys under ZNAVBAR (not grandchildren)
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZNAVBAR_NESTED_KEY)
-                    # Check for zKernel zData keys under zMeta in zSchema files (PURPLE 98)
-                    elif emitter.is_inside_zmeta(indent) and emitter.is_zschema_file:
-                        ZKERNEL_DATA_KEYS = {'Data_Type', 'Data_Label', 'Data_Source', 'Schema_Name', 'zMigration', 'zMigrationVersion'}
-                        if core_key in ZKERNEL_DATA_KEYS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZKERNEL_DATA_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zSchema property keys (field properties and validation rules) - PURPLE 98
-                    elif emitter.is_zschema_file and indent >= 4:
-                        # Field-level properties (type, pk, unique, etc.) and validation properties (format, min_length, etc.)
-                        ZSCHEMA_FIELD_PROPERTIES = {'type', 'pk', 'auto_increment', 'unique', 'required', 'default', 'rules', 'zHash', 'comment'}
-                        ZSCHEMA_VALIDATION_PROPERTIES = {'format', 'min_length', 'max_length', 'pattern', 'min', 'max'}
-                        if core_key in ZSCHEMA_FIELD_PROPERTIES or core_key in ZSCHEMA_VALIDATION_PROPERTIES:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSCHEMA_PROPERTY_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zRBAC option keys (PURPLE in zUI and zEnv files only)
-                    elif emitter.is_in_zrbac_block(indent) and (emitter.is_zui_file or emitter.is_zenv_file):
-                        ZRBAC_OPTIONS = {'zGuest', 'authenticated', 'require_role', 'require_auth', 'require_permission'}
-                        if core_key in ZRBAC_OPTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_OPTION_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zMachine nested section keys in zConfig files
-                    elif emitter.is_in_zmachine_block(indent) and emitter.is_zconfig_file:
-                        # Define editable sections (blue/cyan - INFO level)
-                        ZMACHINE_EDITABLE_SECTIONS = {
-                            'user_preferences', 'time_date_formatting', 'launch_commands', 'custom'
-                        }
-                        # Define locked/auto-detected sections (red/orange - ERROR level)
-                        ZMACHINE_LOCKED_SECTIONS = {
-                            'machine_identity', 'python_runtime', 'cpu', 'memory', 'gpu', 'network', 'user_paths'
-                        }
-                        
-                        if core_key in ZMACHINE_EDITABLE_SECTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZMACHINE_EDITABLE_KEY)
-                        elif core_key in ZMACHINE_LOCKED_SECTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZMACHINE_LOCKED_KEY)
-                        else:
-                            # Unknown key - default to nested key
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zImage key (GOLD in zUI files) and enter block
                     elif core_key == 'zImage' and emitter.is_zui_file:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                        # Mark that we're entering a zImage block
                         emitter.enter_zimage_block(indent, original_line_num)
-                    # Check for zImage option keys (PURPLE in zUI files only, excluding Bifrost keys)
-                    elif emitter.is_in_zimage_block(indent) and emitter.is_zui_file and not core_key.startswith('_'):
-                        ZIMAGE_OPTIONS = {'src', 'alt_text', 'caption', 'open_prompt', 'indent', 'color'}
-                        if core_key in ZIMAGE_OPTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_OPTION_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zText key (GOLD in zUI files) and enter block
                     elif core_key == 'zText' and emitter.is_zui_file:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                        # Mark that we're entering a zText block
                         emitter.enter_ztext_block(indent, original_line_num)
-                    # Check for zText option keys (PURPLE in zUI files only, excluding Bifrost keys)
-                    elif emitter.is_in_ztext_block(indent) and emitter.is_zui_file and not core_key.startswith('_'):
-                        ZTEXT_OPTIONS = {'content', 'indent', 'color', 'break_after'}
-                        if core_key in ZTEXT_OPTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_OPTION_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zMD key (GOLD in zUI files) and enter block
                     elif core_key == 'zMD' and emitter.is_zui_file:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                        # Mark that we're entering a zMD block
                         emitter.enter_zmd_block(indent, original_line_num)
-                    # Check for zMD option keys (PURPLE in zUI files only, excluding Bifrost keys)
-                    elif emitter.is_in_zmd_block(indent) and emitter.is_zui_file and not core_key.startswith('_'):
-                        ZMD_OPTIONS = {'content', 'indent', 'pause', 'break_message', 'format'}
-                        if core_key in ZMD_OPTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_OPTION_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zURL key (GOLD in zUI files) and enter block
                     elif core_key == 'zURL' and emitter.is_zui_file:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                        # Mark that we're entering a zURL block
                         emitter.enter_zurl_block(indent, original_line_num)
-                    # Check for zURL option keys (PURPLE in zUI files only, excluding Bifrost keys)
-                    elif emitter.is_in_zurl_block(indent) and emitter.is_zui_file and not core_key.startswith('_'):
-                        ZURL_OPTIONS = {'label', 'href', 'target', 'color', 'rel', 'window'}
-                        if core_key in ZURL_OPTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_OPTION_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zH1-zH6 keys (GOLD in zUI files) and enter block
                     elif core_key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'} and emitter.is_zui_file:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                        # Mark that we're entering a header block
                         emitter.enter_header_block(indent, original_line_num)
-                    # Check for header option keys (PURPLE in zUI files only, excluding Bifrost keys)
-                    elif emitter.is_in_header_block(indent) and emitter.is_zui_file and not core_key.startswith('_'):
-                        HEADER_OPTIONS = {'label', 'color', 'style', 'semantic', 'indent'}
-                        if core_key in HEADER_OPTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_OPTION_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for plural shorthand option keys (PURPLE in zUI files, 2+ levels deep, excluding Bifrost)
-                    elif not core_key.startswith('_') and emitter.is_zui_file:
-                        plural_context = emitter.get_plural_shorthand_context(indent)
-                        if plural_context:
-                            # Define valid options for each plural shorthand type
-                            PLURAL_OPTIONS = {
-                                'zURLs': {'label', 'href', 'target', 'rel', 'color', 'window'},
-                                'zTexts': {'content', 'indent', 'color'},
-                                'zImages': {'src', 'alt_text', 'caption', 'open_prompt', 'indent', 'color'},
-                                'zH1s': {'label', 'color', 'indent'},
-                                'zH2s': {'label', 'color', 'indent'},
-                                'zH3s': {'label', 'color', 'indent'},
-                                'zH4s': {'label', 'color', 'indent'},
-                                'zH5s': {'label', 'color', 'indent'},
-                                'zH6s': {'label', 'color', 'indent'},
-                                'zMDs': {'content', 'indent', 'color'},
-                            }
-                            if plural_context in PLURAL_OPTIONS and core_key in PLURAL_OPTIONS[plural_context]:
-                                emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_OPTION_KEY)
-                            else:
-                                emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                        else:
-                            # Check if this IS a plural shorthand container itself
-                            PLURAL_SHORTHANDS = {'zURLs', 'zTexts', 'zH1s', 'zH2s', 'zH3s', 
-                                               'zH4s', 'zH5s', 'zH6s', 'zImages', 'zMDs'}
-                            if core_key in PLURAL_SHORTHANDS:
-                                emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                                emitter.enter_plural_shorthand_block(indent, original_line_num, core_key)
-                            # Check for zSub key (purple 98 when grandchild+ in zEnv/zUI files)
-                            elif core_key == 'zSub':
-                                # zSub in zEnv/zUI at grandchild+ level (indent >= 4) gets purple
-                                if (emitter.is_zenv_file or emitter.is_zui_file) and indent >= 4:
-                                    emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSUB_KEY)
-                                else:
-                                    emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                            # Check for specific shorthand display event keys (strict whitelist)
-                            elif core_key in {'zNavBar', 'zImage', 'zUL', 'zOL', 'zURL', 'zURLs', 'zText', 'zMD', 'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'}:
-                                emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                            else:
-                                emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zSub key (purple 98 when grandchild+ in zEnv/zUI files)
-                    elif core_key == 'zSub':
-                        # zSub in zEnv/zUI at grandchild+ level (indent >= 4) gets purple
-                        if (emitter.is_zenv_file or emitter.is_zui_file) and indent >= 4:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSUB_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                    # Check for underscore-prefixed keys (Bifrost keys)
-                    elif core_key.startswith('_'):
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.BIFROST_KEY)
-                    # Check for specific shorthand display event keys (strict whitelist)
-                    elif emitter.is_zui_file and core_key in {'zNavBar', 'zImage', 'zUL', 'zOL', 'zURL', 'zURLs', 'zText', 'zMD'}:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                    else:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
+                    elif core_key in {'zURLs', 'zTexts', 'zH1s', 'zH2s', 'zH3s', 'zH4s', 'zH5s', 'zH6s', 'zImages', 'zMDs'} and emitter.is_zui_file:
+                        emitter.enter_plural_shorthand_block(indent, original_line_num, core_key)
                     
                     current_pos += len(core_key)
                     
@@ -421,35 +267,13 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
                         current_pos += 1
                     
-                    # Determine token type for core key and emit
-                    # Special handling for zMeta, zVaF, and component name in zUI files
-                    # Special handling for zMeta in zSchema files
-                    if (emitter.is_zui_file and (core_key == 'zMeta' or core_key == 'zVaF' or core_key == emitter.zui_component_name)) or \
-                       (emitter.is_zschema_file and core_key == 'zMeta'):
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZMETA_KEY)
-                        # If this is zMeta in a zSchema file, enter the block for zKernel data key tracking
-                        if emitter.is_zschema_file and core_key == 'zMeta':
-                            emitter.enter_zmeta_block(indent, original_line_num)
-                    # Special handling for zSpark root key in zSpark files (LIGHT GREEN - ANSI 114)
-                    elif emitter.is_zspark_file and core_key == 'zSpark':
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSPARK_KEY)
-                    # Special handling for config root keys in zEnv files (PURPLE - ANSI 98)
-                    elif emitter.is_zenv_file and core_key in ('DEPLOYMENT', 'DEBUG', 'LOG_LEVEL'):
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZENV_CONFIG_KEY)
-                    # Special handling for uppercase Z-prefixed config keys in zEnv files (GREEN)
-                    elif emitter.is_zenv_file and core_key.isupper() and core_key.startswith('Z'):
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZCONFIG_KEY)
-                        # If this is ZNAVBAR, enter the block for first-level nested key tracking
-                        if core_key == 'ZNAVBAR':
-                            emitter.enter_znavbar_block(indent, original_line_num)
-                    # Special handling for z-prefixed root keys in zConfig files (GREEN) - e.g., zMachine
-                    elif emitter.is_zconfig_file and core_key.startswith('z') and len(core_key) > 1 and core_key[1].isupper():
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZCONFIG_KEY)
-                        # If this is zMachine, enter the block for nested key tracking
-                        if core_key == 'zMachine':
-                            emitter.enter_zmachine_block(indent, original_line_num)
-                    # Check for zSub at root level (ERROR - zSub must always be nested)
-                    elif core_key == 'zSub':
+                    # ====== ROOT KEY DETECTION (using KeyDetector) ======
+                    # Detect token type using KeyDetector (replaces 58 lines of conditionals)
+                    token_type = KeyDetector.detect_root_key(core_key, emitter, indent)
+                    emitter.emit(original_line_num, current_pos, len(core_key), token_type)
+                    
+                    # Check for block entry and emit diagnostics for invalid root keys
+                    if core_key == 'zSub':
                         # zSub at root level - emit error
                         error_range = Range(
                             Position(original_line_num, current_pos),
@@ -461,9 +285,6 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             severity=1  # Error
                         )
                         emitter.diagnostics.append(diagnostic)
-                        # Still emit as ROOT_KEY token for highlighting
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ROOT_KEY)
-                    # Check for zRBAC at root level (ERROR - zRBAC must always be nested)
                     elif core_key == 'zRBAC':
                         # zRBAC at root level - emit error
                         error_range = Range(
@@ -476,10 +297,15 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             severity=1  # Error
                         )
                         emitter.diagnostics.append(diagnostic)
-                        # Still emit as ROOT_KEY token for highlighting
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ROOT_KEY)
                     else:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ROOT_KEY)
+                        # Check for block entry
+                        block_type = KeyDetector.should_enter_block(core_key, emitter)
+                        if block_type == 'zmeta':
+                            emitter.enter_zmeta_block(indent, original_line_num)
+                        elif block_type == 'znavbar':
+                            emitter.enter_znavbar_block(indent, original_line_num)
+                        elif core_key == 'zMachine':
+                            emitter.enter_zmachine_block(indent, original_line_num)
                     
                     current_pos += len(core_key)
                     
@@ -511,183 +337,28 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
                         current_pos += 1
                     
-                    # Determine token type for core key and emit
-                    # Check for zRBAC key (tomato red in zEnv/zUI files only)
+                    # ====== NESTED KEY DETECTION (using KeyDetector) ======
+                    # Detect token type using KeyDetector (replaces 173 lines of conditionals!)
+                    token_type = KeyDetector.detect_nested_key(core_key, emitter, indent)
+                    emitter.emit(original_line_num, current_pos, len(core_key), token_type)
+                    
+                    # Check for block entry (UI elements, zRBAC, etc.)
                     if core_key == 'zRBAC':
-                        # zRBAC gets tomato red (196) only in zEnv/zUI files
-                        if emitter.is_zenv_file or emitter.is_zui_file:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                        # Mark that we're entering a zRBAC block
                         emitter.enter_zrbac_block(indent, original_line_num)
-                    # Check for zSpark nested keys (purple 98 in zSpark files only)
-                    elif emitter.is_zspark_file:
-                        # ALL nested keys under zSpark root get purple color
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSPARK_NESTED_KEY)
-                    # Check for ZNAVBAR first-level nested keys (ANSI 222 in zEnv files only)
-                    elif emitter.is_znavbar_first_level(indent) and emitter.is_zenv_file:
-                        # First-level nested keys under ZNAVBAR (not grandchildren)
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZNAVBAR_NESTED_KEY)
-                    # Check for zKernel zData keys under zMeta in zSchema files (PURPLE 98)
-                    elif emitter.is_inside_zmeta(indent) and emitter.is_zschema_file:
-                        ZKERNEL_DATA_KEYS = {'Data_Type', 'Data_Label', 'Data_Source', 'Schema_Name', 'zMigration', 'zMigrationVersion'}
-                        if core_key in ZKERNEL_DATA_KEYS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZKERNEL_DATA_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zSchema property keys (field properties and validation rules) - PURPLE 98
-                    elif emitter.is_zschema_file and indent >= 4:
-                        # Field-level properties (type, pk, unique, etc.) and validation properties (format, min_length, etc.)
-                        ZSCHEMA_FIELD_PROPERTIES = {'type', 'pk', 'auto_increment', 'unique', 'required', 'default', 'rules', 'zHash', 'comment'}
-                        ZSCHEMA_VALIDATION_PROPERTIES = {'format', 'min_length', 'max_length', 'pattern', 'min', 'max'}
-                        if core_key in ZSCHEMA_FIELD_PROPERTIES or core_key in ZSCHEMA_VALIDATION_PROPERTIES:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSCHEMA_PROPERTY_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zRBAC option keys (PURPLE in zUI and zEnv files only)
-                    elif emitter.is_in_zrbac_block(indent) and (emitter.is_zui_file or emitter.is_zenv_file):
-                        ZRBAC_OPTIONS = {'zGuest', 'authenticated', 'require_role', 'require_auth', 'require_permission'}
-                        if core_key in ZRBAC_OPTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_OPTION_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zMachine nested section keys in zConfig files
-                    elif emitter.is_in_zmachine_block(indent) and emitter.is_zconfig_file:
-                        # Define editable sections (blue/cyan - INFO level)
-                        ZMACHINE_EDITABLE_SECTIONS = {
-                            'user_preferences', 'time_date_formatting', 'launch_commands', 'custom'
-                        }
-                        # Define locked/auto-detected sections (red/orange - ERROR level)
-                        ZMACHINE_LOCKED_SECTIONS = {
-                            'machine_identity', 'python_runtime', 'cpu', 'memory', 'gpu', 'network', 'user_paths'
-                        }
-                        
-                        if core_key in ZMACHINE_EDITABLE_SECTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZMACHINE_EDITABLE_KEY)
-                        elif core_key in ZMACHINE_LOCKED_SECTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZMACHINE_LOCKED_KEY)
-                        else:
-                            # Unknown key - default to nested key
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zImage key (GOLD in zUI files) and enter block
                     elif core_key == 'zImage' and emitter.is_zui_file:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                        # Mark that we're entering a zImage block
                         emitter.enter_zimage_block(indent, original_line_num)
-                    # Check for zImage option keys (PURPLE in zUI files only, excluding Bifrost keys)
-                    elif emitter.is_in_zimage_block(indent) and emitter.is_zui_file and not core_key.startswith('_'):
-                        ZIMAGE_OPTIONS = {'src', 'alt_text', 'caption', 'open_prompt', 'indent', 'color'}
-                        if core_key in ZIMAGE_OPTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_OPTION_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zText key (GOLD in zUI files) and enter block
                     elif core_key == 'zText' and emitter.is_zui_file:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                        # Mark that we're entering a zText block
                         emitter.enter_ztext_block(indent, original_line_num)
-                    # Check for zText option keys (PURPLE in zUI files only, excluding Bifrost keys)
-                    elif emitter.is_in_ztext_block(indent) and emitter.is_zui_file and not core_key.startswith('_'):
-                        ZTEXT_OPTIONS = {'content', 'indent', 'color', 'break_after'}
-                        if core_key in ZTEXT_OPTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_OPTION_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zMD key (GOLD in zUI files) and enter block
                     elif core_key == 'zMD' and emitter.is_zui_file:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                        # Mark that we're entering a zMD block
                         emitter.enter_zmd_block(indent, original_line_num)
-                    # Check for zMD option keys (PURPLE in zUI files only, excluding Bifrost keys)
-                    elif emitter.is_in_zmd_block(indent) and emitter.is_zui_file and not core_key.startswith('_'):
-                        ZMD_OPTIONS = {'content', 'indent', 'pause', 'break_message', 'format'}
-                        if core_key in ZMD_OPTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_OPTION_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zURL key (GOLD in zUI files) and enter block
                     elif core_key == 'zURL' and emitter.is_zui_file:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                        # Mark that we're entering a zURL block
                         emitter.enter_zurl_block(indent, original_line_num)
-                    # Check for zURL option keys (PURPLE in zUI files only, excluding Bifrost keys)
-                    elif emitter.is_in_zurl_block(indent) and emitter.is_zui_file and not core_key.startswith('_'):
-                        ZURL_OPTIONS = {'label', 'href', 'target', 'color', 'rel', 'window'}
-                        if core_key in ZURL_OPTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_OPTION_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zH1-zH6 keys (GOLD in zUI files) and enter block
                     elif core_key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'} and emitter.is_zui_file:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                        # Mark that we're entering a header block
                         emitter.enter_header_block(indent, original_line_num)
-                    # Check for header option keys (PURPLE in zUI files only, excluding Bifrost keys)
-                    elif emitter.is_in_header_block(indent) and emitter.is_zui_file and not core_key.startswith('_'):
-                        HEADER_OPTIONS = {'label', 'color', 'style', 'semantic', 'indent'}
-                        if core_key in HEADER_OPTIONS:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_OPTION_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for plural shorthand option keys (PURPLE in zUI files, 2+ levels deep, excluding Bifrost)
-                    elif not core_key.startswith('_') and emitter.is_zui_file:
-                        plural_context = emitter.get_plural_shorthand_context(indent)
-                        if plural_context:
-                            # Define valid options for each plural shorthand type
-                            PLURAL_OPTIONS = {
-                                'zURLs': {'label', 'href', 'target', 'rel', 'color', 'window'},
-                                'zTexts': {'content', 'indent', 'color'},
-                                'zImages': {'src', 'alt_text', 'caption', 'open_prompt', 'indent', 'color'},
-                                'zH1s': {'label', 'color', 'indent'},
-                                'zH2s': {'label', 'color', 'indent'},
-                                'zH3s': {'label', 'color', 'indent'},
-                                'zH4s': {'label', 'color', 'indent'},
-                                'zH5s': {'label', 'color', 'indent'},
-                                'zH6s': {'label', 'color', 'indent'},
-                                'zMDs': {'content', 'indent', 'color'},
-                            }
-                            if plural_context in PLURAL_OPTIONS and core_key in PLURAL_OPTIONS[plural_context]:
-                                emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZRBAC_OPTION_KEY)
-                            else:
-                                emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                        else:
-                            # Check if this IS a plural shorthand container itself
-                            PLURAL_SHORTHANDS = {'zURLs', 'zTexts', 'zH1s', 'zH2s', 'zH3s', 
-                                               'zH4s', 'zH5s', 'zH6s', 'zImages', 'zMDs'}
-                            if core_key in PLURAL_SHORTHANDS:
-                                emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                                emitter.enter_plural_shorthand_block(indent, original_line_num, core_key)
-                            # Check for zSub key (purple 98 when grandchild+ in zEnv/zUI files)
-                            elif core_key == 'zSub':
-                                # zSub in zEnv/zUI at grandchild+ level (indent >= 4) gets purple
-                                if (emitter.is_zenv_file or emitter.is_zui_file) and indent >= 4:
-                                    emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSUB_KEY)
-                                else:
-                                    emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                            # Check for specific shorthand display event keys (strict whitelist)
-                            elif core_key in {'zNavBar', 'zImage', 'zUL', 'zOL', 'zURL', 'zURLs', 'zText', 'zMD', 'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'}:
-                                emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                            else:
-                                emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
-                    # Check for zSub key (purple 98 when grandchild+ in zEnv/zUI files)
-                    elif core_key == 'zSub':
-                        # zSub in zEnv/zUI at grandchild+ level (indent >= 4) gets purple
-                        if (emitter.is_zenv_file or emitter.is_zui_file) and indent >= 4:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.ZSUB_KEY)
-                        else:
-                            emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                    # Check for underscore-prefixed keys (Bifrost keys)
-                    elif core_key.startswith('_'):
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.BIFROST_KEY)
-                    # Check for specific shorthand display event keys (strict whitelist)
-                    elif emitter.is_zui_file and core_key in {'zNavBar', 'zImage', 'zUL', 'zOL', 'zURL', 'zURLs', 'zText', 'zMD'}:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.UI_ELEMENT_KEY)
-                    else:
-                        emitter.emit(original_line_num, current_pos, len(core_key), TokenType.NESTED_KEY)
+                    elif core_key in {'zURLs', 'zTexts', 'zH1s', 'zH2s', 'zH3s', 'zH4s', 'zH5s', 'zH6s', 'zImages', 'zMDs'} and emitter.is_zui_file:
+                        emitter.enter_plural_shorthand_block(indent, original_line_num, core_key)
                     
                     current_pos += len(core_key)
-                    
                     # Emit suffix modifiers (purple in zEnv/zUI only)
                     for mod in suffix_mods:
                         if emitter.is_zenv_file or emitter.is_zui_file:
