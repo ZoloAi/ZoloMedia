@@ -10,6 +10,7 @@ from typing import Optional, TYPE_CHECKING
 
 from .validators import is_zpath_value, is_env_config_value, is_valid_number
 from .value_validators import ValueValidator
+from .type_hints import TYPE_HINT_PATTERN
 from ...lsp_types import TokenType
 
 if TYPE_CHECKING:
