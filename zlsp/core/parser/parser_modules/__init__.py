@@ -21,6 +21,7 @@ from .file_type_detector import (
 )
 from .value_validators import ValueValidator, validate_special_value
 from .key_detector import KeyDetector, detect_key_type
+from .error_formatter import ErrorFormatter, did_you_mean
 from .validators import (
     validate_ascii_only,
     is_zpath_value,
@@ -137,6 +138,9 @@ __all__ = [
     'detect_file_type',
     'extract_component_name',
     'get_file_info',
+    # Error formatting
+    'ErrorFormatter',
+    'did_you_mean',
     # Validators
     'validate_ascii_only',
     'is_zpath_value',

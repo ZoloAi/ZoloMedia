@@ -5,14 +5,30 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "zlsp"
 dynamic = ["version"]
-description = "Language Server Protocol implementation for .zolo declarative files"
-readme = "README.md"
+description = "Modern Language Server Protocol (LSP) for .zolo files with semantic highlighting, validation, and Vim integration"
+readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.8"
-license = {text = "MIT"}
+license = {text = "MIT with Ethical Use Clause"}
 authors = [
-    {name = "Zolo.ai", email = "hello@zolo.ai"}
+    {name = "Gal Nachshon", email = "hello@zolo.ai"}
 ]
-keywords = ["zlsp", "zolo", "lsp", "language-server", "parser", "yaml", "declarative"]
+maintainers = [
+    {name = "Gal Nachshon", email = "hello@zolo.ai"}
+]
+keywords = [
+    "zlsp",
+    "zolo",
+    "lsp",
+    "language-server",
+    "language-server-protocol",
+    "parser",
+    "semantic-highlighting",
+    "vim",
+    "neovim",
+    "declarative",
+    "configuration",
+    "syntax-highlighting"
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -23,14 +39,22 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3 :: Only",
     "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Software Development :: Compilers",
     "Topic :: Text Processing :: Markup",
     "Topic :: Text Editors :: Integrated Development Environments (IDE)",
+    "Operating System :: OS Independent",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Environment :: Console",
+    "Typing :: Typed",
 ]
 
 dependencies = [
-    "pyyaml>=6.0",
     "pygls>=1.3.0",
+    "lsprotocol>=2023.0.0",
 ]
 
 [project.scripts]
@@ -47,6 +71,12 @@ dev = [
     "mypy>=1.0",
     "ruff>=0.1.0",
 ]
+themes = [
+    "pyyaml>=6.0",  # Required for theme loading (optional feature)
+]
+all = [
+    "zlsp[dev,themes]",
+]
 
 [project.urls]
 Homepage = "https://github.com/ZoloAi/ZoloMedia"
@@ -56,13 +86,18 @@ Repository = "https://github.com/ZoloAi/ZoloMedia"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["core*", "bindings*", "editors*"]
-exclude = ["tests*", "docs*"]
+include = ["core*", "bindings*", "editors*", "themes*"]
+exclude = ["tests*", "docs*", "scripts*"]
 
 [tool.setuptools.package-data]
 core = ["**/*"]
 bindings = ["**/*"]
 editors = ["**/*"]
+themes = ["*.yaml", "generators/*.py"]
+
+[tool.setuptools.data-files]
+"share/zlsp/examples" = ["examples/*.zolo"]
+"share/zlsp/docs" = ["Documentation/*.md"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

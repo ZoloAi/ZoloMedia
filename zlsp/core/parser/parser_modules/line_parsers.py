@@ -21,6 +21,7 @@ from .value_processors import detect_value_type
 from .token_emitters import emit_value_tokens
 from .validators import validate_ascii_only
 from .key_detector import KeyDetector
+from .error_formatter import ErrorFormatter
 
 # Forward reference
 TYPE_CHECKING = False
@@ -84,14 +85,13 @@ def check_indentation_consistency(lines: list[str]) -> None:
             first_indent_line = line_num
         # ERROR: Different type than rest of file
         elif first_indent_type != current_type:
-            indent_word = 'tabs' if first_indent_type == 'tab' else 'spaces'
-            current_word = 'tabs' if current_type == 'tab' else 'spaces'
-            raise ZoloParseError(
-                f"Inconsistent indentation at line {line_num}.\n"
-                f"File uses {indent_word} (first seen at line {first_indent_line}),\n"
-                f"but this line uses {current_word}.\n"
-                f"Use either tabs OR spaces consistently (Python convention)."
+            error_msg = ErrorFormatter.format_indentation_error(
+                line_num=line_num,
+                expected_type=first_indent_type,
+                actual_type=current_type,
+                first_indent_line=first_indent_line
             )
+            raise ZoloParseError(error_msg)
 
 
 def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'TokenEmitter') -> dict:
@@ -721,12 +721,13 @@ def build_nested_dict(structured_lines: list[dict], start_idx: int, current_inde
         # Exempt UI event shorthands (they represent sequences, not dict keys)
         if not is_ui_event_shorthand and clean_key in seen_keys:
             first_line, first_key = seen_keys[clean_key]
-            raise ZoloParseError(
-                f"Duplicate key '{clean_key}' found at line {line_number}.\n"
-                f"First occurrence: '{first_key}' at line {first_line}.\n"
-                f"Keys must be unique within the same level.\n"
-                f"Hint: Did you mean to use a different key name?"
+            error_msg = ErrorFormatter.format_duplicate_key_error(
+                duplicate_key=clean_key,
+                first_line=first_line,
+                current_line=line_number,
+                first_key_raw=first_key
             )
+            raise ZoloParseError(error_msg)
         
         # Track seen keys (even UI shorthands, for consistency)
         seen_keys[clean_key] = (line_number, key)

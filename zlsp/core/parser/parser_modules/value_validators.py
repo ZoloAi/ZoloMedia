@@ -8,6 +8,7 @@ Separates validation logic from token emission for cleaner architecture.
 from typing import Optional, TYPE_CHECKING
 
 from ...lsp_types import Diagnostic, Range, Position
+from .error_formatter import ErrorFormatter, did_you_mean
 
 if TYPE_CHECKING:
     from .token_emitter import TokenEmitter
@@ -43,12 +44,18 @@ class ValueValidator:
         """
         valid_values = ValueValidator.VALID_VALUES['zMode']
         if value not in valid_values:
+            msg = ErrorFormatter.format_invalid_value_error(
+                key='zMode',
+                value=value,
+                valid_values=sorted(valid_values),
+                line=line
+            )
             return Diagnostic(
                 range=Range(
                     start=Position(line=line, character=start_pos),
                     end=Position(line=line, character=start_pos + len(value))
                 ),
-                message=f"Invalid zMode value: '{value}'. Expected: {' or '.join(valid_values)}.",
+                message=msg,
                 severity=1,  # Error
                 source="zolo-lsp"
             )
@@ -69,12 +76,18 @@ class ValueValidator:
         """
         valid_values = ValueValidator.VALID_VALUES['deployment']
         if value not in valid_values:
+            msg = ErrorFormatter.format_invalid_value_error(
+                key='deployment',
+                value=value,
+                valid_values=sorted(valid_values),
+                line=line
+            )
             return Diagnostic(
                 range=Range(
                     start=Position(line=line, character=start_pos),
                     end=Position(line=line, character=start_pos + len(value))
                 ),
-                message=f"Invalid deployment value: '{value}'. Expected: {' or '.join(valid_values)}.",
+                message=msg,
                 severity=1,  # Error
                 source="zolo-lsp"
             )
@@ -95,12 +108,18 @@ class ValueValidator:
         """
         valid_values = ValueValidator.VALID_VALUES['logger']
         if value not in valid_values:
+            msg = ErrorFormatter.format_invalid_value_error(
+                key='logger',
+                value=value,
+                valid_values=sorted(valid_values),
+                line=line
+            )
             return Diagnostic(
                 range=Range(
                     start=Position(line=line, character=start_pos),
                     end=Position(line=line, character=start_pos + len(value))
                 ),
-                message=f"Invalid logger value: '{value}'. Expected one of: {', '.join(sorted(valid_values))}.",
+                message=msg,
                 severity=1,  # Error
                 source="zolo-lsp"
             )

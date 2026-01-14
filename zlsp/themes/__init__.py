@@ -2,10 +2,11 @@
 Theme system for zlsp - Single source of truth for all editor color schemes.
 
 Provides utilities to load theme definitions and generate editor-specific configs.
+
+Note: Theme loading requires PyYAML (install with: pip install zlsp[themes])
 """
 from pathlib import Path
 from typing import Dict, Any, Optional
-import yaml
 
 
 class Theme:
@@ -102,8 +103,17 @@ def load_theme(name: str = 'zolo_default') -> Theme:
     
     Raises:
         FileNotFoundError: If theme file doesn't exist
+        ImportError: If PyYAML is not installed
         yaml.YAMLError: If theme file is invalid
     """
+    try:
+        import yaml
+    except ImportError:
+        raise ImportError(
+            "PyYAML is required for theme loading. "
+            "Install it with: pip install zlsp[themes]"
+        ) from None
+    
     themes_dir = Path(__file__).parent
     theme_file = themes_dir / f'{name}.yaml'
     

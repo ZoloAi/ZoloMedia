@@ -32,8 +32,8 @@ class TestValueValidator:
         """Test zMode validation with invalid value"""
         diagnostic = ValueValidator.validate_zmode('Invalid', 0, 10)
         assert diagnostic is not None
-        assert 'Invalid zMode value' in diagnostic.message
-        assert ('Terminal' in diagnostic.message or 'zBifrost' in diagnostic.message)
+        assert "Invalid value for 'zMode'" in diagnostic.message
+        assert ('Terminal' in diagnostic.message and 'zBifrost' in diagnostic.message)
     
     def test_validate_deployment_valid_production(self):
         """Test deployment validation with valid 'Production' value"""
@@ -49,7 +49,7 @@ class TestValueValidator:
         """Test deployment validation with invalid value"""
         diagnostic = ValueValidator.validate_deployment('Staging', 0, 10)
         assert diagnostic is not None
-        assert 'Invalid deployment value' in diagnostic.message
+        assert "Invalid value for 'deployment'" in diagnostic.message
         assert ('Production' in diagnostic.message and 'Development' in diagnostic.message)
     
     def test_validate_logger_valid_all_levels(self):
@@ -63,7 +63,7 @@ class TestValueValidator:
         """Test logger validation with invalid value"""
         diagnostic = ValueValidator.validate_logger('TRACE', 0, 10)
         assert diagnostic is not None
-        assert 'Invalid logger value' in diagnostic.message
+        assert "Invalid value for 'logger'" in diagnostic.message
     
     def test_validate_zvafile_valid(self):
         """Test zVaFile validation with valid value"""
@@ -128,7 +128,7 @@ class TestValueValidatorIntegration:
         result = ValueValidator.validate_for_key('zMode', 'Invalid', 0, 10, emitter)
         assert result is True  # Validation was performed
         assert len(emitter.diagnostics) == 1  # Error added
-        assert 'Invalid zMode value' in emitter.diagnostics[0].message
+        assert "Invalid value for 'zMode'" in emitter.diagnostics[0].message
     
     def test_validate_for_key_zspark_deployment_valid(self):
         """Test validate_for_key with valid deployment in zSpark file"""
@@ -143,7 +143,7 @@ class TestValueValidatorIntegration:
         result = ValueValidator.validate_for_key('deployment', 'Staging', 0, 10, emitter)
         assert result is True
         assert len(emitter.diagnostics) == 1
-        assert 'Invalid deployment value' in emitter.diagnostics[0].message
+        assert "Invalid value for 'deployment'" in emitter.diagnostics[0].message
     
     def test_validate_for_key_zspark_logger_valid(self):
         """Test validate_for_key with valid logger in zSpark file"""
@@ -158,7 +158,7 @@ class TestValueValidatorIntegration:
         result = ValueValidator.validate_for_key('logger', 'TRACE', 0, 10, emitter)
         assert result is True
         assert len(emitter.diagnostics) == 1
-        assert 'Invalid logger value' in emitter.diagnostics[0].message
+        assert "Invalid value for 'logger'" in emitter.diagnostics[0].message
     
     def test_validate_for_key_zspark_zvafile_valid(self):
         """Test validate_for_key with valid zVaFile in zSpark file"""
