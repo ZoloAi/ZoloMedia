@@ -140,6 +140,11 @@ def inject_semantic_token_colors(settings_path, rules):
     if "editor.semanticTokenColorCustomizations" not in settings:
         settings["editor.semanticTokenColorCustomizations"] = {}
     
+    # Clean up old theme-scoped "[zolo]" section from previous installations
+    if "[zolo]" in settings["editor.semanticTokenColorCustomizations"]:
+        del settings["editor.semanticTokenColorCustomizations"]["[zolo]"]
+        print("  ℹ️  Cleaned up old '[zolo]' theme-scoped colors")
+    
     # Apply to all themes using wildcard
     semantic_customizations = settings["editor.semanticTokenColorCustomizations"]
     semantic_customizations["enabled"] = True
@@ -191,6 +196,7 @@ def create_extension_structure(base_dir):
         base_dir / 'syntaxes',
         base_dir / 'themes',
         base_dir / 'out',
+        base_dir / 'icons',
     ]
     
     for d in dirs:
@@ -205,14 +211,20 @@ def generate_package_json(theme, generator, base_dir):
     
     package_json = {
         "name": "zolo-lsp",
-        "displayName": "Zolo Language Support",
+        "displayName": "Zolo LSP",
         "description": "Language Server Protocol support for .zolo files with semantic highlighting",
         "version": __version__,
-        "publisher": "zolo-ai",
-        "repository": {
-            "type": "git",
-            "url": "https://github.com/zolomedia/zlsp"
+        "publisher": "ZoloMedia",
+        "icon": "icons/zolo_filetype.png",
+        "license": "MIT",
+        "homepage": "https://zolo.media",
+        "author": {
+            "name": "Zolo Media"
         },
+        "bugs": {
+            "url": "https://zolo.media/support"
+        },
+        "qna": "marketplace",
         "engines": {
             "vscode": "^1.75.0"
         },
@@ -238,7 +250,11 @@ def generate_package_json(theme, generator, base_dir):
                     "id": "zolo",
                     "aliases": ["Zolo", "zolo"],
                     "extensions": [".zolo"],
-                    "configuration": "./language-configuration.json"
+                    "configuration": "./language-configuration.json",
+                    "icon": {
+                        "light": "./icons/zolo_filetype.png",
+                        "dark": "./icons/zolo_filetype.png"
+                    }
                 }
             ],
             "grammars": [
@@ -248,7 +264,6 @@ def generate_package_json(theme, generator, base_dir):
                     "path": "./syntaxes/zolo.tmLanguage.json"
                 }
             ],
-            "themes": [],
             "semanticTokenTypes": [
                 {"id": token_type, "description": f"Zolo {token_type}"}
                 for token_type in semantic_legend['tokenTypes']
@@ -410,18 +425,26 @@ async function injectSemanticTokenColors(context) {
         const config = vscode.workspace.getConfiguration();
         const existingCustomizations = config.get('editor.semanticTokenColorCustomizations') || {};
         
-        // Check if already configured
-        if (existingCustomizations['[zolo]']) {
+        // Clean up old theme-scoped '[zolo]' section from previous installations
+        const cleanedCustomizations = { ...existingCustomizations };
+        if (cleanedCustomizations['[zolo]']) {
+            delete cleanedCustomizations['[zolo]'];
+            outputChannel.appendLine("ℹ️  Cleaned up old '[zolo]' theme-scoped colors");
+        }
+        
+        // Check if already configured (global rules)
+        if (cleanedCustomizations.rules && Object.keys(themeData.rules).every(key => key in cleanedCustomizations.rules)) {
             outputChannel.appendLine('✓ Semantic token colors already configured');
             return true;
         }
         
-        // Inject Zolo semantic token colors
+        // Inject Zolo semantic token colors globally (works with ANY theme)
         const updatedCustomizations = {
-            ...existingCustomizations,
-            '[zolo]': {
-                enabled: true,
-                rules: themeData.rules
+            ...cleanedCustomizations,
+            enabled: true,
+            rules: {
+                ...(cleanedCustomizations.rules || {}),
+                ...themeData.rules
             }
         };
         
@@ -432,7 +455,8 @@ async function injectSemanticTokenColors(context) {
             vscode.ConfigurationTarget.Global
         );
         
-        outputChannel.appendLine('✓ Injected ' + Object.keys(themeData.rules).length + ' semantic token color rules');
+        outputChannel.appendLine('✓ Injected ' + Object.keys(themeData.rules).length + ' semantic token color rules (global scope)');
+        outputChannel.appendLine('  Works with ANY VS Code theme!');
         outputChannel.appendLine('  Settings will persist across all VS Code sessions');
         
         return true;
@@ -726,6 +750,16 @@ Generated from: {theme.name} v{theme.version}
     except Exception as e:
         print(f"  ⚠ Failed to generate README.md: {e}")
     
+    # 7. Copy file type icon
+    try:
+        icon_src = Path(__file__).parent.parent.parent / 'assets' / 'zolo_filetype.png'
+        icon_dest = base_dir / 'icons' / 'zolo_filetype.png'
+        icon_dest.parent.mkdir(exist_ok=True)
+        shutil.copy2(icon_src, icon_dest)
+        installed.append(f"icons/zolo_filetype.png (file type icon)")
+    except Exception as e:
+        print(f"  ⚠ Failed to copy icon: {e}")
+    
     return installed
 
 
@@ -1013,6 +1047,40 @@ MIT
 """
         readme_path.write_text(readme_content)
         print(f"  ✓ README.md")
+        
+        # Copy file type icon
+        icon_src = Path(__file__).parent.parent.parent / 'assets' / 'zolo_filetype.png'
+        icon_dest = marketplace_dir / 'icons' / 'zolo_filetype.png'
+        icon_dest.parent.mkdir(exist_ok=True)
+        shutil.copy2(icon_src, icon_dest)
+        print(f"  ✓ icons/zolo_filetype.png")
+        
+        # Create LICENSE file
+        license_content = """MIT License
+
+Copyright (c) 2026 Zolo Media
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+"""
+        license_path = marketplace_dir / 'LICENSE'
+        license_path.write_text(license_content)
+        print(f"  ✓ LICENSE")
         
     except Exception as e:
         print(f"  ✗ Failed: {e}")

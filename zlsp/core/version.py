@@ -5,8 +5,8 @@ This module provides the version string for the zlsp package.
 Keep this as the single source of truth for version numbers.
 """
 
-__version__ = "1.0.0"
-__version_info__ = (1, 0, 0)
+__version__ = "1.0.2"
+__version_info__ = (1, 0, 2)
 
 # Version metadata
 __title__ = "zlsp"
