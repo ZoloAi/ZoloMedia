@@ -131,7 +131,9 @@ def emit_value_tokens(value: str, line: int, start_pos: int, emitter: 'TokenEmit
         return
     
     # Environment/Configuration constants (PROD, DEBUG, INFO, etc.)
-    if is_env_config_value(value):
+    # ONLY in zEnv files - these are actual config values there
+    # In other files (zUI, zSpark, etc.), they're just regular strings
+    if emitter.is_zenv_file and is_env_config_value(value):
         emitter.emit(line, start_pos, len(value), TokenType.ENV_CONFIG_VALUE)
         return
     

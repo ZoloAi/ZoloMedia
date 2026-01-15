@@ -64,6 +64,8 @@ zlsp-vim-install = "editors.vim.install:main"
 zlsp-vim-uninstall = "editors.vim.uninstall:main"
 zlsp-vscode-install = "editors.vscode.install:main"
 zlsp-vscode-uninstall = "editors.vscode.uninstall:main"
+zlsp-cursor-install = "editors.cursor.install:main"
+zlsp-cursor-uninstall = "editors.cursor.uninstall:main"
 
 [project.optional-dependencies]
 dev = [

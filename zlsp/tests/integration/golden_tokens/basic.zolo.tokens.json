@@ -101,7 +101,7 @@
       "modifiers": [],
       "start": 14,
       "text": "NO",
-      "type": "TokenType.ENV_CONFIG_VALUE"
+      "type": "TokenType.STRING"
     },
     {
       "end": 11,

@@ -2288,7 +2288,7 @@
       "modifiers": [],
       "start": 13,
       "text": "local",
-      "type": "TokenType.ENV_CONFIG_VALUE"
+      "type": "TokenType.STRING"
     },
     {
       "end": 9,

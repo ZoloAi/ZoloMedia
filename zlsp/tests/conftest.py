@@ -51,3 +51,26 @@ def pytest_configure(config):
     config.addinivalue_line("markers", "integration: mark test as an integration test")
     config.addinivalue_line("markers", "e2e: mark test as an end-to-end test")
     config.addinivalue_line("markers", "slow: mark test as slow running")
+    config.addinivalue_line("markers", "visual: mark test as visual regression test (implies slow)")
+
+
+# Shared fixtures for visual tests
+@pytest.fixture(scope="session")
+def example_files_list():
+    """
+    List of example .zolo files for visual testing.
+    
+    Returns:
+        list[Path]: List of paths to example files
+    """
+    from pathlib import Path
+    examples_dir = Path(__file__).parent.parent / "examples"
+    return [
+        examples_dir / "basic.zolo",
+        examples_dir / "advanced.zolo",
+        examples_dir / "zSpark.example.zolo",
+        examples_dir / "zEnv.example.zolo",
+        examples_dir / "zUI.example.zolo",
+        examples_dir / "zConfig.machine.zolo",
+        examples_dir / "zSchema.example.zolo",
+    ]

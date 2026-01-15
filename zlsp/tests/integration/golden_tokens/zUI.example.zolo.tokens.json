@@ -659,7 +659,7 @@
       "modifiers": [],
       "start": 15,
       "text": "INFO",
-      "type": "TokenType.ENV_CONFIG_VALUE"
+      "type": "TokenType.STRING"
     },
     {
       "end": 17,
@@ -812,7 +812,7 @@
       "modifiers": [],
       "start": 15,
       "text": "WARNING",
-      "type": "TokenType.ENV_CONFIG_VALUE"
+      "type": "TokenType.STRING"
     }
   ]
 }

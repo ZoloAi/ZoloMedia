@@ -857,7 +857,7 @@
       "modifiers": [],
       "start": 12,
       "text": "YES",
-      "type": "TokenType.ENV_CONFIG_VALUE"
+      "type": "TokenType.STRING"
     },
     {
       "end": 9,
@@ -884,7 +884,7 @@
       "modifiers": [],
       "start": 11,
       "text": "NO",
-      "type": "TokenType.ENV_CONFIG_VALUE"
+      "type": "TokenType.STRING"
     },
     {
       "end": 9,
@@ -9182,7 +9182,7 @@
       "modifiers": [],
       "start": 11,
       "text": "INFO",
-      "type": "TokenType.ENV_CONFIG_VALUE"
+      "type": "TokenType.STRING"
     },
     {
       "end": 10,
@@ -9371,7 +9371,7 @@
       "modifiers": [],
       "start": 12,
       "text": "NO",
-      "type": "TokenType.ENV_CONFIG_VALUE"
+      "type": "TokenType.STRING"
     },
     {
       "end": 11,
@@ -9398,7 +9398,7 @@
       "modifiers": [],
       "start": 13,
       "text": "YES",
-      "type": "TokenType.ENV_CONFIG_VALUE"
+      "type": "TokenType.STRING"
     },
     {
       "end": 9,
