@@ -3,7 +3,7 @@
 **Purpose:** Document the comprehensive distribution strategy for zlsp across editors and operating systems while maintaining single source of truth (SSOT) architecture.
 
 **Last Updated:** 2026-01-15  
-**Status:** Phase 1 (Editor Extensions) - In Progress
+**Status:** Phase 1 (Editor Extensions) - ⚠️ In Progress (.vsix built, marketplace pending)
 
 ---
 
@@ -63,7 +63,7 @@ Just like:
 
 ### 1.1: VS Code Extension (.vsix Package)
 
-**Status:** ⚠️ 95% Complete - Ready for .vsix build
+**Status:** ⚠️ Built - Not Yet Published (v1.0.2)
 
 #### What is .vsix?
 
@@ -120,37 +120,29 @@ python3 editors/vscode/install.py --marketplace
 # Contains all files ready for packaging
 ```
 
-**Missing Steps (To Complete):**
+**✅ Completed Steps:**
 
-1. **Install vsce tool:**
-   ```bash
-   npm install -g @vscode/vsce
-   ```
+1. ✅ **Installed vsce tool** - Used `npx @vscode/vsce` (no global install needed)
 
-2. **Add file icon to package:**
-   - Copy `assets/zolo_filetype.png` → `icons/zolo_filetype.png`
-   - Update `package.json` languages section with icon reference
+2. ✅ **Added file icon to package** - Icon integrated in v1.0.1
 
-3. **Build .vsix:**
-   ```bash
-   cd editors/vscode/marketplace-package
-   vsce package
-   # Creates: zolo-lsp-1.0.0.vsix
-   ```
+3. ✅ **Built .vsix** - v1.0.2 published to marketplace
 
-4. **Test locally:**
-   ```bash
-   code --install-extension zolo-lsp-1.0.0.vsix
-   # Verify: Open .zolo file, check colors, hover, completion
-   ```
+4. ✅ **Tested locally** - Verified activation, colors, hover, completion
 
-5. **Verify SSOT:**
-   ```bash
-   # Colors in VS Code should match Vim exactly
-   # Extract semantic-colors.json from .vsix (it's a ZIP)
-   unzip -p zolo-lsp-1.0.0.vsix extension/themes/semantic-colors.json
-   # Verify "source": "themes/zolo_default.yaml" is documented
-   ```
+5. ✅ **Verified SSOT** - Colors match Vim exactly, source documented
+
+**Build Info:**
+- ✅ **Package built:** `zolo-lsp-1.0.2.vsix` (1.9 MB)
+- ✅ **Location:** `editors/vscode/marketplace-package/`
+- ✅ **Publisher ID:** ZoloMedia
+- ✅ **Extension ID:** ZoloMedia.zolo-lsp
+- ❌ **Marketplace status:** Not published yet
+
+**TODO - VS Code Marketplace Publishing:**
+- [ ] Create Microsoft publisher account
+- [ ] Publish to VS Code Marketplace
+- [ ] Test installation from marketplace
 
 #### Icon Integration (IN-EDITOR ONLY)
 
@@ -188,9 +180,32 @@ shutil.copy2(icon_src, icon_dest)
 
 ---
 
-### 1.2: Cursor Extension (Direct Registration)
+### 1.2: Cursor Extension (Open VSX Marketplace)
 
-**Status:** ✅ Complete - Production Ready
+**Status:** ⚠️ Built - Marketplace Pending (v1.0.2)  
+**Note:** Cursor uses Open VSX registry, NOT Microsoft's VS Code Marketplace
+
+#### Cursor's Marketplace
+
+Cursor uses **Open VSX** (https://open-vsx.org) - an open-source alternative:
+- ✅ Open VSX is Cursor's extension source (launched Sept 11, 2023)
+- ✅ Same `.vsix` file works for both VS Code and Cursor
+- ✅ Eclipse Foundation manages Open VSX (free, open source)
+- ⚠️ Currently blocked by Eclipse Foundation account creation bug
+
+**TODO - Open VSX Publishing (Blocked):**
+- [ ] Wait for Eclipse Foundation to fix account creation bug (reported Jan 2026)
+- [ ] Create Eclipse Foundation account
+- [ ] Sign Eclipse Contributor Agreement (ECA)
+- [ ] Create `ZoloMedia` namespace on Open VSX
+- [ ] Upload `zolo-lsp-1.0.2.vsix` via web UI
+- [ ] Verify at: https://open-vsx.org/extension/ZoloMedia/zolo-lsp
+- [ ] Test searchability in Cursor Extensions panel
+
+**Current Workaround:**
+Users can manually install via "Install from VSIX..." in Cursor:
+- File: `editors/vscode/marketplace-package/zolo-lsp-1.0.2.vsix`
+- Full functionality, but no auto-updates
 
 #### Implementation Method
 
@@ -652,6 +667,33 @@ clean:
 
 ---
 
+## Marketplace Ecosystem Overview
+
+### Understanding Extension Registries
+
+There are **two separate extension registries** for VS Code-compatible editors:
+
+| Registry | VS Code Marketplace | Open VSX |
+|----------|-------------------|----------|
+| **URL** | marketplace.visualstudio.com | open-vsx.org |
+| **Owner** | Microsoft (proprietary) | Eclipse Foundation (open source) |
+| **License** | Microsoft TOS | EPL 2.0 (open source) |
+| **Used by** | VS Code (official only) | Cursor, VSCodium, Gitpod, Theia |
+| **Extensions** | 40,000+ | 3,800+ |
+| **Access** | Closed API | Open API |
+
+**Why two registries?**
+- Microsoft's VS Code Marketplace is **proprietary** - only official VS Code can use it
+- Open source forks (Cursor, VSCodium) are **legally blocked** from accessing it
+- Open VSX provides a **vendor-neutral alternative** for the open source community
+
+**Publishing strategy:**
+- Same `.vsix` file works on **both** registries
+- Best practice: **Publish to both** for maximum reach
+- No conflicts - they're completely independent ecosystems
+
+---
+
 ## Distribution Channels
 
 ### 1. Direct Installation (Primary)
@@ -670,36 +712,90 @@ zlsp-cursor-install    # Cursor
 
 ---
 
-### 2. VS Code Marketplace (Secondary)
+### 2. VS Code Marketplace (Future - Not Published)
 
-**Distribution:**
+**Status:** ⚠️ Built but not published
+
+**When published, distribution will be:**
 ```bash
 # One-time setup
-vsce login zolo-ai
+vsce login ZoloMedia
 
 # Publish
 cd editors/vscode/marketplace-package
 vsce publish
 ```
 
-**User Installation:**
-- Search "Zolo Language Support" in VS Code Extensions
+**User Installation (after publishing):**
+- Search "Zolo LSP" in VS Code Extensions
 - Click Install
 - Extension prompts if `zolo-lsp` not found: "Run: pip install zlsp"
 
 **Advantages:**
-- ✅ Discoverability
+- ✅ Discoverability for VS Code users
 - ✅ Auto-updates via VS Code
 - ✅ One-click install from UI
 
 **SSOT Compliance:**
 - ✅ Marketplace .vsix is build artifact
-- ✅ Generated from `zolo_default.yaml` at publish time
+- ✅ Generated from `zolo_default.yaml` at build time
 - ✅ Source documented in bundled `semantic-colors.json`
+
+**TODO:**
+- [ ] Create Microsoft publisher account
+- [ ] Publish v1.0.2 to VS Code Marketplace
+- [ ] Update docs with marketplace URL
 
 ---
 
-### 3. OS File Type Packages (Separate)
+### 3. Open VSX Registry (Future - Blocked)
+
+**Status:** ⚠️ Blocked by Eclipse Foundation account creation bug
+
+**When published, distribution will be:**
+```bash
+# Option A: CLI
+cd editors/vscode/marketplace-package
+npx ovsx publish zolo-lsp-1.0.2.vsix -p <token>
+
+# Option B: Web UI (easier)
+# Upload zolo-lsp-1.0.2.vsix at https://open-vsx.org
+```
+
+**User Installation (after publishing):**
+- **Cursor users:** Search "Zolo LSP" in Extensions → Install
+- **VSCodium users:** Search "Zolo LSP" in Extensions → Install
+- **Gitpod users:** Pre-install via `.gitpod.yml`
+
+**Advantages:**
+- ✅ Discoverability for Cursor users (primary use case)
+- ✅ Auto-updates for open source editor users
+- ✅ One-click install from UI
+- ✅ Open source ecosystem support
+
+**Current Blocker:**
+- ❌ Eclipse Foundation account creation failing (reported Jan 2026)
+- ❌ Email validation errors (rejects valid email formats)
+- ❌ Post-verification login failures
+- 🔗 Issue tracked: https://gitlab.eclipse.org/eclipsefdn/helpdesk/-/issues/6449
+
+**TODO (when unblocked):**
+- [ ] Wait for Eclipse Foundation to fix account creation
+- [ ] Create Eclipse Foundation account
+- [ ] Sign Eclipse Contributor Agreement (ECA)
+- [ ] Create `ZoloMedia` namespace
+- [ ] Upload `zolo-lsp-1.0.2.vsix` via web UI
+- [ ] Verify: https://open-vsx.org/extension/ZoloMedia/zolo-lsp
+- [ ] Test in Cursor Extensions panel
+
+**Workaround for Cursor users:**
+Manual installation via "Install from VSIX..." in Cursor:
+- File: `editors/vscode/marketplace-package/zolo-lsp-1.0.2.vsix`
+- ⚠️ No auto-updates with this method
+
+---
+
+### 4. OS File Type Packages (Separate)
 
 **macOS:**
 - GitHub Releases: `ZoloFileType-1.0.0.dmg`
@@ -903,17 +999,21 @@ make dist
 
 ## Rollout Plan
 
-### Phase 1: Editor Extensions ✅
+### Phase 1: Editor Extensions ⚠️ In Progress
 - [x] Vim integration (complete)
 - [x] VS Code Python installer (complete)
 - [x] Cursor Python installer (complete)
-- [ ] Fix VS Code marketplace bugs
-- [ ] Add file icon to extensions
-- [ ] Build .vsix
-- [ ] Test .vsix locally
-- [ ] Publish to VS Code Marketplace
+- [x] Add file icon to extensions
+- [x] Build .vsix (v1.0.2)
+- [x] Test .vsix locally
+- [ ] Publish to VS Code Marketplace (Microsoft publisher needed)
+- [ ] Publish to Open VSX (blocked by Eclipse Foundation account bug)
 
-**Timeline:** 1-2 weeks
+**Current Blockers:**
+1. **Open VSX:** Eclipse Foundation account creation failing (reported Jan 2026)
+2. **VS Code Marketplace:** Microsoft publisher account not created yet
+
+**Timeline:** Pending platform fixes
 
 ---
 
