@@ -78,7 +78,7 @@ def inject_semantic_token_colors_into_settings(settings_path, generator):
         settings_path: Path to Cursor's settings.json
         generator: VSCodeGenerator instance
     """
-    print("\n[5/7] Configuring semantic token colors...")
+    print("\n[5/8] Configuring semantic token colors...")
     
     # Generate semantic token color rules from theme
     rules = generator.generate_semantic_token_color_customizations()
@@ -218,7 +218,7 @@ def main():
     print()
     
     # Step 1: Load canonical theme
-    print("[1/7] Loading color theme...")
+    print("[1/8] Loading color theme...")
     try:
         theme = load_theme('zolo_default')
         print("✓ Loaded: themes/zolo_default.yaml")
@@ -227,12 +227,12 @@ def main():
         return 1
     
     # Step 2: Create generator
-    print("\n[2/7] Initializing extension generator...")
+    print("\n[2/8] Initializing extension generator...")
     generator = VSCodeGenerator(theme)
     print("✓ VSCodeGenerator ready (Cursor uses same format!)")
     
     # Step 3: Detect Cursor
-    print("\n[3/7] Detecting Cursor installation...")
+    print("\n[3/8] Detecting Cursor installation...")
     try:
         cursor_dir = detect_cursor_dir()
         print(f"✓ Cursor extensions directory: {cursor_dir}")
@@ -242,7 +242,7 @@ def main():
         return 1
     
     # Step 4: Generate and install extension files
-    print("\n[4/7] Generating extension files...")
+    print("\n[4/8] Generating extension files...")
     
     # Create extension directory
     ext_dir = cursor_dir / f'zolo-lsp-{__version__}'
@@ -256,6 +256,7 @@ def main():
     # Create subdirectories
     (ext_dir / 'syntaxes').mkdir(exist_ok=True)
     (ext_dir / 'out').mkdir(exist_ok=True)
+    (ext_dir / 'icons').mkdir(exist_ok=True)
     
     # Generate all extension files (same format as VS Code)
     try:
@@ -267,6 +268,7 @@ def main():
             "description": "Language Server Protocol support for .zolo files with semantic highlighting",
             "version": __version__,
             "publisher": "zolo-ai",
+            "icon": "icons/zolo_filetype.png",
             "repository": {
                 "type": "git",
                 "url": "https://github.com/zolomedia/zlsp"
@@ -286,7 +288,11 @@ def main():
                     "id": "zolo",
                     "aliases": ["Zolo", "zolo"],
                     "extensions": [".zolo"],
-                    "configuration": "./language-configuration.json"
+                    "configuration": "./language-configuration.json",
+                    "icon": {
+                        "light": "./icons/zolo_filetype.png",
+                        "dark": "./icons/zolo_filetype.png"
+                    }
                 }],
                 "grammars": [{
                     "language": "zolo",
@@ -435,6 +441,15 @@ For more information: https://github.com/ZoloAi/zlsp
             f.write(readme_content)
         print("✓ Generated: README.md")
         
+        # 6. Copy file type icon
+        icon_src = Path(__file__).parent.parent.parent / 'assets' / 'zolo_filetype.png'
+        icon_dest = ext_dir / 'icons' / 'zolo_filetype.png'
+        if icon_src.exists():
+            shutil.copy2(icon_src, icon_dest)
+            print("✓ Copied: icons/zolo_filetype.png")
+        else:
+            print("⚠️  Warning: Icon file not found at assets/zolo_filetype.png")
+        
     except Exception as e:
         print(f"✗ Error generating extension files: {e}")
         import traceback
@@ -450,7 +465,7 @@ For more information: https://github.com/ZoloAi/zlsp
         print(f"   Extension will still work, but colors may not be optimal")
     
     # Step 6: Register extension in Cursor's registry (CRITICAL!)
-    print("\n[6/7] Registering extension in Cursor...")
+    print("\n[6/8] Registering extension in Cursor...")
     try:
         register_extension_in_cursor_registry(ext_dir, version=__version__)
     except Exception as e:
@@ -459,8 +474,16 @@ For more information: https://github.com/ZoloAi/zlsp
         traceback.print_exc()
         print("   Extension may not be recognized by Cursor")
     
-    # Step 7: Install npm dependencies for LSP client
-    print("\n[7/7] Installing extension dependencies...")
+    # Step 7: Verify icon file exists
+    print("\n[7/8] Verifying file type icon...")
+    icon_path = ext_dir / 'icons' / 'zolo_filetype.png'
+    if icon_path.exists():
+        print(f"✓ Icon verified: {icon_path}")
+    else:
+        print(f"⚠️  Warning: Icon not found, .zolo files may not show custom icon")
+    
+    # Step 8: Install npm dependencies for LSP client
+    print("\n[8/8] Installing extension dependencies...")
     try:
         import subprocess
         result = subprocess.run(
