@@ -11,3 +11,6 @@ visual-report.html
 
 # Keep golden baselines (these should be committed)
 !tests/visual/golden/*.png
+
+# Archive folder for planning/audit docs
+archive/
