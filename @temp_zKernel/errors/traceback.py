@@ -1,5 +1,22 @@
-# zSys/errors/traceback.py
-"""Centralized traceback utilities with enhanced error handling and interactive UI support."""
+# @temp_zKernel/errors/traceback.py
+"""
+Centralized traceback utilities with enhanced error handling and interactive UI support.
+
+ORIGIN: zOS/errors/traceback.py
+STATUS: Staging for merge when zKernel joins monorepo
+ACTION: DO NOT touch ~/Projects/Zolo/zKernel directly
+
+This file contains the zTraceback class which provides:
+- Interactive error handling with Walker UI
+- Exception logging with context
+- Custom exception hooks
+- Integration with zDisplay and zKernel framework
+
+This is framework-level logic, NOT OS primitives.
+
+TO MERGE LATER:
+- Copy this file → ~/Projects/Zolo/zKernel/errors/traceback.py (when copying zKernel to monorepo)
+"""
 
 import traceback
 import sys

@@ -80,154 +80,25 @@ def handle_script_command(boot_logger, sys, Path, script_path: str, verbose: boo
         print(f"\n❌ Error executing script: {e}\n")
         return 1
 
-def handle_zspark_command(boot_logger, Path, zspark_path: str, verbose: bool = False, dev_mode: bool = False):
-    """
-    Execute declarative zSpark.*.zolo configuration file (native zolo syntax with LSP support).
-    
-    Args:
-        boot_logger: BootstrapLogger instance
-        Path: pathlib.Path class
-        zspark_path: Path to zSpark.*.zolo file
-        verbose: Show bootstrap logs on stdout
-        dev_mode: Override deployment to Development (show banners)
-    
-    Returns:
-        int: Exit code (0 = success, 1 = error)
-    
-    Examples:
-        zolo zCloud
-        zolo zCloud --verbose --dev
-    """
-    zspark_file, exit_code = _validate_zspark_file(boot_logger, Path, zspark_path, verbose)
-    if exit_code != 0:
-        return exit_code
 
-    try:
-        zspark_config, exit_code = _parse_zspark_file(boot_logger, Path, zspark_file, verbose)
-        if exit_code != 0:
-            return exit_code
-
-        mode = _configure_zspark(boot_logger, zspark_config, zspark_file, verbose, dev_mode)
-
-        if verbose:
-            boot_logger.print_buffered_logs()
-
-        from zKernel import zKernel
-        zcli = zKernel(zspark_config)
-
-        if hasattr(zcli, 'logger'):
-            boot_logger.flush_to_framework(zcli.logger, verbose=verbose)
-
-        from zOS.formatting.colors import Colors
-        colors = Colors()
-
-        print(f"\n{colors.CONFIG}zSpark Configuration Loaded{colors.RESET}")
-        print(f"  File: {zspark_file.name} | Mode: {mode}\n")
-
-        zcli.run()
-        return 0
-
-    except Exception as e:
-        error_type = "Missing required key" if isinstance(e, KeyError) else "Failed to execute"
-        boot_logger.error("%s in zSpark: %s", error_type, str(e))
-        if verbose:
-            boot_logger.print_buffered_logs()
-        print(f"\n❌ Error: {error_type} in zSpark file: {e}\n")
-        if not isinstance(e, KeyError):
-            import traceback
-            traceback.print_exc()
-        return 1
-
-def _validate_zspark_file(boot_logger, Path, zspark_path: str, verbose: bool) -> tuple:
-    """Validate zSpark file exists and has correct extension."""
-    zspark_file = Path(zspark_path).resolve()
-    if not zspark_file.exists():
-        boot_logger.error("zSpark file not found: %s", zspark_path)
-        if verbose:
-            boot_logger.print_buffered_logs()
-        print(f"\n❌ Error: zSpark file not found: {zspark_path}\n")
-        return None, 1
-
-    if zspark_file.suffix != ".zolo":
-        boot_logger.error("Not a .zolo file: %s (suffix: %s)", zspark_path, zspark_file.suffix)
-        if verbose:
-            boot_logger.print_buffered_logs()
-        print(f"\n❌ Error: File must be a .zolo file: {zspark_path}\n")
-        return None, 1
-
-    return zspark_file, 0
-
-def _parse_zspark_file(boot_logger, Path, zspark_file, verbose: bool) -> tuple:
-    """Parse and validate zSpark.*.zolo file."""
-    import sys
-    project_root = Path(__file__).parent.parent.parent
-    if str(project_root) not in sys.path:
-        sys.path.insert(0, str(project_root))
-
-    from zolo.parser import tokenize
-
-    with open(zspark_file, 'r', encoding='utf-8') as f:
-        content = f.read()
-    
-    result = tokenize(content, str(zspark_file))
-    
-    if result.diagnostics:
-        boot_logger.error("Parsing errors in zSpark file:")
-        for diag in result.diagnostics:
-            severity_map = {1: 'ERROR', 2: 'WARNING', 3: 'INFO', 4: 'HINT'}
-            severity = severity_map.get(diag.severity, 'UNKNOWN')
-            boot_logger.error("  [%s] Line %d:%d - %s", 
-                            severity, 
-                            diag.range.start.line + 1, 
-                            diag.range.start.character,
-                            diag.message)
-        
-        if verbose:
-            boot_logger.print_buffered_logs()
-        
-        print(f"\n❌ Error: Failed to parse zSpark file:\n")
-        for diag in result.diagnostics:
-            severity_map = {1: 'ERROR', 2: 'WARNING', 3: 'INFO', 4: 'HINT'}
-            severity = severity_map.get(diag.severity, 'UNKNOWN')
-            print(f"  [{severity}] Line {diag.range.start.line + 1}: {diag.message}")
-        print()
-        return None, 1
-    
-    if not isinstance(result.data, dict) or 'zSpark' not in result.data:
-        boot_logger.error("Invalid zSpark file: missing 'zSpark' root key")
-        if verbose:
-            boot_logger.print_buffered_logs()
-        print(f"\n❌ Error: Invalid zSpark file format\n")
-        print("zSpark.*.zolo files must contain a root 'zSpark' key with configuration dictionary.\n")
-        return None, 1
-    
-    return result.data['zSpark'], 0
-
-
-def _configure_zspark(boot_logger, zspark_config: dict, zspark_file, verbose: bool, dev_mode: bool) -> str:
-    """Apply overrides and log zSpark configuration."""
-    if dev_mode:
-        zspark_config['deployment'] = 'Development'
-    
-    if verbose:
-        zspark_config['logger'] = 'DEBUG'
-    
-    boot_logger.session("zSpark file: %s", zspark_file.name)
-    boot_logger.session("Configuration keys: %d", len(zspark_config))
-    
-    deployment = zspark_config.get('deployment', 'Production (default)')
-    deployment_str = f"{deployment} (--dev override)" if dev_mode else deployment
-    boot_logger.session("Deployment: %s", deployment_str)
-    
-    mode = zspark_config.get('zMode', 'N/A')
-    boot_logger.session("Mode: %s", mode)
-    
-    logger_level = zspark_config.get('logger', 'INFO (default)')
-    logger_str = f"DEBUG (--verbose override)" if verbose else logger_level
-    boot_logger.session("Logger: %s", logger_str)
-    
-    return mode
-
+# ═══════════════════════════════════════════════════════════════════════════════
+# NOTE: zSpark framework command moved to @temp_zKernel/cli/zspark.py
+# ═══════════════════════════════════════════════════════════════════════════════
+#
+# The following function has been extracted to @temp_zKernel (framework layer):
+# - handle_zspark_command(boot_logger, Path, zspark_path, ...) - Line 115: `from zKernel import zKernel`
+#
+# Plus helper functions:
+# - _validate_zspark_file(...)
+# - _parse_zspark_file(...)
+# - _configure_zspark(...)
+#
+# This is a framework bootstrapping command that initializes the full zKernel instance.
+# zSpark is the framework configuration file format (.zolo syntax).
+#
+# It will be merged into zKernel when it joins the monorepo.
+#
+# ═══════════════════════════════════════════════════════════════════════════════
 
 
 def display_info(boot_logger, zcli_package, zos_version, zos_pkg_info, detect_install_type, zos_logger=None):
@@ -703,7 +574,7 @@ def handle_install_command(boot_logger, sys, Path, args, verbose: bool = False):
 
 
 def handle_open_command(boot_logger, target: str, verbose: bool = False):
-    """
+    r"""
     Open file or URL using zOS primitives.
     
     Args:
@@ -714,7 +585,7 @@ def handle_open_command(boot_logger, target: str, verbose: bool = False):
     Examples:
         zolo open www.google.com
         zolo open ~/Documents/file.pdf
-        zolo open ~/Library/Application Support/Zolo/zConfig.machine.zolo
+        zolo open ~/Library/Application\ Support/Zolo/zConfig.machine.zolo
     """
     from zOS.utils.open import open_file, open_url, is_url
     from zOS.machine import get_machine_info
@@ -761,3 +632,4 @@ def handle_open_command(boot_logger, target: str, verbose: bool = False):
         else:
             print(f"✗ Failed to open {target}")
             return 1
+

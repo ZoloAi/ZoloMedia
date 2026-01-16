@@ -85,14 +85,17 @@ def _detect_special_files(parser):
         boot_logger.debug("Parsed command: %s (with script)", getattr(args, 'command', None) or "run")
         return first_arg, None, args
     
-    # zSpark.*.zolo execution
-    if '.' not in first_arg:
-        potential_zspark = Path.cwd() / f"zSpark.{first_arg}.zolo"
-        if potential_zspark.exists():
-            boot_logger.debug("Detected zSpark file: %s", potential_zspark)
-            args = parser.parse_args(filtered_argv)
-            boot_logger.debug("Parsed command: %s (with zSpark)", getattr(args, 'command', None) or "run")
-            return None, str(potential_zspark), args
+    # NOTE: zSpark.*.zolo execution has been extracted to @temp_zKernel/cli/zspark.py
+    # This was a framework bootstrapping command (initializes zKernel instance)
+    # Commented out as handle_zspark_command is no longer in zOS
+    #
+    # if '.' not in first_arg:
+    #     potential_zspark = Path.cwd() / f"zSpark.{first_arg}.zolo"
+    #     if potential_zspark.exists():
+    #         boot_logger.debug("Detected zSpark file: %s", potential_zspark)
+    #         args = parser.parse_args(filtered_argv)
+    #         boot_logger.debug("Parsed command: %s (with zSpark)", getattr(args, 'command', None) or "run")
+    #         return None, str(potential_zspark), args
     
     args = parser.parse_args()
     boot_logger.debug("Parsed command: %s", getattr(args, 'command', None) or "version")
@@ -105,8 +108,9 @@ def _log_execution_context(args, python_file, zspark_file):
     dev_mode = getattr(args, 'dev', False)
     
     # Determine execution type
+    # NOTE: zspark_file detection disabled (extracted to @temp_zKernel)
     if zspark_file:
-        exec_type = "zSpark"
+        exec_type = "zSpark (framework - no longer supported in zOS)"
     elif python_file:
         exec_type = f"python ({python_file})"
     else:
@@ -123,8 +127,13 @@ def _route_command(args, python_file, zspark_file, verbose, dev_mode):
     if python_file:
         return cli_commands.handle_script_command(boot_logger, sys, Path, python_file, verbose=verbose)
 
+    # NOTE: zSpark command extracted to @temp_zKernel/cli/zspark.py (framework bootstrapping)
     if zspark_file:
-        return cli_commands.handle_zspark_command(boot_logger, Path, zspark_file, verbose=verbose, dev_mode=dev_mode)
+        print("\n❌ Error: zSpark command is no longer available in standalone zOS")
+        print("zSpark is a framework bootstrapping command that requires zKernel.")
+        print("It has been extracted to @temp_zKernel and will be available when zKernel joins the monorepo.\n")
+        return 1
+        # return cli_commands.handle_zspark_command(boot_logger, Path, zspark_file, verbose=verbose, dev_mode=dev_mode)
 
     # Install command doesn't need zkernel_package
     if hasattr(args, 'command') and args.command == 'install':

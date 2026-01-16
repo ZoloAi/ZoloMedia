@@ -4,12 +4,14 @@ CLI command handlers for zolo entry point.
 
 This module provides handler functions for all `zolo` CLI commands.
 
-Active handlers:
+Active handlers (OS-level):
 - display_info
 - handle_machine_command (+ edit, open, system, user)
 - handle_open_command
 - handle_script_command
-- handle_zspark_command
+
+Extracted to @temp_zKernel (framework-level):
+- handle_zspark_command → @temp_zKernel/cli/zspark.py
 
 Commented out (zKernel framework - to be refactored):
 - handle_shell_command
@@ -32,7 +34,7 @@ from .cli_commands import (
     # handle_install_command,
     # handle_uninstall_command,
     handle_script_command,
-    handle_zspark_command,
+    # handle_zspark_command,  # Extracted to @temp_zKernel/cli/zspark.py
 )
 
 __all__ = [
@@ -49,5 +51,5 @@ __all__ = [
     # 'handle_install_command',
     # 'handle_uninstall_command',
     'handle_script_command',
-    'handle_zspark_command',
+    # 'handle_zspark_command',  # Extracted to @temp_zKernel/cli/zspark.py
 ]

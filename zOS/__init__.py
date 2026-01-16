@@ -1,30 +1,40 @@
 """
-zSys - System Foundation (Layer 0)
+zOS - System Foundation (OS Primitives Layer)
 
-Pre-boot system utilities shared by entry point (main.py) and framework (zCLI/).
+Standalone OS utilities for Zolo applications with NO framework dependencies.
 
-This module provides foundational utilities that are needed before the full zCLI
-framework is initialized. It is intentionally lightweight with no dependencies on
-the zKernel framework itself.
+This module provides foundational OS-level utilities that can be used by any
+Zolo application (zlsp, zOS CLI, zKernel framework, standalone tools, etc.).
 
 Architecture:
-    - Layer 0: System Foundation (this module)
-    - Shared by both main.py (entry point) and zCLI/ (framework)
-    - No circular dependencies
-    - Pure utility functions and classes
+    - Layer: OS Primitives (standalone, no zKernel dependency)
+    - Used by: zlsp, zKernel, user applications
+    - Dependencies: Only standard library + platformdirs, PyYAML
 
 Modules:
-    - paths: Cross-platform path resolution for ecosystem
+    - paths: Cross-platform path resolution (platformdirs)
     - logger/: Unified logging system (bootstrap, console, formats)
     - install/: Installation detection and removal utilities
     - formatting/: Terminal colors and output utilities
-    - errors/: Error handling (validation, exceptions, traceback)
+    - errors/: OS-level exceptions (zMachinePathError, UnsupportedOSError)
+    - machine/: Machine detection and zConfig.machine.zolo generation
+    - utils/: File opening, OS primitives
+    - cli/: zolo command-line interface
+
+Framework Logic Extracted:
+    Framework-specific logic has been extracted to @temp_zKernel/:
+    - zKernelException and 12+ framework exceptions
+    - zTraceback (interactive error handling with Walker UI)
+    - validate_zkernel_instance (framework validation)
+    These will be merged into zKernel when it joins the monorepo.
 
 Usage:
     from zOS.logger import BootstrapLogger, ConsoleLogger, UnifiedFormatter
-    from zOS.install import detect_installation_type, cli_uninstall_complete
-    from zOS.formatting import Colors, print_ready_message
-    from zOS.errors import zKernelException, zTraceback, validate_zkernel_instance
+    from zOS.install import detect_installation_type
+    from zOS.formatting import Colors
+    from zOS.errors import zMachinePathError, UnsupportedOSError
+    from zOS.machine import get_machine_info
+    from zOS.utils.open import open_file, open_url
 """
 
 # Export all public APIs
@@ -63,7 +73,6 @@ __all__ = [
     "install",
     # Formatting subsystem
     "formatting",
-    # Error handling subsystem
+    # Error handling subsystem (OS-level only)
     "errors",
 ]
-

@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-# zSys/install/removal.py
+# zOS/install/removal.py
 """
-Uninstall utilities for zolo-zcli package.
+OS-level uninstall utilities for Zolo packages.
 
-Provides both core functions (reusable, return results) and CLI handlers
-(interactive with zDisplay).
+Provides core removal functions (reusable, return results) for package management.
+These are OS primitives with no framework dependencies.
+
+Framework-level CLI handlers (with zDisplay) have been extracted to:
+@temp_zKernel/cli/uninstall.py (will be merged into zKernel when it joins monorepo)
 
 Supports all installation types: editable, uv, venv, standard.
 """
@@ -20,7 +23,7 @@ PACKAGE_NAME = "zolo-zcli"
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# CORE FUNCTIONS - Reusable, no display, return results
+# CORE FUNCTIONS - OS primitives, no framework dependencies, return results
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def get_optional_dependencies() -> List[str]:
@@ -37,7 +40,7 @@ def get_optional_dependencies() -> List[str]:
         import tomli
         from pathlib import Path
         
-        # Find pyproject.toml (assuming we're in zSys/install/, go up two levels)
+        # Find pyproject.toml (assuming we're in zOS/install/, go up two levels)
         pyproject_path = Path(__file__).parent.parent.parent / "pyproject.toml"
         
         if pyproject_path.exists():
@@ -66,7 +69,7 @@ def get_optional_dependencies() -> List[str]:
 
 def remove_package() -> Tuple[bool, str]:
     """
-    Remove zolo-zcli package via pip.
+    Remove zolo-zcli package via pip (OS-level primitive).
     
     Works with all installation types (editable, uv, venv, standard).
     
@@ -92,7 +95,7 @@ def remove_package() -> Tuple[bool, str]:
 
 def remove_user_data(config_dir: Path, data_dir: Path, cache_dir: Path) -> Dict[str, Tuple[bool, str]]:
     """
-    Remove user data directories (config, data, cache).
+    Remove user data directories (config, data, cache) - OS-level primitive.
     
     Args:
         config_dir: Path to config directory
@@ -131,7 +134,7 @@ def remove_user_data(config_dir: Path, data_dir: Path, cache_dir: Path) -> Dict[
 
 def remove_dependencies(dependencies: Optional[List[str]] = None) -> Dict[str, Tuple[bool, str]]:
     """
-    Remove optional dependencies.
+    Remove optional dependencies (OS-level primitive).
     
     Args:
         dependencies: List of package names to remove (defaults to auto-detected)
@@ -170,176 +173,17 @@ def remove_dependencies(dependencies: Optional[List[str]] = None) -> Dict[str, T
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# CLI HANDLERS - Interactive with zDisplay, sys.exit(), user confirmation
+# NOTE: Framework CLI handlers moved to @temp_zKernel/cli/uninstall.py
 # ═══════════════════════════════════════════════════════════════════════════════
-
-def _confirm_action(display, action_description: str) -> bool:
-    """
-    Get user confirmation for destructive actions.
-    
-    Args:
-        display: zDisplay instance
-        action_description: Description of the action
-    
-    Returns:
-        True if user confirms, False otherwise
-    """
-    response = display.read_string("\nType 'yes' to confirm: ").strip().lower()
-    if response != "yes":
-        display.error("Cancelled", indent=1)
-        return False
-    return True
-
-
-def cli_uninstall_complete(zcli):
-    """
-    Complete uninstall: Remove EVERYTHING (package + data + dependencies).
-    
-    CLI handler with interactive confirmation and display.
-    
-    Args:
-        zcli: zKernel instance
-    
-    Exits:
-        0 if successful, 1 if failed
-    """
-    display = zcli.display
-    paths = zcli.config.sys_paths
-    
-    display.zDeclare("Complete Uninstall", color="MAIN", indent=0, style="full")
-    display.warning("Removes EVERYTHING - package, data, dependencies", indent=1)
-    
-    if not _confirm_action(display, "complete uninstall"):
-        sys.exit(1)
-    
-    # Remove data
-    data_results = remove_user_data(
-        paths.user_config_dir,
-        paths.user_data_dir,
-        paths.user_cache_dir
-    )
-    
-    # Remove dependencies
-    dep_results = remove_dependencies()
-    
-    # Remove package
-    pkg_success, pkg_msg = remove_package()
-    
-    # Display results
-    display.zDeclare("", color="MAIN", indent=0, style="full")
-    
-    # Data results
-    data_success_count = sum(1 for success, _ in data_results.values() if success)
-    if data_success_count > 0:
-        display.success(f"User data removed ({data_success_count}/3 directories)", indent=1)
-    
-    # Dependency results
-    dep_success_count = sum(1 for success, _ in dep_results.values() if success)
-    if dep_success_count > 0:
-        display.success(f"Dependencies removed ({dep_success_count}/{len(dep_results)} packages)", indent=1)
-    
-    # Package result
-    if pkg_success:
-        display.success(pkg_msg, indent=1)
-    else:
-        display.error(pkg_msg, indent=1)
-    
-    # Overall success
-    all_success = pkg_success and data_success_count == 3 and dep_success_count == len(dep_results)
-    
-    if all_success:
-        display.success("Complete removal successful", indent=1)
-        sys.exit(0)
-    
-    display.warning("Completed with errors", indent=1)
-    sys.exit(1)
-
-
-def cli_uninstall_package_only(zcli):
-    """
-    Package-only uninstall: Remove package, keep data + dependencies.
-    
-    Use case: Upgrade/reinstall scenario, preserve configs and data.
-    
-    CLI handler with interactive confirmation and display.
-    
-    Args:
-        zcli: zKernel instance
-    
-    Exits:
-        0 if successful, 1 if failed
-    """
-    display = zcli.display
-    paths = zcli.config.sys_paths
-    
-    display.zDeclare("Package Only", color="MAIN", indent=0, style="full")
-    display.info("Removes package only - preserves data and dependencies", indent=1)
-    
-    display.list([
-        f"Config: {paths.user_config_dir}",
-        f"Data:   {paths.user_data_dir}",
-        f"Cache:  {paths.user_cache_dir}"
-    ], style="bullet", indent=2)
-    
-    if not _confirm_action(display, "package-only uninstall"):
-        sys.exit(1)
-    
-    pkg_success, pkg_msg = remove_package()
-    
-    display.zDeclare("", color="MAIN", indent=0, style="full")
-    
-    if pkg_success:
-        display.success("Framework removed - data preserved", indent=1)
-        sys.exit(0)
-    
-    display.error(pkg_msg, indent=1)
-    sys.exit(1)
-
-
-def cli_uninstall_data_only(zcli):
-    """
-    Data-only uninstall: Remove user data, keep package + dependencies.
-    
-    Use case: Reset configuration/cache, keep framework installed.
-    
-    CLI handler with interactive confirmation and display.
-    
-    Args:
-        zcli: zKernel instance
-    
-    Exits:
-        0 if successful, 1 if failed
-    """
-    display = zcli.display
-    paths = zcli.config.sys_paths
-    
-    display.zDeclare("Data Only", color="MAIN", indent=0, style="full")
-    display.warning("Removes user data - keeps package installed", indent=1)
-    
-    display.list([
-        f"Config: {paths.user_config_dir}",
-        f"Data:   {paths.user_data_dir}",
-        f"Cache:  {paths.user_cache_dir}"
-    ], style="bullet", indent=2)
-    
-    if not _confirm_action(display, "data-only removal"):
-        sys.exit(1)
-    
-    data_results = remove_user_data(
-        paths.user_config_dir,
-        paths.user_data_dir,
-        paths.user_cache_dir
-    )
-    
-    display.zDeclare("", color="MAIN", indent=0, style="full")
-    
-    success_count = sum(1 for success, _ in data_results.values() if success)
-    
-    if success_count > 0:
-        display.success(f"User data removed ({success_count}/3 directories)", indent=1)
-        display.info("Framework still installed - reinstall not needed", indent=1)
-        sys.exit(0)
-    
-    display.warning("No data directories found", indent=1)
-    sys.exit(0)
-
+#
+# The following functions have been extracted to @temp_zKernel (framework layer):
+# - cli_uninstall_complete(zcli) - Uses zcli.display, zcli.config.sys_paths
+# - cli_uninstall_package_only(zcli) - Uses zcli.display, zcli.config.sys_paths
+# - cli_uninstall_data_only(zcli) - Uses zcli.display, zcli.config.sys_paths
+#
+# These are framework-level CLI commands that depend on zKernel framework components.
+# They will be merged into zKernel when it joins the monorepo.
+#
+# For OS-level uninstall needs, use the core functions above directly.
+#
+# ═══════════════════════════════════════════════════════════════════════════════

@@ -28,6 +28,7 @@ keywords = ["logging", "cli", "system", "utilities", "bootstrap"]
 dependencies = [
     "platformdirs>=3.0.0",
     "PyYAML>=6.0",
+    "zlsp>=1.0.0",
 ]
 
 [project.optional-dependencies]
@@ -38,9 +39,20 @@ dev = [
 
 [project.scripts]
 zolo = "zOS.cli.main:main"
-zTests = "zOS.cli.main:ztests_main"
+# zTests = "zOS.cli.main:ztests_main"  # Removed: Framework command, not OS-level
 
 [tool.setuptools]
 package-dir = {"zOS" = "."}
-packages = ["zOS", "zOS.cli", "zOS.errors", "zOS.formatting", "zOS.install", "zOS.logger", "zOS.machine", "zOS.utils"]
+packages = [
+    "zOS",
+    "zOS.cli",
+    "zOS.errors",
+    "zOS.formatting",
+    "zOS.install",
+    "zOS.logger",
+    "zOS.machine",
+    "zOS.machine.detectors",
+    "zOS.utils",
+    "zOS.utils.open",
+]
 
