@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zOS"
+version = "1.0.0"
+description = "Operating System for the Zolo ecosystem"
+authors = [
+    {name = "Gal Nachshon", email = "gal@zolo.media"}
+]
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Shells",
+]
+keywords = ["logging", "cli", "system", "utilities", "bootstrap"]
+dependencies = [
+    "platformdirs>=3.0.0",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+
+[project.scripts]
+zolo = "zOS.cli.main:main"
+zTests = "zOS.cli.main:ztests_main"
+
+[tool.setuptools]
+package-dir = {"zOS" = "."}
+packages = ["zOS", "zOS.cli", "zOS.errors", "zOS.formatting", "zOS.install", "zOS.logger", "zOS.machine", "zOS.utils"]
+

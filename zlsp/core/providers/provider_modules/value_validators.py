@@ -567,7 +567,22 @@ class ValueValidator:
                 parts = line.split(':', 1)
                 if len(parts) == 2:
                     key = parts[0].strip()
-                    value = parts[1].strip()
+                    raw_value = parts[1].strip()
+                    
+                    # Strip comments from value for validation
+                    # Handle inline comments: #> comment <#
+                    value = raw_value
+                    if '#>' in value and '<#' in value:
+                        # Remove inline comment
+                        comment_start = value.find('#>')
+                        value = value[:comment_start].strip()
+                    # Handle line comments: # comment
+                    elif '#' in value:
+                        # Only strip if # is not part of the value itself
+                        # (be conservative - only strip if there's whitespace before #)
+                        comment_pos = value.find('#')
+                        if comment_pos > 0 and value[comment_pos - 1].isspace():
+                            value = value[:comment_pos].strip()
                     
                     # Define which keys should be validated in which sections
                     app_keys = {'browser', 'ide', 'image_viewer', 'video_player', 'audio_player'}
@@ -575,7 +590,7 @@ class ValueValidator:
                     
                     # Only log lines with validated keys for debugging
                     if key in app_keys or key in format_keys:
-                        logger.info(f"   🔑 Line {line_num}: section='{current_section}', key='{key}', value='{value}'")
+                        logger.info(f"   🔑 Line {line_num}: section='{current_section}', key='{key}', value='{value}' (raw='{raw_value}')")
                     
                     # Skip validation if key is in wrong section
                     should_validate = False
@@ -589,12 +604,13 @@ class ValueValidator:
                             logger.info(f"   ⏭️  Skipping validation (wrong section: {current_section})")
                         continue
                     
-                    # Calculate value position in line
+                    # Calculate value position in line (for the actual value, not including comments)
                     colon_pos = line.index(':')
                     value_start = colon_pos + 1
                     # Skip leading whitespace in value
                     while value_start < len(line) and line[value_start].isspace():
                         value_start += 1
+                    # Value ends where the actual content ends (before any comments)
                     value_end = value_start + len(value)
                     
                     # Validate the value
