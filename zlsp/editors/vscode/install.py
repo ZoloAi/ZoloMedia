@@ -214,7 +214,7 @@ def generate_package_json(theme, generator, base_dir):
         "displayName": "Zolo LSP",
         "description": "Language Server Protocol support for .zolo files with semantic highlighting",
         "version": __version__,
-        "publisher": "ZoloMedia",
+        "publisher": "ZoloAi",
         "icon": "icons/zolo_filetype.png",
         "license": "MIT",
         "homepage": "https://zolo.media",
