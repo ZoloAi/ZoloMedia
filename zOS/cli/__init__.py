@@ -7,6 +7,7 @@ This module provides handler functions for all `zolo` CLI commands.
 Active handlers:
 - display_info
 - handle_machine_command (+ edit, open, system, user)
+- handle_open_command
 - handle_script_command
 - handle_zspark_command
 
@@ -24,6 +25,7 @@ from .cli_commands import (
     handle_machine_edit_command,
     handle_machine_system_command,
     handle_machine_user_command,
+    handle_open_command,
     # handle_shell_command,
     # handle_ztests_command,
     # handle_migrate_command,
@@ -40,6 +42,7 @@ __all__ = [
     'handle_machine_edit_command',
     'handle_machine_system_command',
     'handle_machine_user_command',
+    'handle_open_command',
     # 'handle_shell_command',
     # 'handle_ztests_command',
     # 'handle_migrate_command',

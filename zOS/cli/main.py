@@ -158,6 +158,15 @@ def _route_command(args, python_file, zspark_file, verbose, dev_mode):
             # No flag, show all
             return cli_commands.handle_machine_command(boot_logger, verbose=verbose)
     
+    # Handle open command
+    if command == "open":
+        target = getattr(args, 'target', None)
+        if target:
+            return cli_commands.handle_open_command(boot_logger, target, verbose=verbose)
+        else:
+            print("Error: Please specify a file or URL to open")
+            return 1
+    
     handlers = {
         # "shell": lambda: cli_commands.handle_shell_command(boot_logger, verbose=verbose),
         # "ztests": lambda: cli_commands.handle_ztests_command(boot_logger, Path, zkernel_package, verbose=verbose),

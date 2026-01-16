@@ -702,3 +702,62 @@ def handle_install_command(boot_logger, sys, Path, args, verbose: bool = False):
         return 1
 
 
+def handle_open_command(boot_logger, target: str, verbose: bool = False):
+    """
+    Open file or URL using zOS primitives.
+    
+    Args:
+        boot_logger: BootstrapLogger instance
+        target: Path or URL to open
+        verbose: Show debug info
+    
+    Examples:
+        zolo open www.google.com
+        zolo open ~/Documents/file.pdf
+        zolo open ~/Library/Application Support/Zolo/zConfig.machine.zolo
+    """
+    from zOS.utils.open import open_file, open_url, is_url
+    from zOS.machine import get_machine_info
+    
+    if verbose:
+        boot_logger.print_buffered_logs()
+    
+    # Get IDE/browser preferences from machine config
+    try:
+        machine = get_machine_info()
+        browser = machine.get('browser', 'chrome')
+        ide = machine.get('ide', 'code')
+    except Exception:
+        # If config not available, use defaults
+        browser = 'chrome'
+        ide = 'code'
+    
+    # Detect type and open
+    if is_url(target):
+        # URL
+        print(f"Opening {target} in {browser}...")
+        success = open_url(target, browser=browser)
+        if success:
+            print(f"✓ Opened {target}")
+            return 0
+        else:
+            print(f"✗ Failed to open {target}")
+            return 1
+    else:
+        # File
+        # Expand ~ and resolve paths
+        import os
+        target = os.path.expanduser(target)
+        
+        if not os.path.exists(target):
+            print(f"✗ File not found: {target}")
+            return 1
+        
+        print(f"Opening {target} in {ide}...")
+        success = open_file(target, editor=ide)
+        if success:
+            print(f"✓ Opened {target}")
+            return 0
+        else:
+            print(f"✗ Failed to open {target}")
+            return 1

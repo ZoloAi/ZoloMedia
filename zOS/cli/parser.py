@@ -37,7 +37,7 @@ def create_parser():
     subparsers = parser.add_subparsers(
         dest="command",
         title="available commands",
-        description="  \033[96mzolo\033[0m              Show version and installed products\n  \033[96mzolo machine\033[0m      Show machine configuration",
+        description="  \033[96mzolo\033[0m              Show version and installed products\n  \033[96mzolo machine\033[0m      Show machine configuration\n  \033[96mzolo open\033[0m         Open file or URL",
     )
     # Override the metavar to hide auto-generated command list
     subparsers.metavar = ""
@@ -62,6 +62,17 @@ def create_parser():
                                 help="Show system-detected configuration (locked)")
     machine_filter.add_argument("--user", action="store_true",
                                 help="Show user preferences (editable)")
+    
+    # Open subcommand - Open file or URL
+    open_parser = subparsers.add_parser(
+        "open",
+        add_help=False,
+        formatter_class=ColoredHelpFormatter,
+        description="Open files in your configured IDE or URLs in your browser"
+    )
+    open_parser.add_argument("--help", action="help", help="Show this help message and exit")
+    open_parser.add_argument("--verbose", action="store_true", help="Enable verbose logging")
+    open_parser.add_argument("target", help="File path or URL to open")
     
     # ============================================================================
     # Options (added AFTER commands to appear second)
