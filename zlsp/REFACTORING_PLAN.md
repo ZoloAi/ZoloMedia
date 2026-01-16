@@ -2009,13 +2009,32 @@ themes/
     - Context-aware: Detects indent level & parent key for nested completions
     - **Result:** File-type-specific, indent-aware completions from YAML!
   
-  - [ ] **7.2.5.2: zConfig Actions** (~50-100 lines YAML)
-    - [ ] Document zConfig file structure (system configs, feature flags)
-    - [ ] Define zConfig-specific styling rules
-    - [ ] Action: `scaffold_zconfig_section` - Common config sections (database, cache, etc.)
-    - [ ] Action: `add_environment_override` - Environment-specific config patterns
-    - [ ] Action: `generate_zconfig_zmeta` - Auto-populate zMeta
-    - [ ] Test with `zConfig.*.zolo` example files
+  - [x] **7.2.5.2: zConfig Validation & Semantic Highlighting** (~610 lines Python) ✅ **COMPLETE**
+    - [x] Document zConfig file structure (zMachine sections: locked vs editable)
+    - [x] Define zConfig-specific styling rules (red=locked, blue=editable, lavender=grandchildren)
+    - [x] Created `ValueValidator` for context-aware validation (~610 lines)
+    - [x] Implemented value validation for:
+      - `browser`: Chrome, Firefox, Safari, Edge, Brave, Opera, Arc, Vivaldi
+      - `ide`: VS Code, Cursor, Vim, Neovim, Sublime, IntelliJ, PyCharm, WebStorm
+      - `image_viewer`: Preview, GIMP, Photoshop, Photos, Pixelmator, etc.
+      - `video_player`: QuickTime, VLC, IINA, mpv, etc.
+      - `audio_player`: Music, Spotify, iTunes, VLC, etc.
+      - `time_format`, `date_format`, `datetime_format`
+    - [x] Context-aware validation (only validates `user_preferences` and `time_date_formatting`)
+    - [x] Section classification:
+      - Locked (red): `machine_identity`, `python_runtime`, `cpu`, `memory`, `gpu`, `network`, `storage`, `user_paths`, `display`, `launch_commands`
+      - Editable (blue): `user_preferences`, `time_date_formatting`, `custom`
+      - Grandchildren (lavender): All keys nested under sections
+    - [x] Fixed semantic highlighting for `zconfigNestedKey` in VS Code/Cursor
+    - [x] Test with `zConfig.machine.zolo` example file
+    
+    **Implementation Details:**
+    - New file: `core/providers/provider_modules/value_validators.py` (610 lines)
+    - Updated: `core/parser/parser_modules/key_detector.py` (section classification)
+    - Updated: `core/providers/diagnostics_engine.py` (integrated validator)
+    - Updated: `themes/generators/vscode.py` (fixed semantic token legend)
+    - Updated: `themes/zolo_default.yaml` (removed auto-completion, kept validation)
+    - **Result:** Context-aware validation prevents typos in zConfig user preferences!
   
   - [ ] **7.2.5.3: zEnv Actions** (~50-100 lines YAML)
     - [ ] Document zEnv file structure (environment variables, secrets)

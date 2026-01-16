@@ -8,37 +8,37 @@ LOG_LEVEL: DEBUG
 
 # Global Navbar Definition with RBAC
 ZNAVBAR:
-  #> Public pages (no RBAC) <#
-  zVaF: null
-  zAbout: null
+	#> Public pages (no RBAC) <#
+	zVaF: null
+	zAbout: null
 
-  #> Parent page with sub-items <#
-  zProducts:
-    zSub: [zCLI, zBifrost, zTheme, zTrivia]
+	#> Parent page with sub-items <#
+	zProducts:
+		zSub: [zCLI, zBifrost, zTheme, zTrivia]
 
-  #> Admin-only pages <#
-  zAccount:
-    zRBAC:
-      require_role: [zAdmin]
+	#> Admin-only pages <#
+	zAccount:
+		zRBAC:
+			require_role: [zAdmin]
 
-  #> Authenticated-only actions <#
-  ^logout:
-    zRBAC:
-      authenticated: true
+	#> Authenticated-only actions <#
+	^logout:
+		zRBAC:
+			authenticated: true
 
-  #> Guest-only actions <#
-  zRegister:
-    zRBAC:
-      authenticated: false
+	#> Guest-only actions <#
+	zRegister:
+		zRBAC:
+			authenticated: false
 
-  ^zLogin:
-    zRBAC:
-      authenticated: false
+	^zLogin:
+		zRBAC:
+			authenticated: false
 
 # Static File Mounts (zPath Examples)
 ZSERVER_MOUNTS:
-  /bifrost/: /Users/galnachshon/Projects/zolo-zcli/bifrost/
-  /ztheme/: /Users/galnachshon/Projects/zolo-zcli/zTheme/
+	/bifrost/: /Users/galnachshon/Projects/zolo-zcli/bifrost/
+	/ztheme/: /Users/galnachshon/Projects/zolo-zcli/zTheme/
 
 # ============================================================================
 # Database Configuration - zPath Syntax Examples
@@ -142,14 +142,14 @@ CRITICAL_ALERTS: CRITICAL
 # ============================================================================
 # Nested objects
 database_config:
-  primary:
-    url: @.Data/primary.db
-    readonly: false
-    pool_size: 10
-  replica:
-    url: ~.zCloud.replicas/replica1.db
-    readonly: true
-    pool_size: 5
+	primary:
+		url: @.Data/primary.db
+		readonly: false
+		pool_size: 10
+	replica:
+		url: ~.zCloud.replicas/replica1.db
+		readonly: true
+		pool_size: 5
 
 # Arrays
 supported_formats: [json, yaml, zolo, xml]
@@ -157,23 +157,23 @@ log_levels: [DEBUG, SESSION, INFO, WARNING, ERROR, CRITICAL, PROD]
 
 # Mixed types
 feature_flags:
-  enable_websocket: true
-  max_connections: 100
-  timeout_seconds: 30.5
-  fallback_mode: Development
+	enable_websocket: true
+	max_connections: 100
+	timeout_seconds: 30.5
+	fallback_mode: Development
 
 # ============================================================================
 # zPath Examples for Theme Testing
 # ============================================================================
 # These should all be highlighted in bright cyan (ANSI 51)
 workspace_paths:
-  data_dir: @.Data
-  config_dir: @.Config
-  logs_dir: @.Logs
-  temp_dir: @.Temp
+	data_dir: @.Data
+	config_dir: @.Config
+	logs_dir: @.Logs
+	temp_dir: @.Temp
 
 user_paths:
-  config_home: ~.zCloud.config
-  data_home: ~.zCloud.data
-  cache_home: ~.zCloud.cache
-  logs_home: ~.zCloud.logs
+	config_home: ~.zCloud.config
+	data_home: ~.zCloud.data
+	cache_home: ~.zCloud.cache
+	logs_home: ~.zCloud.logs
