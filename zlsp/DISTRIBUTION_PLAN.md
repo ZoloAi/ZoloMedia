@@ -182,7 +182,9 @@ shutil.copy2(icon_src, icon_dest)
 
 ### 1.2: Cursor Extension (Open VSX Marketplace)
 
-**Status:** ⚠️ Built - Marketplace Pending (v1.0.2)  
+**Status:** ✅ **PUBLISHED** (v1.0.3 - Jan 15, 2026)  
+**Publisher:** `ZoloAi` (matches Open VSX account)  
+**URL:** https://open-vsx.org/extension/ZoloAi/zolo-lsp  
 **Note:** Cursor uses Open VSX registry, NOT Microsoft's VS Code Marketplace
 
 #### Cursor's Marketplace
@@ -191,15 +193,16 @@ Cursor uses **Open VSX** (https://open-vsx.org) - an open-source alternative:
 - ✅ Open VSX is Cursor's extension source (launched Sept 11, 2023)
 - ✅ Same `.vsix` file works for both VS Code and Cursor
 - ✅ Eclipse Foundation manages Open VSX (free, open source)
-- ⚠️ Currently blocked by Eclipse Foundation account creation bug
+- ✅ **Published as `ZoloAi.zolo-lsp` v1.0.3** (Jan 15, 2026)
 
-**TODO - Open VSX Publishing (Blocked):**
-- [ ] Wait for Eclipse Foundation to fix account creation bug (reported Jan 2026)
-- [ ] Create Eclipse Foundation account
-- [ ] Sign Eclipse Contributor Agreement (ECA)
-- [ ] Create `ZoloMedia` namespace on Open VSX
-- [ ] Upload `zolo-lsp-1.0.2.vsix` via web UI
-- [ ] Verify at: https://open-vsx.org/extension/ZoloMedia/zolo-lsp
+**✅ Open VSX Publishing Status (COMPLETED):**
+- [x] Eclipse Foundation account created (Jan 15, 2026)
+- [x] Signed Eclipse Contributor Agreement (ECA)
+- [x] Created `ZoloAi` namespace on Open VSX
+- [x] Updated publisher: `"ZoloMedia"` → `"ZoloAi"` (namespace match)
+- [x] Bumped version: `1.0.2` → `1.0.3`
+- [x] Published `zolo-lsp-1.0.3.vsix` to Open VSX
+- [ ] Verify at: https://open-vsx.org/extension/ZoloAi/zolo-lsp (after v1.0.3 republish)
 - [ ] Test searchability in Cursor Extensions panel
 
 **Current Workaround:**
@@ -263,7 +266,63 @@ All other editors (VS Code, Cursor, marketplace) are tested against Vim output.
 
 ## Phase 2: OS-Level File Icons
 
-### 2.1: Overview
+**Status:** 🚧 **IN PROGRESS** (macOS + Linux)  
+**Last Updated:** 2026-01-15  
+**Audit Document:** [`PHASE_2.1_AUDIT.md`](./PHASE_2.1_AUDIT.md)
+
+**Implementation Strategy:** Phased rollout with cost optimization
+
+**Platforms:**
+- ✅ **macOS:** Implementing (Developer account already owned - $0 marginal cost)
+- ✅ **Linux:** Implementing (Free, open source)
+- ⏸️ **Windows:** Deferred (Requires $100-400/year code signing cert)
+
+**Revised Cost Analysis:**
+- macOS: $0/year (existing Apple Developer membership)
+- Linux: $0/year (no code signing required)
+- Windows: Deferred until demand justifies $100-400/year investment
+
+**Key Decision Factors:**
+- ✅ Leverage existing Apple Developer account (sunk cost)
+- ✅ Linux implementation is free and aligns with open source community
+- ⚠️ Windows code signing cost deferred until user demand materializes
+- ✅ Scaffold Windows support for future implementation
+
+**See detailed audit:** [`PHASE_2.1_AUDIT.md`](./PHASE_2.1_AUDIT.md) (18 pages, comprehensive analysis)
+
+---
+
+### Implementation Summary
+
+**Timeline:** 7 days total
+- macOS: 4 days (leveraging existing Apple Developer account)
+- Linux: 3 days (Debian + Flatpak)
+- Windows: Scaffolding only (~4 hours)
+
+**Cost:**
+- Year 1: $0 (macOS uses existing account, Linux is free)
+- Ongoing: $0/year (until Windows implementation)
+- Windows future: $100-400/year (when demand justifies)
+
+**Deliverables:**
+- ✅ `ZoloFileType-1.0.0.dmg` (macOS)
+- ✅ `zolo-filetype_1.0.0_all.deb` (Debian/Ubuntu)
+- ✅ `zolo-filetype.flatpak` (Universal Linux)
+- ✅ `scripts/windows/*` (Windows scaffolding for future)
+
+**Success Metrics:**
+- Downloads: >50 per platform in first 3 months
+- User feedback: Positive mentions in issues/discussions
+- Support burden: <2 hours/month
+
+**Windows Activation Criteria:**
+- User requests: >50 explicit requests for Windows support
+- OR Market share: Windows users >30% of total
+- OR Funding: Sponsorship covers $400/year certificate cost
+
+---
+
+### 2.1: Overview (Reference Only)
 
 **Scope:** File icons in **Finder (macOS)**, **Explorer (Windows)**, and **File Managers (Linux)**
 
@@ -290,6 +349,10 @@ All other editors (VS Code, Cursor, marketplace) are tested against Vim output.
 ---
 
 ### 2.2: macOS (Finder) Implementation
+
+**Status:** 🚧 **IMPLEMENTING**  
+**Cost:** $0 (using existing Apple Developer account)  
+**Timeline:** ~4 days
 
 #### Requirements
 
@@ -414,7 +477,20 @@ hdiutil create -volname "Zolo File Type" -srcfolder ZoloFileType.app -ov -format
 
 ### 2.3: Windows (Explorer) Implementation
 
-#### Requirements
+**Status:** ⏸️ **DEFERRED** (Scaffold Only)  
+**Cost:** $100-400/year (code signing certificate required)  
+**Blocker:** Code signing cost not justified until user demand materializes
+
+**Scaffolding Approach:**
+- ✅ Create icon conversion scripts (PNG → .ico)
+- ✅ Write registry templates
+- ✅ Document PowerShell installer scripts
+- ❌ Do NOT purchase code signing certificate yet
+- ❌ Do NOT distribute unsigned installers (Windows Defender flags as malware)
+
+**Revisit when:** >50 Windows users request feature OR sponsorship covers certificate cost
+
+#### Requirements (For Future Implementation)
 
 1. **Icon Format:** Convert PNG → `.ico`
 2. **Registration:** Windows Registry entries
@@ -498,9 +574,47 @@ Write-Host "✓ Zolo file type unregistered" -ForegroundColor Green
 - Or create proper `.msi` installer using WiX Toolset
 - Distribute via GitHub Releases
 
+#### Windows Scaffolding Strategy (Current Approach)
+
+**What we're building NOW:**
+- ✅ Icon conversion scripts (`scripts/windows/convert-icon.sh`)
+- ✅ Registry templates (`scripts/windows/zolo-filetype.reg`)
+- ✅ PowerShell installer templates (`scripts/windows/install-zolo-filetype.ps1`)
+- ✅ Uninstaller templates (`scripts/windows/uninstall-zolo-filetype.ps1`)
+- ✅ Documentation (`scripts/windows/README.md`)
+
+**What we're NOT doing YET:**
+- ❌ Purchasing code signing certificate ($100-400/year)
+- ❌ Building signed installers
+- ❌ Distributing to Windows users
+- ❌ Testing on Windows (can defer until implementation)
+
+**Future Implementation (When Triggered):**
+1. Purchase Authenticode certificate from DigiCert/Sectigo
+2. Sign all executables and installers
+3. Test on Windows 10/11
+4. Distribute via GitHub Releases
+5. Update documentation for Windows users
+
+**Trigger Conditions:**
+- >50 Windows users explicitly request feature
+- OR sponsorship covers certificate cost ($100-400/year)
+- OR Windows market share of zlsp users exceeds 30%
+
+**Benefit of Scaffolding:**
+- ✅ Reduces future implementation time (2 days → 4 hours)
+- ✅ No wasted effort (scripts reusable when ready)
+- ✅ Documents intent for contributors
+- ✅ Easy to activate when trigger conditions met
+
 ---
 
 ### 2.4: Linux (File Managers) Implementation
+
+**Status:** 🚧 **IMPLEMENTING**  
+**Cost:** $0 (no code signing required)  
+**Timeline:** ~3 days  
+**Focus:** Debian/Ubuntu (`.deb`) + Flatpak (covers ~80% of desktop Linux users)
 
 #### Requirements
 
@@ -614,15 +728,15 @@ dpkg-deb --build zolo-filetype_1.0.0_all
 **Goal:** Single command to build all distribution artifacts
 
 ```bash
-# Build everything
+# Build everything (Phase 2 partial)
 make dist
 
 # Or individually:
 make dist-vscode      # Creates .vsix
 make dist-cursor      # Creates extension package
-make dist-macos       # Creates .dmg
-make dist-windows     # Creates .zip with installer
-make dist-linux       # Creates .deb, .rpm
+make dist-macos       # Creates .dmg (implementing)
+make dist-linux       # Creates .deb, Flatpak (implementing)
+make dist-windows     # Scaffolded only (not building yet)
 ```
 
 **Makefile Structure:**
@@ -632,7 +746,8 @@ make dist-linux       # Creates .deb, .rpm
 
 VERSION := $(shell python3 -c "from zlsp.core.version import __version__; print(__version__)")
 
-dist: dist-vscode dist-cursor dist-macos dist-windows dist-linux
+# Phase 2: Build macOS + Linux only (Windows deferred)
+dist: dist-vscode dist-cursor dist-macos dist-linux
 
 dist-vscode:
 	@echo "Building VS Code .vsix..."
@@ -650,14 +765,20 @@ dist-macos:
 	mv ZoloFileType-$(VERSION).dmg dist/
 
 dist-windows:
-	@echo "Building Windows file type installer..."
-	./scripts/build-windows-filetype.sh
-	mv zolo-filetype-$(VERSION)-windows.zip dist/
+	@echo "Windows support deferred (code signing cost)"
+	@echo "Scaffold scripts available in scripts/windows/ (not executed)"
+	@echo "Run 'make scaffold-windows' to prepare files without signing"
+
+scaffold-windows:
+	@echo "Generating Windows scaffolding (unsigned, for reference)..."
+	./scripts/scaffold-windows-filetype.sh
+	@echo "NOTE: Do not distribute unsigned installers (SmartScreen blocks them)"
 
 dist-linux:
 	@echo "Building Linux packages..."
 	./scripts/build-linux-packages.sh
-	mv *.deb *.rpm dist/
+	mv *.deb dist/
+	mv *.flatpak dist/
 
 clean:
 	rm -rf dist/*
@@ -748,9 +869,12 @@ vsce publish
 
 ---
 
-### 3. Open VSX Registry (Future - Blocked)
+### 3. Open VSX Registry
 
-**Status:** ⚠️ Blocked by Eclipse Foundation account creation bug
+**Status:** ✅ **PUBLISHED** (Jan 15, 2026)  
+**Publisher:** `ZoloAi`  
+**Extension:** `ZoloAi.zolo-lsp` v1.0.3  
+**URL:** https://open-vsx.org/extension/ZoloAi/zolo-lsp
 
 **When published, distribution will be:**
 ```bash
@@ -795,27 +919,38 @@ Manual installation via "Install from VSIX..." in Cursor:
 
 ---
 
-### 4. OS File Type Packages (Separate)
+### 4. OS File Type Packages (Phase 2 - Partial Implementation)
 
-**macOS:**
-- GitHub Releases: `ZoloFileType-1.0.0.dmg`
-- User downloads, drags to Applications
+**macOS:** 🚧 Implementing
+- Distribution: GitHub Releases `ZoloFileType-1.0.0.dmg`
+- Installation: Download, drag to Applications, set default app
+- Cost: $0 (using existing Apple Developer account)
+- Timeline: 4 days
 - Optional, not required for editing
 
-**Windows:**
-- GitHub Releases: `zolo-filetype-1.0.0-windows.zip`
-- Contains installer scripts + icon
+**Linux:** 🚧 Implementing
+- Distribution: GitHub Releases `.deb` + Flatpak
+- Installation: `sudo apt install` or `flatpak install`
+- Cost: $0 (no code signing)
+- Timeline: 3 days
+- Focus: Debian/Ubuntu + Flatpak (80% coverage)
 - Optional, not required for editing
 
-**Linux:**
-- GitHub Releases: `.deb`, `.rpm` packages
-- Install via package manager
+**Windows:** ⏸️ Deferred (Scaffolded)
+- Scripts prepared: `scripts/windows/` directory
+- Distribution: Blocked until code signing certificate purchased
+- Cost when implemented: $100-400/year
+- Revisit when: >50 Windows user requests
 - Optional, not required for editing
 
-**Marketing:**
+**Marketing (After macOS + Linux Release):**
 ```
-Want .zolo files to show custom icons in Finder/Explorer?
+Want .zolo files to show custom icons in Finder/File Manager?
 Download the OS integration package!
+
+✅ macOS: ZoloFileType-1.0.0.dmg
+✅ Linux: zolo-filetype_1.0.0_all.deb or Flatpak
+⏳ Windows: Coming when demand justifies code signing cost
 ```
 
 ---
@@ -1004,29 +1139,57 @@ make dist
 - [x] VS Code Python installer (complete)
 - [x] Cursor Python installer (complete)
 - [x] Add file icon to extensions
-- [x] Build .vsix (v1.0.2)
+- [x] Build .vsix (v1.0.3)
 - [x] Test .vsix locally
+- [x] **Publish to Open VSX** ✅ (as `ZoloAi.zolo-lsp` v1.0.3)
 - [ ] Publish to VS Code Marketplace (Microsoft publisher needed)
-- [ ] Publish to Open VSX (blocked by Eclipse Foundation account bug)
 
-**Current Blockers:**
-1. **Open VSX:** Eclipse Foundation account creation failing (reported Jan 2026)
-2. **VS Code Marketplace:** Microsoft publisher account not created yet
+**Current Status:**
+1. **Open VSX:** ✅ **PUBLISHED** (https://open-vsx.org/extension/ZoloAi/zolo-lsp)
+2. **VS Code Marketplace:** ⏳ Pending (Microsoft publisher account not created yet)
 
-**Timeline:** Pending platform fixes
+**Timeline:** 
+- Open VSX: ✅ Complete
+- VS Code Marketplace: Pending user decision to create Microsoft publisher account
 
 ---
 
-### Phase 2: OS File Icons (Optional)
-- [ ] Design decision: Worth the maintenance?
-- [ ] Build macOS app + DMG
-- [ ] Build Windows installer
-- [ ] Build Linux packages
-- [ ] Test on multiple OS versions
-- [ ] Create GitHub Releases
-- [ ] Update documentation
+### Phase 2: OS File Icons 🚧 IN PROGRESS
+- [x] Conducted detailed audit ([PHASE_2.1_AUDIT.md](./PHASE_2.1_AUDIT.md))
+- [x] Cost-benefit analysis completed
+- [x] **Decision:** Implement macOS + Linux, defer Windows
+- [ ] **Phase 2.2:** Build macOS app + DMG (in progress)
+  - [ ] Convert PNG to .icns (10 sizes)
+  - [ ] Create app bundle structure
+  - [ ] Configure Info.plist
+  - [ ] Code sign with existing Developer ID
+  - [ ] Notarize with Apple
+  - [ ] Create DMG installer
+  - [ ] Test on macOS 13-15
+- [ ] **Phase 2.4:** Build Linux packages (in progress)
+  - [ ] Generate multi-size PNGs (16, 32, 48, 256px)
+  - [ ] Create MIME type definition (zolo.xml)
+  - [ ] Create desktop entry
+  - [ ] Build .deb package (Debian/Ubuntu)
+  - [ ] Build Flatpak package
+  - [ ] Test on Ubuntu 22.04, 24.04
+- [ ] **Phase 2.3:** Windows installer (DEFERRED - scaffold only)
+  - [ ] Create PNG → .ico conversion scripts
+  - [ ] Document registry structure
+  - [ ] Write PowerShell installer templates
+  - [ ] ~~Purchase code signing certificate~~ (deferred)
+  - [ ] ~~Build signed installer~~ (deferred)
 
-**Timeline:** 2-4 weeks (if approved)
+**Rationale for Phased Approach:**
+- ✅ Leverage existing Apple Developer account ($0 cost)
+- ✅ Linux is free and aligns with open source values
+- ⚠️ Windows code signing ($100-400/year) deferred until demand justifies
+- ✅ Scaffold Windows for future implementation
+
+**Timeline:** 
+- macOS: 4 days
+- Linux: 3 days  
+- Windows: Deferred (revisit when >50 users request OR funding secured)
 
 ---
 
