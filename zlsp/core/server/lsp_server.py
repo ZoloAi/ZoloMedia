@@ -39,6 +39,10 @@ from ..providers.diagnostics_engine import get_all_diagnostics
 from ..providers.hover_provider import get_hover_info
 from ..providers.completion_provider import get_completions
 
+# Code actions (LSP quick fixes & refactorings)
+from themes import load_theme, CodeActionRegistry
+from .features.code_actions import execute_code_action
+
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
@@ -138,6 +142,15 @@ SEMANTIC_OPTIONS = lsp_types.SemanticTokensRegistrationOptions(
     full=True,
     document_selector=[{"language": "zolo"}]  # Required for registration options
 )
+
+# Load code actions from theme (SSOT approach)
+try:
+    THEME = load_theme('zolo_default')
+    CODE_ACTION_REGISTRY = CodeActionRegistry(THEME)
+    logger.info(f"Loaded {len(CODE_ACTION_REGISTRY.actions)} code actions from theme")
+except Exception as e:
+    logger.warning(f"Failed to load code actions: {e}")
+    CODE_ACTION_REGISTRY = None
 
 
 @zolo_server.feature(lsp_types.INITIALIZE)
@@ -424,6 +437,113 @@ def completions(params: lsp_types.CompletionParams):
     except Exception as e:
         logger.error(f"Error providing completions: {e}")
         return lsp_types.CompletionList(is_incomplete=False, items=[])
+
+
+@zolo_server.feature(lsp_types.TEXT_DOCUMENT_CODE_ACTION)
+def code_actions(params: lsp_types.CodeActionParams):
+    """
+    Provide code actions (quick fixes & refactorings) for diagnostics.
+    
+    Reads action configs from YAML, matches them to diagnostics,
+    executes them, and returns LSP CodeAction objects.
+    
+    All logic is data-driven from themes/zolo_default.yaml!
+    """
+    uri = params.text_document.uri
+    
+    logger.info(f"Code actions requested for: {uri}")
+    
+    # Check if code actions are enabled
+    if not CODE_ACTION_REGISTRY or not CODE_ACTION_REGISTRY.is_enabled():
+        logger.debug("Code actions disabled or registry not loaded")
+        return []
+    
+    try:
+        # Get document content
+        document = zolo_server.workspace.get_text_document(uri)
+        content = document.source
+        lines = content.split('\n')
+        
+        # Extract filename from URI
+        from urllib.parse import urlparse, unquote
+        parsed_uri = urlparse(uri)
+        filename = Path(unquote(parsed_uri.path)).name if parsed_uri.path else None
+        
+        # Get diagnostics from context
+        diagnostics = params.context.diagnostics
+        
+        # Collect all applicable actions
+        actions = []
+        
+        # Match actions to diagnostics
+        for diagnostic in diagnostics:
+            # Find actions that match this diagnostic
+            matching_actions = CODE_ACTION_REGISTRY.get_actions_for_diagnostic(
+                diagnostic.message
+            )
+            
+            for action in matching_actions:
+                # Check if already added (avoid duplicates)
+                if any(a.title == action['title'] for a in actions):
+                    continue
+                
+                # Build context for execution
+                line_number = diagnostic.range.start.line
+                if line_number < len(lines):
+                    line_content = lines[line_number]
+                    
+                    context = {
+                        'line': line_content,
+                        'line_number': line_number,
+                        'cursor_position': diagnostic.range.start.character,
+                        'document_content': content,
+                        'file_name': filename or ''
+                    }
+                    
+                    # Execute action to get text edits
+                    try:
+                        edits = execute_code_action(action, context)
+                        
+                        if edits:
+                            # Create LSP CodeAction
+                            code_action = lsp_types.CodeAction(
+                                title=action['title'],
+                                kind=lsp_types.CodeActionKind.QuickFix,
+                                diagnostics=[diagnostic],
+                                edit=lsp_types.WorkspaceEdit(
+                                    changes={uri: edits}
+                                )
+                            )
+                            actions.append(code_action)
+                            logger.debug(f"Added action: {action['title']}")
+                    
+                    except Exception as e:
+                        logger.error(f"Error executing action {action['id']}: {e}")
+                        continue
+        
+        # Also check for file-pattern based actions (not tied to diagnostics)
+        if filename:
+            file_actions = CODE_ACTION_REGISTRY.get_actions_for_file(filename)
+            for action in file_actions:
+                # Skip if no diagnostic trigger (these need explicit context)
+                if 'context' in action.get('triggers', {}):
+                    # Would need cursor context to determine if applicable
+                    # For now, skip these
+                    continue
+        
+        # Respect max actions limit
+        max_actions = CODE_ACTION_REGISTRY.get_max_actions()
+        if len(actions) > max_actions:
+            actions = actions[:max_actions]
+        
+        logger.info(f"Returning {len(actions)} code actions")
+        return actions
+    
+    except Exception as e:
+        logger.error(f"Error providing code actions: {e}")
+        import traceback
+        traceback.print_exc()
+        return []
 
 
 async def publish_diagnostics(uri: str, parse_result: ParseResult):

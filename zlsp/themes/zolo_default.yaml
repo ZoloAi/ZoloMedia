@@ -429,3 +429,339 @@ metadata:
   variants:
     current: "default"
     planned: ["high_contrast", "deuteranopia_friendly"]
+
+# ═══════════════════════════════════════════════════════════════
+# Code Actions (LSP Quick Fixes & Refactorings)
+# ═══════════════════════════════════════════════════════════════
+# Define LSP code actions as data (not hardcoded in Python)
+# Framework reads this config and generates actions dynamically
+#
+# PHILOSOPHY:
+#   Code actions = Configuration (SSOT), not code
+#   Same approach as colors and tokens
+#   Community-friendly: Non-developers can add/modify actions
+#
+# BENEFITS:
+#   - Easy to customize per-project or per-user
+#   - Version-controlled with themes
+#   - A/B testable (enable/disable variants)
+#   - New actions in ~15 min (just edit YAML!)
+# ═══════════════════════════════════════════════════════════════
+
+code_actions:
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 1. Add Type Hint Action
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  add_type_hint:
+    enabled: true
+    id: "zolo.addTypeHint"
+    title: "Add type hint comment"
+    description: "Automatically add #> type <# based on value pattern"
+    category: "quickfix"
+    priority: 1  # Higher = shown first
+    
+    # When to show this action (triggers)
+    triggers:
+      # Show when diagnostic contains these phrases
+      diagnostics:
+        - pattern: "type hint"
+          case_sensitive: false
+        - pattern: "type annotation"
+          case_sensitive: false
+        - pattern: "consider adding type"
+          case_sensitive: false
+      
+      # Future: Could also trigger on cursor position, file patterns, etc.
+      # cursor_on: "key_with_value"
+      # file_patterns: ["*.zolo"]
+    
+    # How to generate the hint (pattern matching)
+    execution:
+      type: "insert_at_end_of_line"
+      
+      # Patterns to detect type from value
+      patterns:
+        # String values (quoted)
+        - condition: "value_contains_quotes"
+          match_regex: '["''].*["'']'
+          hint: "#> str <#"
+          
+        # Boolean values
+        - condition: "value_is_boolean"
+          match_values: ["true", "false", "True", "False"]
+          hint: "#> bool <#"
+          
+        # Integer values
+        - condition: "value_is_integer"
+          match_regex: '^-?\d+$'
+          hint: "#> int <#"
+          
+        # Float values
+        - condition: "value_is_float"
+          match_regex: '^-?\d+\.\d+$'
+          hint: "#> float <#"
+          
+        # List values (starts with [)
+        - condition: "value_starts_with_bracket"
+          match_regex: '^\s*\['
+          hint: "#> list <#"
+          
+        # Dict values (starts with {)
+        - condition: "value_starts_with_brace"
+          match_regex: '^\s*\{'
+          hint: "#> dict <#"
+        
+        # zPath values (@, ~, $)
+        - condition: "value_is_zpath"
+          match_regex: '^[@~$]\.'
+          hint: "#> zPath <#"
+        
+        # Null values
+        - condition: "value_is_null"
+          match_values: ["null", "None", "nil"]
+          hint: "#> None <#"
+        
+        # Default fallback
+        - condition: "default"
+          hint: "#> Any <#"
+      
+      # Formatting options
+      format:
+        padding_before: "  "  # Two spaces before hint
+        padding_after: ""
+  
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 2. Fix Indentation Action
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  fix_indentation:
+    enabled: true
+    id: "zolo.fixIndentation"
+    title: "Normalize indentation to 2 spaces"
+    description: "Fix inconsistent indentation to match Zolo standard"
+    category: "quickfix"
+    priority: 2
+    
+    # When to show this action
+    triggers:
+      diagnostics:
+        - pattern: "indentation"
+          case_sensitive: false
+        - pattern: "mixed spaces"
+          case_sensitive: false
+        - pattern: "inconsistent indent"
+          case_sensitive: false
+        - pattern: "expected indent"
+          case_sensitive: false
+    
+    # How to fix indentation
+    execution:
+      type: "replace_indentation"
+      
+      config:
+        standard_indent: 2       # Zolo convention: 2 spaces per level
+        convert_tabs: true       # Convert tabs to spaces
+        detect_indent_level: true  # Auto-detect nesting level
+        preserve_blank_lines: true
+        preserve_comments: true
+        
+        # Rules for detecting correct indent level
+        indent_rules:
+          root_level: 0          # Root keys: no indent
+          first_child: 2         # First nested level: 2 spaces
+          increment: 2           # Each deeper level: +2 spaces
+  
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 3. Add Required Fields Action (zSchema Scaffolding)
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  add_required_fields:
+    enabled: true
+    id: "zolo.addRequiredFields"
+    title: "Add common property fields"
+    description: "Scaffold zSchema property with type-specific fields"
+    category: "refactor"
+    priority: 3
+    
+    # When to show this action
+    triggers:
+      # Only in zSchema files
+      file_patterns:
+        - "zSchema.*.zolo"
+        - "zSchema.*.yaml"
+      
+      # Context requirements
+      context:
+        cursor_on: "property_key"  # Cursor on field name
+        has_type_only: true        # Only 'type' field exists
+    
+    # How to scaffold fields
+    execution:
+      type: "insert_multiline_template"
+      
+      # Type-specific templates
+      templates:
+        # String type scaffolding
+        str:
+          - "required: true"
+          - "rules:"
+          - "  max_length: 255"
+        
+        # Integer type scaffolding
+        int:
+          - "required: true"
+          - "default: 0"
+          - "rules:"
+          - "  min: 0"
+        
+        # Boolean type scaffolding
+        bool:
+          - "required: true"
+          - "default: false"
+        
+        # Float type scaffolding
+        float:
+          - "required: true"
+          - "default: 0.0"
+          - "rules:"
+          - "  min: 0.0"
+        
+        # List type scaffolding
+        list:
+          - "required: true"
+          - "default: []"
+        
+        # Dict type scaffolding
+        dict:
+          - "required: true"
+          - "default: {}"
+        
+        # Special: Email field scaffolding
+        email:
+          - "required: true"
+          - "unique: true"
+          - "rules:"
+          - "  format: email"
+          - "  max_length: 255"
+        
+        # Special: Password field scaffolding
+        password:
+          - "required: true"
+          - "zHash: bcrypt"
+          - "rules:"
+          - "  min_length: 8"
+          - "  max_length: 255"
+      
+      # Formatting options
+      format:
+        indent_increase: 2  # Indent nested items by 2 spaces
+        preserve_existing: true  # Don't overwrite existing fields
+  
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # Future Actions (Disabled by default - Add as needed)
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  
+  extract_to_zblock:
+    enabled: false  # Not implemented yet
+    id: "zolo.extractToZBlock"
+    title: "Extract UI elements to zBlock"
+    description: "Refactor inline UI elements into reusable zBlock"
+    category: "refactor"
+    priority: 4
+    
+    triggers:
+      file_patterns: ["zUI.*.zolo"]
+      context:
+        selection_contains: "ui_elements"
+    
+    # TODO: Define execution patterns when implemented
+  
+  sort_keys_alphabetically:
+    enabled: false  # Not implemented yet
+    id: "zolo.sortKeys"
+    title: "Sort keys alphabetically"
+    description: "Organize keys in alphabetical order within current block"
+    category: "refactor"
+    priority: 5
+    
+    triggers:
+      context:
+        cursor_in: "key_block"
+        min_keys: 3  # Only offer if 3+ keys to sort
+    
+    execution:
+      type: "reorder_lines"
+      config:
+        preserve_comments: true
+        group_by_indent_level: true
+        sort_order: "alphabetical"
+  
+  convert_to_multiline:
+    enabled: false  # Not implemented yet
+    id: "zolo.convertToMultiline"
+    title: "Convert inline value to multiline"
+    description: "Split long inline lists/dicts across multiple lines"
+    category: "refactor"
+    priority: 6
+    
+    triggers:
+      context:
+        value_length_exceeds: 80  # Line length threshold
+        value_type: ["list", "dict"]
+    
+    execution:
+      type: "split_to_multiline"
+      config:
+        indent_items: 2
+        one_item_per_line: true
+  
+  generate_zmeta:
+    enabled: false  # Not implemented yet
+    id: "zolo.generateZMeta"
+    title: "Generate zMeta from filename"
+    description: "Scaffold zMeta block based on file type and name"
+    category: "source"
+    priority: 7
+    
+    triggers:
+      file_patterns: ["zSchema.*.zolo", "zUI.*.zolo"]
+      context:
+        missing_zmeta: true
+    
+    # TODO: Define templates for different file types
+
+# ═══════════════════════════════════════════════════════════════
+# Code Action Configuration (Global Settings)
+# ═══════════════════════════════════════════════════════════════
+
+code_action_config:
+  # Enable/disable the entire code actions system
+  enabled: true
+  
+  # Show actions even without diagnostics (proactive suggestions)
+  show_without_diagnostics: false
+  
+  # Debounce time for action computation (milliseconds)
+  # Prevents excessive computation on every keystroke
+  debounce_ms: 200
+  
+  # Maximum actions to show at once
+  # Prevents overwhelming the user with too many options
+  max_actions_per_context: 5
+  
+  # Which action categories are enabled
+  enabled_categories:
+    - quickfix      # Quick fixes for diagnostics
+    - refactor      # Code refactorings
+    # - source      # Source actions (organize imports, etc.)
+    # - organize    # Organize/format actions
+  
+  # Sort actions by priority (higher = shown first)
+  sort_by_priority: true
+  
+  # Logging level for code actions (for debugging)
+  log_level: "info"  # "debug", "info", "warn", "error"
+  
+  # Performance settings
+  performance:
+    cache_action_results: true
+    cache_ttl_ms: 5000  # Cache results for 5 seconds
+    max_concurrent_actions: 3

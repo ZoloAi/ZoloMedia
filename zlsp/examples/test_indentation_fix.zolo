@@ -1,0 +1,16 @@
+zMeta:
+  Data_Type: test
+
+# This file has INTENTIONAL indentation errors
+# The LSP should show diagnostics, and you should see code actions
+
+server:
+  host: localhost
+    port: 8080
+      timeout: 30
+
+# Another bad indentation example
+database:
+  name: mydb
+      user: admin
+    password: secret

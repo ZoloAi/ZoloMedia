@@ -6,7 +6,8 @@ Provides utilities to load theme definitions and generate editor-specific config
 Note: Theme loading requires PyYAML (install with: pip install zlsp[themes])
 """
 from pathlib import Path
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
+import re
 
 
 class Theme:
@@ -23,6 +24,10 @@ class Theme:
         self.tokens = data.get('tokens', {})
         self.overrides = data.get('overrides', {})
         self.metadata = data.get('metadata', {})
+        
+        # Code actions (LSP quick fixes & refactorings)
+        self.code_actions = data.get('code_actions', {})
+        self.code_action_config = data.get('code_action_config', {})
     
     def get_color(self, color_name: str, format: str = 'hex') -> Optional[str]:
         """
@@ -89,6 +94,202 @@ class Theme:
             Dictionary of overrides for that editor
         """
         return self.overrides.get(editor, {})
+    
+    def get_code_action(self, action_id: str) -> Optional[Dict[str, Any]]:
+        """
+        Get a specific code action by ID.
+        
+        Args:
+            action_id: Action ID (e.g., 'add_type_hint')
+        
+        Returns:
+            Action configuration dictionary, or None if not found
+        """
+        return self.code_actions.get(action_id)
+    
+    def get_enabled_actions(self) -> List[Dict[str, Any]]:
+        """
+        Get all enabled code actions, sorted by priority.
+        
+        Returns:
+            List of enabled action configurations
+        """
+        enabled = [
+            {**action, '_id': action_id}
+            for action_id, action in self.code_actions.items()
+            if action.get('enabled', False)
+        ]
+        
+        # Sort by priority (higher first)
+        if self.code_action_config.get('sort_by_priority', True):
+            enabled.sort(key=lambda a: a.get('priority', 0), reverse=True)
+        
+        return enabled
+    
+    def get_actions_by_category(self, category: str) -> List[Dict[str, Any]]:
+        """
+        Get all enabled actions in a specific category.
+        
+        Args:
+            category: Category name (e.g., 'quickfix', 'refactor')
+        
+        Returns:
+            List of enabled actions in that category
+        """
+        return [
+            action for action in self.get_enabled_actions()
+            if action.get('category') == category
+        ]
+
+
+class CodeActionRegistry:
+    """
+    Registry for managing and querying code actions from a theme.
+    
+    Provides advanced filtering and matching capabilities for LSP code actions.
+    """
+    
+    def __init__(self, theme: Theme):
+        """
+        Initialize registry with a theme.
+        
+        Args:
+            theme: Theme object containing code actions
+        """
+        self.theme = theme
+        self.actions = self._load_and_validate_actions()
+        self.config = theme.code_action_config
+    
+    def _load_and_validate_actions(self) -> List[Dict[str, Any]]:
+        """
+        Load enabled actions and validate their configuration.
+        
+        Returns:
+            List of validated, enabled actions
+        """
+        actions = []
+        for action in self.theme.get_enabled_actions():
+            if self._validate_action(action):
+                actions.append(action)
+            else:
+                # Log warning but don't fail
+                action_id = action.get('_id', 'unknown')
+                print(f"Warning: Invalid action configuration for '{action_id}'")
+        
+        return actions
+    
+    def _validate_action(self, action: Dict[str, Any]) -> bool:
+        """
+        Validate that an action has all required fields.
+        
+        Args:
+            action: Action configuration dictionary
+        
+        Returns:
+            True if valid, False otherwise
+        """
+        required_fields = ['id', 'title', 'triggers', 'execution']
+        return all(field in action for field in required_fields)
+    
+    def get_actions_for_diagnostic(self, diagnostic_message: str) -> List[Dict[str, Any]]:
+        """
+        Find actions that match a diagnostic message.
+        
+        Args:
+            diagnostic_message: The diagnostic message text
+        
+        Returns:
+            List of matching actions, sorted by priority
+        """
+        matching = []
+        
+        for action in self.actions:
+            triggers = action.get('triggers', {})
+            diagnostic_patterns = triggers.get('diagnostics', [])
+            
+            # Check if any pattern matches
+            for pattern_config in diagnostic_patterns:
+                pattern = pattern_config.get('pattern', '')
+                case_sensitive = pattern_config.get('case_sensitive', False)
+                
+                if self._matches_pattern(diagnostic_message, pattern, case_sensitive):
+                    matching.append(action)
+                    break  # Don't add same action twice
+        
+        return matching
+    
+    def _matches_pattern(self, text: str, pattern: str, case_sensitive: bool) -> bool:
+        """
+        Check if text contains pattern.
+        
+        Args:
+            text: Text to search in
+            pattern: Pattern to search for
+            case_sensitive: Whether to match case-sensitively
+        
+        Returns:
+            True if pattern found in text
+        """
+        if not case_sensitive:
+            text = text.lower()
+            pattern = pattern.lower()
+        
+        return pattern in text
+    
+    def get_actions_for_file(self, filename: str) -> List[Dict[str, Any]]:
+        """
+        Find actions that apply to a specific file.
+        
+        Args:
+            filename: Name of the file (e.g., 'zSchema.users.zolo')
+        
+        Returns:
+            List of actions that match file patterns
+        """
+        matching = []
+        
+        for action in self.actions:
+            triggers = action.get('triggers', {})
+            file_patterns = triggers.get('file_patterns', [])
+            
+            if not file_patterns:
+                # No file pattern = applies to all files
+                matching.append(action)
+                continue
+            
+            # Check if filename matches any pattern
+            for pattern in file_patterns:
+                if self._matches_file_pattern(filename, pattern):
+                    matching.append(action)
+                    break
+        
+        return matching
+    
+    def _matches_file_pattern(self, filename: str, pattern: str) -> bool:
+        """
+        Check if filename matches a glob-like pattern.
+        
+        Args:
+            filename: Filename to check
+            pattern: Pattern (e.g., 'zSchema.*.zolo')
+        
+        Returns:
+            True if filename matches pattern
+        """
+        # Convert glob pattern to regex
+        regex_pattern = pattern.replace('.', r'\.')
+        regex_pattern = regex_pattern.replace('*', '.*')
+        regex_pattern = f'^{regex_pattern}$'
+        
+        return bool(re.match(regex_pattern, filename))
+    
+    def get_max_actions(self) -> int:
+        """Get maximum number of actions to show from config."""
+        return self.config.get('max_actions_per_context', 5)
+    
+    def is_enabled(self) -> bool:
+        """Check if code actions system is enabled globally."""
+        return self.config.get('enabled', True)
 
 
 def load_theme(name: str = 'zolo_default') -> Theme:
@@ -138,4 +339,4 @@ def list_themes() -> list[str]:
     return [f.stem for f in theme_files]
 
 
-__all__ = ['Theme', 'load_theme', 'list_themes']
+__all__ = ['Theme', 'CodeActionRegistry', 'load_theme', 'list_themes']

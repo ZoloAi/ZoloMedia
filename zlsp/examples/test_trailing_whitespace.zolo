@@ -1,0 +1,17 @@
+zMeta:
+  Data_Type: test   
+
+# Line 2 above has trailing spaces (you should see blue squiggle)
+
+users:
+  name: john_doe  
+  email: test@example.com   
+  age: 25    
+
+# Lines 7-9 have trailing whitespace
+# You should see informational diagnostics (blue squiggles)
+# But these won't trigger code actions since we don't have a "remove trailing whitespace" action yet
+
+config:
+  host: localhost
+  port: 8080

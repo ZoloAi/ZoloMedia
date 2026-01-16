@@ -1,0 +1,9 @@
+zMeta:
+  Data_Type: schema
+
+# Test: zSchema with missing fields (should trigger "Add Required Fields" action)
+users:
+  username:
+  email:
+  password:
+  age:

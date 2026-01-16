@@ -132,8 +132,8 @@ class DiagnosticFormatter:
         
         Checks for:
         - Trailing whitespace
+        - Inconsistent indentation
         - Mixed quote styles (TODO)
-        - Inconsistent indentation (TODO)
         
         Args:
             content: Full file content
@@ -164,6 +164,108 @@ class DiagnosticFormatter:
                         source="zolo-linter"
                     )
                 )
+        
+        # Check for inconsistent indentation
+        diagnostics.extend(DiagnosticFormatter._validate_indentation(lines))
+        
+        return diagnostics
+    
+    @staticmethod
+    def _validate_indentation(lines: List[str]) -> List[lsp_types.Diagnostic]:
+        """
+        Validate indentation consistency (.zolo standard is 2 spaces).
+        
+        Detects:
+        - Tabs instead of spaces
+        - Non-multiples of 2 spaces
+        - Unexpected indentation jumps (e.g., jumping from 2 to 6 spaces)
+        
+        Args:
+            lines: List of file lines
+        
+        Returns:
+            List of indentation diagnostics
+        """
+        diagnostics = []
+        expected_indent_unit = 2  # Zolo standard
+        prev_indent = 0
+        
+        for line_num, line in enumerate(lines):
+            # Skip empty lines and comments
+            if not line.strip() or line.strip().startswith('#'):
+                continue
+            
+            # Get leading whitespace
+            leading = line[:len(line) - len(line.lstrip())]
+            curr_indent = len(leading)
+            
+            if curr_indent == 0:
+                prev_indent = 0
+                continue  # Root level
+            
+            # Check for tabs
+            if '\t' in leading:
+                diagnostics.append(
+                    lsp_types.Diagnostic(
+                        range=lsp_types.Range(
+                            start=lsp_types.Position(line=line_num, character=0),
+                            end=lsp_types.Position(line=line_num, character=len(leading))
+                        ),
+                        message="Inconsistent indentation detected (tabs instead of spaces)",
+                        severity=lsp_types.DiagnosticSeverity.Warning,
+                        source="zolo-linter"
+                    )
+                )
+                prev_indent = curr_indent
+                continue
+            
+            # Check if indentation is a multiple of expected_indent_unit
+            if curr_indent % expected_indent_unit != 0:
+                diagnostics.append(
+                    lsp_types.Diagnostic(
+                        range=lsp_types.Range(
+                            start=lsp_types.Position(line=line_num, character=0),
+                            end=lsp_types.Position(line=line_num, character=len(leading))
+                        ),
+                        message="Inconsistent indentation detected (expected multiples of 2 spaces)",
+                        severity=lsp_types.DiagnosticSeverity.Warning,
+                        source="zolo-linter"
+                    )
+                )
+                prev_indent = curr_indent
+                continue
+            
+            # Check for unexpected jumps (increase by more than one level)
+            if curr_indent > prev_indent + expected_indent_unit:
+                diagnostics.append(
+                    lsp_types.Diagnostic(
+                        range=lsp_types.Range(
+                            start=lsp_types.Position(line=line_num, character=0),
+                            end=lsp_types.Position(line=line_num, character=len(leading))
+                        ),
+                        message=f"Inconsistent indentation detected (jumped from {prev_indent} to {curr_indent} spaces)",
+                        severity=lsp_types.DiagnosticSeverity.Warning,
+                        source="zolo-linter"
+                    )
+                )
+            
+            # Simple heuristic: flag lines with 4+ spaces as potentially incorrect
+            # Most .zolo content should be at 0 (root keys) or 2 spaces (nested values)
+            # Deeper nesting is rare and often indicates copy-paste or formatting errors
+            if curr_indent >= 4:
+                diagnostics.append(
+                    lsp_types.Diagnostic(
+                        range=lsp_types.Range(
+                            start=lsp_types.Position(line=line_num, character=0),
+                            end=lsp_types.Position(line=line_num, character=len(leading))
+                        ),
+                        message=f"Inconsistent indentation detected ({curr_indent} spaces - expected 0 or 2)",
+                        severity=lsp_types.DiagnosticSeverity.Warning,
+                        source="zolo-linter"
+                    )
+                )
+            
+            prev_indent = curr_indent
         
         return diagnostics
     
