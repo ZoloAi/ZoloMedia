@@ -88,28 +88,25 @@ class TestValueValidator:
         assert diagnostic is not None
         assert 'Invalid zVaFile value' in diagnostic.message
     
-    def test_validate_zblock_valid(self):
-        """Test zBlock validation with valid value"""
+    def test_validate_zblock_freeform_string(self):
+        """Test zBlock accepts any free-form string"""
+        diagnostic = ValueValidator.validate_zblock('zBreakpoints_Details', 0, 10)
+        assert diagnostic is None
+    
+    def test_validate_zblock_simple_name(self):
+        """Test zBlock accepts simple names"""
+        diagnostic = ValueValidator.validate_zblock('Component', 0, 10)
+        assert diagnostic is None
+    
+    def test_validate_zblock_dotted_name(self):
+        """Test zBlock accepts dotted names"""
         diagnostic = ValueValidator.validate_zblock('zBlock.Navbar', 0, 10)
         assert diagnostic is None
     
-    def test_validate_zblock_valid_complex(self):
-        """Test zBlock validation with valid complex name"""
-        diagnostic = ValueValidator.validate_zblock('zBlock.UserProfile', 0, 10)
-        assert diagnostic is None
-    
-    def test_validate_zblock_invalid_no_zblock(self):
-        """Test zBlock validation with missing zBlock prefix"""
-        diagnostic = ValueValidator.validate_zblock('Component', 0, 10)
-        assert diagnostic is not None
-        assert 'Invalid zBlock value' in diagnostic.message
-        assert "Must start with 'zBlock.'" in diagnostic.message
-    
-    def test_validate_zblock_invalid_wrong_prefix(self):
-        """Test zBlock validation with wrong prefix"""
+    def test_validate_zblock_any_prefix(self):
+        """Test zBlock accepts any prefix format"""
         diagnostic = ValueValidator.validate_zblock('zUI.Component', 0, 10)
-        assert diagnostic is not None
-        assert 'Invalid zBlock value' in diagnostic.message
+        assert diagnostic is None
 
 
 class TestValueValidatorIntegration:
@@ -175,20 +172,19 @@ class TestValueValidatorIntegration:
         assert len(emitter.diagnostics) == 1
         assert 'Invalid zVaFile value' in emitter.diagnostics[0].message
     
-    def test_validate_for_key_zspark_zblock_valid(self):
-        """Test validate_for_key with valid zBlock in zSpark file"""
+    def test_validate_for_key_zspark_zblock_dotted(self):
+        """Test validate_for_key with dotted zBlock name in zSpark file"""
         emitter = TokenEmitter("", filename="zSpark.example.zolo")
         result = ValueValidator.validate_for_key('zBlock', 'zBlock.Navbar', 0, 10, emitter)
         assert result is True
         assert len(emitter.diagnostics) == 0
     
-    def test_validate_for_key_zspark_zblock_invalid(self):
-        """Test validate_for_key with invalid zBlock in zSpark file"""
+    def test_validate_for_key_zspark_zblock_freeform(self):
+        """Test validate_for_key with free-form zBlock name in zSpark file"""
         emitter = TokenEmitter("", filename="zSpark.example.zolo")
-        result = ValueValidator.validate_for_key('zBlock', 'Component', 0, 10, emitter)
+        result = ValueValidator.validate_for_key('zBlock', 'zBreakpoints_Details', 0, 10, emitter)
         assert result is True
-        assert len(emitter.diagnostics) == 1
-        assert 'Invalid zBlock value' in emitter.diagnostics[0].message
+        assert len(emitter.diagnostics) == 0
     
     def test_validate_for_key_unknown_key(self):
         """Test validate_for_key with unknown key (no validation)"""

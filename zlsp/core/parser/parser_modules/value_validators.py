@@ -153,7 +153,7 @@ class ValueValidator:
     @staticmethod
     def validate_zblock(value: str, line: int, start_pos: int) -> Optional[Diagnostic]:
         """
-        Validate zBlock value (must be zBlock.*).
+        Validate zBlock value (free-form string for naming).
         
         Args:
             value: The value to validate
@@ -161,18 +161,10 @@ class ValueValidator:
             start_pos: Start position
             
         Returns:
-            Diagnostic if invalid, None if valid
+            Diagnostic if invalid, None if valid (always None - zBlock values are plain strings)
         """
-        if not value.startswith('zBlock.'):
-            return Diagnostic(
-                range=Range(
-                    start=Position(line=line, character=start_pos),
-                    end=Position(line=line, character=start_pos + len(value))
-                ),
-                message=f"Invalid zBlock value: '{value}'. Must start with 'zBlock.' (e.g., 'zBlock.Navbar').",
-                severity=1,  # Error
-                source="zolo-lsp"
-            )
+        # zBlock values are just plain strings for naming purposes
+        # No validation needed - any string is valid
         return None
     
     @staticmethod
