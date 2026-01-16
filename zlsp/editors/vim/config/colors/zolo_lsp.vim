@@ -40,7 +40,7 @@ augroup ZoloLSPColors
   " Numbers (dark orange)
   autocmd FileType zolo highlight! LspSemanticNumber ctermfg=214 guifg=#FF8C00 cterm=NONE gui=NONE term=NONE
   
-  " Type hints (cyan)
+  " Type hints (lavender)
   autocmd FileType zolo highlight! LspSemanticTypeHint ctermfg=81 guifg=#5fd7ff cterm=NONE gui=NONE term=NONE
   
   " Type hint parentheses (soft yellow)

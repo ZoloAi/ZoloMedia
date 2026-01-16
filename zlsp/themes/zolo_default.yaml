@@ -3,12 +3,14 @@
 # ═══════════════════════════════════════════════════════════════
 # Single source of truth for all editor color schemes
 # Version: 1.0.0
-# Author: Zolo.ai
+# Author: Zolo Media
+# Email: info@zolo.media
 # ═══════════════════════════════════════════════════════════════
 
 name: "Zolo Default"
 description: "Default color scheme for .zolo files with LSP semantic tokens"
-author: "Zolo.ai"
+author: "Zolo Media"
+author_email: "info@zolo.media"
 version: "1.0.0"
 
 # ═══════════════════════════════════════════════════════════════
@@ -16,218 +18,221 @@ version: "1.0.0"
 # ═══════════════════════════════════════════════════════════════
 # Define colors once in multiple formats for editor compatibility
 # All editors will use these same colors for consistency
+#
+# ORGANIZATION:
+#   1. BASIC SYNTAX COLORS (universal, non-zolo-specific)
+#   2. ZOLO-SPECIFIC COLORS (zKernel files & conventions)
+# ═══════════════════════════════════════════════════════════════
 
 palette:
-  salmon_orange:
-    name: "Salmon Orange"
-    hex: "#ffaf87"
-    ansi: 216
-    rgb: [255, 175, 135]
-    description: "Warm orange for hierarchy markers"
-  
-  golden_yellow:
-    name: "Golden Yellow"
-    hex: "#ffd787"
-    ansi: 222
-    rgb: [255, 215, 135]
-    description: "Golden yellow for nested elements"
-  
-  light_cream:
+  # 1. BASIC SYNTAX COLORS (Universal YAML-like Highlighting)
+  light_cream: #strings
     name: "Light Cream"
     hex: "#fffbcb"
     ansi: 230
     rgb: [255, 251, 203]
-    description: "Soft cream for text content"
+    description: "Soft cream for string values"
   
-  dark_orange:
+  dark_orange: #numeric
     name: "Dark Orange"
     hex: "#FF8C00"
     ansi: 214
     rgb: [255, 140, 0]
     description: "Vibrant orange for numeric values"
   
-  cyan:
-    name: "Light Purple"
-    hex: "#af87ff"
-    ansi: 141
-    rgb: [175, 135, 255]
-    description: "Light purple for type information"
-  
-  soft_yellow:
-    name: "Soft Yellow"
-    hex: "#ffff5f"
-    ansi: 227
-    rgb: [255, 255, 95]
-    description: "Soft yellow for structural elements"
-  
-  light_pink:
-    name: "Light Cyan"
-    hex: "#afffff"
-    ansi: 159
-    rgb: [175, 255, 255]
-    description: "Light cyan for brackets and dashes"
-  
-  deep_blue:
+  deep_blue: #boolean/null
     name: "Deep Blue"
     hex: "#0087ff"
     ansi: 33
     rgb: [0, 135, 255]
-    description: "Deep blue for boolean values"
+    description: "Deep blue for boolean/null values"
   
-  test_blue:
-    name: "Test Blue"
-    hex: "#0000d7"
-    ansi: 20
-    rgb: [0, 0, 215]
-    description: "Test color for ZNAVBAR nested keys"
+  soft_yellow: #structural
+    name: "Soft Yellow"
+    hex: "#ffff5f"
+    ansi: 227
+    rgb: [255, 255, 95]
+    description: "Soft yellow for structural elements (colons, commas, type hint parens)"
   
-  dark_orange_208:
-    name: "Dark Orange"
-    hex: "#ff8700"
-    ansi: 208
-    rgb: [255, 135, 0]
-    description: "Dark orange for ZNAVBAR nested keys"
+  light_pink: #array/list brackets
+    name: "Light Cyan"
+    hex: "#afffff"
+    ansi: 159
+    rgb: [175, 255, 255]
+    description: "Light cyan for array/list brackets [ ]"
   
-  gray:
+  magenta: #object braces { }
+    name: "Magenta"
+    hex: "#d700ff"
+    ansi: 165
+    rgb: [215, 0, 255]
+    description: "Bright magenta for object braces { }"
+  
+  lavender: #typehints
+    name: "Lavender"
+    hex: "#af87ff"
+    ansi: 141
+    rgb: [175, 135, 255]
+    description: "Lavender for type hint text (int, bool, float, str)"
+  
+  gray: # Comments
     name: "Gray"
     hex: "#6F6F62"
     ansi: 242
     rgb: [111, 111, 98]
     description: "Muted gray for comments (matches Vim ANSI theme)"
   
-  magenta:
-    name: "Magenta"
-    hex: "#d700ff"
-    ansi: 165
-    rgb: [215, 0, 255]
-    description: "Bright magenta for object braces"
-  
-  bright_orange:
+  bright_orange: #escape sequences
     name: "Bright Red"
     hex: "#ff0000"
     ansi: 196
     rgb: [255, 0, 0]
-    description: "Bright red for escape sequences"
+    description: "Bright red for escape sequences and error indicators"
   
-  dark_red:
-    name: "Dark Red"
-    hex: "#d70000"
-    ansi: 160
-    rgb: [215, 0, 0]
-    description: "Dark red for locked/restricted items"
+  # 2. ZOLO-SPECIFIC COLORS (zKernel Conventions)
+  salmon_orange: #Regular zBlocks
+    name: "Salmon Orange"
+    hex: "#ffaf87"
+    ansi: 216
+    rgb: [255, 175, 135]
+    description: "Warm orange for root-level keys and hierarchy markers"
   
-  light_green:
+  golden_yellow: #Regular zKeys
+    name: "Golden Yellow"
+    hex: "#ffd787"
+    ansi: 222
+    rgb: [255, 215, 135]
+    description: "Golden yellow for standard nested keys"
+  
+  light_green: #Unique zBlocks
     name: "Light Green"
     hex: "#87d787"
     ansi: 114
     rgb: [135, 215, 135]
-    description: "Light green for zSpark root key"
+    description: "Light green for zKernel root keys (zMeta, zSpark, zConfig)"
   
-  dark_gray:
-    name: "Purple"
-    hex: "#875fd7"
-    ansi: 98
-    rgb: [135, 95, 215]
-    description: "Purple for zPath values"
+  orange_red: # zUI Element Keys
+    name: "Orange Red"
+    hex: "#ff5f00"
+    ansi: 202
+    rgb: [255, 95, 0]
+    description: "Orange-red for UI element keys (zImage, zText, etc.)"
   
-  dark_green:
-    name: "Dark Green"
-    hex: "#00d700"
-    ansi: 40
-    rgb: [0, 215, 0]
-    description: "Dark green for zSpark special keys"
-  
-  light_purple:
-    name: "Light Purple"
-    hex: "#875fff"
-    ansi: 99
-    rgb: [135, 95, 255]
-    description: "Light purple for zSpark special values"
-  
+  bright_yellow: # Env States
+    name: "Bright Yellow"
+    hex: "#ffff00"
+    ansi: 226
+    rgb: [255, 255, 0]
+    description: "Bright yellow for environment/config constants (PROD, DEBUG)"
+    
+  # Bifrost & zPath (Cyan Family)
   dark_cyan:
     name: "Bright Cyan"
     hex: "#00ffff"
     ansi: 51
     rgb: [0, 255, 255]
-    description: "Bright cyan for zPath values"
+    description: "Bright cyan for Bifrost underscore keys (_zClass, _zId) and zPath values"
   
-  bright_yellow:
-    name: "Bright Yellow"
-    hex: "#ffff00"
-    ansi: 226
-    rgb: [255, 255, 0]
-    description: "Bright yellow for environment/config constants"
+  # zMachine & Locked Items (Red Family)
+  dark_red:
+    name: "Dark Red"
+    hex: "#d70000"
+    ansi: 160
+    rgb: [215, 0, 0]
+    description: "Dark red for locked/restricted items (zMachine auto-detected keys)"
   
-  orange_red:
-    name: "Orange Red"
-    hex: "#ff5f00"
-    ansi: 202
-    rgb: [255, 95, 0]
-    description: "Orange-red for UI element keys"
+  # Reserved/Unused
+  test_blue:
+    name: "Test Blue"
+    hex: "#0000d7"
+    ansi: 20
+    rgb: [0, 0, 215]
+    description: "Test color (currently unused, reserved for future use)"
 
 # ═══════════════════════════════════════════════════════════════
 # Semantic Token Styles
 # ═══════════════════════════════════════════════════════════════
 # Map LSP semantic token types to colors and styles
 # These mappings are editor-agnostic
+#
+# ORGANIZATION:
+#   1. Generic Keys (root, nested)
+#   2. zSchema File Tokens
+#   3. zUI File Tokens
+#   4. zEnv File Tokens
+#   5. zConfig File Tokens
+#   6. zSpark File Tokens
+#   7. Value Tokens (strings, numbers, booleans)
+#   8. Type Hints
+#   9. Structural Tokens (brackets, braces, punctuation)
+#   10. Comments
+# ═══════════════════════════════════════════════════════════════
 
 tokens:
-  # Keys
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 1. Generic Keys (Non-Kernel Files)
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   rootKey:
     color: salmon_orange
     style: none
-    description: "Top-level keys (app_name, server, features)"
+    description: "Top-level keys in non-zKernel files (app_name, server, features)"
   
   nestedKey:
     color: golden_yellow
     style: none
-    description: "Nested keys (host, port, ssl)"
+    description: "Standard nested keys (host, port, ssl)"
   
-  # zKernel-specific keys
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 2. zSchema.*.zolo File Tokens
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   zmetaKey:
     color: light_green
     style: none
-    description: "zMeta in zUI/zSchema files, zVaF and component name in zUI files (Zolo convention root keys)"
+    description: "zMeta root key in zUI/zSchema files (Zolo convention)"
   
   zkernelDataKey:
-    color: dark_gray
+    color: lavender
     style: none
-    description: "zKernel zData keys under zMeta in zSchema.*.zolo files (Data_Type, Data_Label, Data_Source, Schema_Name, zMigration, zMigrationVersion)"
+    description: "zData keys under zMeta in zSchema files (Data_Type, Data_Label, Data_Source, Schema_Name, zMigration, zMigrationVersion)"
   
   zschemaPropertyKey:
-    color: dark_gray
+    color: lavender
     style: none
-    description: "Field property keys in zSchema.*.zolo files (type, pk, auto_increment, unique, required, default, rules, zHash, comment, format, min_length, max_length, pattern, min, max)"
+    description: "Field property keys at indent 4 in zSchema files (type, pk, auto_increment, unique, required, default, rules, zHash, comment)"
   
+  # TODO: Add zschemaNestedPropertyKey for indent 6+ (format, min_length, max_length under rules:)
+  # This will use a lighter/faded lavender color for visual hierarchy
+  
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 3. zUI.*.zolo File Tokens
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   bifrostKey:
     color: dark_cyan
     style: none
-    description: "Bifrost underscore keys (_zClass, _zId) in zUI.*.zolo files"
+    description: "Bifrost underscore keys in zUI files (_zClass, _zId)"
   
   uiElementKey:
     color: orange_red
     style: none
-    description: "UI element keys (zImage, zText, zURL, zH1-zH6, zNavBar, zUL) in zUI.*.zolo files"
-  
-  zsparkKey:
-    color: light_green
-    style: none
-    description: "zSpark root key in zSpark.*.zolo files"
-  
-  zenvConfigKey:
-    color: dark_gray
-    style: none
-    description: "Config root keys in zEnv.*.zolo files (DEPLOYMENT, DEBUG, LOG_LEVEL)"
-  
-  znavbarNestedKey:
-    color: dark_orange_208
-    style: none
-    description: "First-level nested keys under ZNAVBAR in zEnv files (not grandchildren)"
+    description: "UI element keys in zUI files (zImage, zText, zURL, zH1-zH6, zNavBar, zUL, zOL)"
   
   zsubKey:
-    color: dark_gray
+    color: lavender
     style: none
-    description: "zSub key in zEnv/zUI files at grandchild+ level (indent >= 4)"
+    description: "zSub key in zUI/zEnv files at grandchild+ level (indent >= 4)"
+  
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 4. zEnv.*.zolo File Tokens
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  zenvConfigKey:
+    color: lavender
+    style: none
+    description: "Config root keys in zEnv files (DEPLOYMENT, DEBUG, LOG_LEVEL)"
+  
+  znavbarNestedKey:
+    color: salmon_orange
+    style: none
+    description: "First-level nested keys under ZNAVBAR in zEnv files (not grandchildren)"
   
   zrbacKey:
     color: bright_orange
@@ -235,14 +240,22 @@ tokens:
     description: "zRBAC access control key in zEnv/zUI files (child of any key)"
   
   zrbacOptionKey:
-    color: dark_gray
+    color: lavender
     style: none
-    description: "zKey modifiers (^, ~, !, *) in zEnv/zUI files"
+    description: "zKey modifiers in zEnv/zUI files (^, ~, !, *)"
   
+  envConfigValue:
+    color: bright_yellow
+    style: none
+    description: "Environment/config constants (PROD, DEBUG, INFO, ERROR, WARN)"
+  
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 5. zConfig.*.zolo File Tokens
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   zconfigKey:
     color: light_green
     style: none
-    description: "z-prefixed root keys in zConfig.*.zolo files (e.g., zMachine)"
+    description: "z-prefixed root keys in zConfig files (zMachine, zPreferences)"
   
   zmachineEditableKey:
     color: deep_blue
@@ -252,43 +265,48 @@ tokens:
   zmachineLockedKey:
     color: dark_red
     style: none
-    description: "Auto-detected locked nested keys under zMachine (hardware, system)"
+    description: "Auto-detected locked nested keys under zMachine (hardware, system, os)"
+  
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 6. zSpark.*.zolo File Tokens
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  zsparkKey:
+    color: light_green
+    style: none
+    description: "zSpark root key in zSpark files"
   
   zsparkNestedKey:
-    color: dark_gray
+    color: lavender
     style: none
-    description: "All nested keys under zSpark root in zSpark files"
+    description: "All nested keys under zSpark root (zMode, zVaFile, zBlock)"
   
   zsparkModeValue:
     color: bright_orange
     style: none
-    description: "zMode value (Terminal/zBifrost) in zSpark files - tomato red"
+    description: "zMode value in zSpark files (Terminal/zBifrost) - bright red"
   
   zsparkVaFileValue:
-    color: dark_green
+    color: light_green
     style: none
-    description: "zVaFile value (zUI.*) in zSpark files - dark green"
+    description: "zVaFile value in zSpark files (zUI.*, zSchema.*) - dark green"
   
   zsparkSpecialValue:
     color: salmon_orange
     style: none
     description: "zBlock value in zSpark files - salmon orange"
   
-  envConfigValue:
-    color: bright_yellow
-    style: none
-    description: "Environment/config constants (PROD, DEBUG, INFO, etc.)"
-  
-  # Values
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 7. Value Tokens (Strings, Numbers, Booleans)
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   string:
     color: light_cream
     style: none
-    description: "String values"
+    description: "Standard string values"
   
   versionString:
     color: light_cream
     style: none
-    description: "Version numbers (1.0.0, 2.1.3-beta)"
+    description: "Version numbers (1.0.0, 2.1.3-beta, v3.12.4)"
   
   timeString:
     color: light_cream
@@ -298,7 +316,7 @@ tokens:
   timestampString:
     color: light_cream
     style: none
-    description: "Timestamp values (2024-01-06T14:30:00)"
+    description: "Timestamp values (2024-01-06T14:30:00, ISO 8601)"
   
   ratioString:
     color: light_cream
@@ -308,7 +326,7 @@ tokens:
   number:
     color: dark_orange
     style: none
-    description: "Numeric values (8080, 100, 3.14)"
+    description: "Numeric values (8080, 100, 3.14, -42)"
   
   boolean:
     color: deep_blue
@@ -323,34 +341,33 @@ tokens:
   zpathValue:
     color: dark_cyan
     style: none
-    description: "zPath values (@.logs, ~.config) in zKernel files"
+    description: "zPath values in zKernel files (@.logs, ~.config, $.env)"
   
-  escapeSequence:
-    color: bright_orange
-    style: none
-    description: "Escape sequences (\\n, \\t, \\\", \\\\, \\uXXXX)"
-  
-  # Type hints
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 8. Type Hints
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   typeHint:
-    color: cyan
+    color: lavender
     style: none
-    description: "Type hint text (int, bool, float, str)"
+    description: "Type hint text (int, bool, float, str, list, dict)"
   
   typeHintParen:
     color: soft_yellow
     style: none
     description: "Type hint parentheses ( )"
   
-  # Structural
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 9. Structural Tokens (Brackets, Braces, Punctuation)
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   bracketStructural:
     color: light_pink
     style: none
-    description: "Array/list brackets [ ]"
+    description: "Array/list brackets [ ] (outside strings)"
   
   braceStructural:
     color: magenta
     style: none
-    description: "Object/dict braces { }"
+    description: "Object/dict braces { } (outside strings)"
   
   stringBracket:
     color: light_pink
@@ -372,11 +389,13 @@ tokens:
     style: none
     description: "Comma separator (,)"
   
-  # Comments
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # 10. Comments
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   comment:
     color: gray
     style: italic
-    description: "Comments"
+    description: "Single-line comments (#) and inline comments"
 
 # ═══════════════════════════════════════════════════════════════
 # Editor-Specific Overrides (Optional)

@@ -232,4 +232,4 @@ zlsp/editors/vim/
 
 ---
 
-**Made with ❤️ by Zolo.ai**
+**Made with ❤️ by Zolo Media**

@@ -58,7 +58,7 @@ highlight! LspSemanticVersionString ctermfg=230 guifg=#fffbcb cterm=NONE gui=NON
 " Numbers (dark orange)
 highlight! LspSemanticNumber ctermfg=214 guifg=#FF8C00 cterm=NONE gui=NONE term=NONE
 
-" Type hints (cyan)
+" Type hints (lavender)
 highlight! LspSemanticTypeHint ctermfg=81 guifg=#5fd7ff cterm=NONE gui=NONE term=NONE
 
 " Type hint parentheses (soft yellow)

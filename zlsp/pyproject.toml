@@ -10,10 +10,10 @@ readme = {file = "README.md", content-type = "text/markdown"}
 requires-python = ">=3.8"
 license = {text = "MIT with Ethical Use Clause"}
 authors = [
-    {name = "Gal Nachshon", email = "hello@zolo.ai"}
+    {name = "Gal Nachshon", email = "info@zolo.media"}
 ]
 maintainers = [
-    {name = "Gal Nachshon", email = "hello@zolo.ai"}
+    {name = "Gal Nachshon", email = "info@zolo.media"}
 ]
 keywords = [
     "zlsp",

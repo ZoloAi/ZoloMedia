@@ -3,7 +3,7 @@
 " ═══════════════════════════════════════════════════════════════
 " Default color scheme for .zolo files with LSP semantic tokens
 " Version: 1.0.0
-" Author: Zolo.ai
+" Author: Zolo Media
 " Generated automatically from zlsp/themes/zolo_default.yaml
 " DO NOT EDIT - Changes will be overwritten!
 " ═══════════════════════════════════════════════════════════════

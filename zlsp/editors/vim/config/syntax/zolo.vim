@@ -1,6 +1,6 @@
 " Vim syntax file for .zolo files
 " Language: Zolo Configuration Format
-" Maintainer: Zolo.ai
+" Maintainer: Zolo Media
 "
 " Minimal fallback syntax (when LSP is not available)
 " Based on vim-toml syntax approach

@@ -1,6 +1,6 @@
 " Vim filetype plugin for .zolo files
 " Language: Zolo Configuration Format
-" Maintainer: Zolo.ai
+" Maintainer: Zolo Media
 "
 " Based on vim-toml by cespare (https://github.com/cespare/vim-toml)
 " Adapted for .zolo files with zlsp LSP integration

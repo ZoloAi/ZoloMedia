@@ -514,4 +514,4 @@ Found a bug or have a suggestion?
 
 ---
 
-**Made with ❤️ by Zolo.ai**
+**Made with ❤️ by Zolo Media**
