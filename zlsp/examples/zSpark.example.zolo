@@ -1,13 +1,13 @@
 zSpark:
-  title: zCloud
-  deployment: Development
-  logger: PROD
-  logger_path: @.logs
-  zMode: Terminal
-  zServer:
-    enabled: True
-    zShell: True
-  app_storage: True
-  zVaFolder: @.UI.zProducts.zTheme
-  zVaFile: zUI.zBreakpoints
-  zBlock: zBreakpoints_Details
+    title: MyApp
+    deployment: Development
+    logger: INFO
+    logger_path: @.logs
+    zMode: Terminal
+    zServer:
+        enabled: True
+        zShell: True
+    app_storage: True
+    zVaFolder: @.UI
+    zVaFile: zUI.Component
+    zBlock: MainLayout

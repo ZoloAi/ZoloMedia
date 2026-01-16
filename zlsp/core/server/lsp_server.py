@@ -405,7 +405,7 @@ def hover(params: lsp_types.HoverParams):
 
 @zolo_server.feature(
     lsp_types.TEXT_DOCUMENT_COMPLETION,
-    lsp_types.CompletionOptions(trigger_characters=["(", ":", "z"])
+    lsp_types.CompletionOptions(trigger_characters=["(", ":", "z", ">"])
 )
 def completions(params: lsp_types.CompletionParams):
     """
@@ -426,8 +426,12 @@ def completions(params: lsp_types.CompletionParams):
         document = zolo_server.workspace.get_text_document(uri)
         content = document.source
         
-        # Get completion items
-        items = get_completions(content, line, character)
+        # Extract filename from URI for file type detection
+        import os
+        filename = os.path.basename(uri) if uri else None
+        
+        # Get completion items (now with filename for file type detection!)
+        items = get_completions(content, line, character, filename=filename)
         
         return lsp_types.CompletionList(
             is_incomplete=False,

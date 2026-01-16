@@ -281,7 +281,7 @@ tokens:
     description: "All nested keys under zSpark root (zMode, zVaFile, zBlock)"
   
   zsparkModeValue:
-    color: bright_orange
+    color: light_green
     style: none
     description: "zMode value in zSpark files (Terminal/zBifrost) - bright red"
   
@@ -536,8 +536,8 @@ code_actions:
   fix_indentation:
     enabled: true
     id: "zolo.fixIndentation"
-    title: "Normalize indentation to 2 spaces"
-    description: "Fix inconsistent indentation to match Zolo standard"
+    title: "Normalize indentation to 4 spaces"
+    description: "Fix inconsistent indentation to match Zolo standard (4 spaces, like Python)"
     category: "quickfix"
     priority: 2
     
@@ -558,7 +558,7 @@ code_actions:
       type: "replace_indentation"
       
       config:
-        standard_indent: 2       # Zolo convention: 2 spaces per level
+        standard_indent: 4       # Zolo convention: 4 spaces per level (like Python)
         convert_tabs: true       # Convert tabs to spaces
         detect_indent_level: true  # Auto-detect nesting level
         preserve_blank_lines: true
@@ -567,8 +567,8 @@ code_actions:
         # Rules for detecting correct indent level
         indent_rules:
           root_level: 0          # Root keys: no indent
-          first_child: 2         # First nested level: 2 spaces
-          increment: 2           # Each deeper level: +2 spaces
+          first_child: 4         # First nested level: 4 spaces
+          increment: 4           # Each deeper level: +4 spaces
   
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   # 3. Add Required Fields Action (zSchema Scaffolding)
@@ -765,3 +765,158 @@ code_action_config:
     cache_action_results: true
     cache_ttl_ms: 5000  # Cache results for 5 seconds
     max_concurrent_actions: 3
+
+# ═══════════════════════════════════════════════════════════════
+# Completions (Autocomplete/IntelliSense) - SSOT for all file types
+# ═══════════════════════════════════════════════════════════════
+
+completions:
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  # zSpark.*.zolo - Spark Configuration Files
+  # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  zspark:
+    _description: "Completions for zSpark.*.zolo Spark configuration files"
+    file_patterns: ["zSpark.*.zolo"]
+    
+    # Root level (indent 0) - ONLY zSpark: is valid
+    root_keys:
+      - label: "zSpark"
+        detail: "🎯 Root key (REQUIRED)"
+        kind: "class"
+        documentation: "Main configuration block for Spark apps. This is the ONLY valid root key for zSpark.*.zolo files."
+        insert_text: "zSpark:\n    "
+        priority: 0
+        preselect: true
+      
+      - label: "zSpark>>"
+        detail: "📋 Full template scaffold"
+        kind: "snippet"
+        documentation: "Expand to full zSpark structure with all common properties and placeholder values. Press Tab to jump between fields."
+        insert_text: "zSpark:\n    title: ${1:MyApp}\n    deployment: ${2:Development}\n    logger: ${3:INFO}\n    logger_path: ${4:@.logs}\n    zMode: ${5:Terminal}\n    zServer:\n        enabled: ${6:True}\n        zShell: ${7:True}\n    app_storage: ${8:True}\n    zVaFolder: ${9:@.UI}\n    zVaFile: ${10:zUI.Component}\n    zBlock: ${11:MainLayout}"
+        insert_text_format: "snippet"
+        priority: 1
+        preselect: false
+    
+    # Properties under zSpark: (indent 4)
+    properties:
+      - label: "title"
+        detail: "App title"
+        kind: "property"
+        documentation: "Application name or title"
+        insert_text: "title: "
+        priority: 1
+      
+      - label: "deployment"
+        detail: "Environment"
+        kind: "property"
+        documentation: "Deployment environment (Production or Development)"
+        insert_text: "deployment: "
+        priority: 1
+        value_completions: ["Production", "Development"]
+      
+      - label: "logger"
+        detail: "Logger level"
+        kind: "property"
+        documentation: "Logging level (PROD or DEV)"
+        insert_text: "logger: "
+        priority: 1
+        value_completions: ["PROD", "DEV"]
+      
+      - label: "logger_path"
+        detail: "Log path"
+        kind: "property"
+        documentation: "Directory for log files (use zPath syntax: @.logs)"
+        insert_text: "logger_path: "
+        priority: 1
+      
+      - label: "zMode"
+        detail: "Execution mode"
+        kind: "property"
+        documentation: "Execution mode (Terminal or zBifrost)"
+        insert_text: "zMode: "
+        priority: 1
+        value_completions: ["Terminal", "zBifrost"]
+      
+      - label: "zServer"
+        detail: "Server config"
+        kind: "property"
+        documentation: "Server configuration block"
+        insert_text: "zServer:\n    "
+        priority: 1
+      
+      - label: "app_storage"
+        detail: "Storage flag"
+        kind: "property"
+        documentation: "Enable application storage"
+        insert_text: "app_storage: "
+        priority: 1
+        value_completions: ["true", "false"]
+      
+      - label: "zVaFolder"
+        detail: "Theme folder"
+        kind: "property"
+        documentation: "Path to theme folder (zPath syntax)"
+        insert_text: "zVaFolder: "
+        priority: 1
+      
+      - label: "zVaFile"
+        detail: "UI file ref"
+        kind: "property"
+        documentation: "Reference to zUI file for styling"
+        insert_text: "zVaFile: "
+        priority: 1
+      
+      - label: "zBlock"
+        detail: "Block reference"
+        kind: "property"
+        documentation: "Reference to reusable zBlock component"
+        insert_text: "zBlock: "
+        priority: 1
+    
+    # Nested completions (under specific parent keys)
+    nested:
+      zServer:
+        indent: 4
+        parent_key: "zServer"
+        properties:
+          - label: "enabled"
+            detail: "Enable server"
+            kind: "property"
+            documentation: "Enable or disable the server component"
+            insert_text: "enabled: "
+            priority: 1
+            value_completions: ["true", "false", "True", "False"]
+          
+          - label: "zShell"
+            detail: "Shell access"
+            kind: "property"
+            documentation: "Enable zShell interactive shell access"
+            insert_text: "zShell: "
+            priority: 1
+            value_completions: ["true", "false", "True", "False"]
+
+# ═══════════════════════════════════════════════════════════════
+# Completion Configuration (Global Settings)
+# ═══════════════════════════════════════════════════════════════
+
+completion_config:
+  # Enable/disable the entire completion system
+  enabled: true
+  
+  # Trigger characters (when to show completions)
+  trigger_characters: [":", "z", "@", " "]
+  
+  # Maximum completions to show at once
+  max_items: 20
+  
+  # Show LSP completions with higher priority than word-based
+  prioritize_lsp: true
+  
+  # Case sensitivity for filtering
+  case_sensitive: false
+  
+  # Show documentation in completion items
+  show_documentation: true
+  
+  # Auto-insert snippets (e.g., "zSpark:\n  ")
+  enable_snippets: true

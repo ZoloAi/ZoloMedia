@@ -436,6 +436,15 @@ For Vim:
 
 ## Documentation
 
+### Getting Started
+- [`Documentation/QUICKSTART.md`](Documentation/QUICKSTART.md) - Get started in 5 minutes
+- [`Documentation/INSTALLATION.md`](Documentation/INSTALLATION.md) - Detailed installation guide
+
+### File Types Reference
+- [`Documentation/FILE_TYPES.md`](Documentation/FILE_TYPES.md) - Overview of all .zolo file types
+- [`Documentation/zSpark.md`](Documentation/zSpark.md) - ⭐ zSpark application configuration files
+- More file types coming soon (zConfig, zEnv, zUI, zSchema)
+
 ### Architecture & Design
 - [`Documentation/ARCHITECTURE.md`](Documentation/ARCHITECTURE.md) - Detailed design docs
 - [`REFACTORING_PLAN.md`](REFACTORING_PLAN.md) - Refactoring journey & lessons learned
@@ -444,6 +453,7 @@ For Vim:
 ### Editor Integration
 - [`editors/vim/README.md`](editors/vim/README.md) - Vim/Neovim setup guide
 - [`editors/vscode/README.md`](editors/vscode/README.md) - VS Code setup guide
+- [`editors/cursor/README.md`](editors/cursor/README.md) - Cursor IDE setup guide
 
 ### Examples & Usage
 - [`examples/`](examples/) - Example .zolo files (7 files covering all features)

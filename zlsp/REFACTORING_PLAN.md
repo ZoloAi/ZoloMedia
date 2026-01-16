@@ -1975,19 +1975,84 @@ themes/
   - Integration tests verify: registry loaded, handler callable, matching works
   - **Result:** Editors now show lightbulb 💡 on diagnostics with quick fixes!
 
-- [ ] **7.2.5: Action Definitions in YAML** (Continuous) 🎯 **HIGH PRIORITY**
-  - [ ] **Initial 3 actions defined in 7.2.1:**
-    - `add_type_hint` - Insert `#> type <#` based on value pattern
-    - `fix_indentation` - Normalize to 2-space standard
-    - `add_required_fields` - Scaffold zSchema properties
-  - [ ] **Future actions (add to YAML as needed):**
-    - `extract_to_zblock` - Refactor UI elements
-    - `convert_to_multiline` - Split long inline values
-    - `sort_keys_alphabetically` - Organize sections
-    - `generate_zmeta` - Scaffold metadata from filename
-    - `add_validation_rules` - Common regex patterns
+- [ ] **7.2.5: File-Type-Specific Code Actions** (Continuous) 🎯 **HIGH PRIORITY**
+  
+  **Strategy:** Build expertise incrementally by implementing file-type-specific actions
+  in order of complexity. Each subtask includes:
+  - Defining styling rules for that file type
+  - Understanding/documenting file type semantics
+  - Implementing specialized code actions for common workflows
+  
+  **Initial 3 actions (Completed in 7.2.1):**
+  - ✅ `add_type_hint` - Insert `#> type <#` based on value pattern
+  - ✅ `fix_indentation` - Normalize to 2-space standard
+  - ✅ `add_required_fields` - Scaffold zSchema properties (basic)
+  
+  **File-Type-Specific Implementation (In Order):**
+  
+  - [x] **7.2.5.1: zSpark Actions & Completions** (~150 lines YAML, ~150 lines Python) ✅ **COMPLETE**
+    - [x] Document zSpark file structure and common patterns
+    - [x] Define zSpark-specific styling rules (deployment modes, logger configs)
+    - [x] **YAML-DRIVEN COMPLETIONS:** Implemented SSOT completion system in `themes/zolo_default.yaml`
+    - [x] Root level completions: Only `zSpark:` (enforced structure)
+    - [x] Property completions: `title`, `deployment`, `logger`, `zMode`, `zServer`, etc.
+    - [x] Nested completions: Under `zServer:` → `enabled`, `zShell`
+    - [x] Modular architecture: Each file type gets own YAML section
+    - [x] Test with `zSpark.*.zolo` example files
+    
+    **Implementation Details:**
+    - Added `completions:` section to `zolo_default.yaml` (~150 lines)
+    - Added `completion_config:` global settings
+    - Extended `Theme` class with completion methods
+    - Created `CompletionRegistry` class in `themes/__init__.py`
+    - Modified `completion_registry.py` to use YAML (generic parser)
+    - Context-aware: Detects indent level & parent key for nested completions
+    - **Result:** File-type-specific, indent-aware completions from YAML!
+  
+  - [ ] **7.2.5.2: zConfig Actions** (~50-100 lines YAML)
+    - [ ] Document zConfig file structure (system configs, feature flags)
+    - [ ] Define zConfig-specific styling rules
+    - [ ] Action: `scaffold_zconfig_section` - Common config sections (database, cache, etc.)
+    - [ ] Action: `add_environment_override` - Environment-specific config patterns
+    - [ ] Action: `generate_zconfig_zmeta` - Auto-populate zMeta
+    - [ ] Test with `zConfig.*.zolo` example files
+  
+  - [ ] **7.2.5.3: zEnv Actions** (~50-100 lines YAML)
+    - [ ] Document zEnv file structure (environment variables, secrets)
+    - [ ] Define zEnv-specific styling rules (secret handling, variable naming)
+    - [ ] Action: `scaffold_env_secrets` - Common secret patterns (API keys, DB credentials)
+    - [ ] Action: `add_env_validation` - Validation rules for env vars
+    - [ ] Action: `generate_zenv_zmeta` - Auto-populate zMeta
+    - [ ] Test with `zEnv.*.zolo` example files
+  
+  - [ ] **7.2.5.4: zUI Actions** (~100-150 lines YAML)
+    - [ ] Document zUI file structure (components, layouts, zBlocks)
+    - [ ] Define zUI-specific styling rules (component hierarchies, zVaFile refs)
+    - [ ] Action: `extract_to_zblock` - Refactor repeated UI patterns into reusable blocks
+    - [ ] Action: `scaffold_ui_component` - Common component templates (Button, Form, etc.)
+    - [ ] Action: `add_zvafile_reference` - Insert zVaFile links for styling
+    - [ ] Action: `generate_zui_zmeta` - Auto-populate zMeta with component info
+    - [ ] Test with `zUI.*.zolo` example files
+  
+  - [ ] **7.2.5.5: zSchema Actions** (~100-150 lines YAML)
+    - [ ] Document zSchema file structure (models, relationships, validations)
+    - [ ] Define zSchema-specific styling rules (field types, constraints)
+    - [ ] Action: `add_validation_rules` - Context-aware validators (email, phone, etc.)
+    - [ ] Action: `scaffold_relationships` - Foreign keys, one-to-many patterns
+    - [ ] Action: `add_zschema_indexes` - Performance optimization suggestions
+    - [ ] Action: `generate_zschema_zmeta` - Auto-populate zMeta with schema version
+    - [ ] Enhance existing `add_required_fields` with more templates
+    - [ ] Test with `zSchema.*.zolo` example files
+  
+  **Generic Actions (Lower Priority):**
+  - [ ] `convert_to_multiline` - Split long inline values (all file types)
+  - [ ] `sort_keys_alphabetically` - Organize sections (all file types)
+  
+  **Key Benefits:**
   - [ ] **Adding new action = Edit YAML only!** (No Python code changes)
   - [ ] Community can contribute actions via YAML PRs
+  - [ ] Each file type gets deep expertise and documentation
+  - [ ] Progressive delivery - users benefit from each completed file type
 
 - [ ] **7.2.6: Document Formatting** (< 300 lines) 🟡 **MEDIUM PRIORITY**
   - [ ] Auto-format on save (configurable)

@@ -28,6 +28,10 @@ class Theme:
         # Code actions (LSP quick fixes & refactorings)
         self.code_actions = data.get('code_actions', {})
         self.code_action_config = data.get('code_action_config', {})
+        
+        # Completions (Autocomplete/IntelliSense)
+        self.completions = data.get('completions', {})
+        self.completion_config = data.get('completion_config', {})
     
     def get_color(self, color_name: str, format: str = 'hex') -> Optional[str]:
         """
@@ -140,6 +144,30 @@ class Theme:
             action for action in self.get_enabled_actions()
             if action.get('category') == category
         ]
+    
+    def get_completions_for_file_type(self, file_type: str) -> Optional[Dict[str, Any]]:
+        """
+        Get completion definitions for a specific file type.
+        
+        Args:
+            file_type: File type key (e.g., 'zspark', 'zschema')
+        
+        Returns:
+            Completion config for that file type, or None if not defined
+        """
+        return self.completions.get(file_type)
+    
+    def is_completions_enabled(self) -> bool:
+        """Check if completions system is globally enabled."""
+        return self.completion_config.get('enabled', True)
+    
+    def get_completion_trigger_chars(self) -> List[str]:
+        """Get characters that trigger completion suggestions."""
+        return self.completion_config.get('trigger_characters', [':', 'z', '@'])
+    
+    def get_max_completion_items(self) -> int:
+        """Get maximum number of completion items to show."""
+        return self.completion_config.get('max_items', 20)
 
 
 class CodeActionRegistry:
@@ -290,6 +318,97 @@ class CodeActionRegistry:
     def is_enabled(self) -> bool:
         """Check if code actions system is enabled globally."""
         return self.config.get('enabled', True)
+
+
+class CompletionRegistry:
+    """
+    Registry for managing and generating completions from theme YAML.
+    
+    Provides context-aware completion generation based on file type,
+    indentation level, and parent keys.
+    """
+    
+    def __init__(self, theme: Theme):
+        """
+        Initialize registry with a theme.
+        
+        Args:
+            theme: Theme object containing completion definitions
+        """
+        self.theme = theme
+        self.completions = theme.completions
+        self.config = theme.completion_config
+    
+    def is_enabled(self) -> bool:
+        """Check if completion system is enabled."""
+        return self.config.get('enabled', True)
+    
+    def get_completions_for_context(
+        self,
+        file_type: str,
+        indent_level: int,
+        parent_key: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
+        """
+        Get completions for a specific context.
+        
+        Args:
+            file_type: File type key (e.g., 'zspark', 'zschema')
+            indent_level: Current indentation level (0 = root, 2 = properties, etc.)
+            parent_key: Parent key if nested (e.g., 'zServer')
+        
+        Returns:
+            List of completion definitions from YAML
+        """
+        if not self.is_enabled():
+            return []
+        
+        file_completions = self.completions.get(file_type)
+        if not file_completions:
+            return []
+        
+        # Root level (indent 0)
+        if indent_level == 0:
+            return file_completions.get('root_keys', [])
+        
+        # Nested level (check if under specific parent)
+        if parent_key and 'nested' in file_completions:
+            nested_config = file_completions['nested'].get(parent_key)
+            if nested_config and nested_config.get('indent') == indent_level:
+                return nested_config.get('properties', [])
+        
+        # Default: properties level (indent 2 for most files)
+        return file_completions.get('properties', [])
+    
+    def get_value_completions(
+        self,
+        file_type: str,
+        key: str
+    ) -> List[str]:
+        """
+        Get value completions for a specific key.
+        
+        Args:
+            file_type: File type key (e.g., 'zspark')
+            key: The key whose values we're completing
+        
+        Returns:
+            List of suggested values
+        """
+        file_completions = self.completions.get(file_type, {})
+        
+        # Check properties for value_completions
+        for prop in file_completions.get('properties', []):
+            if prop.get('label') == key:
+                return prop.get('value_completions', [])
+        
+        # Check nested properties
+        for nested_name, nested_config in file_completions.get('nested', {}).items():
+            for prop in nested_config.get('properties', []):
+                if prop.get('label') == key:
+                    return prop.get('value_completions', [])
+        
+        return []
 
 
 def load_theme(name: str = 'zolo_default') -> Theme:

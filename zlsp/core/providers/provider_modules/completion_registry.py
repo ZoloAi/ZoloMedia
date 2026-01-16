@@ -74,10 +74,20 @@ class CompletionContext:
         # Empty content or beyond last line → consider as line start
         if not lines or self.line >= len(lines):
             return True
-        prefix = lines[self.line][:self.character]
+        
+        line_content = lines[self.line]
+        prefix = line_content[:self.character]
         
         # At start if only whitespace before cursor
-        return prefix.strip() == ''
+        if prefix.strip() == '':
+            return True
+        
+        # Also consider "at line start" if we're typing a key (no colon yet)
+        # This allows completions while typing "zS" → "zSpark:"
+        if ':' not in line_content:
+            return True
+        
+        return False
     
     def _detect_current_key(self) -> Optional[str]:
         """Extract the key name at the current line."""
@@ -121,13 +131,26 @@ class CompletionRegistry:
         Returns:
             List of completion items
         """
+        import logging
+        logger = logging.getLogger(__name__)
+        
+        logger.info(f"🎯 Completion Context Detection:")
+        logger.info(f"   File: {context.filename}")
+        logger.info(f"   File type: {context.file_type}")
+        logger.info(f"   Line {context.line}, char {context.character}")
+        logger.info(f"   in_parentheses: {context.in_parentheses}")
+        logger.info(f"   after_colon: {context.after_colon}")
+        logger.info(f"   at_line_start: {context.at_line_start}")
+        logger.info(f"   current_key: {context.current_key}")
         
         # Context 1: Type hints (inside parentheses)
         if context.in_parentheses:
+            logger.info("➡️  Using type hint completions")
             return CompletionRegistry._type_hint_completions()
         
         # Context 2: File-type-specific value completions (after colon)
         if context.after_colon and context.current_key:
+            logger.info(f"➡️  Using file-specific value completions for key '{context.current_key}'")
             file_completions = CompletionRegistry._file_specific_completions(
                 context.file_type,
                 context.current_key
@@ -137,12 +160,15 @@ class CompletionRegistry:
         
         # Context 3: General value completions (after colon)
         if context.after_colon:
+            logger.info("➡️  Using general value completions")
             return CompletionRegistry._value_completions()
         
-        # Context 4: UI element key completions (at line start)
-        if context.at_line_start or context.file_type == FileType.ZUI:
-            return CompletionRegistry._ui_element_completions()
+        # Context 4: File-type-specific key completions (at line start) - YAML-DRIVEN!
+        if context.at_line_start:
+            logger.info("➡️  Using YAML-driven key completions")
+            return CompletionRegistry._get_key_completions_from_yaml(context)
         
+        logger.info("❌ No matching context - returning empty completions")
         return []
     
     @staticmethod
@@ -272,6 +298,175 @@ class CompletionRegistry:
                     sort_text=f"0{value}"
                 )
             )
+        return items
+    
+    @staticmethod
+    def _get_key_completions_from_yaml(context: CompletionContext) -> List[lsp_types.CompletionItem]:
+        """
+        Get file-type-specific key completions from YAML theme (SSOT approach).
+        
+        This is the new modular, YAML-driven completion system.
+        Each file type has its completions defined in themes/zolo_default.yaml.
+        
+        Args:
+            context: Completion context with file type and cursor position
+        
+        Returns:
+            List of LSP completion items generated from YAML
+        """
+        import logging
+        logger = logging.getLogger(__name__)
+        
+        try:
+            from themes import load_theme, CompletionRegistry as ThemeCompletionRegistry
+            
+            # Load theme and get completions for this file type
+            theme = load_theme('zolo_default')
+            registry = ThemeCompletionRegistry(theme)
+            
+            if not registry.is_enabled():
+                logger.info("❌ YAML completions disabled in theme config")
+                return []
+            
+            # Detect indentation level and parent key
+            indent_level = CompletionRegistry._get_indent_level(context)
+            parent_key = CompletionRegistry._get_parent_key(context)
+            
+            logger.info(f"🔍 YAML Completion Context:")
+            logger.info(f"   File type: {context.file_type} ({context.file_type.value})")
+            logger.info(f"   Indent level: {indent_level}")
+            logger.info(f"   Parent key: {parent_key}")
+            logger.info(f"   Line {context.line}, char {context.character}")
+            
+            # Get completions from YAML for this context
+            file_type_key = context.file_type.value  # 'zspark', 'zschema', etc.
+            yaml_completions = registry.get_completions_for_context(
+                file_type_key,
+                indent_level,
+                parent_key
+            )
+            
+            logger.info(f"📦 YAML returned {len(yaml_completions)} completions")
+            if yaml_completions:
+                for comp in yaml_completions[:3]:  # Log first 3
+                    logger.info(f"   - {comp.get('label')}")
+            
+            # Convert YAML definitions to LSP CompletionItems
+            lsp_items = CompletionRegistry._yaml_to_lsp_completions(yaml_completions)
+            logger.info(f"✅ Converted to {len(lsp_items)} LSP items")
+            return lsp_items
+        
+        except Exception as e:
+            # Fallback to empty list if theme loading fails
+            logger.error(f"❌ Failed to load YAML completions: {e}", exc_info=True)
+            return []
+    
+    @staticmethod
+    def _get_indent_level(context: CompletionContext) -> int:
+        """
+        Get the indentation level at current cursor position.
+        
+        Returns:
+            Indentation level in spaces (0, 2, 4, etc.)
+        """
+        lines = context.content.splitlines()
+        if context.line >= len(lines):
+            return 0
+        
+        current_line = lines[context.line]
+        leading_space = current_line[:len(current_line) - len(current_line.lstrip())]
+        return len(leading_space)
+    
+    @staticmethod
+    def _get_parent_key(context: CompletionContext) -> Optional[str]:
+        """
+        Find the parent key for the current indentation level.
+        
+        Searches backwards for a less-indented line with a key.
+        
+        Returns:
+            Parent key name or None if at root level
+        """
+        lines = context.content.splitlines()
+        if context.line <= 0 or context.line >= len(lines):
+            return None
+        
+        current_indent = CompletionRegistry._get_indent_level(context)
+        
+        # Search backwards for parent
+        for i in range(context.line - 1, -1, -1):
+            line = lines[i].strip()
+            if not line or line.startswith('#'):
+                continue
+            
+            line_indent = len(lines[i]) - len(lines[i].lstrip())
+            
+            # Found parent (less indented line with a key)
+            if line_indent < current_indent and ':' in line:
+                key = line.split(':')[0].strip()
+                return key
+        
+        return None
+    
+    @staticmethod
+    def _yaml_to_lsp_completions(yaml_completions: List[dict]) -> List[lsp_types.CompletionItem]:
+        """
+        Convert YAML completion definitions to LSP CompletionItems.
+        
+        Args:
+            yaml_completions: List of completion dicts from YAML
+        
+        Returns:
+            List of LSP CompletionItems
+        """
+        items = []
+        
+        kind_map = {
+            'class': lsp_types.CompletionItemKind.Class,
+            'property': lsp_types.CompletionItemKind.Property,
+            'value': lsp_types.CompletionItemKind.Value,
+            'keyword': lsp_types.CompletionItemKind.Keyword,
+            'snippet': lsp_types.CompletionItemKind.Snippet,
+        }
+        
+        for yaml_item in yaml_completions:
+            label = yaml_item.get('label', '')
+            if not label:
+                continue
+            
+            kind_str = yaml_item.get('kind', 'property')
+            kind = kind_map.get(kind_str, lsp_types.CompletionItemKind.Property)
+            
+            detail = yaml_item.get('detail', '')
+            documentation = yaml_item.get('documentation', '')
+            insert_text = yaml_item.get('insert_text', label + ': ')
+            priority = yaml_item.get('priority', 1)
+            preselect = yaml_item.get('preselect', False)
+            
+            # Check if this is a snippet with placeholder support
+            insert_text_format_str = yaml_item.get('insert_text_format', 'plaintext')
+            insert_text_format = (
+                lsp_types.InsertTextFormat.Snippet 
+                if insert_text_format_str == 'snippet' 
+                else lsp_types.InsertTextFormat.PlainText
+            )
+            
+            items.append(
+                lsp_types.CompletionItem(
+                    label=label,
+                    kind=kind,
+                    detail=detail,
+                    documentation=lsp_types.MarkupContent(
+                        kind=lsp_types.MarkupKind.Markdown,
+                        value=documentation
+                    ) if documentation else None,
+                    insert_text=insert_text,
+                    insert_text_format=insert_text_format,
+                    sort_text=f"{priority}_{label}",
+                    preselect=preselect
+                )
+            )
+        
         return items
     
     @staticmethod
