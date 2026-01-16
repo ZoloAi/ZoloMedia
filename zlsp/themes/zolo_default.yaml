@@ -260,12 +260,12 @@ tokens:
   zmachineEditableKey:
     color: deep_blue
     style: none
-    description: "User-editable nested keys under zMachine (preferences, limits)"
+    description: "Editable section headers under zMachine (user_preferences, time_date_formatting)"
   
   zmachineLockedKey:
     color: dark_red
     style: none
-    description: "Auto-detected locked nested keys under zMachine (hardware, system, os)"
+    description: "Locked section headers under zMachine (machine_identity, python_runtime, cpu)"
   
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   # 6. zSpark.*.zolo File Tokens
@@ -279,6 +279,11 @@ tokens:
     color: lavender
     style: none
     description: "All nested keys under zSpark root (zMode, zVaFile, zBlock)"
+  
+  zconfigNestedKey:
+    color: lavender
+    style: none
+    description: "All nested keys under zMachine root in zConfig files"
   
   zsparkModeValue:
     color: light_green

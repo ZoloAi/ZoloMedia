@@ -51,6 +51,17 @@ class KeyDetector:
     
     ZENV_CONFIG_ROOT_KEYS = {'DEPLOYMENT', 'DEBUG', 'LOG_LEVEL'}
     
+    # zMachine section headers (first-level keys under zMachine:)
+    ZMACHINE_LOCKED_SECTIONS = {
+        'machine_identity', 'python_runtime', 'cpu', 'memory', 'gpu', 
+        'network', 'storage', 'user_paths', 'display', 'launch_commands',
+    }
+    
+    ZMACHINE_EDITABLE_SECTIONS = {
+        'user_preferences', 'time_date_formatting', 'custom',
+    }
+    
+    
     @staticmethod
     def detect_root_key(
         key: str,
@@ -85,11 +96,15 @@ class KeyDetector:
         if emitter.is_zenv_file and key.isupper() and key.startswith('Z'):
             return TokenType.ZCONFIG_KEY
         
-        # Uppercase Z-prefixed keys in zConfig files (e.g., zMachine)
+        # zMachine root key in zConfig files (LIGHT GREEN - ANSI 114)
+        if emitter.is_zconfig_file and key == 'zMachine':
+            return TokenType.ZCONFIG_KEY
+        
+        # Uppercase Z-prefixed keys in zConfig files (e.g., ZPREFERENCES)
         if emitter.is_zconfig_file and key.isupper() and key.startswith('Z'):
             return TokenType.ZCONFIG_KEY
         
-        # zConfig root key (e.g., zMachine) in zConfig files (GREEN)
+        # zConfig root key from filename (e.g., zMachine) in zConfig files (GREEN)
         if emitter.is_zconfig_file and key == emitter.zconfig_component_name:
             return TokenType.ZCONFIG_KEY
         
@@ -113,6 +128,27 @@ class KeyDetector:
         Returns:
             Appropriate TokenType for the key
         """
+        # zSpark nested keys (in zSpark files) - all nested keys under zSpark: root (LAVENDER)
+        if emitter.is_zspark_file and emitter.is_in_zspark_block(indent):
+            # All keys under zSpark: should be lavender (title, deployment, logger, zMode, etc.)
+            return TokenType.ZSPARK_NESTED_KEY
+        
+        # zConfig hierarchical keys (in zConfig files)
+        if emitter.is_zconfig_file and emitter.is_in_zmachine_block(indent):
+            # Level 1 (indent == 1): Section headers (machine_identity, user_preferences, etc.)
+            # Note: Parser counts indent levels, not spaces/tabs (1 tab = 1 level, 4 spaces = 1 level)
+            if indent == 1:
+                if key in KeyDetector.ZMACHINE_LOCKED_SECTIONS:
+                    return TokenType.ZMACHINE_LOCKED_KEY  # RED
+                elif key in KeyDetector.ZMACHINE_EDITABLE_SECTIONS:
+                    return TokenType.ZMACHINE_EDITABLE_KEY  # BLUE
+                # Default to NESTED_KEY if not in either set
+                return TokenType.NESTED_KEY
+            
+            # Level 2+ (indent >= 2): Property keys under sections (os, browser, etc.)
+            elif indent >= 2:
+                return TokenType.ZCONFIG_NESTED_KEY  # LAVENDER
+        
         # zRBAC key (TOMATO RED - ANSI 196)
         if key == 'zRBAC' and (emitter.is_zenv_file or emitter.is_zui_file):
             return TokenType.ZRBAC_KEY

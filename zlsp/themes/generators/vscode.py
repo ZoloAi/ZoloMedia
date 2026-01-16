@@ -372,32 +372,33 @@ class VSCodeGenerator(BaseGenerator):
             "znavbarNestedKey",     # 11
             "zsubKey",              # 12
             "zsparkNestedKey",      # 13
-            "zsparkModeValue",      # 14
-            "zsparkVaFileValue",    # 15
-            "zsparkSpecialValue",   # 16
-            "envConfigValue",       # 17
-            "zrbacKey",             # 18
-            "zrbacOptionKey",       # 19
-            "typeHint",             # 20
-            "number",               # 21
-            "string",               # 22
-            "boolean",              # 23
-            "null",                 # 24
-            "bracketStructural",    # 25
-            "braceStructural",      # 26
-            "stringBracket",        # 27
-            "stringBrace",          # 28
-            "colon",                # 29
-            "comma",                # 30
-            "escapeSequence",       # 31
-            "versionString",        # 32
-            "timestampString",      # 33
-            "timeString",           # 34
-            "ratioString",          # 35
-            "zpathValue",           # 36
-            "zmachineEditableKey",  # 37
-            "zmachineLockedKey",    # 38
-            "typeHintParen",        # 39
+            "zconfigNestedKey",     # 14
+            "zsparkModeValue",      # 15
+            "zsparkVaFileValue",    # 16
+            "zsparkSpecialValue",   # 17
+            "envConfigValue",       # 18
+            "zrbacKey",             # 19
+            "zrbacOptionKey",       # 20
+            "typeHint",             # 21
+            "number",               # 22
+            "string",               # 23
+            "boolean",              # 24
+            "null",                 # 25
+            "bracketStructural",    # 26
+            "braceStructural",      # 27
+            "stringBracket",        # 28
+            "stringBrace",          # 29
+            "colon",                # 30
+            "comma",                # 31
+            "escapeSequence",       # 32
+            "versionString",        # 33
+            "timestampString",      # 34
+            "timeString",           # 35
+            "ratioString",          # 36
+            "zpathValue",           # 37
+            "zmachineEditableKey",  # 38
+            "zmachineLockedKey",    # 39
+            "typeHintParen",        # 40
         ]
         
         # Token modifiers (currently not used, but can be added later)
@@ -439,6 +440,7 @@ class VSCodeGenerator(BaseGenerator):
             'znavbarNestedKey': 'znavbarNestedKey',
             'zsubKey': 'zsubKey',
             'zsparkNestedKey': 'zsparkNestedKey',
+            'zconfigNestedKey': 'zconfigNestedKey',
             'zsparkModeValue': 'zsparkModeValue',
             'zsparkVaFileValue': 'zsparkVaFileValue',
             'zsparkSpecialValue': 'zsparkSpecialValue',
@@ -500,12 +502,12 @@ class VSCodeGenerator(BaseGenerator):
         """
         rules = {}
         
-        # Map all 40 token types from theme
+        # Map all 41 token types from theme (indices 0-40)
         token_types_to_map = [
             'comment', 'rootKey', 'nestedKey', 'zmetaKey', 'zkernelDataKey',
             'zschemaPropertyKey', 'bifrostKey', 'uiElementKey', 'zconfigKey',
             'zsparkKey', 'zenvConfigKey', 'znavbarNestedKey', 'zsubKey',
-            'zsparkNestedKey', 'zsparkModeValue', 'zsparkVaFileValue',
+            'zsparkNestedKey', 'zconfigNestedKey', 'zsparkModeValue', 'zsparkVaFileValue',
             'zsparkSpecialValue', 'envConfigValue', 'zrbacKey', 'zrbacOptionKey',
             'typeHint', 'number', 'string', 'boolean', 'null',
             'bracketStructural', 'braceStructural', 'stringBracket', 'stringBrace',

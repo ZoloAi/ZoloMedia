@@ -13,6 +13,7 @@ from lsprotocol import types as lsp_types
 from ..parser.parser import tokenize
 from ..exceptions import ZoloParseError
 from .provider_modules.diagnostic_formatter import DiagnosticFormatter
+from .provider_modules.value_validators import ValueValidator
 
 
 def get_diagnostics(
@@ -96,7 +97,7 @@ def get_all_diagnostics(
     filename: Optional[str] = None
 ) -> List[lsp_types.Diagnostic]:
     """
-    Get all diagnostics for a document (errors + optional style warnings).
+    Get all diagnostics for a document (errors + optional style warnings + value validation).
     
     Args:
         content: Raw .zolo file content
@@ -106,9 +107,23 @@ def get_all_diagnostics(
     Returns:
         Combined list of all diagnostics
     """
+    import logging
+    logger = logging.getLogger(__name__)
+    logger.info(f"🔍 get_all_diagnostics called with filename={filename}")
+    
     diagnostics = get_diagnostics(content, filename=filename)
+    logger.info(f"   📋 Parse diagnostics: {len(diagnostics)}")
     
     if include_style:
-        diagnostics.extend(validate_document(content))
+        style_diags = validate_document(content)
+        logger.info(f"   📋 Style diagnostics: {len(style_diags)}")
+        diagnostics.extend(style_diags)
     
+    # Add value validation (e.g., browser values in zConfig files)
+    logger.info(f"   🔍 Calling ValueValidator.validate_document(filename={filename})")
+    value_diags = ValueValidator.validate_document(content, filename=filename)
+    logger.info(f"   📋 Value diagnostics: {len(value_diags)}")
+    diagnostics.extend(value_diags)
+    
+    logger.info(f"   ✅ Total diagnostics: {len(diagnostics)}")
     return diagnostics
