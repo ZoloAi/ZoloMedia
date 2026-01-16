@@ -217,6 +217,30 @@ class TokenEmitter:
         """Legacy: Check if in zMachine block."""
         return self.is_inside_block('zMachine', current_indent)
     
+    def enter_zspark_block(self, indent: int, line: int):
+        """Enter zSpark block (single instance in zSpark files)."""
+        self.enter_block_single('zSpark', indent, line)
+    
+    def update_zspark_blocks(self, current_indent: int, current_line: int):
+        """Update zSpark blocks."""
+        self.update_blocks(current_indent, current_line)
+    
+    def is_in_zspark_block(self, current_indent: int) -> bool:
+        """Check if in zSpark block."""
+        return self.is_inside_block('zSpark', current_indent)
+    
+    def enter_zmachine_block(self, indent: int, line: int):
+        """Enter zMachine block (single instance in zConfig files)."""
+        self.enter_block_single('zMachine', indent, line)
+    
+    def update_zmachine_blocks(self, current_indent: int, current_line: int):
+        """Update zMachine blocks."""
+        self.update_blocks(current_indent, current_line)
+    
+    def is_in_zmachine_block(self, current_indent: int) -> bool:
+        """Check if in zMachine block."""
+        return self.is_inside_block('zMachine', current_indent)
+    
     def enter_znavbar_block(self, indent: int, line: int):
         """Enter ZNAVBAR block (single instance)."""
         self.enter_block_single('ZNAVBAR', indent, line)

@@ -556,6 +556,8 @@ async def publish_diagnostics(uri: str, parse_result: ParseResult):
     
     Uses diagnostics engine to convert parse errors to LSP diagnostics.
     """
+    logger.info(f"🚀 publish_diagnostics called for {uri}")
+    
     # Get document content
     document = zolo_server.workspace.get_text_document(uri)
     content = document.source
@@ -565,9 +567,19 @@ async def publish_diagnostics(uri: str, parse_result: ParseResult):
     parsed_uri = urlparse(uri)
     filename = Path(unquote(parsed_uri.path)).name if parsed_uri.path else None
     
-    # Get diagnostics from engine (includes parsing and validation)
-    diagnostics = get_all_diagnostics(content, include_style=True, filename=filename)
+    logger.info(f"   📄 filename={filename}, content_length={len(content)}")
     
+    # Get diagnostics from engine (includes parsing and validation)
+    try:
+        diagnostics = get_all_diagnostics(content, include_style=True, filename=filename)
+        logger.info(f"   ✅ get_all_diagnostics returned {len(diagnostics)} diagnostics")
+    except Exception as e:
+        logger.error(f"   ❌ Exception in get_all_diagnostics: {e}")
+        import traceback
+        traceback.print_exc()
+        diagnostics = []
+    
+    logger.info(f"   📤 Publishing {len(diagnostics)} diagnostics")
     zolo_server.text_document_publish_diagnostics(
         lsp_types.PublishDiagnosticsParams(uri=uri, diagnostics=diagnostics)
     )

@@ -1,0 +1,6 @@
+# Test file: Consistent spaces (should be valid)
+app:
+    name: SpacesApp
+    config:
+        debug: true
+        port: 8080

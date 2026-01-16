@@ -8,19 +8,19 @@ description: A simple app
 
 # Use type hints for non-string types
 server:
-  host: localhost
-  port(int): 8080
-  ssl(bool): true
-  timeout(int): 30
-  max_connections(int): 100
+    host: localhost
+    port(int): 8080
+    ssl(bool): true
+    timeout(int): 30
+    max_connections(int): 100
 
 features:
-  analytics(bool): true
-  debug(bool): false
-  rate_limit(int): 1000
-  beta_users(list): [alice, bob, charlie]
+    analytics(bool): true
+    debug(bool): false
+    rate_limit(int): 1000
+    beta_users(list): [alice, bob, charlie]
 
 pricing:
-  monthly(float): 9.99
-  annual(float): 99.99
-  trial_days(int): 14
+    monthly(float): 9.99
+    annual(float): 99.99
+    trial_days(int): 14

@@ -173,12 +173,12 @@ class DiagnosticFormatter:
     @staticmethod
     def _validate_indentation(lines: List[str]) -> List[lsp_types.Diagnostic]:
         """
-        Validate indentation consistency (.zolo standard is 4 spaces, like Python).
+        Validate indentation consistency (like Python 3).
         
-        Detects:
-        - Tabs instead of spaces
-        - Non-multiples of 4 spaces
-        - Unexpected indentation jumps (e.g., jumping from 4 to 12 spaces)
+        Like Python, Zolo allows EITHER tabs OR spaces, but not both mixed.
+        - Spaces: Must be multiples of 4 (recommended)
+        - Tabs: Consistent tab-only indentation allowed
+        - Mixed: Fatal error (like Python 3's TabError)
         
         Args:
             lines: List of file lines
@@ -187,7 +187,57 @@ class DiagnosticFormatter:
             List of indentation diagnostics
         """
         diagnostics = []
-        expected_indent_unit = 4  # Zolo standard (like Python, aligns with Tab key)
+        expected_space_unit = 4  # When using spaces, must be multiples of 4
+        
+        # First pass: detect what type of indentation is used
+        uses_tabs = False
+        uses_spaces = False
+        first_tab_line = None
+        first_space_line = None
+        
+        for line_num, line in enumerate(lines):
+            # Skip empty lines and comments
+            if not line.strip() or line.strip().startswith('#'):
+                continue
+            
+            # Get leading whitespace
+            leading = line[:len(line) - len(line.lstrip())]
+            
+            if not leading:
+                continue  # Root level
+            
+            # Detect indentation type
+            if '\t' in leading:
+                if not uses_tabs:
+                    uses_tabs = True
+                    first_tab_line = line_num
+            if ' ' in leading:
+                if not uses_spaces:
+                    uses_spaces = True
+                    first_space_line = line_num
+        
+        # Check for mixing tabs and spaces (Python 3 style: TabError)
+        if uses_tabs and uses_spaces:
+            # Report error on the second type that was introduced
+            if first_space_line is not None and first_tab_line is not None:
+                error_line = max(first_space_line, first_tab_line)
+                indent_type = "tabs" if error_line == first_tab_line else "spaces"
+                first_type = "spaces" if indent_type == "tabs" else "tabs"
+                
+                diagnostics.append(
+                    lsp_types.Diagnostic(
+                        range=lsp_types.Range(
+                            start=lsp_types.Position(line=error_line, character=0),
+                            end=lsp_types.Position(line=error_line, character=1)
+                        ),
+                        message=f"Inconsistent use of tabs and spaces in indentation (file uses {first_type}, this line uses {indent_type})",
+                        severity=lsp_types.DiagnosticSeverity.Error,  # Error like Python 3
+                        source="zolo-linter"
+                    )
+                )
+            return diagnostics  # Stop here, mixing is fatal
+        
+        # Second pass: validate consistency based on detected type
         prev_indent = 0
         
         for line_num, line in enumerate(lines):
@@ -197,59 +247,67 @@ class DiagnosticFormatter:
             
             # Get leading whitespace
             leading = line[:len(line) - len(line.lstrip())]
-            curr_indent = len(leading)
             
-            if curr_indent == 0:
+            if not leading:
                 prev_indent = 0
                 continue  # Root level
             
-            # Check for tabs
-            if '\t' in leading:
-                diagnostics.append(
-                    lsp_types.Diagnostic(
-                        range=lsp_types.Range(
-                            start=lsp_types.Position(line=line_num, character=0),
-                            end=lsp_types.Position(line=line_num, character=len(leading))
-                        ),
-                        message="Inconsistent indentation detected (tabs instead of spaces)",
-                        severity=lsp_types.DiagnosticSeverity.Warning,
-                        source="zolo-linter"
+            # Calculate indent level based on type
+            if uses_tabs:
+                # Tab-based indentation: count tabs
+                curr_indent = leading.count('\t')
+                
+                # Check for unexpected jumps (increase by more than one level)
+                if curr_indent > prev_indent + 1:
+                    diagnostics.append(
+                        lsp_types.Diagnostic(
+                            range=lsp_types.Range(
+                                start=lsp_types.Position(line=line_num, character=0),
+                                end=lsp_types.Position(line=line_num, character=len(leading))
+                            ),
+                            message=f"Inconsistent indentation (jumped from {prev_indent} to {curr_indent} tabs)",
+                            severity=lsp_types.DiagnosticSeverity.Warning,
+                            source="zolo-linter"
+                        )
                     )
-                )
+                
                 prev_indent = curr_indent
-                continue
             
-            # Check if indentation is a multiple of expected_indent_unit
-            if curr_indent % expected_indent_unit != 0:
-                diagnostics.append(
-                    lsp_types.Diagnostic(
-                        range=lsp_types.Range(
-                            start=lsp_types.Position(line=line_num, character=0),
-                            end=lsp_types.Position(line=line_num, character=len(leading))
-                        ),
-                        message="Inconsistent indentation detected (expected multiples of 4 spaces)",
-                        severity=lsp_types.DiagnosticSeverity.Warning,
-                        source="zolo-linter"
+            elif uses_spaces:
+                # Space-based indentation: must be multiples of 4
+                curr_indent = len(leading)
+                
+                # Check if indentation is a multiple of expected_space_unit
+                if curr_indent % expected_space_unit != 0:
+                    diagnostics.append(
+                        lsp_types.Diagnostic(
+                            range=lsp_types.Range(
+                                start=lsp_types.Position(line=line_num, character=0),
+                                end=lsp_types.Position(line=line_num, character=len(leading))
+                            ),
+                            message="Inconsistent indentation (expected multiples of 4 spaces)",
+                            severity=lsp_types.DiagnosticSeverity.Warning,
+                            source="zolo-linter"
+                        )
                     )
-                )
+                    prev_indent = curr_indent
+                    continue
+                
+                # Check for unexpected jumps (increase by more than one level)
+                if curr_indent > prev_indent + expected_space_unit:
+                    diagnostics.append(
+                        lsp_types.Diagnostic(
+                            range=lsp_types.Range(
+                                start=lsp_types.Position(line=line_num, character=0),
+                                end=lsp_types.Position(line=line_num, character=len(leading))
+                            ),
+                            message=f"Inconsistent indentation (jumped from {prev_indent} to {curr_indent} spaces)",
+                            severity=lsp_types.DiagnosticSeverity.Warning,
+                            source="zolo-linter"
+                        )
+                    )
+                
                 prev_indent = curr_indent
-                continue
-            
-            # Check for unexpected jumps (increase by more than one level)
-            if curr_indent > prev_indent + expected_indent_unit:
-                diagnostics.append(
-                    lsp_types.Diagnostic(
-                        range=lsp_types.Range(
-                            start=lsp_types.Position(line=line_num, character=0),
-                            end=lsp_types.Position(line=line_num, character=len(leading))
-                        ),
-                        message=f"Inconsistent indentation detected (jumped from {prev_indent} to {curr_indent} spaces)",
-                        severity=lsp_types.DiagnosticSeverity.Warning,
-                        source="zolo-linter"
-                    )
-                )
-            
-            prev_indent = curr_indent
         
         return diagnostics
     

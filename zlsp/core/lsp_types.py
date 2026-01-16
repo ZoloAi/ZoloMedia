@@ -25,6 +25,7 @@ class TokenType(Enum):
     ZNAVBAR_NESTED_KEY = "znavbarNestedKey"  # First-level nested keys under ZNAVBAR in zEnv files (not grandchildren) - ANSI 222
     ZSUB_KEY = "zsubKey"  # zSub key in zEnv/zUI files at grandchild+ level (indent >= 4) - purple 98
     ZSPARK_NESTED_KEY = "zsparkNestedKey"  # ALL nested keys under zSpark root in zSpark files (purple 98)
+    ZCONFIG_NESTED_KEY = "zconfigNestedKey"  # ALL nested keys under zMachine root in zConfig files (lavender)
     ZSPARK_MODE_VALUE = "zsparkModeValue"  # zMode value (Terminal/zBifrost) - tomato red 196
     ZSPARK_VAFILE_VALUE = "zsparkVaFileValue"  # zVaFile value (zUI.*) - dark green 40
     ZSPARK_SPECIAL_VALUE = "zsparkSpecialValue"  # zBlock value - light purple 99

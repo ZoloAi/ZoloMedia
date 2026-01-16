@@ -186,6 +186,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             emitter.enter_znavbar_block(indent, original_line_num)
                         elif core_key == 'zMachine':
                             emitter.enter_zmachine_block(indent, original_line_num)
+                        elif core_key == 'zSpark':
+                            emitter.enter_zspark_block(indent, original_line_num)
                     
                     current_pos += len(core_key)
                     
@@ -203,6 +205,7 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                     emitter.update_zurl_blocks(indent, original_line_num)
                     emitter.update_header_blocks(indent, original_line_num)
                     emitter.update_zmachine_blocks(indent, original_line_num)
+                    emitter.update_zspark_blocks(indent, original_line_num)
                     emitter.update_znavbar_blocks(indent, original_line_num)
                     emitter.update_zmeta_blocks(indent, original_line_num)
                     
@@ -306,6 +309,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             emitter.enter_znavbar_block(indent, original_line_num)
                         elif core_key == 'zMachine':
                             emitter.enter_zmachine_block(indent, original_line_num)
+                        elif core_key == 'zSpark':
+                            emitter.enter_zspark_block(indent, original_line_num)
                     
                     current_pos += len(core_key)
                     
@@ -323,6 +328,7 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                     emitter.update_zurl_blocks(indent, original_line_num)
                     emitter.update_header_blocks(indent, original_line_num)
                     emitter.update_zmachine_blocks(indent, original_line_num)
+                    emitter.update_zspark_blocks(indent, original_line_num)
                     emitter.update_znavbar_blocks(indent, original_line_num)
                     emitter.update_zmeta_blocks(indent, original_line_num)
                     emitter.update_plural_shorthand_blocks(indent, original_line_num)

@@ -142,14 +142,25 @@ users:
 
 ### Indentation
 
-All `.zolo` files use **4-space indentation** (Python-style):
+Like Python, all `.zolo` files allow **either tabs OR spaces** (but never mixed):
 
+**Recommended: 4-space indentation**
 ```zolo
 root_key:
     nested_key: value        ← 4 spaces
     deeper:
         nested: value        ← 8 spaces
 ```
+
+**Allowed: Tab indentation**
+```zolo
+root_key:
+	nested_key: value        ← 1 tab
+	deeper:
+		nested: value        ← 2 tabs
+```
+
+**Forbidden: Mixing tabs and spaces** (Python 3 TabError style)
 
 ### Type Hints
 
@@ -189,7 +200,7 @@ key: value  # Inline comment
 ✅ **Semantic Highlighting** - Context-aware syntax coloring  
 ✅ **Diagnostics** - Real-time error/warning detection  
 ✅ **Hover Documentation** - Inline help on properties  
-✅ **Indentation Validation** - 4-space enforcement
+✅ **Indentation Validation** - Python-style (tabs OR spaces, no mixing)
 
 ### File-Type-Specific Features
 
@@ -241,7 +252,8 @@ project/
 
 ### Consistency
 
-- Use **4 spaces** for indentation (never tabs)
+- Use **either tabs OR spaces** for indentation (like Python - never mix!)
+- **Recommended:** 4 spaces (matches Python PEP 8)
 - Keep similar files in same directory
 - Use consistent naming patterns
 - Document complex configurations with comments

@@ -12,7 +12,7 @@ zSpark files configure the core runtime behavior of Zolo Spark applications. The
 ### Key Characteristics
 
 - **Single Root Key:** `zSpark:` is the ONLY valid root key
-- **Indentation:** 4 spaces (Python-style)
+- **Indentation:** Like Python - either tabs OR spaces (4 spaces recommended)
 - **File Naming:** Must match `zSpark.*.zolo` pattern (e.g., `zSpark.myapp.zolo`, `zSpark.production.zolo`)
 - **LSP Features:** Full autocomplete, diagnostics, hover documentation, and snippet expansion
 
@@ -272,7 +272,7 @@ zSpark:
 
 ### Diagnostics
 
-- **Indentation validation** - Enforces 4-space indentation
+- **Indentation validation** - Like Python 3: allows tabs OR spaces, but forbids mixing
 - **Invalid root keys** - Warns if keys other than `zSpark:` are at root level
 - **Type validation** - Checks boolean, enum, and path values
 
@@ -300,13 +300,29 @@ Hover over any property to see:
 
 ### Indentation
 
-Always use **4 spaces** (not tabs, not 2 spaces):
+Like Python, Zolo allows **either tabs OR spaces** (but never mixed):
 
+**Recommended: 4 spaces**
 ```zolo
 zSpark:
     title: MyApp        ← 4 spaces
     zServer:
         enabled: True   ← 8 spaces (nested)
+```
+
+**Allowed: Consistent tabs**
+```zolo
+zSpark:
+	title: MyApp        ← 1 tab
+	zServer:
+		enabled: True   ← 2 tabs (nested)
+```
+
+**Forbidden: Mixed tabs and spaces** ❌
+```zolo
+zSpark:
+    title: MyApp        ← spaces
+	zServer:            ← tab (ERROR!)
 ```
 
 ### Deployment Separation
@@ -362,21 +378,30 @@ zSpark:
     title: MyApp
 ```
 
-### "Inconsistent indentation" warning
+### "Inconsistent indentation" error
 
-**Problem:** Mixing spaces/tabs or using wrong indentation
+**Problem:** Mixing tabs and spaces (like Python 3's TabError)
 
-**Solution:** Use exactly 4 spaces per level:
+**Solution:** Use EITHER tabs OR spaces consistently throughout the file:
 
 ```zolo
-# ❌ Wrong (2 spaces)
+# ❌ Wrong (mixing tabs and spaces)
 zSpark:
-  title: MyApp
+    title: MyApp        ← spaces
+	logger: INFO        ← tab (ERROR!)
 
-# ✅ Correct (4 spaces)
+# ✅ Correct (consistent spaces - recommended)
 zSpark:
     title: MyApp
+    logger: INFO
+
+# ✅ Also correct (consistent tabs)
+zSpark:
+	title: MyApp
+	logger: INFO
 ```
+
+**Note:** If using spaces, they must be in multiples of 4 (like Python's PEP 8).
 
 ### Autocomplete not showing
 
