@@ -21,12 +21,12 @@ Modules:
     - utils/: File opening, OS primitives
     - cli/: zolo command-line interface
 
-Framework Logic Extracted:
-    Framework-specific logic has been extracted to @temp_zKernel/:
-    - zKernelException and 12+ framework exceptions
-    - zTraceback (interactive error handling with Walker UI)
-    - validate_zkernel_instance (framework validation)
-    These will be merged into zKernel when it joins the monorepo.
+Public API:
+    Import from package root for stable API:
+        from zOS import BootstrapLogger, ConsoleLogger
+        from zOS import get_ecosystem_root, get_product_logs
+        from zOS.machine import get_machine_info
+        from zOS.utils.open import open_file, open_url
 
 Usage:
     from zOS.logger import BootstrapLogger, ConsoleLogger, UnifiedFormatter
