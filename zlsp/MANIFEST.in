@@ -12,7 +12,6 @@ recursive-include themes/generators *.py
 
 # Vim editor integration
 recursive-include editors/vim/config *.vim
-include editors/vim/*.sh
 include editors/vim/*.md
 
 # Example files
