@@ -204,5 +204,5 @@ Override token colors in `settings.json`:
 - Cursor-native (uses same extension format as VS Code)
 - AI-enhanced editing with Cursor's features
 
-**Version:** 1.0.0  
+**Version:** 1.1.0  
 **Last Updated:** January 17, 2026

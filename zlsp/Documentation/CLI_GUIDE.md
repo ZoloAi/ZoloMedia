@@ -232,7 +232,7 @@ zlsp info
 ║   Zolo Language Server Protocol      ║
 ╚═══════════════════════════════════════╝
 
-Version: 1.0.0
+Version: 1.1.0
 Installation: /path/to/zlsp
 
 Features:

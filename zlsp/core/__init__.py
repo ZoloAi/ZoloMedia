@@ -1,8 +1,7 @@
 """
-Zolo LSP Core - Language-agnostic LSP implementation.
+Zolo LSP Core - Pure Python LSP implementation.
 
-This core module is shared by all language bindings (Python, C++, Java, etc.)
-and provides the complete LSP server implementation for .zolo files.
+This core module provides the complete LSP server implementation for .zolo files.
 """
 
-__version__ = "1.0.3"
+__version__ = "1.1.0"
