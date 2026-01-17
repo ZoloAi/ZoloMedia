@@ -1,57 +1,50 @@
-# ZoloMedia
+# Zolo Media<br>
+**A Declerative-Driven Ecosystem**
 
-**The Zolo Ecosystem** - Modern, Composable Framework for Data-Driven Applications
-
-🌐 **Website:** [zolo.media](https://zolo.media)  
-📦 **Organization:** [github.com/ZoloAi](https://github.com/ZoloAi)
-
----
+**Website:** [zolo.media](https://zolo.media)  
+**Organization:** [github.com/ZoloAi](https://github.com/ZoloAi)
 
 ## About
 
-ZoloMedia is the **development monorepo** for the Zolo ecosystem. Components are developed together here to maintain tight coupling during active development, following the "Linux From Scratch" philosophy of building primitives into complex compounds.
+**Zolo Media** is the official **open-source monorepo** for the **zEcosystem**, housing **zLSP**, **zOS**, and **zKernel**.  
+Following the *"Linux From Scratch"* philosophy of building primitives into complex compounds.
 
-**Before publication:** Components will be extracted to independent repositories for distribution via PyPI and public use.
-
----
-
-## Current Structure
-
+## Monorepo's Structure
 ```
-ZoloMedia/                  ← This repository (monorepo)
-├── zlsp/                   ← Language Server Protocol ✅ (Production Ready)
-├── zOS/                    ← OS Integration Utilities (Coming Next)
-├── zKernel/                ← Core Framework (Coming Soon)
-├── zCloud/                 ← Cloud Platform (Planned)
-└── zTheme/                 ← UI Framework (Planned)
+ZoloMedia/
+├── zlsp/                   ← Language Server Protocol
+├── zOS/                    ← OS Integration Utilities
+└── zKernel/                ← Core Framework
+    ├── zBifrost/           ← Websocket Communications
+    └── zTheme/             ← UI Framework
 ```
 
----
+## Packages
 
-## Components
-
-### ✅ **zlsp** - Language Server Protocol
-
-**Status:** Production Ready | LSP server working in Vim
+### **zlsp** - Language Server Protocol
 
 Language Server Protocol implementation for `.zolo` declarative files.
 
-- **Pure LSP Architecture** - TOML model (parser is source of truth)
+- **Pure LSP Architecture** - Parser is the source of truth
 - **String-First Philosophy** - Values are strings by default
-- **Terminal-First** - Perfect Vim/Neovim support
+- **Editor Agnostic** - Works with Vim, VSCode, Cursor, and any LSP-compatible editor
 - **Semantic Features** - Highlighting, diagnostics, hover, completion
 - **Zero Dependencies** - Primitive component
 
 **Install:**
 ```bash
-cd zlsp
-pip install -e .
-zolo-vim-install  # Automated Vim integration
+pip install zlsp
+zlsp-install-vim      # Automated Vim integration
+zlsp-install-vscode   # Automated VSCode integration
+zlsp-install-cursor   # Automated Cursor integration
+zlsp-install-all      # Install for all supported editors
 ```
+
+**Learn More**: See [zlsp/README.md](zlsp/README.md) for detailed documentation, architecture, and advanced usage.
 
 ---
 
-### 🔧 **zOS** - Operating System Integration
+### **zOS** - Operating System Integration
 
 **Status:** Coming Next | Depends on zlsp
 
@@ -64,7 +57,7 @@ Cross-platform OS utilities and system-level abstractions.
 
 ---
 
-### 📦 **zKernel** - Core Framework
+### **zKernel** - Core Framework
 
 **Status:** Planned | Depends on zlsp + zOS
 
@@ -77,7 +70,7 @@ Core framework and configuration system.
 
 ---
 
-### 🌐 **zCloud** - Cloud Platform
+### **zCloud** - Cloud Platform
 
 **Status:** Planned | Depends on zKernel
 
@@ -90,7 +83,7 @@ Cloud-native deployment and media management platform.
 
 ---
 
-### 🎨 **zTheme** - UI Framework
+### **zTheme** - UI Framework
 
 **Status:** Planned
 
@@ -138,7 +131,7 @@ cd ZoloMedia
 ```bash
 cd zlsp
 pip install -e .
-zolo-vim-install  # Automated Vim integration
+zlsp-install-vim  # Automated Vim integration
 ```
 
 Test:
@@ -164,7 +157,7 @@ vim zlsp/examples/basic.zolo
 
 ## Status & Roadmap
 
-### ✅ Phase 1: zlsp (COMPLETE)
+### Phase 1: zlsp (COMPLETE)
 - [x] Pure LSP implementation
 - [x] Vim integration with vim-lsp
 - [x] Semantic highlighting
@@ -172,27 +165,27 @@ vim zlsp/examples/basic.zolo
 - [x] Automated installation
 - [x] Production ready
 
-### 🔧 Phase 2: zOS (IN PROGRESS)
+### Phase 2: zOS (IN PROGRESS)
 - [ ] Port from old Zolo repo
 - [ ] Clean up dependencies
 - [ ] Integrate with zlsp
 - [ ] Test suite
 - [ ] Documentation
 
-### 📦 Phase 3: zKernel (NEXT)
+### Phase 3: zKernel (NEXT)
 - [ ] Port from old Zolo repo
 - [ ] Integrate with zlsp + zOS
 - [ ] Plugin system
 - [ ] Test suite
 - [ ] Documentation
 
-### 🌐 Phase 4: zCloud (PLANNED)
+### Phase 4: zCloud (PLANNED)
 - [ ] Clean architecture
 - [ ] Media management
 - [ ] CDN integration
 - [ ] Deployment
 
-### 🚀 Phase 5: Publication (FUTURE)
+### Phase 5: Publication (FUTURE)
 - [ ] Extract components to independent repos
 - [ ] Publish to PyPI
 - [ ] Update ZoloMedia to reference published packages
@@ -218,10 +211,10 @@ See individual component LICENSE files.
 
 ## Links
 
-- 🌐 **Website:** [zolo.media](https://zolo.media)
-- 📚 **Documentation:** [docs.zolo.media](https://docs.zolo.media) *(coming soon)*
-- 💬 **Discussions:** [GitHub Discussions](https://github.com/ZoloAi/ZoloMedia/discussions)
-- 🐛 **Issues:** [GitHub Issues](https://github.com/ZoloAi/ZoloMedia/issues)
+- **Website:** [zolo.media](https://zolo.media)
+- **Documentation:** [docs.zolo.media](https://docs.zolo.media) *(coming soon)*
+- **Discussions:** [GitHub Discussions](https://github.com/ZoloAi/ZoloMedia/discussions)
+- **Issues:** [GitHub Issues](https://github.com/ZoloAi/ZoloMedia/issues)
 
 ---
 

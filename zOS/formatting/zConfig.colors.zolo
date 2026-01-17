@@ -1,0 +1,283 @@
+#> Zolo Color Configuration (.zolo format) <#
+#> This file defines ANSI color codes for terminal output <#
+#> Used by zOS formatting system and zKernel UI components <#
+
+zColors:
+	subsystem_colors:
+		#> Brown background - CRUD operations <#
+		zdata:
+			ansi_code: \033[97;48;5;94m
+			description: Brown bg for data operations (CRUD)
+			category: subsystem
+
+		#> Red background - Function execution <#
+		zfunc:
+			ansi_code: \033[97;41m
+			description: Red bg for function execution
+			category: subsystem
+
+		#> Magenta background - Dialogs <#
+		zdialog:
+			ansi_code: \033[97;45m
+			description: Magenta bg for dialogs
+			category: subsystem
+
+		#> Purple background - Wizards <#
+		zwizard:
+			ansi_code: \033[38;5;154;48;5;57m
+			description: Purple bg for wizard flows
+			category: subsystem
+
+		#> Magenta background - Display system <#
+		zdisplay:
+			ansi_code: \033[30;48;5;99m
+			description: Magenta bg for display rendering
+			category: subsystem
+
+		#> Cream background - Parser <#
+		parser:
+			ansi_code: \033[38;5;236;48;5;230m
+			description: Dark text on cream bg for parsing
+			category: subsystem
+
+		#> Green background - Configuration <#
+		config:
+			ansi_code: \033[97;48;5;65m
+			description: Green bg for configuration
+			category: subsystem
+			alias: schema
+
+		#> Blue background - File/URL opening <#
+		zopen:
+			ansi_code: \033[97;48;5;27m
+			description: Blue bg for file/URL opening
+			category: subsystem
+
+		#> Bright blue background - Communication <#
+		zcomm:
+			ansi_code: \033[97;48;5;33m
+			description: Bright blue bg for communication and services
+			category: subsystem
+
+		#> Orange-brown background - Authentication <#
+		zauth:
+			ansi_code: \033[97;48;5;130m
+			description: Orange-brown bg for authentication
+			category: subsystem
+
+		#> Yellow background - External APIs <#
+		external:
+			ansi_code: \033[30;103m
+			description: Yellow bg for external API calls
+			category: subsystem
+
+	walker_colors:
+		#> Light green background - Main walker <#
+		main:
+			ansi_code: \033[30;48;5;120m
+			description: Light green bg for main walker
+			category: walker
+
+		#> Light yellow background - Sub menus <#
+		sub:
+			ansi_code: \033[30;48;5;223m
+			description: Light yellow bg for sub menus
+			category: walker
+
+		#> Gray background - Menu rendering <#
+		menu:
+			ansi_code: \033[30;48;5;250m
+			description: Gray bg for menu rendering
+			category: walker
+
+		#> Peach background - Dispatch <#
+		dispatch:
+			ansi_code: \033[30;48;5;215m
+			description: Peach bg for dispatch operations
+			category: walker
+
+		#> Purple background - Link navigation <#
+		zlink:
+			ansi_code: \033[30;48;5;99m
+			description: Purple bg for link navigation
+			category: walker
+
+		#> Bright green text - Breadcrumbs <#
+		zcrumb:
+			ansi_code: \033[38;5;154m
+			description: Bright green text for breadcrumbs
+			category: walker
+
+		#> Cyan background - File loading <#
+		loader:
+			ansi_code: \033[30;106m
+			description: Cyan bg for file loading
+			category: walker
+
+		#> Orange text - Sub-loading <#
+		subloader:
+			ansi_code: \033[38;5;214m
+			description: Orange text for sub-loading operations
+			category: walker
+
+	standard_colors:
+		#> Bright green - Success messages <#
+		green:
+			ansi_code: \033[92m
+			description: Bright green for success messages
+			category: standard
+
+		#> Bright yellow - Highlights <#
+		yellow:
+			ansi_code: \033[93m
+			description: Bright yellow for highlights
+			category: standard
+
+		#> Bright magenta - Special data <#
+		magenta:
+			ansi_code: \033[95m
+			description: Bright magenta for special data
+			category: standard
+
+		#> Bright cyan - Info messages <#
+		cyan:
+			ansi_code: \033[96m
+			description: Bright cyan for info messages
+			category: standard
+
+		#> Bright red - Error messages <#
+		red:
+			ansi_code: \033[91m
+			description: Bright red for error messages
+			category: standard
+
+		#> Peach - Debug output <#
+		peach:
+			ansi_code: \033[38;5;223m
+			description: Peach for debug output
+			category: standard
+
+		#> Reset to default <#
+		reset:
+			ansi_code: \033[0m
+			description: Reset to terminal default
+			category: standard
+
+	status_colors:
+		#> Dark red background - Error states <#
+		error:
+			ansi_code: \033[97;48;5;124m
+			description: Dark red bg for error states
+			category: status
+
+		#> Orange background - Warnings <#
+		warning:
+			ansi_code: \033[31;48;5;178m
+			description: Orange bg for warnings
+			category: status
+
+		#> Orange text - Return values <#
+		return:
+			ansi_code: \033[38;5;214m
+			description: Orange text for return values
+			category: status
+
+	semantic_colors:
+		#> CSS-aligned semantic colors (foreground only) <#
+		#> Mirrors web UI color system for consistency <#
+		#> Uses 256-color codes for broad terminal compatibility <#
+
+		#> Light blue - Info (CSS: #5CA9FF) <#
+		zinfo:
+			ansi_code: \033[38;5;75m
+			description: Light blue for informational messages
+			category: semantic
+			css_reference: "#5CA9FF"
+			aliases: [info, ZINFO, INFO]
+
+		#> Green - Success (CSS: #52B788) <#
+		zsuccess:
+			ansi_code: \033[38;5;78m
+			description: Green for success messages
+			category: semantic
+			css_reference: "#52B788"
+			aliases: [ZSUCCESS]
+
+		#> Orange - Warning (CSS: #FFB347) <#
+		zwarning:
+			ansi_code: \033[38;5;215m
+			description: Orange for warning messages
+			category: semantic
+			css_reference: "#FFB347"
+			aliases: [ZWARNING]
+
+		#> Red - Error (CSS: #E63946) <#
+		zerror:
+			ansi_code: \033[38;5;203m
+			description: Red for error messages
+			category: semantic
+			css_reference: "#E63946"
+			aliases: [ZERROR]
+
+	brand_colors:
+		#> CSS-aligned brand colors (foreground only) <#
+		#> Represents Zolo's visual identity <#
+
+		#> Light green - Primary/Intention (CSS: #A2D46E) <#
+		primary:
+			ansi_code: \033[38;5;150m
+			description: Light green representing intention (the heart of zCLI)
+			category: brand
+			css_reference: "#A2D46E"
+			aliases: [PRIMARY]
+
+		#> Medium purple - Secondary/Validation (CSS: #9370DB) <#
+		secondary:
+			ansi_code: \033[38;5;98m
+			description: Medium purple representing validation (structure and elegance)
+			category: brand
+			css_reference: "#9370DB"
+			aliases: [SECONDARY]
+
+		#> Default/Reset <#
+		default:
+			ansi_code: \033[0m
+			description: Reset to default terminal color
+			category: brand
+			aliases: [DEFAULT]
+
+	semantic_mappings:
+		#> Semantic color name → ANSI code mappings <#
+		#> Used by zDisplay events (links, buttons, headers) <#
+
+		PRIMARY: \033[38;5;75m        #> Cyan (encouraging for default actions) <#
+		SECONDARY: \033[38;5;98m      #> Purple (secondary/validation actions) <#
+		SUCCESS: \033[38;5;78m        #> Green (encouraging for positive actions) <#
+		DANGER: \033[38;5;203m        #> Red (alarming for destructive actions) <#
+		WARNING: \033[38;5;215m       #> Yellow (cautious for risky actions) <#
+		INFO: \033[38;5;75m           #> Cyan (informational) <#
+		DEFAULT: ""                   #> Plain text (no color) <#
+		MUTED: ""                     #> Plain text (neutral) <#
+
+	metadata:
+		version: 1.0.0
+		format: zolo
+		compatibility: ANSI 256-color
+		terminal_support: macOS Terminal, iTerm2, VS Code, Cursor
+		source: zOS/formatting/colors.py
+		notes: |
+			This configuration file mirrors the hardcoded colors in colors.py
+			for better maintainability and user customization.
+
+			All ANSI codes use 256-color palette for broad compatibility.
+			Truecolor (24-bit RGB) codes are avoided as they may be flattened
+			depending on terminal and theme settings.
+
+			Color categories:
+			- subsystem_colors: Framework subsystem colors (zData, zFunc, etc.)
+			- walker_colors: UI/navigation colors (main, sub, menu, etc.)
+			- standard_colors: Basic terminal colors (green, red, cyan, etc.)
+			- status_colors: Status indicators (error, warning, return)
+			- semantic_colors: CSS-aligned semantic colors (info, success, etc.)
+			- brand_colors: Zolo brand identity colors (primary, secondary)
+			- semantic_mappings: Single source of truth for zDisplay events

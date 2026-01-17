@@ -3,6 +3,15 @@
 ANSI color codes for terminal output.
 
 Pure color definitions with no logic or dependencies.
+
+NOTE: Color definitions are also available in zConfig.colors.zolo for:
+- Better maintainability
+- User customization
+- Integration with .zolo ecosystem
+- Documentation and reference
+
+This Python class remains for backward compatibility and runtime performance.
+Future: Colors may be loaded from zConfig.colors.zolo at initialization.
 """
 
 

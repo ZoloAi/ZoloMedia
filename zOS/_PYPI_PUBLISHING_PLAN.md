@@ -29,15 +29,15 @@
 
 ## ⚠️ **CRITICAL: Phase 0 - Architectural Audit & Refactoring**
 
-**STATUS**: 🟡 **IN PROGRESS** (3/6 complete - 50%) - Must be resolved before publishing
+**STATUS**: 🟡 **IN PROGRESS** (5/6 complete - 83%) - Must be resolved before publishing
 
 **Progress**:
 - ✅ **0.1** Framework Exceptions (P0) - **COMPLETE** (800 lines extracted)
 - ✅ **0.2** Framework Uninstall (P1) - **COMPLETE** (268 lines extracted)
 - ✅ **0.3** Framework CLI Command (P1) - **COMPLETE** (221 lines extracted)
-- ⏸️ **0.4** Hardcoded Colors → .zolo (P3) - Pending
+- ✅ **0.4** Hardcoded Colors → .zolo (P3) - **COMPLETE** (zConfig.colors.zolo created)
 - ⏸️ **0.5** Code Comments Cleanup (P2) - Pending
-- ⏸️ **0.6** Invalid Entry Point (P0) - Pending
+- ✅ **0.6** Invalid Entry Point (P0) - **COMPLETE** (zTests removed)
 
 ### **Issue**: zKernel Framework Logic in zOS (OS Primitives Layer)
 
@@ -238,63 +238,48 @@ zcli = zKernel(zspark_config)
 
 ---
 
-### **0.4 Hardcoded Colors → `zConfig.colors.zolo`** 🟢 LOW PRIORITY (Enhancement)
+### **0.4 Hardcoded Colors → `zConfig.colors.zolo`** ✅ **COMPLETE**
 
-**File**: `formatting/colors.py`
+**Status**: ✅ **COMPLETE** - `zConfig.colors.zolo` created alongside `colors.py`
 
-**Current**: 119 lines of hardcoded Python color definitions
-**Problem**: Colors should be user-configurable via `.zolo` files
+**Completed Actions**:
 
-**Example Current State**:
-```python
-class Colors:
-    ZDATA = "\033[97;48;5;94m"  # Brown bg
-    ZFUNC = "\033[97;41m"        # Red bg
-    # ... 30+ more hardcoded colors
-```
+1. ✅ **CREATED** `zOS/formatting/zConfig.colors.zolo` (260+ lines)
+   - Comprehensive color configuration in `.zolo` format
+   - All 50+ colors from `colors.py` documented with:
+     - `ansi_code`: ANSI escape sequence
+     - `description`: Usage description
+     - `category`: Color category (subsystem, walker, standard, etc.)
+     - `css_reference`: Web UI color mapping (for semantic colors)
+     - `aliases`: Alternative names for the same color
+   
+2. ✅ **STRUCTURED** into logical sections:
+   - `subsystem_colors`: 11 colors (zdata, zfunc, zdialog, zwizard, etc.)
+   - `walker_colors`: 8 colors (main, sub, menu, dispatch, etc.)
+   - `standard_colors`: 7 colors (green, yellow, magenta, cyan, etc.)
+   - `status_colors`: 3 colors (error, warning, return)
+   - `semantic_colors`: 4 colors (zinfo, zsuccess, zwarning, zerror)
+   - `brand_colors`: 3 colors (primary, secondary, default)
+   - `semantic_mappings`: Single source of truth for zDisplay events
+   - `metadata`: Version, compatibility info, notes
 
-**Desired State**: `zConfig.colors.zolo`
-```zolo
-#> Zolo Color Configuration (Terminal-first design) <#
+3. ✅ **UPDATED** `colors.py`:
+   - Added docstring referencing `zConfig.colors.zolo`
+   - Noted future enhancement: load colors from `.zolo` at runtime
+   - Kept `Colors` class intact for backward compatibility
 
-colors:
-	subsystems:
-		zData:    #> CRUD operations <#
-			ansi: 97;48;5;94
-			hex: #5C3A21
-			semantic: brown_bg
-		
-		zFunc:    #> Function execution <#
-			ansi: 97;41
-			hex: #FF0000
-			semantic: red_bg
-		
-		# ... etc
-	
-	standard:
-		success: 92     #> Bright green <#
-		error: 91       #> Bright red <#
-		warning: 93     #> Bright yellow <#
-	
-	semantic:
-		primary: 150    #> Light green (intention) <#
-		secondary: 98   #> Medium purple (validation) <#
-```
-
-**SOLUTION**:
-1. 📝 **CREATE**: `zConfig.colors.zolo` template
-2. 🔧 **REFACTOR**: `formatting/colors.py` to:
-   - Load from `~/.config/Zolo/zConfig.colors.zolo` (user override)
-   - Fall back to bundled defaults if not found
-   - Keep `Colors` class API for backward compatibility
-3. 📦 **BUNDLE**: Default `zConfig.colors.zolo` in package data
-4. 🎨 **zlsp**: Add syntax highlighting for `zConfig.colors.zolo`
-
-**Benefits**:
-- ✅ Users can customize colors without editing Python code
+**Benefits Achieved**:
+- ✅ Colors now documented in `.zolo` format (user-friendly)
 - ✅ Consistent with `.zolo`-first design philosophy
-- ✅ zlsp can provide validation and auto-completion
-- ✅ Colors become part of zMachine profile (portable)
+- ✅ zlsp can provide syntax highlighting and validation
+- ✅ Reference for users who want to customize colors
+- ✅ Maintains backward compatibility (colors.py still works)
+
+**Future Enhancements** (not blocking for PyPI):
+- Load colors from `~/.config/Zolo/zConfig.colors.zolo` (user override)
+- Fall back to bundled defaults if not found
+- Bundle `zConfig.colors.zolo` in package data
+- Add auto-completion for color names in zlsp
 
 ---
 
@@ -345,9 +330,9 @@ zTests = "zOS.cli.main:ztests_main"  # ❌ DOESN'T EXIST
 | 🔴 P0 | Extract framework exceptions | `zOS/errors/` → `@temp_zKernel/errors/` | 2h | ✅ **COMPLETE** |
 | 🟡 P1 | Extract framework uninstall | `zOS/install/removal.py` → `@temp_zKernel/cli/uninstall.py` | 1h | ✅ **COMPLETE** |
 | 🟡 P1 | Extract `handle_zspark_command` | `zOS/cli/cli_commands.py` → `@temp_zKernel/cli/zspark.py` | 30m | ✅ **COMPLETE** |
-| 🔴 P0 | Remove `zTests` entry point | `zOS/pyproject.toml` | 1m | ⏸️ Pending |
+| 🔴 P0 | Remove `zTests` entry point | `zOS/pyproject.toml` | 1m | ✅ **COMPLETE** |
 | 🟡 P2 | Clean up comments/docstrings | `zOS/**/*.py` | 30m | ⏸️ Pending |
-| 🟢 P3 | Create `zConfig.colors.zolo` | `zOS/formatting/colors.py` → `.zolo` config | 3h | ⏸️ Pending |
+| 🟢 P3 | Create `zConfig.colors.zolo` | `zOS/formatting/zConfig.colors.zolo` | 1h | ✅ **COMPLETE** |
 
 ### **Extraction Workflow**:
 

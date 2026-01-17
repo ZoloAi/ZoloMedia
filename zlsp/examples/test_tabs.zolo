@@ -1,6 +1,0 @@
-# Test file: Consistent tabs (should be valid)
-app:
-	name: TabsApp
-	config:
-		debug: true
-		port: 8080

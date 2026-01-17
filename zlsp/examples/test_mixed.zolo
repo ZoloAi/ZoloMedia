@@ -1,5 +1,0 @@
-# Test file: Mixed tabs and spaces (should ERROR like Python 3)
-app:
-    name: MixedApp
-	config:
-		debug: true

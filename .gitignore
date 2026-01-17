@@ -71,5 +71,5 @@ htmlcov/
 .env
 .env.local
 
-# Internal/Private Documentation
-zlsp/BRANDING_MARKETING_PLAN.md
+# Internal/Private Documentation & Archive
+archive/

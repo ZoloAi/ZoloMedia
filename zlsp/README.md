@@ -1,197 +1,129 @@
-# Zolo LSP
+# zLSP - Language Server Protocol for .zolo Files
 
-**Language Server Protocol implementation for `.zolo` declarative files**
+**Language Server Protocol implementation for `.zolo` declarative configuration files**
 
-Pure LSP architecture following the TOML model: single source of truth (parser) → LSP wrapper → thin editor clients.
+## About
+
+**zlsp** provides full LSP (Language Server Protocol) support for `.zolo` files with semantic highlighting, diagnostics, hover information, and code completion. Built on a pure LSP architecture where the parser is the single source of truth.
+
+The `.zolo` format serves dual purposes: as a **generic replacement** for JSON, YAML, and TOML in any configuration context, ***and*** as the foundation for **ZoloMedia's zEcosystem**.
+
+Browse to [**basic.zolo**](examples/basic.zolo) or [**advanced.zolo**](examples/advanced.zolo) for syntax and structure examples.
+
+>**Note**: See [**zOS README**](../zOS/README.md) for the complete picture of zSpecial syntax and ecosystem integration.
+
+## Requirements
+
+- **Python 3.8+**
+- **pygls 1.3.0+** (LSP framework)
+- **lsprotocol 2023.0.0+** (LSP types)
+
+For Vim:
+- **Neovim 0.8+** (built-in LSP) OR
+- **Vim 9+** with vim-lsp plugin
+
+For VSCode/Cursor:
+- **VSCode 1.50+** OR **Cursor** (any recent version)
+- Both have built-in LSP support
+
+## Installation
+
+In Terminal run the following command:
+
+```bash
+pip install zlsp
+```
+
+Then install for your editor:
+
+```bash
+zlsp-install-all      # Install for all supported editors
+zlsp-install-vim      # Automated Vim/Neovim integration
+zlsp-install-vscode   # Automated VSCode integration
+zlsp-install-cursor   # Automated Cursor integration
+```
+
+## Verify Installation
+
+After installation, verify everything is working:
+
+```bash
+zlsp verify              # Quick health check
+zlsp verify --verbose    # Detailed check with all components
+```
+
+This runs 5 essential checks:
+- ✓ Python version compatibility
+- ✓ Core dependencies (pygls, lsprotocol)
+- ✓ Parser functionality
+- ✓ LSP server availability
+- ✓ Semantic tokenizer
+
+If anything fails, you'll get clear error messages with suggested fixes. Exit code 0 means success, 1 means issues found.
 
 ## Features
 
-- **String-First Philosophy** - Values are strings by default, with explicit type hints
-- **Pure LSP** - No grammar files, parser is the source of truth
-- **Terminal-First** - Perfect Vim/Neovim support (Phase 1)
-- **Editor Agnostic** - Same LSP server for all editors (Vim, VS Code, IntelliJ)
-- **Multi-Language Support** - Python SDK (ready), C++/Java/Rust (planned)
-- **Industry-Grade Architecture** - Modular, tested, maintainable (see below!)
+- **String-First Philosophy** - Values are strings by default with explicit type hints as needed
+- **Pure LSP Architecture** - Parser is the source of truth, no grammar files
+- **Editor Agnostic** - Works with Vim, VSCode, Cursor, and any LSP-compatible editor
+- **Semantic Highlighting** - Context-aware syntax coloring
+- **Real-Time Diagnostics** - Syntax errors and type validation
+- **Code Completion** - Type hints and value suggestions
+- **Hover Information** - Inline documentation and type information
 
-## Recent Improvements (January 2026)
+## Why .zolo?
 
-🎉 **Major Milestones Achieved!** The codebase has been transformed to industry-grade standards:
+Configuration files consume significant space in LLM contexts.  
+When you're working with AI assistants or processing configs at scale, every token counts.  
+**The `.zolo` format is designed with this reality in mind.**
 
-### Phase 1-3 Achievements (Parser & Providers):
-- ✅ **Parser Modularization**: Broke monolithic 2,700-line parser into 13 focused modules (364-line thin API)
-  - Each module <500 lines for maintainability
-  - Extracted: BlockTracker, FileTypeDetector, KeyDetector, ValueValidator
-  - Removed YAML dependency - pure .zolo format!
+**Token Comparison** (measured from [**advanced.zolo**](examples/advanced.zolo) - 400 lines of real-world config):
 
-- ✅ **Provider Modularization**: Refactored all providers (72% code reduction!)
-  - hover_provider: 285 → 55 lines (-81%)
-  - completion_provider: 301 → 62 lines (-79%)
-  - diagnostics_engine: 234 → 114 lines (-51%)
-  - Zero duplication through DocumentationRegistry (SSOT)
+| Format | Tokens | vs JSON | Why? |
+|--------|--------|---------|------|
+| **JSON** (baseline) | 7,358 | — | Industry standard, but verbose with `{}`, `[]`, `""` everywhere |
+| YAML | 4,905 | 33% smaller | Clean syntax, but ambiguous (`yes` = `true`, bare strings behave unpredictably) |
+| TOML | 5,813 | 21% smaller | Explicit types, but repetitive `[section.headers]` for nesting |
+| **`.zolo`** | **4,542** | **38% smaller** | **String-first, explicit types, minimal syntax** |
 
-- ✅ **Test Coverage**: Expanded from 162 → 494 tests
-  - 80% overall coverage
-  - Strategic testing of real-world scenarios
-  - All 5 special file types validated
+**What does 38% token reduction mean?**
 
-### Phase 7.1 Achievements (VS Code Integration):
-- ✅ **VS Code Support**: Full editor integration with zero-config installation
-  - Theme generator: 544 lines, 17 tests passing
-  - Python-based installer (no npm/TypeScript dependencies!)
-  - Settings injection for automatic color configuration
-  - Works with ANY VS Code theme (Dark+, Light+, Monokai, etc.)
+In practical terms, a typical application configuration that consumes **7,358 tokens in JSON** requires only **4,542 tokens in .zolo**.  
+**That's 2,816 tokens saved** - enough space for several additional prompts or responses in an LLM conversation.
 
-- ✅ **Industry Innovation**: Settings injection approach
-  - Traditional LSPs: Manual theme activation required
-  - zlsp: True zero-config (install → reload → done!)
-  - Colors match Vim exactly (single source of truth)
+**Scale Amplifies Savings** - The more files you process, the more tokens you save (Impact Multiplier shows the growing benefit):
 
-**Result**: Clean, maintainable, industry-grade codebase with dual-editor support!
+| Scale | JSON Tokens | .zolo Tokens | Tokens Saved | Impact Multiplier | Equivalent To |
+|-------|-------------|--------------|--------------|-------------------|---------------|
+| 1 file | 7,358 | 4,542 | 2,816 | 1x | ~4 LLM prompts |
+| 10 files | 73,580 | 45,420 | 28,160 | 10x | ~40 prompts |
+| 100 files | 735,800 | 454,200 | 281,600 | 100x | ~400 prompts |
+| 1,000 files | 7,358,000 | 4,542,000 | 2,816,000 | 1,000x | ~4,000 prompts |
 
-## Project Structure
+**What this means for you:**
+- **Save 38% on AI API bills** - Every token you don't send is money saved
+- **Fit more in AI conversations** - More room for your actual data and prompts
+- **Faster load times** - Smaller files process quicker
+- **Easier to read** - Less clutter, more clarity
 
-```
-zlsp/
-├── core/          # Language-agnostic LSP implementation
-│   ├── server/    # LSP protocol, semantic tokens
-│   ├── parser/    # Zolo parser (single source of truth)
-│   └── providers/ # Completion, hover, diagnostics
-│
-├── bindings/      # Language-specific SDKs
-│   └── python/    # Python SDK ✅ (ready)
-│       └── zlsp/  # pip install zlsp
-│
-├── editors/       # Editor integrations
-│   ├── vim/       # Vim integration ✅ (ready)
-│   └── vscode/    # VS Code integration ✅ (ready)
-│
-├── themes/        # Theme system (single source of truth)
-│   ├── zolo_default.yaml    # Canonical color theme
-│   └── generators/          # Editor-specific generators
-│       ├── vim.py           # Generates Vim ANSI highlights
-│       └── vscode.py        # Generates VS Code JSON rules
-│
-└── Documentation/ # All documentation
-    ├── bindings/  # Per-language guides
-    └── editors/   # Per-editor guides
-```
+**Why not just use YAML?**
 
-**Design:** Each folder (`core/`, `bindings/python/`, `editors/vim/`, `editors/vscode/`) can be extracted to its own repository when ready for publication. The monorepo structure makes development easier!
+YAML achieves similar token efficiency (33% reduction) but introduces ambiguity that causes production issues:
+- `yes`, `no`, `on`, `off` auto-convert to booleans
+- Bare strings like `true` or `false` become booleans unexpectedly
+- The infamous "Norway problem" where country code `no` becomes `false`
+- Implicit type conversions lead to bugs
 
-## Quick Start
+>**Suggested reading:** [The yaml document from hell](https://ruudvanasseldonk.com/2023/01/11/the-yaml-document-from-hell) - A comprehensive breakdown of YAML's footguns and unexpected behaviors.
 
-### Installation (One Command!)
-
-**From PyPI (Production):**
-
-```bash
-# Install zlsp
-pip install zlsp
-
-# Choose your editor:
-zlsp-vim-install      # For Vim/Neovim
-zlsp-vscode-install   # For VS Code
-```
-
-**From GitHub (Development):**
-
-```bash
-# Install from monorepo
-pip install git+https://github.com/ZoloAi/Zolo.git#subdirectory=zLSP
-
-# Choose your editor:
-zlsp-vim-install      # For Vim/Neovim
-zlsp-vscode-install   # For VS Code
-```
-
-**Local Development:**
-
-```bash
-cd zlsp
-pip install -e .
-
-# Choose your editor:
-zlsp-vim-install      # For Vim/Neovim
-zlsp-vscode-install   # For VS Code
-```
-
----
-
-### Vim/Neovim Support
-
-**Installation:**
-```bash
-pip install zlsp
-zlsp-vim-install
-```
-
-**What Gets Installed:**
-1. ✅ Installs Vim plugin files to `~/.vim/` or `~/.config/nvim/`
-2. ✅ **Detects Vim version** and auto-installs vim-lsp if needed (Vim 9+)
-3. ✅ **Sets up vim-plug** and configures your `~/.vimrc` (with backup)
-4. ✅ Verifies `zolo-lsp` server is available
-
-**Usage:**
-
-**Neovim 0.8+:** Built-in LSP - works automatically!
-```bash
-nvim test.zolo  # Just works! 🎉
-```
-
-**Vim 9+:** Auto-configured with vim-lsp during installation
-```bash
-vim test.zolo  # LSP enabled automatically! 🎉
-```
-
-**Vim 8 or older:** Basic syntax highlighting (no LSP)
-```bash
-vim test.zolo  # Basic colors only
-# Recommendation: Upgrade to Vim 9+ or use Neovim
-```
-
-See [`editors/vim/README.md`](editors/vim/README.md) for troubleshooting and advanced setup.
-
----
-
-### VS Code Support
-
-**Installation:**
-```bash
-pip install zlsp
-zlsp-vscode-install
-```
-
-Then reload VS Code: `Cmd+Shift+P` → "Reload Window"
-
-**What Gets Installed:**
-1. ✅ Extension to `~/.vscode/extensions/zolo-lsp-1.0.0/`
-2. ✅ **Semantic token colors injected** into your `settings.json`
-3. ✅ **Works with ANY theme** (Dark+, Light+, Monokai, your favorite!)
-4. ✅ Verifies `zolo-lsp` server is available
-
-**Key Innovation:** Settings injection means **zero manual configuration**:
-- ✅ No theme activation required
-- ✅ Works with your existing theme
-- ✅ Colors match Vim exactly (single source of truth)
-- ✅ Persistent across all sessions
-
-**Usage:**
-```bash
-code test.zolo  # Full LSP support with beautiful colors! 🎉
-```
-
-See [`editors/vscode/README.md`](editors/vscode/README.md) for troubleshooting and advanced setup.
-
----
-
-**Both editors supported with identical colors!** The LSP server is the same, only the client differs.
+`.zolo` takes a different approach: **string-first with explicit types**. Only `true` and `false` are booleans, everything else is a string. This eliminates ambiguity while maintaining readability and token efficiency - a practical format for both humans and machines.
 
 ## String-First Philosophy
 
-Zolo's core innovation: **values are strings by default**, with explicit type hints for conversion.
+zLSP's core design: **values are strings by default**, with explicit type hints for conversion.
 
 ```zolo
-# String (default)
+# Strings (default)
 name: Zolo
 description: A declarative config format
 
@@ -199,99 +131,43 @@ description: A declarative config format
 version(float): 1.0
 port(int): 8080
 enabled(bool): true
-timeout(float): 30.5
 
 # Force string (even if looks like number)
 id(str): 12345
-code(str): 007
 
 # Null values
 empty(null):
 ```
 
 **Why String-First?**
-- **No ambiguity** - YAML's `yes` = `true` problem doesn't exist
-- **Explicit > Implicit** - Clear intent, no surprises
-- **Easy to understand** - What you see is what you get
+- Strings are the most common value type in declarative files, especially in the LLM era
+- Optimized for the actual use case (text, paths, commands, descriptions)
+- Side benefit: eliminates ambiguity (no `yes` = `true` confusion)
+- Explicit type hints when you need other types
+
 
 ## Architecture
 
-```
-┌─────────────────────────────────────────┐
-│   themes/zolo_default.yaml              │  ← Single Source of Truth (Colors)
-│   (40 semantic token definitions)       │
-└─────────────────┬───────────────────────┘
-                  ↓
-        ┌─────────┴─────────┐
-        ↓                    ↓
-┌──────────────┐    ┌──────────────┐
-│ vim.py       │    │ vscode.py    │  ← Theme Generators
-│ (ANSI codes) │    │ (JSON rules) │
-└──────────────┘    └──────────────┘
-        │                    │
-        ↓                    ↓
-    ~/.vim/          settings.json
+zLSP follows modern Language Server Protocol best practices:
 
-┌─────────────────────┐
-│   parser.py         │  ← Single Source of Truth (Parsing)
-│   (String-first)    │     • tokenize() → semantic tokens
-└──────────┬──────────┘     • load/loads() → parse data
-           │                • dump/dumps() → write data
-           ↓
-┌─────────────────────┐
-│   lsp_server.py     │  ← Thin LSP Wrapper
-│   (LSP Protocol)    │     Provides ALL features:
-└──────────┬──────────┘     • Semantic highlighting
-           │                • Diagnostics
-           │                • Completion
-           ↓                • Hover
-    ┌──────┴──────┐
-    ↓             ↓
-┌────────┐    ┌────────┐
-│  Vim   │    │ VS Code│  ← Thin LSP Clients
-│  LSP   │    │  LSP   │    (No grammar files!)
-└────────┘    └────────┘
-    ✅             ✅
+```
+Parser (parser.py)
+    ↓
+LSP Server (lsp_server.py)
+    ↓
+Editor Clients (vim-lsp, VSCode LSP)
 ```
 
 **Key Principles:**
-- **Two Single Sources of Truth**: `zolo_default.yaml` (colors) + `parser.py` (parsing)
-- **Smart Adapters**: Different mechanisms for each editor, same colors
-- **No grammar files**: Parser provides semantic tokens directly to LSP
-- **Zero config**: Install → reload → done!
+- Single source of truth (parser)
+- Thin LSP wrapper
+- No duplicate grammar files
+- Editor-agnostic protocol
 
-See [`Documentation/ARCHITECTURE.md`](Documentation/ARCHITECTURE.md) for detailed design docs.
-
-## LSP Features
-
-All features come from the LSP (no grammar files):
-
-### ✅ Semantic Highlighting
-- Keys, values, comments colored by parser
-- Context-aware (zUI, zConfig, zEnv files)
-- Type hints highlighted
-
-### ✅ Diagnostics
-- Syntax errors (duplicate keys, invalid YAML)
-- Type mismatches (e.g., `port(int): abc`)
-- Real-time error reporting
-
-### ✅ Hover Information
-- Type hint documentation
-- Value type detection
-- Key descriptions
-
-### ✅ Code Completion
-- Type hints: `(int)`, `(float)`, `(bool)`, etc.
-- Common values: `true`, `false`, `null`
-- Context-aware suggestions
-
-## Usage
-
-### As a Parser
+## Usage as Parser
 
 ```python
-from zolo import load, loads, dump, dumps
+from zlsp.core.parser import load, loads, dump, dumps
 
 # Load from file
 data = load('config.zolo')
@@ -304,167 +180,118 @@ enabled(bool): true
 ''')
 # → {'name': 'Zolo', 'version': 1.0, 'enabled': True}
 
-# Dump to file
+# Write to file
 dump(data, 'output.zolo')
 
-# Dump to string
+# Write to string
 text = dumps(data)
 ```
 
-### As an LSP Server
+## zLSP Advanced Features
 
-The `zolo-lsp` command starts the LSP server:
+zLSP server provides all the expected industry-grade features:
 
-```bash
-zolo-lsp
+### Semantic Highlighting
+- Keys, values, and comments colored by parser
+- Context-aware for special file types (zConfig, zEnv, zSpark)
+- Type hints highlighted
+
+### Diagnostics
+- Syntax errors (duplicate keys, invalid format)
+- Type mismatches (e.g., `port(int): abc`)
+- Real-time error reporting
+
+### Hover Information
+- Type hint documentation
+- Value type detection
+- Key descriptions
+
+### Code Completion
+- Type hints: `(int)`, `(float)`, `(bool)`, `(str)`, `(null)`
+- Common values: `true`, `false`, `null`
+- Context-aware suggestions
+
+## Project Structure
+
 ```
-
-Editors connect to it automatically when you open a `.zolo` file.
-
-## File Structure
-
+zlsp/
+├── core/              # Core LSP implementation
+│   ├── server/        # LSP protocol handlers
+│   ├── parser/        # Zolo parser (single source of truth)
+│   └── providers/     # Completion, hover, diagnostics
+├── editors/           # Editor integrations
+│   ├── vim/           # Vim/Neovim integration
+│   ├── vscode/        # VSCode integration
+│   └── cursor/        # Cursor IDE integration
+├── themes/            # Color themes
+│   ├── zolo_default.yaml    # Canonical theme
+│   └── generators/          # Editor-specific generators
+├── examples/          # Example .zolo files
+└── Documentation/     # Full documentation
 ```
-zLSP/
-├── src/zolo/
-│   ├── parser.py              ← THE BRAIN (2,700+ lines)
-│   ├── lsp_server.py          ← LSP wrapper (~350 lines)
-│   ├── semantic_tokenizer.py  ← Token encoding
-│   ├── lsp_types.py           ← Type definitions
-│   ├── type_hints.py          ← String-first type system
-│   ├── constants.py           ← Shared constants
-│   ├── exceptions.py          ← Error types
-│   ├── providers/             ← LSP feature providers
-│   └── vim/                   ← Vim integration (Phase 1)
-├── tests/                     ← Unit tests
-├── examples/                  ← Example .zolo files
-├── docs/                      ← Documentation
-└── README.md                  ← This file
-```
-
-## Editor Support Comparison
-
-zlsp provides **identical functionality** across both supported editors:
-
-| Feature | Vim/Neovim | VS Code | Implementation |
-|---------|------------|---------|----------------|
-| **Semantic Highlighting** | ✅ ANSI colors | ✅ JSON rules | Same LSP server |
-| **Diagnostics** | ✅ Real-time | ✅ Real-time | Same LSP server |
-| **Hover Info** | ✅ `K` | ✅ Mouse hover | Same LSP server |
-| **Completion** | ✅ `Ctrl+N` | ✅ `Ctrl+Space` | Same LSP server |
-| **Installation** | `zlsp-vim-install` | `zlsp-vscode-install` | Python installers |
-| **Theme Activation** | ✅ None needed | ✅ None needed | Auto-config |
-| **Color Consistency** | ✅ Matches VS Code | ✅ Matches Vim | Single source of truth |
-| **Manual Setup** | ❌ Zero | ❌ Zero | True zero-config |
-
-**Key Insight:** Same LSP server (`zolo-lsp`), different thin clients. Colors from one theme (`zolo_default.yaml`).
-
----
-
-## Comparison to Other Languages
-
-Zolo follows the same architecture as modern language servers:
-
-| Language | Parser | LSP Server | Pattern |
-|----------|--------|------------|---------|
-| **TOML** | `toml` crate (Rust) | `taplo-lsp` | ✅ Same as Zolo |
-| **Rust** | `rustc` parser | `rust-analyzer` | ✅ Same as Zolo |
-| **YAML** | `yaml` (JS) | `yaml-language-server` | ✅ Same as Zolo |
-| **Zolo** | `parser.py` | `zolo-lsp` | ✅ Pure LSP |
-
-**We're in good company!**
-
-## Roadmap
-
-### ✅ Phase 1-6: Core & Vim (DONE)
-- [x] Parser with string-first logic (modularized to 13 modules)
-- [x] LSP server wrapping parser (thin architecture)
-- [x] Provider modularization (72% code reduction)
-- [x] Test coverage expansion (494 tests, 80% coverage)
-- [x] Vim LSP client configuration
-- [x] Installation script (`zlsp-vim-install`)
-- [x] Comprehensive documentation
-- [x] PyPI distribution
-
-### ✅ Phase 7.1: VS Code Integration (DONE)
-- [x] VS Code theme generator (544 lines, theme-driven)
-- [x] Python-based installer (`zlsp-vscode-install`)
-- [x] Settings injection for zero-config experience
-- [x] Works with ANY VS Code theme
-- [x] Same LSP server, different client
-- [x] Documentation
-
-**🎉 Both Vim and VS Code fully supported!**
-
-### 📋 Phase 7.2+: Future Enhancements
-- [ ] **Marketplace Publishing** (VS Code Marketplace)
-- [ ] **Other Editors**: IntelliJ, Sublime Text, Emacs
-- [ ] **Advanced LSP Features**:
-  - [ ] Go-to-definition
-  - [ ] Find references
-  - [ ] Rename refactoring
-  - [ ] Code actions
-- [ ] **Performance Optimization** (if benchmarks show need)
-- [ ] **Parser Enhancements** (user-driven)
-
-## Testing
-
-```bash
-# Run unit tests
-pytest tests/
-
-# Test parser
-python3 -c "from zolo import loads; print(loads('key: value'))"
-
-# Test LSP server
-zolo-lsp --help
-
-# Test in Vim
-cd src/zolo/vim
-./install.sh
-nvim test.zolo
-```
-
-## Requirements
-
-- **Python 3.8+**
-- **pygls 1.3.0+** (LSP framework)
-- **pyyaml 6.0+** (YAML compatibility)
-
-For Vim:
-- **Neovim 0.8+** (built-in LSP) OR
-- **Vim 9+** with [vim-lsp](https://github.com/prabirshrestha/vim-lsp) plugin
 
 ## Documentation
 
 ### Getting Started
-- [`Documentation/QUICKSTART.md`](Documentation/QUICKSTART.md) - Get started in 5 minutes
-- [`Documentation/INSTALLATION.md`](Documentation/INSTALLATION.md) - Detailed installation guide
+- [QUICKSTART.md](Documentation/QUICKSTART.md) - Get started in 5 minutes
+- [INSTALLATION.md](Documentation/INSTALLATION.md) - Detailed installation guide
 
-### File Types Reference
-- [`Documentation/FILE_TYPES.md`](Documentation/FILE_TYPES.md) - Overview of all .zolo file types
-- [`Documentation/zSpark.md`](Documentation/zSpark.md) - ⭐ zSpark application configuration files
-- More file types coming soon (zConfig, zEnv, zUI, zSchema)
+### File Types
+- [FILE_TYPES.md](Documentation/FILE_TYPES.md) - Overview of .zolo file types
+- [zSpark.md](Documentation/zSpark.md) - zSpark configuration files
 
-### Architecture & Design
-- [`Documentation/ARCHITECTURE.md`](Documentation/ARCHITECTURE.md) - Detailed design docs
-- [`REFACTORING_PLAN.md`](REFACTORING_PLAN.md) - Refactoring journey & lessons learned
-- [`Documentation/ERROR_MESSAGES.md`](Documentation/ERROR_MESSAGES.md) - Error messages guide
+### Architecture
+- [ARCHITECTURE.md](Documentation/ARCHITECTURE.md) - Design and architecture
+- [ERROR_MESSAGES.md](Documentation/ERROR_MESSAGES.md) - Error messages guide
 
 ### Editor Integration
-- [`editors/vim/README.md`](editors/vim/README.md) - Vim/Neovim setup guide
-- [`editors/vscode/README.md`](editors/vscode/README.md) - VS Code setup guide
-- [`editors/cursor/README.md`](editors/cursor/README.md) - Cursor IDE setup guide
+- [editors/vim/README.md](editors/vim/README.md) - Vim/Neovim setup
+- [editors/vscode/README.md](editors/vscode/README.md) - VSCode setup
+- [editors/cursor/README.md](editors/cursor/README.md) - Cursor IDE setup
 
-### Examples & Usage
-- [`examples/`](examples/) - Example .zolo files (7 files covering all features)
+## Development
+
+```bash
+# Clone repository
+git clone https://github.com/ZoloAi/ZoloMedia.git
+cd ZoloMedia/zlsp
+
+# Install in editable mode
+pip install -e .
+
+# Install for your editor
+zlsp-install-vim  # or zlsp-install-vscode
+
+# Run tests
+pytest tests/
+
+# Test parser
+python3 -c "from zlsp.core.parser import loads; print(loads('key: value'))"
+
+# Start LSP server
+zolo-lsp
+```
+
+## Testing
+
+```bash
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=core --cov-report=html
+
+# Test specific module
+pytest tests/unit/test_parser.py
+```
 
 ## Contributing
 
-**Core principle:** Keep `parser.py` as the single source of truth.
+**Core Principle:** Keep the parser as the single source of truth.
 
-- New syntax? → Add to `parser.py`
-- New highlighting? → Update `tokenize()` in `parser.py`
-- New LSP feature? → Add provider that calls `parser.py`
+- New syntax? → Update parser
+- New highlighting? → Update tokenizer
+- New LSP feature? → Add provider that uses parser
 
 **Never:** Duplicate parsing logic in grammar files or LSP server.
 
@@ -481,4 +308,3 @@ Inspired by:
 
 Built with:
 - [pygls](https://github.com/openlawlibrary/pygls) - Python LSP framework
-- [PyYAML](https://pyyaml.org/) - YAML parser

@@ -60,12 +60,16 @@ dependencies = [
 [project.scripts]
 zlsp = "core.cli:main"
 zolo-lsp = "core.server.lsp_server:main"
-zlsp-vim-install = "editors.vim.install:main"
-zlsp-vim-uninstall = "editors.vim.uninstall:main"
-zlsp-vscode-install = "editors.vscode.install:main"
-zlsp-vscode-uninstall = "editors.vscode.uninstall:main"
-zlsp-cursor-install = "editors.cursor.install:main"
-zlsp-cursor-uninstall = "editors.cursor.uninstall:main"
+# Editor installation commands (new naming convention)
+zlsp-install-vim = "editors.vim.install:main"
+zlsp-install-vscode = "editors.vscode.install:main"
+zlsp-install-cursor = "editors.cursor.install:main"
+zlsp-install-all = "editors:install_all"
+# Editor uninstallation commands
+zlsp-uninstall-vim = "editors.vim.uninstall:main"
+zlsp-uninstall-vscode = "editors.vscode.uninstall:main"
+zlsp-uninstall-cursor = "editors.cursor.uninstall:main"
+zlsp-uninstall-all = "editors:uninstall_all"
 
 [project.optional-dependencies]
 dev = [
