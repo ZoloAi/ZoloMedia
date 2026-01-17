@@ -4,11 +4,11 @@ Complete Visual Studio Code integration for `.zolo` files with LSP support.
 
 ## Features
 
-✨ **Zero Configuration** - Install and it works! No theme activation required  
-🎨 **Works with ANY Theme** - Dark+, Light+, Monokai, or your favorite  
-🚀 **Full LSP Features** - Hover, completion, diagnostics, and more  
-🔒 **Non-Destructive** - Only affects `.zolo` files, leaves everything else alone  
-⚡ **Automatic** - Colors injected into your settings, persistent across sessions
+- **Zero Configuration** - Install and it works! No theme activation required
+- **Works with ANY Theme** - Dark+, Light+, Monokai, or your favorite
+- **Full LSP Features** - Hover, completion, diagnostics, and more
+- **Non-Destructive** - Only affects `.zolo` files, leaves everything else alone
+- **Automatic** - Colors injected into your settings, persistent across sessions
 
 ---
 
@@ -21,16 +21,16 @@ Complete Visual Studio Code integration for `.zolo` files with LSP support.
 
 ### Installation Options
 
-**🎯 Recommended: Python Installer (Primary)**
+**Recommended: Python Installer (Primary)**
 
 ```bash
 pip install zlsp
-zlsp-vscode-install
+zlsp-install-vscode
 ```
 
 Then reload VS Code: `Cmd+Shift+P` → "Reload Window"
 
-**📦 Alternative: VS Code Marketplace (Future)**
+**Alternative: VS Code Marketplace (Future)**
 
 Coming soon! The extension will be available on VS Code Marketplace with the same zero-config experience:
 
@@ -205,7 +205,7 @@ Traditional LSP extensions:
 
 zlsp:
 ```
-1. Run zlsp-vscode-install
+1. Run zlsp-install-vscode
 2. Reload VS Code
 ✓ Done! Works with any theme!
 ```
@@ -258,7 +258,7 @@ which zolo-lsp  # Should show path
 **Reinstall if needed:**
 ```bash
 pip install --upgrade --force-reinstall zlsp
-zlsp-vscode-install
+zlsp-install-vscode
 ```
 
 ### Extension not activating?
@@ -355,7 +355,7 @@ Enable trace logging:
 Use our Python uninstaller for complete removal:
 
 ```bash
-zlsp-vscode-uninstall
+zlsp-uninstall-vscode
 ```
 
 **This will:**
@@ -455,14 +455,19 @@ code %APPDATA%\Code\User\settings.json
 ## Architecture
 
 ```
-zlsp/editors/vscode/
-├── install.py            # Installation script (Python)
-│   ├── generate_package_json()
-│   ├── generate_textmate_grammar()
-│   ├── generate_extension_js()
-│   └── inject_semantic_token_colors_into_settings()  ← The magic!
-├── uninstall.py          # Cleanup script
-└── README.md             # This file
+zlsp/editors/
+├── _shared/
+│   └── vscode_base.py       # Shared installer base class (VSCode/Cursor)
+│       ├── generate_package_json()
+│       ├── generate_textmate_grammar()
+│       ├── generate_extension_js()
+│       └── inject_semantic_token_colors_into_settings()  ← The magic!
+├── vscode/
+│   ├── install.py           # VSCode installer (thin wrapper, 43 lines)
+│   ├── uninstall.py         # Cleanup script
+│   └── README.md            # This file
+└── cursor/
+    └── install.py           # Cursor installer (thin wrapper, 45 lines)
 
 zlsp/themes/generators/vscode.py
 ├── generate_textmate_grammar()         # Basic syntax highlighting
@@ -472,9 +477,10 @@ zlsp/themes/generators/vscode.py
 
 **Design Philosophy:**
 1. **Single Source of Truth:** `themes/zolo_default.yaml`
-2. **Python-First:** No npm, no TypeScript compilation
-3. **Theme-Generated:** All colors from canonical theme
-4. **Zero-Config:** Settings injection for automatic setup
+2. **DRY Architecture:** Shared base class for VSCode-based editors
+3. **Python-First:** No npm, no TypeScript compilation
+4. **Theme-Generated:** All colors from canonical theme
+5. **Zero-Config:** Settings injection for automatic setup
 
 ---
 
@@ -482,11 +488,11 @@ zlsp/themes/generators/vscode.py
 
 | Feature | Vim/Neovim | VS Code |
 |---------|------------|---------|
-| **Installation** | `zlsp-vim-install` | `zlsp-vscode-install` |
+| **Installation** | `zlsp-install-vim` | `zlsp-install-vscode` |
 | **Colors** | Direct ANSI injection | Settings injection |
 | **Theme Requirement** | None | None (works with any) |
 | **Manual Setup** | None | None |
-| **Color Consistency** | ✅ Matches VS Code | ✅ Matches Vim |
+| **Color Consistency** | Matches VS Code | Matches Vim |
 
 **Both editors get identical colors from the same canonical theme!**
 
@@ -514,4 +520,4 @@ Found a bug or have a suggestion?
 
 ---
 
-**Made with ❤️ by Zolo Media**
+**Made by Zolo Media**

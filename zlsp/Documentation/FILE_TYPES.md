@@ -1,28 +1,32 @@
-# Zolo File Types Reference
+# File Type Detection
 
-This guide covers the different `.zolo` file types and their specific purposes, syntax, and features.
+This document describes how zlsp detects and provides specialized LSP features for different `.zolo` file patterns.
 
 ---
 
 ## Overview
 
-Zolo uses a **filename-based convention** to determine file type and provide specialized LSP features:
-
-| Pattern | Purpose | Documentation |
-|---------|---------|---------------|
-| `zSpark.*.zolo` | Spark application configuration | [zSpark.md](./zSpark.md) |
-| `zConfig.*.zolo` | Application settings | _Coming soon_ |
-| `zEnv.*.zolo` | Environment variables | _Coming soon_ |
-| `zUI.*.zolo` | UI components and layouts | _Coming soon_ |
-| `zSchema.*.zolo` | Data schema definitions | _Coming soon_ |
-| `zMachine.*.zolo` | Machine/system configuration | _Coming soon_ |
-| `*.zolo` | Generic zolo files | Use any structure |
+zlsp uses filename-based conventions to determine file types and provide context-aware LSP features. This detection happens automatically based on the filename pattern.
 
 ---
 
-## File Type Detection
+## Supported File Patterns
 
-The LSP automatically detects file types based on filename patterns:
+| Pattern | Detected Type | LSP Features |
+|---------|---------------|--------------|
+| `zSpark.*.zolo` | ZSPARK | Full support |
+| `zConfig.*.zolo` | ZCONFIG | Full support |
+| `zEnv.*.zolo` | ZENV | Basic support |
+| `zUI.*.zolo` | ZUI | Basic support |
+| `zSchema.*.zolo` | ZSCHEMA | Basic support |
+| `zMachine.*.zolo` | ZMACHINE | Basic support |
+| `*.zolo` | GENERIC | Basic support |
+
+---
+
+## Detection Logic
+
+zlsp matches filenames against specific patterns:
 
 ```python
 FileType.ZSPARK   → zSpark.*.zolo
@@ -37,139 +41,77 @@ FileType.GENERIC  → *.zolo (fallback)
 ### Examples
 
 ```
-✅ zSpark.production.zolo    → FileType.ZSPARK
-✅ zConfig.database.zolo     → FileType.ZCONFIG
-✅ zUI.Navbar.zolo           → FileType.ZUI
-✅ mydata.zolo               → FileType.GENERIC
-❌ spark.config.zolo         → FileType.GENERIC (no prefix match)
+zSpark.production.zolo    → ZSPARK
+zConfig.database.zolo     → ZCONFIG
+zUI.Navbar.zolo           → ZUI
+mydata.zolo               → GENERIC
+spark.config.zolo         → GENERIC (no prefix match)
 ```
 
----
-
-## Documented File Types
-
-### 1. zSpark Files
-
-**Pattern:** `zSpark.*.zolo`  
-**Purpose:** Spark application runtime configuration
-
-📚 **[Full Documentation →](./zSpark.md)**
-
-**Key Features:**
-- Single root key: `zSpark:`
-- Deployment & logging configuration
-- Server and UI settings
-- Snippet expansion with `zSpark>>`
-
-**Quick Example:**
-
-```zolo
-zSpark:
-    title: MyApp
-    deployment: Production
-    logger: INFO
-    zMode: Terminal
-```
+**Note:** The pattern must start with the special prefix (e.g., `zSpark.`) to be detected as a special file type.
 
 ---
 
-## Upcoming Documentation
+## LSP Features
 
-### 2. zConfig Files
+### Universal Features (All File Types)
 
-**Pattern:** `zConfig.*.zolo`  
-**Purpose:** Application-specific configuration settings
+All `.zolo` files receive these LSP features:
 
-**Status:** 🚧 _Documentation coming soon_
+- **Semantic Highlighting** - Context-aware syntax coloring
+- **Diagnostics** - Real-time error and warning detection
+- **Hover Documentation** - Inline help for keys and values
+- **Indentation Validation** - Enforces tabs OR spaces (like Python)
+- **Code Formatting** - Auto-formatting support
+- **Symbol Navigation** - Jump to definitions
 
----
+### File-Type-Specific Features
 
-### 3. zEnv Files
+Some file types receive additional context-aware features:
 
-**Pattern:** `zEnv.*.zolo`  
-**Purpose:** Environment variables and secrets management
+| Feature | zSpark | zConfig | Others |
+|---------|--------|---------|--------|
+| Context-aware completions | Yes | Yes | No |
+| Value validation | Yes | Yes | No |
+| Snippet expansion | Yes | No | No |
+| Root key enforcement | Yes | No | No |
 
-**Status:** 🚧 _Documentation coming soon_
-
----
-
-### 4. zUI Files
-
-**Pattern:** `zUI.*.zolo`  
-**Purpose:** User interface components and layouts
-
-**Status:** 🚧 _Documentation coming soon_
-
-**Quick Preview:**
-
-```zolo
-zImage: @.assets.logo.png
-zText: Welcome to Zolo!
-zH1: Main Heading
-zURL: https://zolo.media
-```
-
----
-
-### 5. zSchema Files
-
-**Pattern:** `zSchema.*.zolo`  
-**Purpose:** Data schema and model definitions
-
-**Status:** 🚧 _Documentation coming soon_
-
-**Quick Preview:**
-
-```zolo
-users:
-    username: (string)
-    email: (string)
-    age: (int)
-```
-
----
-
-### 6. zMachine Files
-
-**Pattern:** `zMachine.*.zolo`  
-**Purpose:** Machine and system configuration
-
-**Status:** 🚧 _Documentation coming soon_
+**Note:** File-type-specific features are implemented in the LSP providers based on the detected file type.
 
 ---
 
 ## Common Syntax Elements
 
+All `.zolo` files share these syntax rules:
+
 ### Indentation
 
-Like Python, all `.zolo` files allow **either tabs OR spaces** (but never mixed):
+Like Python, all `.zolo` files allow **tabs OR spaces** (but never mixed):
 
-**Recommended: 4-space indentation**
 ```zolo
+# Valid: 4-space indentation (recommended)
 root_key:
-    nested_key: value        ← 4 spaces
+    nested_key: value
     deeper:
-        nested: value        ← 8 spaces
-```
+        nested: value
 
-**Allowed: Tab indentation**
-```zolo
+# Valid: Tab indentation
 root_key:
-	nested_key: value        ← 1 tab
+	nested_key: value
 	deeper:
-		nested: value        ← 2 tabs
+		nested: value
 ```
 
-**Forbidden: Mixing tabs and spaces** (Python 3 TabError style)
+**Forbidden:** Mixing tabs and spaces (Python 3 TabError style)
 
 ### Type Hints
 
 Use parentheses for explicit type hints:
 
 ```zolo
-age: (int) 25
-name: (string) John
-active: (boolean) true
+age(int): 25
+name(string): John
+active(boolean): true
 ```
 
 ### zPath Syntax
@@ -191,48 +133,33 @@ Standard `#` comments:
 key: value  # Inline comment
 ```
 
----
+Inline documentation comments:
 
-## LSP Features by File Type
-
-### All File Types
-
-✅ **Semantic Highlighting** - Context-aware syntax coloring  
-✅ **Diagnostics** - Real-time error/warning detection  
-✅ **Hover Documentation** - Inline help on properties  
-✅ **Indentation Validation** - Python-style (tabs OR spaces, no mixing)
-
-### File-Type-Specific Features
-
-| Feature | zSpark | zConfig | zEnv | zUI | zSchema |
-|---------|--------|---------|------|-----|---------|
-| **Context Completions** | ✅ | 🚧 | 🚧 | 🚧 | 🚧 |
-| **Snippet Expansion** | ✅ | 🚧 | 🚧 | 🚧 | 🚧 |
-| **Value Validation** | ✅ | 🚧 | 🚧 | 🚧 | 🚧 |
-| **Root Key Enforcement** | ✅ | 🚧 | 🚧 | ❌ | ❌ |
-| **Code Actions** | ✅ | 🚧 | 🚧 | 🚧 | 🚧 |
-
-_Legend: ✅ Implemented | 🚧 Coming Soon | ❌ Not Applicable_
+```zolo
+key: value  #> This is an inline doc comment <#
+```
 
 ---
 
-## Best Practices
-
-### Naming Conventions
+## Naming Conventions
 
 Use descriptive middle segments in filenames:
 
 ```
-✅ zSpark.production.zolo
-✅ zSpark.development.zolo
-✅ zConfig.database.zolo
-✅ zUI.MainNavbar.zolo
+Good:
+  zSpark.production.zolo
+  zSpark.development.zolo
+  zConfig.database.zolo
+  zUI.MainNavbar.zolo
 
-❌ zSpark.zolo          (too generic)
-❌ config.prod.zolo     (missing prefix)
+Avoid:
+  zSpark.zolo          (too generic)
+  config.prod.zolo     (missing prefix)
 ```
 
-### File Organization
+---
+
+## File Organization
 
 Organize by file type in your project:
 
@@ -250,35 +177,16 @@ project/
     └── zSchema.users.zolo
 ```
 
-### Consistency
-
-- Use **either tabs OR spaces** for indentation (like Python - never mix!)
-- **Recommended:** 4 spaces (matches Python PEP 8)
-- Keep similar files in same directory
-- Use consistent naming patterns
-- Document complex configurations with comments
-
 ---
 
 ## Related Documentation
 
-- **[Installation Guide](./INSTALLATION.md)** - Set up the LSP
-- **[Quick Start](./QUICKSTART.md)** - Get started in 5 minutes
-- **[Architecture](./ARCHITECTURE.md)** - How it all works
-- **[Editor Integrations](./editors/)** - Editor-specific guides
+- [INSTALLATION.md](./INSTALLATION.md) - Set up the LSP
+- [ARCHITECTURE.md](./ARCHITECTURE.md) - How it all works
+- [Editor Integrations](../editors/) - Editor-specific guides
+
+For detailed information about what these file types are used for in Zolo applications, see the zOS and zKernel documentation (coming when those packages are added to the monorepo).
 
 ---
 
-## Contributing Documentation
-
-Want to help document a file type? See our contribution guidelines:
-
-1. Create `Documentation/<FileType>.md`
-2. Follow the zSpark.md template structure
-3. Include examples, best practices, and troubleshooting
-4. Update this index (FILE_TYPES.md)
-
----
-
-**Last Updated:** January 2026  
-**Contact:** info@zolo.media
+**Last Updated:** January 2026

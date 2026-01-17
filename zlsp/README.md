@@ -238,18 +238,14 @@ zlsp/
 - [basic.zolo](examples/basic.zolo) - Simple syntax examples
 - [advanced.zolo](examples/advanced.zolo) - Real-world configuration example
 
+### Core Documentation
+- [ARCHITECTURE.md](Documentation/ARCHITECTURE.md) - Design and architecture
+- [FILE_TYPES.md](Documentation/FILE_TYPES.md) - File type detection and LSP features
+
 ### Editor Integration
 - [editors/vim/README.md](editors/vim/README.md) - Vim/Neovim setup
 - [editors/vscode/README.md](editors/vscode/README.md) - VSCode setup
 - [editors/cursor/README.md](editors/cursor/README.md) - Cursor IDE setup
-
-### Architecture
-- [ARCHITECTURE.md](Documentation/ARCHITECTURE.md) - Design and architecture
-- [ERROR_MESSAGES.md](Documentation/ERROR_MESSAGES.md) - Error messages guide
-
-### zSpecial File Types
-- [FILE_TYPES.md](Documentation/FILE_TYPES.md) - Overview of .zolo file types
-- [zSpark.md](Documentation/zSpark.md) - zSpark configuration files
 
 
 ## Development
