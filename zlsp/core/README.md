@@ -1,42 +1,44 @@
 # zlsp Core
 
-**Language-agnostic LSP implementation for .zolo files**
+**Pure Python LSP implementation for .zolo files**
 
-This directory contains the core LSP server implementation that is shared by all language bindings and editor integrations.
+This directory contains the core LSP server implementation that powers editor integrations.
 
 ## Architecture
 
 ```
 core/
 ├── server/          # LSP protocol implementation
-│   ├── lsp_server.py         # Main LSP server (367 lines)
+│   ├── lsp_server.py         # Main LSP server
 │   ├── lsp_types.py          # LSP type definitions
 │   └── semantic_tokenizer.py # Token encoding
 │
-├── parser/          # Zolo parser (modular architecture!)
-│   ├── parser.py             # Public API (364 lines - thin orchestration)
+├── parser/          # Zolo parser (modular architecture)
+│   ├── parser.py             # Public API
 │   ├── constants.py          # Parser constants
-│   └── parser_modules/       # ⭐ Modular implementation (Phase 2)
-│       ├── line_parsers.py         # Core parsing (843 lines)
-│       ├── token_emitter.py        # Token emission (171 lines)
-│       ├── block_tracker.py        # Context tracking (71 lines)
-│       ├── key_detector.py         # Key classification (98 lines)
-│       ├── file_type_detector.py   # File type detection (61 lines)
-│       ├── value_validators.py     # Value validation (53 lines)
-│       ├── serializer.py           # .zolo serialization (56 lines)
-│       ├── type_hints.py           # Type hint processing (60 lines)
-│       └── + 5 more utility modules
+│   └── parser_modules/       # Modular implementation
+│       ├── line_parsers.py         # Core parsing
+│       ├── token_emitter.py        # Token emission
+│       ├── block_tracker.py        # Context tracking
+│       ├── key_detector.py         # Key classification
+│       ├── file_type_detector.py   # File type detection
+│       ├── value_validators.py     # Value validation
+│       ├── serializer.py           # .zolo serialization
+│       ├── type_hints.py           # Type hint processing
+│       └── escape_processors.py    # Escape sequence handling
+│       └── ... (additional modules)
 │
-├── providers/       # LSP feature providers (thin wrappers!)
-│   ├── completion_provider.py   # Autocomplete (62 lines - was 301!)
-│   ├── hover_provider.py        # Hover info (55 lines - was 285!)
-│   ├── diagnostics_engine.py    # Diagnostics (114 lines - was 234!)
-│   └── provider_modules/         # ⭐ Modular implementation (Phase 3)
-│       ├── documentation_registry.py  # SSOT for docs (263 lines, 98% cov)
-│       ├── completion_registry.py     # Context-aware (321 lines, 100% cov)
-│       ├── hover_renderer.py          # Hover formatting (266 lines, 88% cov)
-│       └── diagnostic_formatter.py    # Error formatting (239 lines, 97% cov)
+├── providers/       # LSP feature providers
+│   ├── completion_provider.py   # Autocomplete
+│   ├── hover_provider.py        # Hover information
+│   ├── diagnostics_engine.py    # Diagnostics
+│   └── provider_modules/        # Modular implementation
+│       ├── documentation_registry.py  # Documentation source of truth
+│       ├── completion_registry.py     # Context-aware completions
+│       ├── hover_renderer.py          # Hover formatting
+│       └── diagnostic_formatter.py    # Error formatting
 │
+├── cli.py           # CLI commands
 ├── exceptions.py    # Core exceptions
 └── version.py       # Package version
 ```
@@ -60,12 +62,12 @@ Or use **Editor integrations** in `../editors/` for LSP support
 
 ## Features
 
-- ✅ Semantic token highlighting
-- ✅ Real-time diagnostics (error detection)
-- ✅ Hover information
-- ✅ Code completion
-- ✅ Type hint processing
-- ✅ UTF-16 position handling
+- Semantic token highlighting
+- Real-time diagnostics (error detection)
+- Hover information
+- Code completion
+- Type hint processing
+- UTF-16 position handling
 
 ## Development
 

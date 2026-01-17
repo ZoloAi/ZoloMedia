@@ -241,6 +241,7 @@ zlsp/
 ### Core Documentation
 - [ARCHITECTURE.md](Documentation/ARCHITECTURE.md) - Design and architecture
 - [FILE_TYPES.md](Documentation/FILE_TYPES.md) - File type detection and LSP features
+- [CLI_GUIDE.md](Documentation/CLI_GUIDE.md) - Complete CLI reference
 
 ### Editor Integration
 - [editors/vim/README.md](editors/vim/README.md) - Vim/Neovim setup
