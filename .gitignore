@@ -55,6 +55,11 @@ dist/
 build/
 *.egg-info/
 
+# Rust (if accidentally added)
+Cargo.lock
+target/
+**/*.rs.bk
+
 # Testing
 .pytest_cache/
 .coverage

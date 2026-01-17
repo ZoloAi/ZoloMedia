@@ -61,6 +61,7 @@ This runs 5 essential checks:
 
 If anything fails, you'll get clear error messages with suggested fixes. Exit code 0 means success, 1 means issues found.
 
+> For installation troubleshoots see: [**INSTALLATION.md**](Documentation/INSTALLATION.md)
 ## Features
 
 - **String-First Philosophy** - Values are strings by default with explicit type hints as needed
@@ -217,7 +218,7 @@ zLSP server provides all the expected industry-grade features:
 zlsp/
 ├── core/              # Core LSP implementation
 │   ├── server/        # LSP protocol handlers
-│   ├── parser/        # Zolo parser (single source of truth)
+│   ├── parser/        # Parser implementation
 │   └── providers/     # Completion, hover, diagnostics
 ├── editors/           # Editor integrations
 │   ├── vim/           # Vim/Neovim integration
@@ -233,21 +234,23 @@ zlsp/
 ## Documentation
 
 ### Getting Started
-- [QUICKSTART.md](Documentation/QUICKSTART.md) - Get started in 5 minutes
 - [INSTALLATION.md](Documentation/INSTALLATION.md) - Detailed installation guide
-
-### File Types
-- [FILE_TYPES.md](Documentation/FILE_TYPES.md) - Overview of .zolo file types
-- [zSpark.md](Documentation/zSpark.md) - zSpark configuration files
-
-### Architecture
-- [ARCHITECTURE.md](Documentation/ARCHITECTURE.md) - Design and architecture
-- [ERROR_MESSAGES.md](Documentation/ERROR_MESSAGES.md) - Error messages guide
+- [basic.zolo](examples/basic.zolo) - Simple syntax examples
+- [advanced.zolo](examples/advanced.zolo) - Real-world configuration example
 
 ### Editor Integration
 - [editors/vim/README.md](editors/vim/README.md) - Vim/Neovim setup
 - [editors/vscode/README.md](editors/vscode/README.md) - VSCode setup
 - [editors/cursor/README.md](editors/cursor/README.md) - Cursor IDE setup
+
+### Architecture
+- [ARCHITECTURE.md](Documentation/ARCHITECTURE.md) - Design and architecture
+- [ERROR_MESSAGES.md](Documentation/ERROR_MESSAGES.md) - Error messages guide
+
+### zSpecial File Types
+- [FILE_TYPES.md](Documentation/FILE_TYPES.md) - Overview of .zolo file types
+- [zSpark.md](Documentation/zSpark.md) - zSpark configuration files
+
 
 ## Development
 
@@ -300,11 +303,6 @@ pytest tests/unit/test_parser.py
 MIT License - See [LICENSE](LICENSE) for details.
 
 ## Credits
-
-Inspired by:
-- [taplo](https://github.com/tamasfe/taplo) - TOML LSP
-- [rust-analyzer](https://github.com/rust-lang/rust-analyzer) - Rust LSP
-- [yaml-language-server](https://github.com/redhat-developer/yaml-language-server) - YAML LSP
 
 Built with:
 - [pygls](https://github.com/openlawlibrary/pygls) - Python LSP framework

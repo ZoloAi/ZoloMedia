@@ -94,12 +94,11 @@ Repository = "https://github.com/ZoloAi/ZoloMedia"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["core*", "bindings*", "editors*", "themes*"]
+include = ["core*", "editors*", "themes*"]
 exclude = ["tests*", "docs*", "scripts*"]
 
 [tool.setuptools.package-data]
 core = ["**/*"]
-bindings = ["**/*"]
 editors = ["**/*"]
 themes = ["*.yaml", "generators/*.py"]
 
@@ -111,7 +110,7 @@ themes = ["*.yaml", "generators/*.py"]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_functions = ["test_*"]
-addopts = "-v --cov=core --cov=bindings --cov-report=term-missing"
+addopts = "-v --cov=core --cov-report=term-missing"
 markers = [
     "slow: Slow tests that take significant time to run",
 ]

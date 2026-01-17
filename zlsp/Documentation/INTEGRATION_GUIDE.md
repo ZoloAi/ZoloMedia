@@ -15,12 +15,10 @@ The `zlsp` package provides a pure Python parser for `.zolo` files with an optio
   ├── core/                        # Core implementation
   │   ├── parser/                  # Parser (public API)
   │   │   ├── parser.py            # load(), loads(), dump(), dumps(), tokenize()
-  │   │   └── parser_modules/      # Modular implementation (Phase 2)
-  │   ├── providers/               # LSP providers (optional for zKernel)
-  │   └── server/                  # LSP server (optional for zKernel)
-  ├── bindings/
-  │   └── python/                  # Python SDK
-  └── setup.py                     # pip install zlsp
+  │   │   └── parser_modules/      # Modular implementation
+  │   ├── providers/               # LSP providers
+  │   └── server/                  # LSP server
+  └── pyproject.toml               # Modern Python packaging
 
 /zKernel/                          # zKernel framework
   └── L2_Core/g_zParser/
@@ -211,8 +209,8 @@ python -m twine upload dist/*
 2. **Version Management**: `pip install zolo==1.0.0`
 3. **IDE Integration**: VSCode/PyCharm can validate .zolo files
 4. **OS-Level Recognition**: .zolo becomes a recognized format
-5. **Cross-Language**: Easier to port to JS, Go, Rust, etc.
-6. **Cleaner zKernel**: zKernel focuses on framework, zolo on parsing
+5. **Cleaner zKernel**: zKernel focuses on framework, zlsp on parsing
+6. **Python → JavaScript**: Python parses, JavaScript consumes
 
 ## Next Steps
 

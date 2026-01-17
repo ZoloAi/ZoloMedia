@@ -4,7 +4,6 @@
 # Documentation
 include README.md
 include LICENSE
-include REFACTORING_PLAN.md
 recursive-include Documentation *.md
 
 # Theme system

@@ -43,16 +43,20 @@ core/
 
 ## Design Principles
 
-1. **Language-agnostic** - No language-specific code
+1. **Pure Python** - Clean, well-tested implementation
 2. **Single source of truth** - Parser drives everything
-3. **Shared by all** - Used by Python, C++, Java, etc. bindings
-4. **LSP-first** - Follows LSP spec exactly
+3. **LSP-first** - Follows LSP spec exactly
+4. **Modular** - Clear separation of concerns
 
 ## Usage
 
-This core is not meant to be used directly. Instead, use:
-- **Language bindings** in `../bindings/` for SDK access
-- **Editor integrations** in `../editors/` for editor support
+Import directly from core:
+```python
+from core.parser import loads, dumps
+from core.exceptions import ZoloParseError
+```
+
+Or use **Editor integrations** in `../editors/` for LSP support
 
 ## Features
 
@@ -65,8 +69,7 @@ This core is not meant to be used directly. Instead, use:
 
 ## Development
 
-The core is pure Python but designed to be wrapped by other languages:
-- Python → Direct import
-- C++ → Python C API or JSON-RPC
-- Java → JNI or JSON-RPC
-- Rust → PyO3 or JSON-RPC
+The core is pure Python:
+- Direct imports for Python applications
+- LSP server for editor integrations
+- Well-documented API for extensions

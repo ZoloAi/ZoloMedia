@@ -4,10 +4,10 @@ Complete Vim/Neovim integration for `.zolo` files with LSP support.
 
 ## Features
 
-✨ **Fully Automatic** - No `.vimrc` editing required!  
-🎨 **Beautiful Colors** - Refined 256-color palette for terminal compatibility  
-🚀 **LSP Features** - Hover, completion, diagnostics, and more  
-🔒 **Non-Destructive** - Only affects `.zolo` files, leaves everything else alone
+- **Fully Automatic** - No `.vimrc` editing required
+- **Beautiful Colors** - Refined 256-color palette for terminal compatibility
+- **LSP Features** - Hover, completion, diagnostics, and more
+- **Non-Destructive** - Only affects `.zolo` files, leaves everything else alone
 
 ---
 
@@ -31,10 +31,10 @@ Then run `:PlugInstall` in Vim.
 
 ```bash
 pip install zlsp
-zlsp-vim-install
+zlsp-install-vim
 ```
 
-That's it! 🎉
+That's it!
 
 ---
 
@@ -49,8 +49,10 @@ The installer copies files to **auto-loading directories** in `~/.vim/`:
 ├── syntax/zolo.vim          # Fallback syntax (no LSP)
 ├── indent/zolo.vim          # Indentation rules
 ├── plugin/zolo_lsp.vim      # LSP global setup (runs on startup)
-├── after/ftplugin/zolo.vim  # LSP per-file setup (runs after vim-lsp)
-└── colors/zolo_lsp.vim      # Semantic token colors
+├── after/
+│   ├── ftplugin/zolo.vim    # LSP per-file setup + semantic colors (generated)
+│   └── syntax/zolo.vim      # Clears conflicting syntax groups
+└── colors/                  # (Empty - created for future use)
 ```
 
 **No `.vimrc` modification needed!** Everything auto-loads when you open a `.zolo` file.
@@ -75,7 +77,9 @@ Carefully tuned for terminal compatibility (256-color ANSI palette):
 
 ### Customizing Colors
 
-Edit `~/.vim/colors/zolo_lsp.vim` and change the `ctermfg` values.
+Edit `~/.vim/after/ftplugin/zolo.vim` (generated during install) and change the `ctermfg` values.
+
+**Note:** Your changes will be overwritten if you reinstall. For permanent customization, modify `zlsp/themes/zolo_default.yaml` before installing.
 
 ---
 
@@ -118,8 +122,8 @@ Vim has **special directories** that automatically load files when certain event
    - `ftdetect/zolo.vim` - Detects file type
    - `ftplugin/zolo.vim` - Sets buffer options
    - `syntax/zolo.vim` - Fallback syntax highlighting
-   - `after/ftplugin/zolo.vim` - **Loads AFTER vim-lsp** ← LSP setup here!
-   - `colors/zolo_lsp.vim` - Applies semantic colors
+   - `after/ftplugin/zolo.vim` - **Loads AFTER vim-lsp** ← LSP setup + semantic colors!
+   - `after/syntax/zolo.vim` - Clears conflicting syntax groups
 
 ### Why `after/ftplugin/`?
 
@@ -201,7 +205,12 @@ rm -rf ~/.vim/ftdetect/zolo.vim \
        ~/.vim/indent/zolo.vim \
        ~/.vim/plugin/zolo_lsp.vim \
        ~/.vim/after/ftplugin/zolo.vim \
-       ~/.vim/colors/zolo_lsp.vim
+       ~/.vim/after/syntax/zolo.vim
+```
+
+Or use the uninstall script:
+```bash
+zlsp-uninstall-vim
 ```
 
 ---
@@ -216,9 +225,11 @@ zlsp/editors/vim/
 │   ├── syntax/           # Fallback syntax
 │   ├── indent/           # Indentation
 │   ├── plugin/           # Global LSP setup
-│   ├── after/ftplugin/   # LSP per-file setup (load order!)
-│   └── colors/           # Semantic token colors
-├── install.py            # Installation script
+│   └── after/            # Load-order dependent files
+│       ├── ftplugin/     # (Generated with LSP + colors)
+│       └── syntax/       # Clears conflicting groups
+├── install.py            # Installation script (generates after/ftplugin)
+├── uninstall.py          # Uninstallation script
 └── README.md             # This file
 ```
 
@@ -228,8 +239,4 @@ zlsp/editors/vim/
 
 - [LSP Server Docs](../../Documentation/ARCHITECTURE.md)
 - [Zolo Format Spec](../../README.md)
-- [Session Notes](../../../SESSION_NOTES.md)
-
----
-
-**Made with ❤️ by Zolo Media**
+- [Installation Guide](../../Documentation/INSTALLATION.md)
