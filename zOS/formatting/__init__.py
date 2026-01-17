@@ -1,4 +1,4 @@
-# zSys/formatting/__init__.py
+# zOS/formatting/__init__.py
 """
 Terminal formatting utilities for zKernel.
 

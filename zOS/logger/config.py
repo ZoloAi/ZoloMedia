@@ -1,4 +1,4 @@
-# zSys/logger/config.py
+# zOS/logger/config.py
 """
 Logger configuration utilities.
 

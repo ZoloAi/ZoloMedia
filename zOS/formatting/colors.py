@@ -1,4 +1,4 @@
-# zSys/formatting/colors.py
+# zOS/formatting/colors.py
 """
 ANSI color codes for terminal output.
 

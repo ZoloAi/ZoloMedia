@@ -1,4 +1,4 @@
-# zSys/logger/ecosystem.py
+# zOS/logger/ecosystem.py
 """
 zOS logger for zolo CLI operations (Layer 0).
 

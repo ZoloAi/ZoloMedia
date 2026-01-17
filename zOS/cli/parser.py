@@ -1,4 +1,4 @@
-# zSys/cli/parser.py
+# zOS/cli/parser.py
 """Argument parser configuration for zolo CLI."""
 
 import argparse

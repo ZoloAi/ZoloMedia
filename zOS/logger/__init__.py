@@ -1,5 +1,5 @@
 """
-zSys.logger - Unified Logging System
+zOS.logger - Unified Logging System
 
 Pre-boot and standalone logging utilities with consistent format.
 

@@ -236,7 +236,8 @@ def handle_machine_open_command(boot_logger, verbose: bool = False):
         verbose: If True, show bootstrap logs on stdout
     """
     from zOS.paths import get_ecosystem_root
-    from zOS.utils.file_opener import open_file_in_editor, get_ide_from_config, get_editor_command
+    from zOS.utils.open import open_file
+    from zOS.machine import get_machine_info
     
     config_path = get_ecosystem_root() / "zConfig.machine.zolo"
     
@@ -248,26 +249,18 @@ def handle_machine_open_command(boot_logger, verbose: bool = False):
         print("Run 'zolo' once to generate the configuration file.\n")
         return
     
-    # Get IDE from config
-    ide = get_ide_from_config()
+    # Get IDE from machine config
+    machine = get_machine_info()
+    ide = machine.get('ide', 'code')
     
-    # Check if it's a terminal editor
-    _, is_terminal = get_editor_command(ide)
+    # Show opening message
+    print(f"\nOpening {config_path.name} in {ide}...\n")
     
-    if is_terminal:
-        # Terminal editor: no pre-message, just launch (blocks)
-        print()  # Blank line for spacing
-    else:
-        # GUI editor: show launching message
-        print(f"\nOpening {config_path.name} in {ide}...\n")
-    
-    # Open file (blocks for terminal editors, returns immediately for GUI)
-    success = open_file_in_editor(str(config_path))
+    # Open file
+    success = open_file(str(config_path))
     
     if success:
-        if not is_terminal:
-            # Only show success message for GUI editors
-            print(f"✓ Opened in {ide}\n")
+        print(f"✓ Opened in {ide}\n")
     else:
         print(f"✗ Failed to open in {ide}")
         print(f"  Try opening manually: {config_path}\n")

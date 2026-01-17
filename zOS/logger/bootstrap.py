@@ -1,4 +1,4 @@
-# zSys/logger/bootstrap.py
+# zOS/logger/bootstrap.py
 """
 Bootstrap logger for pre-boot logging (Layer 0).
 

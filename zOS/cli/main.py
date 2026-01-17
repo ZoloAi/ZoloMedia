@@ -5,7 +5,7 @@ import sys
 import os
 from pathlib import Path
 
-# zSys imports (system utilities, safe to import)
+# zOS imports (system utilities, safe to import)
 from zOS.logger import BootstrapLogger, EcosystemLogger
 from zOS.install import detect_installation_type
 from zOS import cli as cli_commands

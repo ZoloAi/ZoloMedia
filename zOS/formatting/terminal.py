@@ -1,4 +1,4 @@
-# zSys/formatting/terminal.py
+# zOS/formatting/terminal.py
 """
 Terminal output utilities for banners and formatted messages.
 

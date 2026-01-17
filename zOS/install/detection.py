@@ -1,4 +1,4 @@
-# zSys/install/detection.py
+# zOS/install/detection.py
 """
 Installation detection utilities (System Foundation).
 

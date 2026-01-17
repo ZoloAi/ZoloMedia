@@ -1,4 +1,4 @@
-# zSys/paths.py
+# zOS/paths.py
 r"""
 Cross-platform path utilities for Zolo ecosystem.
 
@@ -98,7 +98,7 @@ def get_ecosystem_logs() -> Path:
         PosixPath('/Users/username/Library/Application Support/Zolo/logs')
     
     Note:
-        Used for zSys ecosystem operations (CLI commands, installations).
+        Used for zOS ecosystem operations (CLI commands, installations).
         Product-specific logs go in get_product_root(product) / "logs"
     """
     return get_ecosystem_root() / "logs"

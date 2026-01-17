@@ -1,4 +1,4 @@
-# zSys/cli/__init__.py
+# zOS/cli/__init__.py
 """
 CLI command handlers for zolo entry point.
 

@@ -1,10 +1,10 @@
-# zSys - System Foundation
+# zOS - System Foundation
 
 **Layer 0** system utilities shared across the Zolo ecosystem.
 
 ## Purpose
 
-`zSys` provides foundational utilities needed before framework initialization:
+`zOS` provides foundational utilities needed before framework initialization:
 
 - **Logger**: Unified logging (bootstrap, console, formats)
 - **Install**: Installation detection and removal
@@ -15,7 +15,7 @@
 ## Architecture
 
 ```
-zSys/  (Layer 0 - System Foundation)
+zOS/  (Layer 0 - System Foundation)
 ├── logger/     → Bootstrap & console logging
 ├── install/    → Installation detection
 ├── formatting/ → Terminal colors & output
@@ -43,13 +43,13 @@ boot_logger.info("Starting application...")
 ## Installation
 
 ```bash
-pip install zSys
+pip install zOS
 ```
 
 Or as part of the monorepo:
 
 ```bash
-pip install -e ../zSys
+pip install -e ../zOS
 ```
 
 ## License

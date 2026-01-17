@@ -4,10 +4,10 @@ zOS Utilities
 Utility functions for zOS operations.
 """
 
-from .file_opener import open_file_in_editor, get_ide_from_config, get_editor_command
+from .open import open_file, open_url, is_url
 
 __all__ = [
-    "open_file_in_editor",
-    "get_ide_from_config",
-    "get_editor_command",
+    "open_file",
+    "open_url",
+    "is_url",
 ]

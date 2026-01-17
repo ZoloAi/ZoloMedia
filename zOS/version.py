@@ -1,4 +1,4 @@
-# zSys/version.py
+# zOS/version.py
 """Version information for zOS (Zolo Operating System)."""
 
 __version__ = "1.0.0"

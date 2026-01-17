@@ -1,4 +1,4 @@
-# zSys/install/__init__.py
+# zOS/install/__init__.py
 """
 Installation and uninstallation utilities for zolo-zcli.
 

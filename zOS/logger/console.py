@@ -1,4 +1,4 @@
-# zSys/logger/console.py
+# zOS/logger/console.py
 """
 Minimal logger utilities for standalone contexts (like WSGI workers).
 
