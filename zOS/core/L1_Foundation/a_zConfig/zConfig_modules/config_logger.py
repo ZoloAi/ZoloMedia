@@ -294,12 +294,16 @@ class LoggerConfig:
         console_formatter = UnifiedFormatter("Framework", include_details=False)
         file_formatter = UnifiedFormatter("Framework", include_details=True)
 
-        # Console handler for framework logs: DISABLED by default (framework logs are transparent)
-        # Framework logs go to file only (zcli-framework.log)
-        # Only show critical framework errors in console
+        # Console handler for framework logs: Development (ERROR+), Debug (respects logger level)
+        is_debug = self.environment.is_debug()
         if not (is_production or is_testing):
             console_handler = logging.StreamHandler()
-            console_handler.setLevel(logging.ERROR)  # Only show ERROR+ in console
+            # Debug deployment: show all framework logs at user's logger level
+            # Development deployment: show only errors (minimal)
+            if is_debug:
+                console_handler.setLevel(getattr(logging, self.log_level))  # Respect logger level
+            else:
+                console_handler.setLevel(logging.ERROR)  # Minimal (Development mode)
             console_handler.setFormatter(console_formatter)
             self._framework_logger.addHandler(console_handler)
 
@@ -370,10 +374,16 @@ class LoggerConfig:
         console_formatter = UnifiedFormatter("SessionFramework", include_details=False)
         file_formatter = UnifiedFormatter("SessionFramework", include_details=True)
         
-        # Console handler: Only in Development, minimal (WARNING+)
+        # Console handler: Development (WARNING+), Debug (respects logger level)
+        is_debug = self.environment.is_debug()
         if not (is_production or is_testing):
             console_handler = logging.StreamHandler()
-            console_handler.setLevel(logging.WARNING)  # Only warnings and errors
+            # Debug deployment: show all framework logs at user's logger level
+            # Development deployment: show only warnings and errors (minimal)
+            if is_debug:
+                console_handler.setLevel(getattr(logging, self.log_level))  # Respect logger level
+            else:
+                console_handler.setLevel(logging.WARNING)  # Minimal (Development mode)
             console_handler.setFormatter(console_formatter)
             self._session_framework_logger.addHandler(console_handler)
         

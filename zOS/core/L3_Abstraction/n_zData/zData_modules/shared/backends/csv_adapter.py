@@ -635,7 +635,7 @@ class CSVAdapter(BaseDataAdapter):
 
         self._save_table(table_name, df)
         self.tables[table_name] = df
-        self._log('info', LOG_TABLE_ALTERED, table_name)
+        self._log('info', _LOG_TABLE_ALTERED, table_name)
 
     def drop_table(self, table_name: str) -> None:
         """
@@ -658,7 +658,7 @@ class CSVAdapter(BaseDataAdapter):
         csv_file = self._get_csv_path(table_name)
         if csv_file.exists():
             csv_file.unlink()
-            self._log('info', LOG_TABLE_DROPPED, table_name)
+            self._log('info', _LOG_TABLE_DROPPED, table_name)
 
         if table_name in self.tables:
             del self.tables[table_name]
@@ -685,7 +685,7 @@ class CSVAdapter(BaseDataAdapter):
         """
         csv_file = self._get_csv_path(table_name)
         exists = csv_file.exists()
-        self._log('debug', LOG_TABLE_EXISTS, table_name, exists)
+        self._log('debug', _LOG_TABLE_EXISTS, table_name, exists)
         return exists
 
     def list_tables(self) -> List[str]:

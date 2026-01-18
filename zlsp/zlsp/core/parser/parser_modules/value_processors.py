@@ -22,11 +22,12 @@ def detect_value_type(value: str) -> Any:
     1. Array (bracket syntax): '[...]' → list
     2. Number: Valid numeric format → float (RFC 8259 default)
     3. Null: 'null' (standalone) → None (RFC 8259 primitive)
+    4. Boolean: 'true' or 'false' (standalone) → bool (RFC 8259 primitives)
     
-    Everything Else → String (including 'true', 'false'):
+    Everything Else → String:
     - Use type hints for explicit conversion: (bool), (int), (str)
-    - Booleans need hints (they're ambiguous words in natural language)
-    - This prevents YAML-style surprises (NO → False, yes → True)
+    - Prevents YAML-style surprises (NO → False, yes → True, etc.)
+    - Only exact 'true'/'false' are booleans; 'YES'/'NO'/'yes'/'no' are strings
     - Values are predictable and safe
     
     Edge Cases:
@@ -39,7 +40,8 @@ def detect_value_type(value: str) -> Any:
     Anti-Quirk Rules:
     - '00123' (leading zero) → string (NOT octal)
     - '1.0.0' → string (NOT number)
-    - 'NO', 'YES', 'true', 'false' → strings (use type hints!)
+    - 'NO', 'YES', 'yes', 'no' → strings (use type hints if you want bool!)
+    - 'true value', 'false alarm' → strings (not standalone true/false)
     
     Args:
         value: String value to detect and convert
@@ -53,7 +55,11 @@ def detect_value_type(value: str) -> Any:
         >>> detect_value_type('null')
         None
         >>> detect_value_type('true')
-        'true'
+        True
+        >>> detect_value_type('false')
+        False
+        >>> detect_value_type('YES')
+        'YES'
         >>> detect_value_type('')
         ''
     """
@@ -81,8 +87,14 @@ def detect_value_type(value: str) -> Any:
     if value == 'null':
         return None
     
+    # Boolean (RFC 8259 primitives) - standalone only!
+    if value == 'true':
+        return True
+    if value == 'false':
+        return False
+    
     # String (DEFAULT - everything else!)
-    # This includes: 'true', 'false', 'yes', 'no', 'null value', etc.
+    # This includes: 'YES', 'NO', 'yes', 'no', 'true value', 'false alarm', etc.
     
     # Step 1: Decode Unicode escapes (\uXXXX) - RFC 8259 compliance
     if '\\u' in value:
@@ -116,7 +128,7 @@ def parse_brace_object(value: str) -> dict:
         {'x': 10.0, 'y': 20.0}
         
         >>> parse_brace_object('{name: Alice, active: true}')
-        {'name': 'Alice', 'active': 'true'}
+        {'name': 'Alice', 'active': True}
         
         >>> parse_brace_object('{}')
         {}

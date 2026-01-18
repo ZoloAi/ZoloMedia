@@ -158,7 +158,7 @@ def _parse_zspark_file(boot_logger, Path, zspark_file, verbose: bool) -> tuple:
     if str(project_root) not in sys.path:
         sys.path.insert(0, str(project_root))
 
-    from zolo.parser import tokenize
+    from zlsp.core.parser import tokenize
 
     with open(zspark_file, 'r', encoding='utf-8') as f:
         content = f.read()

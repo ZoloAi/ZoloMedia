@@ -26,7 +26,6 @@ DEFAULT_ROLE = "production"
 
 # Deprecated deployment mode mappings (for backward compatibility)
 DEPRECATED_DEPLOYMENTS = {
-    "Debug": "Development",
     "Info": "Testing"
 }
 
@@ -188,6 +187,15 @@ class EnvironmentConfig:
         """
         deployment = self.env.get(KEY_DEPLOYMENT, "")
         return deployment.lower() in ["testing", "info"]  # Include deprecated "Info"
+    
+    def is_debug(self) -> bool:
+        """Check if running in Debug deployment mode.
+        
+        Returns:
+            bool: True if deployment is "Debug", False otherwise
+        """
+        deployment = self.env.get(KEY_DEPLOYMENT, "")
+        return deployment.lower() == "debug"
     
     def is_development(self) -> bool:
         """Check if running in Development or Testing deployment mode.

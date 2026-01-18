@@ -18,7 +18,7 @@ def create_default_env_config(path: Path, _env_data: Dict[str, Any]) -> None:
 
 {YAML_KEY}:
   # Environment Settings (customize these to your environment!)
-  {KEY_DEPLOYMENT}: "{DEFAULT_DEPLOYMENT}"  # Development, Testing, Production
+  {KEY_DEPLOYMENT}: "{DEFAULT_DEPLOYMENT}"  # Debug, Development, Testing, Production
   datacenter: "local"  # local, us-west-2, eu-central-1, etc.
   cluster: "single-node"  # single-node, multi-node, k8s-cluster
   node_id: "node-001"  # unique identifier for this node

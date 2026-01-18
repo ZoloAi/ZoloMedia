@@ -44,9 +44,11 @@ big_number: 1,000,000
 #> BOOLEANS - Explicit Type Hints Required (Phase 1.3, 5)
 #>═══════════════════════════════════════════════════════════════<#
 
-# Without type hint → strings (anti-quirk)
-string_true: true
-string_false: false
+# RFC 8259 primitives → auto-detected as booleans
+bool_true: true
+bool_false: false
+
+# Other boolean-like words → strings (anti-quirk, use type hints if needed)
 string_yes: YES
 string_no: NO
 string_on: on

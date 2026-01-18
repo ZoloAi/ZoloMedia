@@ -27,7 +27,7 @@ def print_ready_message(
     """
     Print styled 'Ready' message for subsystems.
     
-    Suppressed in Production and Testing modes (only shown in Development).
+    Suppressed in Production and Testing modes (shown in Development and Debug).
     
     Args:
         label: Message label
