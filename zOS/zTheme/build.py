@@ -24,6 +24,7 @@ CSS_IMPORTS = [
     # Components
     'zAccordion.css',
     'zAlerts.css',
+    'zCallouts.css',
     'zBadges.css',
     'zBreadcrumb.css',
     'zButtons.css',

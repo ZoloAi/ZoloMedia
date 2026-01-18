@@ -1,0 +1,103 @@
+/* ============================================================================
+   zCallouts.css - Callout/Note Component System
+   ============================================================================
+   
+   Highlight important information with left-accent bordered boxes.
+   Perfect for tips, notes, warnings, and informational asides.
+   
+   Base Class: .zCallout
+   Variants: .zCallout-success, .zCallout-info, .zCallout-warning, .zCallout-danger
+   
+   Example:
+   <div class="zCallout zCallout-success">
+     <strong>✨ Pro Tip</strong><br>
+     This is important information you should know!
+   </div>
+   ============================================================================ */
+
+/* Base Callout
+   ============ */
+.zCallout {
+  position: relative;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  border-left: 4px solid;
+  border-radius: 0.25rem;
+  color: var(--color-darkgray);
+}
+
+/* Callout Variants
+   ================ */
+.zCallout-success {
+  background-color: #e8f5e9;
+  border-color: #4caf50;
+}
+
+.zCallout-info {
+  background-color: #e3f2fd;
+  border-color: #2196f3;
+}
+
+.zCallout-warning {
+  background-color: #fff8e1;
+  border-color: #ffc107;
+}
+
+.zCallout-danger {
+  background-color: #ffebee;
+  border-color: #f44336;
+}
+
+.zCallout-primary {
+  background-color: rgba(162, 212, 110, 0.1);
+  border-color: var(--color-primary);
+}
+
+.zCallout-secondary {
+  background-color: rgba(108, 117, 125, 0.1);
+  border-color: var(--color-secondary);
+}
+
+/* Callout with Dark Backgrounds
+   ============================== */
+.zCallout-info-dark {
+  background-color: var(--color-info);
+  border-color: #0d47a1;
+  color: var(--color-white);
+}
+
+.zCallout-danger-dark {
+  background-color: var(--color-error);
+  border-color: #b71c1c;
+  color: var(--color-white);
+}
+
+/* Callout Heading
+   =============== */
+.zCallout-heading {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Callout Link Styles
+   =================== */
+.zCallout a {
+  color: inherit;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.zCallout a:hover {
+  opacity: 0.8;
+}
+
+/* Responsive Adjustments
+   ====================== */
+@media (max-width: 768px) {
+  .zCallout {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    border-left-width: 3px;
+  }
+}
