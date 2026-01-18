@@ -201,7 +201,9 @@ export class ZDisplayRenderer {
    */
   _renderText(event) {
     const p = document.createElement('p');
-    p.innerHTML = this._sanitizeHTML(event.content);
+    // Decode Unicode escapes (U+XXXX format) from ASCII-safe storage
+    const decodedContent = this._decodeUnicodeEscapes(event.content);
+    p.innerHTML = this._sanitizeHTML(decodedContent);
 
     // Apply custom classes if provided (from YAML `class` parameter)
     const customClass = event.class || null;
@@ -271,12 +273,38 @@ export class ZDisplayRenderer {
 
       // Support both string items and object items with content field
       const content = typeof item === 'string' ? item : (item.content || '');
-      li.innerHTML = this._sanitizeHTML(content);
+      
+      // Decode Unicode escapes (U+XXXX format) from ASCII-safe storage
+      const decodedContent = this._decodeUnicodeEscapes(content);
+      li.innerHTML = this._sanitizeHTML(decodedContent);
 
       listElement.appendChild(li);
     });
 
     return listElement;
+  }
+
+  /**
+   * Decode Unicode escape sequences to actual characters
+   * Supports: \uXXXX (standard) and \UXXXXXX (extended) formats
+   * @param {string} text - Text containing Unicode escapes
+   * @returns {string} - Decoded text
+   * @private
+   */
+  _decodeUnicodeEscapes(text) {
+    if (!text || typeof text !== 'string') return text;
+    
+    // Replace \uXXXX format (standard 4-digit Unicode escape)
+    text = text.replace(/\\u([0-9A-Fa-f]{4})/g, (match, hexCode) => {
+      return String.fromCodePoint(parseInt(hexCode, 16));
+    });
+    
+    // Replace \UXXXXXX format (extended 4-6 digit for supplementary characters)
+    text = text.replace(/\\U([0-9A-Fa-f]{4,6})/g, (match, hexCode) => {
+      return String.fromCodePoint(parseInt(hexCode, 16));
+    });
+    
+    return text;
   }
 
   /**

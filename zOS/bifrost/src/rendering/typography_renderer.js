@@ -27,17 +27,19 @@ export class TypographyRenderer {
       attrs.id = eventData.zId || eventData._zId || eventData._id;
     }
     const p = createParagraph(attrs);
-    p.textContent = eventData.content || '';
+    // Decode Unicode escapes from ASCII-safe storage
+    p.textContent = this._decodeUnicodeEscapes(eventData.content || '');
     return p;
   }
 
   /**
    * Render header element
-   * @param {Object} eventData - Event data with label, level, zId, etc.
+   * @param {Object} eventData - Event data with label, indent (level), zId, etc.
    * @returns {HTMLElement}
    */
   renderHeader(eventData) {
-    const level = eventData.level || 1;
+    // Backend sends 'indent' with header level (zH1=1, zH2=2, etc.)
+    const level = eventData.indent || eventData.level || 1;
     const classes = this._buildTextClasses(eventData);
     const attrs = {};
     if (classes) {
@@ -48,7 +50,9 @@ export class TypographyRenderer {
       attrs.id = eventData.zId || eventData._zId || eventData._id;
     }
     const h = createHeading(level, attrs);
-    h.textContent = eventData.label || eventData.content || '';
+    // Decode Unicode escapes from ASCII-safe storage
+    const content = eventData.label || eventData.content || '';
+    h.textContent = this._decodeUnicodeEscapes(content);
     return h;
   }
 
@@ -95,6 +99,29 @@ export class TypographyRenderer {
     }
 
     return classes.length > 0 ? classes.join(' ') : '';
+  }
+
+  /**
+   * Decode Unicode escape sequences to actual characters
+   * Supports: \uXXXX (standard) and \UXXXXXX (extended) formats
+   * @param {string} text - Text containing Unicode escapes
+   * @returns {string} - Decoded text
+   * @private
+   */
+  _decodeUnicodeEscapes(text) {
+    if (!text || typeof text !== 'string') return text;
+    
+    // Replace \uXXXX format (standard 4-digit Unicode escape)
+    text = text.replace(/\\u([0-9A-Fa-f]{4})/g, (match, hexCode) => {
+      return String.fromCodePoint(parseInt(hexCode, 16));
+    });
+    
+    // Replace \UXXXXXX format (extended 4-6 digit for supplementary characters)
+    text = text.replace(/\\U([0-9A-Fa-f]{4,6})/g, (match, hexCode) => {
+      return String.fromCodePoint(parseInt(hexCode, 16));
+    });
+    
+    return text;
   }
 }
 

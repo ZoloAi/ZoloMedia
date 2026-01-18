@@ -18,7 +18,7 @@ from .multiline_collectors import (
     collect_triple_quote_multiline,
 )
 from .value_processors import detect_value_type
-from .token_emitters import emit_value_tokens
+from .token_emitters import emit_value_tokens, emit_string_with_escapes
 from .validators import validate_ascii_only
 from .key_detector import KeyDetector
 from .error_formatter import ErrorFormatter
@@ -405,7 +405,10 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                         if emitter.is_zenv_file or emitter.is_zui_file:
                             emitter.emit(original_line_num, current_pos, 1, TokenType.ZRBAC_OPTION_KEY)
                         current_pos += 1
-                has_str_hint = False
+                # No explicit (str) hint - check if this property should auto-enable multiline
+                # Extract clean key (without modifiers) for the check
+                _, clean_key_for_check, _ = emitter.split_modifiers(key)
+                has_str_hint = KeyDetector.should_enable_auto_multiline(clean_key_for_check, emitter, indent)
             
             # Handle (str) multi-line values
             if has_str_hint:
@@ -434,11 +437,12 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                     if cont_stripped and ':' in cont_stripped and cont_indent <= indent:
                         break
                     
-                    # Emit STRING token for this continuation line
+                    # Emit STRING token with escape sequence highlighting for this continuation line
                     if cont_stripped:
                         # Find where content starts (after indentation)
                         content_start = len(cont_line) - len(cont_line.lstrip())
-                        emitter.emit(cont_original_line, content_start, len(cont_stripped), TokenType.STRING)
+                        # Use emit_string_with_escapes to properly highlight escape sequences
+                        emit_string_with_escapes(cont_stripped, cont_original_line, content_start, emitter)
                     
                     lines_consumed += 1
                 

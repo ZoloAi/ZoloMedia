@@ -66,6 +66,29 @@ zVaF:
         _zClass: ztext-primary zmb-3
         _id: intro-text
 
+    zMD:
+        # Required - Markdown content with inline formatting
+        content: zTheme uses **zD-** classes to control visibility at different breakpoints:
+            * <span class="zText-error">**zD**</span> = Display utility prefix
+            * <span class="zText-error">**-block**</span> = Show element (`display: block`)
+            * <span class="zText-error">**-none**</span> = Hide element (`display: none`)
+            * <span class="zText-error">**-md-**</span> = At medium breakpoint (\u2265 768px) and up
+            * <span class="zText-error">**-lg-**</span> = At large breakpoint (\u2265 992px) and up
+        # Optional - Indentation level
+        indent: 1
+        # Optional - Pause for user acknowledgment
+        pause: false
+        # Optional - Custom break message (if pause is true)
+        break_message: Press Enter to continue...
+        # Optional - Format type (default: markdown)
+        format: markdown
+        # Optional - Text color
+        color: info
+        # Optional - Custom CSS classes
+        _zClass: zp-3 zBorder zRounded
+        # Optional - Custom element ID
+        _id: markdown-example
+    
     zTable:
         # Required - Metadata
         title: User Database Query Results

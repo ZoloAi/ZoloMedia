@@ -143,6 +143,18 @@ export class TextRenderer {
     // Inline Code: `code` -> <code>code</code> (after code blocks to avoid conflicts)
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
 
+    // Unordered Lists: * item or - item -> <ul><li>item</li></ul>
+    // Process lists before bold/italic to avoid conflicts with * markers
+    html = html.replace(/(?:^|\n)((?:[*-] .+(?:\n|$))+)/g, (match, listBlock) => {
+      const items = listBlock
+        .split(/\n/)
+        .filter(line => line.trim())
+        .map(line => line.replace(/^[*-] /, '').trim())
+        .map(item => `<li style="margin-bottom: 0.25rem;">${item}</li>`)
+        .join('');
+      return `\n<ul style="margin-top: 0.5rem; margin-bottom: 0.5rem;">${items}</ul>\n`;
+    });
+
     // Bold: **text** -> <strong>text</strong>
     html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
 
@@ -215,8 +227,9 @@ export class TextRenderer {
     // Create paragraph element (using Layer 2 utility)
     const p = createElement('p', classes);
 
-    // Parse markdown and set as innerHTML (safe because we control the parsing)
-    p.innerHTML = this._parseMarkdown(content);
+    // Decode Unicode escapes first, then parse markdown
+    const decodedContent = this._decodeUnicodeEscapes(content);
+    p.innerHTML = this._parseMarkdown(decodedContent);
 
     // Apply attributes
     const attributes = {};
@@ -315,6 +328,29 @@ export class TextRenderer {
     this.logger.log(`[TextRenderer] ✅ Rendered text (${content.length} chars, indent: ${indent})`);
 
     return p;
+  }
+
+  /**
+   * Decode Unicode escape sequences to actual characters
+   * Supports: \uXXXX (standard) and \UXXXXXX (extended) formats
+   * @param {string} text - Text containing Unicode escapes
+   * @returns {string} - Decoded text
+   * @private
+   */
+  _decodeUnicodeEscapes(text) {
+    if (!text || typeof text !== 'string') return text;
+    
+    // Replace \uXXXX format (standard 4-digit Unicode escape)
+    text = text.replace(/\\u([0-9A-Fa-f]{4})/g, (match, hexCode) => {
+      return String.fromCodePoint(parseInt(hexCode, 16));
+    });
+    
+    // Replace \UXXXXXX format (extended 4-6 digit for supplementary characters)
+    text = text.replace(/\\U([0-9A-Fa-f]{4,6})/g, (match, hexCode) => {
+      return String.fromCodePoint(parseInt(hexCode, 16));
+    });
+    
+    return text;
   }
 }
 

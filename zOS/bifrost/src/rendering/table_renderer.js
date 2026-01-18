@@ -268,9 +268,10 @@ export class TableRenderer {
     if (limit !== null && limit !== undefined && limit > 0 && totalRowCount > 0) {
       const showingStart = offset + 1;
       const showingEnd = Math.min(offset + displayedRowCount, totalRowCount);
-      titleElement.textContent = `${title} (showing ${showingStart}-${showingEnd} of ${totalRowCount})`;
+      const decodedTitle = this._decodeUnicodeEscapes(title);
+      titleElement.textContent = `${decodedTitle} (showing ${showingStart}-${showingEnd} of ${totalRowCount})`;
     } else {
-      titleElement.textContent = title;
+      titleElement.textContent = this._decodeUnicodeEscapes(title);
     }
 
     // Apply zTheme styling
@@ -294,7 +295,8 @@ export class TableRenderer {
 
     columns.forEach(column => {
       const th = createTh();
-      th.textContent = column; // XSS safe
+      // Decode Unicode escapes in column names
+      th.textContent = this._decodeUnicodeEscapes(column); // XSS safe
       headerRow.appendChild(th);
     });
 
@@ -588,11 +590,38 @@ export class TableRenderer {
 
     // Handle strings (truncate if too long)
     const str = String(value);
-    if (str.length > 100) {
-      return `${str.substring(0, 97)  }...`;
+    
+    // Decode Unicode escapes (\UXXXX or U+XXXX format)
+    const decoded = this._decodeUnicodeEscapes(str);
+    
+    if (decoded.length > 100) {
+      return `${decoded.substring(0, 97)  }...`;
     }
 
-    return str;
+    return decoded;
+  }
+
+  /**
+   * Decode Unicode escape sequences to actual characters
+   * Supports: \uXXXX (standard) and \UXXXXXX (extended) formats
+   * @param {string} text - Text containing Unicode escapes
+   * @returns {string} - Decoded text
+   * @private
+   */
+  _decodeUnicodeEscapes(text) {
+    if (!text || typeof text !== 'string') return text;
+    
+    // Replace \uXXXX format (standard 4-digit Unicode escape)
+    text = text.replace(/\\u([0-9A-Fa-f]{4})/g, (match, hexCode) => {
+      return String.fromCodePoint(parseInt(hexCode, 16));
+    });
+    
+    // Replace \UXXXXXX format (extended 4-6 digit for supplementary characters)
+    text = text.replace(/\\U([0-9A-Fa-f]{4,6})/g, (match, hexCode) => {
+      return String.fromCodePoint(parseInt(hexCode, 16));
+    });
+    
+    return text;
   }
 }
 

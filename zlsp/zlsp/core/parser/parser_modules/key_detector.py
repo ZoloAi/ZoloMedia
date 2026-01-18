@@ -48,7 +48,7 @@ class KeyDetector:
         'src', 'alt_text', 'caption', 'color', 'open_prompt', 'indent',
         'label', 'style', 'semantic',
         'href', 'target', 'rel', 'window',
-        'content', 'pause', 'break_message',
+        'content', 'pause', 'break_message', 'format',
         'items',
         'title', 'columns', 'rows', 'limit', 'offset', 'show_header', 'interactive'
     }
@@ -71,6 +71,10 @@ class KeyDetector:
             'required': ['content'],
             'optional': ['indent', 'pause', 'break_message', 'semantic', '_zClass', '_id'],
         },
+        'zmd': {
+            'required': ['content'],
+            'optional': ['indent', 'pause', 'break_message', 'format', 'color', '_zClass', '_id'],
+        },
         'zul': {
             'required': ['items'],
             'optional': ['style', 'indent', '_zClass', '_id'],
@@ -80,6 +84,16 @@ class KeyDetector:
             'optional': ['limit', 'offset', 'show_header', 'interactive', 'indent', '_zClass', '_id'],
         },
         # More elements to be added as needed
+    }
+    
+    # Properties that are ALWAYS multiline (auto-enable without (str): hint)
+    # Maps UI element type to its multiline properties
+    AUTO_MULTILINE_PROPERTIES = {
+        'zmd': {'content'},           # Markdown content is always multiline
+        'ztext': {'content'},         # Text content is always multiline
+        'header': {'label'},          # Header labels can be multiline
+        'zimage': {'caption'},        # Image captions can be multiline
+        # Add more as needed
     }
     
     ZENV_CONFIG_ROOT_KEYS = {'DEPLOYMENT', 'DEBUG', 'LOG_LEVEL'}
@@ -331,6 +345,28 @@ class KeyDetector:
                 return 'header'
         
         return None
+
+    @staticmethod
+    def should_enable_auto_multiline(key: str, emitter: 'TokenEmitter', current_indent: int) -> bool:
+        """
+        Check if a property should automatically enable multiline mode.
+        
+        Args:
+            key: The property key name (without type hint)
+            emitter: TokenEmitter with block context
+            current_indent: Current indentation level
+            
+        Returns:
+            True if this property should auto-enable multiline (no (str): needed)
+        """
+        # Check each UI element type to see if we're inside one
+        for block_type, multiline_props in KeyDetector.AUTO_MULTILINE_PROPERTIES.items():
+            if emitter.is_inside_block(block_type, current_indent):
+                # Check if this key is a multiline property for this block type
+                if key.lower() in multiline_props:
+                    return True
+        
+        return False
 
 
 # Helper functions for backward compatibility
