@@ -643,8 +643,31 @@ def parse_lines(lines: list[str], line_mapping: dict = None) -> dict:
             match = TYPE_HINT_PATTERN.match(key)
             has_str_hint = match and match.group(2).lower() == 'str'
             
-            # Multi-line ONLY enabled with (str) hint
-            # | and """ are now literal characters (bread and butter!)
+            # If no explicit (str) hint, check if this property should auto-enable multiline
+            # This matches the behavior in parse_lines_with_tokens for LSP consistency
+            if not has_str_hint:
+                # For auto-multiline check, we need a minimal emitter-like object
+                # that can track block context. Since parse_lines doesn't have emitter,
+                # we'll check based on structured_lines context
+                clean_key = key.split('(')[0].strip()  # Remove type hint if any
+                
+                # Check if we're inside a UI element block by looking at previous lines
+                if structured_lines:
+                    # Look backwards to find the parent UI element
+                    for prev_line in reversed(structured_lines):
+                        if prev_line['indent'] < indent:
+                            # This is a potential parent
+                            parent_key = prev_line['key'].split('(')[0].strip().lower()
+                            
+                            # Check if parent is a UI element and key is a multiline property
+                            if parent_key in KeyDetector.AUTO_MULTILINE_PROPERTIES:
+                                multiline_props = KeyDetector.AUTO_MULTILINE_PROPERTIES[parent_key]
+                                if clean_key.lower() in multiline_props:
+                                    has_str_hint = True
+                                    break
+                            break  # Stop at first parent found
+            
+            # Multi-line enabled with (str) hint OR auto-multiline property
             if has_str_hint:
                 # (str) type hint: collect YAML-style indented multi-line
                 multiline_value, lines_consumed = collect_str_hint_multiline(lines, i + 1, indent, value)
