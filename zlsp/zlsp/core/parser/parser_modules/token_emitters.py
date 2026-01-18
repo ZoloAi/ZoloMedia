@@ -82,7 +82,7 @@ def emit_value_tokens(value: str, line: int, start_pos: int, emitter: 'TokenEmit
         hint_lower = type_hint.lower()
         if hint_lower == 'str':
             # Force string token even if value looks like number/bool
-            has_valid_escape = any(seq in value for seq in ['\\n', '\\t', '\\r', '\\\\', '\\"', "\\'", '\\u'])
+            has_valid_escape = any(seq in value for seq in ['\\n', '\\t', '\\r', '\\\\', '\\"', "\\'", '\\u', '\\U'])
             has_brackets = any(c in value for c in '[]{}')
             if has_valid_escape or has_brackets:
                 emit_string_with_escapes(value, line, start_pos, emitter)
@@ -160,9 +160,9 @@ def emit_value_tokens(value: str, line: int, start_pos: int, emitter: 'TokenEmit
     
     # String (default)
     # Check for VALID escape sequences or brackets within the string
-    # Only enter escape processing for known escapes: \n \t \r \\ \" \' \u
+    # Only enter escape processing for known escapes: \n \t \r \\ \" \' \u \U
     # This allows Windows paths like C:\Windows to work naturally
-    has_valid_escape = any(seq in value for seq in ['\\n', '\\t', '\\r', '\\\\', '\\"', "\\'", '\\u'])
+    has_valid_escape = any(seq in value for seq in ['\\n', '\\t', '\\r', '\\\\', '\\"', "\\'", '\\u', '\\U'])
     has_brackets = any(c in value for c in '[]{}')
     
     if has_valid_escape or has_brackets:
@@ -200,6 +200,24 @@ def emit_string_with_escapes(value: str, line: int, start_pos: int, emitter: 'To
                 emitter.emit(line, start_pos + pos, 6, TokenType.ESCAPE_SEQUENCE)
                 pos += 6
                 last_emit = pos
+            elif next_char == 'U' and pos + 5 < len(value):
+                # Extended Unicode escape \UXXXXXXXX (4-8 hex digits for emojis/supplementary planes)
+                # Find the actual length (4-8 hex digits after \U)
+                hex_start = pos + 2
+                hex_end = hex_start
+                while hex_end < min(hex_start + 8, len(value)) and value[hex_end] in '0123456789ABCDEFabcdef':
+                    hex_end += 1
+                
+                # Emit if we have at least 4 hex digits
+                if hex_end - hex_start >= 4:
+                    if pos > last_emit:
+                        emitter.emit(line, start_pos + last_emit, pos - last_emit, TokenType.STRING)
+                    emitter.emit(line, start_pos + pos, hex_end - pos, TokenType.ESCAPE_SEQUENCE)
+                    pos = hex_end
+                    last_emit = pos
+                else:
+                    # Not enough hex digits, treat as literal string
+                    pos += 1
             else:
                 # Unknown escape (like \W, \S, \d) - treat as literal string
                 # DON'T emit anything, just skip the backslash

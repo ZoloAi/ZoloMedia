@@ -10,6 +10,8 @@ def decode_unicode_escapes(value: str) -> str:
     Decode Unicode escape sequences to actual characters.
     
     Supports:
+    - \uXXXX: 4-digit Unicode (BMP characters, U+0000 to U+FFFF)
+    - \UXXXXXXXX: 4-8 digit Unicode (Supplementary planes, emojis, U+10000 to U+10FFFF)
     - Basic Unicode: copyright symbol, accented characters
     - Emoji (surrogate pairs): multi-byte emoji
     - Multiple escapes in one string
@@ -24,10 +26,25 @@ def decode_unicode_escapes(value: str) -> str:
         String with Unicode escapes decoded to actual characters
     
     Examples:
-        Copyright: escape code to symbol
-        Café: escape code to accented e
-        Emoji: surrogate pair to emoji character
+        Copyright: \u00A9 → ©
+        Café: \u00E9 → é
+        Greater than: \u2265 → ≥
+        Emoji: \U0001F4F1 → 📱
     """
+    import re
+    
+    # First handle \UXXXXXXXX format (4-8 hex digits) for supplementary planes
+    def replace_extended_unicode(match):
+        hex_code = match.group(1)
+        codepoint = int(hex_code, 16)
+        try:
+            return chr(codepoint)
+        except (ValueError, OverflowError):
+            return match.group(0)  # Return original if invalid
+    
+    value = re.sub(r'\\U([0-9A-Fa-f]{4,8})', replace_extended_unicode, value)
+    
+    # Then handle standard \uXXXX format and surrogate pairs
     # Use Python's unicode_escape codec to decode
     # This handles both basic Unicode and surrogate pairs correctly
     try:

@@ -207,15 +207,23 @@ mixed_escapes: Path: C:\Windows\nNext line
 #> UNICODE ESCAPES - RFC 8259 Compliant (Phase 4.5)
 #>═══════════════════════════════════════════════════════════════<#
 
-# Simple Unicode escapes
+# Simple Unicode escapes (\uXXXX - 4 hex digits for BMP)
 copyright: \u00A9 2024
 cafe: Caf\u00e9
 degree: 98.6\u00B0F
+greater_equal: \u2265
 
-# Surrogate pairs (emojis)
-wave: \uD83D\uDC4B
+# Extended Unicode escapes (\UXXXXXXXX - 4-8 hex digits for supplementary planes)
+# Cleaner than surrogate pairs for emojis!
+mobile: \U0001F4F1
+laptop: \U0001F4BB
+desktop: \U0001F5A5
+wave: \U0001F44B
+thinking: \U0001F914
+
+# Surrogate pairs (legacy format, still supported)
+wave_legacy: \uD83D\uDC4B
 heart: \u2764\uFE0F
-thinking: \uD83E\uDD14
 
 #>═══════════════════════════════════════════════════════════════<#
 #> SPECIAL CHARACTERS IN VALUES (Phase 4.6a-g)

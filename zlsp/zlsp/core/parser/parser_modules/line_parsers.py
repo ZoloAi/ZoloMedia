@@ -418,8 +418,12 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                     # Skip whitespace after colon
                     while value_start < len(line) and line[value_start] == ' ':
                         value_start += 1
-                    # For (str) values, always emit as STRING (even if it starts with #)
-                    emitter.emit(original_line_num, value_start, len(value), TokenType.STRING)
+                    # For (str) values, check for escape sequences
+                    has_valid_escape = any(seq in value for seq in ['\\n', '\\t', '\\r', '\\\\', '\\"', "\\'", '\\u', '\\U'])
+                    if has_valid_escape:
+                        emit_string_with_escapes(value, original_line_num, value_start, emitter)
+                    else:
+                        emitter.emit(original_line_num, value_start, len(value), TokenType.STRING)
                 
                 # Collect and emit tokens for continuation lines
                 lines_consumed = 0

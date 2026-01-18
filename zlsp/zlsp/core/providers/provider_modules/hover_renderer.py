@@ -212,11 +212,16 @@ class HoverRenderer:
         }
         
         # Check if it's a Unicode escape
-        if escape_text.startswith('\\u'):
+        if escape_text.startswith('\\u') or escape_text.startswith('\\U'):
+            if escape_text.startswith('\\U'):
+                format_desc = "Extended Unicode (4-8 hex digits, for emojis & supplementary planes)"
+            else:
+                format_desc = "Standard Unicode (4 hex digits, BMP characters)"
             return (
                 f"## Unicode Escape Sequence\n\n"
                 f"**Sequence:** `{escape_text}`\n\n"
-                f"**Type:** RFC 8259 Unicode escape\n\n"
+                f"**Format:** {format_desc}\n\n"
+                f"**Type:** RFC 8259 compliant\n\n"
                 f"Will be decoded to the corresponding Unicode character"
             )
         elif escape_text in escape_map:

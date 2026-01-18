@@ -40,11 +40,9 @@ def validate_ascii_only(value: str, line_num: int = None) -> None:
                 # Basic Multilingual Plane (most characters)
                 escape = f"\\u{codepoint:04X}"
             else:
-                # Supplementary plane (emojis, etc.) - use surrogate pair
-                # Formula: U+10000 to U+10FFFF
-                high_surrogate = ((codepoint - 0x10000) >> 10) + 0xD800
-                low_surrogate = ((codepoint - 0x10000) & 0x3FF) + 0xDC00
-                escape = f"\\u{high_surrogate:04X}\\u{low_surrogate:04X}"
+                # Supplementary plane (emojis, etc.) - use \UXXXXXXXX format
+                # This is cleaner than surrogate pairs for emojis
+                escape = f"\\U{codepoint:08X}"
             
             # Get character name for better error message
             char_name = None

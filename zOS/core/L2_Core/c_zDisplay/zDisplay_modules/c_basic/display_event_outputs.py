@@ -400,6 +400,11 @@ class BasicOutputs:
 
     def _render_header_terminal(self, label: str, color: str, indent: int, style: str) -> None:
         """Render header for terminal mode with width-safe formatting."""
+        # Decode Unicode escapes for terminal display (preserves ASCII-safe storage)
+        from .....L2_Core.g_zParser.parser_modules.escape_processors import decode_unicode_escapes
+        if '\\u' in label or '\\U' in label:
+            label = decode_unicode_escapes(label)
+        
         term_width = self.zPrimitives.get_terminal_columns()
         indent_str, inner_width = self._calculate_header_dimensions(indent, term_width)
         
@@ -553,6 +558,7 @@ class BasicOutputs:
             content = self._apply_semantic(content, semantic)
         
         # Build event dict with all parameters (AFTER variable resolution)
+        # Keep escape sequences as-is for Bifrost to decode client-side
         event_data = {
             _KEY_CONTENT: content,
             _KEY_INDENT: indent,
@@ -570,6 +576,11 @@ class BasicOutputs:
             return  # GUI event sent successfully
 
         # Terminal mode - output text and optionally pause
+        # Decode Unicode escapes for terminal display (preserves ASCII-safe storage in .zolo files)
+        if '\\u' in content or '\\U' in content:
+            from .....L2_Core.g_zParser.parser_modules.escape_processors import decode_unicode_escapes
+            content = decode_unicode_escapes(content)
+        
         # Apply indentation
         if indent > 0:
             indent_str = self._build_indent(indent)
@@ -670,6 +681,11 @@ class BasicOutputs:
         # Terminal mode - parse markdown and display
         # Parse markdown using semantic primitives (DRY - same logic as semantic argument)
         content = self._parse_markdown(content)
+        
+        # Decode Unicode escapes for terminal display (preserves ASCII-safe storage in .zolo files)
+        if '\\u' in content or '\\U' in content:
+            from .....L2_Core.g_zParser.parser_modules.escape_processors import decode_unicode_escapes
+            content = decode_unicode_escapes(content)
         
         # Apply indentation
         if indent > 0:

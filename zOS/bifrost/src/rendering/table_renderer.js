@@ -616,8 +616,8 @@ export class TableRenderer {
       return String.fromCodePoint(parseInt(hexCode, 16));
     });
     
-    // Replace \UXXXXXX format (extended 4-6 digit for supplementary characters)
-    text = text.replace(/\\U([0-9A-Fa-f]{4,6})/g, (match, hexCode) => {
+    // Replace \UXXXXXXXX format (extended 4-8 digit for supplementary characters & emojis)
+    text = text.replace(/\\U([0-9A-Fa-f]{4,8})/g, (match, hexCode) => {
       return String.fromCodePoint(parseInt(hexCode, 16));
     });
     
