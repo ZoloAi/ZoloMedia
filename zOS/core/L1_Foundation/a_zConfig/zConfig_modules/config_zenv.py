@@ -196,10 +196,10 @@ class zEnv:
             # Check file extension
             file_extension = file_path.suffix
             
-            # For .zolo files, use the standalone zolo library (like PyYAML for .yaml)
+            # For .zolo files, use the zlsp parser library (like PyYAML for .yaml)
             if file_extension == ZENV_EXT_ZOLO:
                 try:
-                    import zolo
+                    from zlsp.core import parser as zolo
                     data = zolo.loads(content, file_extension=file_extension)
                     if data is None:
                         self._log(f"⚠️  {file_path.name} is empty")

@@ -235,23 +235,10 @@ CHAR_DOUBLE_QUOTE: str = '"'
 # ============================================================================
 
 try:
-    import zolo
+    from zlsp.core import parser as zolo
     ZOLO_AVAILABLE = True
 except ImportError:
-    # Try adding project root to sys.path (for development installations)
-    import sys
-    import os
-    # Go up from parser_file.py: ../../../.. to reach project root
-    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../..'))
-    if project_root not in sys.path:
-        sys.path.insert(0, project_root)
-        try:
-            import zolo
-            ZOLO_AVAILABLE = True
-        except ImportError:
-            ZOLO_AVAILABLE = False
-    else:
-        ZOLO_AVAILABLE = False
+    ZOLO_AVAILABLE = False
     # Fallback: zolo library not installed, .zolo files will be treated as YAML
 except Exception:
     ZOLO_AVAILABLE = False

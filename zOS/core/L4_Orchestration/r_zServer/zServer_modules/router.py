@@ -222,7 +222,7 @@ class HTTPRouter:
                 import yaml
                 import json
                 import glob
-                import zolo
+                from zlsp.core import parser as zolo
                 
                 # Parse main zVaFile based on extension
                 vafile_data = None

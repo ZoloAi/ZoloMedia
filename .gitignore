@@ -118,4 +118,6 @@ lint-fix-output.txt
 
 # Internal/Private Documentation & Archive
 archive/
-@temp_zKernel/
+
+# Private Application / QA Test (will move to separate repo)
+zCloud/
