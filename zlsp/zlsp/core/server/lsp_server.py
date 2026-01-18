@@ -40,7 +40,7 @@ from ..providers.hover_provider import get_hover_info
 from ..providers.completion_provider import get_completions
 
 # Code actions (LSP quick fixes & refactorings)
-from themes import load_theme, CodeActionRegistry
+from zlsp.themes import load_theme, CodeActionRegistry
 from .features.code_actions import execute_code_action
 
 # Configure logging
