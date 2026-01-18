@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagination - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<article style="max-width: 900px; margin: 0 auto; padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="ztheme.html">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Pagination</li>
+        </ol>
+    </nav>
+
+    <!-- Header -->
+    <header style="margin-bottom: 3rem;">
+        <h1>Pagination</h1>
+        <p class="zLead">Navigate through pages of content with customizable pagination controls for search results, product listings, and data tables.</p>
+    </header>
+
+    <!-- Understanding Pagination -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Pagination</h2>
+        <p>Pagination breaks large content into multiple pages, making it easier to browse and improving performance. It's essential for:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Search Results:</strong> Navigate through hundreds or thousands of results</li>
+            <li><strong>Product Listings:</strong> Browse e-commerce catalogs page by page</li>
+            <li><strong>Data Tables:</strong> View large datasets in manageable chunks</li>
+            <li><strong>Blog Archives:</strong> Navigate through posts chronologically</li>
+            <li><strong>API Responses:</strong> Handle paginated data from backend services</li>
+        </ul>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Best Practice:</strong> Always show the current page number and total pages when possible. Users should know where they are and how much content remains.
+        </blockquote>
+    </section>
+
+    <!-- Working Example -->
+    <section style="margin: 3rem 0;">
+        <h2>Working Example</h2>
+        <p>See pagination in action with a product catalog that updates as you navigate:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <!-- Product Grid -->
+            <div id="productGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                <!-- Products will be inserted here by JavaScript -->
+            </div>
+
+            <!-- Page Info -->
+            <div style="text-align: center; margin-bottom: 1rem; color: #6c757d; font-size: 0.875rem;">
+                Showing <span id="pageInfo">1-6 of 30</span> products
+            </div>
+
+            <!-- Pagination Controls -->
+            <nav class="zPagination" aria-label="Product pagination">
+                <ul class="zPagination-list" id="paginationDemo">
+                    <!-- Pagination will be inserted here by JavaScript -->
+                </ul>
+            </nav>
+        </div>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-success); background: rgba(40, 167, 69, 0.1);">
+            <strong>📍 Try it:</strong> Click page numbers to see the product grid update. Notice how Previous is disabled on page 1, and Next is disabled on the last page.
+        </blockquote>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Product Grid --&gt;
+&lt;div id="productGrid"&gt;
+  &lt;!-- Products rendered here --&gt;
+&lt;/div&gt;
+
+&lt;!-- Pagination Controls --&gt;
+&lt;nav class="zPagination"&gt;
+  &lt;ul class="zPagination-list"&gt;
+    &lt;li class="zPage-item" id="prevBtn"&gt;
+      &lt;a class="zPage-link" onclick="goToPage(currentPage - 1)"&gt;Previous&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class="zPage-item zActive"&gt;
+      &lt;a class="zPage-link"&gt;1&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;!-- More pages... --&gt;
+    &lt;li class="zPage-item" id="nextBtn"&gt;
+      &lt;a class="zPage-link" onclick="goToPage(currentPage + 1)"&gt;Next&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;script&gt;
+  let currentPage = 1;
+  const itemsPerPage = 6;
+  const totalItems = 30;
+  
+  function renderPage(page) {
+    // Calculate which items to show
+    const start = (page - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    
+    // Update product grid
+    productGrid.innerHTML = products.slice(start, end)
+      .map(product =&gt; `&lt;div&gt;${product}&lt;/div&gt;`)
+      .join('');
+    
+    // Update pagination controls
+    updatePagination(page);
+  }
+  
+  function goToPage(page) {
+    if (page &lt; 1 || page &gt; totalPages) return;
+    currentPage = page;
+    renderPage(page);
+  }
+&lt;/script&gt;</code></pre>
+    </section>
+
+    <!-- Basic Pagination -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic Pagination</h2>
+        <p>The simplest pagination with Previous, numbered pages, and Next controls:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <!-- Content -->
+            <div id="basicContent" style="padding: 1rem; background: white; border-radius: 0.25rem; margin-bottom: 1rem; text-align: center;">
+                <h6 style="margin: 0 0 0.5rem 0;">Page <span id="basicPage">2</span> of 3</h6>
+                <p style="margin: 0; color: #6c757d;">Click pagination buttons to navigate</p>
+            </div>
+
+            <nav class="zPagination" aria-label="Page navigation">
+                <ul class="zPagination-list">
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)" onclick="updateBasic(1)" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateBasic(1)">1</a></li>
+                    <li class="zPage-item zActive" aria-current="page">
+                        <a class="zPage-link" href="javascript:void(0)" onclick="updateBasic(2)">2</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateBasic(3)">3</a></li>
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)" onclick="updateBasic(3)" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav class="zPagination" aria-label="Page navigation"&gt;
+  &lt;ul class="zPagination-list"&gt;
+    &lt;li class="zPage-item"&gt;
+      &lt;a class="zPage-link" href="#" aria-label="Previous"&gt;
+        &lt;span aria-hidden="true"&gt;&amp;laquo;&lt;/span&gt;
+      &lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class="zPage-item"&gt;&lt;a class="zPage-link" href="#"&gt;1&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="zPage-item zActive" aria-current="page"&gt;
+      &lt;a class="zPage-link" href="#"&gt;2&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class="zPage-item"&gt;&lt;a class="zPage-link" href="#"&gt;3&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="zPage-item"&gt;
+      &lt;a class="zPage-link" href="#" aria-label="Next"&gt;
+        &lt;span aria-hidden="true"&gt;&amp;raquo;&lt;/span&gt;
+      &lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+    </section>
+
+    <!-- With Icons -->
+    <section style="margin: 3rem 0;">
+        <h2>With Text Labels</h2>
+        <p>Use "Previous" and "Next" text for better clarity:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <!-- Content -->
+            <div id="textContent" style="padding: 1rem; background: white; border-radius: 0.25rem; margin-bottom: 1rem; text-align: center;">
+                <h6 style="margin: 0 0 0.5rem 0;">Page <span id="textPage">3</span> of 5</h6>
+                <p style="margin: 0; color: #6c757d;">Text labels are clearer than symbols</p>
+            </div>
+
+            <nav class="zPagination" aria-label="Page navigation" id="textNav">
+                <ul class="zPagination-list">
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)" onclick="updateText(2)" aria-label="Previous">Previous</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateText(1)">1</a></li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateText(2)">2</a></li>
+                    <li class="zPage-item zActive" aria-current="page">
+                        <a class="zPage-link" href="javascript:void(0)" onclick="updateText(3)">3</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateText(4)">4</a></li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateText(5)">5</a></li>
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)" onclick="updateText(4)" aria-label="Next">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav class="zPagination"&gt;
+  &lt;ul class="zPagination-list"&gt;
+    &lt;li class="zPage-item"&gt;
+      &lt;a class="zPage-link" href="#"&gt;Previous&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class="zPage-item zActive" aria-current="page"&gt;
+      &lt;a class="zPage-link" href="#"&gt;3&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class="zPage-item"&gt;
+      &lt;a class="zPage-link" href="#"&gt;Next&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+    </section>
+
+    <!-- Disabled State -->
+    <section style="margin: 3rem 0;">
+        <h2>Disabled State</h2>
+        <p>Disable Previous on first page or Next on last page to indicate boundaries:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <!-- Content -->
+            <div id="disabledContent" style="padding: 1rem; background: white; border-radius: 0.25rem; margin-bottom: 1rem; text-align: center;">
+                <h6 style="margin: 0 0 0.5rem 0;">Page <span id="disabledPage">1</span> of 10</h6>
+                <p style="margin: 0; color: #6c757d;">Notice: Previous disabled on first page, Next disabled on last page</p>
+            </div>
+
+            <nav class="zPagination" aria-label="Disabled state example" id="disabledNav">
+                <ul class="zPagination-list">
+                    <li class="zPage-item zDisabled">
+                        <a class="zPage-link" href="javascript:void(0)" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li class="zPage-item zActive" aria-current="page">
+                        <a class="zPage-link" href="javascript:void(0)" onclick="updateDisabled(1)">1</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateDisabled(2)">2</a></li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateDisabled(3)">3</a></li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateDisabled(9)">9</a></li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateDisabled(10)">10</a></li>
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)" onclick="updateDisabled(2)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- First page: Previous disabled --&gt;
+&lt;li class="zPage-item zDisabled"&gt;
+  &lt;a class="zPage-link" href="#" tabindex="-1" aria-disabled="true"&gt;
+    Previous
+  &lt;/a&gt;
+&lt;/li&gt;
+
+&lt;!-- Last page: Next disabled --&gt;
+&lt;li class="zPage-item zDisabled"&gt;
+  &lt;a class="zPage-link" href="#" tabindex="-1" aria-disabled="true"&gt;
+    Next
+  &lt;/a&gt;
+&lt;/li&gt;</code></pre>
+    </section>
+
+    <!-- Sizing -->
+    <section style="margin: 3rem 0;">
+        <h2>Sizing</h2>
+        <p>Control pagination size with <code>.zPagination-lg</code> or <code>.zPagination-sm</code>:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <h4 style="margin-top: 0;">Large</h4>
+            <nav class="zPagination zPagination-lg" aria-label="Large pagination">
+                <ul class="zPagination-list">
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)">Previous</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)">1</a></li>
+                    <li class="zPage-item zActive" aria-current="page">
+                        <a class="zPage-link" href="javascript:void(0)">2</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)">3</a></li>
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <h4 style="margin-top: 2rem;">Default</h4>
+            <nav class="zPagination" aria-label="Default pagination">
+                <ul class="zPagination-list">
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)">Previous</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)">1</a></li>
+                    <li class="zPage-item zActive" aria-current="page">
+                        <a class="zPage-link" href="javascript:void(0)">2</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)">3</a></li>
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <h4 style="margin-top: 2rem;">Small</h4>
+            <nav class="zPagination zPagination-sm" aria-label="Small pagination">
+                <ul class="zPagination-list">
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)">Previous</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)">1</a></li>
+                    <li class="zPage-item zActive" aria-current="page">
+                        <a class="zPage-link" href="javascript:void(0)">2</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)">3</a></li>
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Large --&gt;
+&lt;nav class="zPagination zPagination-lg"&gt;...&lt;/nav&gt;
+
+&lt;!-- Default --&gt;
+&lt;nav class="zPagination"&gt;...&lt;/nav&gt;
+
+&lt;!-- Small --&gt;
+&lt;nav class="zPagination zPagination-sm"&gt;...&lt;/nav&gt;</code></pre>
+    </section>
+
+    <!-- Alignment -->
+    <section style="margin: 3rem 0;">
+        <h2>Alignment</h2>
+        <p>Change pagination alignment with utility classes:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <h4 style="margin-top: 0;">Left (Start)</h4>
+            <nav class="zPagination zPagination-start" aria-label="Left aligned">
+                <ul class="zPagination-list">
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)">Previous</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)">1</a></li>
+                    <li class="zPage-item zActive" aria-current="page">
+                        <a class="zPage-link" href="javascript:void(0)">2</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)">3</a></li>
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <h4 style="margin-top: 2rem;">Center (Default)</h4>
+            <nav class="zPagination zPagination-center" aria-label="Center aligned">
+                <ul class="zPagination-list">
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)">Previous</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)">1</a></li>
+                    <li class="zPage-item zActive" aria-current="page">
+                        <a class="zPage-link" href="javascript:void(0)">2</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)">3</a></li>
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <h4 style="margin-top: 2rem;">Right (End)</h4>
+            <nav class="zPagination zPagination-end" aria-label="Right aligned">
+                <ul class="zPagination-list">
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)">Previous</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)">1</a></li>
+                    <li class="zPage-item zActive" aria-current="page">
+                        <a class="zPage-link" href="javascript:void(0)">2</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)">3</a></li>
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Left aligned --&gt;
+&lt;nav class="zPagination zPagination-start"&gt;...&lt;/nav&gt;
+
+&lt;!-- Center aligned (default) --&gt;
+&lt;nav class="zPagination zPagination-center"&gt;...&lt;/nav&gt;
+
+&lt;!-- Right aligned --&gt;
+&lt;nav class="zPagination zPagination-end"&gt;...&lt;/nav&gt;</code></pre>
+    </section>
+
+    <!-- With Ellipsis -->
+    <section style="margin: 3rem 0;">
+        <h2>With Ellipsis (Many Pages)</h2>
+        <p>For large page counts, use ellipsis to indicate skipped pages:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <!-- Content -->
+            <div id="ellipsisContent" style="padding: 1rem; background: white; border-radius: 0.25rem; margin-bottom: 1rem; text-align: center;">
+                <h6 style="margin: 0 0 0.5rem 0;">Page <span id="ellipsisPage">9</span> of 50</h6>
+                <p style="margin: 0; color: #6c757d;">Ellipsis (...) indicate skipped pages</p>
+            </div>
+
+            <nav class="zPagination" aria-label="Pagination with ellipsis" id="ellipsisNav">
+                <ul class="zPagination-list">
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)" onclick="updateEllipsis(8)">Previous</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateEllipsis(1)">1</a></li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateEllipsis(2)">2</a></li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateEllipsis(3)">3</a></li>
+                    <li class="zPage-item zDisabled">
+                        <span class="zPage-link">...</span>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateEllipsis(8)">8</a></li>
+                    <li class="zPage-item zActive" aria-current="page">
+                        <a class="zPage-link" href="javascript:void(0)" onclick="updateEllipsis(9)">9</a>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateEllipsis(10)">10</a></li>
+                    <li class="zPage-item zDisabled">
+                        <span class="zPage-link">...</span>
+                    </li>
+                    <li class="zPage-item"><a class="zPage-link" href="javascript:void(0)" onclick="updateEllipsis(50)">50</a></li>
+                    <li class="zPage-item">
+                        <a class="zPage-link" href="javascript:void(0)" onclick="updateEllipsis(10)">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav class="zPagination"&gt;
+  &lt;ul class="zPagination-list"&gt;
+    &lt;li class="zPage-item"&gt;
+      &lt;a class="zPage-link" href="#"&gt;Previous&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class="zPage-item"&gt;&lt;a class="zPage-link" href="#"&gt;1&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="zPage-item"&gt;&lt;a class="zPage-link" href="#"&gt;2&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="zPage-item zDisabled"&gt;
+      &lt;span class="zPage-link"&gt;...&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="zPage-item zActive"&gt;&lt;a class="zPage-link" href="#"&gt;9&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="zPage-item zDisabled"&gt;
+      &lt;span class="zPage-link"&gt;...&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="zPage-item"&gt;&lt;a class="zPage-link" href="#"&gt;50&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="zPage-item"&gt;
+      &lt;a class="zPage-link" href="#"&gt;Next&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: rgba(255, 193, 7, 0.1);">
+            <strong>Ellipsis Pattern:</strong> Show first page, last page, current page, and 1-2 pages on either side of current. Use "..." for gaps. This keeps pagination compact while providing context.
+        </blockquote>
+    </section>
+
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Always include Previous/Next:</strong> Users expect these controls</li>
+            <li><strong>Show current page:</strong> Use <code>.zActive</code> class and <code>aria-current="page"</code></li>
+            <li><strong>Disable at boundaries:</strong> Previous on page 1, Next on last page</li>
+            <li><strong>Use ellipsis for many pages:</strong> Don't show all 100 pages, use "..."</li>
+            <li><strong>Consider total count:</strong> Show "Page 5 of 20" for context</li>
+            <li><strong>Keep it accessible:</strong> Use semantic HTML (<code>&lt;nav&gt;</code>, <code>aria-label</code>)</li>
+            <li><strong>Mobile-friendly:</strong> Test touch targets on small screens</li>
+            <li><strong>Server-side pagination:</strong> For large datasets, paginate on backend</li>
+            <li><strong>Preserve filters:</strong> Include query params in pagination URLs</li>
+        </ul>
+    </section>
+
+    <!-- Accessibility -->
+    <section style="margin: 3rem 0;">
+        <h2>Accessibility</h2>
+        <p>Proper ARIA attributes ensure pagination is accessible to all users:</p>
+
+        <h3 style="margin-top: 2rem;">Required Attributes</h3>
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav class="zPagination" aria-label="Page navigation"&gt;
+  &lt;ul class="zPagination-list"&gt;
+    &lt;!-- Previous button --&gt;
+    &lt;li class="zPage-item"&gt;
+      &lt;a class="zPage-link" href="#" aria-label="Previous page"&gt;
+        &lt;span aria-hidden="true"&gt;&amp;laquo;&lt;/span&gt;
+      &lt;/a&gt;
+    &lt;/li&gt;
+    
+    &lt;!-- Current page --&gt;
+    &lt;li class="zPage-item zActive" aria-current="page"&gt;
+      &lt;a class="zPage-link" href="#"&gt;2&lt;/a&gt;
+    &lt;/li&gt;
+    
+    &lt;!-- Disabled state --&gt;
+    &lt;li class="zPage-item zDisabled"&gt;
+      &lt;a class="zPage-link" href="#" tabindex="-1" aria-disabled="true"&gt;
+        Next
+      &lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Keyboard Navigation</h3>
+        <p>Pagination links automatically support keyboard navigation:</p>
+        <ul style="line-height: 2;">
+            <li><kbd>Tab</kbd> - Move to next page link</li>
+            <li><kbd>Shift + Tab</kbd> - Move to previous page link</li>
+            <li><kbd>Enter</kbd> - Activate the focused link</li>
+            <li>Disabled links are skipped in tab order (<code>tabindex="-1"</code>)</li>
+        </ul>
+
+        <h3 style="margin-top: 2rem;">Screen Reader Support</h3>
+        <ul style="line-height: 2;">
+            <li>Use <code>aria-label</code> on <code>&lt;nav&gt;</code> to describe purpose</li>
+            <li>Use <code>aria-current="page"</code> to announce current page</li>
+            <li>Use <code>aria-disabled="true"</code> on disabled links</li>
+            <li>Use <code>aria-hidden="true"</code> on decorative symbols (« »)</li>
+            <li>Provide descriptive <code>aria-label</code> on Previous/Next</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+
+        <h3 style="margin-top: 2rem;">Base Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zPagination</code></td>
+                    <td>Main container (nav wrapper, centered by default)</td>
+                </tr>
+                <tr>
+                    <td><code>.zPagination-list</code></td>
+                    <td>Flex container for page items (ul element)</td>
+                </tr>
+                <tr>
+                    <td><code>.zPage-item</code></td>
+                    <td>Individual page wrapper (li element)</td>
+                </tr>
+                <tr>
+                    <td><code>.zPage-link</code></td>
+                    <td>Clickable link/button with hover states</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">State Modifiers</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zActive</code></td>
+                    <td>Current page (blue background, white text)</td>
+                </tr>
+                <tr>
+                    <td><code>.zDisabled</code></td>
+                    <td>Non-clickable state (grayed out, no pointer events)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Size Modifiers</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zPagination-lg</code></td>
+                    <td>Large size (1.25rem font, 0.75rem/1.5rem padding)</td>
+                </tr>
+                <tr>
+                    <td>(default)</td>
+                    <td>Standard size (1rem font, 0.375rem/0.75rem padding)</td>
+                </tr>
+                <tr>
+                    <td><code>.zPagination-sm</code></td>
+                    <td>Small size (0.875rem font, 0.25rem/0.5rem padding)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Alignment Modifiers</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zPagination-start</code></td>
+                    <td>Left aligned (<code>justify-content: flex-start</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>.zPagination-center</code></td>
+                    <td>Center aligned (default)</td>
+                </tr>
+                <tr>
+                    <td><code>.zPagination-end</code></td>
+                    <td>Right aligned (<code>justify-content: flex-end</code>)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-tables.html">Tables</a> - Paginated data tables</li>
+            <li><a href="ztheme-buttons.html">Buttons</a> - Button styling for custom pagination</li>
+            <li><a href="ztheme-breadcrumb.html">Breadcrumb</a> - Hierarchical navigation</li>
+            <li><a href="ztheme-navbar.html">Navbar</a> - Site-wide navigation</li>
+        </ul>
+    </section>
+</article>
+
+<script>
+// Pagination Demo
+(function() {
+    // Mock product data
+    const products = [
+        'Wireless Headphones', 'Smart Watch', 'Laptop Stand', 'USB-C Cable', 
+        'Mechanical Keyboard', 'Gaming Mouse', 'Monitor', 'Webcam',
+        'Phone Case', 'Screen Protector', 'Charging Dock', 'Bluetooth Speaker',
+        'External SSD', 'Graphics Tablet', 'Ring Light', 'Microphone',
+        'Desk Lamp', 'Cable Organizer', 'Mouse Pad', 'Laptop Bag',
+        'Power Bank', 'Wireless Charger', 'Smart Home Hub', 'Security Camera',
+        'Fitness Tracker', 'Earbuds', 'Tablet', 'Stylus Pen',
+        'Portable Monitor', 'Streaming Mic'
+    ];
+
+    let currentPage = 1;
+    const itemsPerPage = 6;
+    const totalItems = products.length;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+    // Get elements
+    const productGrid = document.getElementById('productGrid');
+    const paginationDemo = document.getElementById('paginationDemo');
+    const pageInfo = document.getElementById('pageInfo');
+
+    if (!productGrid || !paginationDemo) return; // Exit if elements not found
+
+    // Render products for current page
+    function renderProducts(page) {
+        const start = (page - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const pageProducts = products.slice(start, end);
+
+        productGrid.innerHTML = pageProducts.map((product, index) => `
+            <div style="background: white; padding: 1rem; border-radius: 0.5rem; border: 1px solid #dee2e6; text-align: center;">
+                <img src="https://picsum.photos/seed/product${start + index}/150/150" 
+                     alt="${product}" 
+                     style="width: 100%; height: 150px; object-fit: cover; border-radius: 0.25rem; margin-bottom: 0.5rem;">
+                <h6 style="margin: 0.5rem 0; font-size: 0.875rem; color: #212529;">${product}</h6>
+                <p style="margin: 0; color: #0d6efd; font-weight: 600;">$${(Math.random() * 100 + 20).toFixed(2)}</p>
+            </div>
+        `).join('');
+
+        // Update page info
+        pageInfo.textContent = `${start + 1}-${Math.min(end, totalItems)} of ${totalItems}`;
+    }
+
+    // Render pagination controls
+    function renderPagination(page) {
+        let html = '';
+
+        // Previous button
+        const prevDisabled = page === 1 ? ' zDisabled' : '';
+        html += `
+            <li class="zPage-item${prevDisabled}">
+                <a class="zPage-link" ${page > 1 ? `onclick="goToPageDemo(${page - 1})" href="#productGrid"` : 'tabindex="-1" aria-disabled="true"'} aria-label="Previous">
+                    Previous
+                </a>
+            </li>
+        `;
+
+        // Page numbers
+        for (let i = 1; i <= totalPages; i++) {
+            const active = i === page ? ' zActive' : '';
+            const ariaCurrent = i === page ? ' aria-current="page"' : '';
+            html += `
+                <li class="zPage-item${active}"${ariaCurrent}>
+                    <a class="zPage-link" onclick="goToPageDemo(${i})" href="#productGrid">${i}</a>
+                </li>
+            `;
+        }
+
+        // Next button
+        const nextDisabled = page === totalPages ? ' zDisabled' : '';
+        html += `
+            <li class="zPage-item${nextDisabled}">
+                <a class="zPage-link" ${page < totalPages ? `onclick="goToPageDemo(${page + 1})" href="#productGrid"` : 'tabindex="-1" aria-disabled="true"'} aria-label="Next">
+                    Next
+                </a>
+            </li>
+        `;
+
+        paginationDemo.innerHTML = html;
+    }
+
+    // Navigate to page
+    window.goToPageDemo = function(page) {
+        if (page < 1 || page > totalPages) return;
+        currentPage = page;
+        renderProducts(page);
+        renderPagination(page);
+        
+        // Scroll to product grid smoothly
+        productGrid.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+
+    // Initial render
+    renderProducts(currentPage);
+    renderPagination(currentPage);
+})();
+
+// Basic Pagination Demo
+window.updateBasic = function(page) {
+    document.getElementById('basicPage').textContent = page;
+    
+    const container = document.getElementById('basicContent').parentElement;
+    const items = container.querySelectorAll('.zPage-item');
+    items.forEach((item) => {
+        item.classList.remove('zActive');
+        item.removeAttribute('aria-current');
+        const link = item.querySelector('.zPage-link');
+        if (link && link.textContent.trim() === String(page)) {
+            item.classList.add('zActive');
+            item.setAttribute('aria-current', 'page');
+        }
+    });
+};
+
+// Text Labels Demo
+window.updateText = function(page) {
+    document.getElementById('textPage').textContent = page;
+    
+    const items = document.getElementById('textNav').querySelectorAll('.zPage-item');
+    items.forEach((item) => {
+        item.classList.remove('zActive');
+        item.removeAttribute('aria-current');
+        const link = item.querySelector('.zPage-link');
+        if (link && link.textContent.trim() === String(page)) {
+            item.classList.add('zActive');
+            item.setAttribute('aria-current', 'page');
+        }
+    });
+};
+
+// Disabled State Demo
+window.updateDisabled = function(page) {
+    if (page < 1 || page > 10) return;
+    
+    document.getElementById('disabledPage').textContent = page;
+    
+    const nav = document.getElementById('disabledNav');
+    const items = nav.querySelectorAll('.zPage-item');
+    
+    // Update active state
+    items.forEach((item) => {
+        item.classList.remove('zActive');
+        item.removeAttribute('aria-current');
+        const link = item.querySelector('.zPage-link');
+        if (link && link.textContent.trim() === String(page)) {
+            item.classList.add('zActive');
+            item.setAttribute('aria-current', 'page');
+        }
+    });
+    
+    // Update disabled states
+    const prevItem = items[0];
+    const nextItem = items[items.length - 1];
+    
+    if (page === 1) {
+        prevItem.classList.add('zDisabled');
+        prevItem.querySelector('.zPage-link').setAttribute('tabindex', '-1');
+        prevItem.querySelector('.zPage-link').setAttribute('aria-disabled', 'true');
+    } else {
+        prevItem.classList.remove('zDisabled');
+        prevItem.querySelector('.zPage-link').removeAttribute('tabindex');
+        prevItem.querySelector('.zPage-link').removeAttribute('aria-disabled');
+    }
+    
+    if (page === 10) {
+        nextItem.classList.add('zDisabled');
+        nextItem.querySelector('.zPage-link').setAttribute('tabindex', '-1');
+        nextItem.querySelector('.zPage-link').setAttribute('aria-disabled', 'true');
+    } else {
+        nextItem.classList.remove('zDisabled');
+        nextItem.querySelector('.zPage-link').removeAttribute('tabindex');
+        nextItem.querySelector('.zPage-link').removeAttribute('aria-disabled');
+    }
+};
+
+// Ellipsis Demo
+window.updateEllipsis = function(page) {
+    if (page < 1 || page > 50) return;
+    
+    document.getElementById('ellipsisPage').textContent = page;
+    
+    const nav = document.getElementById('ellipsisNav');
+    const items = nav.querySelectorAll('.zPage-item');
+    
+    // Update active state
+    items.forEach((item) => {
+        item.classList.remove('zActive');
+        item.removeAttribute('aria-current');
+        const link = item.querySelector('.zPage-link');
+        if (link && !item.classList.contains('zDisabled') && link.textContent.trim() === String(page)) {
+            item.classList.add('zActive');
+            item.setAttribute('aria-current', 'page');
+        }
+    });
+};
+</script>
+
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

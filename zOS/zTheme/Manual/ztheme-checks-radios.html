@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checks Radios - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="../ztheme.html#forms">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Checks Radios</li>
+        </ol>
+    </nav>
+    
+    <h1>Checks Radios</h1>
+    <p class="zLead" style="margin-bottom: 2rem;">
+        Create accessible checkboxes, radio buttons, and toggle switches for selecting options.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Semantic HTML: Why It Matters -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Form Controls</h2>
+        <p>Checkboxes and radio buttons are <strong>semantic HTML elements</strong> with built-in meaning and behavior. They're not just visual styling—they're essential for:</p>
+        
+        <ul style="line-height: 2; margin: 1.5rem 0;">
+            <li><strong>Accessibility:</strong> Screen readers announce "checkbox, checked" or "radio button, 2 of 3" to help users understand the control type and state</li>
+            <li><strong>Keyboard Navigation:</strong> Users can navigate with Tab and select with Space/Enter without a mouse</li>
+            <li><strong>Form Submission:</strong> Browsers automatically include checked values when forms are submitted</li>
+            <li><strong>Native Behavior:</strong> Radio buttons automatically uncheck others in the same group—you don't write JavaScript for this</li>
+        </ul>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Important:</strong> The <code>type</code> attribute (<code>type="checkbox"</code> or <code>type="radio"</code>) defines the semantic meaning. The visual styling is secondary. zTheme enhances the appearance while preserving all native functionality.
+        </blockquote>
+        
+        <h3 style="margin-top: 2rem;">Semantic HTML (Reboot Only)</h3>
+        <p>Basic checkboxes and radios with minimal reboot styling:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div style="margin-bottom: 1rem;">
+                <input type="checkbox" id="basicCheck1" value="terms">
+                <label for="basicCheck1">I agree to the terms</label>
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <input type="radio" name="basicRadio" id="basicRadio1" value="yes">
+                <label for="basicRadio1">Yes</label>
+            </div>
+            <div>
+                <input type="radio" name="basicRadio" id="basicRadio2" value="no">
+                <label for="basicRadio2">No</label>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- Semantic checkbox --&gt;
+&lt;input type="checkbox" id="basicCheck1" value="terms"&gt;
+&lt;label for="basicCheck1"&gt;I agree to the terms&lt;/label&gt;
+
+&lt;!-- Semantic radio buttons (same name = group) --&gt;
+&lt;input type="radio" name="basicRadio" id="basicRadio1" value="yes"&gt;
+&lt;label for="basicRadio1"&gt;Yes&lt;/label&gt;
+&lt;input type="radio" name="basicRadio" id="basicRadio2" value="no"&gt;
+&lt;label for="basicRadio2"&gt;No&lt;/label&gt;</code></pre>
+        
+        <p style="margin-top: 1.5rem;">This works perfectly for forms, accessibility, and SEO. Now let's enhance the appearance with zTheme classes.</p>
+    </section>
+    
+    <!-- Checkboxes -->
+    <section style="margin: 3rem 0;">
+        <h2>Styled Checkboxes</h2>
+        <p>Add <code>.zCheck</code> wrapper with <code>.zCheck-input</code> and <code>.zCheck-label</code> classes for enhanced, custom-styled checkboxes.</p>
+        
+        <h3 style="margin-top: 1.5rem;">With .zCheck Styling</h3>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zCheck">
+                <input class="zCheck-input" type="checkbox" value="" id="checkbox1">
+                <label class="zCheck-label" for="checkbox1">
+                    I agree to the terms and conditions
+                </label>
+            </div>
+            <div class="zCheck">
+                <input class="zCheck-input" type="checkbox" value="" id="checkbox2" checked>
+                <label class="zCheck-label" for="checkbox2">
+                    Send me email updates
+                </label>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zCheck"&gt;
+  &lt;input class="zCheck-input" type="checkbox" id="checkbox1"&gt;
+  &lt;label class="zCheck-label" for="checkbox1"&gt;
+    I agree to the terms and conditions
+  &lt;/label&gt;
+&lt;/div&gt;</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>What .zCheck Adds:</strong> Custom checkmark icon, consistent sizing, better spacing, focus states, and visual feedback. The semantic meaning and native behavior remain unchanged.
+        </blockquote>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-success); background: #f8f9fa;">
+            <strong>Accessibility:</strong> Always pair <code>&lt;input&gt;</code> with <code>&lt;label&gt;</code> using matching <code>id</code> and <code>for</code> attributes. This creates a larger click area and announces the label text to screen readers.
+        </blockquote>
+        
+        <h3 style="margin-top: 2rem;">Disabled State</h3>
+        <p>Add the <code>disabled</code> attribute to prevent interaction.</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zCheck">
+                <input class="zCheck-input" type="checkbox" id="checkboxDisabled" disabled>
+                <label class="zCheck-label" for="checkboxDisabled">
+                    Unavailable option
+                </label>
+            </div>
+            <div class="zCheck">
+                <input class="zCheck-input" type="checkbox" id="checkboxCheckedDisabled" checked disabled>
+                <label class="zCheck-label" for="checkboxCheckedDisabled">
+                    Pre-selected (cannot change)
+                </label>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;input class="zCheck-input" type="checkbox" disabled&gt;</code></pre>
+    </section>
+    
+    <!-- Radio Buttons -->
+    <section style="margin: 3rem 0;">
+        <h2>Styled Radio Buttons</h2>
+        <p>Radio buttons allow users to select <strong>one option</strong> from a group. All radios in a group must share the same <code>name</code> attribute. Add <code>.zCheck</code> wrapper for enhanced styling.</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zCheck">
+                <input class="zCheck-input" type="radio" name="paymentMethod" id="radio1" value="card" checked>
+                <label class="zCheck-label" for="radio1">
+                    Credit Card
+                </label>
+            </div>
+            <div class="zCheck">
+                <input class="zCheck-input" type="radio" name="paymentMethod" id="radio2" value="paypal">
+                <label class="zCheck-label" for="radio2">
+                    PayPal
+                </label>
+            </div>
+            <div class="zCheck">
+                <input class="zCheck-input" type="radio" name="paymentMethod" id="radio3" value="bank">
+                <label class="zCheck-label" for="radio3">
+                    Bank Transfer
+                </label>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- All radios share name="paymentMethod" --&gt;
+&lt;div class="zCheck"&gt;
+  &lt;input class="zCheck-input" type="radio" name="paymentMethod" id="radio1" checked&gt;
+  &lt;label class="zCheck-label" for="radio1"&gt;Credit Card&lt;/label&gt;
+&lt;/div&gt;
+&lt;div class="zCheck"&gt;
+  &lt;input class="zCheck-input" type="radio" name="paymentMethod" id="radio2"&gt;
+  &lt;label class="zCheck-label" for="radio2"&gt;PayPal&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">Disabled State</h3>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zCheck">
+                <input class="zCheck-input" type="radio" name="shippingDisabled" id="radioDisabled1" disabled>
+                <label class="zCheck-label" for="radioDisabled1">
+                    Standard Shipping (Unavailable)
+                </label>
+            </div>
+            <div class="zCheck">
+                <input class="zCheck-input" type="radio" name="shippingDisabled" id="radioDisabled2" checked disabled>
+                <label class="zCheck-label" for="radioDisabled2">
+                    Express Shipping (Selected)
+                </label>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;input class="zCheck-input" type="radio" disabled&gt;</code></pre>
+    </section>
+    
+    <!-- Switches -->
+    <section style="margin: 3rem 0;">
+        <h2>Toggle Switches</h2>
+        <p>Switches are styled checkboxes that look like toggle switches. Add <code>.zSwitch</code> alongside <code>.zCheck</code> for the toggle appearance.</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zCheck zSwitch">
+                <input class="zCheck-input" type="checkbox" id="switch1">
+                <label class="zCheck-label" for="switch1">Enable notifications</label>
+            </div>
+            <div class="zCheck zSwitch">
+                <input class="zCheck-input" type="checkbox" id="switch2" checked>
+                <label class="zCheck-label" for="switch2">Dark mode</label>
+            </div>
+            <div class="zCheck zSwitch">
+                <input class="zCheck-input" type="checkbox" id="switch3" disabled>
+                <label class="zCheck-label" for="switch3">Beta features (disabled)</label>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zCheck zSwitch"&gt;
+  &lt;input class="zCheck-input" type="checkbox" id="switch1"&gt;
+  &lt;label class="zCheck-label" for="switch1"&gt;Enable notifications&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Inline Layout -->
+    <section style="margin: 3rem 0;">
+        <h2>Inline Layout</h2>
+        <p>Display checkboxes or radios horizontally by adding <code>.zCheck-inline</code> to the <code>.zCheck</code> wrapper.</p>
+        
+        <h3 style="margin-top: 1.5rem;">Inline Checkboxes</h3>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zCheck zCheck-inline">
+                <input class="zCheck-input" type="checkbox" id="inline1" value="red">
+                <label class="zCheck-label" for="inline1">Red</label>
+            </div>
+            <div class="zCheck zCheck-inline">
+                <input class="zCheck-input" type="checkbox" id="inline2" value="green">
+                <label class="zCheck-label" for="inline2">Green</label>
+            </div>
+            <div class="zCheck zCheck-inline">
+                <input class="zCheck-input" type="checkbox" id="inline3" value="blue">
+                <label class="zCheck-label" for="inline3">Blue</label>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zCheck zCheck-inline"&gt;
+  &lt;input class="zCheck-input" type="checkbox" id="inline1"&gt;
+  &lt;label class="zCheck-label" for="inline1"&gt;Red&lt;/label&gt;
+&lt;/div&gt;
+&lt;div class="zCheck zCheck-inline"&gt;
+  &lt;input class="zCheck-input" type="checkbox" id="inline2"&gt;
+  &lt;label class="zCheck-label" for="inline2"&gt;Green&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">Inline Radio Buttons</h3>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zCheck zCheck-inline">
+                <input class="zCheck-input" type="radio" name="priority" id="priorityLow" value="low">
+                <label class="zCheck-label" for="priorityLow">Low</label>
+            </div>
+            <div class="zCheck zCheck-inline">
+                <input class="zCheck-input" type="radio" name="priority" id="priorityNormal" value="normal" checked>
+                <label class="zCheck-label" for="priorityNormal">Normal</label>
+            </div>
+            <div class="zCheck zCheck-inline">
+                <input class="zCheck-input" type="radio" name="priority" id="priorityHigh" value="high">
+                <label class="zCheck-label" for="priorityHigh">High</label>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zCheck zCheck-inline"&gt;
+  &lt;input class="zCheck-input" type="radio" name="priority" id="priorityLow"&gt;
+  &lt;label class="zCheck-label" for="priorityLow"&gt;Low&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <h3>Always Use Labels</h3>
+        <p>Connect inputs with labels for accessibility and larger click areas:</p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;input class="zCheck-input" id="myCheckbox"&gt;
+&lt;label class="zCheck-label" for="myCheckbox"&gt;Label text&lt;/label&gt;</code></pre>
+        
+        <h3 style="margin-top: 1.5rem;">Radio Button Grouping</h3>
+        <p>All radio buttons in a group must share the same <code>name</code> attribute to work correctly.</p>
+        
+        <h3 style="margin-top: 1.5rem;">Choose the Right Control</h3>
+        <ul style="line-height: 2;">
+            <li><strong>Checkbox:</strong> Select multiple options (0, 1, or more)</li>
+            <li><strong>Radio:</strong> Select one option from a group (exactly 1)</li>
+            <li><strong>Switch:</strong> Enable/disable a feature (on/off)</li>
+        </ul>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: var(--color-base); border-left: 4px solid var(--color-info);">
+        <h2>CSS Reference</h2>
+        
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto; margin-top: 1rem;"><code>/* Wrapper */
+.zCheck             /* Stacks vertically by default */
+.zCheck-inline      /* Displays horizontally */
+
+/* Checkbox/Radio */
+.zCheck-input       /* Styles the input */
+.zCheck-label       /* Styles the label */
+
+/* Switch */
+.zSwitch            /* Adds toggle switch styling */
+
+/* Key CSS variables */
+--form-check-input-width: 1em;
+--form-check-input-checked-bg-color: var(--color-primary);
+--form-check-input-focus-border: var(--color-info);
+--form-check-input-disabled-opacity: 0.5;</code></pre>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-form-control.html" class="zPrimary">Form Control</a> - Text inputs and textareas</li>
+            <li><a href="ztheme-select.html" class="zPrimary">Select</a> - Dropdown menus</li>
+            <li><a href="ztheme-form-layout.html" class="zPrimary">Form Layout</a> - Organizing form elements</li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-select.html" class="zPrimary">← Previous: Select</a>
+        <a href="ztheme-range.html" class="zPrimary">Next: Range →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

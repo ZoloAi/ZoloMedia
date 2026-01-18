@@ -1,0 +1,53 @@
+/* ============================================
+   zVerticalAlign.css - Vertical Alignment Utilities
+   ============================================
+   
+   Control vertical alignment of inline and table elements.
+   Aligned with modern layout patterns.
+   
+   Classes:
+   - .zAlign-baseline - Align to baseline
+   - .zAlign-top - Align to top
+   - .zAlign-middle - Align to middle
+   - .zAlign-bottom - Align to bottom
+   - .zAlign-text-top - Align to text top
+   - .zAlign-text-bottom - Align to text bottom
+   
+   Example:
+   <span class="zAlign-middle">Centered inline</span>
+   <td class="zAlign-top">Top aligned cell</td>
+   
+   Note: Only works on inline, inline-block, inline-table, 
+   and table cell elements. Use flexbox for block elements.
+   
+   ============================================ */
+
+/* ============================================
+   Vertical Alignment Utilities
+   ============================================ */
+
+.zAlign-baseline {
+  vertical-align: baseline !important;
+}
+
+.zAlign-top {
+  vertical-align: top !important;
+}
+
+.zAlign-middle {
+  vertical-align: middle !important;
+}
+
+.zAlign-bottom {
+  vertical-align: bottom !important;
+}
+
+.zAlign-text-top {
+  vertical-align: text-top !important;
+}
+
+.zAlign-text-bottom {
+  vertical-align: text-bottom !important;
+}
+
+

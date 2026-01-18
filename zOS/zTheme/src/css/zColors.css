@@ -1,0 +1,149 @@
+/* ============================================
+   zColors.css - Text Color Utilities
+   ============================================
+   
+   Bootstrap-inspired text color utilities with z prefix.
+   Convey meaning through text color for semantic communication.
+   
+   Classes:
+   - .zText-primary, .zText-secondary, .zText-success, .zText-info, .zText-warning, .zText-danger
+   - .zText-light, .zText-dark, .zText-body, .zText-muted, .zText-white
+   - .zText-black-50, .zText-white-50 (50% opacity)
+   
+   Note: For links with hover states, see zLinks.css (.zLink-* classes).
+   
+   Example:
+   <p class="zText-primary">Primary text</p>
+   <p class="zText-muted">Muted secondary text</p>
+   
+   ============================================ */
+
+/* ============================================
+   Theme Color Text
+   ============================================
+   
+   Semantic colors for conveying meaning.
+   ============================================ */
+
+.zText-primary {
+    color: var(--color-primary) !important;
+}
+
+.zText-secondary {
+    color: var(--color-secondary) !important;
+}
+
+.zText-success {
+    color: var(--color-success) !important;
+}
+
+.zText-info {
+    color: var(--color-info) !important;
+}
+
+.zText-warning {
+    color: var(--color-warning) !important;
+}
+
+.zText-danger,
+.zText-error {
+    color: var(--color-error) !important;
+}
+
+/* ============================================
+   Neutral Text Colors
+   ============================================ */
+
+.zText-light {
+    color: var(--color-light) !important;
+}
+
+.zText-dark {
+    color: var(--color-dark) !important;
+}
+
+.zText-body {
+    color: var(--color-body) !important;
+}
+
+.zText-muted {
+    color: var(--color-gray) !important;
+}
+
+.zText-white {
+    color: var(--color-white) !important;
+}
+
+.zText-black {
+    color: #000 !important;
+}
+
+/* ============================================
+   Opacity Variants
+   ============================================
+   
+   50% opacity versions of black and white.
+   Useful for subtle overlays and secondary text.
+   ============================================ */
+
+.zText-black-50 {
+    color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.zText-white-50 {
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ============================================
+   Legacy/Compatibility Classes
+   ============================================
+   
+   Support for templates using non-prefixed classes.
+   These map to the z-prefixed versions above.
+   Will be deprecated in a future version.
+   ============================================ */
+
+.text-muted {
+    color: var(--color-gray) !important;
+}
+
+.text-white {
+    color: var(--color-white) !important;
+}
+
+.text-dark {
+    color: var(--color-dark) !important;
+}
+
+.text-primary {
+    color: var(--color-primary) !important;
+}
+
+.text-secondary {
+    color: var(--color-secondary) !important;
+}
+
+.text-success {
+    color: var(--color-success) !important;
+}
+
+.text-info {
+    color: var(--color-info) !important;
+}
+
+.text-warning {
+    color: var(--color-warning) !important;
+}
+
+.text-danger {
+    color: var(--color-error) !important;
+}
+
+.text-light {
+    color: var(--color-light) !important;
+}
+
+.text-body {
+    color: var(--color-body) !important;
+}
+

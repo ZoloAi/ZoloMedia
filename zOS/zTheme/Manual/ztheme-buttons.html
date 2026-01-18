@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buttons - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="../ztheme.html#components">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Buttons</li>
+        </ol>
+    </nav>
+    
+    <h1>Buttons</h1>
+    <p class="zLead" style="margin-bottom: 2rem;">
+        Use zTheme's button styles for actions in forms, dialogs, and more with support for multiple sizes, states, and color variants
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Buttons -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Buttons</h2>
+        
+        <h3>What are Buttons?</h3>
+        <p>Buttons are interactive elements that trigger actions when clicked. They're one of the most important UI components because they:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Signal actions:</strong> Submit forms, save data, navigate pages</li>
+            <li><strong>Guide users:</strong> Clear calls-to-action for user journeys</li>
+            <li><strong>Provide feedback:</strong> Visual states (hover, active, disabled) communicate interactivity</li>
+        </ul>
+        
+        <h3 style="margin-top: 1.5rem;">When to Use Buttons</h3>
+        <ul style="line-height: 2;">
+            <li><strong>Form submissions:</strong> Use the <code>&lt;button type="submit"&gt;</code> HTML element for submitting data</li>
+            <li><strong>In-page actions:</strong> Use the <code>&lt;button&gt;</code> HTML element to open modals, toggle content, trigger JavaScript</li>
+            <li><strong>Navigation:</strong> Use the <code>&lt;a href="/page"&gt;</code> HTML element for links, then add zTheme button classes like <code>class="zBtn zBtn-primary"</code> to style it as a button</li>
+        </ul>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Semantic HTML vs Visual Styling:</strong> The HTML element defines the <em>meaning</em> (<code>&lt;button&gt;</code> for actions, <code>&lt;a&gt;</code> for navigation), while zTheme utility classes like <code>.zBtn</code> and <code>.zBtn-primary</code> define the <em>visual appearance</em>. This separation helps screen readers and search engines understand your page correctly. When styling an <code>&lt;a&gt;</code> element as a button, also add <code>role="button"</code> for accessibility.
+        </blockquote>
+    </section>
+    
+    <!-- The Button Element -->
+    <section style="margin: 3rem 0;">
+        <h2>The Button Element</h2>
+        <p>HTML provides the semantic <code>&lt;button&gt;</code> element for clickable actions. Our reboot provides basic, clean styling for all buttons:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button>Default Button</button>
+            <button type="submit">Submit Button</button>
+            <button type="reset">Reset Button</button>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;button&gt;Default Button&lt;/button&gt;
+&lt;button type="submit"&gt;Submit Button&lt;/button&gt;
+&lt;button type="reset"&gt;Reset Button&lt;/button&gt;</code></pre>
+
+        <p style="margin-top: 1rem;"><strong>What the reboot provides:</strong></p>
+        <ul style="line-height: 2;">
+            <li>Clean, consistent cross-browser styling</li>
+            <li>Proper padding and font inheritance</li>
+            <li>Cursor pointer on hover</li>
+            <li>Focus states for accessibility</li>
+            <li>Disabled state opacity</li>
+        </ul>
+    </section>
+    
+    <!-- Enhanced Buttons -->
+    <section style="margin: 3rem 0;">
+        <h2>Enhanced Buttons with .zBtn</h2>
+        <p>The <code>.zBtn</code> class adds zTheme's enhanced styling on top of the semantic <code>&lt;button&gt;</code>. Combined with color variants, you get professional, accessible buttons:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button class="zBtn zBtn-primary">Primary</button>
+            <button class="zBtn zBtn-secondary">Secondary</button>
+            <button class="zBtn zBtn-success">Success</button>
+            <button class="zBtn zBtn-info">Info</button>
+            <button class="zBtn zBtn-warning">Warning</button>
+            <button class="zBtn zBtn-danger">Danger</button>
+            <button class="zBtn zBtn-light">Light</button>
+            <button class="zBtn zBtn-dark">Dark</button>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;button class="zBtn zBtn-primary"&gt;Primary&lt;/button&gt;
+&lt;button class="zBtn zBtn-secondary"&gt;Secondary&lt;/button&gt;
+&lt;button class="zBtn zBtn-success"&gt;Success&lt;/button&gt;
+&lt;button class="zBtn zBtn-info"&gt;Info&lt;/button&gt;
+&lt;button class="zBtn zBtn-warning"&gt;Warning&lt;/button&gt;
+&lt;button class="zBtn zBtn-danger"&gt;Danger&lt;/button&gt;
+&lt;button class="zBtn zBtn-light"&gt;Light&lt;/button&gt;
+&lt;button class="zBtn zBtn-dark"&gt;Dark&lt;/button&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: #fff8e1;">
+            <strong>Accessibility Note:</strong> Button colors should convey meaning (e.g., red for danger, green for success), but also include clear text labels. Don't rely on color alone—users with color blindness need text context.
+        </blockquote>
+    </section>
+    
+    <!-- Outline Buttons -->
+    <section style="margin: 3rem 0;">
+        <h2>Outline Buttons</h2>
+        <p>For a lighter visual weight, use outline variants. These buttons have transparent backgrounds with colored borders and text:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button class="zBtn zBtn-outline-primary">Primary</button>
+            <button class="zBtn zBtn-outline-secondary">Secondary</button>
+            <button class="zBtn zBtn-outline-success">Success</button>
+            <button class="zBtn zBtn-outline-info">Info</button>
+            <button class="zBtn zBtn-outline-warning">Warning</button>
+            <button class="zBtn zBtn-outline-danger">Danger</button>
+            <button class="zBtn zBtn-outline-light">Light</button>
+            <button class="zBtn zBtn-outline-dark">Dark</button>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;button class="zBtn zBtn-outline-primary"&gt;Primary&lt;/button&gt;
+&lt;button class="zBtn zBtn-outline-secondary"&gt;Secondary&lt;/button&gt;
+&lt;button class="zBtn zBtn-outline-success"&gt;Success&lt;/button&gt;
+&lt;button class="zBtn zBtn-outline-info"&gt;Info&lt;/button&gt;
+&lt;button class="zBtn zBtn-outline-warning"&gt;Warning&lt;/button&gt;
+&lt;button class="zBtn zBtn-outline-danger"&gt;Danger&lt;/button&gt;
+&lt;button class="zBtn zBtn-outline-light"&gt;Light&lt;/button&gt;
+&lt;button class="zBtn zBtn-outline-dark"&gt;Dark&lt;/button&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: #fff8e1;">
+            <strong>Contrast Note:</strong> Some outline button styles use a relatively light foreground color, and should only be used on a dark background for sufficient contrast. Specifically, <code>.zBtn-outline-light</code> is designed for dark backgrounds.
+        </blockquote>
+
+        <p style="margin-top: 1rem;"><strong>When to use outline buttons:</strong></p>
+        <ul style="line-height: 2;">
+            <li>Secondary actions alongside a primary button</li>
+            <li>Lighter visual hierarchy (less visual "weight")</li>
+            <li>Better contrast on colored backgrounds</li>
+        </ul>
+    </section>
+    
+    <!-- Button Sizes -->
+    <section style="margin: 3rem 0;">
+        <h2>Button Sizes</h2>
+        <p>Add <code>.zBtn-lg</code> or <code>.zBtn-sm</code> to adjust button size for different contexts:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+            <button class="zBtn zBtn-primary zBtn-lg">Large Button</button>
+            <button class="zBtn zBtn-primary">Default Button</button>
+            <button class="zBtn zBtn-primary zBtn-sm">Small Button</button>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;button class="zBtn zBtn-primary zBtn-lg"&gt;Large Button&lt;/button&gt;
+&lt;button class="zBtn zBtn-primary"&gt;Default Button&lt;/button&gt;
+&lt;button class="zBtn zBtn-primary zBtn-sm"&gt;Small Button&lt;/button&gt;</code></pre>
+
+        <p style="margin-top: 1rem;"><strong>Size guidelines:</strong></p>
+        <ul style="line-height: 2;">
+            <li><strong>Large (<code>.zBtn-lg</code>):</strong> Hero sections, primary CTAs</li>
+            <li><strong>Default:</strong> Most buttons (forms, actions)</li>
+            <li><strong>Small (<code>.zBtn-sm</code>):</strong> Tight spaces, tables, inline actions</li>
+        </ul>
+    </section>
+    
+    <!-- Disabled State -->
+    <section style="margin: 3rem 0;">
+        <h2>Disabled State</h2>
+        <p>Use the <code>disabled</code> attribute to prevent interaction and reduce opacity. This visually communicates that an action is unavailable:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button class="zBtn zBtn-primary" disabled>Disabled Primary</button>
+            <button class="zBtn zBtn-outline-secondary" disabled>Disabled Outline</button>
+            <a href="#" class="zBtn zBtn-info zDisabled" tabindex="-1" role="button" aria-disabled="true">Disabled Link</a>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Button element: use disabled attribute --&gt;
+&lt;button class="zBtn zBtn-primary" disabled&gt;Disabled Primary&lt;/button&gt;
+
+&lt;!-- Link element: use .zDisabled class + aria-disabled --&gt;
+&lt;a href="#" class="zBtn zBtn-info zDisabled" tabindex="-1" 
+   role="button" aria-disabled="true"&gt;Disabled Link&lt;/a&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Links vs Buttons:</strong> The <code>disabled</code> attribute doesn't work on <code>&lt;a&gt;</code> elements. For links styled as buttons, add <code>.zDisabled</code>, <code>tabindex="-1"</code>, and <code>aria-disabled="true"</code> for accessibility.
+        </blockquote>
+    </section>
+    
+    <!-- Block Buttons -->
+    <section style="margin: 3rem 0;">
+        <h2>Block Buttons</h2>
+        <p>Add <code>.zBtn-block</code> to make a button span the full width of its container. Perfect for mobile layouts and form submissions:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button class="zBtn zBtn-primary zBtn-block">Full Width Button</button>
+            <button class="zBtn zBtn-outline-secondary zBtn-block" style="margin-top: 0.5rem;">Another Block Button</button>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;button class="zBtn zBtn-primary zBtn-block"&gt;Full Width Button&lt;/button&gt;
+&lt;button class="zBtn zBtn-outline-secondary zBtn-block"&gt;Another Block Button&lt;/button&gt;</code></pre>
+
+        <p style="margin-top: 1rem;"><strong>Responsive block buttons:</strong></p>
+        <ul style="line-height: 2;">
+            <li><code>.zBtn-block-sm</code> - Full width on screens ≤ 576px</li>
+            <li><code>.zBtn-block-md</code> - Full width on screens ≤ 768px</li>
+        </ul>
+    </section>
+    
+    <!-- Link Buttons -->
+    <section style="margin: 3rem 0;">
+        <h2>Link Buttons</h2>
+        <p>The <code>.zBtn-link</code> variant styles a button to look like a text link. Use for tertiary actions that need less visual weight:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button class="zBtn zBtn-link">Link Button</button>
+            <button class="zBtn zBtn-link" disabled>Disabled Link</button>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;button class="zBtn zBtn-link"&gt;Link Button&lt;/button&gt;
+&lt;button class="zBtn zBtn-link" disabled&gt;Disabled Link&lt;/button&gt;</code></pre>
+    </section>
+    
+    <!-- Using Links as Buttons -->
+    <section style="margin: 3rem 0;">
+        <h2>Using Links as Buttons</h2>
+        <p>You can style <code>&lt;a&gt;</code> elements as buttons for navigation. Remember to add <code>role="button"</code> for accessibility:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <a href="ztheme.html" class="zBtn zBtn-primary" role="button">Link to zTheme</a>
+            <a href="ztheme-forms-overview.html" class="zBtn zBtn-outline-info" role="button">Forms Overview</a>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;a href="ztheme.html" class="zBtn zBtn-primary" role="button"&gt;Link to zTheme&lt;/a&gt;
+&lt;a href="ztheme-forms-overview.html" class="zBtn zBtn-outline-info" role="button"&gt;Forms Overview&lt;/a&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: #fff8e1;">
+            <strong>Semantic Rule:</strong> Use <code>&lt;button&gt;</code> for actions (submit, toggle) and <code>&lt;a&gt;</code> for navigation. This helps screen readers and search engines understand your page structure.
+        </blockquote>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Use semantic HTML:</strong> <code>&lt;button&gt;</code> for actions, <code>&lt;a&gt;</code> for links</li>
+            <li><strong>Clear labels:</strong> Button text should describe the action ("Save Changes" not just "OK")</li>
+            <li><strong>Color meaning:</strong> Red for destructive actions (delete), green for positive (save, submit)</li>
+            <li><strong>Visual hierarchy:</strong> One primary button per section, use outline/link for secondary actions</li>
+            <li><strong>Disabled feedback:</strong> Use <code>disabled</code> attribute, not just visual styling</li>
+            <li><strong>Mobile-friendly:</strong> Ensure buttons have at least 44×44px touch target for mobile</li>
+            <li><strong>Keyboard accessible:</strong> All buttons should be reachable via Tab key</li>
+        </ul>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+        
+        <h3>Base Class</h3>
+        <table class="zTable zTable-bordered" style="margin-top: 1rem;">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 30%;">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zBtn</code></td>
+                    <td>Base button class (required on all buttons)</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 style="margin-top: 2rem;">Color Variants</h3>
+        <table class="zTable zTable-bordered" style="margin-top: 1rem;">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 30%;">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zBtn-primary</code></td>
+                    <td>Primary action (green)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-secondary</code></td>
+                    <td>Secondary action (purple)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-success</code></td>
+                    <td>Positive action (green)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-info</code></td>
+                    <td>Informational action (blue)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-warning</code></td>
+                    <td>Warning action (orange)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-danger</code></td>
+                    <td>Destructive action (red)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-light</code></td>
+                    <td>Light background</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-dark</code></td>
+                    <td>Dark background</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-link</code></td>
+                    <td>Styled like a text link</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 style="margin-top: 2rem;">Outline Variants</h3>
+        <table class="zTable zTable-bordered" style="margin-top: 1rem;">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 30%;">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zBtn-outline-primary</code></td>
+                    <td>Primary outline</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-outline-secondary</code></td>
+                    <td>Secondary outline</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-outline-success</code></td>
+                    <td>Success outline</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-outline-info</code></td>
+                    <td>Info outline</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-outline-warning</code></td>
+                    <td>Warning outline</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-outline-danger</code></td>
+                    <td>Danger outline</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-outline-light</code></td>
+                    <td>Light outline</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-outline-dark</code></td>
+                    <td>Dark outline</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 style="margin-top: 2rem;">Sizes</h3>
+        <table class="zTable zTable-bordered" style="margin-top: 1rem;">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 30%;">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zBtn-lg</code></td>
+                    <td>Large button</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-sm</code></td>
+                    <td>Small button</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-block</code></td>
+                    <td>Full-width button</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-block-sm</code></td>
+                    <td>Full-width on mobile (≤576px)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-block-md</code></td>
+                    <td>Full-width on tablet (≤768px)</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 style="margin-top: 2rem;">States</h3>
+        <table class="zTable zTable-bordered" style="margin-top: 1rem;">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 30%;">Class/Attribute</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>disabled</code></td>
+                    <td>Disabled state (use on <code>&lt;button&gt;</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>.zDisabled</code></td>
+                    <td>Disabled state (use on <code>&lt;a&gt;</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>.zActive</code></td>
+                    <td>Active/selected state</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Button Group</strong> - Layout component for grouping buttons (separate guide)</li>
+            <li><a href="ztheme-form-control.html" class="zInfo">Form Control</a> - Form inputs and labels</li>
+            <li><a href="ztheme-form-layout.html" class="zInfo">Form Layout</a> - Arranging forms with the grid</li>
+            <li><a href="ztheme-utilities.html" class="zInfo">Utilities</a> - Spacing and display utilities</li>
+        </ul>
+    </section>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

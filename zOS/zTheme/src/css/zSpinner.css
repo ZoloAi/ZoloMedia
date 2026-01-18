@@ -1,0 +1,268 @@
+/* ============================================
+   zSpinner.css - Loading Indicators
+   ============================================
+   
+   Bootstrap-inspired spinners for showing loading states.
+   Built entirely with HTML and CSS, no JavaScript required.
+   
+   Classes:
+   - .zSpinner-border       : Rotating border spinner (default)
+   - .zSpinner-grow         : Pulsing grow spinner
+   - .zSpinner-border-sm    : Small border spinner
+   - .zSpinner-grow-sm      : Small grow spinner
+   
+   Colors:
+   Use text color utilities to customize spinner colors
+   
+   Structure:
+   <div class="zSpinner-border" role="status">
+     <span class="zVisually-hidden">Loading...</span>
+   </div>
+*/
+
+/* ============================================
+   Base Spinner Styles
+   ============================================ */
+
+.zSpinner-border,
+.zSpinner-grow {
+    display: inline-block;
+    vertical-align: -0.125em;
+}
+
+/* ============================================
+   Border Spinner (Rotating Border)
+   ============================================ */
+
+.zSpinner-border {
+    width: 2rem;
+    height: 2rem;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: zSpinner-border-spin 0.75s linear infinite;
+}
+
+@keyframes zSpinner-border-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Small Border Spinner */
+.zSpinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.2em;
+}
+
+/* ============================================
+   Grow Spinner (Pulsing)
+   ============================================ */
+
+.zSpinner-grow {
+    width: 2rem;
+    height: 2rem;
+    background-color: currentColor;
+    border-radius: 50%;
+    opacity: 0;
+    animation: zSpinner-grow-pulse 0.75s linear infinite;
+}
+
+@keyframes zSpinner-grow-pulse {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+        opacity: 1;
+    }
+}
+
+/* Small Grow Spinner */
+.zSpinner-grow-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* ============================================
+   Color Support via currentColor
+   ============================================ */
+
+/* Spinners use currentColor, so they inherit text color.
+   Use text utilities to change colors:
+   
+   <div class="zSpinner-border zText-primary"></div>
+   <div class="zSpinner-border zText-success"></div>
+   <div class="zSpinner-border zText-danger"></div>
+   
+   Or inline styles:
+   <div class="zSpinner-border" style="color: #0d6efd;"></div>
+*/
+
+/* ============================================
+   Accessibility
+   ============================================
+   
+   Note: .zVisually-hidden is now defined in zVisually.css
+   This ensures consistent screen reader utilities across
+   all components.
+*/
+
+/* ============================================
+   Reduced Motion Support
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .zSpinner-border,
+    .zSpinner-grow {
+        animation-duration: 1.5s;
+    }
+}
+
+/* ============================================
+   BONUS: Creative Character-Based Spinners
+   ============================================
+   
+   Unique zTheme spinners using Unicode characters.
+   Not in Bootstrap but fun and lightweight!
+*/
+
+/* Dots Spinner (⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏) */
+.zSpinner-dots {
+    display: inline-block;
+    font-size: 2em;
+    line-height: 1;
+}
+
+.zSpinner-dots::after {
+    content: '⠋';
+    animation: zSpinner-dots-rotate 1.2s steps(10) infinite;
+}
+
+@keyframes zSpinner-dots-rotate {
+    0% { content: '⠋'; }
+    10% { content: '⠙'; }
+    20% { content: '⠹'; }
+    30% { content: '⠸'; }
+    40% { content: '⠼'; }
+    50% { content: '⠴'; }
+    60% { content: '⠦'; }
+    70% { content: '⠧'; }
+    80% { content: '⠇'; }
+    90% { content: '⠏'; }
+    100% { content: '⠋'; }
+}
+
+/* Line Spinner (-\|/) */
+.zSpinner-line {
+    display: inline-block;
+    font-size: 2em;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.zSpinner-line::after {
+    content: '-';
+    animation: zSpinner-line-rotate 0.8s steps(4) infinite;
+}
+
+@keyframes zSpinner-line-rotate {
+    0% { content: '-'; }
+    25% { content: '\\'; }
+    50% { content: '|'; }
+    75% { content: '/'; }
+    100% { content: '-'; }
+}
+
+/* Arc Spinner (◜◠◝◞◡◟) */
+.zSpinner-arc {
+    display: inline-block;
+    font-size: 2em;
+    line-height: 1;
+}
+
+.zSpinner-arc::after {
+    content: '◜';
+    animation: zSpinner-arc-rotate 1s steps(6) infinite;
+}
+
+@keyframes zSpinner-arc-rotate {
+    0% { content: '◜'; }
+    16.6% { content: '◠'; }
+    33.2% { content: '◝'; }
+    49.8% { content: '◞'; }
+    66.4% { content: '◡'; }
+    83% { content: '◟'; }
+    100% { content: '◜'; }
+}
+
+/* Arrow Spinner (←↖↑↗→↘↓↙) */
+.zSpinner-arrow {
+    display: inline-block;
+    font-size: 2em;
+    line-height: 1;
+}
+
+.zSpinner-arrow::after {
+    content: '←';
+    animation: zSpinner-arrow-rotate 1s steps(8) infinite;
+}
+
+@keyframes zSpinner-arrow-rotate {
+    0% { content: '←'; }
+    12.5% { content: '↖'; }
+    25% { content: '↑'; }
+    37.5% { content: '↗'; }
+    50% { content: '→'; }
+    62.5% { content: '↘'; }
+    75% { content: '↓'; }
+    87.5% { content: '↙'; }
+    100% { content: '←'; }
+}
+
+/* Ellipsis Spinner (. .. ...) */
+.zSpinner-ellipsis {
+    display: inline-block;
+    font-size: 2em;
+    letter-spacing: 0.2em;
+    line-height: 1;
+}
+
+.zSpinner-ellipsis::after {
+    content: '.';
+    animation: zSpinner-ellipsis-pulse 1.2s steps(4) infinite;
+}
+
+@keyframes zSpinner-ellipsis-pulse {
+    0% { content: '.'; }
+    25% { content: '..'; }
+    50% { content: '...'; }
+    75% { content: ''; }
+    100% { content: '.'; }
+}
+
+/* Size variants for character spinners */
+.zSpinner-dots-sm,
+.zSpinner-line-sm,
+.zSpinner-arc-sm,
+.zSpinner-arrow-sm,
+.zSpinner-ellipsis-sm {
+    font-size: 1.25em;
+}
+
+/* Reduced motion for character spinners */
+@media (prefers-reduced-motion: reduce) {
+    .zSpinner-dots::after,
+    .zSpinner-line::after,
+    .zSpinner-arc::after,
+    .zSpinner-arrow::after,
+    .zSpinner-ellipsis::after {
+        animation-duration: 2s;
+    }
+}

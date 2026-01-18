@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Group - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<article style="max-width: 900px; margin: 0 auto; padding: 2rem;">
+    <!-- Header -->
+    <header style="margin-bottom: 3rem;">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+            <ol class="zBreadcrumb">
+                <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+                <li class="zBreadcrumb-item"><a href="ztheme.html">Components</a></li>
+                <li class="zBreadcrumb-item zActive" aria-current="page">List Group</li>
+            </ol>
+        </nav>
+
+        <h1>List Group</h1>
+        <p class="zLead">Flexible component for displaying a series of content—from simple lists to complex custom content.</p>
+    </header>
+
+    <!-- Understanding List Groups -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding List Groups</h2>
+        <p>List groups are versatile containers perfect for:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Lists of items:</strong> Users, products, tasks, notifications</li>
+            <li><strong>Navigation menus:</strong> Sidebar navigation with active states</li>
+            <li><strong>Settings panels:</strong> Grouped configuration options</li>
+            <li><strong>Activity feeds:</strong> Timeline or notification lists</li>
+            <li><strong>Step indicators:</strong> Multi-step processes or wizards</li>
+        </ul>
+
+        <p style="margin-top: 1.5rem;">Unlike plain <code>&lt;ul&gt;</code> or <code>&lt;ol&gt;</code> elements, list groups provide consistent styling, active states, color variants, and can function as clickable navigation.</p>
+    </section>
+
+    <!-- Basic Example -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic List Group</h2>
+        <p>Create a list group with <code>.zList-group</code> on a <code>&lt;ul&gt;</code> and <code>.zList-group-item</code> on each <code>&lt;li&gt;</code>:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zList-group" style="max-width: 400px;">
+                <li class="zList-group-item">An item</li>
+                <li class="zList-group-item">A second item</li>
+                <li class="zList-group-item">A third item</li>
+                <li class="zList-group-item">A fourth item</li>
+                <li class="zList-group-item">And a fifth one</li>
+            </ul>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;ul class="zList-group"&gt;
+  &lt;li class="zList-group-item"&gt;An item&lt;/li&gt;
+  &lt;li class="zList-group-item"&gt;A second item&lt;/li&gt;
+  &lt;li class="zList-group-item"&gt;A third item&lt;/li&gt;
+  &lt;li class="zList-group-item"&gt;A fourth item&lt;/li&gt;
+  &lt;li class="zList-group-item"&gt;And a fifth one&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+    </section>
+
+    <!-- Active Items -->
+    <section style="margin: 3rem 0;">
+        <h2>Active Items</h2>
+        <p>Add <code>.zActive</code> to highlight the current item:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zList-group" style="max-width: 400px;">
+                <li class="zList-group-item zActive" aria-current="true">An active item</li>
+                <li class="zList-group-item">A second item</li>
+                <li class="zList-group-item">A third item</li>
+                <li class="zList-group-item">A fourth item</li>
+                <li class="zList-group-item">And a fifth one</li>
+            </ul>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;li class="zList-group-item zActive" aria-current="true"&gt;
+  An active item
+&lt;/li&gt;</code></pre>
+    </section>
+
+    <!-- Disabled Items -->
+    <section style="margin: 3rem 0;">
+        <h2>Disabled Items</h2>
+        <p>Add <code>.zDisabled</code> to gray out unavailable items:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zList-group" style="max-width: 400px;">
+                <li class="zList-group-item zDisabled" aria-disabled="true">A disabled item</li>
+                <li class="zList-group-item">A second item</li>
+                <li class="zList-group-item">A third item</li>
+                <li class="zList-group-item">A fourth item</li>
+                <li class="zList-group-item">And a fifth one</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Links and Buttons -->
+    <section style="margin: 3rem 0;">
+        <h2>Links and Buttons</h2>
+        <p>Make list groups actionable by using <code>&lt;a&gt;</code> or <code>&lt;button&gt;</code> with <code>.zList-group-item-action</code>:</p>
+
+        <h3 style="margin-top: 2rem;">With Links</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zList-group" style="max-width: 400px;">
+                <a href="#" class="zList-group-item zList-group-item-action zActive" aria-current="true">The current link item</a>
+                <a href="#" class="zList-group-item zList-group-item-action">A second link item</a>
+                <a href="#" class="zList-group-item zList-group-item-action">A third link item</a>
+                <a href="#" class="zList-group-item zList-group-item-action">A fourth link item</a>
+                <a href="#" class="zList-group-item zList-group-item-action zDisabled" tabindex="-1" aria-disabled="true">A disabled link item</a>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zList-group"&gt;
+  &lt;a href="#" class="zList-group-item zList-group-item-action zActive"&gt;
+    Current item
+  &lt;/a&gt;
+  &lt;a href="#" class="zList-group-item zList-group-item-action"&gt;
+    Another item
+  &lt;/a&gt;
+&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">With Buttons</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zList-group" style="max-width: 400px;">
+                <button type="button" class="zList-group-item zList-group-item-action zActive" aria-current="true">The current button</button>
+                <button type="button" class="zList-group-item zList-group-item-action">A second button item</button>
+                <button type="button" class="zList-group-item zList-group-item-action">A third button item</button>
+                <button type="button" class="zList-group-item zList-group-item-action">A fourth button item</button>
+                <button type="button" class="zList-group-item zList-group-item-action" disabled>A disabled button item</button>
+            </div>
+        </div>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-primary); background: rgba(162, 212, 110, 0.1);">
+            <strong>Semantic choice:</strong> Use <code>&lt;button&gt;</code> for actions (delete, edit), <code>&lt;a&gt;</code> for navigation (links to pages). Buttons support the native <code>disabled</code> attribute; links require <code>.zDisabled</code> and <code>tabindex="-1"</code>.
+        </blockquote>
+    </section>
+
+    <!-- Flush -->
+    <section style="margin: 3rem 0;">
+        <h2>Flush</h2>
+        <p>Remove borders and rounded corners with <code>.zList-group-flush</code>—perfect for embedding in cards or sidebars:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zList-group zList-group-flush" style="max-width: 400px;">
+                <li class="zList-group-item">An item</li>
+                <li class="zList-group-item">A second item</li>
+                <li class="zList-group-item">A third item</li>
+                <li class="zList-group-item">A fourth item</li>
+                <li class="zList-group-item">And a fifth one</li>
+            </ul>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;ul class="zList-group zList-group-flush"&gt;
+  ...
+&lt;/ul&gt;</code></pre>
+    </section>
+
+    <!-- Numbered -->
+    <section style="margin: 3rem 0;">
+        <h2>Numbered List Groups</h2>
+        <p>Add automatic numbering with <code>.zList-group-numbered</code>:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ol class="zList-group zList-group-numbered" style="max-width: 400px;">
+                <li class="zList-group-item">First item</li>
+                <li class="zList-group-item">Second item</li>
+                <li class="zList-group-item">Third item</li>
+                <li class="zList-group-item">Fourth item</li>
+            </ol>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;ol class="zList-group zList-group-numbered"&gt;
+  &lt;li class="zList-group-item"&gt;First item&lt;/li&gt;
+  &lt;li class="zList-group-item"&gt;Second item&lt;/li&gt;
+  &lt;li class="zList-group-item"&gt;Third item&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+    </section>
+
+    <!-- Horizontal -->
+    <section style="margin: 3rem 0;">
+        <h2>Horizontal</h2>
+        <p>Change layout to horizontal with <code>.zList-group-horizontal</code>:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zList-group zList-group-horizontal">
+                <li class="zList-group-item">An item</li>
+                <li class="zList-group-item">A second item</li>
+                <li class="zList-group-item">A third item</li>
+            </ul>
+        </div>
+
+        <p style="margin-top: 1.5rem;"><strong>Responsive:</strong> Use <code>.zList-group-horizontal-md</code>, <code>.zList-group-horizontal-lg</code>, etc. to make horizontal only at certain breakpoints.</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zList-group zList-group-horizontal-md">
+                <li class="zList-group-item">Vertical on small</li>
+                <li class="zList-group-item">Horizontal on medium+</li>
+                <li class="zList-group-item">Resize to see!</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Contextual Classes -->
+    <section style="margin: 3rem 0;">
+        <h2>Contextual Classes</h2>
+        <p>Use contextual color classes to highlight items:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zList-group" style="max-width: 400px;">
+                <li class="zList-group-item">Default item</li>
+                <li class="zList-group-item zList-group-item-primary">Primary item</li>
+                <li class="zList-group-item zList-group-item-secondary">Secondary item</li>
+                <li class="zList-group-item zList-group-item-success">Success item</li>
+                <li class="zList-group-item zList-group-item-info">Info item</li>
+                <li class="zList-group-item zList-group-item-warning">Warning item</li>
+                <li class="zList-group-item zList-group-item-danger">Danger item</li>
+                <li class="zList-group-item zList-group-item-light">Light item</li>
+                <li class="zList-group-item zList-group-item-dark">Dark item</li>
+            </ul>
+        </div>
+
+        <p style="margin-top: 1.5rem;"><strong>With actions:</strong> Color variants also work with <code>.zList-group-item-action</code> for hover effects:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zList-group" style="max-width: 400px;">
+                <a href="#" class="zList-group-item zList-group-item-action">Default actionable item</a>
+                <a href="#" class="zList-group-item zList-group-item-action zList-group-item-success">Success actionable item</a>
+                <a href="#" class="zList-group-item zList-group-item-action zList-group-item-warning">Warning actionable item</a>
+                <a href="#" class="zList-group-item zList-group-item-action zList-group-item-danger">Danger actionable item</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- With Badges -->
+    <section style="margin: 3rem 0;">
+        <h2>With Badges</h2>
+        <p>Combine list groups with badges for counts or notifications:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zList-group" style="max-width: 400px;">
+                <li class="zList-group-item" style="display: flex; justify-content: space-between; align-items: center;">
+                    Inbox
+                    <span class="zBadge zBadge-primary zRounded-pill">14</span>
+                </li>
+                <li class="zList-group-item" style="display: flex; justify-content: space-between; align-items: center;">
+                    Drafts
+                    <span class="zBadge zBadge-primary zRounded-pill">2</span>
+                </li>
+                <li class="zList-group-item" style="display: flex; justify-content: space-between; align-items: center;">
+                    Sent
+                    <span class="zBadge zBadge-primary zRounded-pill">7</span>
+                </li>
+            </ul>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;ul class="zList-group"&gt;
+  &lt;li class="zList-group-item" style="display: flex; justify-content: space-between;"&gt;
+    Inbox
+    &lt;span class="zBadge zBadge-primary zRounded-pill"&gt;14&lt;/span&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+    </section>
+
+    <!-- Custom Content -->
+    <section style="margin: 3rem 0;">
+        <h2>Custom Content</h2>
+        <p>List groups can contain any HTML content—headings, paragraphs, badges:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zList-group" style="max-width: 500px;">
+                <a href="#" class="zList-group-item zList-group-item-action zActive" aria-current="true">
+                    <div style="display: flex; width: 100%; justify-content: space-between;">
+                        <h5 style="margin-bottom: 0.25rem;">List group item heading</h5>
+                        <small>3 days ago</small>
+                    </div>
+                    <p style="margin-bottom: 0.25rem; font-size: 0.875rem;">Some placeholder content in a paragraph.</p>
+                    <small>And some small print.</small>
+                </a>
+                <a href="#" class="zList-group-item zList-group-item-action">
+                    <div style="display: flex; width: 100%; justify-content: space-between;">
+                        <h5 style="margin-bottom: 0.25rem;">List group item heading</h5>
+                        <small class="zMuted">3 days ago</small>
+                    </div>
+                    <p style="margin-bottom: 0.25rem; font-size: 0.875rem;">Some placeholder content in a paragraph.</p>
+                    <small class="zMuted">And some muted small print.</small>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- As Navigation -->
+    <section style="margin: 3rem 0;">
+        <h2>As Navigation (Tabs)</h2>
+        <p>List groups can function as tab navigation with <code>data-bs-toggle="list"</code>:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zRow">
+                <div class="zCol-4">
+                    <div class="zList-group" role="tablist">
+                        <a class="zList-group-item zList-group-item-action zActive" data-bs-toggle="list" href="#list-home" role="tab" aria-selected="true">Home</a>
+                        <a class="zList-group-item zList-group-item-action" data-bs-toggle="list" href="#list-profile" role="tab" aria-selected="false">Profile</a>
+                        <a class="zList-group-item zList-group-item-action" data-bs-toggle="list" href="#list-messages" role="tab" aria-selected="false">Messages</a>
+                        <a class="zList-group-item zList-group-item-action" data-bs-toggle="list" href="#list-settings" role="tab" aria-selected="false">Settings</a>
+                    </div>
+                </div>
+                <div class="zCol-8">
+                    <div class="zTab-content">
+                        <div class="zTab-pane zActive zShow" id="list-home" role="tabpanel">
+                            <h4>Home</h4>
+                            <p>This is the home tab content. Click different items in the list to switch tabs.</p>
+                        </div>
+                        <div class="zTab-pane" id="list-profile" role="tabpanel">
+                            <h4>Profile</h4>
+                            <p>This is the profile tab content. List groups make excellent sidebar navigation!</p>
+                        </div>
+                        <div class="zTab-pane" id="list-messages" role="tabpanel">
+                            <h4>Messages</h4>
+                            <p>This is the messages tab content. Each tab is independently activated.</p>
+                        </div>
+                        <div class="zTab-pane" id="list-settings" role="tabpanel">
+                            <h4>Settings</h4>
+                            <p>This is the settings tab content. Perfect for settings panels or dashboards!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- List navigation --&gt;
+&lt;div class="zList-group" role="tablist"&gt;
+  &lt;a class="zList-group-item zList-group-item-action zActive" 
+     data-bs-toggle="list" 
+     href="#home" 
+     role="tab"&gt;Home&lt;/a&gt;
+  &lt;a class="zList-group-item zList-group-item-action" 
+     data-bs-toggle="list" 
+     href="#profile" 
+     role="tab"&gt;Profile&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;!-- Tab content --&gt;
+&lt;div class="zTab-content"&gt;
+  &lt;div class="zTab-pane zActive zShow" id="home" role="tabpanel"&gt;
+    Home content...
+  &lt;/div&gt;
+  &lt;div class="zTab-pane" id="profile" role="tabpanel"&gt;
+    Profile content...
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Auto-Initialization:</strong> Just add <code>data-bs-toggle="list"</code> and <code>zTheme.js</code> handles tab switching automatically!
+        </blockquote>
+    </section>
+
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Use semantic HTML:</strong> Use <code>&lt;ul&gt;</code>/<code>&lt;ol&gt;</code> for lists, <code>&lt;div&gt;</code> for navigation</li>
+            <li><strong>Show current state:</strong> Always mark one item as <code>.zActive</code> for navigation</li>
+            <li><strong>Disable unavailable:</strong> Use <code>.zDisabled</code> instead of hiding options</li>
+            <li><strong>Keep lists focused:</strong> Group related items together</li>
+            <li><strong>Use flush in cards:</strong> <code>.zList-group-flush</code> looks great in <code>.zCard</code></li>
+            <li><strong>Combine with badges:</strong> Show counts or notifications with <code>.zBadge</code></li>
+            <li><strong>Mobile-friendly:</strong> Horizontal lists stack on mobile (responsive variants)</li>
+            <li><strong>Consider alternatives:</strong> For tabbed navigation, also see <a href="ztheme-buttons.html">Button Groups</a></li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+
+        <h3 style="margin-top: 2rem;">List Group Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zList-group</code></td>
+                    <td>Base container (use on &lt;ul&gt;, &lt;ol&gt;, or &lt;div&gt;)</td>
+                </tr>
+                <tr>
+                    <td><code>.zList-group-item</code></td>
+                    <td>Individual list item</td>
+                </tr>
+                <tr>
+                    <td><code>.zList-group-item-action</code></td>
+                    <td>Makes item clickable with hover effect</td>
+                </tr>
+                <tr>
+                    <td><code>.zActive</code></td>
+                    <td>Marks current/selected item</td>
+                </tr>
+                <tr>
+                    <td><code>.zDisabled</code></td>
+                    <td>Grays out unavailable item</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Variants</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zList-group-flush</code></td>
+                    <td>Remove borders and rounded corners</td>
+                </tr>
+                <tr>
+                    <td><code>.zList-group-numbered</code></td>
+                    <td>Add automatic numbering (use with &lt;ol&gt;)</td>
+                </tr>
+                <tr>
+                    <td><code>.zList-group-horizontal</code></td>
+                    <td>Horizontal layout (all breakpoints)</td>
+                </tr>
+                <tr>
+                    <td><code>.zList-group-horizontal-sm</code></td>
+                    <td>Horizontal on small+ screens</td>
+                </tr>
+                <tr>
+                    <td><code>.zList-group-horizontal-md</code></td>
+                    <td>Horizontal on medium+ screens</td>
+                </tr>
+                <tr>
+                    <td><code>.zList-group-horizontal-lg</code></td>
+                    <td>Horizontal on large+ screens</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Contextual Colors</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zList-group-item-primary</code></td>
+                    <td>Blue background</td>
+                </tr>
+                <tr>
+                    <td><code>.zList-group-item-secondary</code></td>
+                    <td>Gray background</td>
+                </tr>
+                <tr>
+                    <td><code>.zList-group-item-success</code></td>
+                    <td>Green background</td>
+                </tr>
+                <tr>
+                    <td><code>.zList-group-item-info</code></td>
+                    <td>Cyan background</td>
+                </tr>
+                <tr>
+                    <td><code>.zList-group-item-warning</code></td>
+                    <td>Yellow background</td>
+                </tr>
+                <tr>
+                    <td><code>.zList-group-item-danger</code></td>
+                    <td>Red background</td>
+                </tr>
+                <tr>
+                    <td><code>.zList-group-item-light</code></td>
+                    <td>Light gray background</td>
+                </tr>
+                <tr>
+                    <td><code>.zList-group-item-dark</code></td>
+                    <td>Dark gray background</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Tab Classes (Navigation)</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zTab-content</code></td>
+                    <td>Container for tab panes</td>
+                </tr>
+                <tr>
+                    <td><code>.zTab-pane</code></td>
+                    <td>Individual tab content panel</td>
+                </tr>
+                <tr>
+                    <td><code>.zFade</code></td>
+                    <td>Add fade transition to tab panes</td>
+                </tr>
+                <tr>
+                    <td><code>.zShow</code></td>
+                    <td>Shows the active tab pane</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Data Attributes (Tab Navigation)</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Attribute</th>
+                    <th scope="col">Required</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>data-bs-toggle="list"</code></td>
+                    <td>Yes</td>
+                    <td>Enables tab navigation functionality</td>
+                </tr>
+                <tr>
+                    <td><code>href</code> or <code>data-bs-target</code></td>
+                    <td>Yes</td>
+                    <td>ID of target tab pane (e.g., #home)</td>
+                </tr>
+                <tr>
+                    <td><code>role="tab"</code></td>
+                    <td>Recommended</td>
+                    <td>Accessibility: identifies as tab control</td>
+                </tr>
+                <tr>
+                    <td><code>aria-selected</code></td>
+                    <td>Recommended</td>
+                    <td>Accessibility: current state (auto-managed)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-badges.html">Badges</a> - Pair with list groups for counts</li>
+            <li><a href="ztheme-cards.html">Cards</a> - Use flush list groups in cards</li>
+            <li><a href="ztheme-buttons.html">Buttons</a> - Alternative for navigation</li>
+            <li><a href="ztheme-typography.html">Typography</a> - Semantic lists (ul, ol)</li>
+        </ul>
+    </section>
+</article>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

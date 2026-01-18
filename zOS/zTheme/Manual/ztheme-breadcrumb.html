@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breadcrumb - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<article style="max-width: 900px; margin: 0 auto; padding: 2rem 1rem;">
+    <header style="margin-bottom: 2rem;">
+        <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+            <ol class="zBreadcrumb">
+                <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+                <li class="zBreadcrumb-item"><a href="../ztheme.html#components">Components</a></li>
+                <li class="zBreadcrumb-item zActive" aria-current="page">Breadcrumb</li>
+            </ol>
+        </nav>
+        <h1 style="margin: 0; color: var(--color-primary);">Breadcrumb</h1>
+        <p class="zLead" style="margin-top: 1rem;">Indicate the current page's location within a navigational hierarchy with automatic CSS separators.</p>
+    </header>
+
+    <!-- Understanding Breadcrumbs -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Breadcrumbs</h2>
+        <p>Breadcrumbs show users where they are in your site's structure, making it easy to navigate back to parent pages. They're perfect for:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Deep navigation:</strong> Helping users understand their location in multi-level structures</li>
+            <li><strong>Quick backtracking:</strong> Easy navigation to parent pages without browser back button</li>
+            <li><strong>SEO context:</strong> Search engines use breadcrumbs to understand site structure</li>
+            <li><strong>User orientation:</strong> Reducing confusion in complex applications or documentation</li>
+        </ul>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Accessibility:</strong> Breadcrumbs provide navigation context. Wrap them in a <code>&lt;nav&gt;</code> element with <code>aria-label="breadcrumb"</code> to describe the navigation type, and add <code>aria-current="page"</code> to the current page item.
+        </blockquote>
+    </section>
+
+    <!-- The Semantic Foundation -->
+    <section style="margin: 3rem 0;">
+        <h2>The Semantic Foundation</h2>
+        <p>Breadcrumbs are built using semantic HTML: a <code>&lt;nav&gt;</code> element containing an ordered list (<code>&lt;ol&gt;</code>). Without styling, this creates a simple numbered list:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav aria-label="breadcrumb">
+                <ol>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Library</a></li>
+                    <li>Data</li>
+                </ol>
+            </nav>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav aria-label="breadcrumb"&gt;
+  &lt;ol&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#"&gt;Library&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;Data&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: rgba(255, 179, 71, 0.1);">
+            <strong>Why <code>&lt;ol&gt;</code>?</strong> Ordered lists semantically indicate a sequence—perfect for breadcrumbs showing "step 1, step 2, step 3" navigation. Screen readers announce "list with 3 items," helping users understand the navigation depth.
+        </blockquote>
+    </section>
+
+    <!-- Enhanced Breadcrumb -->
+    <section style="margin: 3rem 0;">
+        <h2>Enhanced Breadcrumb with .zBreadcrumb</h2>
+        <p>The <code>.zBreadcrumb</code> class transforms the basic list into a horizontal navigation trail with automatic separators. Compare this to the unstyled example above:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav aria-label="breadcrumb">
+                <ol class="zBreadcrumb">
+                    <li class="zBreadcrumb-item"><a href="#">Home</a></li>
+                    <li class="zBreadcrumb-item"><a href="#">Library</a></li>
+                    <li class="zBreadcrumb-item zActive" aria-current="page">Data</li>
+                </ol>
+            </nav>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav aria-label="breadcrumb"&gt;
+  &lt;ol class="zBreadcrumb"&gt;
+    &lt;li class="zBreadcrumb-item"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="zBreadcrumb-item"&gt;&lt;a href="#"&gt;Library&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="zBreadcrumb-item zActive" aria-current="page"&gt;Data&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;</code></pre>
+
+        <p style="margin-top: 1rem;"><strong>The transformation:</strong> <code>.zBreadcrumb</code> removes list styling, arranges items horizontally, adds separators between items, and styles the active (current) page.</p>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-primary); background: rgba(162, 212, 110, 0.1);">
+            <strong>zTheme Pattern:</strong> The <code>&lt;nav&gt;</code> and <code>&lt;ol&gt;</code> provide semantic structure (SEO and accessibility). The <code>.zBreadcrumb</code> utility classes add professional visual design. Separation of concerns!
+        </blockquote>
+    </section>
+
+    <!-- Breadcrumb Levels -->
+    <section style="margin: 3rem 0;">
+        <h2>Breadcrumb Levels</h2>
+        <p>Breadcrumbs work for any navigation depth—from simple two-level to complex multi-level hierarchies:</p>
+        
+        <h3 style="margin-top: 2rem;">Single Level (Current Page Only)</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav aria-label="breadcrumb">
+                <ol class="zBreadcrumb">
+                    <li class="zBreadcrumb-item zActive" aria-current="page">Home</li>
+                </ol>
+            </nav>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Two Levels</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav aria-label="breadcrumb">
+                <ol class="zBreadcrumb">
+                    <li class="zBreadcrumb-item"><a href="#">Home</a></li>
+                    <li class="zBreadcrumb-item zActive" aria-current="page">Documentation</li>
+                </ol>
+            </nav>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Deep Hierarchy</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav aria-label="breadcrumb">
+                <ol class="zBreadcrumb">
+                    <li class="zBreadcrumb-item"><a href="#">Home</a></li>
+                    <li class="zBreadcrumb-item"><a href="#">zTheme</a></li>
+                    <li class="zBreadcrumb-item"><a href="#">Components</a></li>
+                    <li class="zBreadcrumb-item zActive" aria-current="page">Breadcrumb</li>
+                </ol>
+            </nav>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav aria-label="breadcrumb"&gt;
+  &lt;ol class="zBreadcrumb"&gt;
+    &lt;li class="zBreadcrumb-item"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="zBreadcrumb-item"&gt;&lt;a href="#"&gt;zTheme&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="zBreadcrumb-item"&gt;&lt;a href="#"&gt;Components&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="zBreadcrumb-item zActive" aria-current="page"&gt;Breadcrumb&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;</code></pre>
+    </section>
+
+    <!-- Custom Dividers -->
+    <section style="margin: 3rem 0;">
+        <h2>Custom Dividers</h2>
+        <p>Change the separator between breadcrumb items using CSS variables or utility classes. The default is <code>/</code>, but you can customize it:</p>
+        
+        <h3 style="margin-top: 2rem;">Arrow Divider</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav aria-label="breadcrumb" style="--breadcrumb-divider: '>';">
+                <ol class="zBreadcrumb">
+                    <li class="zBreadcrumb-item"><a href="#">Home</a></li>
+                    <li class="zBreadcrumb-item zActive" aria-current="page">Library</li>
+                </ol>
+            </nav>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav aria-label="breadcrumb" style="--breadcrumb-divider: '&gt;';"&gt;
+  &lt;ol class="zBreadcrumb"&gt;
+    &lt;li class="zBreadcrumb-item"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="zBreadcrumb-item zActive" aria-current="page"&gt;Library&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Bullet Divider</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav aria-label="breadcrumb" style="--breadcrumb-divider: '•';">
+                <ol class="zBreadcrumb">
+                    <li class="zBreadcrumb-item"><a href="#">Home</a></li>
+                    <li class="zBreadcrumb-item zActive" aria-current="page">Products</li>
+                </ol>
+            </nav>
+        </div>
+
+        <h3 style="margin-top: 2rem;">No Divider</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav aria-label="breadcrumb" style="--breadcrumb-divider: '';">
+                <ol class="zBreadcrumb">
+                    <li class="zBreadcrumb-item"><a href="#">Home</a></li>
+                    <li class="zBreadcrumb-item zActive" aria-current="page">Settings</li>
+                </ol>
+            </nav>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- No divider: set to empty string --&gt;
+&lt;nav aria-label="breadcrumb" style="--breadcrumb-divider: '';"&gt;
+  &lt;ol class="zBreadcrumb"&gt;
+    &lt;li class="zBreadcrumb-item"&gt;&lt;a href="#"&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="zBreadcrumb-item zActive"&gt;Settings&lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/nav&gt;</code></pre>
+
+        <p style="margin-top: 1.5rem;"><strong>Tip:</strong> You can use any character or even emoji as dividers: <code>→</code>, <code>»</code>, <code>⟩</code>, <code>|</code></p>
+    </section>
+
+    <!-- Real-World Examples -->
+    <section style="margin: 3rem 0;">
+        <h2>Real-World Examples</h2>
+        
+        <h3 style="margin-top: 2rem;">E-Commerce Category Navigation</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav aria-label="breadcrumb">
+                <ol class="zBreadcrumb">
+                    <li class="zBreadcrumb-item"><a href="#">Shop</a></li>
+                    <li class="zBreadcrumb-item"><a href="#">Electronics</a></li>
+                    <li class="zBreadcrumb-item"><a href="#">Computers</a></li>
+                    <li class="zBreadcrumb-item zActive" aria-current="page">Laptops</li>
+                </ol>
+            </nav>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Documentation Navigation</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav aria-label="breadcrumb" style="--breadcrumb-divider: '›';">
+                <ol class="zBreadcrumb">
+                    <li class="zBreadcrumb-item"><a href="#">Docs</a></li>
+                    <li class="zBreadcrumb-item"><a href="#">Getting Started</a></li>
+                    <li class="zBreadcrumb-item zActive" aria-current="page">Installation</li>
+                </ol>
+            </nav>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Admin Dashboard</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav aria-label="breadcrumb" style="--breadcrumb-divider: '>';">
+                <ol class="zBreadcrumb">
+                    <li class="zBreadcrumb-item"><a href="#">Dashboard</a></li>
+                    <li class="zBreadcrumb-item"><a href="#">Users</a></li>
+                    <li class="zBreadcrumb-item zActive" aria-current="page">Edit Profile</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Use semantic HTML:</strong> Always wrap breadcrumbs in <code>&lt;nav aria-label="breadcrumb"&gt;</code></li>
+            <li><strong>Mark current page:</strong> Add <code>aria-current="page"</code> to the last item and <code>.zActive</code> class</li>
+            <li><strong>Don't link the current page:</strong> The last breadcrumb item should be plain text, not a link</li>
+            <li><strong>Start with Home:</strong> The first breadcrumb typically links to the homepage or dashboard</li>
+            <li><strong>Keep labels short:</strong> Use concise page names (e.g., "Docs" instead of "Documentation Center")</li>
+            <li><strong>Show parent hierarchy:</strong> Include all parent levels, not just the immediate parent</li>
+            <li><strong>Mobile-friendly:</strong> Consider truncating middle items on small screens if the path is very long</li>
+            <li><strong>Consistent placement:</strong> Place breadcrumbs at the top of the page, before the main heading</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+        
+        <h3 style="margin-top: 2rem;">Breadcrumb Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zBreadcrumb</code></td>
+                    <td>Base container for breadcrumb navigation (apply to <code>&lt;ol&gt;</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBreadcrumb-item</code></td>
+                    <td>Individual breadcrumb item (apply to each <code>&lt;li&gt;</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>.zActive</code></td>
+                    <td>Marks the current page (muted color, no underline)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">CSS Variables</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Variable</th>
+                    <th scope="col">Default</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>--breadcrumb-divider</code></td>
+                    <td><code>"/"</code></td>
+                    <td>Character or symbol between breadcrumb items</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-typography.html">Typography</a> - Text and link styling</li>
+            <li><a href="ztheme-utilities.html">Utilities</a> - Spacing and layout helpers</li>
+        </ul>
+    </section>
+</article>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

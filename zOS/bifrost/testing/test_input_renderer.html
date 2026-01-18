@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>InputRenderer Test Suite</title>
+  
+  <!-- zTheme CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css">
+  
+  <style>
+    body {
+      padding: 2rem;
+      background: var(--color-light, #f8f9fa);
+    }
+    
+    .test-header {
+      max-width: 1200px;
+      margin: 0 auto 2rem;
+    }
+    
+    .test-controls {
+      max-width: 1200px;
+      margin: 0 auto 2rem;
+    }
+    
+    .render-zone {
+      max-width: 800px;
+      margin: 0 auto;
+      min-height: 300px;
+    }
+    
+    .mock-log {
+      max-width: 1200px;
+      margin: 2rem auto;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .mock-log-entry {
+      margin: 0.25rem 0;
+      padding: 0.25rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+    }
+    
+    .mock-log-entry.info {
+      color: var(--color-info, #17a2b8);
+    }
+    
+    .mock-log-entry.success {
+      color: var(--color-success, #28a745);
+    }
+    
+    .mock-log-entry.error {
+      color: var(--color-danger, #dc3545);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="test-header">
+    <h1 class="zText-primary zmb-2">🧪 InputRenderer Test Suite</h1>
+    <div class="zAlert zAlert-info">
+      <strong>Testing:</strong> <code>InputRenderer</code> with full input type coverage<br>
+      <strong>Architecture:</strong> GUI-first with terminal-style opt-in<br>
+      <strong>Status:</strong> Micro-Step 7 - Input Renderer (Complete Coverage)
+    </div>
+  </div>
+
+  <!-- Test Controls -->
+  <div class="test-controls">
+    <div class="zCard">
+      <div class="zCard-body">
+        <h3 class="zCard-title zmb-3">Test Scenarios</h3>
+        
+        <!-- Basic Inputs -->
+        <div class="zmb-4">
+          <h4 class="zText-secondary zmb-2">Basic Inputs</h4>
+          <div class="zD-flex zGap-2 zFlex-wrap">
+            <button class="zBtn zBtn-primary zBtn-sm" onclick="testText()">Text</button>
+            <button class="zBtn zBtn-primary zBtn-sm" onclick="testEmail()">Email</button>
+            <button class="zBtn zBtn-primary zBtn-sm" onclick="testNumber()">Number</button>
+            <button class="zBtn zBtn-primary zBtn-sm" onclick="testPassword()">Password</button>
+            <button class="zBtn zBtn-primary zBtn-sm" onclick="testTel()">Tel</button>
+            <button class="zBtn zBtn-primary zBtn-sm" onclick="testURL()">URL</button>
+          </div>
+        </div>
+
+        <!-- Selection Inputs -->
+        <div class="zmb-4">
+          <h4 class="zText-secondary zmb-2">Selection Inputs</h4>
+          <div class="zD-flex zGap-2 zFlex-wrap">
+            <button class="zBtn zBtn-success zBtn-sm" onclick="testRadio()">Radio (GUI)</button>
+            <button class="zBtn zBtn-success zBtn-sm" onclick="testCheckbox()">Checkbox (GUI)</button>
+            <button class="zBtn zBtn-outline-success zBtn-sm" onclick="testRadioTerminal()">Radio (Terminal)</button>
+            <button class="zBtn zBtn-outline-success zBtn-sm" onclick="testCheckboxTerminal()">Checkbox (Terminal)</button>
+          </div>
+        </div>
+
+        <!-- Choice Inputs -->
+        <div class="zmb-4">
+          <h4 class="zText-secondary zmb-2">Choice Inputs</h4>
+          <div class="zD-flex zGap-2 zFlex-wrap">
+            <button class="zBtn zBtn-info zBtn-sm" onclick="testRange()">Range</button>
+            <button class="zBtn zBtn-info zBtn-sm" onclick="testColor()">Color</button>
+          </div>
+        </div>
+
+        <!-- Date/Time Inputs -->
+        <div class="zmb-4">
+          <h4 class="zText-secondary zmb-2">Date/Time Inputs</h4>
+          <div class="zD-flex zGap-2 zFlex-wrap">
+            <button class="zBtn zBtn-warning zBtn-sm" onclick="testDate()">Date</button>
+            <button class="zBtn zBtn-warning zBtn-sm" onclick="testTime()">Time</button>
+            <button class="zBtn zBtn-warning zBtn-sm" onclick="testDateTime()">DateTime</button>
+            <button class="zBtn zBtn-warning zBtn-sm" onclick="testMonth()">Month</button>
+            <button class="zBtn zBtn-warning zBtn-sm" onclick="testWeek()">Week</button>
+          </div>
+        </div>
+
+        <!-- File Input -->
+        <div class="zmb-4">
+          <h4 class="zText-secondary zmb-2">File Inputs</h4>
+          <div class="zD-flex zGap-2 zFlex-wrap">
+            <button class="zBtn zBtn-dark zBtn-sm" onclick="testFile()">File (Single)</button>
+            <button class="zBtn zBtn-dark zBtn-sm" onclick="testFileMulti()">File (Multiple)</button>
+          </div>
+        </div>
+
+        <!-- Utilities -->
+        <div class="zD-flex zGap-2">
+          <button class="zBtn zBtn-secondary" onclick="clearZone()">🗑️ Clear Zone</button>
+          <button class="zBtn zBtn-outline-secondary" onclick="clearLog()">📋 Clear Log</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Render Zone -->
+  <div class="render-zone">
+    <div id="zVaF"></div>
+  </div>
+
+  <!-- Mock Log -->
+  <div class="mock-log">
+    <div class="zCard">
+      <div class="zCard-body">
+        <h4 class="zCard-title">📋 Event Log</h4>
+        <div id="log" class="zBg-light zp-2 zRounded"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { InputRenderer } from '../src/rendering/input_renderer.js';
+
+    // Mock logger
+    class MockLogger {
+      constructor(logId) {
+        this.logElement = document.getElementById(logId);
+      }
+
+      log(...args) {
+        this._addLog('info', args.join(' '));
+        console.log(...args);
+      }
+
+      error(...args) {
+        this._addLog('error', args.join(' '));
+        console.error(...args);
+      }
+
+      _addLog(level, message) {
+        if (!this.logElement) return;
+        const entry = document.createElement('div');
+        entry.className = `mock-log-entry ${level}`;
+        entry.textContent = `[${level.toUpperCase()}] ${message}`;
+        this.logElement.appendChild(entry);
+        this.logElement.scrollTop = this.logElement.scrollHeight;
+      }
+
+      clear() {
+        if (this.logElement) {
+          this.logElement.innerHTML = '';
+        }
+      }
+    }
+
+    // Mock client with WebSocket simulation
+    class MockClient {
+      constructor(logger) {
+        this.logger = logger;
+        this.connection = {
+          send: (message) => {
+            const data = JSON.parse(message);
+            this.logger.log(`[WebSocket] Sending: ${JSON.stringify(data, null, 2)}`);
+            
+            if (data.event === 'input_response') {
+              setTimeout(() => {
+                this.logger.log(`[Backend] ✅ Response received for requestId: ${data.requestId}`);
+              }, 300);
+            }
+          }
+        };
+      }
+    }
+
+    // Create renderer instance
+    const logger = new MockLogger('log');
+    const client = new MockClient(logger);
+    const renderer = new InputRenderer(client);
+
+    // Test functions - Basic Inputs
+    window.testText = function() {
+      clearZone();
+      logger.log('🧪 Testing: Text Input');
+      renderer.renderInput({
+        requestId: 'req-text-001',
+        type: 'text',
+        prompt: 'What is your name?',
+        default: 'John Doe'
+      });
+    };
+
+    window.testEmail = function() {
+      clearZone();
+      logger.log('🧪 Testing: Email Input');
+      renderer.renderInput({
+        requestId: 'req-email-001',
+        type: 'email',
+        prompt: 'Enter your email address:'
+      });
+    };
+
+    window.testNumber = function() {
+      clearZone();
+      logger.log('🧪 Testing: Number Input');
+      renderer.renderInput({
+        requestId: 'req-number-001',
+        type: 'number',
+        prompt: 'Enter your age:',
+        default: '25'
+      });
+    };
+
+    window.testPassword = function() {
+      clearZone();
+      logger.log('🧪 Testing: Password Input');
+      renderer.renderInput({
+        requestId: 'req-password-001',
+        type: 'password',
+        prompt: 'Enter your password:'
+      });
+    };
+
+    window.testTel = function() {
+      clearZone();
+      logger.log('🧪 Testing: Tel Input');
+      renderer.renderInput({
+        requestId: 'req-tel-001',
+        type: 'tel',
+        prompt: 'Enter your phone number:'
+      });
+    };
+
+    window.testURL = function() {
+      clearZone();
+      logger.log('🧪 Testing: URL Input');
+      renderer.renderInput({
+        requestId: 'req-url-001',
+        type: 'url',
+        prompt: 'Enter website URL:'
+      });
+    };
+
+    // Test functions - Selection Inputs (GUI)
+    window.testRadio = function() {
+      clearZone();
+      logger.log('🧪 Testing: Radio Buttons (GUI Mode)');
+      renderer.renderInput({
+        requestId: 'req-radio-001',
+        type: 'selection',
+        prompt: 'Select your favorite color:',
+        options: ['Red', 'Green', 'Blue', 'Yellow'],
+        multi: false,
+        terminal_style: false,
+        default: 'Green'
+      });
+    };
+
+    window.testCheckbox = function() {
+      clearZone();
+      logger.log('🧪 Testing: Checkboxes (GUI Mode)');
+      renderer.renderInput({
+        requestId: 'req-checkbox-001',
+        type: 'selection',
+        prompt: 'Select your favorite programming languages:',
+        options: ['Python', 'JavaScript', 'Go', 'Rust', 'TypeScript'],
+        multi: true,
+        terminal_style: false,
+        default: ['Python', 'JavaScript']
+      });
+    };
+
+    // Test functions - Selection Inputs (Terminal Style)
+    window.testRadioTerminal = function() {
+      clearZone();
+      logger.log('🧪 Testing: Radio (Terminal Style - Number Input)');
+      renderer.renderInput({
+        requestId: 'req-radio-terminal-001',
+        type: 'selection',
+        prompt: 'Select your favorite color (Terminal Style):',
+        options: ['Red', 'Green', 'Blue', 'Yellow'],
+        multi: false,
+        terminal_style: true,
+        default: 'Green'
+      });
+    };
+
+    window.testCheckboxTerminal = function() {
+      clearZone();
+      logger.log('🧪 Testing: Checkbox (Terminal Style - Space-Separated Numbers)');
+      renderer.renderInput({
+        requestId: 'req-checkbox-terminal-001',
+        type: 'selection',
+        prompt: 'Select languages (Terminal Style):',
+        options: ['Python', 'JavaScript', 'Go', 'Rust', 'TypeScript'],
+        multi: true,
+        terminal_style: true,
+        default: ['Python', 'JavaScript']
+      });
+    };
+
+    // Test functions - Choice Inputs
+    window.testRange = function() {
+      clearZone();
+      logger.log('🧪 Testing: Range Input');
+      renderer.renderInput({
+        requestId: 'req-range-001',
+        type: 'range',
+        prompt: 'Select volume level:',
+        min: 0,
+        max: 100,
+        step: 5,
+        default: 50
+      });
+    };
+
+    window.testColor = function() {
+      clearZone();
+      logger.log('🧪 Testing: Color Input');
+      renderer.renderInput({
+        requestId: 'req-color-001',
+        type: 'color',
+        prompt: 'Pick your favorite color:',
+        default: '#3498db'
+      });
+    };
+
+    // Test functions - Date/Time Inputs
+    window.testDate = function() {
+      clearZone();
+      logger.log('🧪 Testing: Date Input');
+      renderer.renderInput({
+        requestId: 'req-date-001',
+        type: 'date',
+        prompt: 'Select a date:',
+        default: '2025-12-19'
+      });
+    };
+
+    window.testTime = function() {
+      clearZone();
+      logger.log('🧪 Testing: Time Input');
+      renderer.renderInput({
+        requestId: 'req-time-001',
+        type: 'time',
+        prompt: 'Select a time:',
+        default: '14:30'
+      });
+    };
+
+    window.testDateTime = function() {
+      clearZone();
+      logger.log('🧪 Testing: DateTime Input');
+      renderer.renderInput({
+        requestId: 'req-datetime-001',
+        type: 'datetime-local',
+        prompt: 'Select date and time:',
+        default: '2025-12-19T14:30'
+      });
+    };
+
+    window.testMonth = function() {
+      clearZone();
+      logger.log('🧪 Testing: Month Input');
+      renderer.renderInput({
+        requestId: 'req-month-001',
+        type: 'month',
+        prompt: 'Select a month:',
+        default: '2025-12'
+      });
+    };
+
+    window.testWeek = function() {
+      clearZone();
+      logger.log('🧪 Testing: Week Input');
+      renderer.renderInput({
+        requestId: 'req-week-001',
+        type: 'week',
+        prompt: 'Select a week:',
+        default: '2025-W51'
+      });
+    };
+
+    // Test functions - File Inputs
+    window.testFile = function() {
+      clearZone();
+      logger.log('🧪 Testing: File Input (Single)');
+      renderer.renderInput({
+        requestId: 'req-file-001',
+        type: 'file',
+        prompt: 'Select a file:',
+        multi: false
+      });
+    };
+
+    window.testFileMulti = function() {
+      clearZone();
+      logger.log('🧪 Testing: File Input (Multiple)');
+      renderer.renderInput({
+        requestId: 'req-file-multi-001',
+        type: 'file',
+        prompt: 'Select multiple files:',
+        multi: true
+      });
+    };
+
+    // Utility functions
+    window.clearZone = function() {
+      const zone = document.getElementById('zVaF');
+      if (zone) {
+        zone.innerHTML = '';
+      }
+    };
+
+    window.clearLog = function() {
+      logger.clear();
+    };
+
+    console.log('✅ InputRenderer test suite loaded');
+    console.log('📋 18 test scenarios available (all HTML5 input types)');
+  </script>
+</body>
+</html>

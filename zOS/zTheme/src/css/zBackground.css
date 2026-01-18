@@ -1,0 +1,117 @@
+/* ============================================
+   zBackground.css - Background Color & Gradient Utilities
+   ============================================
+   
+   Bootstrap-inspired background utilities with z prefix.
+   Convey meaning through background-color and add decoration with gradients.
+   
+   Classes:
+   - .zBg-primary, .zBg-secondary, .zBg-success, .zBg-info, .zBg-warning, .zBg-danger
+   - .zBg-light, .zBg-dark, .zBg-white, .zBg-body, .zBg-transparent
+   - .zBg-gradient (adds linear gradient overlay)
+   
+   Note: Background utilities do NOT set text color.
+   Use with .zText-* utilities for proper contrast.
+   
+   Example:
+   <div class="zBg-primary zText-white zp-3">Primary background</div>
+   <div class="zBg-success zBg-gradient zText-white zp-3">Success with gradient</div>
+   
+   ============================================ */
+
+/* ============================================
+   Background Colors
+   ============================================ */
+
+.zBg-primary {
+    background-color: var(--color-primary) !important;
+}
+
+.zBg-secondary {
+    background-color: var(--color-secondary) !important;
+}
+
+.zBg-success {
+    background-color: var(--color-success) !important;
+}
+
+.zBg-info {
+    background-color: var(--color-info) !important;
+}
+
+.zBg-warning {
+    background-color: var(--color-warning) !important;
+}
+
+.zBg-danger,
+.zBg-error {
+    background-color: var(--color-error) !important;
+}
+
+.zBg-light {
+    background-color: var(--color-light) !important;
+}
+
+.zBg-dark {
+    background-color: var(--color-dark) !important;
+}
+
+.zBg-white {
+    background-color: var(--color-white) !important;
+}
+
+.zBg-body {
+    background-color: var(--color-base) !important;
+}
+
+.zBg-transparent {
+    background-color: transparent !important;
+}
+
+/* ============================================
+   Background Gradients
+   ============================================
+   
+   Add .zBg-gradient to any .zBg-* class to add a subtle
+   gradient overlay (semi-transparent white fading to bottom).
+   
+   Example:
+   <div class="zBg-primary zBg-gradient">...</div>
+   ============================================ */
+
+.zBg-gradient {
+    background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0)) !important;
+}
+
+/* ============================================
+   Deprecated/Legacy Classes
+   ============================================
+   
+   Support for old body background classes.
+   Use .zBg-* utilities instead for consistency.
+   ============================================ */
+
+body.mainGreen {
+    background: linear-gradient(135deg, #8FBE6D 0%, #F1E65C 100%);
+}
+
+body.mainYellow {
+    background: linear-gradient(135deg, #F1E65C 0%, #EA7171 100%);
+}
+
+body.mainOrange {
+    background: linear-gradient(135deg, #F8961F 0%, #EA7171 100%);
+}
+
+body.mainRed {
+    background: linear-gradient(135deg, #EA7171 0%, #AE84D3 100%);
+}
+
+body.mainPurple {
+    background: linear-gradient(135deg, #577590 0%, #AE84D3 100%);
+}
+
+body.mainBlue {
+    background: linear-gradient(135deg, #577590 0%, #AE84D3 100%);
+}
+

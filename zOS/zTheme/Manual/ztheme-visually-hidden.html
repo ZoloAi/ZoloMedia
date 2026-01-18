@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visually Hidden - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav style="margin-bottom: 1rem; font-size: 0.9rem;">
+        <a href="ztheme.html" style="color: var(--color-primary);">zTheme</a>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Components</span>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Visually Hidden</span>
+    </nav>
+    
+    <h1>Visually Hidden</h1>
+    <p style="font-size: 1.25rem; color: var(--color-gray); margin-bottom: 2rem;">
+        Hide content visually while keeping it accessible to screen readers—essential for inclusive design.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Visually Hidden -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Visually Hidden</h2>
+        <p>The visually hidden technique hides content from sighted users while keeping it accessible to assistive technologies like screen readers. This is different from <code>display: none</code> or <code>visibility: hidden</code>, which hide content from everyone including screen readers.</p>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>💡 Why This Matters:</strong></p>
+            <p style="margin: 0;">
+                Screen reader users need context that sighted users get visually. For example, a <code>×</code> close button is obvious visually, 
+                but a screen reader just hears "button" without knowing its purpose. Adding visually hidden text like 
+                <code>&lt;span class="zVisually-hidden"&gt;Close&lt;/span&gt;</code> provides that context!
+            </p>
+        </div>
+        
+        <div style="background: #fff3e0; padding: 1.5rem; border-left: 4px solid #ff9800; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>⚠️ Important Distinction:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>.zVisually-hidden:</strong> Hidden from sight, visible to screen readers</li>
+                <li><strong>display: none:</strong> Hidden from everyone (sight AND screen readers)</li>
+                <li><strong>aria-hidden="true":</strong> Visible on screen, hidden from screen readers</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Basic Usage -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic Usage: Screen Reader Only Content</h2>
+        <p>Use <code>.zVisually-hidden</code> to provide context for screen reader users:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <!-- Close Button Example -->
+            <div style="background: white; padding: 1.5rem; border: 2px solid var(--color-border); border-radius: 4px; position: relative;">
+                <h3 style="margin-top: 0;">Alert Message</h3>
+                <p>This is an important alert message.</p>
+                <button class="zBtn-close" style="position: absolute; top: 0.5rem; right: 0.5rem; font-size: 1.5rem; background: none; border: none; cursor: pointer;" aria-label="Close">
+                    ×
+                    <span class="zVisually-hidden">Close</span>
+                </button>
+            </div>
+            
+            <p style="margin-top: 1.5rem; padding: 1rem; background: #e8f5e9; border-radius: 4px; border: 1px solid #4caf50;">
+                <strong>For screen readers:</strong> The close button announces "Close button" instead of just "× button"
+            </p>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button class="zBtn-close"&gt;
+  ×
+  &lt;span class="zVisually-hidden"&gt;Close&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+    </section>
+    
+    <!-- Skip Links -->
+    <section style="margin: 3rem 0;">
+        <h2>Skip Links (Focusable Variant)</h2>
+        <p>Use <code>.zVisually-hidden-focusable</code> for "Skip to main content" links. They're hidden until focused with Tab key!</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div style="background: white; padding: 2rem; border: 2px solid var(--color-border); border-radius: 4px;">
+                <a href="#main-content" class="zVisually-hidden-focusable" style="display: inline-block; padding: 0.5rem 1rem; background: var(--color-primary); color: white; text-decoration: none; border-radius: 4px; font-weight: 500;">
+                    Skip to main content
+                </a>
+                
+                <p style="margin-top: 2rem; padding: 1rem; background: #e3f2fd; border-radius: 4px; border: 1px solid #2196f3;">
+                    <strong>👆 Try it!</strong> Click in this box, then press <kbd style="background: #333; color: white; padding: 0.2rem 0.5rem; border-radius: 3px;">Tab</kbd> key. 
+                    The "Skip to main content" link will appear above!
+                </p>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;a href="#main" class="zVisually-hidden-focusable"&gt;
+  Skip to main content
+&lt;/a&gt;</code></pre>
+
+        <blockquote style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Why Skip Links?</strong> Keyboard users don't want to tab through 50 navigation links every page. Skip links let them jump straight to the main content!</p>
+        </blockquote>
+    </section>
+    
+    <!-- Loading Spinners -->
+    <section style="margin: 3rem 0;">
+        <h2>Loading Spinner Text</h2>
+        <p>Provide context for loading spinners so screen reader users know something is happening:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px; text-align: center;">
+            <div class="zSpinner-border" role="status" style="width: 3rem; height: 3rem; border-width: 0.25em; display: inline-block;">
+                <span class="zVisually-hidden">Loading...</span>
+            </div>
+            
+            <p style="margin-top: 1.5rem; padding: 1rem; background: #e8f5e9; border-radius: 4px; border: 1px solid #4caf50;">
+                <strong>For screen readers:</strong> "Loading..." is announced, even though it's visually hidden
+            </p>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zSpinner-border" role="status"&gt;
+  &lt;span class="zVisually-hidden"&gt;Loading...&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Screen Reader Only Headings -->
+    <section style="margin: 3rem 0;">
+        <h2>Screen Reader Only Headings</h2>
+        <p>Sometimes you need semantic structure for screen readers without visible headings:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div style="background: white; padding: 2rem; border: 2px solid var(--color-border); border-radius: 4px;">
+                <h2 class="zVisually-hidden">Product Features</h2>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem;">🚀</div>
+                        <p style="font-weight: 500; margin: 0.5rem 0;">Fast</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem;">🔒</div>
+                        <p style="font-weight: 500; margin: 0.5rem 0;">Secure</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2rem;">♿</div>
+                        <p style="font-weight: 500; margin: 0.5rem 0;">Accessible</p>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 1.5rem; padding: 1rem; background: #e3f2fd; border-radius: 4px; border: 1px solid #2196f3;">
+                    <strong>For screen readers:</strong> "Product Features" heading provides context before the features list
+                </p>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;h2 class="zVisually-hidden"&gt;Product Features&lt;/h2&gt;
+&lt;!-- Features displayed visually without visible heading --&gt;</code></pre>
+    </section>
+    
+    <!-- Form Labels -->
+    <section style="margin: 3rem 0;">
+        <h2>Hidden Form Labels</h2>
+        <p>When design shows placeholder text but accessibility requires labels:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <form style="background: white; padding: 2rem; border: 2px solid var(--color-border); border-radius: 4px; max-width: 400px; margin: 0 auto;">
+                <div style="margin-bottom: 1rem;">
+                    <label for="search-input" class="zVisually-hidden">Search</label>
+                    <input type="text" id="search-input" class="zForm-control" placeholder="Search..." style="width: 100%; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 4px;">
+                </div>
+                
+                <button type="submit" class="zBtn zBtn-primary" style="width: 100%;">Search</button>
+                
+                <p style="margin-top: 1.5rem; padding: 1rem; background: #e8f5e9; border-radius: 4px; border: 1px solid #4caf50; font-size: 0.9rem;">
+                    <strong>For screen readers:</strong> Input announces "Search" label, even though it's visually hidden
+                </p>
+            </form>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;label for="search" class="zVisually-hidden"&gt;Search&lt;/label&gt;
+&lt;input type="text" id="search" placeholder="Search..."&gt;</code></pre>
+    </section>
+    
+    <!-- Focus Within Container -->
+    <section style="margin: 3rem 0;">
+        <h2>Focus Within Container</h2>
+        <p>The <code>.zVisually-hidden-focusable</code> class also works on containers with <code>:focus-within</code>:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div class="zVisually-hidden-focusable" style="background: white; padding: 1.5rem; border: 2px solid var(--color-primary); border-radius: 4px; max-width: 500px; margin: 0 auto;">
+                <p style="font-weight: 500; margin-bottom: 1rem;">Quick Navigation</p>
+                <nav style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="#section1" style="color: var(--color-primary); text-decoration: none;">Section 1</a>
+                    <a href="#section2" style="color: var(--color-primary); text-decoration: none;">Section 2</a>
+                    <a href="#section3" style="color: var(--color-primary); text-decoration: none;">Section 3</a>
+                </nav>
+            </div>
+            
+            <p style="margin-top: 1.5rem; padding: 1rem; background: #e3f2fd; border-radius: 4px; border: 1px solid #2196f3;">
+                <strong>👆 Try it!</strong> Click above, then press <kbd style="background: #333; color: white; padding: 0.2rem 0.5rem; border-radius: 3px;">Tab</kbd>. 
+                The entire navigation container will appear!
+            </p>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zVisually-hidden-focusable"&gt;
+  &lt;nav&gt;
+    &lt;a href="#section1"&gt;Section 1&lt;/a&gt;
+    &lt;a href="#section2"&gt;Section 2&lt;/a&gt;
+  &lt;/nav&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <div style="background: #e8f5e9; padding: 1.5rem; border-left: 4px solid #4caf50; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>✅ DO Use For:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Icon buttons:</strong> Add text for screen readers</li>
+                <li><strong>Skip links:</strong> Help keyboard users navigate faster</li>
+                <li><strong>Loading states:</strong> Announce "Loading..." to screen readers</li>
+                <li><strong>Form labels:</strong> When design shows only placeholders</li>
+                <li><strong>Semantic structure:</strong> Headings for screen reader navigation</li>
+                <li><strong>Status updates:</strong> Announce form validation messages</li>
+            </ul>
+        </div>
+        
+        <div style="background: #ffebee; padding: 1.5rem; border-left: 4px solid #ef5350; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>❌ DON'T Use For:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Hiding content from everyone (use <code>display: none</code>)</li>
+                <li>Hiding decorative images (use <code>aria-hidden="true"</code> or empty alt)</li>
+                <li>Critical information that everyone needs (make it visible!)</li>
+                <li>Replacing proper semantic HTML</li>
+                <li>Hiding content from screen readers (use <code>aria-hidden</code>)</li>
+            </ul>
+        </div>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>💡 Pro Tips:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Test with a screen reader (NVDA, JAWS, VoiceOver)</li>
+                <li>Use semantic HTML first, visually hidden second</li>
+                <li>Don't hide critical information from anyone</li>
+                <li>Combine with ARIA attributes when needed</li>
+                <li>Remember: Accessibility benefits everyone!</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- How It Works -->
+    <section style="margin: 3rem 0;">
+        <h2>How It Works</h2>
+        <p>The technique uses multiple CSS properties to hide content visually while keeping it accessible:</p>
+        
+        <div style="overflow-x: auto; margin: 2rem 0;">
+            <table class="zTable zTable-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Property</th>
+                        <th scope="col">Value</th>
+                        <th scope="col">Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>position</code></td>
+                        <td><code>absolute</code></td>
+                        <td>Remove from document flow</td>
+                    </tr>
+                    <tr>
+                        <td><code>width / height</code></td>
+                        <td><code>1px</code></td>
+                        <td>Tiny but exists in DOM</td>
+                    </tr>
+                    <tr>
+                        <td><code>padding</code></td>
+                        <td><code>0</code></td>
+                        <td>No internal space</td>
+                    </tr>
+                    <tr>
+                        <td><code>margin</code></td>
+                        <td><code>-1px</code></td>
+                        <td>Pull completely out of view</td>
+                    </tr>
+                    <tr>
+                        <td><code>overflow</code></td>
+                        <td><code>hidden</code></td>
+                        <td>Hide any content overflow</td>
+                    </tr>
+                    <tr>
+                        <td><code>clip</code></td>
+                        <td><code>rect(0,0,0,0)</code></td>
+                        <td>Clip element to nothing</td>
+                    </tr>
+                    <tr>
+                        <td><code>white-space</code></td>
+                        <td><code>nowrap</code></td>
+                        <td>Prevent text wrapping</td>
+                    </tr>
+                    <tr>
+                        <td><code>border</code></td>
+                        <td><code>0</code></td>
+                        <td>No visible border</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <blockquote style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Note:</strong> This is <strong>not</strong> <code>display: none</code> or <code>visibility: hidden</code>, which hide content from screen readers too!</p>
+        </blockquote>
+    </section>
+    
+    <!-- Testing Checklist -->
+    <section style="margin: 3rem 0;">
+        <h2>Testing Checklist</h2>
+        
+        <div style="background: #fff3e0; padding: 1.5rem; border-left: 4px solid #ff9800; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>✓ Test Your Implementation:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>
+                    <input type="checkbox" id="test1">
+                    <label for="test1"> <strong>Screen Reader:</strong> Test with NVDA (Windows), JAWS (Windows), or VoiceOver (Mac)</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="test2">
+                    <label for="test2"> <strong>Keyboard:</strong> Tab through page to test skip links</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="test3">
+                    <label for="test3"> <strong>Visual:</strong> Confirm content is actually hidden visually</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="test4">
+                    <label for="test4"> <strong>Focus:</strong> Skip links appear when focused</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="test5">
+                    <label for="test5"> <strong>Context:</strong> Hidden text provides meaningful information</label>
+                </li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: #2d2d2d; color: #f8f8f2; border-radius: 4px;">
+        <h2 style="color: #f8f8f2;">CSS Classes</h2>
+        <p style="color: #a8a8a8;">Visually hidden utilities are defined in <code>zVisually.css</code>:</p>
+        
+        <table class="zTable" style="margin: 1rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col" style="color: #f8f8f2;">Class</th>
+                    <th scope="col" style="color: #f8f8f2;">Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zVisually-hidden</code></td>
+                    <td style="color: #a8a8a8;">Hide element, visible to screen readers</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zVisually-hidden-focusable</code></td>
+                    <td style="color: #a8a8a8;">Hidden until focused (skip links, focus-within)</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p style="color: #a8a8a8; margin-top: 1rem;"><strong>File location:</strong> <code>zVisually.css</code></p>
+        <p style="color: #a8a8a8;"><strong>Note:</strong> Replaces legacy <code>.sr-only</code> class from Bootstrap 4</p>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-forms.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Forms</strong> → Accessible form labels and validation
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-buttons.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Buttons</strong> → Icon button accessibility
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-spinners.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Spinners</strong> → Loading state announcements
+                </a>
+            </li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-position.html" style="color: var(--color-primary);">← Previous: Position</a>
+        <a href="ztheme.html" style="color: var(--color-primary);">Back to Helpers</a>
+    </nav>
+</div>
+
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

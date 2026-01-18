@@ -1,0 +1,325 @@
+/**
+ * ═══════════════════════════════════════════════════════════════
+ * Text Renderer - Plain & Rich Text Display
+ * ═══════════════════════════════════════════════════════════════
+ *
+ * Renders text events from zCLI backend, supporting both plain text
+ * and rich text with markdown inline formatting.
+ *
+ * @module rendering/text_renderer
+ * @layer 3
+ * @pattern Strategy (single event type)
+ *
+ * Philosophy:
+ * - "Terminal first" - text is the foundation of all zCLI output
+ * - Pure rendering (no WebSocket, no state, no side effects)
+ * - Uses Layer 2 utilities exclusively (no inline logic)
+ *
+ * Supported Events:
+ * - 'text': Plain text with no formatting
+ * - 'rich_text': Text with markdown inline syntax (NEW)
+ *
+ * Markdown Syntax Supported:
+ * - `code` -> <code>
+ * - **bold** -> <strong>
+ * - *italic* -> <em>
+ * - __underline__ -> <u>
+ * - ~~strikethrough~~ -> <del>
+ * - ==highlight== -> <mark>
+ * - [text](url) -> <a href>
+ * - \ (backslash + newline) -> <br> (recommended for YAML)
+ * - (double-space + newline) -> <br>
+ * - <br> literal tag (passes through)
+ *
+ * Dependencies:
+ * - Layer 2: dom_utils.js, ztheme_utils.js, error_boundary.js
+ *
+ * Exports:
+ * - TextRenderer: Class for rendering text and rich_text events
+ *
+ * Example:
+ * ```javascript
+ * import { TextRenderer } from './text_renderer.js';
+ *
+ * const renderer = new TextRenderer(logger);
+ *
+ * // Plain text (returns element, orchestrator handles appending)
+ * const textEl = renderer.render({
+ *   content: 'Hello, zCLI!',
+ *   color: 'primary',
+ *   indent: 1
+ * }, 'zVaF');
+ *
+ * // Rich text with markdown (returns element)
+ * const richTextEl = renderer.renderRichText({
+ *   content: 'Use **bold** and `code` syntax',
+ *   color: 'info'
+ * });
+ * ```
+ */
+
+// ─────────────────────────────────────────────────────────────────
+// Imports
+// ─────────────────────────────────────────────────────────────────
+import { createElement, setAttributes } from '../utils/dom_utils.js';
+import { getTextColorClass } from '../utils/ztheme_utils.js';
+import { withErrorBoundary } from '../utils/error_boundary.js';
+
+// ─────────────────────────────────────────────────────────────────
+// Text Renderer Class
+// ─────────────────────────────────────────────────────────────────
+
+/**
+ * TextRenderer - Renders plain text events
+ *
+ * Handles the 'text' zDisplay event, which is the most basic
+ * output primitive in zCLI. Renders a paragraph element with
+ * optional color and indentation.
+ */
+export class TextRenderer {
+  /**
+   * Create a TextRenderer instance
+   * @param {Object} logger - Logger instance for debugging
+   */
+  constructor(logger) {
+    this.logger = logger || console;
+    this.logger.log('[TextRenderer] ✅ Initialized');
+
+    // Wrap render methods with error boundary
+    const originalRender = this.render.bind(this);
+    this.render = withErrorBoundary(originalRender, {
+      component: 'TextRenderer.render',
+      logger: this.logger
+    });
+
+    const originalRenderRichText = this.renderRichText.bind(this);
+    this.renderRichText = withErrorBoundary(originalRenderRichText, {
+      component: 'TextRenderer.renderRichText',
+      logger: this.logger
+    });
+  }
+
+  /**
+   * Parse markdown inline syntax to HTML
+   *
+   * @param {string} text - Text with markdown syntax
+   * @returns {string} HTML string with inline elements
+   * @private
+   *
+   * Supported markdown:
+   * - `code` -> <code>
+   * - **bold** -> <strong>
+   * - *italic* -> <em>
+   * - __underline__ -> <u>
+   * - ~~strikethrough~~ -> <del>
+   * - ==highlight== -> <mark>
+   * - [text](url) -> <a href="url">
+   * - \ (backslash + newline) -> <br> (YAML-friendly)
+   * - (double-space + newline) -> <br> (standard markdown, but YAML may strip spaces)
+   * - <br> literal tag -> <br> (passes through)
+   */
+  _parseMarkdown(text) {
+    let html = text;
+
+    // Code blocks: ```language\ncode\n``` -> <pre><code>code</code></pre>
+    // Must be processed BEFORE inline code to avoid conflicts
+    html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, language, code) => {
+      // Escape HTML in code
+      const escapedCode = code
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+      
+      // Apply language class if specified
+      const langClass = language ? ` language-${language}` : '';
+      return `<pre class="zBg-dark zText-light zp-3 zRounded zOverflow-auto"><code class="zFont-mono${langClass}">${escapedCode}</code></pre>`;
+    });
+
+    // Links: [text](url) -> <a href="url">text</a>
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+    // Inline Code: `code` -> <code>code</code> (after code blocks to avoid conflicts)
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+    // Bold: **text** -> <strong>text</strong>
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+
+    // Underline: __text__ -> <u>text</u> (before italic to avoid conflicts)
+    html = html.replace(/__([^_]+)__/g, '<u>$1</u>');
+
+    // Italic: *text* -> <em>text</em> (but not ** from bold)
+    html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+
+    // Strikethrough: ~~text~~ -> <del>text</del>
+    html = html.replace(/~~([^~]+)~~/g, '<del>$1</del>');
+
+    // Highlight: ==text== -> <mark>text</mark>
+    html = html.replace(/==([^=]+)==/g, '<mark>$1</mark>');
+
+    // Line breaks: backslash + newline -> <br> (won't be stripped by YAML)
+    html = html.replace(/\\\n/g, '<br>');
+
+    // Line breaks: double-space + newline -> <br> (markdown standard, but YAML may strip)
+    html = html.replace(/ {2}\n/g, '<br>');
+
+    // Remove remaining single newlines (for text wrapping, but NOT within <pre> tags)
+    html = html.replace(/\n(?![^<]*<\/pre>)/g, ' ');
+
+    return html;
+  }
+
+  /**
+   * Render a rich_text event with markdown parsing
+   *
+   * @param {Object} data - Rich text event data
+   * @param {string} data.content - Text content with markdown syntax
+   * @param {string} [data.color] - Text color (primary, secondary, info, success, warning, error)
+   * @param {number} [data.indent=0] - Indentation level (0 = no indent)
+   * @param {string} [data._zClass] - Custom CSS class (optional, from YAML)
+   * @param {string} [data._id] - Custom element ID (optional)
+   * @returns {HTMLElement|null} Created paragraph element or null if failed
+   *
+   * @example
+   * renderer.renderRichText({ content: 'This is **bold** and *italic*' });
+   * renderer.renderRichText({ content: 'Use `code` for commands', color: 'info' });
+   */
+  renderRichText(data) {
+    const { content, color, indent = 0, _zClass, _id } = data;
+
+    // Validate required parameters
+    if (!content) {
+      this.logger.error('[TextRenderer] ❌ Missing required parameter: content');
+      return null;
+    }
+
+    // Build CSS classes array
+    const classes = [];
+
+    // Add custom class if provided (from YAML)
+    if (_zClass) {
+      // Split space-separated classes (e.g., "zText-center zmt-3 zmb-4")
+      const customClasses = _zClass.split(/\s+/).filter(c => c);
+      classes.push(...customClasses);
+    }
+
+    // Add color class if provided (uses Layer 2 utility)
+    if (color) {
+      const colorClass = getTextColorClass(color);
+      if (colorClass) {
+        classes.push(colorClass);
+      }
+    }
+
+    // Create paragraph element (using Layer 2 utility)
+    const p = createElement('p', classes);
+
+    // Parse markdown and set as innerHTML (safe because we control the parsing)
+    p.innerHTML = this._parseMarkdown(content);
+
+    // Apply attributes
+    const attributes = {};
+
+    // Apply ID if provided
+    if (_id) {
+      attributes.id = _id;
+    }
+
+    // Apply indent as inline style
+    if (indent > 0) {
+      attributes.style = `margin-left: ${indent}rem;`;
+    }
+
+    if (Object.keys(attributes).length > 0) {
+      setAttributes(p, attributes);
+    }
+
+    // Log success
+    this.logger.log(`[TextRenderer] ✅ Rendered rich_text (${content.length} chars, indent: ${indent})`);
+
+    return p;
+  }
+
+  /**
+   * Render a text event
+   *
+   * @param {Object} data - Text event data
+   * @param {string} data.content - Text content to display
+   * @param {string} [data.color] - Text color (primary, secondary, info, success, warning, error)
+   * @param {number} [data.indent=0] - Indentation level (0 = no indent)
+   * @param {string} [data.class] - Custom CSS class (optional)
+   * @param {string} zone - Target DOM element ID
+   * @returns {HTMLElement|null} Created paragraph element or null if failed
+   *
+   * @example
+   * renderer.render({ content: 'Hello!' }, 'zVaF');
+   * renderer.render({ content: 'Success!', color: 'success' }, 'zVaF');
+   * renderer.render({ content: 'Indented', indent: 2 }, 'zVaF');
+   */
+  render(data, zone) {
+    const { content, color, indent = 0, class: customClass } = data;
+
+    // Validate required parameters
+    if (!content) {
+      this.logger.error('[TextRenderer] ❌ Missing required parameter: content');
+      return null;
+    }
+
+    // Get target container
+    const container = document.getElementById(zone);
+    if (!container) {
+      this.logger.error(`[TextRenderer] ❌ Zone not found: ${zone}`);
+      return null;
+    }
+
+    // Build CSS classes array
+    const classes = [];
+
+    // Add custom class if provided (from YAML)
+    if (customClass) {
+      // Split space-separated classes (e.g., "zText-center zmt-3 zmb-4")
+      const customClasses = customClass.split(/\s+/).filter(c => c);
+      classes.push(...customClasses);
+    }
+
+    // Add color class if provided (uses Layer 2 utility)
+    if (color) {
+      const colorClass = getTextColorClass(color);
+      if (colorClass) {
+        classes.push(colorClass);
+      }
+    }
+
+    // Create paragraph element (using Layer 2 utility)
+    const p = createElement('p', classes);
+    p.textContent = content; // Use textContent for XSS safety
+
+    // Apply attributes
+    const attributes = {};
+
+    // Apply indent as inline style (zTheme doesn't have indent utilities)
+    // Each indent level = 1rem left margin
+    if (indent > 0) {
+      attributes.style = `margin-left: ${indent}rem;`;
+    }
+
+    if (Object.keys(attributes).length > 0) {
+      setAttributes(p, attributes);
+    }
+
+    // Append to container
+    container.appendChild(p);
+
+    // Log success
+    this.logger.log(`[TextRenderer] ✅ Rendered text (${content.length} chars, indent: ${indent})`);
+
+    return p;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// Default Export
+// ─────────────────────────────────────────────────────────────────
+export default TextRenderer;
+

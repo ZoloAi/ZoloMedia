@@ -1,0 +1,250 @@
+/* ============================================
+   zHero.css - Hero Section Component
+   ============================================
+   
+   Full-viewport hero sections for landing pages, welcome screens,
+   and call-to-action areas. Provides centered content with flexible
+   height options and color variants.
+   
+   Classes:
+   - Base: .zHero
+   - Height: .zHero-full (100vh), .zHero-half (50vh), .zHero-quarter (25vh)
+   - Background: .zHero-cover (for background images)
+   - Content: .zHero-content (constrains max-width)
+   - Colors: .zHero-primary, .zHero-secondary, .zHero-dark, .zHero-light, .zHero-gradient
+   
+   Usage:
+   <section class="zHero zHero-full">
+     <div class="zHero-content">
+       <h1>Welcome to Our Site</h1>
+       <p>Your tagline here</p>
+     </div>
+   </section>
+   
+   Version: 1.0.0
+   ============================================ */
+
+/* ============================================
+   Base Hero Component
+   ============================================ */
+
+.zHero {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  min-height: 50vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ============================================
+   Height Variants
+   ============================================ */
+
+.zHero-full {
+  min-height: calc(100vh - var(--zHero-offset, 0px)) !important;
+}
+
+@supports (height: 100svh) {
+  .zHero-full {
+    min-height: calc(100svh - var(--zHero-offset, 0px)) !important;
+  }
+}
+
+@supports (height: 100dvh) {
+  .zHero-full {
+    min-height: calc(100dvh - var(--zHero-offset, 0px)) !important;
+  }
+}
+
+.zHero-half {
+  min-height: 50vh !important;
+}
+
+.zHero-quarter {
+  min-height: 25vh !important;
+}
+
+.zHero-three-quarter {
+  min-height: 75vh !important;
+}
+
+/* ============================================
+   Background Image Support
+   ============================================ */
+
+.zHero-cover {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.zHero-contain {
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Optional overlay for better text readability over images */
+.zHero-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.zHero-overlay > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================
+   Content Container
+   ============================================
+   
+   Constrains content width for better readability
+   ============================================ */
+
+.zHero-content {
+  max-width: 800px;
+  width: 100%;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.zHero-content-wide {
+  max-width: 1200px;
+}
+
+.zHero-content-narrow {
+  max-width: 600px;
+}
+
+/* ============================================
+   Color Variants
+   ============================================ */
+
+.zHero-primary {
+  background-color: var(--color-primary);
+  color: var(--color-darkgray);
+}
+
+.zHero-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-base);
+}
+
+.zHero-info {
+  background-color: var(--color-info);
+  color: var(--color-base);
+}
+
+.zHero-success {
+  background-color: var(--color-success);
+  color: var(--color-base);
+}
+
+.zHero-warning {
+  background-color: var(--color-warning);
+  color: var(--color-darkgray);
+}
+
+.zHero-error {
+  background-color: var(--color-error);
+  color: var(--color-base);
+}
+
+.zHero-dark {
+  background-color: var(--color-darkgray);
+  color: var(--color-base);
+}
+
+.zHero-light {
+  background-color: var(--color-base);
+  color: var(--color-darkgray);
+  border-bottom: 1px solid var(--color-gray);
+}
+
+/* ============================================
+   Gradient Variants
+   ============================================ */
+
+.zHero-gradient {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  color: var(--color-base);
+}
+
+.zHero-gradient-vertical {
+  background: linear-gradient(180deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  color: var(--color-base);
+}
+
+.zHero-gradient-dark {
+  background: linear-gradient(135deg, var(--color-darkgray) 0%, var(--color-gray) 100%);
+  color: var(--color-base);
+}
+
+/* ============================================
+   Alignment Utilities
+   ============================================ */
+
+.zHero-left {
+  align-items: flex-start !important;
+  text-align: left;
+}
+
+.zHero-right {
+  align-items: flex-end !important;
+  text-align: right;
+}
+
+.zHero-top {
+  justify-content: flex-start !important;
+  padding-top: 4rem;
+}
+
+.zHero-bottom {
+  justify-content: flex-end !important;
+  padding-bottom: 4rem;
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+
+@media (max-width: 768px) {
+  .zHero {
+    padding: 2rem 1rem;
+  }
+  
+  .zHero-content {
+    padding: 1rem;
+  }
+  
+  .zHero-full {
+    min-height: 100vh; /* Maintain full height on mobile */
+  }
+  
+  .zHero-half {
+    min-height: 60vh; /* Slightly taller on mobile for better UX */
+  }
+}
+
+@media (max-width: 576px) {
+  .zHero {
+    padding: 1.5rem 0.75rem;
+  }
+  
+  .zHero-content {
+    padding: 0.5rem;
+  }
+}

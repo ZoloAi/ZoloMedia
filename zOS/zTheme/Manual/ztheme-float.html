@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Float - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem 0;">
+    <!-- Header -->
+    <div style="margin-bottom: 3rem;">
+        <h1 style="color: var(--color-primary); margin-bottom: 0.5rem;">Float Utilities</h1>
+        <p style="font-size: 1.2rem; color: var(--color-body); opacity: 0.8;">
+            Toggle floats on any element, across any breakpoint, using responsive float utilities.
+        </p>
+    </div>
+
+    <!-- Understanding Float -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Understanding Float</h2>
+        <p style="line-height: 1.7;">
+            Float utilities position elements to the <strong>left</strong> or <strong>right</strong> of their container, 
+            allowing content to wrap around them. This is useful for layouts like text wrapping around images or creating 
+            simple column layouts.
+        </p>
+        <blockquote style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>⚠️ Modern Note:</strong> While float utilities still work perfectly for 
+            wrapping content around elements (like images in text), consider using <a href="ztheme-flex.html">Flexbox</a> 
+            or <a href="ztheme-grid.html">Grid</a> for complex layouts. Float utilities have no effect on flex items!</p>
+        </blockquote>
+    </section>
+
+    <!-- Basic Float -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Basic Float</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Three basic float values control element positioning:
+        </p>
+
+        <div style="display: grid; gap: 2rem; margin: 2rem 0;">
+            <!-- Float Start -->
+            <div>
+                <h3><code>.zFloat-start</code></h3>
+                <div class="zBorder" style="padding: 1rem; background: white;">
+                    <div class="zFloat-start zBg-primary zText-white" style="padding: 1rem; margin-right: 1rem; width: 150px;">
+                        Floated Start
+                    </div>
+                    <p style="margin: 0;">
+                        This text wraps around the floated element on the left. Float start (left in LTR languages) 
+                        positions the element on the left side of its container, allowing content to flow around it 
+                        on the right. Perfect for wrapping text around images or creating sidebar layouts.
+                    </p>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+
+            <!-- Float End -->
+            <div>
+                <h3><code>.zFloat-end</code></h3>
+                <div class="zBorder" style="padding: 1rem; background: white;">
+                    <div class="zFloat-end zBg-secondary zText-white" style="padding: 1rem; margin-left: 1rem; width: 150px;">
+                        Floated End
+                    </div>
+                    <p style="margin: 0;">
+                        This text wraps around the floated element on the right. Float end (right in LTR languages) 
+                        positions the element on the right side of its container, allowing content to flow around it 
+                        on the left. Commonly used for pull quotes or right-aligned images.
+                    </p>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+
+            <!-- Float None -->
+            <div>
+                <h3><code>.zFloat-none</code></h3>
+                <div class="zBorder" style="padding: 1rem; background: white;">
+                    <div class="zFloat-none zBg-info zText-white" style="padding: 1rem; margin-bottom: 1rem;">
+                        No Float Applied
+                    </div>
+                    <p style="margin: 0;">
+                        This element is not floated and remains in the normal document flow. Use <code>.zFloat-none</code> 
+                        to disable floating on an element (useful for removing inherited float behavior or responsive overrides).
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- Float left (start) --&gt;
+&lt;img src="..." class="zFloat-start" alt="..."&gt;
+&lt;p&gt;Text wraps around the image...&lt;/p&gt;
+
+&lt;!-- Float right (end) --&gt;
+&lt;img src="..." class="zFloat-end" alt="..."&gt;
+&lt;p&gt;Text wraps around the image...&lt;/p&gt;
+
+&lt;!-- No float --&gt;
+&lt;div class="zFloat-none"&gt;Block element&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Responsive Float -->
+    <section class="zmy-6">
+        <h2 class="zText-warning">Responsive Float</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Apply floats at specific breakpoints for responsive layouts. Resize your browser to see the effect!
+        </p>
+
+        <div class="zBorder" style="padding: 1.5rem; background: white; margin: 2rem 0;">
+            <div class="zFloat-none zFloat-md-start zBg-success zText-white" style="padding: 1.5rem; margin-bottom: 1rem; margin-right: 1.5rem; width: 200px;">
+                <strong>.zFloat-none .zFloat-md-start</strong>
+            </div>
+            <p style="margin: 0; line-height: 1.7;">
+                <strong>On mobile (< 768px):</strong> This box doesn't float (takes full width).<br>
+                <strong>On desktop (≥ 768px):</strong> This box floats to the left and text wraps around it!
+                This is perfect for responsive images or cards that should stack on mobile but float on desktop.
+                You can combine multiple breakpoint classes to fine-tune the behavior at different screen sizes.
+            </p>
+            <div style="clear: both;"></div>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">All Responsive Classes</h3>
+        <table class="zTable zTable-striped">
+            <thead>
+                <tr>
+                    <th>Breakpoint</th>
+                    <th>Min Width</th>
+                    <th>Classes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Base (xs)</strong></td>
+                    <td>0px (all screens)</td>
+                    <td><code>.zFloat-start</code>, <code>.zFloat-end</code>, <code>.zFloat-none</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Small (sm)</strong></td>
+                    <td>≥576px</td>
+                    <td><code>.zFloat-sm-start</code>, <code>.zFloat-sm-end</code>, <code>.zFloat-sm-none</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Medium (md)</strong></td>
+                    <td>≥768px</td>
+                    <td><code>.zFloat-md-start</code>, <code>.zFloat-md-end</code>, <code>.zFloat-md-none</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Large (lg)</strong></td>
+                    <td>≥992px</td>
+                    <td><code>.zFloat-lg-start</code>, <code>.zFloat-lg-end</code>, <code>.zFloat-lg-none</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Extra Large (xl)</strong></td>
+                    <td>≥1200px</td>
+                    <td><code>.zFloat-xl-start</code>, <code>.zFloat-xl-end</code>, <code>.zFloat-xl-none</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Extra Extra Large (xxl)</strong></td>
+                    <td>≥1400px</td>
+                    <td><code>.zFloat-xxl-start</code>, <code>.zFloat-xxl-end</code>, <code>.zFloat-xxl-none</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; margin-top: 2rem;"><code>&lt;!-- Responsive float example --&gt;
+&lt;img src="..." class="zFloat-none zFloat-md-start" alt="..."&gt;
+&lt;!-- No float on mobile, floats left on medium+ screens --&gt;
+
+&lt;div class="zFloat-start zFloat-lg-end"&gt;
+  &lt;!-- Floats left on small screens, right on large+ screens --&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Practical Examples -->
+    <section class="zmy-6">
+        <h2 class="zText-danger">Practical Examples</h2>
+
+        <!-- Image + Text -->
+        <div style="margin: 2rem 0;">
+            <h3>Image with Text Wrap</h3>
+            <div class="zBorder" style="padding: 1.5rem; background: white;">
+                <img src="https://picsum.photos/200/200" class="zFloat-start zRounded" style="margin-right: 1rem; margin-bottom: 0.5rem;" alt="Sample">
+                <p style="line-height: 1.7; margin: 0;">
+                    <strong>Lorem ipsum dolor sit amet</strong>, consectetur adipiscing elit. Sed do eiusmod tempor 
+                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit 
+                    in voluptate velit esse cillum dolore eu fugiat nulla pariatur. The image floats to the left 
+                    and text wraps around it naturally. This is perfect for article layouts, blog posts, or any 
+                    content-heavy pages where images should be integrated into the text flow.
+                </p>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+
+        <!-- Pull Quote -->
+        <div style="margin: 2rem 0;">
+            <h3>Pull Quote (Floated)</h3>
+            <div class="zBorder" style="padding: 1.5rem; background: white;">
+                <div class="zFloat-end zBorder-start zBorder-3 zBorder-primary" style="max-width: 250px; margin-left: 1.5rem; padding-left: 1rem; font-style: italic; color: var(--color-primary); font-size: 1.1rem;">
+                    "Float utilities make it easy to create elegant pull quotes that stand out."
+                </div>
+                <p style="line-height: 1.7; margin: 0 0 1rem 0;">
+                    Pull quotes are a classic editorial design pattern. By floating a quote to the right, we create 
+                    visual interest and break up long blocks of text. The quote draws the reader's eye and emphasizes 
+                    key points.
+                </p>
+                <p style="line-height: 1.7; margin: 0;">
+                    This technique works particularly well in blog posts, articles, and editorial content where you 
+                    want to highlight important statements or testimonials. The floated element sits alongside the 
+                    content, creating a more dynamic and engaging layout than simple centered text.
+                </p>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+
+        <!-- Card Sidebar -->
+        <div style="margin: 2rem 0;">
+            <h3>Sidebar Card (Responsive)</h3>
+            <div class="zBorder" style="padding: 1.5rem; background: white;">
+                <div class="zFloat-none zFloat-lg-end zCard" style="max-width: 300px; margin-left: 1.5rem; margin-bottom: 1rem;">
+                    <div class="zCard-header zBg-info zText-white">
+                        <strong>Did You Know?</strong>
+                    </div>
+                    <div class="zCard-body">
+                        <p style="margin: 0;">This sidebar floats on large screens but stacks naturally on mobile!</p>
+                    </div>
+                </div>
+                <p style="line-height: 1.7; margin: 0 0 1rem 0;">
+                    This card demonstrates responsive floating. On mobile devices (< 992px), it doesn't float and 
+                    appears as a full-width block above the text. On larger screens, it floats to the right as a 
+                    sidebar element.
+                </p>
+                <p style="line-height: 1.7; margin: 0;">
+                    This pattern is perfect for supplementary content, related links, or call-to-action boxes that 
+                    should be prominent on desktop but not break the flow on mobile. The responsive classes give you 
+                    fine control over when elements float or stack.
+                </p>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Clear floats:</strong> Use <code>.zClearfix</code> on parent containers or <code>clear: both</code> after floated elements</li>
+            <li><strong>Set width:</strong> Floated elements should usually have a defined width (percentage or fixed)</li>
+            <li><strong>Add margin:</strong> Give floated elements margin to prevent text from touching them</li>
+            <li><strong>Consider flexbox:</strong> For complex layouts, flexbox or grid may be more appropriate</li>
+            <li><strong>Responsive first:</strong> Start with mobile (no float) and add floating at larger breakpoints</li>
+            <li><strong>Test wrapping:</strong> Ensure text wraps naturally around floated elements at all screen sizes</li>
+        </ul>
+
+        <blockquote style="background: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Tip:</strong> Float utilities are perfect for traditional document-style 
+            layouts (images in text, pull quotes) but <a href="ztheme-flex.html">Flexbox</a> and 
+            <a href="ztheme-grid.html">Grid</a> are better for modern app-style layouts with complex alignment needs.</p>
+        </blockquote>
+    </section>
+
+    <!-- Accessibility -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">Accessibility</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Source order:</strong> Float changes visual order but not source order - keep content logical in HTML</li>
+            <li><strong>Focus order:</strong> Ensure keyboard navigation follows logical flow, not visual placement</li>
+            <li><strong>Images:</strong> Always include descriptive <code>alt</code> text for floated images</li>
+            <li><strong>Mobile testing:</strong> Verify content makes sense when floats are removed on small screens</li>
+            <li><strong>Screen readers:</strong> Remember screen readers follow HTML source order, not float layout</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section class="zmy-6">
+        <h2 class="zText-dark">CSS Reference</h2>
+        <p style="margin-bottom: 1rem;">All float utilities use <code>!important</code> to override specificity issues.</p>
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Classes</th>
+                    <th>CSS Property</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Basic Float</strong></td>
+                    <td><code>.zFloat-start</code>, <code>.zFloat-end</code>, <code>.zFloat-none</code></td>
+                    <td><code>float: left | right | none</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Legacy Support</strong></td>
+                    <td><code>.zFloat-left</code>, <code>.zFloat-right</code></td>
+                    <td><code>float: left | right</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Responsive</strong></td>
+                    <td><code>.zFloat-{breakpoint}-{value}</code></td>
+                    <td>Applies at specified breakpoint</td>
+                </tr>
+                <tr>
+                    <td><strong>Clearfix</strong></td>
+                    <td><code>.zClearfix</code> (see <a href="ztheme-clearfix.html">Clearfix helper</a>)</td>
+                    <td><code>clear: both</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin: 2rem 0 1rem;">Breakpoint Reference</h3>
+        <p>All 6 breakpoints supported: <strong>base (xs), sm, md, lg, xl, xxl</strong></p>
+        <p><strong>Total classes:</strong> 18 float utilities (3 values × 6 breakpoints) + 2 legacy classes</p>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Related Topics</h2>
+        <ul class="lh-lg">
+            <li><a href="ztheme-clearfix.html">Clearfix</a> - Clear floated elements (.zClearfix)</li>
+            <li><a href="ztheme-flex.html">Flex</a> - Modern flexbox layout utilities</li>
+            <li><a href="ztheme-grid.html">Grid</a> - CSS Grid utilities for complex layouts</li>
+            <li><a href="ztheme-display.html">Display</a> - Display property utilities</li>
+            <li><a href="ztheme-position.html">Position</a> - Position utilities (absolute, relative, etc.)</li>
+            <li><a href="ztheme-breakpoints.html">Breakpoints</a> - Responsive breakpoint reference</li>
+        </ul>
+    </section>
+
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

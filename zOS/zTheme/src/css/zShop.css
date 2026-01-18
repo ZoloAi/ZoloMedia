@@ -1,0 +1,102 @@
+.shop-hero {
+    position: relative;
+    height: 60vh;
+}
+
+.hero-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    text-align: center;
+}
+
+.hero-text h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.hero-text p {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+.products-grid {
+    display: grid; /* Use CSS grid for layout */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Each item is at least 300px wide */
+    gap: 1rem; /* Add spacing between items */
+    justify-items: center; /* Center the items in the grid */
+    align-items: center; /* Align items vertically */
+}
+
+.products-grid > * {
+    width: 300px; /* Fixed width */
+    height: 300px; /* Fixed height */
+    box-sizing: border-box; /* Ensure padding/borders don't affect size */
+    overflow: hidden; /* Hide overflow content */
+    display: flex; /* Flexbox inside each item */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+}
+
+.single-product {
+    display: flex;
+    width: 61.8%;
+    column-gap: 16px;
+    flex-direction: row;
+    min-height: 100vh;
+    align-items: start;
+    margin: 75px auto;
+}
+
+.right-single-product-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    width: 61.8%;
+}
+
+.left-single-product-side {
+    width: 38.2%;
+}
+
+.product-special-content {
+    margin-bottom: 20px;
+}
+.product-box-link {
+    background-color: var(--mainBase); /* Background color */
+    padding: 0.5rem; /* Default padding for the link */
+    display: inline-block; /* Ensures smooth scaling */
+    transition: padding 0.3s ease, transform 0.3s ease; /* Smooth transition */
+    border-radius: 8px; /* Rounded corners */
+
+}
+
+.product-box-link:hover {
+    padding: 0.3rem; /* Shrink padding on hover */
+    transform: scale(1.03); /* Slight grow effect */
+}
+
+.product-box {
+    background-color: var(--mainBase); /* Background color */
+    padding: 16px; /* Default padding */
+    border-radius: 8px; /* Rounded corners */
+    text-align: center; /* Center content */
+    transition: box-shadow 0.3s ease; /* Transition for shadow */
+}
+
+.product-box-link:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15), 
+                0 4px 6px rgba(0, 0, 0, 0.5); /* 3D Drop shadow on hover */
+}
+
+.product-image-container img {
+    border-radius: 8px; /* Rounded corners for images */
+    transition: transform 0.3s ease; /* Smooth scaling effect */
+}
+
+.product-box-link:hover .product-image-container img {
+    transform: scale(1.02); /* Slight zoom effect on hover */
+}

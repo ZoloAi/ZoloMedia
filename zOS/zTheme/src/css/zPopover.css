@@ -1,0 +1,380 @@
+/* ============================================
+   zPopover.css - Contextual Overlays
+   ============================================
+   
+   Bootstrap-inspired popovers for displaying rich content
+   in floating overlays triggered by user interaction.
+   
+   Classes:
+   - .zPopover              : Main popover container
+   - .zPopover-arrow        : Arrow/pointer element
+   - .zPopover-header       : Optional header section
+   - .zPopover-body         : Main content area
+   
+   Placement Modifiers:
+   - .zPopover-top          : Above trigger
+   - .zPopover-bottom       : Below trigger (default)
+   - .zPopover-start        : Left of trigger
+   - .zPopover-end          : Right of trigger
+   
+   Data Attributes:
+   - data-bs-toggle="popover"     : Initialize popover
+   - data-bs-content=""           : Popover content
+   - data-bs-title=""             : Optional title
+   - data-bs-placement=""         : top|bottom|start|end
+   - data-bs-trigger="click"      : click|hover|focus
+   
+   Structure:
+   <button data-bs-toggle="popover" 
+           data-bs-content="Content here">
+     Click me
+   </button>
+*/
+
+/* ============================================
+   Base Popover Container
+   ============================================ */
+
+.zPopover {
+    position: absolute;
+    z-index: 1060;
+    display: block;
+    max-width: 276px;
+    font-family: var(--font-family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: left;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-break: normal;
+    word-spacing: normal;
+    white-space: normal;
+    line-break: auto;
+    font-size: 0.875rem;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transition: opacity 0.15s ease-in-out;
+}
+
+.zPopover.zShow {
+    opacity: 1;
+}
+
+/* ============================================
+   Popover Arrow
+   ============================================ */
+
+.zPopover-arrow {
+    position: absolute;
+    display: block;
+    width: 1rem;
+    height: 0.5rem;
+}
+
+.zPopover-arrow::before,
+.zPopover-arrow::after {
+    position: absolute;
+    display: block;
+    content: "";
+    border-color: transparent;
+    border-style: solid;
+}
+
+/* ============================================
+   Popover Placement: Top
+   ============================================ */
+
+.zPopover-top {
+    margin-bottom: 0.5rem;
+}
+
+.zPopover-top > .zPopover-arrow {
+    bottom: calc(-0.5rem - 1px);
+}
+
+.zPopover-top > .zPopover-arrow::before {
+    bottom: 0;
+    border-width: 0.5rem 0.5rem 0;
+    border-top-color: rgba(0, 0, 0, 0.25);
+}
+
+.zPopover-top > .zPopover-arrow::after {
+    bottom: 1px;
+    border-width: 0.5rem 0.5rem 0;
+    border-top-color: #fff;
+}
+
+/* ============================================
+   Popover Placement: Bottom
+   ============================================ */
+
+.zPopover-bottom {
+    margin-top: 0.5rem;
+}
+
+.zPopover-bottom > .zPopover-arrow {
+    top: calc(-0.5rem - 1px);
+}
+
+.zPopover-bottom > .zPopover-arrow::before {
+    top: 0;
+    border-width: 0 0.5rem 0.5rem 0.5rem;
+    border-bottom-color: rgba(0, 0, 0, 0.25);
+}
+
+.zPopover-bottom > .zPopover-arrow::after {
+    top: 1px;
+    border-width: 0 0.5rem 0.5rem 0.5rem;
+    border-bottom-color: #fff;
+}
+
+/* ============================================
+   Popover Placement: Start (Left)
+   ============================================ */
+
+.zPopover-start {
+    margin-right: 0.5rem;
+}
+
+.zPopover-start > .zPopover-arrow {
+    right: calc(-0.5rem - 1px);
+    width: 0.5rem;
+    height: 1rem;
+}
+
+.zPopover-start > .zPopover-arrow::before {
+    right: 0;
+    border-width: 0.5rem 0 0.5rem 0.5rem;
+    border-left-color: rgba(0, 0, 0, 0.25);
+}
+
+.zPopover-start > .zPopover-arrow::after {
+    right: 1px;
+    border-width: 0.5rem 0 0.5rem 0.5rem;
+    border-left-color: #fff;
+}
+
+/* ============================================
+   Popover Placement: End (Right)
+   ============================================ */
+
+.zPopover-end {
+    margin-left: 0.5rem;
+}
+
+.zPopover-end > .zPopover-arrow {
+    left: calc(-0.5rem - 1px);
+    width: 0.5rem;
+    height: 1rem;
+}
+
+.zPopover-end > .zPopover-arrow::before {
+    left: 0;
+    border-width: 0.5rem 0.5rem 0.5rem 0;
+    border-right-color: rgba(0, 0, 0, 0.25);
+}
+
+.zPopover-end > .zPopover-arrow::after {
+    left: 1px;
+    border-width: 0.5rem 0.5rem 0.5rem 0;
+    border-right-color: #fff;
+}
+
+/* ============================================
+   Popover Header
+   ============================================ */
+
+.zPopover-header {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-top-left-radius: calc(0.3rem - 1px);
+    border-top-right-radius: calc(0.3rem - 1px);
+}
+
+.zPopover-header:empty {
+    display: none;
+}
+
+/* ============================================
+   Popover Body
+   ============================================ */
+
+.zPopover-body {
+    padding: 1rem;
+    color: #212529;
+}
+
+/* ============================================
+   Color Variants
+   ============================================ */
+
+/* Primary Popover */
+.zPopover-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.zPopover-primary .zPopover-header {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+    color: #fff;
+}
+
+.zPopover-primary .zPopover-body {
+    color: #fff;
+}
+
+.zPopover-primary.zPopover-top > .zPopover-arrow::after {
+    border-top-color: #0d6efd;
+}
+
+.zPopover-primary.zPopover-bottom > .zPopover-arrow::after {
+    border-bottom-color: #0d6efd;
+}
+
+.zPopover-primary.zPopover-start > .zPopover-arrow::after {
+    border-left-color: #0d6efd;
+}
+
+.zPopover-primary.zPopover-end > .zPopover-arrow::after {
+    border-right-color: #0d6efd;
+}
+
+/* Success Popover */
+.zPopover-success {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.zPopover-success .zPopover-header {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+    color: #fff;
+}
+
+.zPopover-success .zPopover-body {
+    color: #fff;
+}
+
+.zPopover-success.zPopover-top > .zPopover-arrow::after {
+    border-top-color: #198754;
+}
+
+.zPopover-success.zPopover-bottom > .zPopover-arrow::after {
+    border-bottom-color: #198754;
+}
+
+.zPopover-success.zPopover-start > .zPopover-arrow::after {
+    border-left-color: #198754;
+}
+
+.zPopover-success.zPopover-end > .zPopover-arrow::after {
+    border-right-color: #198754;
+}
+
+/* Danger Popover */
+.zPopover-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.zPopover-danger .zPopover-header {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+    color: #fff;
+}
+
+.zPopover-danger .zPopover-body {
+    color: #fff;
+}
+
+.zPopover-danger.zPopover-top > .zPopover-arrow::after {
+    border-top-color: #dc3545;
+}
+
+.zPopover-danger.zPopover-bottom > .zPopover-arrow::after {
+    border-bottom-color: #dc3545;
+}
+
+.zPopover-danger.zPopover-start > .zPopover-arrow::after {
+    border-left-color: #dc3545;
+}
+
+.zPopover-danger.zPopover-end > .zPopover-arrow::after {
+    border-right-color: #dc3545;
+}
+
+/* Warning Popover */
+.zPopover-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.zPopover-warning .zPopover-header {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+    color: #212529;
+}
+
+.zPopover-warning .zPopover-body {
+    color: #212529;
+}
+
+.zPopover-warning.zPopover-top > .zPopover-arrow::after {
+    border-top-color: #ffc107;
+}
+
+.zPopover-warning.zPopover-bottom > .zPopover-arrow::after {
+    border-bottom-color: #ffc107;
+}
+
+.zPopover-warning.zPopover-start > .zPopover-arrow::after {
+    border-left-color: #ffc107;
+}
+
+.zPopover-warning.zPopover-end > .zPopover-arrow::after {
+    border-right-color: #ffc107;
+}
+
+/* ============================================
+   Responsive Behavior
+   ============================================ */
+
+@media (max-width: 576px) {
+    .zPopover {
+        max-width: calc(100vw - 2rem);
+        font-size: 0.8125rem;
+    }
+}
+
+/* ============================================
+   Animation
+   ============================================ */
+
+@keyframes zPopoverFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.zPopover.zShow {
+    animation: zPopoverFadeIn 0.15s ease-out;
+}
+

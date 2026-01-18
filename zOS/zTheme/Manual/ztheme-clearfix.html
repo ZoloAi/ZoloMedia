@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clearfix - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav style="margin-bottom: 1rem; font-size: 0.9rem;">
+        <a href="ztheme.html" style="color: var(--color-primary);">zTheme</a>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Components</span>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Clearfix</span>
+    </nav>
+    
+    <h1>Clearfix</h1>
+    <p style="font-size: 1.25rem; color: var(--color-gray); margin-bottom: 2rem;">
+        A legacy CSS utility that clears floated elements—rarely needed in modern Flexbox/Grid layouts, but essential for older code.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Clearfix -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Clearfix</h2>
+        <p>Clearfix is a CSS technique from the "float" layout era (before Flexbox and Grid existed). When elements are floated, they're taken out of the normal document flow, causing their parent container to collapse to zero height. Clearfix solves this by forcing the parent to recognize and contain the floated children.</p>
+        
+        <div style="background: #fff3e0; padding: 1.5rem; border-left: 4px solid #ff9800; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>⚠️ Legacy Technique:</strong></p>
+            <p style="margin: 0;">
+                Clearfix was <strong>essential in the 2000s-2010s</strong> when floats were the primary layout method. 
+                In <strong>modern CSS (2023+)</strong>, you should use <strong>Flexbox</strong> or <strong>Grid</strong> instead. 
+                Only use clearfix when maintaining legacy code or dealing with specific float-based layouts (like wrapping text around images).
+            </p>
+        </div>
+        
+        <div style="background: #e8f5e9; padding: 1.5rem; border-left: 4px solid #4caf50; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>✅ When to Use Clearfix:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Maintaining legacy code</strong> with float-based layouts</li>
+                <li><strong>Text wrapping around images</strong> (floated images with text flow)</li>
+                <li><strong>Working with third-party code</strong> that uses floats</li>
+                <li><strong>Supporting very old browsers</strong> (pre-IE11)</li>
+            </ul>
+        </div>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>💡 Modern Alternatives:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Flexbox:</strong> <code>display: flex;</code> - For one-dimensional layouts (rows or columns)</li>
+                <li><strong>Grid:</strong> <code>display: grid;</code> - For two-dimensional layouts (rows AND columns)</li>
+                <li><strong>Flow Layout:</strong> Normal document flow without floats</li>
+            </ul>
+            <p style="margin: 0.5rem 0 0 0;">These modern techniques handle layout automatically without needing clearfix!</p>
+        </div>
+    </section>
+    
+    <!-- The Problem -->
+    <section style="margin: 3rem 0;">
+        <h2>The Problem: Collapsed Parent</h2>
+        <p><strong>Without clearfix</strong>, a parent container with floated children collapses to zero height (shown in red):</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <!-- Problem Example -->
+            <div style="background: #ffebee; border: 2px solid #ef5350; padding: 1rem; margin-bottom: 2rem;">
+                <h3 style="margin-top: 0; color: #c62828;">❌ Problem: Parent Collapses</h3>
+                <div style="background: #fff3e0; border: 2px dashed #ff9800; padding: 0.5rem;">
+                    <button class="zBtn zBtn-primary zFloat-start">Floated Left</button>
+                    <button class="zBtn zBtn-primary zFloat-end">Floated Right</button>
+                </div>
+                <p style="margin: 0.5rem 0 0 0; color: #666; font-size: 0.9rem;"><em>Notice: The orange parent container doesn't wrap around the floated buttons—it has zero height!</em></p>
+            </div>
+            
+            <!-- Solution Example -->
+            <div style="background: #e8f5e9; border: 2px solid #4caf50; padding: 1rem;">
+                <h3 style="margin-top: 0; color: #2e7d32;">✅ Solution: Clearfix</h3>
+                <div class="zClearfix" style="background: #e1f5fe; border: 2px dashed #2196f3; padding: 0.5rem;">
+                    <button class="zBtn zBtn-success zFloat-start">Floated Left</button>
+                    <button class="zBtn zBtn-success zFloat-end">Floated Right</button>
+                </div>
+                <p style="margin: 0.5rem 0 0 0; color: #666; font-size: 0.9rem;"><em>With <code>.zClearfix</code>: The blue parent now properly contains the floated buttons!</em></p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Usage -->
+    <section style="margin: 3rem 0;">
+        <h2>Usage</h2>
+        <p>Simply add the <code>.zClearfix</code> class to the <strong>parent element</strong> that contains floated children:</p>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zClearfix"&gt;
+  &lt;button class="zBtn zFloat-start"&gt;Left&lt;/button&gt;
+  &lt;button class="zBtn zFloat-end"&gt;Right&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+        <blockquote style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Remember:</strong> Clearfix goes on the <strong>parent</strong>, not on the floated elements themselves!</p>
+        </blockquote>
+    </section>
+    
+    <!-- How It Works -->
+    <section style="margin: 3rem 0;">
+        <h2>How It Works</h2>
+        <p>Clearfix uses a CSS pseudo-element to create an invisible block that clears both floats:</p>
+
+<pre style="background: #2d2d2d; color: #f8f8f2; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code><span style="color: #66d9ef;">.zClearfix</span><span style="color: #f92672;">::after</span> {
+  <span style="color: #66d9ef;">content</span>: <span style="color: #e6db74;">""</span>;          <span style="color: #75715e;">/* Creates an invisible element */</span>
+  <span style="color: #66d9ef;">display</span>: <span style="color: #ae81ff;">table</span>;        <span style="color: #75715e;">/* Block formatting context */</span>
+  <span style="color: #66d9ef;">clear</span>: <span style="color: #ae81ff;">both</span>;           <span style="color: #75715e;">/* Clears left AND right floats */</span>
+}</code></pre>
+
+        <p style="margin-top: 1rem;">This creates an invisible element after the parent's content that forces the parent to expand and contain the floated children.</p>
+    </section>
+    
+    <!-- Real-World Example -->
+    <section style="margin: 3rem 0;">
+        <h2>Real-World Example: Image with Text Wrap</h2>
+        <p>One of the few legitimate modern uses for floats: wrapping text around images.</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div class="zClearfix" style="background: #fff; padding: 1.5rem; border: 1px solid var(--color-border);">
+                <img src="data:image/svg+xml,%3Csvg width='150' height='150' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='150' height='150' fill='%234CAF50'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-size='20' font-family='system-ui'%3EImage%3C/text%3E%3C/svg%3E" 
+                     alt="Example" 
+                     class="zFloat-start" 
+                     style="margin-right: 1rem; margin-bottom: 0.5rem; border-radius: 4px;">
+                
+                <h3 style="margin-top: 0;">Article Title</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. The image is floated to the left, and this text wraps around it naturally. This is one of the classic use cases for CSS floats that still makes sense in modern web development.</p>
+                <p>The parent container has <code>.zClearfix</code> applied, ensuring it properly contains both the floated image and the text content. Without clearfix, the parent would collapse and the layout would break.</p>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zClearfix"&gt;
+  &lt;img src="..." class="zFloat-start" style="margin-right: 1rem;"&gt;
+  &lt;h3&gt;Article Title&lt;/h3&gt;
+  &lt;p&gt;Text wraps around the floated image...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <div style="background: #e8f5e9; padding: 1.5rem; border-left: 4px solid #4caf50; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>✅ DO:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Use <strong>Flexbox</strong> or <strong>Grid</strong> for new layouts</li>
+                <li>Apply clearfix to the <strong>parent element</strong>, not the floated children</li>
+                <li>Use floats for text wrapping around images (legitimate use case)</li>
+                <li>Use clearfix when maintaining legacy codebases</li>
+                <li>Combine with float utilities (<code>.zFloat-start</code>, <code>.zFloat-end</code>)</li>
+            </ul>
+        </div>
+        
+        <div style="background: #ffebee; padding: 1.5rem; border-left: 4px solid #ef5350; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>❌ DON'T:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Don't use floats for page layout</strong> - Use Flexbox or Grid instead</li>
+                <li>Don't apply clearfix to the floated elements themselves</li>
+                <li>Don't use clearfix if you're not using floats (it does nothing)</li>
+                <li>Don't build entire layouts with floats in 2023+ (outdated technique)</li>
+                <li>Don't forget about modern CSS alternatives</li>
+            </ul>
+        </div>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>💡 Migration Path:</strong></p>
+            <p style="margin: 0;">If you're maintaining code with lots of floats and clearfixes, consider refactoring to:</p>
+            <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
+                <li><strong>Flexbox:</strong> For horizontal/vertical component layouts</li>
+                <li><strong>Grid:</strong> For complex page layouts</li>
+                <li><strong>Modern positioning:</strong> For overlays and special cases</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Float Utilities Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Float Utilities</h2>
+        <p>Clearfix is defined in <code>zFloat.css</code> along with float utilities:</p>
+        
+        <div style="overflow-x: auto; margin: 2rem 0;">
+            <table class="zTable zTable-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Class</th>
+                        <th scope="col">Effect</th>
+                        <th scope="col">Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>.zClearfix</code></td>
+                        <td>Clears floated children</td>
+                        <td>Apply to parent element</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zFloat-start</code></td>
+                        <td><code>float: left</code></td>
+                        <td>Float element to left</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zFloat-end</code></td>
+                        <td><code>float: right</code></td>
+                        <td>Float element to right</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zFloat-none</code></td>
+                        <td><code>float: none</code></td>
+                        <td>Remove float</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zFloat-left</code></td>
+                        <td><code>float: left</code></td>
+                        <td>Legacy alias (use <code>-start</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zFloat-right</code></td>
+                        <td><code>float: right</code></td>
+                        <td>Legacy alias (use <code>-end</code>)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <blockquote style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Responsive Floats:</strong> Float utilities also support responsive breakpoints: <code>.zFloat-sm-start</code>, <code>.zFloat-md-end</code>, <code>.zFloat-lg-none</code>, etc.</p>
+        </blockquote>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: #2d2d2d; color: #f8f8f2; border-radius: 4px;">
+        <h2 style="color: #f8f8f2;">CSS Reference</h2>
+        <p style="color: #a8a8a8;">Clearfix is defined in <code>zFloat.css</code>:</p>
+        
+        <table class="zTable" style="margin: 1rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col" style="color: #f8f8f2;">Class</th>
+                    <th scope="col" style="color: #f8f8f2;">Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zClearfix</code></td>
+                    <td style="color: #a8a8a8;">Clears floated children using <code>::after</code> pseudo-element</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p style="color: #a8a8a8; margin-top: 1rem;"><strong>File location:</strong> <code>zFloat.css</code></p>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-utilities.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Float Utilities</strong> → See all float classes (<code>.zFloat-start</code>, <code>.zFloat-end</code>)
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-display.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Display Utilities</strong> → Modern layout with Flexbox and Grid
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-position.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Position Helper</strong> → Positioning utilities
+                </a>
+            </li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-tooltips.html" style="color: var(--color-primary);">← Previous: Tooltips</a>
+        <a href="ztheme.html" style="color: var(--color-primary);">Back to Helpers</a>
+    </nav>
+</div>
+
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

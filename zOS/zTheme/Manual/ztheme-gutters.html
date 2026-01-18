@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gutters - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer zp-5">
+    <!-- Breadcrumb -->
+    <nav class="zSmall zmb-3">
+        <a href="ztheme.html" class="zPrimary">zTheme</a>
+        <span class="zMuted zmx-2">›</span>
+        <a href="ztheme.html" class="zPrimary">Components</a>
+        <span class="zMuted zmx-2">›</span>
+        <span>Gutters</span>
+    </nav>
+    
+    <h1>Gutters</h1>
+    <p class="zLead text-muted zmb-5">
+        Control spacing between columns
+    </p>
+    
+    <hr class="zmy-5 hr-visible">
+    
+    <!-- What Are Gutters -->
+    <section class="zmy-6">
+        <h2>What Are Gutters?</h2>
+        <p>Gutters are the spacing between columns in a <a href="ztheme-grid.html" class="zPrimary">grid</a>. They create visual separation without requiring margin utilities.</p>
+        <ul class="lh-lg zmy-3">
+            <li><strong>Default</strong> - 0.75rem (12px) horizontal padding</li>
+            <li><strong>Responsive</strong> - Can change at different <a href="ztheme-breakpoints.html" class="zPrimary">breakpoints</a></li>
+            <li><strong>Directional</strong> - Control horizontal, vertical, or both</li>
+        </ul>
+    </section>
+    
+    <!-- Horizontal Gutters -->
+    <section class="zmy-6">
+        <h2>Horizontal Gutters</h2>
+        <p>Control spacing between columns (left/right). Compare the gap sizes:</p>
+        
+        <h3 class="zmt-5">No Gutter (<code>.zG-0</code>)</h3>
+        <div class="zRow zG-0 zmy-3">
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #e3f2fd; border: 2px solid #2196f3; text-align: center;">
+                    Column
+                </div>
+            </div>
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #e3f2fd; border: 2px solid #2196f3; text-align: center;">
+                    Column
+                </div>
+            </div>
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #e3f2fd; border: 2px solid #2196f3; text-align: center;">
+                    Column
+                </div>
+            </div>
+        </div>
+        
+        <h3 class="zmt-5">Small Gutter (<code>.zG-2</code>)</h3>
+        <div class="zRow zG-2 zmy-3">
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #e8f5e9; border: 2px solid #4caf50; text-align: center;">
+                    Column
+                </div>
+            </div>
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #e8f5e9; border: 2px solid #4caf50; text-align: center;">
+                    Column
+                </div>
+            </div>
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #e8f5e9; border: 2px solid #4caf50; text-align: center;">
+                    Column
+                </div>
+            </div>
+        </div>
+        
+        <h3 class="zmt-5">Default Gutter (<code>.zG-3</code> or no class)</h3>
+        <div class="zRow zG-3 zmy-3">
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #fff3e0; border: 2px solid #ff9800; text-align: center;">
+                    Column
+                </div>
+            </div>
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #fff3e0; border: 2px solid #ff9800; text-align: center;">
+                    Column
+                </div>
+            </div>
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #fff3e0; border: 2px solid #ff9800; text-align: center;">
+                    Column
+                </div>
+            </div>
+        </div>
+        
+        <h3 class="zmt-5">Large Gutter (<code>.zG-5</code>)</h3>
+        <div class="zRow zG-5 zmy-3">
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #f3e5f5; border: 2px solid #9c27b0; text-align: center;">
+                    Column
+                </div>
+            </div>
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #f3e5f5; border: 2px solid #9c27b0; text-align: center;">
+                    Column
+                </div>
+            </div>
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #f3e5f5; border: 2px solid #9c27b0; text-align: center;">
+                    Column
+                </div>
+            </div>
+        </div>
+        
+        <h3 class="zmt-5">Available Sizes</h3>
+        <table class="table zmy-3">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Gap Size</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zG-0</code></td>
+                    <td>0 (no gap)</td>
+                </tr>
+                <tr>
+                    <td><code>.zG-1</code></td>
+                    <td>0.25rem (4px)</td>
+                </tr>
+                <tr>
+                    <td><code>.zG-2</code></td>
+                    <td>0.5rem (8px)</td>
+                </tr>
+                <tr>
+                    <td><code>.zG-3</code></td>
+                    <td>0.75rem (12px) - Default</td>
+                </tr>
+                <tr>
+                    <td><code>.zG-4</code></td>
+                    <td>1rem (16px)</td>
+                </tr>
+                <tr>
+                    <td><code>.zG-5</code></td>
+                    <td>1.5rem (24px)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Horizontal-Only Gutters -->
+    <section class="zmy-6">
+        <h2>Horizontal-Only Gutters</h2>
+        <p>Control only left/right spacing with <code>.zGx-*</code> (useful when combined with vertical gutters):</p>
+        
+        <div class="zRow zGx-5 zmy-5 zp-3" style="background: #f5f5f5;">
+            <div class="zCol-6">
+                <div class="zp-3" style="background: #e0f2f1; border: 2px solid #009688; text-align: center;">
+                    <code>.zGx-5</code><br>Large horizontal gap
+                </div>
+            </div>
+            <div class="zCol-6">
+                <div class="zp-3" style="background: #e0f2f1; border: 2px solid #009688; text-align: center;">
+                    <code>.zGx-5</code><br>Large horizontal gap
+                </div>
+            </div>
+        </div>
+        
+        <p><strong>Available:</strong> <code>.zGx-0</code> through <code>.zGx-5</code></p>
+    </section>
+    
+    <!-- Vertical Gutters -->
+    <section class="zmy-6">
+        <h2>Vertical Gutters</h2>
+        <p>Control spacing between wrapped rows (top/bottom) with <code>.zGy-*</code>:</p>
+        
+        <div class="zRow zGy-4 zmy-5 zp-3" style="background: #f5f5f5;">
+            <div class="zCol-6">
+                <div class="zp-3" style="background: #fce4ec; border: 2px solid #e91e63; text-align: center;">
+                    <code>.zGy-4</code>
+                </div>
+            </div>
+            <div class="zCol-6">
+                <div class="zp-3" style="background: #fce4ec; border: 2px solid #e91e63; text-align: center;">
+                    <code>.zGy-4</code>
+                </div>
+            </div>
+            <div class="zCol-6">
+                <div class="zp-3" style="background: #fce4ec; border: 2px solid #e91e63; text-align: center;">
+                    Large vertical gap
+                </div>
+            </div>
+            <div class="zCol-6">
+                <div class="zp-3" style="background: #fce4ec; border: 2px solid #e91e63; text-align: center;">
+                    Large vertical gap
+                </div>
+            </div>
+        </div>
+        
+        <p><strong>Available:</strong> <code>.zGy-0</code> through <code>.zGy-5</code></p>
+    </section>
+    
+    <!-- Combined Gutters -->
+    <section class="zmy-6">
+        <h2>Combined Horizontal + Vertical</h2>
+        <p>Combine <code>.zGx-*</code> and <code>.zGy-*</code> for complete spacing control:</p>
+        
+        <div class="zRow zGx-3 zGy-4 zmy-5 zp-3" style="background: #f5f5f5;">
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #ffebee; border: 2px solid #f44336; text-align: center;">
+                    Horizontal: 0.75rem<br>Vertical: 1rem
+                </div>
+            </div>
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #ffebee; border: 2px solid #f44336; text-align: center;">
+                    <code>.zGx-3 .zGy-4</code>
+                </div>
+            </div>
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #ffebee; border: 2px solid #f44336; text-align: center;">
+                    Custom spacing
+                </div>
+            </div>
+            <div class="zCol-4">
+                <div class="zp-3" style="background: #ffebee; border: 2px solid #f44336; text-align: center;">
+                    Wraps nicely
+                </div>
+            </div>
+        </div>
+        
+        <pre class="zp-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow zGx-3 zGy-4"&gt;
+  &lt;div class="zCol-4"&gt;...&lt;/div&gt;
+  &lt;div class="zCol-4"&gt;...&lt;/div&gt;
+  &lt;div class="zCol-4"&gt;...&lt;/div&gt;
+  &lt;div class="zCol-4"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Responsive Gutters -->
+    <section class="zmy-6">
+        <h2>Responsive Gutters</h2>
+        <p>Change gutter size at different <a href="ztheme-breakpoints.html" class="zPrimary">breakpoints</a>. Resize your browser to see the gaps change:</p>
+        
+        <div class="zRow zG-0 zG-md-4 zmy-5">
+            <div class="zCol-6 zCol-md-3 zmb-3">
+                <div class="zp-3" style="background: #e1f5fe; border: 2px solid #03a9f4; text-align: center;">
+                    No gap on mobile<br>Large gap on desktop
+                </div>
+            </div>
+            <div class="zCol-6 zCol-md-3 zmb-3">
+                <div class="zp-3" style="background: #e1f5fe; border: 2px solid #03a9f4; text-align: center;">
+                    <code>.zG-0 .zG-md-4</code>
+                </div>
+            </div>
+            <div class="zCol-6 zCol-md-3 zmb-3">
+                <div class="zp-3" style="background: #e1f5fe; border: 2px solid #03a9f4; text-align: center;">
+                    Responsive
+                </div>
+            </div>
+            <div class="zCol-6 zCol-md-3 zmb-3">
+                <div class="zp-3" style="background: #e1f5fe; border: 2px solid #03a9f4; text-align: center;">
+                    Spacing
+                </div>
+            </div>
+        </div>
+        
+        <pre class="zp-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow zG-0 zG-md-4"&gt;
+  &lt;div class="zCol-6 zCol-md-3"&gt;...&lt;/div&gt;
+  &lt;!-- More columns... --&gt;
+&lt;/div&gt;</code></pre>
+        
+        <p class="zmt-3 text-muted"><em>Available for all breakpoints: <code>.zG-sm-*</code>, <code>.zG-md-*</code>, <code>.zG-lg-*</code>, <code>.zG-xl-*</code>, <code>.zG-xxl-*</code></em></p>
+    </section>
+    
+    <!-- Use Cases -->
+    <section class="zmy-6">
+        <h2>Common Use Cases</h2>
+        
+        <h3 class="zmt-4">Card Grids with No Gaps</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow zG-0"&gt;
+  &lt;div class="zCol-4"&gt;Card&lt;/div&gt;
+  &lt;div class="zCol-4"&gt;Card&lt;/div&gt;
+  &lt;div class="zCol-4"&gt;Card&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 class="zmt-5">Tight Mobile, Spacious Desktop</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow zG-1 zG-lg-4"&gt;
+  &lt;div class="zCol-6 zCol-lg-3"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 class="zmt-5">Custom Vertical Spacing</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow zGy-5"&gt;
+  &lt;!-- Large vertical gaps between wrapped rows --&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Gutter Reference -->
+    <section class="zmy-6">
+        <h2>Gutter Classes Reference</h2>
+        
+        <table class="table zmy-3">
+            <thead>
+                <tr>
+                    <th scope="col">Type</th>
+                    <th scope="col">Classes</th>
+                    <th scope="col">Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>All</td>
+                    <td><code>.zG-0</code> to <code>.zG-5</code></td>
+                    <td>Horizontal spacing (default)</td>
+                </tr>
+                <tr>
+                    <td>Horizontal</td>
+                    <td><code>.zGx-0</code> to <code>.zGx-5</code></td>
+                    <td>Left/right only</td>
+                </tr>
+                <tr>
+                    <td>Vertical</td>
+                    <td><code>.zGy-0</code> to <code>.zGy-5</code></td>
+                    <td>Top/bottom only</td>
+                </tr>
+                <tr>
+                    <td>Responsive</td>
+                    <td><code>.zG-{breakpoint}-*</code></td>
+                    <td>sm, md, lg, xl, xxl</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2>Best Practices</h2>
+        <ul class="lh-lg zmy-3">
+            <li><strong>Default is good</strong> - Use <code>.zG-3</code> (0.75rem) for most layouts</li>
+            <li><strong>No gaps for images</strong> - Use <code>.zG-0</code> for seamless photo galleries</li>
+            <li><strong>Vertical spacing</strong> - Add <code>.zGy-*</code> for wrapped/multi-row grids</li>
+            <li><strong>Responsive spacing</strong> - Tighter on mobile, more generous on desktop</li>
+            <li><strong>Consistency</strong> - Use same gutter sizes throughout your design system</li>
+        </ul>
+    </section>
+    
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2>Related Topics</h2>
+        <ul class="lh-lg zmy-3">
+            <li><a href="ztheme-grid.html" class="zPrimary">Grid</a> - Core grid system</li>
+            <li><a href="ztheme-columns.html" class="zPrimary">Columns</a> - Ordering and offsetting</li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav class="zmt-6 zpt-5 zD-flex zFlex-between" style="border-top: 2px solid var(--borderColor, #dee2e6);">
+        <a href="ztheme-columns.html" class="zPrimary">← Previous: Columns</a>
+        <a href="ztheme.html" class="zPrimary">Back to zTheme Index</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

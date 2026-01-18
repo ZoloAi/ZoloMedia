@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colored Links - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav style="margin-bottom: 1rem; font-size: 0.9rem;">
+        <a href="ztheme.html" style="color: var(--color-primary);">zTheme</a>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Components</span>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Colored Links</span>
+    </nav>
+    
+    <h1>Colored Links</h1>
+    <p style="font-size: 1.25rem; color: var(--color-gray); margin-bottom: 2rem;">
+        Contextual link colors with hover states—all powered by centralized CSS variables for consistent theming.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Colored Links -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Colored Links</h2>
+        <p>Colored links provide semantic meaning through color while maintaining proper hover and focus states. Unlike text color utilities, these link classes include interactive states that darken on hover/focus, providing clear visual feedback to users.</p>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>💡 Centralized Colors:</strong></p>
+            <p style="margin: 0;">
+                All link colors use CSS variables from <code>css_vars.css</code>, ensuring consistent theming across your entire application. 
+                Change the color variables once, and all colored links update automatically!
+            </p>
+        </div>
+        
+        <div style="background: #f5f5f5; padding: 1.5rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>🎨 Color System:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Primary:</strong> <code>var(--color-primary)</code> - Brand identity</li>
+                <li><strong>Secondary:</strong> <code>var(--color-secondary)</code> - Supporting brand color</li>
+                <li><strong>Success:</strong> <code>var(--color-success)</code> - Positive actions/states</li>
+                <li><strong>Info:</strong> <code>var(--color-info)</code> - Informational content</li>
+                <li><strong>Warning:</strong> <code>var(--color-warning)</code> - Cautionary messages</li>
+                <li><strong>Danger:</strong> <code>var(--color-error)</code> - Destructive actions/errors</li>
+                <li><strong>Dark/Light:</strong> <code>var(--color-dark/light)</code> - Neutral tones</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- All Link Colors -->
+    <section style="margin: 3rem 0;">
+        <h2>Link Color Variants</h2>
+        <p><strong>Hover over</strong> each link to see the interactive state:</p>
+        
+        <div style="margin: 2rem 0; padding: 3rem; background: #f9f9f9; border-radius: 4px;">
+            <div style="display: flex; flex-direction: column; gap: 1.5rem; font-size: 1.1rem;">
+                <div>
+                    <a href="#" class="zLink-primary" style="font-weight: 500;">Primary link</a>
+                    <span style="color: var(--color-gray); font-size: 0.9rem; margin-left: 1rem;">— Brand color</span>
+                </div>
+                <div>
+                    <a href="#" class="zLink-secondary" style="font-weight: 500;">Secondary link</a>
+                    <span style="color: var(--color-gray); font-size: 0.9rem; margin-left: 1rem;">— Supporting brand</span>
+                </div>
+                <div>
+                    <a href="#" class="zLink-success" style="font-weight: 500;">Success link</a>
+                    <span style="color: var(--color-gray); font-size: 0.9rem; margin-left: 1rem;">— Positive actions</span>
+                </div>
+                <div>
+                    <a href="#" class="zLink-info" style="font-weight: 500;">Info link</a>
+                    <span style="color: var(--color-gray); font-size: 0.9rem; margin-left: 1rem;">— Informational</span>
+                </div>
+                <div>
+                    <a href="#" class="zLink-warning" style="font-weight: 500;">Warning link</a>
+                    <span style="color: var(--color-gray); font-size: 0.9rem; margin-left: 1rem;">— Cautionary</span>
+                </div>
+                <div>
+                    <a href="#" class="zLink-danger" style="font-weight: 500;">Danger link</a>
+                    <span style="color: var(--color-gray); font-size: 0.9rem; margin-left: 1rem;">— Destructive/errors</span>
+                </div>
+                <div>
+                    <a href="#" class="zLink-dark" style="font-weight: 500;">Dark link</a>
+                    <span style="color: var(--color-gray); font-size: 0.9rem; margin-left: 1rem;">— Neutral dark</span>
+                </div>
+                <div style="background: var(--color-dark); padding: 1rem; border-radius: 4px;">
+                    <a href="#" class="zLink-light" style="font-weight: 500;">Light link</a>
+                    <span style="color: var(--color-light); font-size: 0.9rem; margin-left: 1rem;">— For dark backgrounds</span>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;a href="#" class="zLink-primary"&gt;Primary link&lt;/a&gt;
+&lt;a href="#" class="zLink-secondary"&gt;Secondary link&lt;/a&gt;
+&lt;a href="#" class="zLink-success"&gt;Success link&lt;/a&gt;
+&lt;a href="#" class="zLink-info"&gt;Info link&lt;/a&gt;
+&lt;a href="#" class="zLink-warning"&gt;Warning link&lt;/a&gt;
+&lt;a href="#" class="zLink-danger"&gt;Danger link&lt;/a&gt;
+&lt;a href="#" class="zLink-dark"&gt;Dark link&lt;/a&gt;
+&lt;a href="#" class="zLink-light"&gt;Light link&lt;/a&gt;</code></pre>
+    </section>
+    
+    <!-- Usage in Context -->
+    <section style="margin: 3rem 0;">
+        <h2>Usage in Context</h2>
+        <p>Colored links convey semantic meaning in real-world scenarios:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <!-- Success Context -->
+            <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 4px; border: 1px solid #4caf50; margin-bottom: 1.5rem;">
+                <h3 style="margin-top: 0; color: #2e7d32;">✅ Task Completed!</h3>
+                <p style="margin: 0.5rem 0;">Your document has been saved successfully.</p>
+                <a href="#" class="zLink-success" style="font-weight: 500;">View saved document →</a>
+            </div>
+            
+            <!-- Info Context -->
+            <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 4px; border: 1px solid #2196f3; margin-bottom: 1.5rem;">
+                <h3 style="margin-top: 0; color: #1565c0;">ℹ️ New Update Available</h3>
+                <p style="margin: 0.5rem 0;">Version 2.0 includes performance improvements and new features.</p>
+                <a href="#" class="zLink-info" style="font-weight: 500;">Read release notes →</a>
+            </div>
+            
+            <!-- Warning Context -->
+            <div style="background: #fff8e1; padding: 1.5rem; border-radius: 4px; border: 1px solid #ffa726; margin-bottom: 1.5rem;">
+                <h3 style="margin-top: 0; color: #f57c00;">⚠️ Action Required</h3>
+                <p style="margin: 0.5rem 0;">Your subscription expires in 3 days.</p>
+                <a href="#" class="zLink-warning" style="font-weight: 500;">Renew subscription →</a>
+            </div>
+            
+            <!-- Danger Context -->
+            <div style="background: #ffebee; padding: 1.5rem; border-radius: 4px; border: 1px solid #ef5350;">
+                <h3 style="margin-top: 0; color: #c62828;">⛔ Delete Account</h3>
+                <p style="margin: 0.5rem 0;">This action cannot be undone. All your data will be permanently deleted.</p>
+                <a href="#" class="zLink-danger" style="font-weight: 500;">I understand, delete my account →</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Inline Text Links -->
+    <section style="margin: 3rem 0;">
+        <h2>Inline Text Links</h2>
+        <p>Use colored links within paragraphs to highlight different types of information:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <p style="font-size: 1.05rem; line-height: 1.8; margin: 0;">
+                Welcome to your dashboard! You have <a href="#" class="zLink-success">3 completed tasks</a>, 
+                <a href="#" class="zLink-info">2 pending reviews</a>, and 
+                <a href="#" class="zLink-warning">1 overdue item</a>. 
+                Need help? Check out our <a href="#" class="zLink-primary">documentation</a> or 
+                <a href="#" class="zLink-danger">report an issue</a>.
+            </p>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;p&gt;
+  You have &lt;a href="#" class="zLink-success"&gt;3 completed tasks&lt;/a&gt;,
+  &lt;a href="#" class="zLink-info"&gt;2 pending reviews&lt;/a&gt;, and
+  &lt;a href="#" class="zLink-warning"&gt;1 overdue item&lt;/a&gt;.
+&lt;/p&gt;</code></pre>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <div style="background: #e8f5e9; padding: 1.5rem; border-left: 4px solid #4caf50; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>✅ DO:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Use colors to convey semantic meaning (success = positive, danger = destructive)</li>
+                <li>Keep link text descriptive ("View profile" instead of "Click here")</li>
+                <li>Test hover states on both light and dark backgrounds</li>
+                <li>Ensure color contrast meets WCAG AA standards (4.5:1 ratio)</li>
+                <li>Use consistent colors for similar actions across your app</li>
+                <li>Combine with icons for additional context</li>
+            </ul>
+        </div>
+        
+        <div style="background: #ffebee; padding: 1.5rem; border-left: 4px solid #ef5350; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>❌ DON'T:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Don't rely on color alone</strong> - Use text, icons, or context too (accessibility!)</li>
+                <li>Don't use <code>.zLink-light</code> on light backgrounds (insufficient contrast)</li>
+                <li>Don't overuse multiple colors in one paragraph (visual noise)</li>
+                <li>Don't use danger links for non-destructive actions</li>
+                <li>Don't forget hover states matter for UX clarity</li>
+                <li>Don't use warning links on white backgrounds without testing contrast</li>
+            </ul>
+        </div>
+        
+        <div style="background: #fff3e0; padding: 1.5rem; border-left: 4px solid #ff9800; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>⚠️ Color Contrast Warnings:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>.zLink-light:</strong> Only use on dark backgrounds!</li>
+                <li><strong>.zLink-warning:</strong> May need contrast testing on some backgrounds</li>
+                <li><strong>Always test:</strong> Use browser dev tools to check contrast ratios</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Accessibility -->
+    <section style="margin: 3rem 0;">
+        <h2>Accessibility</h2>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Color is Not Enough</h3>
+            <p style="margin: 0;">
+                While colored links are visually helpful, <strong>never rely on color alone</strong> to convey meaning. 
+                Users with color blindness or screen readers won't perceive the color. Always include:
+            </p>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><strong>Descriptive text:</strong> "Delete account" instead of just colored "Click here"</li>
+                <li><strong>Icons:</strong> Combine colors with symbols (✓, ⚠️, ✕)</li>
+                <li><strong>Context:</strong> Surrounding text should explain the action</li>
+                <li><strong>ARIA labels:</strong> For icon-only links</li>
+            </ul>
+        </div>
+        
+        <div style="background: #f3e5f5; padding: 1.5rem; border-left: 4px solid #9c27b0; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Keyboard Navigation</h3>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><strong>Tab:</strong> Navigate between links</li>
+                <li><strong>Enter:</strong> Activate link</li>
+                <li><strong>Focus visible:</strong> All links show focus state</li>
+                <li><strong>Screen readers:</strong> Announce link text (ensure it's descriptive!)</li>
+            </ul>
+        </div>
+        
+        <div style="background: #fff3e0; padding: 1.5rem; border-left: 4px solid #ff9800; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Color Contrast Standards</h3>
+            <p style="margin: 0;">
+                All zTheme link colors meet <strong>WCAG AA</strong> contrast requirements on appropriate backgrounds. 
+                However, always test in your specific context:
+            </p>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><strong>WCAG AA:</strong> 4.5:1 contrast ratio (normal text)</li>
+                <li><strong>WCAG AAA:</strong> 7:1 contrast ratio (enhanced)</li>
+                <li><strong>Tool:</strong> Use browser DevTools to check contrast</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- CSS Variables Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Variables Reference</h2>
+        <p>All link colors map directly to CSS variables from <code>css_vars.css</code>:</p>
+        
+        <div style="overflow-x: auto; margin: 2rem 0;">
+            <table class="zTable zTable-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Link Class</th>
+                        <th scope="col">CSS Variable</th>
+                        <th scope="col">Default Value</th>
+                        <th scope="col">Hover Color</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>.zLink-primary</code></td>
+                        <td><code>var(--color-primary)</code></td>
+                        <td><span style="display: inline-block; width: 20px; height: 20px; background: #A2D46E; border: 1px solid #999; vertical-align: middle;"></span> #A2D46E</td>
+                        <td>#8ab85e</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zLink-secondary</code></td>
+                        <td><code>var(--color-secondary)</code></td>
+                        <td><span style="display: inline-block; width: 20px; height: 20px; background: #9370DB; border: 1px solid #999; vertical-align: middle;"></span> #9370DB</td>
+                        <td>#7952c4</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zLink-success</code></td>
+                        <td><code>var(--color-success)</code></td>
+                        <td><span style="display: inline-block; width: 20px; height: 20px; background: #52B788; border: 1px solid #999; vertical-align: middle;"></span> #52B788</td>
+                        <td>#429670</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zLink-info</code></td>
+                        <td><code>var(--color-info)</code></td>
+                        <td><span style="display: inline-block; width: 20px; height: 20px; background: #5CA9FF; border: 1px solid #999; vertical-align: middle;"></span> #5CA9FF</td>
+                        <td>#3d8cdb</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zLink-warning</code></td>
+                        <td><code>var(--color-warning)</code></td>
+                        <td><span style="display: inline-block; width: 20px; height: 20px; background: #FFB347; border: 1px solid #999; vertical-align: middle;"></span> #FFB347</td>
+                        <td>#e89020</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zLink-danger</code></td>
+                        <td><code>var(--color-error)</code></td>
+                        <td><span style="display: inline-block; width: 20px; height: 20px; background: #E63946; border: 1px solid #999; vertical-align: middle;"></span> #E63946</td>
+                        <td>#c62a36</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zLink-dark</code></td>
+                        <td><code>var(--color-dark)</code></td>
+                        <td><span style="display: inline-block; width: 20px; height: 20px; background: #212529; border: 1px solid #999; vertical-align: middle;"></span> #212529</td>
+                        <td>#000000</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zLink-light</code></td>
+                        <td><code>var(--color-light)</code></td>
+                        <td><span style="display: inline-block; width: 20px; height: 20px; background: #f8f9fa; border: 1px solid #999; vertical-align: middle;"></span> #f8f9fa</td>
+                        <td>#e2e6ea</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <blockquote style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Theming:</strong> To change link colors globally, modify the CSS variables in <code>css_vars.css</code>. All colored links will update automatically!</p>
+        </blockquote>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: #2d2d2d; color: #f8f8f2; border-radius: 4px;">
+        <h2 style="color: #f8f8f2;">CSS Classes</h2>
+        <p style="color: #a8a8a8;">All colored link classes are defined in <code>zLinks.css</code>:</p>
+        
+        <table class="zTable" style="margin: 1rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col" style="color: #f8f8f2;">Class</th>
+                    <th scope="col" style="color: #f8f8f2;">Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zLink-primary</code></td>
+                    <td style="color: #a8a8a8;">Primary brand color links</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zLink-secondary</code></td>
+                    <td style="color: #a8a8a8;">Secondary brand color links</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zLink-success</code></td>
+                    <td style="color: #a8a8a8;">Success state links</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zLink-info</code></td>
+                    <td style="color: #a8a8a8;">Informational links</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zLink-warning</code></td>
+                    <td style="color: #a8a8a8;">Warning state links</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zLink-danger</code></td>
+                    <td style="color: #a8a8a8;">Danger/error state links</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zLink-dark</code></td>
+                    <td style="color: #a8a8a8;">Dark neutral links</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zLink-light</code></td>
+                    <td style="color: #a8a8a8;">Light links (dark backgrounds only)</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p style="color: #a8a8a8; margin-top: 1rem;"><strong>File location:</strong> <code>zLinks.css</code></p>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-buttons.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Buttons</strong> → Interactive button components with colors
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-badges.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Badges</strong> → Colored status indicators
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-alerts.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Alerts</strong> → Colored notification boxes
+                </a>
+            </li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-clearfix.html" style="color: var(--color-primary);">← Previous: Clearfix</a>
+        <a href="ztheme.html" style="color: var(--color-primary);">Back to Helpers</a>
+    </nav>
+</div>
+
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

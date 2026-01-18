@@ -1,0 +1,430 @@
+Help:
+  ~Root*: ["^Where", "^Shortcut", "^CD", "^CWD/PWD", "^LS/List/Dir", "^Session", "^Walker", "^Load", "^Open", "^Func", "^Config", "exit"]
+  
+  "^Where":
+    zDisplay:
+      event: text
+      content: |
+        
+        ═══════════════════════════════════════════════════════════════════
+        WHERE Command - Toggle zPath Display in Prompt
+        ═══════════════════════════════════════════════════════════════════
+        
+        Syntax: where [action]
+        
+        Actions:
+          (no args) or status - Show current mode
+          on                  - Enable zPath in prompt
+          off                 - Disable zPath (default)
+          toggle              - Switch between on/off
+        
+        Examples:
+          where                 # Check current status
+          where on              # Show zPath in prompt
+          where off             # Hide zPath from prompt
+          where toggle          # Toggle current state
+        
+        Prompt Formats:
+          Default (off):  zOS> 
+          Enabled (on):   zOS [~.Projects.zolo-zcli]>
+    
+  "^Shortcut":
+    zDisplay:
+      event: text
+      content: |
+        
+        ═══════════════════════════════════════════════════════════════════
+        SHORTCUT Command - Unified Aliasing System
+        ═══════════════════════════════════════════════════════════════════
+        
+        Two Types of Shortcuts:
+          1. zVars (User Variables) - Store user-defined values
+          2. File Shortcuts         - References to cached files
+        
+        Syntax: shortcut [name="value"] [options]
+        
+        Actions:
+          (no args)            - List all zVars and file shortcuts
+          name="value"         - Create/update zVar
+          cache                - Interactive menu to create file shortcut
+          --remove name        - Remove zVar or shortcut
+          --clear              - Clear all shortcuts
+        
+        Examples:
+          # zVars (User Variables)
+          shortcut env="development"         # Create variable
+          shortcut api_key="test123"         # Store API key
+          shortcut debug="true"              # Boolean flag
+          
+          # File Shortcuts (Interactive)
+          load @.zOS.UI.zUI.zcli_sys        # Load a file first
+          shortcut cache                     # Launch interactive menu
+                                            # Select file, name it "myui"
+          
+          # List & Remove
+          shortcut                           # Show all (zVars + shortcuts)
+          shortcut --remove env              # Remove zVar
+          shortcut --remove myui             # Remove file shortcut
+        
+        Display:
+          zVars & Shortcuts:
+            zVars: 3 defined        (User variables)
+            zShortcuts: 2 defined   (File references)
+        
+        Notes:
+          - zVars stored in session["zVars"]
+          - File shortcuts stored in session["zShortcuts"]
+          - Both accessible across all subsystems
+          - Use 'session info' to view current shortcuts
+
+  "^CD":
+    zDisplay:
+      event: text
+      content: |
+        
+        ═══════════════════════════════════════════════════════════════════
+        CD Command - Change Current Working Directory
+        ═══════════════════════════════════════════════════════════════════
+        
+        Syntax: cd [path]
+        
+        Path Formats:
+          cd @.                # Return to workspace root
+          cd @.Demos           # Workspace-relative zPath
+          cd ~zMachine         # User data directory (config/cache)
+          cd ~zMachine.zConfigs   # zMachine subdirectory
+          cd ~                 # Home directory
+          cd ..                # Parent directory
+          cd /absolute/path    # Absolute path
+        
+        Examples:
+          cd @.                         # Return to workspace root
+          cd @.Demos                    # Navigate to workspace/Demos
+          cd @.zTestSuite.demos         # Deep navigation with zPath
+          cd ~zMachine                  # Go to user data directory
+          cd ~zMachine.zConfigs         # Go to zConfigs folder
+          cd ~zMachine.zUIs             # Go to zUIs folder
+          cd ~                          # Go to home directory
+          cd ..                         # Go up one level
+
+  "^CWD/PWD":
+    zDisplay:
+      event: text
+      content: |
+        
+        ═══════════════════════════════════════════════════════════════════
+        CWD/PWD Command - Show Current Working Directory
+        ═══════════════════════════════════════════════════════════════════
+        
+        Syntax: cwd  or  pwd
+        
+        Display:
+          1. OS Path     - Standard filesystem path
+          2. zPath       - zOS declarative path format
+        
+        Examples:
+          cwd                   # Show current directory (both formats)
+          pwd                   # Same as cwd (Unix compatibility)
+        
+        Aliases:
+          cwd - Primary (Current Working Directory)
+          pwd - Alias (Unix standard: Print Working Directory)
+
+  "^LS/List/Dir":
+    zDisplay:
+      event: text
+      content: |
+        
+        ═══════════════════════════════════════════════════════════════════
+        LS Command - List Directory Contents
+        ═══════════════════════════════════════════════════════════════════
+        
+        Syntax: ls [path] [options]
+        
+        Options:
+          --sizes / -s         - Show file sizes
+          --hidden / -h        - Show hidden files (.*)
+          --deep / -d          - Recursive listing
+          --files / -f         - Files only
+          --dirs / -r          - Directories only
+        
+        Legacy Options:
+          -l, --long           - Same as --sizes
+          -a, --all            - Same as --hidden
+          -r, --recursive      - Same as --deep
+        
+        Examples:
+          ls                            # List current directory
+          ls @.Demos                    # List workspace/Demos
+          ls --sizes                    # Show with file sizes
+          ls --hidden                   # Include hidden files
+          ls --files                    # Files only
+        
+        Aliases:
+          ls   - Primary (Unix standard)
+          list - Alias (beginner-friendly)
+          dir  - Alias (Windows compatibility)
+
+  "^Session":
+    zDisplay:
+      event: text
+      content: |
+        
+        ═══════════════════════════════════════════════════════════════════
+        SESSION - Runtime State Management
+        ═══════════════════════════════════════════════════════════════════
+        
+        Syntax: session [action] [key] [value]
+        
+        Actions:
+          session                       # Show all session info
+          session info                  # Same as above
+          session get <key>             # Get specific value
+          session set <key> <value>     # Set value (validated)
+        
+        Common User-Configurable Keys:
+          zMode             - Execution mode (terminal/bifrost)
+          zSpace            - Workspace root (@ notation)
+          zVaFolder         - UI folder path (walker)
+          zVaFile           - UI filename (walker)
+          zBlock            - Starting menu block (walker)
+          zLogger           - Logger level (DEBUG/INFO/etc)
+          zTraceback        - Traceback display (True/False)
+          browser           - Browser override (temp, session-scoped)
+          ide               - IDE override (temp, session-scoped)
+        
+        Tool Preference Priority (browser/IDE):
+          1. session["browser"] or session["ide"] (temporary override)
+          2. session["zMachine"]["browser/ide"] (persistent config)
+          3. Platform auto-detect (fallback)
+        
+        Examples:
+          session set browser firefox   # Temp override (this session)
+          session set ide cursor        # Temp override (this session)
+          session set zMode bifrost     # Switch to bifrost mode
+          session set zSpace @.src      # Change workspace root
+          session get browser           # Check current browser
+        
+          Protected Keys (Read-Only):
+          zS_id, zMachine, logger_instance, system_env, virtual_env
+        
+        Framework-Managed Keys (Use Dedicated Commands):
+          zAuth, zCrumbs, zCache, wizard_mode, zSpark
+        
+        Notes:
+          • browser/ide overrides are session-scoped (not persisted)
+          • Use 'config set machine browser <value>' to persist
+          • zPath notation (@, ~, ~zMachine) supported for paths
+          • Custom keys allowed (any key not protected/framework)
+
+  "^Walker":
+    zDisplay:
+      event: text
+      content: |
+        
+        ═══════════════════════════════════════════════════════════════════
+        WALKER Command - Launch Declarative UI Navigation
+        ═══════════════════════════════════════════════════════════════════
+        
+        Syntax: walker run
+        
+        Description:
+          Launch zWalker to run a declarative UI (zVaFile) with interactive
+          menu navigation. Uses current session configuration.
+        
+        Required Session Keys:
+          • zSpace      - Workspace root
+          • zVaFolder   - Path to UI folder
+          • zVaFile     - UI filename (without extension)
+          • zBlock      - Starting menu block
+        
+        Examples:
+          # Set up and run system help
+          session set zVaFolder @.zOS.UI
+          session set zVaFile zUI.zcli_sys
+          session set zBlock help
+          walker run
+          
+          # Run a demo application
+          session set zVaFolder @.Demos.User\ Manager
+          session set zVaFile zUI.users_sqlite
+          session set zBlock Root
+          walker run
+        
+        Notes:
+          • Respects current zMode (Terminal or zBifrost)
+          • Use 'session' command to configure walker settings
+          • Use menu exit options or Ctrl+C to return to zShell
+
+  "^Load":
+    zDisplay:
+      event: text
+      content: |
+        
+        ═══════════════════════════════════════════════════════════════════
+        LOAD Command - Resource Caching & Aliasing
+        ═══════════════════════════════════════════════════════════════════
+        
+        Syntax:
+          load <zPath>                    # Pin resource to cache
+          load <zPath> --as <alias>       # Load with alias ($alias)
+          load show                       # Show all cache tiers
+          load show pinned                # Show pinned (Tier 1)
+          load show cached                # Show system cache (Tier 2)
+          load show aliases               # Show all aliases
+          load show schemas|ui|config     # Filter by type
+          load clear [pattern]            # Clear pinned resources
+        
+        Description:
+          Pin resources to cache and create reusable $alias shortcuts
+          for data commands. Three-tier caching (pinned, system, disk).
+        
+        Examples:
+          # Pin schema to cache
+          load @.Schemas.zSchema.users
+          
+          # Create alias for data commands
+          load @.Schemas.zSchema.users --as users
+          data read users_table --model $users
+          data write users_table --model $users
+          
+          # Pin UI file
+          load @.UI.zUI.main_menu
+          
+          # Show cache state
+          load show                # All tiers
+          load show pinned         # User-loaded only
+          load show aliases        # All $aliases
+          
+          # Clear cache
+          load clear               # Clear all pinned
+          load clear users         # Clear by pattern
+        
+        Cache Tiers:
+          Tier 1 (Pinned): User-loaded, never evicted, creates $aliases
+          Tier 2 (System): Auto-cached, LRU eviction, mtime invalidation
+          Tier 3 (Disk):   Direct I/O fallback, always available
+        
+        Alias Benefits:
+          • Shorter commands (less typing)
+          • Faster (no repeated path resolution)
+          • Session-scoped (persists until exit)
+        
+        Notes:
+          • Aliases use $ prefix (e.g., $users, $demo)
+          • Cache auto-invalidates when files change (mtime)
+          • Session-based (in-memory, not persisted to disk)
+
+  "^Open":
+    zDisplay:
+      event: text
+      content: |
+        
+        ═══════════════════════════════════════════════════════════════════
+        OPEN Command - Files & URLs
+        ═══════════════════════════════════════════════════════════════════
+        
+        Syntax: open <path|url>
+        
+        Examples:
+          # URLs → Browser
+          open https://github.com
+          open www.google.com
+          
+          # Workspace Files
+          open @.README.md              # IDE
+          open @.docs.index.html        # Browser
+          open @.src.main.py            # IDE
+          
+          # Absolute/Relative Paths
+          open /etc/hosts
+          open ./config.yaml
+          open ~.Users.me.file.txt
+        
+        Routing:
+          HTML/HTM  → Browser
+          Text      → IDE (.txt, .md, .py, .js, .json, .yaml, .yml)
+          Others    → Extension-based
+        
+        Notes:
+          • Uses session IDE/browser preferences
+          • Prompts for missing files or IDE selection
+          • @ paths require active zSpace (workspace)
+
+  "^Func":
+    zDisplay:
+      event: text
+      content: |
+        
+        ═══════════════════════════════════════════════════════════════════
+        FUNC Command - Execute External Python Functions
+        ═══════════════════════════════════════════════════════════════════
+        
+        Syntax: func <function_path> [args...]
+        
+        Examples:
+          func @.utils.helpers.generate_id zU
+          func @.zOS.utils.cache_utils.get_cached_files
+          func @.plugins.custom.process_data input.json
+        
+        Features:
+          • Supports @ (workspace) and ~ (absolute) zPath notation
+          • Auto-injects zcli/session if function signature accepts them
+          • Handles sync and async functions automatically
+          • Special args: zContext, zHat, zConv, zConv.field, this.key
+          • JSON-formatted output with color highlighting
+        
+        Notes:
+          • Functions loaded dynamically via importlib
+          • Session-scoped (no persistence between sessions)
+          • Results displayed as formatted JSON
+
+  "^Config":
+    zDisplay:
+      event: text
+      content: |
+        
+        ═══════════════════════════════════════════════════════════════════
+        CONFIG Command - Configuration Management
+        ═══════════════════════════════════════════════════════════════════
+        
+        Syntax:
+          config check                    # System diagnostics
+          config show                     # Display all configuration
+          config show machine             # Machine config only
+          config show environment         # Environment config only
+          config show machine <key>       # Get specific machine key
+          config show env <key>           # Get specific environment key
+        
+        CHECK - System Diagnostics:
+          • System Info: OS, hostname, architecture, Python version
+          • Directory Checks: zMachine, zConfigs, zUIs (with zPath notation)
+          • File Checks: zConfig.machine.yaml, zConfig.environment.yaml
+          • Integration Tests: Config loader, machine loading
+          • Status: [OK], [WARN], [FAIL] indicators
+        
+        SHOW - Configuration Display:
+          • Machine: OS, hardware, capabilities, paths
+          • Environment: Deployment, role, venv status
+          • Supports filtering by machine or environment
+          • Retrieve specific key values
+        
+        Examples:
+          config check                    # Run full diagnostics
+          config show                     # Display all config
+          config show machine             # Show machine only
+          config show machine os          # Show: os: Darwin
+          config show env deployment      # Show: deployment: Debug
+        
+        Features:
+          • 10+ diagnostic checks (check command)
+          • Complete config visibility (show command)
+          • Mode-agnostic output (Terminal + zBifrost)
+          • OS-specific validations
+          • Graceful error handling
+        
+        Notes:
+          • check: Validates zConfig subsystem integrity
+          • show: Displays actual configuration values
+          • Both commands use mode-agnostic zDisplay
+

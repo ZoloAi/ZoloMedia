@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrollspy - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav style="margin-bottom: 1rem; font-size: 0.9rem;">
+        <a href="ztheme.html" style="color: var(--color-primary);">zTheme</a>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Components</span>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Scrollspy</span>
+    </nav>
+    
+    <h1>Scrollspy</h1>
+    <p style="font-size: 1.25rem; color: var(--color-gray); margin-bottom: 2rem;">
+        Automatically highlight navigation links based on scroll position in the viewport.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Scrollspy -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Scrollspy</h2>
+        <p>Scrollspy automatically updates navigation or list group components based on scroll position. As users scroll through your page, the corresponding navigation link becomes active, showing them where they are in the content.</p>
+        
+        <div style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>Perfect for:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Documentation pages</strong> - Help users navigate long technical docs</li>
+                <li><strong>Landing pages</strong> - One-page sites with sections (About, Services, Contact)</li>
+                <li><strong>Article sidebars</strong> - Table of contents that follows the reader</li>
+                <li><strong>Step-by-step guides</strong> - Show progress through multi-step processes</li>
+            </ul>
+        </div>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>How it works:</strong></p>
+            <ol style="margin: 0; padding-left: 1.5rem;">
+                <li>Add <code>data-bs-spy="scroll"</code> to the scrollable element</li>
+                <li>Add <code>data-bs-target="#navbar"</code> pointing to your nav</li>
+                <li>Navigation links must use anchor tags (<code>&lt;a href="#section1"&gt;</code>)</li>
+                <li>Target sections must have matching IDs (<code>&lt;div id="section1"&gt;</code>)</li>
+                <li>JavaScript automatically adds/removes <code>.zActive</code> class</li>
+            </ol>
+        </div>
+    </section>
+    
+    <!-- Example with Navbar -->
+    <section style="margin: 3rem 0;">
+        <h2>Example with Navbar</h2>
+        <p>Scroll through the content area and watch the navbar links highlight automatically:</p>
+        
+        <div style="margin: 2rem 0;">
+            <!-- Navbar -->
+            <nav id="navbar-demo1" class="zNavbar zNavbar-light" style="background-color: #f8f9fa; padding: 1rem; border-radius: 4px 4px 0 0; position: sticky; top: 0; z-index: 10;">
+                <a class="zNavbar-brand" href="javascript:void(0)" style="font-weight: 600; color: #212529;">Documentation</a>
+                <ul class="zNav zNav-pills" style="margin-left: auto; display: flex; gap: 0.5rem;">
+                    <li class="zNav-item">
+                        <a class="zNav-link" href="#intro">Introduction</a>
+                    </li>
+                    <li class="zNav-item">
+                        <a class="zNav-link" href="#features">Features</a>
+                    </li>
+                    <li class="zNav-item">
+                        <a class="zNav-link" href="#setup">Setup</a>
+                    </li>
+                    <li class="zNav-item">
+                        <a class="zNav-link" href="#examples">Examples</a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <!-- Scrollable Content -->
+            <div data-bs-spy="scroll" data-bs-target="#navbar-demo1" data-bs-offset="0" style="position: relative; height: 400px; overflow-y: auto; padding: 2rem; background: #fff; border: 1px solid #dee2e6; border-top: none; border-radius: 0 0 4px 4px;" tabindex="0">
+                <h4 id="intro" style="margin-top: 0;">Introduction</h4>
+                <p>This is the introduction section. As you scroll through this content, notice how the navigation links automatically highlight to show your current position.</p>
+                <p>Scrollspy is particularly useful for documentation websites, where users need to navigate through long pages of content. It provides visual feedback about where they are in the document.</p>
+                <p style="margin-bottom: 4rem;">The active link in the navigation updates smoothly as you scroll, giving users a clear sense of their location within the page structure.</p>
+                
+                <h4 id="features">Features</h4>
+                <p>Scrollspy comes with several powerful features out of the box:</p>
+                <ul>
+                    <li><strong>Automatic activation:</strong> Links highlight automatically based on scroll position</li>
+                    <li><strong>Smooth scrolling:</strong> Clicking nav links smoothly scrolls to sections</li>
+                    <li><strong>Nested navigation:</strong> Works with multi-level nav structures</li>
+                    <li><strong>Dropdown support:</strong> Activates parent dropdowns when child items are active</li>
+                    <li><strong>Flexible targets:</strong> Works with any scrollable container, not just body</li>
+                </ul>
+                <p style="margin-bottom: 4rem;">All of these features are built-in and require no additional configuration.</p>
+                
+                <h4 id="setup">Setup</h4>
+                <p>Setting up scrollspy is straightforward. Here's what you need:</p>
+                <ol>
+                    <li>Add data attributes to your scrollable container</li>
+                    <li>Create a navigation with anchor links</li>
+                    <li>Create sections with matching IDs</li>
+                    <li>Let JavaScript handle the rest!</li>
+                </ol>
+                <p>The system automatically detects when sections enter the viewport and updates the navigation accordingly.</p>
+                <p style="margin-bottom: 4rem;">No manual event listeners or complex configuration needed.</p>
+                
+                <h4 id="examples">Examples</h4>
+                <p>You can use scrollspy with various navigation styles:</p>
+                <ul>
+                    <li>Horizontal navbars (like this example)</li>
+                    <li>Vertical sidebars</li>
+                    <li>List groups</li>
+                    <li>Nested navigation menus</li>
+                </ul>
+                <p>The component is flexible enough to work with any Bootstrap navigation component.</p>
+                <p style="margin-bottom: 4rem;">Try experimenting with different layouts to find what works best for your content!</p>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;nav id="navbar-demo1"&gt;
+  &lt;ul class="zNav zNav-pills"&gt;
+    &lt;li class="zNav-item"&gt;
+      &lt;a class="zNav-link" href="#intro"&gt;Introduction&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class="zNav-item"&gt;
+      &lt;a class="zNav-link" href="#features"&gt;Features&lt;/a&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;
+
+&lt;div data-bs-spy="scroll" 
+     data-bs-target="#navbar-demo1" 
+     data-bs-offset="0"
+     style="height: 400px; overflow-y: auto;"
+     tabindex="0"&gt;
+  &lt;h4 id="intro"&gt;Introduction&lt;/h4&gt;
+  &lt;p&gt;Content...&lt;/p&gt;
+  
+  &lt;h4 id="features"&gt;Features&lt;/h4&gt;
+  &lt;p&gt;Content...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Example with List Group -->
+    <section style="margin: 3rem 0;">
+        <h2>Example with List Group</h2>
+        <p>Scrollspy also works beautifully with list groups for vertical navigation:</p>
+        
+        <div style="margin: 2rem 0; display: grid; grid-template-columns: 200px 1fr; gap: 1rem;">
+            <!-- List Group Navigation -->
+            <div id="list-demo" class="zList-group" style="position: sticky; top: 1rem; align-self: start;">
+                <a class="zList-group-item zList-group-item-action" href="#item-1">Item 1</a>
+                <a class="zList-group-item zList-group-item-action" href="#item-2">Item 2</a>
+                <a class="zList-group-item zList-group-item-action" href="#item-3">Item 3</a>
+                <a class="zList-group-item zList-group-item-action" href="#item-4">Item 4</a>
+            </div>
+            
+            <!-- Scrollable Content -->
+            <div data-bs-spy="scroll" data-bs-target="#list-demo" data-bs-offset="0" style="position: relative; height: 400px; overflow-y: auto; padding: 1.5rem; background: #f9f9f9; border-radius: 4px;" tabindex="0">
+                <h4 id="item-1" style="margin-top: 0;">Item 1</h4>
+                <p>This is content for Item 1. List groups provide a clean, vertical navigation option that works great in sidebars.</p>
+                <p>As you scroll, the list group items automatically highlight to show your current position in the content.</p>
+                <p style="margin-bottom: 4rem;">This pattern is commonly used in documentation sidebars and settings pages.</p>
+                
+                <h4 id="item-2">Item 2</h4>
+                <p>Item 2 demonstrates how smoothly the active state transitions between sections.</p>
+                <p>The list group provides clear visual feedback with its highlighted state, making it easy for users to understand where they are.</p>
+                <p style="margin-bottom: 4rem;">Try clicking on the list items to jump directly to sections - smooth scrolling is built in!</p>
+                
+                <h4 id="item-3">Item 3</h4>
+                <p>Here's Item 3 with more content to scroll through.</p>
+                <p>Notice how the scrollspy automatically updates even when you're scrolling quickly or jumping between sections.</p>
+                <p style="margin-bottom: 4rem;">The JavaScript handles all the scroll position calculations and active state updates for you.</p>
+                
+                <h4 id="item-4">Item 4</h4>
+                <p>Finally, we reach Item 4 - the last section in this example.</p>
+                <p>List group navigation is perfect for settings pages, documentation, or any interface where you need vertical navigation alongside content.</p>
+                <p style="margin-bottom: 4rem;">The sticky positioning keeps the navigation visible as you scroll through long content.</p>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div id="list-demo" class="zList-group"&gt;
+  &lt;a class="zList-group-item zList-group-item-action" href="#item-1"&gt;Item 1&lt;/a&gt;
+  &lt;a class="zList-group-item zList-group-item-action" href="#item-2"&gt;Item 2&lt;/a&gt;
+  &lt;a class="zList-group-item zList-group-item-action" href="#item-3"&gt;Item 3&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div data-bs-spy="scroll" 
+     data-bs-target="#list-demo" 
+     data-bs-offset="0"
+     style="height: 400px; overflow-y: auto;"
+     tabindex="0"&gt;
+  &lt;h4 id="item-1"&gt;Item 1&lt;/h4&gt;
+  &lt;p&gt;Content...&lt;/p&gt;
+  
+  &lt;h4 id="item-2"&gt;Item 2&lt;/h4&gt;
+  &lt;p&gt;Content...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Data Attributes -->
+    <section style="margin: 3rem 0;">
+        <h2>Data Attributes</h2>
+        <p>Configure scrollspy behavior with these data attributes:</p>
+        
+        <div style="overflow-x: auto; margin: 2rem 0;">
+            <table class="zTable zTable-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Attribute</th>
+                        <th scope="col">Value</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>data-bs-spy</code></td>
+                        <td><code>"scroll"</code></td>
+                        <td>Required. Enables scrollspy on the element.</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-bs-target</code></td>
+                        <td>CSS selector</td>
+                        <td>Required. Targets the navigation element (e.g., <code>"#navbar"</code>).</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-bs-offset</code></td>
+                        <td>Number (pixels)</td>
+                        <td>Optional. Offset from top when calculating position. Default: <code>10</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>tabindex</code></td>
+                        <td><code>"0"</code></td>
+                        <td>Recommended. Makes container keyboard accessible.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <!-- Requirements -->
+    <section style="margin: 3rem 0;">
+        <h2>Requirements</h2>
+        <p>For scrollspy to work correctly, follow these requirements:</p>
+        
+        <div style="background: #fff3e0; padding: 1.5rem; border-left: 4px solid #ff9800; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">✅ Required Elements</h3>
+            <ol style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Bootstrap nav or list group:</strong> Must use <code>.zNav</code> or <code>.zList-group</code></li>
+                <li><strong>Position relative:</strong> Spied element needs <code>position: relative</code> (usually <code>&lt;body&gt;</code>)</li>
+                <li><strong>Anchor links:</strong> Navigation must use <code>&lt;a href="#section"&gt;</code> tags</li>
+                <li><strong>Matching IDs:</strong> Target sections need corresponding <code>id</code> attributes</li>
+            </ol>
+        </div>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">🎯 For Scrollable Containers</h3>
+            <p style="margin: 0.5rem 0;">If using a container other than <code>&lt;body&gt;</code>:</p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Set a <code>height</code> on the container</li>
+                <li>Add <code>overflow-y: scroll</code></li>
+                <li>Include <code>tabindex="0"</code> for keyboard access</li>
+                <li>Consider <code>position: relative</code> or <code>position: sticky</code> for the nav</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <div style="background: #e8f5e9; padding: 1.5rem; border-left: 4px solid #4caf50; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>✅ DO:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Use scrollspy for content with clear sections (3+ headings)</li>
+                <li>Keep navigation labels short and descriptive</li>
+                <li>Ensure sections have enough content to be scrollable</li>
+                <li>Use <code>scroll-margin-top</code> CSS to account for fixed headers</li>
+                <li>Test with keyboard navigation (<code>tabindex="0"</code>)</li>
+                <li>Consider sticky navigation for better usability</li>
+            </ul>
+        </div>
+        
+        <div style="background: #ffebee; padding: 1.5rem; border-left: 4px solid #ef5350; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>❌ DON'T:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Use scrollspy on short pages (less than 2 screen heights)</li>
+                <li>Have too many navigation items (5-8 max for readability)</li>
+                <li>Forget to add IDs to all target sections</li>
+                <li>Use very short sections (they'll activate/deactivate too quickly)</li>
+                <li>Nest scrollspy elements (only one level supported)</li>
+                <li>Forget accessibility attributes (<code>tabindex</code>, ARIA labels)</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Accessibility -->
+    <section style="margin: 3rem 0;">
+        <h2>Accessibility</h2>
+        <p>Make scrollspy accessible to all users:</p>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Keyboard Navigation</h3>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><strong>Add <code>tabindex="0"</code>:</strong> Makes scrollable containers keyboard accessible</li>
+                <li><strong>Arrow keys:</strong> Users can scroll with keyboard arrows</li>
+                <li><strong>Tab key:</strong> Lets users tab through navigation links</li>
+                <li><strong>Enter key:</strong> Activates links to jump to sections</li>
+            </ul>
+        </div>
+        
+        <div style="background: #f3e5f5; padding: 1.5rem; border-left: 4px solid #9c27b0; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Screen Readers</h3>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><strong>Use semantic HTML:</strong> <code>&lt;nav&gt;</code>, <code>&lt;h2&gt;</code>, <code>&lt;section&gt;</code></li>
+                <li><strong>Add ARIA labels:</strong> <code>aria-label="Table of contents"</code> on nav</li>
+                <li><strong>Provide skip links:</strong> Allow jumping past navigation</li>
+                <li><strong>Announce changes:</strong> <code>activate.bs.scrollspy</code> event can trigger announcements</li>
+            </ul>
+        </div>
+        
+        <div style="background: #fff8e1; padding: 1.5rem; border-left: 4px solid #ffa726; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Smooth Scrolling</h3>
+            <p style="margin: 0;">Smooth scrolling is enabled via CSS (<code>scroll-behavior: smooth</code>) and automatically disabled for users who prefer reduced motion via the <code>prefers-reduced-motion</code> media query.</p>
+        </div>
+    </section>
+    
+    <!-- Events -->
+    <section style="margin: 3rem 0;">
+        <h2>JavaScript Events</h2>
+        <p>Scrollspy fires a custom event when a new item becomes active:</p>
+        
+        <div style="background: #f5f5f5; padding: 1.5rem; border-radius: 4px; margin: 1rem 0;">
+            <h3 style="margin-top: 0; color: #212529;">activate.bs.scrollspy</h3>
+            <p>Fires on the scroll element whenever a new navigation item becomes active.</p>
+            
+<pre style="background: #2d2d2d; color: #f8f8f2; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>const scrollSpyEl = document.querySelector('[data-bs-spy="scroll"]');
+
+scrollSpyEl.addEventListener('activate.bs.scrollspy', function(e) {
+  console.log('New section activated:', e.detail.relatedTarget);
+  // e.detail.relatedTarget contains the activated link element
+});</code></pre>
+        </div>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 1rem 0;">
+            <p style="margin: 0;"><strong>💡 Use case:</strong> Track user engagement by logging which sections users visit, or update a progress indicator showing how far through the content they've scrolled.</p>
+        </div>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: #2d2d2d; color: #f8f8f2; border-radius: 4px;">
+        <h2 style="color: #f8f8f2;">CSS Classes</h2>
+        <p style="color: #a8a8a8;">Scrollspy uses existing navigation classes with automatic <code>.zActive</code> state:</p>
+        
+        <table class="zTable" style="margin: 1rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col" style="color: #f8f8f2;">Class</th>
+                    <th scope="col" style="color: #f8f8f2;">Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zActive</code></td>
+                    <td style="color: #a8a8a8;">Applied to current nav link by JavaScript</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zNav-link</code></td>
+                    <td style="color: #a8a8a8;">Navigation links (from zNav.css)</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zList-group-item</code></td>
+                    <td style="color: #a8a8a8;">List group items (from zListGroup.css)</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p style="color: #a8a8a8; margin-top: 1rem;">No additional CSS classes needed - scrollspy works with existing zTheme navigation components!</p>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-navs.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Navs & Tabs</strong> → Navigation components that work with scrollspy
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-list-group.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>List Group</strong> → Vertical navigation for scrollspy sidebars
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-navbar.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Navbar</strong> → Fixed navigation bars with scrollspy
+                </a>
+            </li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-progress.html" style="color: var(--color-primary);">← Previous: Progress</a>
+        <a href="ztheme.html" style="color: var(--color-primary);">Back to Components</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap Icons Auto-Load Test - zBifrost Primitive</title>
+  
+  <!-- ONLY zTheme - NO manual Bootstrap Icons import! -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css">
+  
+  <style>
+    body {
+      background: #f8f9fa;
+      padding: 2rem;
+    }
+    .icon-test {
+      font-size: 2rem;
+      padding: 1rem;
+      margin: 0.5rem;
+      background: white;
+      border: 1px solid #dee2e6;
+      border-radius: 0.25rem;
+      display: inline-block;
+    }
+    .success { color: #198754; }
+    .error { color: #dc3545; }
+  </style>
+</head>
+<body>
+  <div class="zContainer">
+    <h1>Bootstrap Icons Auto-Load Test</h1>
+    <p class="zText-muted">Testing if Bootstrap Icons load automatically via BifrostClient initialization</p>
+    
+    <div class="zCard zMt-3">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Test Results</h2>
+        <div id="test-results"></div>
+      </div>
+    </div>
+    
+    <div class="zCard zMt-3">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Icon Samples</h2>
+        <p class="zText-muted">If Bootstrap Icons loaded, you should see icons below (not empty squares):</p>
+        <div>
+          <span class="icon-test"><i class="bi bi-check-circle-fill success"></i> Check</span>
+          <span class="icon-test"><i class="bi bi-x-circle-fill error"></i> X</span>
+          <span class="icon-test"><i class="bi bi-heart-fill" style="color: #e83e8c;"></i> Heart</span>
+          <span class="icon-test"><i class="bi bi-star-fill" style="color: #ffc107;"></i> Star</span>
+          <span class="icon-test"><i class="bi bi-person-fill" style="color: #6c757d;"></i> Person</span>
+          <span class="icon-test"><i class="bi bi-gear-fill" style="color: #0d6efd;"></i> Gear</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="zCard zMt-3">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Console Log</h2>
+        <div id="log" class="zP-3 zBg-light zBorder zRounded" style="font-family: monospace; font-size: 0.875rem; max-height: 300px; overflow-y: auto;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import BifrostClient (UMD - loads as global variable) -->
+  <script src="../src/bifrost_client.js"></script>
+  
+  <!-- Test Script -->
+  <script>
+    const log = document.getElementById('log');
+    const results = document.getElementById('test-results');
+    
+    function addLog(message, type = 'info') {
+      const entry = document.createElement('div');
+      entry.style.padding = '0.25rem 0';
+      entry.style.color = type === 'error' ? '#dc3545' : type === 'success' ? '#198754' : '#0d6efd';
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      log.appendChild(entry);
+      log.scrollTop = log.scrollHeight;
+      console.log(message);
+    }
+    
+    function checkBootstrapIcons() {
+      // Check if Bootstrap Icons CSS is loaded
+      const bootstrapIconsLink = document.querySelector('link[href*="bootstrap-icons"]');
+      
+      if (bootstrapIconsLink) {
+        addLog('✅ Bootstrap Icons CSS link found in DOM', 'success');
+        addLog(`   URL: ${bootstrapIconsLink.href}`, 'info');
+        
+        // Check if icons actually render (test for specific icon class)
+        const testIcon = document.querySelector('.bi-check-circle-fill');
+        if (testIcon) {
+          const computedStyle = window.getComputedStyle(testIcon, '::before');
+          const content = computedStyle.getPropertyValue('content');
+          
+          if (content && content !== 'none' && content !== '""') {
+            addLog('✅ Bootstrap Icons rendering correctly (::before content detected)', 'success');
+            results.innerHTML = '<div class="zAlert zAlert-success"><i class="bi bi-check-circle-fill"></i> <strong>SUCCESS!</strong> Bootstrap Icons auto-loaded by BifrostClient.</div>';
+          } else {
+            addLog('⚠️ Bootstrap Icons CSS loaded but icons not rendering yet (may need time)', 'info');
+            results.innerHTML = '<div class="zAlert zAlert-warning"><i class="bi bi-exclamation-triangle-fill"></i> <strong>WAIT...</strong> Icons loading...</div>';
+            
+            // Retry after a delay
+            setTimeout(() => {
+              const recomputedStyle = window.getComputedStyle(testIcon, '::before');
+              const recontent = recomputedStyle.getPropertyValue('content');
+              if (recontent && recontent !== 'none' && recontent !== '""') {
+                addLog('✅ Bootstrap Icons now rendering after delay', 'success');
+                results.innerHTML = '<div class="zAlert zAlert-success"><i class="bi bi-check-circle-fill"></i> <strong>SUCCESS!</strong> Bootstrap Icons auto-loaded by BifrostClient.</div>';
+              } else {
+                addLog('❌ Bootstrap Icons still not rendering', 'error');
+                results.innerHTML = '<div class="zAlert zAlert-danger"><i class="bi bi-x-circle-fill"></i> <strong>FAIL!</strong> Icons CSS loaded but not rendering.</div>';
+              }
+            }, 500);
+          }
+        }
+      } else {
+        addLog('❌ Bootstrap Icons CSS link NOT found in DOM', 'error');
+        addLog('   BifrostClient._loadBootstrapIcons() may not have been called', 'error');
+        results.innerHTML = '<div class="zAlert zAlert-danger"><strong>FAIL!</strong> Bootstrap Icons NOT auto-loaded. Check BifrostClient initialization.</div>';
+      }
+    }
+    
+    // Initialize BifrostClient (minimal - just for Bootstrap Icons auto-load)
+    addLog('🚀 Initializing BifrostClient...', 'info');
+    
+    try {
+      const bifrostClient = new BifrostClient('ws://localhost:8765', {
+        autoConnect: false,  // Don't connect to WebSocket (we're just testing icon loading)
+        zTheme: false        // Don't load zTheme again (already in HTML)
+      });
+      
+      addLog('✅ BifrostClient initialized', 'success');
+      addLog('   Bootstrap Icons should have auto-loaded via _loadBootstrapIcons()', 'info');
+      
+      // Wait a moment for CSS to load, then check
+      setTimeout(checkBootstrapIcons, 100);
+      
+    } catch (error) {
+      addLog(`❌ BifrostClient initialization failed: ${error.message}`, 'error');
+      results.innerHTML = `<div class="zAlert zAlert-danger"><strong>ERROR!</strong> ${error.message}</div>`;
+    }
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Columns - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer zp-5">
+    <!-- Breadcrumb -->
+    <nav class="zSmall zmb-3">
+        <a href="ztheme.html" class="zPrimary">zTheme</a>
+        <span class="zMuted zmx-2">›</span>
+        <a href="ztheme.html" class="zPrimary">Components</a>
+        <span class="zMuted zmx-2">›</span>
+        <span>Columns</span>
+    </nav>
+    
+    <h1>Columns</h1>
+    <p class="zLead text-muted zmb-5">
+        Reorder and offset columns for flexible layouts
+    </p>
+    
+    <hr class="zmy-5 hr-visible">
+    
+    <!-- Column Ordering -->
+    <section class="zmy-6">
+        <h2>Column Ordering</h2>
+        <p>Change visual order without changing HTML structure. The columns below are ordered 1, 2, 3 visually, but in the HTML they're 3, 1, 2:</p>
+        
+        <div class="zRow zmy-5">
+            <div class="zCol zOrder-3 zp-3" style="background: #e3f2fd; border: 2px solid #2196f3; text-align: center;">
+                <strong>First in HTML</strong><br>
+                <code>.zOrder-3</code>
+            </div>
+            <div class="zCol zOrder-1 zp-3" style="background: #e8f5e9; border: 2px solid #4caf50; text-align: center;">
+                <strong>Second in HTML</strong><br>
+                <code>.zOrder-1</code>
+            </div>
+            <div class="zCol zOrder-2 zp-3" style="background: #fff3e0; border: 2px solid #ff9800; text-align: center;">
+                <strong>Third in HTML</strong><br>
+                <code>.zOrder-2</code>
+            </div>
+        </div>
+        
+        <pre class="zp-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow"&gt;
+  &lt;div class="zCol zOrder-3"&gt;First in HTML&lt;/div&gt;
+  &lt;div class="zCol zOrder-1"&gt;Second in HTML&lt;/div&gt;
+  &lt;div class="zCol zOrder-2"&gt;Third in HTML&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 class="zmt-5">Available Order Classes</h3>
+        <table class="table zmy-3">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zOrder-first</code></td>
+                    <td>Move to beginning (order: -1)</td>
+                </tr>
+                <tr>
+                    <td><code>.zOrder-0</code> to <code>.zOrder-5</code></td>
+                    <td>Set specific order (0-5)</td>
+                </tr>
+                <tr>
+                    <td><code>.zOrder-last</code></td>
+                    <td>Move to end (order: 13)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Responsive Ordering -->
+    <section class="zmy-6">
+        <h2>Responsive Ordering</h2>
+        <p>Change order at different <a href="ztheme-breakpoints.html" class="zPrimary">breakpoints</a>. Resize your browser to see the sidebar and main content swap positions:</p>
+        
+        <div class="zRow zmy-5">
+            <div class="zCol-12 zCol-md-4 zOrder-md-2 zp-3 zmb-3" style="background: #f3e5f5; border: 2px solid #9c27b0; text-align: center;">
+                <strong>Sidebar (First on mobile)</strong><br>
+                <code>.zOrder-md-2</code>
+            </div>
+            <div class="zCol-12 zCol-md-8 zOrder-md-1 zp-3 zmb-3" style="background: #fce4ec; border: 2px solid #e91e63; text-align: center;">
+                <strong>Main Content (Second on mobile)</strong><br>
+                <code>.zOrder-md-1</code>
+            </div>
+        </div>
+        
+        <pre class="zp-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow"&gt;
+  &lt;div class="zCol-12 zCol-md-4 zOrder-md-2"&gt;Sidebar&lt;/div&gt;
+  &lt;div class="zCol-12 zCol-md-8 zOrder-md-1"&gt;Main&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+        <p class="zmt-3 text-muted"><em>Available for all breakpoints: <code>.zOrder-sm-*</code>, <code>.zOrder-md-*</code>, <code>.zOrder-lg-*</code>, <code>.zOrder-xl-*</code>, <code>.zOrder-xxl-*</code></em></p>
+    </section>
+    
+    <!-- Column Offsets -->
+    <section class="zmy-6">
+        <h2>Column Offsets</h2>
+        <p>Push columns to the right by skipping column spaces. Think of offsets as invisible columns that create gaps:</p>
+        
+        <div class="zRow zmy-5">
+            <div class="zCol-4 zOffset-4 zp-3" style="background: #e0f2f1; border: 2px solid #009688; text-align: center;">
+                <code>.zCol-4 .zOffset-4</code>
+            </div>
+        </div>
+        
+        <div class="zRow zmy-5">
+            <div class="zCol-3 zOffset-3 zp-3" style="background: #e1f5fe; border: 2px solid #03a9f4; text-align: center;">
+                <code>.zCol-3 .zOffset-3</code>
+            </div>
+            <div class="zCol-3 zOffset-3 zp-3" style="background: #e1f5fe; border: 2px solid #03a9f4; text-align: center;">
+                <code>.zCol-3 .zOffset-3</code>
+            </div>
+        </div>
+        
+        <pre class="zp-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- Centered column --&gt;
+&lt;div class="zRow"&gt;
+  &lt;div class="zCol-4 zOffset-4"&gt;Centered&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Two columns with gaps --&gt;
+&lt;div class="zRow"&gt;
+  &lt;div class="zCol-3 zOffset-3"&gt;Column 1&lt;/div&gt;
+  &lt;div class="zCol-3 zOffset-3"&gt;Column 2&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 class="zmt-5">How Offsets Work</h3>
+        <p>Available offsets: <code>.zOffset-1</code> through <code>.zOffset-11</code></p>
+        <p class="zMuted zmt-2"><em>Each number = columns to skip. Example: <code>.zOffset-3</code> skips 3 columns (25% margin)</em></p>
+    </section>
+    
+    <!-- Responsive Offsets -->
+    <section class="zmy-6">
+        <h2>Responsive Offsets</h2>
+        <p>Apply offsets at specific breakpoints. This column is full width on mobile, but centered on tablet and up:</p>
+        
+        <div class="zRow zmy-5">
+            <div class="zCol-12 zCol-md-6 zOffset-md-3 zp-3" style="background: #ffebee; border: 2px solid #f44336; text-align: center;">
+                <strong>Full width on mobile</strong><br>
+                <strong>Centered on tablet+</strong><br>
+                <code>.zCol-12 .zCol-md-6 .zOffset-md-3</code>
+            </div>
+        </div>
+        
+        <pre class="zp-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow"&gt;
+  &lt;div class="zCol-12 zCol-md-6 zOffset-md-3"&gt;
+    Full on mobile, centered on desktop
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+        <p class="zmt-3 text-muted"><em>Available for all breakpoints: <code>.zOffset-sm-*</code>, <code>.zOffset-md-*</code>, <code>.zOffset-lg-*</code>, <code>.zOffset-xl-*</code>, <code>.zOffset-xxl-*</code></em></p>
+        
+        <p class="zmt-3"><strong>Remove offset:</strong> Use <code>.zOffset-{breakpoint}-0</code> to reset offset at a specific breakpoint</p>
+    </section>
+    
+    <!-- Use Cases -->
+    <section class="zmy-6">
+        <h2>Common Use Cases</h2>
+        
+        <h3 class="zmt-4">Centered Content</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow"&gt;
+  &lt;div class="zCol-6 zOffset-3"&gt;Centered content&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 class="zmt-5">Mobile-First Sidebar</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow"&gt;
+  &lt;!-- Sidebar first on mobile, second on desktop --&gt;
+  &lt;div class="zCol-12 zCol-lg-3 zOrder-lg-2"&gt;Sidebar&lt;/div&gt;
+  &lt;div class="zCol-12 zCol-lg-9 zOrder-lg-1"&gt;Main&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 class="zmt-5">Spaced Columns</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow"&gt;
+  &lt;div class="zCol-4"&gt;Left&lt;/div&gt;
+  &lt;div class="zCol-4 zOffset-4"&gt;Right (with gap)&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2>Best Practices</h2>
+        <ul class="lh-lg zmy-3">
+            <li><strong>Semantic HTML</strong> - Use ordering for layout only, not semantics</li>
+            <li><strong>Accessibility</strong> - Screen readers follow HTML order, not visual order</li>
+            <li><strong>Mobile-first</strong> - Default order should make sense on mobile</li>
+            <li><strong>Use offsets</strong> - Not empty <code>&lt;div&gt;</code> spacers</li>
+            <li><strong>Math check</strong> - Column width + offset should not exceed 12</li>
+        </ul>
+    </section>
+    
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2>Related Topics</h2>
+        <ul class="lh-lg zmy-3">
+            <li><a href="ztheme-grid.html" class="zPrimary">Grid</a> - Core grid system</li>
+            <li><a href="ztheme-gutters.html" class="zPrimary">Gutters</a> - Spacing between columns</li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav class="zmt-6 zpt-5 zD-flex zFlex-between" style="border-top: 2px solid var(--borderColor, #dee2e6);">
+        <a href="ztheme-grid.html" class="zPrimary">← Previous: Grid</a>
+        <a href="ztheme-gutters.html" class="zPrimary">Next: Gutters →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

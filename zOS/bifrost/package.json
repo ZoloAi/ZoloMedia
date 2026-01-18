@@ -1,0 +1,26 @@
+{
+  "name": "bifrost-client",
+  "version": "1.5.5",
+  "description": "Production-ready WebSocket client for zCLI's zBifrost bridge",
+  "type": "module",
+  "main": "src/bifrost_client.js",
+  "scripts": {
+    "lint": "eslint src/ --ext .js",
+    "lint:fix": "eslint src/ --ext .js --fix",
+    "format": "prettier --write 'src/**/*.js'",
+    "format:check": "prettier --check 'src/**/*.js'"
+  },
+  "keywords": [
+    "websocket",
+    "bifrost",
+    "zcli",
+    "client",
+    "real-time"
+  ],
+  "author": "Gal Nachshon",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "prettier": "^3.7.4"
+  }
+}

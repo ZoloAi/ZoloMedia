@@ -1,0 +1,205 @@
+/* ============================================
+   zPosition.css - Position Utilities
+   Position, placement, and transform utilities
+   ============================================ */
+
+/* Position Property
+   ================= */
+.zPosition-static { position: static !important; }
+.zPosition-relative { position: relative !important; }
+.zPosition-absolute { position: absolute !important; }
+.zPosition-fixed { position: fixed !important; }
+.zPosition-sticky { position: sticky !important; }
+
+/* Edge Positioning - Bootstrap 5 (RTL-aware)
+   ============================================ */
+/* Top - Zero */
+.zTop-0 { top: 0 !important; }
+
+/* Start (left in LTR, right in RTL) - Zero */
+.zStart-0 { left: 0 !important; }
+
+/* Bottom - Zero */
+.zBottom-0 { bottom: 0 !important; }
+
+/* End (right in LTR, left in RTL) - Zero */
+.zEnd-0 { right: 0 !important; }
+
+/* Top - 50% */
+.zTop-50 { top: 50% !important; }
+
+/* Start - 50% */
+.zStart-50 { left: 50% !important; }
+
+/* Bottom - 50% */
+.zBottom-50 { bottom: 50% !important; }
+
+/* End - 50% */
+.zEnd-50 { right: 50% !important; }
+
+/* Top - 100% */
+.zTop-100 { top: 100% !important; }
+
+/* Start - 100% */
+.zStart-100 { left: 100% !important; }
+
+/* Bottom - 100% */
+.zBottom-100 { bottom: 100% !important; }
+
+/* End - 100% */
+.zEnd-100 { right: 100% !important; }
+
+/* Legacy Names (Backward Compatibility)
+   ====================================== */
+.zLeft-0 { left: 0 !important; }
+.zRight-0 { right: 0 !important; }
+.zLeft-50 { left: 50% !important; }
+.zRight-50 { right: 50% !important; }
+.zLeft-100 { left: 100% !important; }
+.zRight-100 { right: 100% !important; }
+
+/* Translate (Centering) Utilities
+   ================================ */
+.zTranslate-middle {
+  transform: translate(-50%, -50%) !important;
+}
+
+.zTranslate-middle-x {
+  transform: translateX(-50%) !important;
+}
+
+.zTranslate-middle-y {
+  transform: translateY(-50%) !important;
+}
+
+/* Z-Index Utilities
+   ================= */
+.zZ-n1 { z-index: -1 !important; }
+.zZ-0 { z-index: 0 !important; }
+.zZ-1 { z-index: 1 !important; }
+.zZ-2 { z-index: 2 !important; }
+.zZ-3 { z-index: 3 !important; }
+.zZ-10 { z-index: 10 !important; }
+.zZ-100 { z-index: 100 !important; }
+.zZ-1000 { z-index: 1000 !important; }
+.zZ-auto { z-index: auto !important; }
+
+/* Common Z-Index Layers
+   ===================== */
+.zZ-dropdown { z-index: 1000 !important; }
+.zZ-sticky { z-index: 1020 !important; }
+.zZ-fixed { z-index: 1030 !important; }
+.zZ-modal-backdrop { z-index: 1040 !important; }
+.zZ-modal { z-index: 1050 !important; }
+.zZ-popover { z-index: 1060 !important; }
+.zZ-tooltip { z-index: 1070 !important; }
+
+/* ============================================
+   Position Helpers
+   ============================================
+   
+   Fixed and sticky positioning helpers for
+   common layout patterns like fixed headers
+   and sticky navigation.
+*/
+
+/* Fixed Top - Sticky header at top of viewport
+   ============================================== */
+.zFixed-top {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: 0 !important;
+  z-index: 1030 !important;
+}
+
+/* Fixed Bottom - Sticky footer/toolbar at bottom
+   =============================================== */
+.zFixed-bottom {
+  position: fixed !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  z-index: 1030 !important;
+}
+
+/* Sticky Top - Sticks to top after scrolling past
+   ================================================= */
+.zSticky-top {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1020 !important;
+}
+
+/* Responsive Sticky Top - Small (sm) ≥576px
+   =========================================== */
+@media (min-width: 576px) {
+  .zSticky-sm-top {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1020 !important;
+  }
+}
+
+/* Responsive Sticky Top - Medium (md) ≥768px
+   ============================================ */
+@media (min-width: 768px) {
+  .zSticky-md-top {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1020 !important;
+  }
+}
+
+/* Responsive Sticky Top - Large (lg) ≥992px
+   =========================================== */
+@media (min-width: 992px) {
+  .zSticky-lg-top {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1020 !important;
+  }
+}
+
+/* Responsive Sticky Top - Extra Large (xl) ≥1200px
+   ================================================== */
+@media (min-width: 1200px) {
+  .zSticky-xl-top {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1020 !important;
+  }
+}
+
+/* Responsive Sticky Top - Extra Extra Large (xxl) ≥1400px
+   ========================================================= */
+@media (min-width: 1400px) {
+  .zSticky-xxl-top {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1020 !important;
+  }
+}
+
+/* ============================================
+   Notes on Usage
+   ============================================
+   
+   Fixed positioning:
+   - Element is removed from document flow
+   - Always visible even when scrolling
+   - May require padding on body to prevent overlap
+   
+   Sticky positioning:
+   - Element acts like relative until scroll threshold
+   - Then becomes fixed at specified position
+   - Not fully supported in older browsers (IE11)
+   - Better browser support than it used to be!
+   
+   Common use cases:
+   - .zFixed-top: Fixed navigation headers
+   - .zFixed-bottom: Bottom toolbars, cookie notices
+   - .zSticky-top: Table headers, section navigation
+   - Responsive sticky: Different behavior per screen size
+*/
+

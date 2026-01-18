@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cards - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="../ztheme.html#components">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Cards</li>
+        </ol>
+    </nav>
+    
+    <h1>Cards</h1>
+    <p class="zLead" style="margin-bottom: 2rem;">
+        Flexible and extensible content containers with multiple variants and options for headers, footers, images, and contextual styling
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Cards -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Cards</h2>
+        
+        <h3>What are Cards?</h3>
+        <p>Cards are flexible content containers that can hold a wide variety of content, including text, images, links, and more. They're one of the most versatile UI components because they:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Group related content:</strong> Keep information organized and scannable</li>
+            <li><strong>Provide visual hierarchy:</strong> Clear boundaries between different content sections</li>
+            <li><strong>Work everywhere:</strong> Perfect for product listings, blog posts, user profiles, dashboards</li>
+            <li><strong>Flexible layout:</strong> Can be arranged in grids, columns, or custom layouts</li>
+        </ul>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Semantic HTML:</strong> Cards use semantic elements like <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>, or <code>&lt;div&gt;</code> depending on their content. For standalone content (blog posts, products), use <code>&lt;article&gt;</code>. For grouped UI elements, use <code>&lt;div&gt;</code>.
+        </blockquote>
+    </section>
+    
+    <!-- Semantic HTML Structure -->
+    <section style="margin: 3rem 0;">
+        <h2>Semantic HTML Structure</h2>
+        <p>Before adding card styling, understand the semantic HTML foundation. Cards can use different HTML elements depending on their content:</p>
+        
+        <h3 style="margin-top: 1.5rem;">Option 1: Using &lt;div&gt; (Most Common)</h3>
+        <p>Use <code>&lt;div&gt;</code> for purely visual grouping - no semantic meaning, just layout:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div style="max-width: 18rem;">
+                <h3>Dashboard Widget</h3>
+                <p>Current system status: All services running normally.</p>
+                <a href="#">View details</a>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div&gt;
+  &lt;h3&gt;Dashboard Widget&lt;/h3&gt;
+  &lt;p&gt;Current system status...&lt;/p&gt;
+  &lt;a href="#"&gt;View details&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+
+        <blockquote style="margin: 1.5rem 0; padding: 0.75rem 1rem; border-left: 4px solid var(--color-warning); background: rgba(255, 179, 71, 0.1);">
+            <strong>Notice:</strong> This is completely unstyled semantic HTML. No borders, no padding, no background - just browser defaults. This is true <em>reboot</em>.
+        </blockquote>
+
+        <h3 style="margin-top: 2rem;">Option 2: Using &lt;article&gt; (Semantic)</h3>
+        <p>Use <code>&lt;article&gt;</code> for standalone content that could exist independently (blog posts, products, news items):</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <article style="max-width: 18rem;">
+                <h3>Product Update</h3>
+                <p>New features released: dark mode, enhanced search, improved performance.</p>
+                <a href="#">Read more</a>
+            </article>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;article&gt;
+  &lt;h3&gt;Product Update&lt;/h3&gt;
+  &lt;p&gt;New features released...&lt;/p&gt;
+  &lt;a href="#"&gt;Read more&lt;/a&gt;
+&lt;/article&gt;</code></pre>
+
+        <blockquote style="margin: 1.5rem 0; padding: 0.75rem 1rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Semantic Difference:</strong> While <code>&lt;div&gt;</code> and <code>&lt;article&gt;</code> look identical visually (both unstyled), <code>&lt;article&gt;</code> tells search engines and screen readers "this is standalone content." Choose based on <em>meaning</em>, not appearance.
+        </blockquote>
+
+        <p style="margin-top: 1rem;"><strong>When to use each:</strong></p>
+        <ul style="line-height: 2;">
+            <li><strong><code>&lt;div&gt;</code>:</strong> UI components, dashboards, grouped elements (no SEO/accessibility benefit needed)</li>
+            <li><strong><code>&lt;article&gt;</code>:</strong> Blog posts, products, news items (helps search engines and screen readers)</li>
+            <li><strong><code>&lt;section&gt;</code>:</strong> Thematic grouping of content within a page</li>
+        </ul>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Truth:</strong> Most developers just use <code>&lt;div&gt;</code> for everything, and that's okay! But when you have standalone content (like a blog post card or product card), using <code>&lt;article&gt;</code> helps search engines understand your page better. The HTML element defines <em>meaning</em>, zTheme classes define <em>visual style</em>.
+        </blockquote>
+    </section>
+    
+    <!-- Basic Card -->
+    <section style="margin: 3rem 0;">
+        <h2>Enhanced Cards with .zCard</h2>
+        <p>The <code>.zCard</code> class <strong>transforms plain semantic HTML into a professional card component</strong>. It works on any element (<code>&lt;div&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;section&gt;</code>):</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <article class="zCard" style="width: 18rem;">
+                <div class="zCard-body">
+                    <h5 class="zCard-title">Product Update</h5>
+                    <p class="zCard-text">New features have been released including dark mode, enhanced search, and improved performance.</p>
+                    <a href="#" class="zCard-link">Read more</a>
+                </div>
+            </article>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;article class="zCard" style="width: 18rem;"&gt;
+  &lt;div class="zCard-body"&gt;
+    &lt;h5 class="zCard-title"&gt;Product Update&lt;/h5&gt;
+    &lt;p class="zCard-text"&gt;New features have been released...&lt;/p&gt;
+    &lt;a href="#" class="zCard-link"&gt;Read more&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/article&gt;</code></pre>
+
+        <p style="margin-top: 1rem;"><strong>The transformation:</strong> Compare this to the unstyled examples above. <code>.zCard</code> adds:</p>
+        <ul style="line-height: 2;">
+            <li><strong>White background</strong> - Contrasts with page background</li>
+            <li><strong>Subtle shadow</strong> - Creates depth and "lifts" the card</li>
+            <li><strong>Light border</strong> - Defines clear boundaries</li>
+            <li><strong>Rounded corners</strong> - Modern, friendly appearance</li>
+            <li><strong>Proper padding</strong> - Content isn't cramped (via <code>.zCard-body</code>)</li>
+            <li><strong>Typography spacing</strong> - Professional spacing between title, text, and links</li>
+        </ul>
+
+        <blockquote style="margin: 1.5rem 0; padding: 0.75rem 1rem; border-left: 4px solid var(--color-primary); background: rgba(162, 212, 110, 0.1);">
+            <strong>zTheme Pattern:</strong> Semantic HTML defines <em>meaning</em> (reboot = unstyled). zTheme classes like <code>.zCard</code> add <em>professional visual design</em>. Separation of concerns!
+        </blockquote>
+    </section>
+    
+    <!-- Card Typography -->
+    <section style="margin: 3rem 0;">
+        <h2>Card Typography</h2>
+        <p>Cards can include multiple text elements with specialized styling. Use <code>.zCard-title</code> for headings, <code>.zCard-subtitle</code> for secondary headings, and <code>.zCard-link</code> for styled links:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zCard" style="width: 18rem;">
+                <div class="zCard-body">
+                    <h5 class="zCard-title">Product Launch</h5>
+                    <h6 class="zCard-subtitle zmb-2">Version 2.0 Release</h6>
+                    <p class="zCard-text">We're excited to announce major improvements including performance optimizations and new features requested by our community.</p>
+                    <a href="#" class="zCard-link">Release notes</a>
+                    <a href="#" class="zCard-link">Download</a>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zCard" style="width: 18rem;"&gt;
+  &lt;div class="zCard-body"&gt;
+    &lt;h5 class="zCard-title"&gt;Product Launch&lt;/h5&gt;
+    &lt;h6 class="zCard-subtitle"&gt;Version 2.0 Release&lt;/h6&gt;
+    &lt;p class="zCard-text"&gt;We're excited to announce...&lt;/p&gt;
+    &lt;a href="#" class="zCard-link"&gt;Release notes&lt;/a&gt;
+    &lt;a href="#" class="zCard-link"&gt;Download&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Cards with Images -->
+    <section style="margin: 3rem 0;">
+        <h2>Cards with Images</h2>
+        <p>Add images to the top or bottom of cards with <code>.zCard-img-top</code> or <code>.zCard-img-bottom</code>:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zCard" style="width: 18rem;">
+                <img src="https://picsum.photos/seed/card1/400/200" class="zCard-img-top" alt="Card image">
+                <div class="zCard-body">
+                    <h5 class="zCard-title">Card with image</h5>
+                    <p class="zCard-text">The image spans the full width of the card and sits flush against the edges.</p>
+                    <a href="#" class="zBtn zBtn-primary">Learn More</a>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zCard" style="width: 18rem;"&gt;
+  &lt;img src="..." class="zCard-img-top" alt="Card image"&gt;
+  &lt;div class="zCard-body"&gt;
+    &lt;h5 class="zCard-title"&gt;Card with image&lt;/h5&gt;
+    &lt;p class="zCard-text"&gt;The image spans the full width...&lt;/p&gt;
+    &lt;a href="#" class="zBtn zBtn-primary"&gt;Learn More&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Image Overlays</h3>
+        <p>Place text over an image using <code>.zCard-img-overlay</code>:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zCard" style="width: 18rem;">
+                <img src="https://picsum.photos/seed/card2/400/300" class="zCard-img-top" alt="Overlay image">
+                <div class="zCard-img-overlay" style="background: rgba(0,0,0,0.5); color: white;">
+                    <h5 class="zCard-title" style="color: white;">Card title</h5>
+                    <p class="zCard-text">Text overlaid on the image with semi-transparent background for readability.</p>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zCard" style="width: 18rem;"&gt;
+  &lt;img src="..." class="zCard-img-top" alt="Overlay image"&gt;
+  &lt;div class="zCard-img-overlay" style="background: rgba(0,0,0,0.5); color: white;"&gt;
+    &lt;h5 class="zCard-title"&gt;Card title&lt;/h5&gt;
+    &lt;p class="zCard-text"&gt;Text overlaid on the image...&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Header and Footer -->
+    <section style="margin: 3rem 0;">
+        <h2>Header and Footer</h2>
+        <p>Add headers and footers to cards for additional context or metadata:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <div class="zCard" style="width: 18rem;">
+                <div class="zCard-header">
+                    Featured
+                </div>
+                <div class="zCard-body">
+                    <h5 class="zCard-title">Special title treatment</h5>
+                    <p class="zCard-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="zBtn zBtn-primary">Go somewhere</a>
+                </div>
+            </div>
+            
+            <div class="zCard" style="width: 18rem;">
+                <div class="zCard-body">
+                    <h5 class="zCard-title">Project Update</h5>
+                    <p class="zCard-text">Quick summary of the project's current status and next steps.</p>
+                </div>
+                <div class="zCard-footer zMuted">
+                    Last updated 3 mins ago
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Card with header --&gt;
+&lt;div class="zCard"&gt;
+  &lt;div class="zCard-header"&gt;Featured&lt;/div&gt;
+  &lt;div class="zCard-body"&gt;
+    &lt;h5 class="zCard-title"&gt;Special title treatment&lt;/h5&gt;
+    &lt;p class="zCard-text"&gt;With supporting text below...&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Card with footer --&gt;
+&lt;div class="zCard"&gt;
+  &lt;div class="zCard-body"&gt;
+    &lt;h5 class="zCard-title"&gt;Project Update&lt;/h5&gt;
+    &lt;p class="zCard-text"&gt;Quick summary...&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="zCard-footer"&gt;Last updated 3 mins ago&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Color Variants -->
+    <section style="margin: 3rem 0;">
+        <h2>Color Variants</h2>
+        <p>Add contextual color classes to emphasize different types of content:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zRow zG-3">
+                <div class="zCol-md-4">
+                    <div class="zCard zCard-primary">
+                        <div class="zCard-body">
+                            <h5 class="zCard-title">Primary Card</h5>
+                            <p class="zCard-text">Primary action or main content emphasis.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="zCol-md-4">
+                    <div class="zCard zCard-success">
+                        <div class="zCard-body">
+                            <h5 class="zCard-title">Success Card</h5>
+                            <p class="zCard-text">Positive feedback or completed tasks.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="zCol-md-4">
+                    <div class="zCard zCard-danger">
+                        <div class="zCard-body">
+                            <h5 class="zCard-title">Danger Card</h5>
+                            <p class="zCard-text">Warnings, errors, or critical alerts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zCard zCard-primary"&gt;...&lt;/div&gt;
+&lt;div class="zCard zCard-secondary"&gt;...&lt;/div&gt;
+&lt;div class="zCard zCard-success"&gt;...&lt;/div&gt;
+&lt;div class="zCard zCard-info"&gt;...&lt;/div&gt;
+&lt;div class="zCard zCard-warning"&gt;...&lt;/div&gt;
+&lt;div class="zCard zCard-danger"&gt;...&lt;/div&gt;
+&lt;div class="zCard zCard-light"&gt;...&lt;/div&gt;
+&lt;div class="zCard zCard-dark"&gt;...&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Border Variants</h3>
+        <p>For a subtler approach, use border color variants instead of full background colors:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zRow zG-3">
+                <div class="zCol-md-4">
+                    <div class="zCard zCard-border-primary" style="border-width: 2px;">
+                        <div class="zCard-body">
+                            <h5 class="zCard-title zPrimary">Primary Border</h5>
+                            <p class="zCard-text">Subtle emphasis with colored border.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="zCol-md-4">
+                    <div class="zCard zCard-border-info" style="border-width: 2px;">
+                        <div class="zCard-body">
+                            <h5 class="zCard-title zInfo">Info Border</h5>
+                            <p class="zCard-text">Informational content with clean styling.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="zCol-md-4">
+                    <div class="zCard zCard-border-warning" style="border-width: 2px;">
+                        <div class="zCard-body">
+                            <h5 class="zCard-title zWarning">Warning Border</h5>
+                            <p class="zCard-text">Cautionary information with subtle indicator.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zCard zCard-border-primary" style="border-width: 2px;"&gt;...&lt;/div&gt;
+&lt;div class="zCard zCard-border-info" style="border-width: 2px;"&gt;...&lt;/div&gt;
+&lt;div class="zCard zCard-border-warning" style="border-width: 2px;"&gt;...&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Card Layouts with Grid -->
+    <section style="margin: 3rem 0;">
+        <h2>Card Layouts with Grid</h2>
+        <p>Use zTheme's grid system to create responsive card layouts. This is the modern, recommended approach:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zRow zRow-cols-1 zRow-cols-md-3 zG-4">
+                <div class="zCol">
+                    <div class="zCard">
+                        <img src="https://picsum.photos/seed/grid1/400/200" class="zCard-img-top" alt="Product 1">
+                        <div class="zCard-body">
+                            <h5 class="zCard-title">Product One</h5>
+                            <p class="zCard-text">High-quality product with excellent reviews and fast shipping.</p>
+                            <a href="#" class="zBtn zBtn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="zCol">
+                    <div class="zCard">
+                        <img src="https://picsum.photos/seed/grid2/400/200" class="zCard-img-top" alt="Product 2">
+                        <div class="zCard-body">
+                            <h5 class="zCard-title">Product Two</h5>
+                            <p class="zCard-text">Premium features with lifetime warranty and customer support.</p>
+                            <a href="#" class="zBtn zBtn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="zCol">
+                    <div class="zCard">
+                        <img src="https://picsum.photos/seed/grid3/400/200" class="zCard-img-top" alt="Product 3">
+                        <div class="zCard-body">
+                            <h5 class="zCard-title">Product Three</h5>
+                            <p class="zCard-text">Budget-friendly option without compromising on quality.</p>
+                            <a href="#" class="zBtn zBtn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zRow zRow-cols-1 zRow-cols-md-3 zG-4"&gt;
+  &lt;div class="zCol"&gt;
+    &lt;div class="zCard"&gt;
+      &lt;img src="..." class="zCard-img-top" alt="Product 1"&gt;
+      &lt;div class="zCard-body"&gt;
+        &lt;h5 class="zCard-title"&gt;Product One&lt;/h5&gt;
+        &lt;p class="zCard-text"&gt;High-quality product...&lt;/p&gt;
+        &lt;a href="#" class="zBtn zBtn-primary"&gt;View Details&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- Repeat for more cards --&gt;
+&lt;/div&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Modern Approach:</strong> Bootstrap 5 (and zTheme) recommend using the grid system (<code>.zRow</code> and <code>.zCol-*</code>) instead of the older <code>.zCard-group</code> for card layouts. The grid provides better responsive control and flexibility.
+        </blockquote>
+    </section>
+    
+    <!-- Horizontal Cards -->
+    <section style="margin: 3rem 0;">
+        <h2>Horizontal Cards</h2>
+        <p>Display images and content side-by-side with <code>.zCard-horizontal</code> (automatically stacks on mobile):</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zCard zCard-horizontal" style="max-width: 540px;">
+                <img src="https://picsum.photos/seed/horiz/200/200" class="zCard-img-top" alt="Horizontal card">
+                <div class="zCard-body">
+                    <h5 class="zCard-title">Horizontal Layout</h5>
+                    <p class="zCard-text">Perfect for list views or feeds where content and image should be side-by-side.</p>
+                    <p class="zCard-text"><small class="zMuted">Automatically stacks on mobile for better readability.</small></p>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zCard zCard-horizontal"&gt;
+  &lt;img src="..." class="zCard-img-top" alt="Horizontal card"&gt;
+  &lt;div class="zCard-body"&gt;
+    &lt;h5 class="zCard-title"&gt;Horizontal Layout&lt;/h5&gt;
+    &lt;p class="zCard-text"&gt;Perfect for list views...&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Keep cards focused:</strong> Each card should contain one clear piece of content or action</li>
+            <li><strong>Use consistent sizing:</strong> Cards in a grid should have similar content lengths or use <code>.h-100</code> for equal heights</li>
+            <li><strong>Provide context:</strong> Use titles, headers, or footers to clarify what the card contains</li>
+            <li><strong>Accessible images:</strong> Always include descriptive <code>alt</code> attributes on card images</li>
+            <li><strong>Mobile-first:</strong> Test card layouts on mobile - cards stack naturally on smaller screens</li>
+            <li><strong>Call-to-action:</strong> Include clear buttons or links for interactive cards</li>
+            <li><strong>Semantic HTML:</strong> Use <code>&lt;article&gt;</code> for standalone content, <code>&lt;section&gt;</code> for grouped content</li>
+        </ul>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+        
+        <h3>Base Classes</h3>
+        <table class="zTable zTable-bordered" style="margin-top: 1rem;">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 30%;">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zCard</code></td>
+                    <td>Base card container (required)</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-body</code></td>
+                    <td>Main content area with padding</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-title</code></td>
+                    <td>Card heading (use with <code>&lt;h*&gt;</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-subtitle</code></td>
+                    <td>Secondary heading below title</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-text</code></td>
+                    <td>Card paragraph text</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-link</code></td>
+                    <td>Styled link within card</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 style="margin-top: 2rem;">Images</h3>
+        <table class="zTable zTable-bordered" style="margin-top: 1rem;">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 30%;">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zCard-img-top</code></td>
+                    <td>Image at top of card (or left in horizontal)</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-img-bottom</code></td>
+                    <td>Image at bottom of card</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-img-overlay</code></td>
+                    <td>Content overlaid on image</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 style="margin-top: 2rem;">Structure</h3>
+        <table class="zTable zTable-bordered" style="margin-top: 1rem;">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 30%;">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zCard-header</code></td>
+                    <td>Header section (top of card)</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-footer</code></td>
+                    <td>Footer section (bottom of card)</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 style="margin-top: 2rem;">Color Variants</h3>
+        <table class="zTable zTable-bordered" style="margin-top: 1rem;">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 30%;">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zCard-primary</code></td>
+                    <td>Primary colored background</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-secondary</code></td>
+                    <td>Secondary colored background</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-success</code></td>
+                    <td>Success colored background</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-info</code></td>
+                    <td>Info colored background</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-warning</code></td>
+                    <td>Warning colored background</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-danger</code></td>
+                    <td>Danger colored background</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-light</code></td>
+                    <td>Light colored background</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-dark</code></td>
+                    <td>Dark colored background</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 style="margin-top: 2rem;">Border Variants</h3>
+        <table class="zTable zTable-bordered" style="margin-top: 1rem;">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 30%;">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zCard-border-primary</code></td>
+                    <td>Primary colored border</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-border-secondary</code></td>
+                    <td>Secondary colored border</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-border-success</code></td>
+                    <td>Success colored border</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-border-info</code></td>
+                    <td>Info colored border</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-border-warning</code></td>
+                    <td>Warning colored border</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-border-danger</code></td>
+                    <td>Danger colored border</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 style="margin-top: 2rem;">Layout</h3>
+        <table class="zTable zTable-bordered" style="margin-top: 1rem;">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 30%;">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zCard-horizontal</code></td>
+                    <td>Side-by-side image and content layout</td>
+                </tr>
+                <tr>
+                    <td><code>.zCard-group</code></td>
+                    <td>Legacy: Group cards together (use grid instead)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-grid.html" class="zInfo">Grid</a> - Layout system for card arrangements</li>
+            <li><a href="ztheme-buttons.html" class="zInfo">Buttons</a> - Add action buttons to cards</li>
+            <li><a href="ztheme-images.html" class="zInfo">Images</a> - Image styling and responsiveness</li>
+            <li><a href="ztheme-typography.html" class="zInfo">Typography</a> - Text styling for card content</li>
+        </ul>
+    </section>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

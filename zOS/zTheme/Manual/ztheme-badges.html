@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badges - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<article style="max-width: 900px; margin: 0 auto; padding: 2rem 1rem;">
+    <header style="margin-bottom: 2rem;">
+        <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+            <ol class="zBreadcrumb">
+                <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+                <li class="zBreadcrumb-item"><a href="../ztheme.html#components">Components</a></li>
+                <li class="zBreadcrumb-item zActive" aria-current="page">Badges</li>
+            </ol>
+        </nav>
+        <h1 style="margin: 0; color: var(--color-primary);">Badges</h1>
+        <p class="zLead" style="margin-top: 1rem;">Small count and labeling components that scale to match their parent element's size.</p>
+    </header>
+
+    <!-- Understanding Badges -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Badges</h2>
+        <p>Badges are compact visual indicators used to highlight new or important information. They're perfect for:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Counts:</strong> Unread messages, notifications, cart items</li>
+            <li><strong>Labels:</strong> Status indicators, tags, categories</li>
+            <li><strong>Highlights:</strong> "New", "Beta", "Pro" features</li>
+            <li><strong>Metadata:</strong> Version numbers, dates, counts</li>
+        </ul>
+
+        <p style="margin-top: 1.5rem;">Badges automatically scale to match the size of their parent element using relative font sizing (<code>em</code> units), making them adaptable to headings, buttons, and text of any size.</p>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: rgba(255, 179, 71, 0.1);">
+            <strong>Accessibility:</strong> Badges may confuse screen reader users if context isn't clear. For example, a button that says "Notifications 4" is clear, but just "4" without context isn't. Use <code>.zVisually-hidden</code> to add extra context for assistive technologies when needed.
+        </blockquote>
+    </section>
+
+    <!-- The Span Element -->
+    <section style="margin: 3rem 0;">
+        <h2>The Span Element</h2>
+        <p>Badges are built using the <code>&lt;span&gt;</code> element—a generic inline container with no semantic meaning. Without styling, spans are just plain inline text:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <h3>Dashboard <span>New</span></h3>
+            <p>You have <span>12</span> unread messages.</p>
+            <p>Status: <span>Online</span></p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;h3&gt;Dashboard &lt;span&gt;New&lt;/span&gt;&lt;/h3&gt;
+&lt;p&gt;You have &lt;span&gt;12&lt;/span&gt; unread messages.&lt;/p&gt;
+&lt;p&gt;Status: &lt;span&gt;Online&lt;/span&gt;&lt;/p&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Non-Semantic HTML:</strong> Unlike <code>&lt;article&gt;</code> or <code>&lt;button&gt;</code>, <code>&lt;span&gt;</code> has no inherent meaning—it's purely a styling hook. Use it when you need to style a portion of inline content without adding semantic context.
+        </blockquote>
+    </section>
+
+    <!-- Enhanced Badges -->
+    <section style="margin: 3rem 0;">
+        <h2>Enhanced Badges with .zBadge</h2>
+        <p>The <code>.zBadge</code> class transforms plain spans into visually distinct badges. Compare this to the unstyled examples above:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <h3>Dashboard <span class="zBadge zBadge-success">New</span></h3>
+            <p>You have <span class="zBadge zBadge-danger">12</span> unread messages.</p>
+            <p>Status: <span class="zBadge zBadge-info">Online</span></p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;h3&gt;Dashboard &lt;span class="zBadge zBadge-success"&gt;New&lt;/span&gt;&lt;/h3&gt;
+&lt;p&gt;You have &lt;span class="zBadge zBadge-danger"&gt;12&lt;/span&gt; unread.&lt;/p&gt;
+&lt;p&gt;Status: &lt;span class="zBadge zBadge-info"&gt;Online&lt;/span&gt;&lt;/p&gt;</code></pre>
+
+        <p style="margin-top: 1rem;"><strong>The transformation:</strong> <code>.zBadge</code> adds background color, padding, rounded corners, bold text, and relative sizing—turning plain text into eye-catching labels.</p>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-primary); background: rgba(162, 212, 110, 0.1);">
+            <strong>zTheme Pattern:</strong> The <code>&lt;span&gt;</code> element provides the inline structure (reboot = unstyled). The <code>.zBadge</code> utility class adds professional visual design. Separation of concerns!
+        </blockquote>
+    </section>
+
+    <!-- Badge Variants -->
+    <section style="margin: 3rem 0;">
+        <h2>Badge Variants</h2>
+        <p>Use contextual variant classes to match badge colors to your message type. All 8 zTheme colors are available:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <span class="zBadge zBadge-primary">Primary</span>
+            <span class="zBadge zBadge-secondary">Secondary</span>
+            <span class="zBadge zBadge-success">Success</span>
+            <span class="zBadge zBadge-danger">Danger</span>
+            <span class="zBadge zBadge-warning">Warning</span>
+            <span class="zBadge zBadge-info">Info</span>
+            <span class="zBadge zBadge-light">Light</span>
+            <span class="zBadge zBadge-dark">Dark</span>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;span class="zBadge zBadge-primary"&gt;Primary&lt;/span&gt;
+&lt;span class="zBadge zBadge-success"&gt;Success&lt;/span&gt;
+&lt;span class="zBadge zBadge-danger"&gt;Danger&lt;/span&gt;
+&lt;span class="zBadge zBadge-info"&gt;Info&lt;/span&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: rgba(255, 179, 71, 0.1);">
+            <strong>Color Meaning:</strong> Choose variants based on semantic meaning—<code>.zBadge-success</code> for positive states, <code>.zBadge-danger</code> for errors, <code>.zBadge-warning</code> for cautions. This helps all users understand context at a glance.
+        </blockquote>
+    </section>
+
+    <!-- Badges in Headings -->
+    <section style="margin: 3rem 0;">
+        <h2>Badges in Headings</h2>
+        <p>Badges scale automatically to match heading sizes. Perfect for highlighting new features or versions:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <h1>Example heading <span class="zBadge zBadge-secondary">New</span></h1>
+            <h2>Example heading <span class="zBadge zBadge-secondary">New</span></h2>
+            <h3>Example heading <span class="zBadge zBadge-secondary">New</span></h3>
+            <h4>Example heading <span class="zBadge zBadge-secondary">New</span></h4>
+            <h5>Example heading <span class="zBadge zBadge-secondary">New</span></h5>
+            <h6>Example heading <span class="zBadge zBadge-secondary">New</span></h6>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;h1&gt;Example heading &lt;span class="zBadge zBadge-secondary"&gt;New&lt;/span&gt;&lt;/h1&gt;
+&lt;h3&gt;Dashboard &lt;span class="zBadge zBadge-success"&gt;v2.0&lt;/span&gt;&lt;/h3&gt;
+&lt;h5&gt;API Docs &lt;span class="zBadge zBadge-info"&gt;Beta&lt;/span&gt;&lt;/h5&gt;</code></pre>
+    </section>
+
+    <!-- Badges in Buttons -->
+    <section style="margin: 3rem 0;">
+        <h2>Badges in Buttons</h2>
+        <p>Add badges to buttons to display counters or status indicators. Common for notification and messaging interfaces:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button type="button" class="zBtn zBtn-primary">
+                Notifications <span class="zBadge zBadge-light">4</span>
+            </button>
+            <button type="button" class="zBtn zBtn-secondary">
+                Messages <span class="zBadge zBadge-light">12</span>
+            </button>
+            <button type="button" class="zBtn zBtn-success">
+                Cart <span class="zBadge zBadge-dark">3</span>
+            </button>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;button type="button" class="zBtn zBtn-primary"&gt;
+  Notifications &lt;span class="zBadge zBadge-light"&gt;4&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Screen Readers:</strong> In this example, "Notifications 4" is clear to all users. If the context isn't obvious, add hidden text: <code>&lt;span class="zVisually-hidden"&gt;unread messages&lt;/span&gt;</code>
+        </blockquote>
+    </section>
+
+    <!-- Positioned Badges -->
+    <section style="margin: 3rem 0;">
+        <h2>Positioned Badges</h2>
+        <p>Use positioning utilities to place badges as notification dots on buttons or icons. Great for subtle indicators:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button type="button" class="zBtn zBtn-primary" style="position: relative;">
+                Inbox
+                <span style="position: absolute; top: 0; left: 100%; transform: translate(-50%, -50%); padding: 0.35em 0.55em; font-size: 0.75em;" class="zBadge zRounded-pill zBadge-danger">
+                    99+
+                    <span class="zVisually-hidden">unread messages</span>
+                </span>
+            </button>
+            
+            <button type="button" class="zBtn zBtn-secondary" style="position: relative; margin-left: 2rem;">
+                Profile
+                <span style="position: absolute; top: 0; left: 100%; transform: translate(-50%, -50%); width: 0.75rem; height: 0.75rem; padding: 0; background-color: var(--color-error); border: 2px solid #f8f9fa;" class="zRounded-pill">
+                    <span class="zVisually-hidden">New alerts</span>
+                </span>
+            </button>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;button type="button" class="zBtn zBtn-primary" style="position: relative;"&gt;
+  Inbox
+  &lt;span style="position: absolute; top: 0; left: 100%; 
+               transform: translate(-50%, -50%);" 
+        class="zBadge zRounded-pill zBadge-danger"&gt;
+    99+
+    &lt;span class="zVisually-hidden"&gt;unread messages&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/button&gt;</code></pre>
+
+        <p style="margin-top: 1.5rem;"><strong>Note:</strong> The second example uses inline styles to create a simple notification dot without text—just a colored circle.</p>
+    </section>
+
+    <!-- Pill Badges -->
+    <section style="margin: 3rem 0;">
+        <h2>Pill Badges</h2>
+        <p>Add <code>.zRounded-pill</code> to make badges more rounded with a larger border radius. Perfect for tags and labels:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <span class="zBadge zRounded-pill zBadge-primary">Primary</span>
+            <span class="zBadge zRounded-pill zBadge-secondary">Secondary</span>
+            <span class="zBadge zRounded-pill zBadge-success">Success</span>
+            <span class="zBadge zRounded-pill zBadge-danger">Danger</span>
+            <span class="zBadge zRounded-pill zBadge-warning">Warning</span>
+            <span class="zBadge zRounded-pill zBadge-info">Info</span>
+            <span class="zBadge zRounded-pill zBadge-light">Light</span>
+            <span class="zBadge zRounded-pill zBadge-dark">Dark</span>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;span class="zBadge zRounded-pill zBadge-primary"&gt;Primary&lt;/span&gt;
+&lt;span class="zBadge zRounded-pill zBadge-success"&gt;Success&lt;/span&gt;
+&lt;span class="zBadge zRounded-pill zBadge-info"&gt;Info&lt;/span&gt;</code></pre>
+    </section>
+
+    <!-- Use Cases -->
+    <section style="margin: 3rem 0;">
+        <h2>Real-World Use Cases</h2>
+        
+        <h3 style="margin-top: 2rem;">Status Labels</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <p>Order #12345 <span class="zBadge zBadge-success">Delivered</span></p>
+            <p>Payment <span class="zBadge zBadge-warning">Pending</span></p>
+            <p>Account <span class="zBadge zBadge-danger">Suspended</span></p>
+            <p>Connection <span class="zBadge zBadge-info">Online</span></p>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Feature Tags</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <h4>Dark Mode <span class="zBadge zRounded-pill zBadge-success">New</span></h4>
+            <h4>Advanced Analytics <span class="zBadge zRounded-pill zBadge-warning">Beta</span></h4>
+            <h4>API Access <span class="zBadge zRounded-pill zBadge-info">Pro</span></h4>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Content Categories</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <article style="margin-bottom: 1.5rem;">
+                <h5 style="margin: 0;">Getting Started with zTheme</h5>
+                <p style="margin: 0.5rem 0; color: var(--color-secondary);">
+                    <span class="zBadge zRounded-pill zBadge-primary">Tutorial</span>
+                    <span class="zBadge zRounded-pill zBadge-info">Beginner</span>
+                    <span class="zBadge zRounded-pill zBadge-light" style="color: var(--color-darkgray);">5 min read</span>
+                </p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Use sparingly:</strong> Too many badges create visual clutter—highlight only what's truly important</li>
+            <li><strong>Keep text short:</strong> Badges are for quick glances—use 1-3 words max</li>
+            <li><strong>Choose appropriate colors:</strong> Match badge variants to their semantic meaning (success = green, danger = red)</li>
+            <li><strong>Don't replace buttons:</strong> Badges are informational, not interactive—use buttons for actions</li>
+            <li><strong>Provide context:</strong> Ensure screen reader users understand the badge's meaning</li>
+            <li><strong>Test contrast:</strong> Verify text is readable on the badge background (especially <code>.zBadge-light</code>)</li>
+            <li><strong>Consider scale:</strong> Badges inherit parent size—test them in all contexts (headings, buttons, text)</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+        
+        <h3 style="margin-top: 2rem;">Badge Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zBadge</code></td>
+                    <td>Base badge container (required)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBadge-primary</code></td>
+                    <td>Primary brand badge (green)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBadge-secondary</code></td>
+                    <td>Secondary neutral badge (gray)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBadge-success</code></td>
+                    <td>Success or positive state (green)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBadge-danger</code></td>
+                    <td>Error or critical state (red)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBadge-warning</code></td>
+                    <td>Warning or caution (orange)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBadge-info</code></td>
+                    <td>Informational state (blue)</td>
+                </tr>
+                <tr>
+                    <td><code>.zBadge-light</code></td>
+                    <td>Light, subtle badge</td>
+                </tr>
+                <tr>
+                    <td><code>.zBadge-dark</code></td>
+                    <td>Dark, high contrast badge</td>
+                </tr>
+                <tr>
+                    <td><code>.zRounded-pill</code></td>
+                    <td>Makes badge fully rounded (pill shape)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Sizing</h3>
+        <p>Badges use relative sizing (<code>font-size: 0.75em</code>) and automatically scale to match their parent element. No additional size classes are needed.</p>
+    </section>
+
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-buttons.html">Buttons</a> - Badges work great in button components</li>
+            <li><a href="ztheme-alerts.html">Alerts</a> - For longer, dismissible feedback messages</li>
+            <li><a href="ztheme-typography.html">Typography</a> - Understanding heading sizes for badge scaling</li>
+        </ul>
+    </section>
+</article>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

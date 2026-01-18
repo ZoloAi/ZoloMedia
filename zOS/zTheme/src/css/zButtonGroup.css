@@ -1,0 +1,119 @@
+/* ============================================================================
+   zButtonGroup.css - Button Group Component
+   ============================================================================
+   
+   Component for grouping buttons together with shared borders and styling.
+   Follows Bootstrap conventions for button groups.
+   
+   Usage: Wrap .zBtn buttons in .zBtn-group container
+   ============================================================================ */
+
+/* Base Button Group
+   ================= */
+.zBtn-group {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.zBtn-group > .zBtn {
+  position: relative;
+  flex: 1 1 auto;
+}
+
+/* Remove rounded corners for grouped buttons */
+.zBtn-group > .zBtn:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin-left: -1px;
+}
+
+.zBtn-group > .zBtn:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Hover and Focus States
+   ====================== */
+.zBtn-group > .zBtn:hover,
+.zBtn-group > .zBtn:focus,
+.zBtn-group > .zBtn:active,
+.zBtn-group > .zBtn.zActive {
+  z-index: 1;
+}
+
+/* Vertical Button Group
+   ===================== */
+.zBtn-group-vertical {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.zBtn-group-vertical > .zBtn {
+  width: 100%;
+}
+
+.zBtn-group-vertical > .zBtn:not(:first-child) {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-top: -1px;
+}
+
+.zBtn-group-vertical > .zBtn:not(:last-child) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Button Group Sizes
+   ================== */
+.zBtn-group-lg > .zBtn {
+  padding: 0.5rem 1rem;
+  font-size: 1.25rem;
+  border-radius: 0.3rem;
+}
+
+.zBtn-group-sm > .zBtn {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+}
+
+/* Button Toolbar
+   ============== */
+.zBtn-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.zBtn-toolbar .zBtn-group {
+  flex-shrink: 0;
+}
+
+/* ============================================================================
+   Utility: Form Button Groups
+   ============================================================================
+   
+   Common pattern: button group aligned to the right for forms
+   ============================================================================ */
+.zBtn-group-form {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* Responsive: Stack on mobile */
+@media (max-width: 576px) {
+  .zBtn-group-form {
+    flex-direction: column;
+  }
+  
+  .zBtn-group-form > .zBtn {
+    width: 100%;
+  }
+}
+

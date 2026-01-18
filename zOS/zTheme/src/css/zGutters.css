@@ -1,0 +1,215 @@
+/* ============================================
+   zGutters.css - Spacing Between Columns
+   Gutter utilities for grid layouts
+   ============================================ */
+
+/* Horizontal Gutters (Default)
+   ============================= */
+.zG-0 { 
+  margin-right: 0; 
+  margin-left: 0; 
+}
+.zG-0 > [class*="zCol"] { 
+  padding-right: 0; 
+  padding-left: 0; 
+}
+
+.zG-1 { 
+  margin-right: -0.25rem; 
+  margin-left: -0.25rem; 
+}
+.zG-1 > [class*="zCol"] { 
+  padding-right: 0.25rem; 
+  padding-left: 0.25rem; 
+}
+
+.zG-2 { 
+  margin-right: -0.5rem; 
+  margin-left: -0.5rem; 
+}
+.zG-2 > [class*="zCol"] { 
+  padding-right: 0.5rem; 
+  padding-left: 0.5rem; 
+}
+
+.zG-3 { 
+  margin-right: -0.75rem; 
+  margin-left: -0.75rem; 
+}
+.zG-3 > [class*="zCol"] { 
+  padding-right: 0.75rem; 
+  padding-left: 0.75rem; 
+}
+
+.zG-4 { 
+  margin-right: -1rem; 
+  margin-left: -1rem; 
+}
+.zG-4 > [class*="zCol"] { 
+  padding-right: 1rem; 
+  padding-left: 1rem; 
+}
+
+.zG-5 { 
+  margin-right: -1.5rem; 
+  margin-left: -1.5rem; 
+}
+.zG-5 > [class*="zCol"] { 
+  padding-right: 1.5rem; 
+  padding-left: 1.5rem; 
+}
+
+/* Horizontal-Only Gutters
+   ======================== */
+.zGx-0 { 
+  margin-right: 0; 
+  margin-left: 0; 
+}
+.zGx-0 > [class*="zCol"] { 
+  padding-right: 0; 
+  padding-left: 0; 
+}
+
+.zGx-1 { 
+  margin-right: -0.25rem; 
+  margin-left: -0.25rem; 
+}
+.zGx-1 > [class*="zCol"] { 
+  padding-right: 0.25rem; 
+  padding-left: 0.25rem; 
+}
+
+.zGx-2 { 
+  margin-right: -0.5rem; 
+  margin-left: -0.5rem; 
+}
+.zGx-2 > [class*="zCol"] { 
+  padding-right: 0.5rem; 
+  padding-left: 0.5rem; 
+}
+
+.zGx-3 { 
+  margin-right: -0.75rem; 
+  margin-left: -0.75rem; 
+}
+.zGx-3 > [class*="zCol"] { 
+  padding-right: 0.75rem; 
+  padding-left: 0.75rem; 
+}
+
+.zGx-4 { 
+  margin-right: -1rem; 
+  margin-left: -1rem; 
+}
+.zGx-4 > [class*="zCol"] { 
+  padding-right: 1rem; 
+  padding-left: 1rem; 
+}
+
+.zGx-5 { 
+  margin-right: -1.5rem; 
+  margin-left: -1.5rem; 
+}
+.zGx-5 > [class*="zCol"] { 
+  padding-right: 1.5rem; 
+  padding-left: 1.5rem; 
+}
+
+/* Vertical-Only Gutters
+   ====================== */
+.zGy-0 > [class*="zCol"] { 
+  padding-top: 0; 
+  padding-bottom: 0; 
+}
+
+.zGy-1 > [class*="zCol"] { 
+  padding-top: 0.25rem; 
+  padding-bottom: 0.25rem; 
+}
+
+.zGy-2 > [class*="zCol"] { 
+  padding-top: 0.5rem; 
+  padding-bottom: 0.5rem; 
+}
+
+.zGy-3 > [class*="zCol"] { 
+  padding-top: 0.75rem; 
+  padding-bottom: 0.75rem; 
+}
+
+.zGy-4 > [class*="zCol"] { 
+  padding-top: 1rem; 
+  padding-bottom: 1rem; 
+}
+
+.zGy-5 > [class*="zCol"] { 
+  padding-top: 1.5rem; 
+  padding-bottom: 1.5rem; 
+}
+
+/* Responsive Gutters - Small (sm) ≥576px
+   ======================================= */
+@media (min-width: 576px) {
+  .zG-sm-0 { margin-right: 0; margin-left: 0; }
+  .zG-sm-0 > [class*="zCol"] { padding-right: 0; padding-left: 0; }
+  
+  .zG-sm-1 { margin-right: -0.25rem; margin-left: -0.25rem; }
+  .zG-sm-1 > [class*="zCol"] { padding-right: 0.25rem; padding-left: 0.25rem; }
+  
+  .zG-sm-2 { margin-right: -0.5rem; margin-left: -0.5rem; }
+  .zG-sm-2 > [class*="zCol"] { padding-right: 0.5rem; padding-left: 0.5rem; }
+  
+  .zG-sm-3 { margin-right: -0.75rem; margin-left: -0.75rem; }
+  .zG-sm-3 > [class*="zCol"] { padding-right: 0.75rem; padding-left: 0.75rem; }
+  
+  .zG-sm-4 { margin-right: -1rem; margin-left: -1rem; }
+  .zG-sm-4 > [class*="zCol"] { padding-right: 1rem; padding-left: 1rem; }
+  
+  .zG-sm-5 { margin-right: -1.5rem; margin-left: -1.5rem; }
+  .zG-sm-5 > [class*="zCol"] { padding-right: 1.5rem; padding-left: 1.5rem; }
+}
+
+/* Responsive Gutters - Medium (md) ≥768px
+   ======================================== */
+@media (min-width: 768px) {
+  .zG-md-0 { margin-right: 0; margin-left: 0; }
+  .zG-md-0 > [class*="zCol"] { padding-right: 0; padding-left: 0; }
+  
+  .zG-md-1 { margin-right: -0.25rem; margin-left: -0.25rem; }
+  .zG-md-1 > [class*="zCol"] { padding-right: 0.25rem; padding-left: 0.25rem; }
+  
+  .zG-md-2 { margin-right: -0.5rem; margin-left: -0.5rem; }
+  .zG-md-2 > [class*="zCol"] { padding-right: 0.5rem; padding-left: 0.5rem; }
+  
+  .zG-md-3 { margin-right: -0.75rem; margin-left: -0.75rem; }
+  .zG-md-3 > [class*="zCol"] { padding-right: 0.75rem; padding-left: 0.75rem; }
+  
+  .zG-md-4 { margin-right: -1rem; margin-left: -1rem; }
+  .zG-md-4 > [class*="zCol"] { padding-right: 1rem; padding-left: 1rem; }
+  
+  .zG-md-5 { margin-right: -1.5rem; margin-left: -1.5rem; }
+  .zG-md-5 > [class*="zCol"] { padding-right: 1.5rem; padding-left: 1.5rem; }
+}
+
+/* Responsive Gutters - Large (lg) ≥992px
+   ======================================= */
+@media (min-width: 992px) {
+  .zG-lg-0 { margin-right: 0; margin-left: 0; }
+  .zG-lg-0 > [class*="zCol"] { padding-right: 0; padding-left: 0; }
+  
+  .zG-lg-1 { margin-right: -0.25rem; margin-left: -0.25rem; }
+  .zG-lg-1 > [class*="zCol"] { padding-right: 0.25rem; padding-left: 0.25rem; }
+  
+  .zG-lg-2 { margin-right: -0.5rem; margin-left: -0.5rem; }
+  .zG-lg-2 > [class*="zCol"] { padding-right: 0.5rem; padding-left: 0.5rem; }
+  
+  .zG-lg-3 { margin-right: -0.75rem; margin-left: -0.75rem; }
+  .zG-lg-3 > [class*="zCol"] { padding-right: 0.75rem; padding-left: 0.75rem; }
+  
+  .zG-lg-4 { margin-right: -1rem; margin-left: -1rem; }
+  .zG-lg-4 > [class*="zCol"] { padding-right: 1rem; padding-left: 1rem; }
+  
+  .zG-lg-5 { margin-right: -1.5rem; margin-left: -1.5rem; }
+  .zG-lg-5 > [class*="zCol"] { padding-right: 1.5rem; padding-left: 1.5rem; }
+}
+

@@ -1,53 +1,7 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
+# zlsp package-specific ignore patterns
+# (Common patterns handled by root .gitignore)
 
-# Distribution / packaging
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-*.egg
-MANIFEST
-
-# PyInstaller
-*.manifest
-*.spec
-
-# Testing
-.tox/
-.nox/
-.coverage
-.coverage.*
-htmlcov/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.hypothesis/
-.pytype/
-cov.xml
-*.cover
-*.log
-nosetests.xml
-coverage.xml
-*.mo
-*.pot
-
-# VS Code marketplace package (generated)
+# VS Code marketplace package (generated during build)
 editors/vscode/marketplace-package/
 
 # Visual regression test screenshots (ephemeral, not golden baselines)
@@ -59,41 +13,3 @@ visual-report.html
 
 # Keep golden baselines (these should be committed)
 !tests/visual/golden/*.png
-
-# Archive folder for planning/audit docs
-archive/
-
-# macOS
-.DS_Store
-.AppleDouble
-.LSOverride
-._*
-
-# IDEs
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.project
-.pydevproject
-.settings/
-
-# Environment
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# pyenv
-.python-version
-
-# Editors
-*.bak
-*.orig

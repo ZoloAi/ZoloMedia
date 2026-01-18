@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer zp-5">
+    <h1 class="zmb-2">📺 Display Utilities</h1>
+    <p class="zLead text-muted zmb-6">
+        Quickly and responsively toggle the display value of components across breakpoints and print media.
+    </p>
+
+    <hr class="zmy-5 hr-visible">
+
+    <!-- Understanding Display Utilities -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Understanding Display Utilities</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Display utilities control how elements are rendered using the CSS <code>display</code> property. 
+            They're essential for responsive design, allowing you to show/hide elements at different screen sizes 
+            and control layout behavior.
+        </p>
+
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Pro Tip:</strong> Combine display utilities with breakpoint suffixes 
+            (e.g., <code>.zD-none .zD-md-block</code>) to hide elements on mobile but show them on desktop!</p>
+        </div>
+    </section>
+
+    <!-- Notation -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">Class Naming</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Display utility classes follow this pattern:
+        </p>
+
+        <ul style="line-height: 1.8; margin-bottom: 1.5rem;">
+            <li><code>.zD-{value}</code> - Applies at all screen sizes (xs and up)</li>
+            <li><code>.zD-{breakpoint}-{value}</code> - Applies at specified breakpoint and up</li>
+            <li><code>.zD-print-{value}</code> - Applies only when printing</li>
+        </ul>
+
+        <p style="margin-bottom: 1rem;"><strong>Available values:</strong></p>
+        <ul style="line-height: 1.8;">
+            <li><code>none</code> - <code>display: none</code></li>
+            <li><code>inline</code> - <code>display: inline</code></li>
+            <li><code>inline-block</code> - <code>display: inline-block</code></li>
+            <li><code>block</code> - <code>display: block</code></li>
+            <li><code>grid</code> - <code>display: grid</code></li>
+            <li><code>table</code> - <code>display: table</code></li>
+            <li><code>table-row</code> - <code>display: table-row</code></li>
+            <li><code>table-cell</code> - <code>display: table-cell</code></li>
+            <li><code>flex</code> - <code>display: flex</code></li>
+            <li><code>inline-flex</code> - <code>display: inline-flex</code></li>
+        </ul>
+    </section>
+
+    <!-- Basic Examples -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Basic Display Values</h2>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Inline Elements</h3>
+        <p style="margin-bottom: 1rem;">Elements flow horizontally like text:</p>
+        <div style="border: 2px dashed #dee2e6; padding: 1rem; background: white; margin-bottom: 1rem;">
+            <div class="zD-inline zBg-primary zText-white" style="padding: 0.5rem;">Inline 1</div>
+            <div class="zD-inline zBg-secondary zText-white" style="padding: 0.5rem;">Inline 2</div>
+            <div class="zD-inline zBg-success zText-white" style="padding: 0.5rem;">Inline 3</div>
+        </div>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zD-inline"&gt;Inline 1&lt;/div&gt;
+&lt;div class="zD-inline"&gt;Inline 2&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Block Elements</h3>
+        <p style="margin-bottom: 1rem;">Elements stack vertically (full width):</p>
+        <div style="border: 2px dashed #dee2e6; padding: 1rem; background: white; margin-bottom: 1rem;">
+            <span class="zD-block zBg-primary zText-white" style="padding: 0.5rem;">Block 1</span>
+            <span class="zD-block zBg-secondary zText-white" style="padding: 0.5rem; margin-top: 0.5rem;">Block 2</span>
+            <span class="zD-block zBg-success zText-white" style="padding: 0.5rem; margin-top: 0.5rem;">Block 3</span>
+        </div>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;span class="zD-block"&gt;Block 1&lt;/span&gt;
+&lt;span class="zD-block"&gt;Block 2&lt;/span&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Inline-Block Elements</h3>
+        <p style="margin-bottom: 1rem;">Flow horizontally but respect width/height:</p>
+        <div style="border: 2px dashed #dee2e6; padding: 1rem; background: white; margin-bottom: 1rem;">
+            <div class="zD-inline-block zBg-info zText-white" style="padding: 0.5rem; width: 100px;">Box 1</div>
+            <div class="zD-inline-block zBg-warning zText-dark" style="padding: 0.5rem; width: 150px;">Box 2</div>
+            <div class="zD-inline-block zBg-danger zText-white" style="padding: 0.5rem; width: 120px;">Box 3</div>
+        </div>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zD-inline-block" style="width: 100px;"&gt;Box 1&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Hiding Elements Responsively -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Responsive Visibility (Hiding/Showing Elements)</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            The most common use case: hide elements on mobile, show on desktop (or vice versa).
+        </p>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Live Demo: Resize Your Browser!</h3>
+        <div style="display: grid; gap: 1rem; margin: 2rem 0;">
+            <div class="zBorder zRounded zBg-light" style="padding: 1.5rem;">
+                <p class="zD-block zD-md-none zText-info" style="margin: 0;font-size: 1.125rem;">
+                    📱 <strong>Mobile Only</strong> - Hidden on tablets/desktops (≥768px)
+                </p>
+                <p class="zD-none zD-md-block zText-success" style="margin: 0; font-size: 1.125rem;">
+                    💻 <strong>Desktop Only</strong> - Hidden on mobile, visible on tablets/desktops (≥768px)
+                </p>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- Mobile only --&gt;
+&lt;div class="zD-block zD-md-none"&gt;
+  Hidden on desktop (≥768px)
+&lt;/div&gt;
+
+&lt;!-- Desktop only --&gt;
+&lt;div class="zD-none zD-md-block"&gt;
+  Hidden on mobile, visible on desktop (≥768px)
+&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 3rem; color: #495057;">Common Responsive Patterns</h3>
+        <table class="zTable zTable-striped">
+            <thead>
+                <tr>
+                    <th>Goal</th>
+                    <th>Classes</th>
+                    <th>Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Hidden on all</td>
+                    <td><code>.zD-none</code></td>
+                    <td>Never visible</td>
+                </tr>
+                <tr>
+                    <td>Visible on all</td>
+                    <td><code>.zD-block</code></td>
+                    <td>Always visible</td>
+                </tr>
+                <tr>
+                    <td>Hidden only on mobile</td>
+                    <td><code>.zD-none .zD-md-block</code></td>
+                    <td>Hidden <768px, visible ≥768px</td>
+                </tr>
+                <tr>
+                    <td>Hidden only on desktop</td>
+                    <td><code>.zD-block .zD-md-none</code></td>
+                    <td>Visible <768px, hidden ≥768px</td>
+                </tr>
+                <tr>
+                    <td>Visible only on tablets</td>
+                    <td><code>.zD-none .zD-md-block .zD-lg-none</code></td>
+                    <td>Only visible 768px-991px</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Flexbox & Grid -->
+    <section class="zmy-6">
+        <h2 class="zText-warning">Modern Layout: Flex & Grid</h2>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Flexbox (.zD-flex)</h3>
+        <p style="margin-bottom: 1rem;">Create flexible, responsive layouts:</p>
+        <div class="zD-flex zBorder zRounded" style="padding: 1rem; background: white; gap: 1rem; margin-bottom: 1rem;">
+            <div class="zBg-primary zText-white" style="padding: 1rem; flex: 1;">Flex Item 1</div>
+            <div class="zBg-secondary zText-white" style="padding: 1rem; flex: 1;">Flex Item 2</div>
+            <div class="zBg-success zText-white" style="padding: 1rem; flex: 1;">Flex Item 3</div>
+        </div>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zD-flex" style="gap: 1rem;"&gt;
+  &lt;div style="flex: 1;"&gt;Item 1&lt;/div&gt;
+  &lt;div style="flex: 1;"&gt;Item 2&lt;/div&gt;
+  &lt;div style="flex: 1;"&gt;Item 3&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem; color: #495057;">CSS Grid (.zD-grid)</h3>
+        <p style="margin-bottom: 1rem;">Create powerful grid layouts:</p>
+        <div class="zD-grid zBorder zRounded" style="padding: 1rem; background: white; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1rem;">
+            <div class="zBg-info zText-white" style="padding: 1rem;">Grid Cell 1</div>
+            <div class="zBg-warning zText-dark" style="padding: 1rem;">Grid Cell 2</div>
+            <div class="zBg-danger zText-white" style="padding: 1rem;">Grid Cell 3</div>
+            <div class="zBg-success zText-white" style="padding: 1rem;">Grid Cell 4</div>
+            <div class="zBg-primary zText-white" style="padding: 1rem;">Grid Cell 5</div>
+            <div class="zBg-secondary zText-white" style="padding: 1rem;">Grid Cell 6</div>
+        </div>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zD-grid" style="grid-template-columns: repeat(3, 1fr); gap: 1rem;"&gt;
+  &lt;div&gt;Cell 1&lt;/div&gt;
+  &lt;div&gt;Cell 2&lt;/div&gt;
+  &lt;div&gt;Cell 3&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Print Utilities -->
+    <section class="zmy-6">
+        <h2 class="zText-danger">Print Utilities</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Control what's visible when users print your page (File → Print or Ctrl+P):
+        </p>
+
+        <div style="display: grid; gap: 1rem; margin: 2rem 0;">
+            <div class="zBorder zBorder-info zRounded" style="padding: 1.5rem; background: #e3f2fd;">
+                <p class="zText-info" style="margin: 0;"><strong>💻 Screen Only</strong> - This message won't appear when you print this page</p>
+                <code>.zD-print-none</code>
+            </div>
+
+            <div class="zBorder zBorder-success zRounded zD-none zD-print-block" style="padding: 1.5rem; background: #e8f5e9;">
+                <p class="zText-success" style="margin: 0;"><strong>🖨️ Print Only</strong> - This message only appears when printing (hidden on screen)</p>
+                <code>.zD-none .zD-print-block</code>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- Hidden when printing --&gt;
+&lt;div class="zD-print-none"&gt;
+  Navigation, ads, interactive elements
+&lt;/div&gt;
+
+&lt;!-- Only visible when printing --&gt;
+&lt;div class="zD-none zD-print-block"&gt;
+  Print-friendly version, copyright notice
+&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Common Print Scenarios</h3>
+        <table class="zTable">
+            <thead>
+                <tr>
+                    <th>Scenario</th>
+                    <th>Classes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Hide navigation when printing</td>
+                    <td><code>.zD-print-none</code></td>
+                </tr>
+                <tr>
+                    <td>Show copyright only in print</td>
+                    <td><code>.zD-none .zD-print-block</code></td>
+                </tr>
+                <tr>
+                    <td>Ensure content is always visible</td>
+                    <td><code>.zD-block .zD-print-block</code></td>
+                </tr>
+                <tr>
+                    <td>Hide up to desktop, always show in print</td>
+                    <td><code>.zD-none .zD-lg-block .zD-print-block</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <blockquote style="background: #fff8e1; padding: 1rem; border-left: 4px solid #ffa726; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Tip:</strong> Use <kbd>Ctrl+P</kbd> (Windows) or <kbd>⌘+P</kbd> (Mac) 
+            to preview print mode on this page and see the print utilities in action!</p>
+        </blockquote>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2 class="zText-warning">Best Practices</h2>
+
+        <div style="display: grid; gap: 1.5rem; margin-top: 1.5rem;">
+            <div>
+                <h3 style="color: #198754; display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.5rem;">✅</span> DO
+                </h3>
+                <ul style="line-height: 1.8; margin-top: 0.5rem;">
+                    <li>Use <code>.zD-none</code> for mobile-first design (hide by default, show on larger screens)</li>
+                    <li>Combine display utilities for responsive behavior (<code>.zD-none .zD-md-block</code>)</li>
+                    <li>Use <code>.zD-flex</code> and <code>.zD-grid</code> for modern, flexible layouts</li>
+                    <li>Hide non-essential content when printing (<code>.zD-print-none</code> on navigation, ads)</li>
+                    <li>Test responsive behavior by resizing your browser window</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 style="color: #dc3545; display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.5rem;">❌</span> DON'T
+                </h3>
+                <ul style="line-height: 1.8; margin-top: 0.5rem;">
+                    <li>Don't create separate mobile and desktop versions (use responsive utilities instead)</li>
+                    <li>Don't forget to test print view if you're using print utilities</li>
+                    <li>Don't overuse <code>.zD-none</code> - hiding content from screen readers is a separate concern</li>
+                    <li>Don't use display utilities for accessibility hiding (use <code>.zVisually-hidden</code>)</li>
+                    <li>Don't forget that <code>.zD-none</code> completely removes elements from layout (use <code>visibility</code> if you need to preserve space)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- CSS Reference -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">CSS Reference</h2>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Display Value Classes</h3>
+        <table class="zTable zTable-striped">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>CSS</th>
+                    <th>Behavior</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zD-none</code></td>
+                    <td><code>display: none</code></td>
+                    <td>Element not rendered (completely hidden)</td>
+                </tr>
+                <tr>
+                    <td><code>.zD-inline</code></td>
+                    <td><code>display: inline</code></td>
+                    <td>Flows like text, no width/height</td>
+                </tr>
+                <tr>
+                    <td><code>.zD-inline-block</code></td>
+                    <td><code>display: inline-block</code></td>
+                    <td>Flows like text, respects width/height</td>
+                </tr>
+                <tr>
+                    <td><code>.zD-block</code></td>
+                    <td><code>display: block</code></td>
+                    <td>Full width, stacks vertically</td>
+                </tr>
+                <tr>
+                    <td><code>.zD-grid</code></td>
+                    <td><code>display: grid</code></td>
+                    <td>CSS Grid container</td>
+                </tr>
+                <tr>
+                    <td><code>.zD-table</code></td>
+                    <td><code>display: table</code></td>
+                    <td>Behaves like &lt;table&gt;</td>
+                </tr>
+                <tr>
+                    <td><code>.zD-table-row</code></td>
+                    <td><code>display: table-row</code></td>
+                    <td>Behaves like &lt;tr&gt;</td>
+                </tr>
+                <tr>
+                    <td><code>.zD-table-cell</code></td>
+                    <td><code>display: table-cell</code></td>
+                    <td>Behaves like &lt;td&gt;</td>
+                </tr>
+                <tr>
+                    <td><code>.zD-flex</code></td>
+                    <td><code>display: flex</code></td>
+                    <td>Flexbox container</td>
+                </tr>
+                <tr>
+                    <td><code>.zD-inline-flex</code></td>
+                    <td><code>display: inline-flex</code></td>
+                    <td>Inline flexbox container</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Responsive Breakpoints</h3>
+        <table class="zTable">
+            <thead>
+                <tr>
+                    <th>Breakpoint</th>
+                    <th>Class Infix</th>
+                    <th>Screen Width</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Extra small (xs)</td>
+                    <td><em>None</em></td>
+                    <td>&lt;576px</td>
+                    <td><code>.zD-none</code></td>
+                </tr>
+                <tr>
+                    <td>Small (sm)</td>
+                    <td><code>-sm-</code></td>
+                    <td>≥576px</td>
+                    <td><code>.zD-sm-block</code></td>
+                </tr>
+                <tr>
+                    <td>Medium (md)</td>
+                    <td><code>-md-</code></td>
+                    <td>≥768px</td>
+                    <td><code>.zD-md-flex</code></td>
+                </tr>
+                <tr>
+                    <td>Large (lg)</td>
+                    <td><code>-lg-</code></td>
+                    <td>≥992px</td>
+                    <td><code>.zD-lg-grid</code></td>
+                </tr>
+                <tr>
+                    <td>Extra large (xl)</td>
+                    <td><code>-xl-</code></td>
+                    <td>≥1200px</td>
+                    <td><code>.zD-xl-block</code></td>
+                </tr>
+                <tr>
+                    <td>Extra extra large (xxl)</td>
+                    <td><code>-xxl-</code></td>
+                    <td>≥1400px</td>
+                    <td><code>.zD-xxl-none</code></td>
+                </tr>
+                <tr>
+                    <td>Print</td>
+                    <td><code>-print-</code></td>
+                    <td>@media print</td>
+                    <td><code>.zD-print-none</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <blockquote style="background: #e8f5e9; padding: 1rem; border-left: 4px solid #4caf50; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Remember:</strong> Responsive classes apply at the specified breakpoint 
+            <strong>and larger</strong>. For example, <code>.zD-md-block</code> applies at medium (≥768px), 
+            large (≥992px), XL (≥1200px), and XXL (≥1400px) screens.</p>
+        </blockquote>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Related Topics</h2>
+        <ul class="lh-lg">
+            <li><a href="ztheme-flex.html">Flex</a> - Flexbox layout utilities (use with .zD-flex)</li>
+            <li><a href="ztheme-visibility.html">Visibility</a> - Visibility utilities (hide without removing from layout)</li>
+            <li><a href="ztheme-visually-hidden.html">Visually Hidden</a> - Accessibility-friendly hiding</li>
+            <li><a href="ztheme-breakpoints.html">Breakpoints</a> - Responsive design breakpoints</li>
+        </ul>
+    </section>
+
+</div>
+
+<script>
+// No JavaScript needed for display utilities - they're pure CSS!
+</script>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

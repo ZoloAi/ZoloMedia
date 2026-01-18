@@ -1,0 +1,181 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# zSchema.auth.yaml - Unified Authentication Schema (v1.5.4+)
+# ═══════════════════════════════════════════════════════════════════════════
+#
+# This schema defines the SQLite database structure for zAuth subsystem,
+# containing both sessions and permissions tables in ONE unified database.
+# This eliminates schema-switching issues and enables JOIN queries.
+#
+# LOCATION (v1.5.4+):
+#   - Centralized in: zOS/Schemas/ (not in zAuth subsystem)
+#   - Pattern: Follows zOS/UI/ pattern for centralized resources
+#   - Discoverability: All schemas in one place for easy maintenance
+#
+# LOADED BY:
+#   - auth_session_persistence.py (SessionPersistence module)
+#   - authzRBAC.py (RBAC module)
+#   - Both modules use lazy initialization (database created on demand)
+#
+# GIT SECURITY MODEL:
+#   ✅ SAFE in Git:
+#      - This schema file (structure only, NO sensitive data)
+#      - Table definitions, field types, constraints
+#      - Relationships and example queries
+#   
+#   ❌ EXCLUDED from Git (.gitignore):
+#      - *.db, *.sqlite (actual database files with user data)
+#      - .zolo/ (user credentials directory)
+#      - **/credentials (any credentials files)
+#   
+#   Rationale: Schema = code (versioned), Data = state (not versioned)
+#              Follows Django migrations, Rails schema.rb, Flask models patterns
+#
+# VERSION HISTORY:
+#   - v1.5.4: Unified schema (sessions + permissions in ONE database)
+#             Replaced dual-database approach from v1.5.3
+#             Improved: No schema switching, enables JOIN queries
+#   - v1.5.3: Separate sessions.db and permissions.db (deprecated)
+#   - v1.5.0: Initial implementation with basic sessions support
+#
+# BACKWARD COMPATIBILITY:
+#   - Lazy initialization: Databases created only when needed
+#   - Old databases (v1.5.3) are NOT automatically migrated
+#   - Users must manually migrate or delete old databases
+#   - SessionPersistence.cleanup_expired() helps with fresh starts
+#
+# FUTURE SCHEMA CHANGES:
+#   - To modify schema: Edit this file
+#   - To migrate data: Use zData operations in migration script
+#   - To version control: Commit schema changes to git (code review)
+#   - To deploy: Schema ships with zOS package (reproducible)
+#
+# SECURITY BEST PRACTICES:
+#   - Password Storage:
+#       • ALWAYS use bcrypt hashing (auth_password_security.py)
+#       • NEVER store plaintext passwords
+#       • Hash rounds: 12 (balance of security and performance)
+#       • Handle 72-byte bcrypt limit (hash long passwords first)
+#   
+#   - Token Generation:
+#       • Use secrets.token_urlsafe(32) for cryptographic security
+#       • Session IDs: 32-byte URL-safe tokens (unique identifiers)
+#       • API Tokens: 32-byte URL-safe tokens (authentication credentials)
+#   
+#   - Session Expiration:
+#       • Default: 7 days from creation (configurable)
+#       • Automatic cleanup on startup (SessionPersistence._init_db)
+#       • Manual cleanup: SessionPersistence.cleanup_expired()
+#       • Last accessed timestamp tracks session activity
+#   
+#   - Single Session Per User:
+#       • New login deletes existing sessions (last login wins)
+#       • Prevents session accumulation
+#       • Use case: User logs in from multiple devices → only latest is valid
+#   
+#   - Database Isolation:
+#       • Platform-specific data directories (via platformdirs)
+#       • Separate databases per user (no shared state)
+#       • File permissions: Read/write only for current user
+#
+# ═══════════════════════════════════════════════════════════════════════════
+
+Meta:
+  Data_Type: sqlite
+  Data_Label: "auth"
+  Data_Path: "@"
+  Data_Paradigm: classical
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Sessions Table - Persistent Authentication State
+# ═══════════════════════════════════════════════════════════════════════════
+sessions:
+  session_id:
+    type: str
+    pk: true
+    required: true
+    description: "Unique session identifier (32-byte token)"
+  
+  user_id:
+    type: str
+    required: true
+    description: "User's unique identifier"
+  
+  username:
+    type: str
+    required: true
+    description: "Username for authentication"
+  
+  role:
+    type: str
+    required: false
+    default: "user"
+    description: "User's role (user, admin, moderator, etc.)"
+  
+  password_hash:
+    type: str
+    required: true
+    description: "bcrypt hashed password"
+  
+  token:
+    type: str
+    required: true
+    description: "API authentication token"
+  
+  created_at:
+    type: datetime
+    default: now
+    description: "Session creation timestamp"
+  
+  expires_at:
+    type: datetime
+    required: true
+    description: "Session expiration timestamp (7 days default)"
+  
+  last_accessed:
+    type: datetime
+    default: now
+    description: "Last session access timestamp"
+
+# ═══════════════════════════════════════════════════════════════════════════
+# User Permissions Table - RBAC (Role-Based Access Control)
+# ═══════════════════════════════════════════════════════════════════════════
+user_permissions:
+  id:
+    type: int
+    pk: true
+    auto_increment: true
+    description: "Unique permission record ID"
+  
+  user_id:
+    type: str
+    required: true
+    description: "User ID (not FK - permissions persist beyond sessions)"
+  
+  permission:
+    type: str
+    required: true
+    description: "Permission identifier (e.g., 'users.delete', 'system.shutdown')"
+  
+  granted_by:
+    type: str
+    required: false
+    default: "system"
+    description: "Username of admin who granted this permission"
+  
+  granted_at:
+    type: datetime
+    default: now
+    description: "Timestamp when permission was granted"
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Example JOIN Query (via zData):
+# ═══════════════════════════════════════════════════════════════════════════
+# Get all permissions for a user:
+#   z.data.select(
+#       tables=["sessions", "user_permissions"],
+#       joins=[{"table": "user_permissions", "on": "sessions.user_id = user_permissions.user_id"}],
+#       where="sessions.username = 'admin'",
+#       fields=["sessions.username", "sessions.role", "user_permissions.permission"]
+#   )
+# ═══════════════════════════════════════════════════════════════════════════
+

@@ -1,0 +1,1331 @@
+/* ============================================
+   zForms.css - Form Controls & Styles
+   Bootstrap 5.0 inspired form components
+   ============================================ */
+
+/* Form Variables
+   =============== */
+:root {
+  /* Input/Button shared variables */
+  --input-btn-padding-y: 0.375rem;
+  --input-btn-padding-x: 0.75rem;
+  --input-btn-font-size: 1rem;
+  --input-btn-line-height: 1.5;
+  
+  --input-btn-focus-width: 0.25rem;
+  --input-btn-focus-color-opacity: 0.25;
+  --input-btn-focus-color: rgba(92, 169, 255, 0.25); /* zTheme info blue */
+  --input-btn-focus-box-shadow: 0 0 0 0.25rem var(--input-btn-focus-color);
+  
+  --input-btn-padding-y-sm: 0.25rem;
+  --input-btn-padding-x-sm: 0.5rem;
+  --input-btn-font-size-sm: 0.875rem;
+  
+  --input-btn-padding-y-lg: 0.5rem;
+  --input-btn-padding-x-lg: 1rem;
+  --input-btn-font-size-lg: 1.25rem;
+  
+  --input-btn-border-width: 1px;
+  
+  /* Form control variables - zCloud organic styling */
+  --form-control-bg: #fff;
+  --form-control-disabled-bg: var(--color-error); /* Strong red for disabled state - "stop" */
+  --form-control-disabled-color: var(--color-white); /* White text on red */
+  --form-control-readonly-bg: var(--color-info); /* Info blue for readonly state - "view only" */
+  --form-control-readonly-color: var(--color-white); /* White text on blue */
+  --form-control-color: var(--color-darkgray, #212529);
+  --form-control-border-color: var(--color-gray, #6F6F62);
+  --form-control-border-width: 1px;
+  --form-control-border-radius: 8px; /* Organic rounded corners */
+  
+  --form-control-focus-bg: #fff;
+  --form-control-focus-border-color: var(--color-info); /* zTheme info blue focus */
+  --form-control-focus-color: var(--color-darkgray, #212529);
+  --form-control-focus-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle organic shadow */
+  
+  --form-control-placeholder-color: var(--color-gray);
+  
+  /* Form text */
+  --form-text-margin-top: 0.25rem;
+  --form-text-font-size: 0.875em;
+  --form-text-color: var(--color-gray, #6c757d);
+  
+  /* Form check (checkbox/radio) - zolo organic style */
+  --form-check-input-width: 1.25em; /* Slightly larger for better visibility */
+  --form-check-min-height: 1.5rem;
+  --form-check-padding-start: 1.75em;
+  --form-check-margin-bottom: 0.125rem;
+  --form-check-input-bg: var(--color-base); /* Warm base background */
+  --form-check-input-border: 2px solid var(--color-darkgray); /* Darker, more visible border */
+  --form-check-input-border-radius: 5px; /* Organic rounded */
+  --form-check-input-focus-border: var(--color-info);
+  --form-check-input-focus-box-shadow: 0 0 0 0.25rem rgba(92, 169, 255, 0.25);
+  --form-check-input-checked-bg-color: var(--color-success); /* Green checkmark bg */
+  --form-check-input-checked-border-color: var(--color-success);
+  
+  /* Form labels */
+  --form-label-margin-bottom: 0.5rem;
+  --form-label-font-size: inherit;
+  --form-label-font-weight: inherit;
+  --form-label-color: inherit;
+}
+
+/* Base Form Control
+   ================== */
+.zInput {
+  display: block;
+  width: 100%;
+  padding: var(--input-btn-padding-y) var(--input-btn-padding-x);
+  font-size: var(--input-btn-font-size);
+  font-weight: 400;
+  line-height: var(--input-btn-line-height);
+  color: var(--form-control-color);
+  background-color: var(--form-control-bg);
+  background-clip: padding-box;
+  border: var(--form-control-border-width) solid var(--form-control-border-color);
+  border-radius: var(--form-control-border-radius);
+  appearance: none;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zInput {
+    transition: none;
+  }
+}
+
+.zInput:focus {
+  color: var(--form-control-focus-color);
+  background-color: var(--form-control-focus-bg);
+  border-color: var(--form-control-focus-border-color);
+  outline: 0;
+  box-shadow: var(--input-btn-focus-box-shadow), var(--form-control-focus-shadow);
+}
+
+.zInput::placeholder {
+  color: var(--form-control-placeholder-color);
+  opacity: 1;
+}
+
+.zInput:disabled {
+  background-color: var(--form-control-disabled-bg);
+  color: var(--form-control-disabled-color);
+  opacity: 1;
+}
+
+.zInput:disabled::placeholder {
+  color: var(--form-control-disabled-color);
+  opacity: 0.7;
+}
+
+.zInput[readonly] {
+  background-color: var(--form-control-readonly-bg);
+  color: var(--form-control-readonly-color);
+  opacity: 1;
+}
+
+.zInput[readonly]::placeholder {
+  color: var(--form-control-readonly-color);
+  opacity: 0.7;
+}
+
+/* Textarea specific */
+textarea.zInput {
+  min-height: calc(1.5em + (var(--input-btn-padding-y) * 2) + (var(--form-control-border-width) * 2));
+}
+
+/* Form Control Sizing */
+.zInput-sm {
+  min-height: calc(1.5em + (var(--input-btn-padding-y-sm) * 2) + (var(--input-btn-border-width) * 2));
+  padding: var(--input-btn-padding-y-sm) var(--input-btn-padding-x-sm);
+  font-size: var(--input-btn-font-size-sm);
+  border-radius: 6px; /* Organic small radius */
+}
+
+.zInput-lg {
+  min-height: calc(1.5em + (var(--input-btn-padding-y-lg) * 2) + (var(--input-btn-border-width) * 2));
+  padding: var(--input-btn-padding-y-lg) var(--input-btn-padding-x-lg);
+  font-size: var(--input-btn-font-size-lg);
+  border-radius: 10px; /* Organic large radius */
+}
+
+/* Form Control Plain Text
+   ======================== */
+.zInput-plaintext {
+  display: block;
+  width: 100%;
+  padding: var(--input-btn-padding-y) 0;
+  margin-bottom: 0;
+  line-height: var(--input-btn-line-height);
+  color: var(--form-control-color);
+  background-color: transparent;
+  border: solid transparent;
+  border-width: var(--form-control-border-width) 0;
+}
+
+.zInput-plaintext.zInput-sm,
+.zInput-plaintext.zInput-lg {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* Form Control Color Picker
+   ========================== */
+.zInput-color {
+  width: 3rem;
+  height: auto;
+  padding: var(--input-btn-padding-y);
+}
+
+.zInput-color:not(:disabled):not([readonly]) {
+  cursor: pointer;
+}
+
+.zInput-color::-moz-color-swatch {
+  height: 1.5em;
+  border-radius: var(--form-control-border-radius);
+}
+
+.zInput-color::-webkit-color-swatch {
+  height: 1.5em;
+  border-radius: var(--form-control-border-radius);
+}
+
+/* File Input
+   =========== */
+input[type="file"] {
+  overflow: hidden;
+}
+
+input[type="file"]:not(:disabled):not([readonly]) {
+  cursor: pointer;
+}
+
+/* Form Labels
+   ============ */
+.zLabel {
+  margin-bottom: var(--form-label-margin-bottom);
+  font-size: var(--form-label-font-size);
+  font-weight: var(--form-label-font-weight);
+  color: var(--form-label-color);
+}
+
+/* Form Text (Help Text)
+   ====================== */
+.form-text {
+  margin-top: var(--form-text-margin-top);
+  font-size: var(--form-text-font-size);
+  color: var(--form-text-color);
+}
+
+/* Form Check (Checkboxes & Radios)
+   ================================= */
+.zCheck {
+  display: block;
+  min-height: var(--form-check-min-height);
+  padding-left: var(--form-check-padding-start);
+  margin-bottom: var(--form-check-margin-bottom);
+}
+
+.zCheck-input {
+  width: var(--form-check-input-width);
+  height: var(--form-check-input-width);
+  margin-top: calc((1.5 * 1em - var(--form-check-input-width)) / 2);
+  vertical-align: top;
+  background-color: var(--form-check-input-bg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: var(--form-check-input-border);
+  appearance: none;
+  print-color-adjust: exact;
+  float: left;
+  margin-left: calc(var(--form-check-padding-start) * -1);
+}
+
+.zCheck-input[type="checkbox"] {
+  border-radius: var(--form-check-input-border-radius);
+}
+
+.zCheck-input[type="radio"] {
+  border-radius: 50%;
+}
+
+.zCheck-input:active {
+  filter: brightness(90%);
+}
+
+.zCheck-input:focus {
+  border-color: var(--form-check-input-focus-border);
+  outline: 0;
+  box-shadow: var(--form-check-input-focus-box-shadow);
+}
+
+.zCheck-input:checked {
+  background-color: var(--form-check-input-checked-bg-color);
+  border-color: var(--form-check-input-checked-border-color);
+}
+
+.zCheck-input:checked[type="checkbox"] {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+}
+
+.zCheck-input:checked[type="radio"] {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+.zCheck-input:disabled {
+  pointer-events: none;
+  filter: none;
+  opacity: 0.5;
+}
+
+.zCheck-input:disabled ~ .zCheck-label {
+  opacity: 0.5;
+}
+
+.zCheck-label {
+  cursor: pointer;
+}
+
+/* Inline Checkboxes/Radios */
+.zCheck-inline {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
+/* Indeterminate State */
+.zCheck-input:indeterminate {
+  background-color: var(--color-primary, #0d6efd);
+  border-color: var(--color-primary, #0d6efd);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e");
+}
+
+/* Switches (Toggle)
+   ================== */
+.zSwitch {
+  padding-left: 2.5em;
+}
+
+.zSwitch .zCheck-input {
+  width: 2em;
+  margin-left: -2.5em;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280, 0, 0, 0.25%29'/%3e%3c/svg%3e");
+  background-position: left center;
+  border-radius: 2em;
+  transition: background-position 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zSwitch .zCheck-input {
+    transition: none;
+  }
+}
+
+.zSwitch .zCheck-input:focus {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%2386b7fe'/%3e%3c/svg%3e");
+}
+
+.zSwitch .zCheck-input:checked {
+  background-position: right center;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+/* Toggle Buttons (Button-style checkboxes/radios)
+   ================================================ */
+.zBtn-check {
+  position: absolute;
+  clip: rect(0, 0, 0, 0);
+  pointer-events: none;
+}
+
+.zBtn-check:disabled + .zBtn,
+.zBtn-check[disabled] + .zBtn {
+  pointer-events: none;
+  filter: none;
+  opacity: 0.65;
+}
+
+/* Button Outline Variants for Toggle Buttons */
+.zBtn-outline-primary {
+  color: var(--color-primary, #0d6efd);
+  border-color: var(--color-primary, #0d6efd);
+}
+
+.zBtn-outline-primary:hover {
+  color: #fff;
+  background-color: var(--color-primary, #0d6efd);
+  border-color: var(--color-primary, #0d6efd);
+}
+
+.zBtn-check:checked + .zBtn-outline-primary {
+  color: #fff;
+  background-color: var(--color-primary, #0d6efd);
+  border-color: var(--color-primary, #0d6efd);
+}
+
+.zBtn-outline-secondary {
+  color: var(--color-secondary, #6c757d);
+  border-color: var(--color-secondary, #6c757d);
+}
+
+.zBtn-outline-secondary:hover {
+  color: #fff;
+  background-color: var(--color-secondary, #6c757d);
+  border-color: var(--color-secondary, #6c757d);
+}
+
+.zBtn-check:checked + .zBtn-outline-secondary {
+  color: #fff;
+  background-color: var(--color-secondary, #6c757d);
+  border-color: var(--color-secondary, #6c757d);
+}
+
+.zBtn-outline-success {
+  color: var(--color-success, #198754);
+  border-color: var(--color-success, #198754);
+}
+
+.zBtn-outline-success:hover {
+  color: #fff;
+  background-color: var(--color-success, #198754);
+  border-color: var(--color-success, #198754);
+}
+
+.zBtn-check:checked + .zBtn-outline-success {
+  color: #fff;
+  background-color: var(--color-success, #198754);
+  border-color: var(--color-success, #198754);
+}
+
+.zBtn-outline-danger {
+  color: var(--color-error, #dc3545);
+  border-color: var(--color-error, #dc3545);
+}
+
+.zBtn-outline-danger:hover {
+  color: #fff;
+  background-color: var(--color-error, #dc3545);
+  border-color: var(--color-error, #dc3545);
+}
+
+.zBtn-check:checked + .zBtn-outline-danger {
+  color: #fff;
+  background-color: var(--color-error, #dc3545);
+  border-color: var(--color-error, #dc3545);
+}
+
+/* Button Info - zolo style */
+.zBtn-info {
+  color: var(--color-base);
+  background-color: var(--color-info);
+  border-color: var(--color-info);
+}
+
+.zBtn-info:hover {
+  color: var(--color-darkgray);
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+/* Button Warning - zolo style */
+.zBtn-warning {
+  color: var(--color-darkgray);
+  background-color: var(--color-warning);
+  border-color: var(--color-warning);
+}
+
+.zBtn-warning:hover {
+  color: var(--color-base);
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  transform: translateY(-2px);
+}
+
+/* Button Danger - zolo style */
+.zBtn-danger {
+  color: var(--color-base);
+  background-color: var(--color-error);
+  border-color: var(--color-error);
+}
+
+.zBtn-danger:hover {
+  color: var(--color-base);
+  background-color: var(--color-darkgray);
+  border-color: var(--color-darkgray);
+  transform: translateY(-2px);
+}
+
+/* Disabled Fieldsets
+   =================== */
+fieldset:disabled .zInput,
+fieldset:disabled .zSelect {
+  background-color: var(--form-control-disabled-bg);
+  color: var(--form-control-disabled-color);
+  opacity: 1;
+}
+
+fieldset:disabled .zInput::placeholder {
+  color: var(--form-control-disabled-color);
+  opacity: 0.7;
+}
+
+fieldset:disabled .zCheck-input {
+  opacity: 0.5;
+}
+
+/* Form Range (Slider)
+   ==================== */
+.zRange {
+  width: 100%;
+  height: 1.5rem;
+  padding: 0;
+  background-color: transparent;
+  appearance: none;
+}
+
+.zRange:focus {
+  outline: 0;
+}
+
+.zRange:focus::-webkit-slider-thumb {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(162, 212, 110, 0.25);
+}
+
+.zRange:focus::-moz-range-thumb {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(162, 212, 110, 0.25);
+}
+
+.zRange::-moz-focus-outer {
+  border: 0;
+}
+
+.zRange::-webkit-slider-thumb {
+  width: 1rem;
+  height: 1rem;
+  margin-top: -0.25rem;
+  background-color: var(--color-primary, #0d6efd);
+  border: 0;
+  border-radius: 1rem;
+  box-shadow: 0 0.1rem 0.25rem rgba(0, 0, 0, 0.1);
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  appearance: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zRange::-webkit-slider-thumb {
+    transition: none;
+  }
+}
+
+.zRange::-webkit-slider-thumb:active {
+  background-color: #c5e4a0;
+}
+
+.zRange::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 0.5rem;
+  color: transparent;
+  cursor: pointer;
+  background-color: var(--color-border);
+  border-color: transparent;
+  border-radius: 1rem;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+}
+
+.zRange::-moz-range-thumb {
+  width: 1rem;
+  height: 1rem;
+  background-color: var(--color-primary, #0d6efd);
+  border: 0;
+  border-radius: 1rem;
+  box-shadow: 0 0.1rem 0.25rem rgba(0, 0, 0, 0.1);
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  appearance: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zRange::-moz-range-thumb {
+    transition: none;
+  }
+}
+
+.zRange::-moz-range-thumb:active {
+  background-color: #c5e4a0;
+}
+
+.zRange::-moz-range-track {
+  width: 100%;
+  height: 0.5rem;
+  color: transparent;
+  cursor: pointer;
+  background-color: var(--color-border);
+  border-color: transparent;
+  border-radius: 1rem;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.075);
+}
+
+.zRange:disabled {
+  pointer-events: none;
+}
+
+.zRange:disabled::-webkit-slider-thumb {
+  background-color: var(--color-gray);
+}
+
+.zRange:disabled::-moz-range-thumb {
+  background-color: var(--color-gray);
+}
+
+/* Spacing Utilities for Forms
+   ============================ */
+.mb-3 {
+  margin-bottom: 1rem !important;
+}
+
+.mt-0 {
+  margin-top: 0 !important;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap !important;
+}
+
+/* Visually Hidden (for accessibility)
+   ==================================== */
+.zVisually-hidden,
+.zVisually-hidden-focusable:not(:focus):not(:focus-within) {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Grid Column Utilities
+   ====================== */
+.col-sm-2 {
+  flex: 0 0 auto;
+  width: 16.66666667%;
+}
+
+.col-sm-10 {
+  flex: 0 0 auto;
+  width: 83.33333333%;
+}
+
+@media (min-width: 576px) {
+  .col-sm-2 {
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+  }
+  .col-sm-10 {
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+  }
+}
+
+/* Form Select (Basic)
+   ==================== */
+.zSelect {
+  display: block;
+  width: 100%;
+  padding: var(--input-btn-padding-y) var(--input-btn-padding-x);
+  padding-right: calc(0.75rem + 2.25rem);
+  -moz-padding-start: calc(var(--input-btn-padding-x) - 3px);
+  font-size: var(--input-btn-font-size);
+  font-weight: 400;
+  line-height: var(--input-btn-line-height);
+  color: var(--form-control-color);
+  background-color: var(--form-control-bg);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  border: var(--form-control-border-width) solid var(--form-control-border-color);
+  border-radius: var(--form-control-border-radius);
+  appearance: none;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zSelect {
+    transition: none;
+  }
+}
+
+.zSelect:focus {
+  border-color: var(--form-control-focus-border-color);
+  outline: 0;
+  box-shadow: var(--input-btn-focus-box-shadow);
+}
+
+.zSelect[multiple],
+.zSelect[size]:not([size="1"]) {
+  padding-right: var(--input-btn-padding-x);
+  background-image: none;
+}
+
+.zSelect:disabled {
+  background-color: var(--form-control-disabled-bg);
+  color: var(--form-control-disabled-color);
+  opacity: 1;
+}
+
+.zSelect:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 var(--form-control-color);
+}
+
+/* Form Select Sizing - organic */
+.zSelect-sm {
+  padding-top: var(--input-btn-padding-y-sm);
+  padding-bottom: var(--input-btn-padding-y-sm);
+  padding-left: var(--input-btn-padding-x-sm);
+  font-size: var(--input-btn-font-size-sm);
+  border-radius: 6px; /* Organic small */
+}
+
+.zSelect-lg {
+  padding-top: var(--input-btn-padding-y-lg);
+  padding-bottom: var(--input-btn-padding-y-lg);
+  padding-left: var(--input-btn-padding-x-lg);
+  font-size: var(--input-btn-font-size-lg);
+  border-radius: 10px; /* Organic large */
+}
+
+/* Button Styles (for forms)
+   ========================== */
+.zBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600; /* Stronger weight for zolo style */
+  line-height: 1.5;
+  color: var(--color-darkgray, #212529);
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: var(--input-btn-padding-y) var(--input-btn-padding-x);
+  font-size: var(--input-btn-font-size);
+  border-radius: 8px; /* Organic button radius */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle depth */
+  transition: all 0.3s ease; /* Smooth organic transitions */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zBtn {
+    transition: none;
+  }
+}
+
+.zBtn:hover {
+  transform: translateY(-2px); /* Subtle lift on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+.zBtn:focus {
+  outline: 0;
+  box-shadow: var(--input-btn-focus-box-shadow);
+}
+
+.zBtn:disabled,
+.zBtn.disabled {
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+.zBtn-primary {
+  color: var(--color-darkgray);
+  background-color: var(--color-primary); /* zTheme green */
+  border-color: var(--color-primary);
+}
+
+.zBtn-primary:hover {
+  color: var(--color-base);
+  background-color: var(--color-success); /* Shift to success green */
+  border-color: var(--color-success);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.zBtn-primary:focus {
+  color: #fff;
+  background-color: #0b5ed7;
+  border-color: #0a58ca;
+  box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+}
+
+.zBtn-primary:active {
+  color: #fff;
+  background-color: #0a58ca;
+  border-color: #0a53be;
+}
+
+.zBtn-primary:disabled {
+  color: #fff;
+  background-color: var(--color-primary, #0d6efd);
+  border-color: var(--color-primary, #0d6efd);
+}
+
+/* Input Group
+   ============ */
+.zInputGroup {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+
+.zInputGroup > .zInput,
+.zInputGroup > .zSelect {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+}
+
+.zInputGroup > .zInput:focus,
+.zInputGroup > .zSelect:focus {
+  z-index: 3;
+}
+
+.zInputGroup .zBtn {
+  position: relative;
+  z-index: 2;
+}
+
+.zInputGroup .zBtn:focus {
+  z-index: 3;
+}
+
+/* Input Group Text - zolo organic */
+.zInputGroup-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--input-btn-padding-y) var(--input-btn-padding-x);
+  font-size: var(--input-btn-font-size);
+  font-weight: 500;
+  line-height: var(--input-btn-line-height);
+  color: var(--form-control-color);
+  text-align: center;
+  white-space: nowrap;
+  background-color: var(--color-base); /* Warm base color */
+  border: var(--form-control-border-width) solid var(--form-control-border-color);
+  border-radius: 8px; /* Organic rounded */
+}
+
+/* Input Group Text with checkbox/radio - visual state feedback */
+.zInputGroup-text:has(.zCheck-input) {
+  min-width: 3rem;
+  padding: 0.5rem 0.75rem;
+  background-color: rgba(255, 179, 71, 0.15); /* Warning red/orange for unchecked */
+  border: 1px solid rgba(255, 179, 71, 0.4); /* Warning border */
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Input Group Text with CHECKED checkbox/radio - success feedback */
+.zInputGroup-text:has(.zCheck-input:checked) {
+  background-color: rgba(162, 212, 110, 0.15); /* Success green for checked */
+  border: 1px solid rgba(162, 212, 110, 0.4); /* Success border */
+}
+
+/* Reset checkbox/radio float and margins inside input groups */
+.zInputGroup-text .zCheck-input {
+  float: none;
+  margin-left: 0;
+  margin-top: 0;
+}
+
+/* Input Group Sizing - organic */
+.zInputGroup-sm > .zInput,
+.zInputGroup-sm > .zSelect,
+.zInputGroup-sm > .zInputGroup-text,
+.zInputGroup-sm > .zBtn {
+  padding: var(--input-btn-padding-y-sm) var(--input-btn-padding-x-sm);
+  font-size: var(--input-btn-font-size-sm);
+  border-radius: 6px; /* Organic small */
+}
+
+.zInputGroup-lg > .zInput,
+.zInputGroup-lg > .zSelect,
+.zInputGroup-lg > .zInputGroup-text,
+.zInputGroup-lg > .zBtn {
+  padding: var(--input-btn-padding-y-lg) var(--input-btn-padding-x-lg);
+  font-size: var(--input-btn-font-size-lg);
+  border-radius: 10px; /* Organic large */
+}
+
+/* Remove rounded corners from connected elements */
+.zInputGroup:not(.zHas-validation) > :not(:last-child):not(.dropdown-toggle):not(.dropdown-menu),
+.zInputGroup:not(.zHas-validation) > .dropdown-toggle:nth-last-child(n+3) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.zInputGroup > :not(:first-child):not(.dropdown-menu):not(.zValid-tooltip):not(.zValid-feedback):not(.zInvalid-tooltip):not(.zInvalid-feedback) {
+  margin-left: -1px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+/* Floating Labels
+   ================ */
+.zFloating {
+  position: relative;
+}
+
+.zFloating > .zInput,
+.zFloating > .zSelect {
+  height: var(--form-floating-height);
+  line-height: var(--form-floating-line-height);
+}
+
+.zFloating > label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  padding: var(--form-floating-padding-y) var(--form-floating-padding-x);
+  pointer-events: none;
+  border: var(--form-control-border-width) solid transparent;
+  transform-origin: 0 0;
+  transition: var(--form-floating-transition);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zFloating > label {
+    transition: none;
+  }
+}
+
+.zFloating > .zInput {
+  padding: var(--form-floating-input-padding-t) var(--form-floating-padding-x) var(--form-floating-input-padding-b);
+}
+
+.zFloating > .zInput::placeholder {
+  color: transparent;
+}
+
+.zFloating > .zInput:focus,
+.zFloating > .zInput:not(:placeholder-shown) {
+  padding-top: var(--form-floating-input-padding-t);
+  padding-bottom: var(--form-floating-input-padding-b);
+}
+
+.zFloating > .zInput:-webkit-autofill {
+  padding-top: var(--form-floating-input-padding-t);
+  padding-bottom: var(--form-floating-input-padding-b);
+}
+
+.zFloating > .zSelect {
+  padding-top: var(--form-floating-input-padding-t);
+  padding-bottom: var(--form-floating-input-padding-b);
+}
+
+.zFloating > .zInput:focus ~ label,
+.zFloating > .zInput:not(:placeholder-shown) ~ label,
+.zFloating > .zSelect ~ label {
+  opacity: var(--form-floating-label-opacity);
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
+.zFloating > .zInput:-webkit-autofill ~ label {
+  opacity: var(--form-floating-label-opacity);
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
+/* Floating labels with textarea */
+.zFloating > textarea.zInput {
+  height: auto;
+  min-height: var(--form-floating-height);
+}
+
+.zFloating > textarea.zInput:focus,
+.zFloating > textarea.zInput:not(:placeholder-shown) {
+  padding-top: var(--form-floating-input-padding-t);
+  padding-bottom: var(--form-floating-input-padding-b);
+}
+
+/* Validation states */
+.zFloating > .zInput.zInvalid,
+.zFloating > .zInput.zValid {
+  padding-top: var(--form-floating-input-padding-t);
+  padding-bottom: var(--form-floating-input-padding-b);
+}
+
+.zFloating > .zInput.zInvalid ~ label,
+.zFloating > .zInput.zValid ~ label {
+  opacity: var(--form-floating-label-opacity);
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
+/* Invalid state - zolo organic */
+.zInput.zInvalid {
+  border-color: var(--color-error);
+  padding-right: calc(1.5em + 0.75rem);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23E63946'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23E63946' stroke='none'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+  animation: shake 0.3s ease-in-out; /* Subtle shake on invalid */
+}
+
+.zInput.zInvalid:focus {
+  border-color: var(--color-error);
+  box-shadow: 0 0 0 0.25rem rgba(230, 57, 70, 0.25), 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* Valid state - zolo organic */
+.zInput.zValid {
+  border-color: var(--color-success);
+  padding-right: calc(1.5em + 0.75rem);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2352B788' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.zInput.zValid:focus {
+  border-color: var(--color-success);
+  box-shadow: 0 0 0 0.25rem rgba(82, 183, 136, 0.25), 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Grid utilities for form layout */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -0.75rem;
+  margin-left: -0.75rem;
+}
+
+.col-auto {
+  flex: 0 0 auto;
+  width: auto;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+}
+
+.g-3 {
+  margin-right: -0.5rem;
+  margin-left: -0.5rem;
+}
+
+.g-3 > * {
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
+.zCol-label {
+  padding-top: calc(var(--input-btn-padding-y) + 1px);
+  padding-bottom: calc(var(--input-btn-padding-y) + 1px);
+  margin-bottom: 0;
+  font-size: inherit;
+  line-height: var(--input-btn-line-height);
+}
+
+.zCol-label-lg {
+  padding-top: calc(var(--input-btn-padding-y-lg) + 1px);
+  padding-bottom: calc(var(--input-btn-padding-y-lg) + 1px);
+  font-size: var(--input-btn-font-size-lg);
+}
+
+.zCol-label-sm {
+  padding-top: calc(var(--input-btn-padding-y-sm) + 1px);
+  padding-bottom: calc(var(--input-btn-padding-y-sm) + 1px);
+  font-size: var(--input-btn-font-size-sm);
+}
+
+/* Offset utilities for forms */
+.offset-sm-2 {
+  margin-left: 16.66666667%;
+}
+
+/* Form Validation
+   ================ */
+
+/* Feedback messages - zolo organic */
+.zValid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: 0.5rem;
+  font-size: 0.875em;
+  font-weight: 500;
+  color: var(--color-success);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.zValid-tooltip {
+  position: absolute;
+  top: 100%;
+  z-index: 5;
+  display: none;
+  max-width: 100%;
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-base);
+  background-color: var(--color-success);
+  border-radius: 8px; /* Organic tooltip */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.zInvalid-feedback {
+  display: none;
+  width: 100%;
+  margin-top: 0.5rem;
+  font-size: 0.875em;
+  font-weight: 500;
+  color: var(--color-error);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.zInvalid-tooltip {
+  position: absolute;
+  top: 100%;
+  z-index: 5;
+  display: none;
+  max-width: 100%;
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-base);
+  background-color: var(--color-error);
+  border-radius: 8px; /* Organic tooltip */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Show feedback when invalid/valid */
+.zWas-validated :invalid ~ .zInvalid-feedback,
+.zWas-validated :invalid ~ .zInvalid-tooltip,
+.zInvalid ~ .zInvalid-feedback,
+.zInvalid ~ .zInvalid-tooltip {
+  display: block;
+}
+
+.zWas-validated :valid ~ .zValid-feedback,
+.zWas-validated :valid ~ .zValid-tooltip,
+.zValid ~ .zValid-feedback,
+.zValid ~ .zValid-tooltip {
+  display: block;
+}
+
+/* Form control validation states */
+.zWas-validated .zInput:invalid,
+.zInput.zInvalid {
+  border-color: var(--color-error, #dc3545);
+  padding-right: calc(1.5em + 0.75rem);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.zWas-validated .zInput:invalid:focus,
+.zInput.zInvalid:focus {
+  border-color: var(--color-error, #dc3545);
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+
+.zWas-validated .zInput:valid,
+.zInput.zValid {
+  border-color: var(--color-success, #198754);
+  padding-right: calc(1.5em + 0.75rem);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.zWas-validated .zInput:valid:focus,
+.zInput.zValid:focus {
+  border-color: var(--color-success, #198754);
+  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+}
+
+/* Textarea validation */
+.zWas-validated textarea.zInput:invalid,
+textarea.zInput.zInvalid {
+  padding-right: calc(1.5em + 0.75rem);
+  background-position: top calc(0.375em + 0.1875rem) right calc(0.375em + 0.1875rem);
+}
+
+.zWas-validated textarea.zInput:valid,
+textarea.zInput.zValid {
+  padding-right: calc(1.5em + 0.75rem);
+  background-position: top calc(0.375em + 0.1875rem) right calc(0.375em + 0.1875rem);
+}
+
+/* Select validation */
+.zWas-validated .zSelect:invalid,
+.zSelect.zInvalid {
+  border-color: var(--color-error, #dc3545);
+}
+
+.zWas-validated .zSelect:invalid:not([multiple]):not([size]),
+.zWas-validated .zSelect:invalid:not([multiple])[size="1"],
+.zSelect.zInvalid:not([multiple]):not([size]),
+.zSelect.zInvalid:not([multiple])[size="1"] {
+  padding-right: 4.125rem;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center, center right 2.25rem;
+  background-size: 16px 12px, calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.zWas-validated .zSelect:invalid:focus,
+.zSelect.zInvalid:focus {
+  border-color: var(--color-error, #dc3545);
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+
+.zWas-validated .zSelect:valid,
+.zSelect.zValid {
+  border-color: var(--color-success, #198754);
+}
+
+.zWas-validated .zSelect:valid:not([multiple]):not([size]),
+.zWas-validated .zSelect:valid:not([multiple])[size="1"],
+.zSelect.zValid:not([multiple]):not([size]),
+.zSelect.zValid:not([multiple])[size="1"] {
+  padding-right: 4.125rem;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e"), url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+  background-position: right 0.75rem center, center right 2.25rem;
+  background-size: 16px 12px, calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.zWas-validated .zSelect:valid:focus,
+.zSelect.zValid:focus {
+  border-color: var(--color-success, #198754);
+  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+}
+
+/* Checkbox and radio validation */
+.zWas-validated .zCheck-input:invalid,
+.zCheck-input.zInvalid {
+  border-color: var(--color-error, #dc3545);
+}
+
+.zWas-validated .zCheck-input:invalid:checked,
+.zCheck-input.zInvalid:checked {
+  background-color: var(--color-error, #dc3545);
+}
+
+.zWas-validated .zCheck-input:invalid:focus,
+.zCheck-input.zInvalid:focus {
+  box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+}
+
+.zWas-validated .zCheck-input:invalid ~ .zCheck-label,
+.zCheck-input.zInvalid ~ .zCheck-label {
+  color: var(--color-error, #dc3545);
+}
+
+.zWas-validated .zCheck-input:valid,
+.zCheck-input.zValid {
+  border-color: var(--color-success, #198754);
+}
+
+.zWas-validated .zCheck-input:valid:checked,
+.zCheck-input.zValid:checked {
+  background-color: var(--color-success, #198754);
+}
+
+.zWas-validated .zCheck-input:valid:focus,
+.zCheck-input.zValid:focus {
+  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+}
+
+.zWas-validated .zCheck-input:valid ~ .zCheck-label,
+.zCheck-input.zValid ~ .zCheck-label {
+  color: var(--color-success, #198754);
+}
+
+/* Inline form check feedback */
+.zCheck-inline .zCheck-input ~ .zValid-feedback {
+  margin-left: 0.5em;
+}
+
+.zCheck-inline .zCheck-input ~ .zInvalid-feedback {
+  margin-left: 0.5em;
+}
+
+/* Input group validation */
+.zInputGroup .zInput.zValid,
+.zInputGroup .zSelect.zValid {
+  z-index: 1;
+}
+
+.zInputGroup .zInput.zValid:focus,
+.zInputGroup .zSelect.zValid:focus {
+  z-index: 3;
+}
+
+.zInputGroup .zInput.zInvalid,
+.zInputGroup .zSelect.zInvalid {
+  z-index: 2;
+}
+
+.zInputGroup .zInput.zInvalid:focus,
+.zInputGroup .zSelect.zInvalid:focus {
+  z-index: 3;
+}
+
+/* Input group with validation */
+.zInputGroup.zHas-validation > :nth-last-child(n+3):not(.dropdown-toggle):not(.dropdown-menu),
+.zInputGroup.zHas-validation > .dropdown-toggle:nth-last-child(n+4) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Position relative for tooltips */
+.position-relative {
+  position: relative !important;
+}
+
+/* Disabled state */
+.zCheck-input:disabled {
+  pointer-events: none;
+  filter: none;
+  opacity: 0.5;
+}
+
+.zCheck-input[disabled] ~ .zCheck-label,
+.zCheck-input:disabled ~ .zCheck-label {
+  opacity: 0.5;
+}

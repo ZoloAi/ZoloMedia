@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Card Renderer Test - zCLI BifrostClient</title>
+  
+  <!-- zTheme CSS (CDN with cache-busting) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css?v=20251218">
+  
+  <style>
+    /* ONLY body background - NO component styles! */
+    body {
+      background: #f8f9fa;
+      min-height: 100vh;
+    }
+    
+    /* Log styling (not for zTheme components) */
+    #log {
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.875rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .log-entry {
+      padding: 0.25rem 0.5rem;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .log-success { color: #198754; }
+    .log-error { color: #dc3545; }
+    .log-info { color: #0d6efd; }
+  </style>
+</head>
+<body>
+  <!-- Main Container (zTheme) -->
+  <div class="zContainer zMy-4">
+    
+    <!-- Header Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h1 class="zCard-title">Card Renderer Test</h1>
+        <p class="zCard-text zText-muted">
+          Phase 2, Step 2.2: Testing card rendering (primitives-first refactor)
+        </p>
+      </div>
+    </div>
+
+    <!-- Test Controls Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Test Controls</h2>
+        <div class="zD-flex zFlex-wrap zGap-2">
+          <button class="zBtn zBtn-outline-primary" onclick="testBasicCard()">Basic Card</button>
+          <button class="zBtn zBtn-outline-success" onclick="testCardWithHeader()">With Header</button>
+          <button class="zBtn zBtn-outline-info" onclick="testCardWithFooter()">With Footer</button>
+          <button class="zBtn zBtn-outline-warning" onclick="testCardVariants()">All Variants</button>
+          <button class="zBtn zBtn-outline-danger" onclick="testEnhanceCard()">Enhance Card</button>
+          <button class="zBtn zBtn-outline-secondary" onclick="clearRenderZone()">Clear Zone</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Render Zone Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Render Zone</h2>
+        <div id="render-zone" class="zP-3 zBg-white">
+          <!-- Cards will render here -->
+          <p class="zText-muted"><em>Click a test button to render cards...</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log Card -->
+    <div class="zCard">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Console Log</h2>
+        <div id="log" class="zP-3 zBg-light zBorder zRounded">
+          <!-- Logs will appear here -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Import CardRenderer (ES Module) -->
+  <script type="module">
+    import CardRenderer from '../src/rendering/card_renderer.js';
+    
+    // Mock logger that outputs to both console and log div
+    const mockLogger = {
+      log: (...args) => {
+        console.log(...args);
+        addLogEntry(args.join(' '), 'log-info');
+      },
+      warn: (...args) => {
+        console.warn(...args);
+        addLogEntry(args.join(' '), 'log-error');
+      },
+      error: (...args) => {
+        console.error(...args);
+        addLogEntry(args.join(' '), 'log-error');
+      }
+    };
+    
+    function addLogEntry(message, className = 'log-info') {
+      const logDiv = document.getElementById('log');
+      const entry = document.createElement('div');
+      entry.className = `log-entry ${className}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logDiv.appendChild(entry);
+      logDiv.scrollTop = logDiv.scrollHeight;
+    }
+    
+    // Initialize CardRenderer
+    const cardRenderer = new CardRenderer(mockLogger);
+    mockLogger.log('✅ CardRenderer initialized (Primitives-First Refactor)');
+    mockLogger.log('✅ Using: createDiv, createHeading, createParagraph');
+    mockLogger.log('Ready to test! Click a button above.');
+    
+    // Test functions
+    window.testBasicCard = function() {
+      mockLogger.log('Testing basic card...');
+      const card = cardRenderer.createCard({
+        title: 'Basic Card',
+        subtitle: 'Simple card with title and subtitle',
+        text: 'This is a basic card created using primitives. It demonstrates the clean structure of zTheme cards.'
+      });
+      document.getElementById('render-zone').appendChild(card);
+    };
+    
+    window.testCardWithHeader = function() {
+      mockLogger.log('Testing card with header...');
+      const card = cardRenderer.createCard({
+        header: 'Card Header',
+        title: 'Card with Header',
+        text: 'This card includes a header section at the top.',
+        classes: 'zMb-3'
+      });
+      document.getElementById('render-zone').appendChild(card);
+    };
+    
+    window.testCardWithFooter = function() {
+      mockLogger.log('Testing card with footer...');
+      const card = cardRenderer.createCard({
+        title: 'Card with Footer',
+        text: 'This card includes a footer section at the bottom.',
+        footer: 'Last updated: 2 days ago',
+        classes: 'zMb-3'
+      });
+      document.getElementById('render-zone').appendChild(card);
+    };
+    
+    window.testCardVariants = function() {
+      mockLogger.log('Testing all card variants...');
+      const zone = document.getElementById('render-zone');
+      
+      const variants = [
+        { variant: 'primary', title: 'Primary Card', text: 'Brand color variant' },
+        { variant: 'secondary', title: 'Secondary Card', text: 'Secondary color variant' },
+        { variant: 'success', title: 'Success Card', text: 'Success color variant' },
+        { variant: 'info', title: 'Info Card', text: 'Info color variant' },
+        { variant: 'warning', title: 'Warning Card', text: 'Warning color variant' },
+        { variant: 'danger', title: 'Danger Card', text: 'Danger color variant' },
+        { variant: 'light', title: 'Light Card', text: 'Light color variant' },
+        { variant: 'dark', title: 'Dark Card', text: 'Dark color variant' }
+      ];
+      
+      // Create grid container
+      const grid = document.createElement('div');
+      grid.className = 'zD-grid zGap-3';
+      grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(250px, 1fr))';
+      
+      variants.forEach(config => {
+        const card = cardRenderer.createCard(config);
+        grid.appendChild(card);
+      });
+      
+      zone.appendChild(grid);
+      mockLogger.log(`Rendered ${variants.length} card variants`);
+    };
+    
+    window.testEnhanceCard = function() {
+      mockLogger.log('Testing enhanceCard() method...');
+      const zone = document.getElementById('render-zone');
+      
+      // Create a raw card without proper structure
+      const rawCard = document.createElement('div');
+      rawCard.className = 'zCard zMb-3';
+      rawCard.innerHTML = `
+        <h2>Raw Card Title</h2>
+        <p>This card was created without zCard-body wrapper.</p>
+        <p>The enhanceCard() method will fix it!</p>
+      `;
+      
+      zone.appendChild(rawCard);
+      mockLogger.log('Created raw card (no zCard-body)');
+      
+      // Enhance it
+      setTimeout(() => {
+        cardRenderer.enhanceCard(rawCard);
+        mockLogger.log('✅ Card enhanced with zCard-body wrapper');
+        mockLogger.log('✅ Typography classes applied automatically');
+      }, 500);
+    };
+    
+    window.clearRenderZone = function() {
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<p class="zText-muted"><em>Zone cleared. Click a test button...</em></p>';
+      mockLogger.log('Render zone cleared');
+    };
+  </script>
+</body>
+</html>
+

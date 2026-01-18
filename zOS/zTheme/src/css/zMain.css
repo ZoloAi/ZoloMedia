@@ -1,0 +1,29 @@
+/* ============================================
+   zMain.css - Layout & Direction Utilities
+   Note: Body styling is in zReboot.css
+   ============================================ */
+
+/* Text Direction Utilities
+   ========================= */
+.zDirection-rtl {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.zDirection-ltr {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* zVaF Element - Full Declarative UI Canvas
+   ========================================== */
+zVaF {
+  display: block;
+  min-height: 100vh;
+  padding-bottom: 4rem; /* Space for fixed connection bar */
+}
+
+#zVaF-content {
+  display: block;
+  width: 100%;
+}

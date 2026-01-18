@@ -27,6 +27,30 @@ This directory contains framework-specific logic that was extracted from zOS (OS
 | `zspark.py` | 221 lines | zSpark bootstrapping command + 3 helper functions | `zOS/cli/cli_commands.py` (lines 83-229) |
 | `__init__.py` | 37 lines | Package exports for CLI handlers | Created for staging |
 
+### **formatting/** - Framework Colors
+
+| File | Line Count | Description | Origin |
+|------|------------|-------------|--------|
+| `colors.py` | 159 lines | Framework Colors class (subsystems, Walker UI, semantic, brand) | `zOS/formatting/colors.py` (entire file) |
+| `zConfig.colors.zolo` | 283 lines | Color definitions in .zolo format (documentation/customization) | `zOS/formatting/zConfig.colors.zolo` (entire file) |
+| `__init__.py` | 9 lines | Package exports for Colors class | Created for staging |
+
+### **logger/** - Framework Logger Integration
+
+| File | Line Count | Description | Origin |
+|------|------------|-------------|--------|
+| `bootstrap_integration.py` | 102 lines | flush_bootstrap_to_framework() + helpers (LoggerConfig integration) | `zOS/logger/bootstrap.py` (lines 120-172) |
+| `config.py` | 60 lines | get_log_level_from_zspark() (parses zSpark configuration files) | `zOS/logger/config.py` (lines 23-41) |
+| `__init__.py` | 22 lines | Package exports for logger integration | Created for staging |
+
+### **cli/** - Framework CLI Commands
+
+| File | Line Count | Description | Origin |
+|------|------------|-------------|--------|
+| `interactive_editor.py` | 309 lines | Interactive TUI editor for user preferences (menus, boxes, workflow) | `zOS/cli/interactive_editor.py` (entire file) |
+| `zspark.py` | 304 lines | zSpark.*.zolo framework bootstrapping command | `zOS/cli/cli_commands.py` (lines 115-418) |
+| `uninstall.py` | 304 lines | Framework-dependent CLI uninstall handlers | `zOS/install/removal.py` (lines 192-345) |
+
 ---
 
 ## 🔍 **Why These Were Extracted**
@@ -452,10 +476,44 @@ Clean architectural separation achieved: zOS = OS primitives, zKernel = framewor
 - Removed zSpark detection and routing from `zOS/cli/main.py`
 - Commented out `handle_zspark_command` export in `zOS/cli/__init__.py`
 - Added note: zSpark command no longer available in standalone zOS
-- Total extracted: ~1,328 lines (800 errors + 460 cli + 68 __init__)
+
+### **2026-01-17** - Phase 0.4: Framework Colors
+- Extracted 90% of Colors class from `zOS/formatting/colors.py` (framework-specific)
+  - **Subsystem Colors** (12): ZDATA, ZFUNC, ZDIALOG, ZWIZARD, ZDISPLAY, PARSER, CONFIG, ZOPEN, ZCOMM, ZAUTH, EXTERNAL
+  - **Walker Colors** (8): MAIN, SUB, MENU, DISPATCH, ZLINK, ZCRUMB, LOADER, SUBLOADER
+  - **Semantic Colors** (8): zInfo, zSuccess, zWarning, zError + aliases
+  - **Brand Colors** (4): PRIMARY, SECONDARY + aliases
+  - `get_semantic_color()` method - Framework semantic mapping
+- Moved `zConfig.colors.zolo` (283 lines) - Framework color documentation
+- Created minimal `zOS/formatting/ansi.py` (28 lines) - OS-level ANSI codes only
+- Updated `zOS/logger/ecosystem.py` to use inline ANSI codes (no Colors import)
+- Updated `zOS/formatting/terminal.py` to accept ANSI codes directly
+
+### **2026-01-17** - Phase 0.5: Framework Logger Integration
+- Extracted `flush_to_framework()` method from `zOS/logger/bootstrap.py`
+  - Framework-specific logger routing (ERROR → both loggers, INFO → session only)
+  - Depends on zKernel's LoggerConfig structure (framework + session_framework)
+  - Semantic routing policy is framework business logic
+- Extracted `get_log_level_from_zspark()` from `zOS/logger/config.py`
+  - Parses zSpark (framework bootstrapping) configuration files
+  - Framework-specific key aliases ("logger", "log_level", "logLevel", "zLogger")
+- Updated zOS logger docstrings to be OS-centric, not framework-centric
+  - `formats.py`: Changed "zKernel logging" to "unified logging for Zolo apps"
+  - `console.py`: Removed "where zKernel logger isn't available" language
+  - `bootstrap.py`: Updated examples to use OS-level methods only
+
+### **2026-01-17** - Phase 0.6: Interactive TUI Editor
+- Extracted `interactive_editor.py` (309 lines) from `zOS/cli/`
+  - Interactive TUI with menus, boxes, colored prompts (framework UX)
+  - User workflow logic (edit loop, save prompts, change tracking)
+  - Application-level feature, not OS primitive
+- Removed `handle_machine_edit_command()` from `zOS/cli/cli_commands.py`
+- Removed `--edit` flag from `zOS/cli/parser.py`
+- Removed `--edit` routing from `zOS/cli/main.py`
+- Total extracted: ~2,272 lines (800 errors + 460 cli + 68 __init__ + 451 formatting + 184 logger + 309 TUI)
 
 ---
 
-**Status**: ✅ Phase 0.1, 0.2 & 0.3 Complete - Ready for merge when zKernel joins monorepo
+**Status**: ✅ Phase 0.1, 0.2, 0.3, 0.4, 0.5 & 0.6 Complete - Ready for merge when zKernel joins monorepo
 
-**Next Steps**: See Phase 0.6 in `zOS/_PYPI_PUBLISHING_PLAN.md` for next step (remove zTests entry point).
+**Next Steps**: zOS CLI is now minimal OS primitives (read, write, execute) with no interactive TUI!

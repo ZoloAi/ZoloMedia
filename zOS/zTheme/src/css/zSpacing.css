@@ -1,0 +1,278 @@
+/* ============================================
+   zSpacing.css - Spacing Utilities
+   ============================================
+   
+   Margin, padding, and gap utilities for consistent spacing.
+   Aligned with modern responsive design patterns.
+   
+   Classes:
+   - Margin: .zm-*, .zmt-*, .zmb-*, .zms-*, .zme-*, .zmx-*, .zmy-*
+   - Padding: .zp-*, .zpt-*, .zpb-*, .zps-*, .zpe-*, .zpx-*, .zpy-*
+   - Gap: .zGap-*
+   - Negative: .zm-n*, .zmt-n*, etc.
+   - Auto: .zmx-auto (centering)
+   
+   Example:
+   <div class="zmt-3 zpx-4">Margin top 1rem, padding horizontal 1.5rem</div>
+   <div class="zmx-auto">Centered horizontally</div>
+   
+   ============================================ */
+
+/* CSS Variables - Spacing Scale
+   ============================== */
+:root {
+  --zSpacing-0: 0;
+  --zSpacing-1: 0.25rem;  /* 4px */
+  --zSpacing-2: 0.5rem;   /* 8px */
+  --zSpacing-3: 1rem;     /* 16px - base */
+  --zSpacing-4: 1.5rem;   /* 24px */
+  --zSpacing-5: 3rem;     /* 48px - Bootstrap 5 aligned */
+}
+
+/* ============================================
+   Margin Utilities
+   ============================================ */
+
+/* Margin All Sides */
+.zm-0 { margin: var(--zSpacing-0) !important; }
+.zm-1 { margin: var(--zSpacing-1) !important; }
+.zm-2 { margin: var(--zSpacing-2) !important; }
+.zm-3 { margin: var(--zSpacing-3) !important; }
+.zm-4 { margin: var(--zSpacing-4) !important; }
+.zm-5 { margin: var(--zSpacing-5) !important; }
+.zm-auto { margin: auto !important; }
+
+/* Margin Top */
+.zmt-0 { margin-top: var(--zSpacing-0) !important; }
+.zmt-1 { margin-top: var(--zSpacing-1) !important; }
+.zmt-2 { margin-top: var(--zSpacing-2) !important; }
+.zmt-3 { margin-top: var(--zSpacing-3) !important; }
+.zmt-4 { margin-top: var(--zSpacing-4) !important; }
+.zmt-5 { margin-top: var(--zSpacing-5) !important; }
+.zmt-auto { margin-top: auto !important; }
+
+/* Margin Bottom */
+.zmb-0 { margin-bottom: var(--zSpacing-0) !important; }
+.zmb-1 { margin-bottom: var(--zSpacing-1) !important; }
+.zmb-2 { margin-bottom: var(--zSpacing-2) !important; }
+.zmb-3 { margin-bottom: var(--zSpacing-3) !important; }
+.zmb-4 { margin-bottom: var(--zSpacing-4) !important; }
+.zmb-5 { margin-bottom: var(--zSpacing-5) !important; }
+.zmb-auto { margin-bottom: auto !important; }
+
+/* Margin Start (Left in LTR, Right in RTL) */
+.zms-0 { margin-left: var(--zSpacing-0) !important; }
+.zms-1 { margin-left: var(--zSpacing-1) !important; }
+.zms-2 { margin-left: var(--zSpacing-2) !important; }
+.zms-3 { margin-left: var(--zSpacing-3) !important; }
+.zms-4 { margin-left: var(--zSpacing-4) !important; }
+.zms-5 { margin-left: var(--zSpacing-5) !important; }
+.zms-auto { margin-left: auto !important; }
+
+/* Margin End (Right in LTR, Left in RTL) */
+.zme-0 { margin-right: var(--zSpacing-0) !important; }
+.zme-1 { margin-right: var(--zSpacing-1) !important; }
+.zme-2 { margin-right: var(--zSpacing-2) !important; }
+.zme-3 { margin-right: var(--zSpacing-3) !important; }
+.zme-4 { margin-right: var(--zSpacing-4) !important; }
+.zme-5 { margin-right: var(--zSpacing-5) !important; }
+.zme-auto { margin-right: auto !important; }
+
+/* Margin Horizontal (X-axis: Left & Right) */
+.zmx-0 { margin-left: var(--zSpacing-0) !important; margin-right: var(--zSpacing-0) !important; }
+.zmx-1 { margin-left: var(--zSpacing-1) !important; margin-right: var(--zSpacing-1) !important; }
+.zmx-2 { margin-left: var(--zSpacing-2) !important; margin-right: var(--zSpacing-2) !important; }
+.zmx-3 { margin-left: var(--zSpacing-3) !important; margin-right: var(--zSpacing-3) !important; }
+.zmx-4 { margin-left: var(--zSpacing-4) !important; margin-right: var(--zSpacing-4) !important; }
+.zmx-5 { margin-left: var(--zSpacing-5) !important; margin-right: var(--zSpacing-5) !important; }
+.zmx-auto { margin-left: auto !important; margin-right: auto !important; }
+
+/* Margin Vertical (Y-axis: Top & Bottom) */
+.zmy-0 { margin-top: var(--zSpacing-0) !important; margin-bottom: var(--zSpacing-0) !important; }
+.zmy-1 { margin-top: var(--zSpacing-1) !important; margin-bottom: var(--zSpacing-1) !important; }
+.zmy-2 { margin-top: var(--zSpacing-2) !important; margin-bottom: var(--zSpacing-2) !important; }
+.zmy-3 { margin-top: var(--zSpacing-3) !important; margin-bottom: var(--zSpacing-3) !important; }
+.zmy-4 { margin-top: var(--zSpacing-4) !important; margin-bottom: var(--zSpacing-4) !important; }
+.zmy-5 { margin-top: var(--zSpacing-5) !important; margin-bottom: var(--zSpacing-5) !important; }
+.zmy-auto { margin-top: auto !important; margin-bottom: auto !important; }
+
+/* ============================================
+   Negative Margin Utilities
+   ============================================ */
+
+/* Negative Margin All Sides */
+.zm-n1 { margin: calc(var(--zSpacing-1) * -1) !important; }
+.zm-n2 { margin: calc(var(--zSpacing-2) * -1) !important; }
+.zm-n3 { margin: calc(var(--zSpacing-3) * -1) !important; }
+.zm-n4 { margin: calc(var(--zSpacing-4) * -1) !important; }
+.zm-n5 { margin: calc(var(--zSpacing-5) * -1) !important; }
+
+/* Negative Margin Top */
+.zmt-n1 { margin-top: calc(var(--zSpacing-1) * -1) !important; }
+.zmt-n2 { margin-top: calc(var(--zSpacing-2) * -1) !important; }
+.zmt-n3 { margin-top: calc(var(--zSpacing-3) * -1) !important; }
+.zmt-n4 { margin-top: calc(var(--zSpacing-4) * -1) !important; }
+.zmt-n5 { margin-top: calc(var(--zSpacing-5) * -1) !important; }
+
+/* Negative Margin Bottom */
+.zmb-n1 { margin-bottom: calc(var(--zSpacing-1) * -1) !important; }
+.zmb-n2 { margin-bottom: calc(var(--zSpacing-2) * -1) !important; }
+.zmb-n3 { margin-bottom: calc(var(--zSpacing-3) * -1) !important; }
+.zmb-n4 { margin-bottom: calc(var(--zSpacing-4) * -1) !important; }
+.zmb-n5 { margin-bottom: calc(var(--zSpacing-5) * -1) !important; }
+
+/* Negative Margin Start */
+.zms-n1 { margin-left: calc(var(--zSpacing-1) * -1) !important; }
+.zms-n2 { margin-left: calc(var(--zSpacing-2) * -1) !important; }
+.zms-n3 { margin-left: calc(var(--zSpacing-3) * -1) !important; }
+.zms-n4 { margin-left: calc(var(--zSpacing-4) * -1) !important; }
+.zms-n5 { margin-left: calc(var(--zSpacing-5) * -1) !important; }
+
+/* Negative Margin End */
+.zme-n1 { margin-right: calc(var(--zSpacing-1) * -1) !important; }
+.zme-n2 { margin-right: calc(var(--zSpacing-2) * -1) !important; }
+.zme-n3 { margin-right: calc(var(--zSpacing-3) * -1) !important; }
+.zme-n4 { margin-right: calc(var(--zSpacing-4) * -1) !important; }
+.zme-n5 { margin-right: calc(var(--zSpacing-5) * -1) !important; }
+
+/* Negative Margin Horizontal */
+.zmx-n1 { margin-left: calc(var(--zSpacing-1) * -1) !important; margin-right: calc(var(--zSpacing-1) * -1) !important; }
+.zmx-n2 { margin-left: calc(var(--zSpacing-2) * -1) !important; margin-right: calc(var(--zSpacing-2) * -1) !important; }
+.zmx-n3 { margin-left: calc(var(--zSpacing-3) * -1) !important; margin-right: calc(var(--zSpacing-3) * -1) !important; }
+.zmx-n4 { margin-left: calc(var(--zSpacing-4) * -1) !important; margin-right: calc(var(--zSpacing-4) * -1) !important; }
+.zmx-n5 { margin-left: calc(var(--zSpacing-5) * -1) !important; margin-right: calc(var(--zSpacing-5) * -1) !important; }
+
+/* Negative Margin Vertical */
+.zmy-n1 { margin-top: calc(var(--zSpacing-1) * -1) !important; margin-bottom: calc(var(--zSpacing-1) * -1) !important; }
+.zmy-n2 { margin-top: calc(var(--zSpacing-2) * -1) !important; margin-bottom: calc(var(--zSpacing-2) * -1) !important; }
+.zmy-n3 { margin-top: calc(var(--zSpacing-3) * -1) !important; margin-bottom: calc(var(--zSpacing-3) * -1) !important; }
+.zmy-n4 { margin-top: calc(var(--zSpacing-4) * -1) !important; margin-bottom: calc(var(--zSpacing-4) * -1) !important; }
+.zmy-n5 { margin-top: calc(var(--zSpacing-5) * -1) !important; margin-bottom: calc(var(--zSpacing-5) * -1) !important; }
+
+/* ============================================
+   Padding Utilities
+   ============================================ */
+
+/* Padding All Sides */
+.zp-0 { padding: var(--zSpacing-0) !important; }
+.zp-1 { padding: var(--zSpacing-1) !important; }
+.zp-2 { padding: var(--zSpacing-2) !important; }
+.zp-3 { padding: var(--zSpacing-3) !important; }
+.zp-4 { padding: var(--zSpacing-4) !important; }
+.zp-5 { padding: var(--zSpacing-5) !important; }
+
+/* Padding Top */
+.zpt-0 { padding-top: var(--zSpacing-0) !important; }
+.zpt-1 { padding-top: var(--zSpacing-1) !important; }
+.zpt-2 { padding-top: var(--zSpacing-2) !important; }
+.zpt-3 { padding-top: var(--zSpacing-3) !important; }
+.zpt-4 { padding-top: var(--zSpacing-4) !important; }
+.zpt-5 { padding-top: var(--zSpacing-5) !important; }
+
+/* Padding Bottom */
+.zpb-0 { padding-bottom: var(--zSpacing-0) !important; }
+.zpb-1 { padding-bottom: var(--zSpacing-1) !important; }
+.zpb-2 { padding-bottom: var(--zSpacing-2) !important; }
+.zpb-3 { padding-bottom: var(--zSpacing-3) !important; }
+.zpb-4 { padding-bottom: var(--zSpacing-4) !important; }
+.zpb-5 { padding-bottom: var(--zSpacing-5) !important; }
+
+/* Padding Start (Left in LTR, Right in RTL) */
+.zps-0 { padding-left: var(--zSpacing-0) !important; }
+.zps-1 { padding-left: var(--zSpacing-1) !important; }
+.zps-2 { padding-left: var(--zSpacing-2) !important; }
+.zps-3 { padding-left: var(--zSpacing-3) !important; }
+.zps-4 { padding-left: var(--zSpacing-4) !important; }
+.zps-5 { padding-left: var(--zSpacing-5) !important; }
+
+/* Padding End (Right in LTR, Left in RTL) */
+.zpe-0 { padding-right: var(--zSpacing-0) !important; }
+.zpe-1 { padding-right: var(--zSpacing-1) !important; }
+.zpe-2 { padding-right: var(--zSpacing-2) !important; }
+.zpe-3 { padding-right: var(--zSpacing-3) !important; }
+.zpe-4 { padding-right: var(--zSpacing-4) !important; }
+.zpe-5 { padding-right: var(--zSpacing-5) !important; }
+
+/* Padding Horizontal (X-axis: Left & Right) */
+.zpx-0 { padding-left: var(--zSpacing-0) !important; padding-right: var(--zSpacing-0) !important; }
+.zpx-1 { padding-left: var(--zSpacing-1) !important; padding-right: var(--zSpacing-1) !important; }
+.zpx-2 { padding-left: var(--zSpacing-2) !important; padding-right: var(--zSpacing-2) !important; }
+.zpx-3 { padding-left: var(--zSpacing-3) !important; padding-right: var(--zSpacing-3) !important; }
+.zpx-4 { padding-left: var(--zSpacing-4) !important; padding-right: var(--zSpacing-4) !important; }
+.zpx-5 { padding-left: var(--zSpacing-5) !important; padding-right: var(--zSpacing-5) !important; }
+
+/* Padding Vertical (Y-axis: Top & Bottom) */
+.zpy-0 { padding-top: var(--zSpacing-0) !important; padding-bottom: var(--zSpacing-0) !important; }
+.zpy-1 { padding-top: var(--zSpacing-1) !important; padding-bottom: var(--zSpacing-1) !important; }
+.zpy-2 { padding-top: var(--zSpacing-2) !important; padding-bottom: var(--zSpacing-2) !important; }
+.zpy-3 { padding-top: var(--zSpacing-3) !important; padding-bottom: var(--zSpacing-3) !important; }
+.zpy-4 { padding-top: var(--zSpacing-4) !important; padding-bottom: var(--zSpacing-4) !important; }
+.zpy-5 { padding-top: var(--zSpacing-5) !important; padding-bottom: var(--zSpacing-5) !important; }
+
+/* ============================================
+   Gap Utilities (CSS Grid / Flexbox)
+   ============================================ */
+
+.zGap-0 { gap: var(--zSpacing-0) !important; }
+.zGap-1 { gap: var(--zSpacing-1) !important; }
+.zGap-2 { gap: var(--zSpacing-2) !important; }
+.zGap-3 { gap: var(--zSpacing-3) !important; }
+.zGap-4 { gap: var(--zSpacing-4) !important; }
+.zGap-5 { gap: var(--zSpacing-5) !important; }
+
+/* Row Gap (Vertical spacing between rows) */
+.zRow-gap-0 { row-gap: var(--zSpacing-0) !important; }
+.zRow-gap-1 { row-gap: var(--zSpacing-1) !important; }
+.zRow-gap-2 { row-gap: var(--zSpacing-2) !important; }
+.zRow-gap-3 { row-gap: var(--zSpacing-3) !important; }
+.zRow-gap-4 { row-gap: var(--zSpacing-4) !important; }
+.zRow-gap-5 { row-gap: var(--zSpacing-5) !important; }
+
+/* Column Gap (Horizontal spacing between columns) */
+.zColumn-gap-0 { column-gap: var(--zSpacing-0) !important; }
+.zColumn-gap-1 { column-gap: var(--zSpacing-1) !important; }
+.zColumn-gap-2 { column-gap: var(--zSpacing-2) !important; }
+.zColumn-gap-3 { column-gap: var(--zSpacing-3) !important; }
+.zColumn-gap-4 { column-gap: var(--zSpacing-4) !important; }
+.zColumn-gap-5 { column-gap: var(--zSpacing-5) !important; }
+
+/* ============================================
+   Legacy Support (Backward Compatibility)
+   ============================================
+   
+   Old naming (.zmr, .zml, .zpr, .zpl) still works.
+   Use new .zms/.zme/.zps/.zpe for better RTL support.
+   ============================================ */
+
+/* Legacy Margin Left/Right */
+.zml-0 { margin-left: var(--zSpacing-0) !important; }
+.zml-1 { margin-left: var(--zSpacing-1) !important; }
+.zml-2 { margin-left: var(--zSpacing-2) !important; }
+.zml-3 { margin-left: var(--zSpacing-3) !important; }
+.zml-4 { margin-left: var(--zSpacing-4) !important; }
+.zml-5 { margin-left: var(--zSpacing-5) !important; }
+.zml-auto { margin-left: auto !important; }
+
+.zmr-0 { margin-right: var(--zSpacing-0) !important; }
+.zmr-1 { margin-right: var(--zSpacing-1) !important; }
+.zmr-2 { margin-right: var(--zSpacing-2) !important; }
+.zmr-3 { margin-right: var(--zSpacing-3) !important; }
+.zmr-4 { margin-right: var(--zSpacing-4) !important; }
+.zmr-5 { margin-right: var(--zSpacing-5) !important; }
+.zmr-auto { margin-right: auto !important; }
+
+/* Legacy Padding Left/Right */
+.zpl-0 { padding-left: var(--zSpacing-0) !important; }
+.zpl-1 { padding-left: var(--zSpacing-1) !important; }
+.zpl-2 { padding-left: var(--zSpacing-2) !important; }
+.zpl-3 { padding-left: var(--zSpacing-3) !important; }
+.zpl-4 { padding-left: var(--zSpacing-4) !important; }
+.zpl-5 { padding-left: var(--zSpacing-5) !important; }
+
+.zpr-0 { padding-right: var(--zSpacing-0) !important; }
+.zpr-1 { padding-right: var(--zSpacing-1) !important; }
+.zpr-2 { padding-right: var(--zSpacing-2) !important; }
+.zpr-3 { padding-right: var(--zSpacing-3) !important; }
+.zpr-4 { padding-right: var(--zSpacing-4) !important; }
+.zpr-5 { padding-right: var(--zSpacing-5) !important; }
+

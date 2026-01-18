@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Figures - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav style="margin-bottom: 1rem; font-size: 0.9rem;">
+        <a href="ztheme.html" style="color: var(--color-primary);">zTheme</a>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Content</span>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Figures</span>
+    </nav>
+    
+    <h1>Figures</h1>
+    <p style="font-size: 1.25rem; color: var(--color-gray); margin-bottom: 2rem;">
+        Use semantic HTML elements to display images with captions
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- The Figure Element -->
+    <section style="margin: 3rem 0;">
+        <h2>The Figure Element</h2>
+        <p>The <code>&lt;figure&gt;</code> element is semantic HTML for displaying images (or other content) with an optional caption. It tells screen readers and search engines that the image and its caption are related.</p>
+        
+        <p><strong>When to use figures:</strong></p>
+        <ul style="margin: 1rem 0;">
+            <li>Images in articles or blog posts that need context</li>
+            <li>Diagrams, charts, or illustrations with explanatory text</li>
+            <li>Photos that need photographer credits or descriptions</li>
+            <li>Portfolio work with project titles and details</li>
+        </ul>
+        
+        <h3 style="margin-top: 2rem;">Basic Semantic Figure</h3>
+        <p>Here's a figure using just semantic HTML (no styling classes). The reboot provides minimal default styling - bottom margin and muted caption color:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: 4px; margin: 2rem 0;">
+            <figure>
+                <img src="https://picsum.photos/id/1015/400/300" alt="A scenic forest landscape">
+                <figcaption>A scenic forest landscape captured at dawn.</figcaption>
+            </figure>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;figure&gt;
+  &lt;img src="..." alt="A scenic forest landscape"&gt;
+  &lt;figcaption&gt;A scenic forest landscape captured at dawn.&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+        
+        <div style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0;"><strong>Semantic importance:</strong> The <code>&lt;figure&gt;</code> element creates a relationship between the image and caption. Screen readers announce this connection, helping users understand that the caption describes the image.</p>
+        </div>
+        
+        <h3 style="margin-top: 2rem;">Enhanced Styling with zFigure</h3>
+        <p>zTheme provides utility classes for enhanced figure styling. Use <code>.zFigure</code> for inline-block display and <code>.zFigure-caption</code> for consistent caption styling:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: 4px; margin: 2rem 0;">
+            <figure class="zFigure">
+                <img src="https://picsum.photos/id/1015/400/300" class="zFigure-img zImg-fluid zRounded" alt="A scenic forest landscape">
+                <figcaption class="zFigure-caption">A scenic forest landscape captured at dawn.</figcaption>
+            </figure>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;figure class="zFigure"&gt;
+  &lt;img src="..." class="zFigure-img zImg-fluid zRounded" alt="..."&gt;
+  &lt;figcaption class="zFigure-caption"&gt;A scenic forest landscape captured at dawn.&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+        
+        <p><strong>What the utility classes add:</strong></p>
+        <ul style="margin: 1rem 0;">
+            <li><code>.zFigure</code> - Sets display to inline-block (figure only takes up space it needs)</li>
+            <li><code>.zFigure-img</code> - Adds margin below image to separate it from caption</li>
+            <li><code>.zFigure-caption</code> - Applies consistent font size and color</li>
+            <li><code>.zImg-fluid</code> - Makes image responsive (from Images page)</li>
+            <li><code>.zRounded</code> - Adds rounded corners (from Images page)</li>
+        </ul>
+    </section>
+    
+    <!-- Caption Alignment -->
+    <section style="margin: 3rem 0;">
+        <h2>Caption Alignment</h2>
+        <p>Captions are left-aligned by default. Use text alignment utilities to change caption position:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: 4px; margin: 2rem 0;">
+            <div style="display: grid; gap: 2rem;">
+                <figure class="zFigure">
+                    <img src="https://picsum.photos/id/1018/400/250" class="zFigure-img zImg-fluid zRounded" alt="Mountain landscape">
+                    <figcaption class="zFigure-caption">Left aligned (default)</figcaption>
+                </figure>
+                
+                <figure class="zFigure">
+                    <img src="https://picsum.photos/id/1018/400/250" class="zFigure-img zImg-fluid zRounded" alt="Mountain landscape">
+                    <figcaption class="zFigure-caption zText-center">Center aligned</figcaption>
+                </figure>
+                
+                <figure class="zFigure">
+                    <img src="https://picsum.photos/id/1018/400/250" class="zFigure-img zImg-fluid zRounded" alt="Mountain landscape">
+                    <figcaption class="zFigure-caption zText-end">Right aligned</figcaption>
+                </figure>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- Left (default) --&gt;
+&lt;figcaption class="zFigure-caption"&gt;Left aligned (default)&lt;/figcaption&gt;
+
+&lt;!-- Center --&gt;
+&lt;figcaption class="zFigure-caption zText-center"&gt;Center aligned&lt;/figcaption&gt;
+
+&lt;!-- Right --&gt;
+&lt;figcaption class="zFigure-caption zText-end"&gt;Right aligned&lt;/figcaption&gt;</code></pre>
+    </section>
+    
+    <!-- Image Styling -->
+    <section style="margin: 3rem 0;">
+        <h2>Image Styling</h2>
+        <p>Combine figures with image utilities from the <a href="ztheme-images.html" style="color: var(--color-primary);">Images page</a> for different visual effects:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: 4px; margin: 2rem 0;">
+            <div style="display: grid; gap: 2rem;">
+                <figure class="zFigure">
+                    <img src="https://picsum.photos/id/1019/400/250" class="zFigure-img zImg-fluid zRounded" alt="Forest path">
+                    <figcaption class="zFigure-caption">With rounded corners (.zRounded)</figcaption>
+                </figure>
+                
+                <figure class="zFigure">
+                    <img src="https://picsum.photos/id/1019/400/250" class="zFigure-img zImg-fluid zImg-thumbnail" alt="Forest path">
+                    <figcaption class="zFigure-caption">With thumbnail border (.zImg-thumbnail)</figcaption>
+                </figure>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- Rounded corners --&gt;
+&lt;img class="zFigure-img zImg-fluid zRounded" alt="..."&gt;
+
+&lt;!-- Thumbnail border --&gt;
+&lt;img class="zFigure-img zImg-fluid zImg-thumbnail" alt="..."&gt;</code></pre>
+    </section>
+    
+    <!-- Figure Galleries -->
+    <section style="margin: 3rem 0;">
+        <h2>Figure Galleries</h2>
+        <p>Display multiple figures together using CSS Grid. The grid automatically adjusts columns based on screen width:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: 4px; margin: 2rem 0;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; justify-items: center;">
+                <figure class="zFigure">
+                    <img src="https://picsum.photos/id/1020/300/200" class="zFigure-img zImg-fluid zRounded" alt="Mountain peak">
+                    <figcaption class="zFigure-caption zText-center">Mountain peak at sunset</figcaption>
+                </figure>
+                <figure class="zFigure">
+                    <img src="https://picsum.photos/id/1021/300/200" class="zFigure-img zImg-fluid zRounded" alt="Ocean waves">
+                    <figcaption class="zFigure-caption zText-center">Ocean waves crashing</figcaption>
+                </figure>
+                <figure class="zFigure">
+                    <img src="https://picsum.photos/id/1022/300/200" class="zFigure-img zImg-fluid zRounded" alt="Desert dunes">
+                    <figcaption class="zFigure-caption zText-center">Desert sand dunes</figcaption>
+                </figure>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; justify-items: center;"&gt;
+  &lt;figure class="zFigure"&gt;
+    &lt;img src="..." class="zFigure-img zImg-fluid zRounded" alt="..."&gt;
+    &lt;figcaption class="zFigure-caption zText-center"&gt;Mountain peak at sunset&lt;/figcaption&gt;
+  &lt;/figure&gt;
+  &lt;figure class="zFigure"&gt;
+    &lt;img src="..." class="zFigure-img zImg-fluid zRounded" alt="..."&gt;
+    &lt;figcaption class="zFigure-caption zText-center"&gt;Ocean waves crashing&lt;/figcaption&gt;
+  &lt;/figure&gt;
+  &lt;figure class="zFigure"&gt;
+    &lt;img src="..." class="zFigure-img zImg-fluid zRounded" alt="..."&gt;
+    &lt;figcaption class="zFigure-caption zText-center"&gt;Desert sand dunes&lt;/figcaption&gt;
+  &lt;/figure&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Common Use Cases -->
+    <section style="margin: 3rem 0;">
+        <h2>Common Use Cases</h2>
+        <p>Here are practical examples showing how figures work in real-world scenarios:</p>
+        
+        <h3 style="margin-top: 2rem;">Blog Post Image</h3>
+        <p>Use figures in articles to provide context and credits:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: 4px; margin: 1rem 0;">
+            <article style="max-width: 600px;">
+                <p>Exploring the wilderness offers countless opportunities to connect with nature and find inner peace through outdoor adventures.</p>
+                
+                <figure class="zFigure" style="margin: 2rem 0;">
+                    <img src="https://picsum.photos/id/1036/600/350" class="zFigure-img zImg-fluid zRounded" alt="Hiker on mountain trail">
+                    <figcaption class="zFigure-caption">A hiker navigates a mountain trail at dawn. Photo credit: Outdoor Adventures Magazine.</figcaption>
+                </figure>
+                
+                <p>Whether hiking mountain trails or camping under the stars, each adventure teaches valuable lessons about perseverance and appreciation for our natural world.</p>
+            </article>
+        </div>
+        
+        <h3 style="margin-top: 2rem;">Portfolio Grid</h3>
+        <p>Showcase projects with descriptive captions:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: 4px; margin: 1rem 0;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; justify-items: center;">
+                <figure class="zFigure">
+                    <img src="https://picsum.photos/id/1040/300/200" class="zFigure-img zImg-fluid zImg-thumbnail" alt="Web design project">
+                    <figcaption class="zFigure-caption zText-center"><strong>E-Commerce Site</strong><br>Web Design • 2024</figcaption>
+                </figure>
+                <figure class="zFigure">
+                    <img src="https://picsum.photos/id/1043/300/200" class="zFigure-img zImg-fluid zImg-thumbnail" alt="Branding project">
+                    <figcaption class="zFigure-caption zText-center"><strong>Brand Identity</strong><br>Logo & Guidelines • 2024</figcaption>
+                </figure>
+                <figure class="zFigure">
+                    <img src="https://picsum.photos/id/1044/300/200" class="zFigure-img zImg-fluid zImg-thumbnail" alt="Mobile app design">
+                    <figcaption class="zFigure-caption zText-center"><strong>Fitness Tracker</strong><br>Mobile App • 2024</figcaption>
+                </figure>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; justify-items: center;"&gt;
+  &lt;figure class="zFigure"&gt;
+    &lt;img src="..." class="zFigure-img zImg-fluid zImg-thumbnail" alt="..."&gt;
+    &lt;figcaption class="zFigure-caption zText-center"&gt;
+      &lt;strong&gt;E-Commerce Site&lt;/strong&gt;&lt;br&gt;Web Design • 2024
+    &lt;/figcaption&gt;
+  &lt;/figure&gt;
+  &lt;!-- Repeat for other portfolio items --&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Accessibility -->
+    <section style="margin: 3rem 0;">
+        <h2>Accessibility</h2>
+        <div style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>Alt text vs. caption:</strong> They serve different purposes!</p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Alt text</strong> - Describes what's IN the image (for blind users)</li>
+                <li><strong>Caption</strong> - Adds context, credits, or explanatory information (for everyone)</li>
+            </ul>
+            <p style="margin: 0.5rem 0 0 0;"><strong>Example:</strong> Alt text: "Hiker on mountain trail at dawn" | Caption: "Photo credit: Outdoor Adventures Magazine"</p>
+        </div>
+        
+        <p><strong>Why use semantic <code>&lt;figure&gt;</code>?</strong> Screen readers announce the relationship between the image and caption, making your content more accessible.</p>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: #2d2d2d; color: #f8f8f2; border-radius: 4px;">
+        <h2 style="color: #f8f8f2;">CSS Reference</h2>
+        <p style="color: #a8a8a8;">Figure styles are defined in <code>zFigures.css</code> and <code>zReboot.css</code>:</p>
+        
+        <h3 style="color: #f8f8f2; margin-top: 2rem;">Reboot (Semantic HTML)</h3>
+        <pre style="background: #1e1e1e; padding: 1rem; border-radius: 4px; overflow-x: auto; color: #a8a8a8; margin: 1rem 0;"><code>figure {
+  margin: 0 0 1rem;
+}
+
+figcaption {
+  font-size: 0.875em;
+  color: var(--color-gray);
+}</code></pre>
+        
+        <h3 style="color: #f8f8f2; margin-top: 2rem;">Utility Classes</h3>
+        <ul style="color: #a8a8a8; line-height: 2;">
+            <li><code>.zFigure</code> - Sets display to inline-block</li>
+            <li><code>.zFigure-img</code> - Adds 0.5rem margin below image</li>
+            <li><code>.zFigure-caption</code> - Consistent font size and color</li>
+            <li><code>.zText-start</code>, <code>.zText-center</code>, <code>.zText-end</code> - Caption alignment</li>
+        </ul>
+        
+        <h3 style="color: #f8f8f2; margin-top: 2rem;">CSS Variables</h3>
+        <pre style="background: #1e1e1e; padding: 1rem; border-radius: 4px; overflow-x: auto; color: #a8a8a8; margin: 1rem 0;"><code>--figure-caption-font-size: 0.875em;
+--figure-caption-color: var(--color-gray);</code></pre>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-tables.html" style="color: var(--color-primary);">← Previous: Tables</a>
+        <a href="ztheme.html" style="color: var(--color-primary);">Back to zTheme Index →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

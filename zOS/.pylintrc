@@ -1,0 +1,107 @@
+# pylintrc for zolo-zcli project
+# Embraces "z" prefix naming convention for brand identity
+
+[MASTER]
+# Python code to execute, usually for sys.path manipulation such as
+# pygtk.require().
+init-hook='import sys; sys.path.append(".")'
+
+# Files or directories to be skipped
+ignore=CVS,venv,__pycache__,.git,dist,build,*.egg-info
+
+# Use multiple processes to speed up Pylint
+jobs=1
+
+[MESSAGES CONTROL]
+# Disable specific warnings that conflict with zolo naming conventions
+disable=
+    invalid-name,              # Allow z-prefix naming (zCLI, zData, etc.)
+    too-few-public-methods,    # Many subsystems have few public methods
+    too-many-instance-attributes,  # zCLI has many subsystems
+    too-many-arguments,        # Complex data operations need many args
+    too-many-positional-arguments,  # Allow up to 6 positional args (zolo standard)
+    too-many-locals,           # Complex functions may need many locals
+    import-outside-toplevel,   # Allow imports inside methods (e.g., ZConfig in __init__)
+    unnecessary-lambda,        # Allow lambdas for action maps and lazy evaluation
+    unnecessary-pass,          # Allow pass in abstract methods
+
+[BASIC]
+# Regular expression matching correct module names
+# Allow: lowercase, z-prefix with mixed case (zCLI, zData, zWizard)
+module-rgx=^(([a-z_][a-z0-9_]*)|z[A-Z][A-Za-z0-9]*)$
+
+# Regular expression matching correct class names
+# Allow: PascalCase, z-prefix with mixed case (ZData, ZWizard)
+class-rgx=^(([A-Z][a-zA-Z0-9]+)|z[A-Z][A-Za-z0-9]*)$
+
+# Regular expression matching correct constant names
+# Allow: UPPER_CASE and z-prefix
+const-rgx=^(([A-Z_][A-Z0-9_]*)|(__.*__)|z[A-Z][A-Za-z0-9]*)$
+
+# Regular expression matching correct function names
+# Allow: snake_case and z-prefix
+function-rgx=^(([a-z_][a-z0-9_]*)|z[A-Z][A-Za-z0-9]*)$
+
+# Regular expression matching correct variable names
+# Allow: snake_case and z-prefix (zSession, zPath, etc.)
+variable-rgx=^(([a-z_][a-z0-9_]*)|z[A-Z][A-Za-z0-9]*)$
+
+# Regular expression matching correct attribute names
+# Allow: snake_case and z-prefix
+attr-rgx=^(([a-z_][a-z0-9_]*)|z[A-Z][A-Za-z0-9]*)$
+
+# Regular expression matching correct argument names
+# Allow: snake_case and z-prefix
+argument-rgx=^(([a-z_][a-z0-9_]*)|z[A-Z][A-Za-z0-9]*)$
+
+# Good variable names which should always be accepted
+good-names=
+    i,j,k,          # Loop counters
+    ex,e,           # Exceptions
+    _,              # Unused
+    id,pk,fk,       # Database fields
+    db,cur,conn,    # Database connections
+    df,             # DataFrame
+    zS,zPath,zVaFile,zBlock,zKey,zHat,zMode,zSpark,zRequest,zForm,zData,zCRUD  # zolo ecosystem
+
+[FORMAT]
+# Maximum number of characters on a single line
+max-line-length=120
+
+# Maximum number of lines in a module
+max-module-lines=1500
+
+[DESIGN]
+# Maximum number of arguments for function / method
+max-args=10
+
+# Maximum number of attributes for a class
+max-attributes=15
+
+# Maximum number of public methods for a class
+max-public-methods=25
+
+[IMPORTS]
+# Allow wildcard imports for specific modules
+allow-wildcard-with-all=yes
+
+[SIMILARITIES]
+# Minimum lines number of a similarity
+min-similarity-lines=8
+
+[TYPECHECK]
+# List of members which are set dynamically and missed by pylint inference
+generated-members=
+
+[VARIABLES]
+# Tells whether we should check for unused import in __init__ files
+init-import=no
+
+[CLASSES]
+# List of method names used to declare instance attributes
+defining-attr-methods=__init__,__new__,setUp
+
+[EXCEPTIONS]
+# Exceptions that will emit a warning when caught
+overgeneral-exceptions=BaseException,Exception
+

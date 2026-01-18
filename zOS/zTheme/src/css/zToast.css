@@ -1,0 +1,285 @@
+/* ============================================
+   zToast.css - Notification Pop-ups
+   ============================================
+   
+   Bootstrap-inspired toast notifications for displaying
+   temporary messages and alerts.
+   
+   Classes:
+   - .zToast              : Main toast container
+   - .zToast-container    : Wrapper for positioning multiple toasts
+   - .zToast-header       : Toast header section
+   - .zToast-body         : Toast body/content section
+   
+   Structure:
+   <div class="zToast" role="alert" aria-live="assertive" aria-atomic="true">
+     <div class="zToast-header">
+       <strong class="zMe-auto">Title</strong>
+       <small>2 mins ago</small>
+       <button type="button" class="zBtn-close" data-bs-dismiss="toast"></button>
+     </div>
+     <div class="zToast-body">
+       Message content here
+     </div>
+   </div>
+*/
+
+/* ============================================
+   Base Toast Styles
+   ============================================ */
+
+.zToast {
+    width: 350px;
+    max-width: 100%;
+    font-size: 0.875rem;
+    pointer-events: auto;
+    background-color: rgba(255, 255, 255, 0.85);
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+    backdrop-filter: blur(10px);
+}
+
+.zToast:not(.zShow) {
+    display: none;
+}
+
+/* Fade animation */
+.zToast.zFade {
+    opacity: 0;
+    transition: opacity 0.15s linear;
+}
+
+.zToast.zFade.zShow {
+    opacity: 1;
+}
+
+/* ============================================
+   Toast Container
+   ============================================ */
+
+.zToast-container {
+    width: max-content;
+    max-width: 100%;
+    pointer-events: none;
+}
+
+.zToast-container > :not(:last-child) {
+    margin-bottom: 0.75rem;
+}
+
+/* ============================================
+   Toast Header
+   ============================================ */
+
+.zToast-header {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    color: #6c757d;
+    background-color: rgba(255, 255, 255, 0.85);
+    background-clip: padding-box;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    border-top-left-radius: calc(0.25rem - 1px);
+    border-top-right-radius: calc(0.25rem - 1px);
+}
+
+.zToast-header .zBtn-close {
+    margin-right: -0.375rem;
+    margin-left: 0.75rem;
+}
+
+/* ============================================
+   Toast Body
+   ============================================ */
+
+.zToast-body {
+    padding: 0.75rem;
+    word-wrap: break-word;
+}
+
+/* ============================================
+   Color Variants
+   ============================================ */
+
+/* Primary Toast */
+.zToast-primary {
+    color: #fff;
+    background-color: rgba(13, 110, 253, 0.95);
+    border-color: rgba(13, 110, 253, 0.95);
+}
+
+.zToast-primary .zToast-header {
+    color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(13, 110, 253, 0.85);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.zToast-primary .zToast-body {
+    color: #fff;
+}
+
+/* Success Toast */
+.zToast-success {
+    color: #fff;
+    background-color: rgba(25, 135, 84, 0.95);
+    border-color: rgba(25, 135, 84, 0.95);
+}
+
+.zToast-success .zToast-header {
+    color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(25, 135, 84, 0.85);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.zToast-success .zToast-body {
+    color: #fff;
+}
+
+/* Danger Toast */
+.zToast-danger {
+    color: #fff;
+    background-color: rgba(220, 53, 69, 0.95);
+    border-color: rgba(220, 53, 69, 0.95);
+}
+
+.zToast-danger .zToast-header {
+    color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(220, 53, 69, 0.85);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.zToast-danger .zToast-body {
+    color: #fff;
+}
+
+/* Warning Toast */
+.zToast-warning {
+    color: #212529;
+    background-color: rgba(255, 193, 7, 0.95);
+    border-color: rgba(255, 193, 7, 0.95);
+}
+
+.zToast-warning .zToast-header {
+    color: #212529;
+    background-color: rgba(255, 193, 7, 0.85);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.zToast-warning .zToast-body {
+    color: #212529;
+}
+
+/* Info Toast */
+.zToast-info {
+    color: #212529;
+    background-color: rgba(13, 202, 240, 0.95);
+    border-color: rgba(13, 202, 240, 0.95);
+}
+
+.zToast-info .zToast-header {
+    color: #212529;
+    background-color: rgba(13, 202, 240, 0.85);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+.zToast-info .zToast-body {
+    color: #212529;
+}
+
+/* ============================================
+   Positioning Utilities
+   ============================================ */
+
+/* Top positions */
+.zToast-container-top-0 {
+    top: 0;
+}
+
+.zToast-container-top-50 {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Bottom positions */
+.zToast-container-bottom-0 {
+    bottom: 0;
+}
+
+/* Start (left) positions */
+.zToast-container-start-0 {
+    left: 0;
+}
+
+.zToast-container-start-50 {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* End (right) positions */
+.zToast-container-end-0 {
+    right: 0;
+}
+
+/* Combined positioning */
+.zToast-container-top-0.zToast-container-start-50 {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.zToast-container-top-50.zToast-container-start-50 {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.zToast-container-bottom-0.zToast-container-start-50 {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ============================================
+   Responsive Behavior
+   ============================================ */
+
+@media (max-width: 576px) {
+    .zToast {
+        width: 100%;
+        max-width: calc(100% - 1rem);
+    }
+    
+    .zToast-container {
+        width: 100%;
+        max-width: calc(100% - 1rem);
+    }
+}
+
+/* ============================================
+   Reduced Motion Support
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .zToast.zFade {
+        transition: none;
+    }
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+
+/* Toasts should have role="alert" or role="status"
+   and aria-live="assertive" or aria-live="polite"
+   
+   Example:
+   <div class="zToast" 
+        role="alert" 
+        aria-live="assertive" 
+        aria-atomic="true">
+     ...
+   </div>
+*/
+

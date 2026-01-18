@@ -1,0 +1,229 @@
+/* ============================================
+   zBorders.css - Border & Border-Radius Utilities
+   ============================================
+   
+   Bootstrap-inspired border utilities with z prefix.
+   Quickly style borders and rounded corners of elements.
+   
+   Classes:
+   - .zBorder, .zBorder-top, .zBorder-end, .zBorder-bottom, .zBorder-start (additive)
+   - .zBorder-0, .zBorder-top-0, .zBorder-end-0, .zBorder-bottom-0, .zBorder-start-0 (subtractive)
+   - .zBorder-primary, .zBorder-secondary, .zBorder-success, etc. (colors)
+   - .zBorder-1, .zBorder-2, .zBorder-3, .zBorder-4, .zBorder-5 (widths)
+   - .zRounded, .zRounded-circle, .zRounded-pill (border-radius)
+   - .zRounded-0, .zRounded-1, .zRounded-2, .zRounded-3 (radius sizes)
+   - .zRounded-top, .zRounded-end, .zRounded-bottom, .zRounded-start (directional)
+   
+   Example:
+   <img src="..." class="zBorder zBorder-primary zRounded">
+   <div class="zBorder-top zBorder-3 zBorder-success">...</div>
+   <img src="..." class="zRounded-circle" alt="Avatar">
+   
+   ============================================ */
+
+/* ============================================
+   Additive Borders
+   ============================================
+   
+   Add borders to elements. Default is all sides.
+   ============================================ */
+
+.zBorder {
+    border: var(--border-width) solid var(--color-border) !important;
+}
+
+.zBorder-top {
+    border-top: var(--border-width) solid var(--color-border) !important;
+}
+
+.zBorder-end {
+    border-right: var(--border-width) solid var(--color-border) !important;
+}
+
+.zBorder-bottom {
+    border-bottom: var(--border-width) solid var(--color-border) !important;
+}
+
+.zBorder-start {
+    border-left: var(--border-width) solid var(--color-border) !important;
+}
+
+/* ============================================
+   Subtractive Borders
+   ============================================
+   
+   Remove borders from elements (useful when combined
+   with .zBorder to remove specific sides).
+   ============================================ */
+
+.zBorder-0 {
+    border: 0 !important;
+}
+
+.zBorder-top-0 {
+    border-top: 0 !important;
+}
+
+.zBorder-end-0 {
+    border-right: 0 !important;
+}
+
+.zBorder-bottom-0 {
+    border-bottom: 0 !important;
+}
+
+.zBorder-start-0 {
+    border-left: 0 !important;
+}
+
+/* ============================================
+   Border Colors
+   ============================================
+   
+   Change border color using theme colors.
+   Must be used with .zBorder (or variants).
+   
+   Example:
+   <div class="zBorder zBorder-primary">...</div>
+   ============================================ */
+
+.zBorder-primary {
+    border-color: var(--color-primary) !important;
+}
+
+.zBorder-secondary {
+    border-color: var(--color-secondary) !important;
+}
+
+.zBorder-success {
+    border-color: var(--color-success) !important;
+}
+
+.zBorder-info {
+    border-color: var(--color-info) !important;
+}
+
+.zBorder-warning {
+    border-color: var(--color-warning) !important;
+}
+
+.zBorder-danger {
+    border-color: var(--color-error) !important;
+}
+
+.zBorder-light {
+    border-color: var(--color-light) !important;
+}
+
+.zBorder-dark {
+    border-color: var(--color-dark) !important;
+}
+
+.zBorder-white {
+    border-color: var(--color-white) !important;
+}
+
+/* ============================================
+   Border Widths
+   ============================================
+   
+   Adjust border width (1px to 5px).
+   Must be used with .zBorder (or variants).
+   
+   Example:
+   <div class="zBorder zBorder-3">...</div>
+   ============================================ */
+
+.zBorder-1 {
+    border-width: 1px !important;
+}
+
+.zBorder-2 {
+    border-width: 2px !important;
+}
+
+.zBorder-3 {
+    border-width: 3px !important;
+}
+
+.zBorder-4 {
+    border-width: 4px !important;
+}
+
+.zBorder-5 {
+    border-width: 5px !important;
+}
+
+/* ============================================
+   Border Radius - Basic
+   ============================================
+   
+   Round corners of elements. Great for images,
+   cards, buttons, and containers.
+   ============================================ */
+
+.zRounded {
+    border-radius: var(--border-radius) !important;
+}
+
+.zRounded-circle {
+    border-radius: var(--border-radius-circle) !important;
+}
+
+.zRounded-pill {
+    border-radius: var(--border-radius-pill) !important;
+}
+
+/* ============================================
+   Border Radius - Sizes
+   ============================================
+   
+   Control how rounded corners are (0 = sharp, 3 = very rounded).
+   ============================================ */
+
+.zRounded-0 {
+    border-radius: 0 !important;
+}
+
+.zRounded-1 {
+    border-radius: var(--border-radius-sm) !important;
+}
+
+.zRounded-2 {
+    border-radius: var(--border-radius) !important;
+}
+
+.zRounded-3 {
+    border-radius: var(--border-radius-lg) !important;
+}
+
+/* ============================================
+   Border Radius - Directional
+   ============================================
+   
+   Round only specific sides/corners.
+   
+   Example:
+   <div class="zRounded-top">Card header</div>
+   ============================================ */
+
+.zRounded-top {
+    border-top-left-radius: var(--border-radius) !important;
+    border-top-right-radius: var(--border-radius) !important;
+}
+
+.zRounded-end {
+    border-top-right-radius: var(--border-radius) !important;
+    border-bottom-right-radius: var(--border-radius) !important;
+}
+
+.zRounded-bottom {
+    border-bottom-right-radius: var(--border-radius) !important;
+    border-bottom-left-radius: var(--border-radius) !important;
+}
+
+.zRounded-start {
+    border-top-left-radius: var(--border-radius) !important;
+    border-bottom-left-radius: var(--border-radius) !important;
+}
+

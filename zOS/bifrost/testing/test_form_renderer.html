@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Renderer Test</title>
+  
+  <!-- zTheme CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css">
+  
+  <style>
+    body {
+      background: #f8f9fa;
+      min-height: 100vh;
+      padding: 2rem 0;
+    }
+    
+    /* Test controls styling */
+    .test-controls {
+      position: sticky;
+      top: 0;
+      background: white;
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    /* Render zone */
+    .render-zone {
+      min-height: 200px;
+    }
+    
+    /* Log display */
+    .log-display {
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.875rem;
+    }
+    
+    .log-entry {
+      padding: 0.25rem 0;
+      border-bottom: 1px solid #e9ecef;
+    }
+    
+    .log-entry.log-info { color: #0d6efd; }
+    .log-entry.log-error { color: #dc3545; }
+    .log-entry.log-success { color: #198754; }
+  </style>
+</head>
+<body>
+  <div class="zContainer">
+    <!-- Header -->
+    <div class="zmb-4">
+      <h1 class="zText-primary">Form Renderer Test Suite</h1>
+      <p class="zText-muted">Testing form_renderer.js with form_primitives.js</p>
+    </div>
+
+    <!-- Test Controls -->
+    <div class="test-controls zCard zmb-4">
+      <div class="zCard-body">
+        <h5 class="zCard-title zmb-3">Test Scenarios</h5>
+        <div class="zD-flex zFlex-wrap zGap-2">
+          <button class="zBtn zBtn-outline-primary" onclick="testBasicForm()">
+            1. Basic Form
+          </button>
+          <button class="zBtn zBtn-outline-primary" onclick="testLoginForm()">
+            2. Login Form
+          </button>
+          <button class="zBtn zBtn-outline-primary" onclick="testRegistrationForm()">
+            3. Registration Form
+          </button>
+          <button class="zBtn zBtn-outline-primary" onclick="testMixedFields()">
+            4. Mixed Field Types
+          </button>
+          <button class="zBtn zBtn-outline-primary" onclick="testTextareaForm()">
+            5. Textarea Form
+          </button>
+          <button class="zBtn zBtn-outline-danger" onclick="clearZone()">
+            Clear
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Render Zone -->
+    <div class="zCard zmb-4">
+      <div class="zCard-body">
+        <h5 class="zCard-title zmb-3">Render Zone</h5>
+        <div id="render-zone" class="render-zone zp-3 zBg-light zBorder zRounded">
+          <p class="zText-muted">Click a test button to render a form...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log Display -->
+    <div class="zCard">
+      <div class="zCard-body">
+        <h5 class="zCard-title zmb-3">Console Log</h5>
+        <div id="log-display" class="log-display zp-3 zBg-light zBorder zRounded">
+          <div class="log-entry">Ready to test...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { FormRenderer } from '../src/rendering/form_renderer.js';
+
+    // Mock client for testing
+    const mockClient = {
+      logger: {
+        log: (...args) => {
+          console.log(...args);
+          addLog('info', args.join(' '));
+        },
+        error: (...args) => {
+          console.error(...args);
+          addLog('error', args.join(' '));
+        }
+      },
+      send: async (payload) => {
+        addLog('info', `[Mock Client] Sending: ${JSON.stringify(payload, null, 2)}`);
+        
+        // Simulate server response
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Mock validation
+        if (payload.event === 'form_submit') {
+          const data = payload.data;
+          
+          // Check for required fields
+          if (!data.username && !data.email && !data.name) {
+            return {
+              success: false,
+              message: 'Validation failed',
+              errors: ['At least one field is required']
+            };
+          }
+          
+          // Simulate success
+          addLog('success', `[Mock Server] Form submitted successfully!`);
+          return {
+            success: true,
+            message: 'Form submitted successfully!'
+          };
+        }
+        
+        return { success: true };
+      },
+      _fetchAndPopulateNavBar: async () => {
+        addLog('info', '[Mock Client] Navbar refresh triggered');
+      }
+    };
+
+    // Initialize renderer
+    const renderer = new FormRenderer(mockClient);
+    window.formRenderer = renderer;
+
+    // Helper to add log entries
+    function addLog(type, message) {
+      const logDisplay = document.getElementById('log-display');
+      const entry = document.createElement('div');
+      entry.className = `log-entry log-${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logDisplay.appendChild(entry);
+      logDisplay.scrollTop = logDisplay.scrollHeight;
+    }
+
+    // Test 1: Basic Form
+    window.testBasicForm = function() {
+      addLog('info', 'Test 1: Basic Form');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '';
+      
+      const formData = {
+        title: 'Basic Form',
+        fields: ['username', 'email'],
+        onSubmit: { action: 'test_submit' },
+        _dialogId: 'test-basic-form'
+      };
+      
+      const form = renderer.renderForm(formData);
+      zone.appendChild(form);
+    };
+
+    // Test 2: Login Form
+    window.testLoginForm = function() {
+      addLog('info', 'Test 2: Login Form');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '';
+      
+      const formData = {
+        title: 'Login',
+        fields: [
+          { name: 'username', label: 'Username', required: true },
+          { name: 'password', type: 'password', required: true }
+        ],
+        onSubmit: { action: 'login' },
+        _dialogId: 'test-login-form'
+      };
+      
+      const form = renderer.renderForm(formData);
+      zone.appendChild(form);
+    };
+
+    // Test 3: Registration Form
+    window.testRegistrationForm = function() {
+      addLog('info', 'Test 3: Registration Form');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '';
+      
+      const formData = {
+        title: 'Create Account',
+        fields: [
+          { name: 'name', label: 'Full Name', required: true },
+          { name: 'email', type: 'email', required: true },
+          { name: 'password', type: 'password', required: true },
+          { name: 'phone', type: 'tel', required: false }
+        ],
+        onSubmit: { action: 'register' },
+        _dialogId: 'test-registration-form'
+      };
+      
+      const form = renderer.renderForm(formData);
+      zone.appendChild(form);
+    };
+
+    // Test 4: Mixed Field Types
+    window.testMixedFields = function() {
+      addLog('info', 'Test 4: Mixed Field Types');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '';
+      
+      const formData = {
+        title: 'Mixed Fields Demo',
+        fields: [
+          { name: 'text_field', type: 'text', label: 'Text Field' },
+          { name: 'email_field', type: 'email', label: 'Email Field' },
+          { name: 'number_field', type: 'number', label: 'Number Field' },
+          { name: 'tel_field', type: 'tel', label: 'Phone Field' }
+        ],
+        onSubmit: { action: 'test_mixed' },
+        _dialogId: 'test-mixed-form'
+      };
+      
+      const form = renderer.renderForm(formData);
+      zone.appendChild(form);
+    };
+
+    // Test 5: Textarea Form
+    window.testTextareaForm = function() {
+      addLog('info', 'Test 5: Textarea Form');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '';
+      
+      const formData = {
+        title: 'Feedback Form',
+        fields: [
+          { name: 'name', label: 'Your Name', required: true },
+          { name: 'message', type: 'textarea', label: 'Message', required: true }
+        ],
+        onSubmit: { action: 'submit_feedback' },
+        _dialogId: 'test-textarea-form'
+      };
+      
+      const form = renderer.renderForm(formData);
+      zone.appendChild(form);
+    };
+
+    // Clear zone
+    window.clearZone = function() {
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<p class="zText-muted">Click a test button to render a form...</p>';
+      addLog('info', 'Render zone cleared');
+    };
+
+    // Make functions globally available
+    window.addLog = addLog;
+  </script>
+</body>
+</html>
+

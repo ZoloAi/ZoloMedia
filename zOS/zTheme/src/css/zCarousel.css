@@ -1,0 +1,371 @@
+/* ============================================================================
+   zCarousel.css - Carousel/Slideshow Component
+   ============================================================================
+   
+   Bootstrap-inspired image/content slideshow with CSS 3D transforms and
+   optional JavaScript for cycling/controls.
+   
+   Base Class: .zCarousel
+   
+   NOTE: Full carousel functionality requires JavaScript (zTheme.js).
+   This CSS provides the visual foundation and transition effects.
+   ============================================================================ */
+
+/* Base Carousel
+   ============= */
+.zCarousel {
+  position: relative;
+}
+
+.zCarousel-inner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.zCarousel-inner::after {
+  display: block;
+  clear: both;
+  content: "";
+}
+
+/* Carousel Items
+   ============== */
+.zCarousel-item {
+  position: relative;
+  display: none;
+  float: left;
+  width: 100%;
+  margin-right: -100%;
+  backface-visibility: hidden;
+  transition: transform 0.6s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zCarousel-item {
+    transition: none;
+  }
+}
+
+.zCarousel-item.zActive,
+.zCarousel-item-next,
+.zCarousel-item-prev {
+  display: block;
+}
+
+/* Next/Previous Animations (Horizontal Slide) */
+.zCarousel-item-next:not(.zCarousel-item-start),
+.zActive.zCarousel-item-end {
+  transform: translateX(100%);
+}
+
+.zCarousel-item-prev:not(.zCarousel-item-end),
+.zActive.zCarousel-item-start {
+  transform: translateX(-100%);
+}
+
+/* Trigger the transition to center */
+.zCarousel-item-next.zCarousel-item-start,
+.zCarousel-item-prev.zCarousel-item-end {
+  transform: translateX(0);
+}
+
+/* Carousel Fade Effect (Alternative to Slide)
+   ============================================ */
+.zCarousel-fade .zCarousel-item {
+  opacity: 0;
+  transition: opacity 1.2s ease; /* Slower, smoother crossfade */
+  transform: none;
+}
+
+.zCarousel-fade .zCarousel-item.zActive {
+  position: relative;
+  z-index: 1;
+  opacity: 1;
+}
+
+/* During fade transition, both slides are visible and positioned */
+.zCarousel-fade .zCarousel-item-next,
+.zCarousel-fade .zCarousel-item-prev {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* Incoming slide (on top, fading IN from transparent) */
+.zCarousel-fade .zCarousel-item-next {
+  z-index: 2;
+  opacity: 0; /* Starts transparent */
+}
+
+.zCarousel-fade .zCarousel-item-next.zActive {
+  opacity: 1; /* Fades to opaque */
+}
+
+/* Outgoing slide (below, fading OUT to transparent) */
+.zCarousel-fade .zCarousel-item-prev {
+  z-index: 1;
+  opacity: 1; /* Starts opaque */
+}
+
+.zCarousel-fade .zCarousel-item-prev:not(.zActive) {
+  opacity: 0; /* Fades to transparent */
+}
+
+/* Override slide transforms for fade (no horizontal movement) */
+.zCarousel-fade .zCarousel-item-next:not(.zCarousel-item-start),
+.zCarousel-fade .zActive.zCarousel-item-end,
+.zCarousel-fade .zCarousel-item-prev:not(.zCarousel-item-end),
+.zCarousel-fade .zActive.zCarousel-item-start {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zCarousel-fade .zCarousel-item {
+    transition: none;
+  }
+}
+
+/* Carousel Vertical Effect (zTheme Extension)
+   ============================================ */
+.zCarousel-vertical .zCarousel-item-next:not(.zCarousel-item-start),
+.zCarousel-vertical .zActive.zCarousel-item-end {
+  transform: translateY(100%);
+}
+
+.zCarousel-vertical .zCarousel-item-prev:not(.zCarousel-item-end),
+.zCarousel-vertical .zActive.zCarousel-item-start {
+  transform: translateY(-100%);
+}
+
+/* Trigger vertical transition to center */
+.zCarousel-vertical .zCarousel-item-next.zCarousel-item-start,
+.zCarousel-vertical .zCarousel-item-prev.zCarousel-item-end {
+  transform: translateY(0);
+}
+
+/* Control Buttons (Previous/Next)
+   ================================ */
+.zCarousel-control-prev,
+.zCarousel-control-next {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15%;
+  padding: 0;
+  color: var(--color-white);
+  text-align: center;
+  background: none;
+  border: 0;
+  opacity: 0.5;
+  transition: opacity 0.15s ease;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zCarousel-control-prev,
+  .zCarousel-control-next {
+    transition: none;
+  }
+}
+
+.zCarousel-control-prev:hover,
+.zCarousel-control-prev:focus,
+.zCarousel-control-next:hover,
+.zCarousel-control-next:focus {
+  color: var(--color-white);
+  text-decoration: none;
+  outline: 0;
+  opacity: 0.9;
+}
+
+.zCarousel-control-prev {
+  left: 0;
+}
+
+.zCarousel-control-next {
+  right: 0;
+}
+
+/* Control Icons */
+.zCarousel-control-prev-icon,
+.zCarousel-control-next-icon {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 100% 100%;
+}
+
+.zCarousel-control-prev-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e");
+}
+
+.zCarousel-control-next-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+/* Vertical Carousel Controls
+   =========================== */
+.zCarousel-vertical .zCarousel-control-prev-icon {
+  transform: rotate(90deg); /* Left arrow becomes up arrow */
+}
+
+.zCarousel-vertical .zCarousel-control-next-icon {
+  transform: rotate(90deg); /* Right arrow becomes down arrow */
+}
+
+/* Carousel Indicators (Dots)
+   =========================== */
+.zCarousel-indicators {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin-right: 15%;
+  margin-bottom: 1rem;
+  margin-left: 15%;
+  list-style: none;
+}
+
+.zCarousel-indicators button {
+  box-sizing: content-box;
+  flex: 0 1 auto;
+  width: 30px;
+  height: 3px;
+  padding: 0;
+  margin-right: 3px;
+  margin-left: 3px;
+  text-indent: -999px;
+  cursor: pointer;
+  background-color: var(--color-white);
+  background-clip: padding-box;
+  border: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  opacity: 0.5;
+  transition: opacity 0.6s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zCarousel-indicators button {
+    transition: none;
+  }
+}
+
+.zCarousel-indicators .zActive {
+  opacity: 1;
+}
+
+/* Carousel Progress Bar (Alternative to Dots)
+   =========================================== */
+.zCarousel-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.3);
+  z-index: 2;
+  overflow: hidden;
+}
+
+.zCarousel-progress-bar {
+  height: 100%;
+  background-color: var(--color-primary);
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+/* Progress Bar Variants */
+.zCarousel-progress-thin {
+  height: 2px;
+}
+
+.zCarousel-progress-thick {
+  height: 6px;
+}
+
+.zCarousel-progress-top {
+  bottom: auto;
+  top: 0;
+}
+
+/* Carousel Captions
+   ================= */
+.zCarousel-caption {
+  position: absolute;
+  right: 15%;
+  bottom: 1.25rem;
+  left: 15%;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  color: var(--color-white);
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.zCarousel-caption h5 {
+  color: var(--color-white);
+  margin-bottom: 0.5rem;
+}
+
+.zCarousel-caption p {
+  margin-bottom: 0;
+}
+
+/* Dark Variant
+   ============ */
+.zCarousel-dark .zCarousel-control-prev-icon,
+.zCarousel-dark .zCarousel-control-next-icon {
+  filter: invert(1) grayscale(100);
+}
+
+.zCarousel-dark .zCarousel-indicators button {
+  background-color: var(--color-dark);
+}
+
+.zCarousel-dark .zCarousel-caption {
+  color: var(--color-dark);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+.zCarousel-dark .zCarousel-caption h5 {
+  color: var(--color-dark);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .zCarousel-control-prev,
+  .zCarousel-control-next {
+    width: 10%;
+  }
+  
+  .zCarousel-control-prev-icon,
+  .zCarousel-control-next-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  .zCarousel-caption {
+    font-size: 0.875rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+  
+  .zCarousel-indicators {
+    margin-right: 10%;
+    margin-left: 10%;
+  }
+}
+

@@ -1,0 +1,323 @@
+/* ============================================
+   zTypography.css - Typography System
+   Bootstrap-inspired typography with custom fonts
+   ============================================ */
+
+/* Custom Font: Kalam (Optional)
+   ============================== */
+@font-face {
+  font-family: 'Kalam';
+  src: url('fonts/Kalam-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Kalam';
+  src: url('fonts/Kalam-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Kalam';
+  src: url('fonts/Kalam-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Typography Variables
+   ==================== */
+:root {
+  /* Font Families */
+  --font-family-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-family-kalam: 'Kalam', cursive;
+  
+  /* Font Sizes */
+  --font-size-base: 1rem;
+  --font-size-sm: 0.875rem;
+  --font-size-lg: 1.25rem;
+  
+  /* Heading Sizes */
+  --h1-font-size: 2.5rem;
+  --h2-font-size: 2rem;
+  --h3-font-size: 1.75rem;
+  --h4-font-size: 1.5rem;
+  --h5-font-size: 1.25rem;
+  --h6-font-size: 1rem;
+  
+  /* Title Heading Sizes */
+  --title-1-size: 5rem;
+  --title-2-size: 4.5rem;
+  --title-3-size: 4rem;
+  --title-4-size: 3.5rem;
+  --title-5-size: 3rem;
+  --title-6-size: 2.5rem;
+  
+  /* Lead Text */
+  --lead-font-size: 1.25rem;
+  --lead-font-weight: 300;
+  
+  /* Line Heights */
+  --line-height-base: 1.5;
+  --line-height-sm: 1.25;
+  --line-height-lg: 2;
+  
+  /* Headings */
+  --headings-margin-bottom: 0.5rem;
+  --headings-font-weight: 500;
+  --headings-line-height: 1.2;
+  
+  /* Legacy (Backward Compatibility) */
+  --bodyPsize: var(--font-size-base);
+  --bodySmPsize: var(--font-size-sm);
+  --h1size: var(--h1-font-size);
+  --h2size: var(--h2-font-size);
+  --h3size: var(--h3-font-size);
+  --h4size: var(--h4-font-size);
+  --h5size: var(--h5-font-size);
+  --h6size: var(--h6-font-size);
+}
+
+/* Headings (h1-h6)
+   ================ */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: var(--headings-margin-bottom);
+  font-weight: var(--headings-font-weight);
+  line-height: var(--headings-line-height);
+  color: var(--color-darkgray);
+}
+
+h1 { font-size: var(--h1-font-size); }
+h2 { font-size: var(--h2-font-size); }
+h3 { font-size: var(--h3-font-size); }
+h4 { font-size: var(--h4-font-size); }
+h5 { font-size: var(--h5-font-size); }
+h6 { font-size: var(--h6-font-size); }
+
+/* Heading Utility Classes (.h1-.h6)
+   ================================== */
+.zH1 { font-size: var(--h1-font-size); font-weight: var(--headings-font-weight); line-height: var(--headings-line-height); }
+.zH2 { font-size: var(--h2-font-size); font-weight: var(--headings-font-weight); line-height: var(--headings-line-height); }
+.zH3 { font-size: var(--h3-font-size); font-weight: var(--headings-font-weight); line-height: var(--headings-line-height); }
+.zH4 { font-size: var(--h4-font-size); font-weight: var(--headings-font-weight); line-height: var(--headings-line-height); }
+.zH5 { font-size: var(--h5-font-size); font-weight: var(--headings-font-weight); line-height: var(--headings-line-height); }
+.zH6 { font-size: var(--h6-font-size); font-weight: var(--headings-font-weight); line-height: var(--headings-line-height); }
+
+/* Title Headings (.zTitle-1 through .zTitle-6)
+   ============================================== */
+.zTitle-1 {
+  font-size: var(--title-1-size);
+  font-weight: 300;
+  line-height: var(--headings-line-height);
+}
+
+.zTitle-2 {
+  font-size: var(--title-2-size);
+  font-weight: 300;
+  line-height: var(--headings-line-height);
+}
+
+.zTitle-3 {
+  font-size: var(--title-3-size);
+  font-weight: 300;
+  line-height: var(--headings-line-height);
+}
+
+.zTitle-4 {
+  font-size: var(--title-4-size);
+  font-weight: 300;
+  line-height: var(--headings-line-height);
+}
+
+.zTitle-5 {
+  font-size: var(--title-5-size);
+  font-weight: 300;
+  line-height: var(--headings-line-height);
+}
+
+.zTitle-6 {
+  font-size: var(--title-6-size);
+  font-weight: 300;
+  line-height: var(--headings-line-height);
+}
+
+/* Lead Text
+   ========= */
+.zLead {
+  font-size: var(--lead-font-size);
+  font-weight: var(--lead-font-weight);
+}
+
+/* Paragraphs
+   ========== */
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/* Inline Text Elements
+   ==================== */
+mark,
+.zMark {
+  padding: 0.2em;
+  background-color: var(--color-highlight);
+  color: var(--color-darkgray);
+}
+
+ins {
+  text-decoration: underline;
+  text-decoration-color: var(--color-primary);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+
+del {
+  text-decoration: line-through;
+}
+
+s {
+  text-decoration: line-through;
+}
+
+u {
+  text-decoration: underline;
+}
+
+em {
+  font-style: italic;
+}
+
+i {
+  font-style: italic;
+}
+
+strong,
+b {
+  font-weight: bolder;
+}
+
+small,
+.zSmall {
+  font-size: 0.875em;
+  font-weight: 400;
+}
+
+/* Text Color Utilities
+   ==================== */
+   
+/* Brand Colors */
+.zPrimary {
+  color: var(--color-primary) !important;
+}
+
+.zSecondary {
+  color: var(--color-secondary) !important;
+}
+
+/* Contextual Colors */
+.zSuccess {
+  color: var(--color-success) !important;
+}
+
+.zInfo {
+  color: var(--color-info) !important;
+}
+
+.zWarning {
+  color: var(--color-warning) !important;
+}
+
+.zDanger {
+  color: var(--color-error) !important;
+}
+
+/* Neutral Colors */
+.zMuted {
+  color: var(--color-gray) !important;
+}
+
+.zDark {
+  color: var(--color-dark) !important;
+}
+
+.zLight {
+  color: var(--color-light) !important;
+}
+
+.zWhite {
+  color: var(--color-white) !important;
+}
+
+.zBody {
+  color: var(--color-body) !important;
+}
+
+/* Abbreviations
+   ============= */
+abbr[title] {
+  text-decoration: underline dotted;
+  cursor: help;
+  text-decoration-skip-ink: none;
+}
+
+.zAcronym {
+  font-size: 0.875em;
+  text-transform: uppercase;
+}
+
+/* Blockquotes
+   =========== */
+.zBlockquote {
+  margin: 0 0 1rem;
+  padding-left: 1rem;
+  font-size: 1.25rem;
+  border-left: 0.25rem solid var(--color-border);
+}
+
+.zBlockquote-footer {
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875em;
+  color: var(--color-gray);
+}
+
+.zBlockquote-footer::before {
+  content: "— ";
+}
+
+
+/* Lists
+   ===== */
+.zList-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.zList-inline {
+  padding-left: 0;
+  list-style: none;
+}
+
+.zList-inline-item {
+  display: inline-block;
+}
+
+.zList-inline-item:not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+
+/* Font Family Utilities
+   ===================== */
+/* NOTE: .zFont-monospace now in zText.css */
+
+.zFont-kalam {
+  font-family: var(--font-family-kalam) !important;
+}
+
+/* NOTE: Text utilities (.zText-reset, .zText-decoration-*, .zLh-*) 
+   are now centralized in zText.css for better organization */
+

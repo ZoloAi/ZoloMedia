@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer zp-5">
+    <!-- Breadcrumb -->
+    <nav class="zSmall zmb-3">
+        <a href="ztheme.html" class="zPrimary">zTheme</a>
+        <span class="zMuted zmx-2">›</span>
+        <a href="ztheme.html" class="zPrimary">Components</a>
+        <span class="zMuted zmx-2">›</span>
+        <span>Grid</span>
+    </nav>
+
+    <h1>Grid</h1>
+    <p class="zLead text-muted zmb-5">
+        Build responsive layouts with rows and columns
+    </p>
+
+    <hr class="zmy-5 hr-visible">
+
+    <!-- Introduction -->
+    <section class="zmy-6">
+        <h2>The 12 Columns System</h2>
+
+        <h3>How It Works</h3>
+
+        <p>The 12 Columns grid system uses a standard three-layer structure:<br><strong><a href="ztheme-containers.html"
+                    class="zPrimary">Container</a> → <a href="#rows" class="zPrimary">Row</a> → <a href="#columns"
+                    class="zPrimary">Columns</a></strong>.</p>
+            <p>After wrapping your content in a zContainer, you create zRows to hold zColumns. 
+            Each row divides into <strong>12 equal columns</strong>, giving you maximum layout flexibility.</p>
+
+        <!-- Visual 12-column grid demo -->
+        <div class="zmy-5">
+            <div id="demo-row" class="zRow zmy-4" style="position: relative;">
+                <div class="zCol-1"
+                    style="background: #e3f2fd; border: 1px solid #2196f3; padding: 0.5rem; text-align: center; font-size: 0.75rem;">
+                    1</div>
+                <div class="zCol-1"
+                    style="background: #e3f2fd; border: 1px solid #2196f3; padding: 0.5rem; text-align: center; font-size: 0.75rem;">
+                    2</div>
+                <div class="zCol-1"
+                    style="background: #e3f2fd; border: 1px solid #2196f3; padding: 0.5rem; text-align: center; font-size: 0.75rem;">
+                    3</div>
+                <div class="zCol-1"
+                    style="background: #e3f2fd; border: 1px solid #2196f3; padding: 0.5rem; text-align: center; font-size: 0.75rem;">
+                    4</div>
+                <div class="zCol-1"
+                    style="background: #e3f2fd; border: 1px solid #2196f3; padding: 0.5rem; text-align: center; font-size: 0.75rem;">
+                    5</div>
+                <div class="zCol-1"
+                    style="background: #e3f2fd; border: 1px solid #2196f3; padding: 0.5rem; text-align: center; font-size: 0.75rem;">
+                    6</div>
+                <div class="zCol-1"
+                    style="background: #e3f2fd; border: 1px solid #2196f3; padding: 0.5rem; text-align: center; font-size: 0.75rem;">
+                    7</div>
+                <div class="zCol-1"
+                    style="background: #e3f2fd; border: 1px solid #2196f3; padding: 0.5rem; text-align: center; font-size: 0.75rem;">
+                    8</div>
+                <div class="zCol-1"
+                    style="background: #e3f2fd; border: 1px solid #2196f3; padding: 0.5rem; text-align: center; font-size: 0.75rem;">
+                    9</div>
+                <div class="zCol-1"
+                    style="background: #e3f2fd; border: 1px solid #2196f3; padding: 0.5rem; text-align: center; font-size: 0.75rem;">
+                    10</div>
+                <div class="zCol-1"
+                    style="background: #e3f2fd; border: 1px solid #2196f3; padding: 0.5rem; text-align: center; font-size: 0.75rem;">
+                    11</div>
+                <div class="zCol-1"
+                    style="background: #e3f2fd; border: 1px solid #2196f3; padding: 0.5rem; text-align: center; font-size: 0.75rem;">
+                    12</div>
+            </div>
+    </section>
+
+    <!-- Rows -->
+    <section id="rows" class="zmy-6">
+        <style>
+            /* Vertical line showing padding edge */
+            #demo-row.show-offset::before {
+                content: "";
+                position: absolute;
+                left: .5rem;
+                top: -3rem;
+                width: 3px;
+                height: 150px;
+                background: red;
+                z-index: 1000;
+            }
+
+            /* Arrow and text */
+            #demo-row.show-offset::after {
+                content: " ← padding line";
+                position: absolute;
+                left: 1rem;
+                bottom: -2.25rem;
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--color-primary);
+                white-space: nowrap;
+            }
+        </style>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const showLink = document.getElementById('show-row-link');
+                const demoRow = document.getElementById('demo-row');
+
+                if (showLink && demoRow) {
+                    // Hover for desktop
+                    showLink.addEventListener('mouseenter', function () {
+                        demoRow.classList.add('show-offset');
+                    });
+                    showLink.addEventListener('mouseleave', function () {
+                        if (!showLink.classList.contains('clicked')) {
+                            demoRow.classList.remove('show-offset');
+                        }
+                    });
+
+                    // Click for mobile (toggle)
+                    showLink.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        showLink.classList.toggle('clicked');
+                        demoRow.classList.toggle('show-offset');
+                    });
+                }
+            });
+        </script>
+
+        <h2>Rows</h2>
+        <p>Rows hold columns and make them sit side-by-side. They use <strong>flexbox</strong> to arrange columns
+            horizontally, handle <strong>wrapping</strong> when columns exceed 12 units, and add negative margins to
+            <strong>offset container padding</strong>.
+            <a href="#" id="show-row-link"
+                style="color: var(--color-primary); cursor: pointer; text-decoration: underline; font-weight: 600;">→
+                Show me</a>
+        </p>
+
+        <pre class="zp-3 zmy-4"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zContainer"&gt;
+  &lt;div class="zRow"&gt;
+    &lt;!-- Columns go here --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Columns -->
+    <section id="columns" class="zmy-6">
+        <h2>Columns</h2>
+        <p>Columns live inside rows and hold your content. Each column takes a portion of the 12 available units. You can use equal-width columns (auto-sized), fixed-width columns (specify exact sizes), or responsive columns (different sizes at different breakpoints).</p>
+        
+        <!-- Equal-Width Columns -->
+        <h3 class="zmt-5">Equal-Width Columns</h3>
+        <p>Use <code>.zCol</code> to split space equally:</p>
+
+    <div class="zRow zmy-5">
+        <div class="zCol zp-3" style="background: #e3f2fd; border: 2px solid #2196f3; text-align: center;">
+            <code>.zCol</code>
+        </div>
+        <div class="zCol zp-3" style="background: #e3f2fd; border: 2px solid #2196f3; text-align: center;">
+            <code>.zCol</code>
+        </div>
+        <div class="zCol zp-3" style="background: #e3f2fd; border: 2px solid #2196f3; text-align: center;">
+            <code>.zCol</code>
+        </div>
+    </div>
+
+    <pre class="zp-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow"&gt;
+  &lt;div class="zCol"&gt;Column&lt;/div&gt;
+  &lt;div class="zCol"&gt;Column&lt;/div&gt;
+  &lt;div class="zCol"&gt;Column&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <p class="zSmall text-muted zmt-3">Each <code>.zCol</code> automatically takes equal space - 3 columns = 33.3%
+        each</p>
+
+        <!-- Fixed-Width Columns -->
+        <h3 class="zmt-5">Fixed-Width Columns</h3>
+        <p>Need precise control? Specify widths from 1-12:</p>
+
+    <div class="zRow zmy-5">
+        <div class="zCol-4 zp-3" style="background: #e8f5e9; border: 2px solid #4caf50; text-align: center;">
+            <code>.zCol-4</code>
+        </div>
+        <div class="zCol-8 zp-3" style="background: #e8f5e9; border: 2px solid #4caf50; text-align: center;">
+            <code>.zCol-8</code>
+        </div>
+    </div>
+
+    <div class="zRow zmy-5">
+        <div class="zCol-3 zp-3" style="background: #fff3e0; border: 2px solid #ff9800; text-align: center;">
+            <code>.zCol-3</code>
+        </div>
+        <div class="zCol-6 zp-3" style="background: #fff3e0; border: 2px solid #ff9800; text-align: center;">
+            <code>.zCol-6</code>
+        </div>
+        <div class="zCol-3 zp-3" style="background: #fff3e0; border: 2px solid #ff9800; text-align: center;">
+            <code>.zCol-3</code>
+        </div>
+    </div>
+
+    <pre class="zp-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow"&gt;
+  &lt;div class="zCol-4"&gt;Sidebar&lt;/div&gt;
+  &lt;div class="zCol-8"&gt;Main Content&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <p class="zSmall text-muted zmt-3">Numbers are fractions of 12: 4+8=12 (sidebar + main), 3+6+3=12 (three columns)
+    </p>
+
+        <!-- Responsive Columns -->
+        <h3 class="zmt-5">Responsive Columns</h3>
+        <p>Combine multiple classes to change widths at different screen sizes. <strong>Resize your browser!</strong>
+        </p>
+        
+        <div class="zp-4 zmy-4" style="background: #fff8e1; border-left: 4px solid #ffc107;">
+            <strong>📱 Note:</strong> If you're on mobile and can't resize your browser, you're currently seeing the mobile view (all three cards stacked vertically as full-width). On tablet, they appear side-by-side as 2 per row. On desktop, 3 per row.
+        </div>
+
+    <div class="zRow zmy-5">
+        <div class="zCol-12 zCol-md-6 zCol-lg-4 zp-3 zmb-3"
+            style="background: #f3e5f5; border: 2px solid #9c27b0; text-align: center;">
+            <code>.zCol-12<br>.zCol-md-6<br>.zCol-lg-4</code>
+        </div>
+        <div class="zCol-12 zCol-md-6 zCol-lg-4 zp-3 zmb-3"
+            style="background: #f3e5f5; border: 2px solid #9c27b0; text-align: center;">
+            <code>.zCol-12<br>.zCol-md-6<br>.zCol-lg-4</code>
+        </div>
+        <div class="zCol-12 zCol-md-6 zCol-lg-4 zp-3 zmb-3"
+            style="background: #f3e5f5; border: 2px solid #9c27b0; text-align: center;">
+            <code>.zCol-12<br>.zCol-md-6<br>.zCol-lg-4</code>
+        </div>
+    </div>
+
+    <pre class="zp-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow"&gt;
+  &lt;div class="zCol-12 zCol-md-6 zCol-lg-4"&gt;Card&lt;/div&gt;
+  &lt;div class="zCol-12 zCol-md-6 zCol-lg-4"&gt;Card&lt;/div&gt;
+  &lt;div class="zCol-12 zCol-md-6 zCol-lg-4"&gt;Card&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+    <p class="zSmall text-muted zmt-3">📱 Mobile: 12/12 (stacked) → 💻 Tablet: 6/12 (2 per row) → 🖥️ Desktop: 4/12
+        (3 per row)</p>
+
+        <!-- Nesting -->
+        <h3 class="zmt-5">Nesting Grids</h3>
+        <p>Put rows inside columns to create nested layouts. The nested row gets its own 12 columns:</p>
+        
+        <!-- Practical example -->
+        <div class="zRow zmy-4">
+            <div class="zCol-8 zp-3" style="background: #ede7f6; border: 2px solid #673ab7;">
+                <strong>Parent (.zCol-8)</strong>
+                <div class="zRow zmt-2">
+                    <div class="zCol-1" style="background: #d1c4e9; border: 1px solid #512da8; padding: 0.25rem; text-align: center; font-size: 0.65rem;">1</div>
+                    <div class="zCol-1" style="background: #d1c4e9; border: 1px solid #512da8; padding: 0.25rem; text-align: center; font-size: 0.65rem;">2</div>
+                    <div class="zCol-1" style="background: #d1c4e9; border: 1px solid #512da8; padding: 0.25rem; text-align: center; font-size: 0.65rem;">3</div>
+                    <div class="zCol-1" style="background: #d1c4e9; border: 1px solid #512da8; padding: 0.25rem; text-align: center; font-size: 0.65rem;">4</div>
+                    <div class="zCol-1" style="background: #d1c4e9; border: 1px solid #512da8; padding: 0.25rem; text-align: center; font-size: 0.65rem;">5</div>
+                    <div class="zCol-1" style="background: #d1c4e9; border: 1px solid #512da8; padding: 0.25rem; text-align: center; font-size: 0.65rem;">6</div>
+                    <div class="zCol-1" style="background: #d1c4e9; border: 1px solid #512da8; padding: 0.25rem; text-align: center; font-size: 0.65rem;">7</div>
+                    <div class="zCol-1" style="background: #d1c4e9; border: 1px solid #512da8; padding: 0.25rem; text-align: center; font-size: 0.65rem;">8</div>
+                    <div class="zCol-1" style="background: #d1c4e9; border: 1px solid #512da8; padding: 0.25rem; text-align: center; font-size: 0.65rem;">9</div>
+                    <div class="zCol-1" style="background: #d1c4e9; border: 1px solid #512da8; padding: 0.25rem; text-align: center; font-size: 0.65rem;">10</div>
+                    <div class="zCol-1" style="background: #d1c4e9; border: 1px solid #512da8; padding: 0.25rem; text-align: center; font-size: 0.65rem;">11</div>
+                    <div class="zCol-1" style="background: #d1c4e9; border: 1px solid #512da8; padding: 0.25rem; text-align: center; font-size: 0.65rem;">12</div>
+                </div>
+
+                <div class="zRow zmt-3">
+                    <div class="zCol-6 zp-2" style="background: #d1c4e9; border: 2px solid #512da8; text-align: center;">
+                        Nested<br>.zCol-6
+                    </div>
+                    <div class="zCol-6 zp-2" style="background: #d1c4e9; border: 2px solid #512da8; text-align: center;">
+                        Nested<br>.zCol-6
+                    </div>
+                </div>
+            </div>
+            <div class="zCol-4 zp-3" style="background: #ede7f6; border: 2px solid #673ab7; text-align: center;">
+                <strong>Parent<br>(.zCol-4)</strong>
+            </div>
+        </div>
+
+    <pre class="zp-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow"&gt;
+  &lt;div class="zCol-8"&gt;
+    &lt;div class="zRow"&gt;
+      &lt;div class="zCol-6"&gt;Nested&lt;/div&gt;
+      &lt;div class="zCol-6"&gt;Nested&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="zCol-4"&gt;Parent&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    <!-- All Column Classes -->
+    <section class="zmy-6">
+        <h2>Column Classes</h2>
+        <p>The pattern is simple: <code>.zCol-{breakpoint}-{width}</code> where width is 1-12.</p>
+        <p>Remember: <a href="ztheme-breakpoints.html" class="zPrimary">breakpoints</a> are screen widths where your layout changes. Here are all the column classes:</p>
+
+        <ul class="lh-lg zmy-4">
+            <li><code>.zCol-1</code> through <code>.zCol-12</code> - Mobile (default)</li>
+            <li><code>.zCol-sm-1</code> through <code>.zCol-sm-12</code> - Small (≥576px)</li>
+            <li><code>.zCol-md-1</code> through <code>.zCol-md-12</code> - Tablet (≥768px)</li>
+            <li><code>.zCol-lg-1</code> through <code>.zCol-lg-12</code> - Desktop (≥992px)</li>
+            <li><code>.zCol-xl-1</code> through <code>.zCol-xl-12</code> - Large (≥1200px)</li>
+            <li><code>.zCol-xxl-1</code> through <code>.zCol-xxl-12</code> - XL (≥1400px)</li>
+        </ul>
+
+        <p class="zmt-4"><strong>No number?</strong> Use <code>.zCol</code>, <code>.zCol-md</code>, etc. for auto-width (equal distribution)</p>
+        <p>Column classes can look confusing at first. Here's how to read them:</p>
+        
+        <div class="zmy-4" style="background: var(--color-base); padding: 1.5rem; border-radius: 8px;">
+            <p style="font-size: 1.2rem; margin-bottom: 1rem;"><code>.zCol-md-6</code></p>
+            <ul class="lh-lg" style="list-style: none; padding-left: 0;">
+                <li>↳ <code>.zCol</code> = Column</li>
+                <li>↳ <code>-md</code> = At medium breakpoint (≥768px)</li>
+                <li>↳ <code>-6</code> = Take 6 out of 12 units (half width)</li>
+            </ul>
+        </div>
+        
+        <p><strong>No breakpoint?</strong> <code>.zCol-6</code> means "6 units wide on ALL screens (mobile-first default)"</p>
+        <p><strong>No number?</strong> <code>.zCol-md</code> means "auto-width at medium breakpoint"</p>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2>Best Practices</h2>
+        <ul class="lh-lg zmy-3">
+            <li><strong>Container → Row → Columns</strong> - Always nest in this order</li>
+            <li><strong>Add up to 12</strong> - Column numbers should total 12 per row</li>
+            <li><strong>Mobile-first</strong> - Start with <code>.zCol-12</code>, add breakpoint classes</li>
+            <li><strong>Nest properly</strong> - Row → Column → Row (not Row → Row)</li>
+        </ul>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2>Related Topics</h2>
+        <ul class="lh-lg zmy-3">
+            <li><a href="ztheme-columns.html" class="zPrimary">Columns</a> - Ordering and offsetting</li>
+            <li><a href="ztheme-gutters.html" class="zPrimary">Gutters</a> - Spacing between columns</li>
+            <li><a href="ztheme-utilities.html" class="zPrimary">Layout Utilities</a> - Alignment and flex</li>
+        </ul>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="zmt-6 zpt-5 zD-flex zFlex-between" style="border-top: 2px solid var(--borderColor, #dee2e6);">
+        <a href="ztheme-containers.html" class="zPrimary">← Previous: Containers</a>
+        <a href="ztheme-columns.html" class="zPrimary">Next: Columns →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProgressBar Renderer Test - Bifrost</title>
+    
+    <!-- zTheme CSS from CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background: var(--color-lightgray);
+            padding: 2rem;
+        }
+        .test-card {
+            margin-bottom: 2rem;
+        }
+        .test-controls {
+            padding: 1rem;
+            background: var(--color-light);
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="zContainer">
+        <div class="zCard">
+            <div class="zCard-body">
+                <h1 class="zCard-title zText-primary">
+                    <i class="bi bi-graph-up"></i>
+                    Progress Bar Renderer Test
+                </h1>
+                <p class="zText-muted">Testing terminal-first progress bar implementation with primitives</p>
+            </div>
+        </div>
+
+        <!-- Test Controls -->
+        <div class="test-controls">
+            <h3 class="zText-info">Test Scenarios</h3>
+            <div class="zD-flex zFlex-wrap zGap-2">
+                <button class="zBtn zBtn-primary" onclick="test1_basicProgress()">
+                    1. Basic Progress (Auto-update)
+                </button>
+                <button class="zBtn zBtn-secondary" onclick="test2_heightVariants()">
+                    2. Height Variants (sm/md/lg)
+                </button>
+                <button class="zBtn zBtn-success" onclick="test3_colorVariants()">
+                    3. Color Variants
+                </button>
+                <button class="zBtn zBtn-warning" onclick="test4_stripedAnimated()">
+                    4. Striped & Animated
+                </button>
+                <button class="zBtn zBtn-info" onclick="test5_multipleProgress()">
+                    5. Multiple Progress Bars
+                </button>
+                <button class="zBtn zBtn-danger" onclick="test6_withoutETA()">
+                    6. Without ETA/Percentage
+                </button>
+                <button class="zBtn zBtn-dark" onclick="clearAll()">
+                    Clear All
+                </button>
+            </div>
+        </div>
+
+        <!-- Render Zone -->
+        <div class="zCard test-card">
+            <div class="zCard-body">
+                <h2 class="zCard-title zText-info">Render Zone</h2>
+                <div id="test-zone" class="zP-3 zBg-light zBorder zRounded" style="min-height: 200px;">
+                    <p class="zText-muted">Click a test button to render progress bars...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logger Output -->
+        <div class="zCard">
+            <div class="zCard-body">
+                <h3 class="zText-secondary">
+                    <i class="bi bi-terminal"></i>
+                    Logger Output
+                </h3>
+                <div id="logger-output" class="zP-2 zBg-dark zText-light zRounded" style="font-family: monospace; font-size: 0.9rem; max-height: 300px; overflow-y: auto;">
+                    📝 Ready to test...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the renderer
+        import ProgressBarRenderer from '../src/rendering/progressbar_renderer.js';
+
+        // Mock logger
+        const logger = {
+            log: (...args) => {
+                const timestamp = new Date().toLocaleTimeString();
+                const message = args.map(arg => 
+                    typeof arg === 'object' ? JSON.stringify(arg) : arg
+                ).join(' ');
+                const logDiv = document.getElementById('logger-output');
+                logDiv.innerHTML += `\n[${timestamp}] ✅ ${message}`;
+                logDiv.scrollTop = logDiv.scrollHeight;
+                console.log(...args);
+            },
+            warn: (...args) => {
+                const timestamp = new Date().toLocaleTimeString();
+                const message = args.map(arg => 
+                    typeof arg === 'object' ? JSON.stringify(arg) : arg
+                ).join(' ');
+                const logDiv = document.getElementById('logger-output');
+                logDiv.innerHTML += `\n[${timestamp}] ⚠️ ${message}`;
+                logDiv.scrollTop = logDiv.scrollHeight;
+                console.warn(...args);
+            }
+        };
+
+        // Initialize renderer
+        const renderer = new ProgressBarRenderer(logger);
+
+        logger.log('✅ ProgressBarRenderer initialized (Terminal-First Refactor)');
+        logger.log('✅ API: render(event) - progress_bar and progress_complete events');
+        logger.log('📊 Testing height variants, colors, striped/animated, and auto-updates');
+        logger.log('🎨 Terminal paradigm: Carriage return (\r) updates, ETA calculation');
+
+        // Export for onclick handlers
+        window.renderer = renderer;
+        window.logger = logger;
+
+        // Test 1: Basic Progress (Auto-update)
+        window.test1_basicProgress = () => {
+            logger.log('Testing basic progress bar with auto-update...');
+            const progressId = 'test-basic-' + Date.now();
+            let current = 0;
+            const total = 100;
+
+            const interval = setInterval(() => {
+                current += 10;
+                const eta = current < total ? `${Math.round((100 - current) / 10)}s` : null;
+
+                renderer.render({
+                    progressId,
+                    label: 'Downloading File',
+                    current,
+                    total,
+                    showPercentage: true,
+                    showETA: true,
+                    eta,
+                    color: 'primary',
+                    container: '#test-zone'
+                });
+
+                if (current >= total) {
+                    clearInterval(interval);
+                    logger.log('Basic progress complete!');
+                }
+            }, 500);
+        };
+
+        // Test 2: Height Variants
+        window.test2_heightVariants = () => {
+            logger.log('Testing height variants (sm, md, lg)...');
+            
+            ['sm', 'md', 'lg'].forEach((height, index) => {
+                const progressId = `test-height-${height}-${Date.now()}`;
+                renderer.render({
+                    progressId,
+                    label: `Progress Bar (${height})`,
+                    current: 60,
+                    total: 100,
+                    showPercentage: true,
+                    showETA: false,
+                    color: 'primary',
+                    height,
+                    container: '#test-zone'
+                });
+            });
+        };
+
+        // Test 3: Color Variants
+        window.test3_colorVariants = () => {
+            logger.log('Testing all 6 semantic color variants...');
+            
+            const colors = [
+                { name: 'primary', label: 'Primary Action' },
+                { name: 'success', label: 'Success Operation' },
+                { name: 'danger', label: 'Critical Task' },
+                { name: 'warning', label: 'Warning State' },
+                { name: 'info', label: 'Information' },
+                { name: 'secondary', label: 'Secondary Task' }
+            ];
+
+            colors.forEach((colorObj, index) => {
+                const progressId = `test-color-${colorObj.name}-${Date.now()}`;
+                renderer.render({
+                    progressId,
+                    label: colorObj.label,
+                    current: 60 + (index * 5),
+                    total: 100,
+                    showPercentage: true,
+                    showETA: false,
+                    color: colorObj.name,
+                    container: '#test-zone'
+                });
+            });
+        };
+
+        // Test 4: Striped & Animated
+        window.test4_stripedAnimated = () => {
+            logger.log('Testing striped and animated variants...');
+            
+            const variants = [
+                { striped: true, animated: false, label: 'Striped Only' },
+                { striped: true, animated: true, label: 'Striped + Animated' },
+                { striped: false, animated: false, label: 'Standard (no stripes)' }
+            ];
+
+            variants.forEach((variant, index) => {
+                const progressId = `test-striped-${index}-${Date.now()}`;
+                renderer.render({
+                    progressId,
+                    label: variant.label,
+                    current: 75,
+                    total: 100,
+                    showPercentage: true,
+                    showETA: false,
+                    color: 'success',
+                    striped: variant.striped,
+                    animated: variant.animated,
+                    container: '#test-zone'
+                });
+            });
+        };
+
+        // Test 5: Multiple Progress Bars
+        window.test5_multipleProgress = () => {
+            logger.log('Testing multiple concurrent progress bars...');
+            
+            const tasks = [
+                { label: 'Uploading images.zip', speed: 15 },
+                { label: 'Processing data.csv', speed: 20 },
+                { label: 'Generating report.pdf', speed: 25 }
+            ];
+
+            tasks.forEach((task, index) => {
+                const progressId = `test-multi-${index}-${Date.now()}`;
+                let current = 0;
+
+                const interval = setInterval(() => {
+                    current += task.speed;
+                    if (current > 100) current = 100;
+
+                    const eta = current < 100 ? `${Math.round((100 - current) / task.speed)}s` : null;
+
+                    renderer.render({
+                        progressId,
+                        label: task.label,
+                        current,
+                        total: 100,
+                        showPercentage: true,
+                        showETA: true,
+                        eta,
+                        color: index === 0 ? 'primary' : index === 1 ? 'info' : 'success',
+                        container: '#test-zone'
+                    });
+
+                    if (current >= 100) {
+                        clearInterval(interval);
+                        logger.log(`${task.label} complete!`);
+                    }
+                }, 500);
+            });
+        };
+
+        // Test 6: Without ETA/Percentage
+        window.test6_withoutETA = () => {
+            logger.log('Testing progress without ETA and percentage...');
+            
+            const progressId = 'test-no-eta-' + Date.now();
+            renderer.render({
+                progressId,
+                label: 'Processing (simple)',
+                current: 45,
+                total: 100,
+                showPercentage: false,
+                showETA: false,
+                color: 'warning',
+                container: '#test-zone'
+            });
+        };
+
+        // Clear all
+        window.clearAll = () => {
+            logger.log('Clearing all progress bars...');
+            renderer.clearAll();
+            document.getElementById('test-zone').innerHTML = '<p class="zText-muted">Click a test button to render progress bars...</p>';
+        };
+
+        logger.log('Ready to test! Click a color button above.');
+    </script>
+</body>
+</html>
+

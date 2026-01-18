@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flex - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer zp-5">
+    <h1 class="zmb-2">🔲 Flex Utilities</h1>
+    <p class="zLead text-muted zmb-6">
+        Powerful flexbox utilities for responsive, flexible layouts without writing custom CSS.
+    </p>
+
+    <hr class="zmy-5 hr-visible">
+
+    <!-- Understanding Flex Utilities -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Understanding Flexbox</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Flexbox is a modern CSS layout system that makes it easy to align, distribute, and arrange elements. 
+            Flex utilities work with <code>.zD-flex</code> containers to control alignment, direction, wrapping, 
+            and spacing.
+        </p>
+
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Remember:</strong> Most flex utilities require a parent with 
+            <code>.zD-flex</code> to work! First add <code>.zD-flex</code>, then add flex utilities.</p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zD-flex zFlex-center zFlex-items-center"&gt;
+  &lt;div&gt;Item 1&lt;/div&gt;
+  &lt;div&gt;Item 2&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Horizontal Alignment (justify-content) -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">Horizontal Alignment (justify-content)</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Control how flex items are distributed along the main axis (horizontally by default):
+        </p>
+
+        <div style="display: grid; gap: 1rem; margin: 2rem 0;">
+            <div>
+                <p style="margin-bottom: 0.5rem;"><code>.zFlex-start</code> (default)</p>
+                <div class="zD-flex zFlex-start zBorder" style="padding: 1rem; background: white; gap: 0.5rem;">
+                    <div class="zBg-primary zText-white" style="padding: 0.5rem;">1</div>
+                    <div class="zBg-primary zText-white" style="padding: 0.5rem;">2</div>
+                    <div class="zBg-primary zText-white" style="padding: 0.5rem;">3</div>
+                </div>
+            </div>
+
+            <div>
+                <p style="margin-bottom: 0.5rem;"><code>.zFlex-center</code></p>
+                <div class="zD-flex zFlex-center zBorder" style="padding: 1rem; background: white; gap: 0.5rem;">
+                    <div class="zBg-secondary zText-white" style="padding: 0.5rem;">1</div>
+                    <div class="zBg-secondary zText-white" style="padding: 0.5rem;">2</div>
+                    <div class="zBg-secondary zText-white" style="padding: 0.5rem;">3</div>
+                </div>
+            </div>
+
+            <div>
+                <p style="margin-bottom: 0.5rem;"><code>.zFlex-end</code></p>
+                <div class="zD-flex zFlex-end zBorder" style="padding: 1rem; background: white; gap: 0.5rem;">
+                    <div class="zBg-success zText-white" style="padding: 0.5rem;">1</div>
+                    <div class="zBg-success zText-white" style="padding: 0.5rem;">2</div>
+                    <div class="zBg-success zText-white" style="padding: 0.5rem;">3</div>
+                </div>
+            </div>
+
+            <div>
+                <p style="margin-bottom: 0.5rem;"><code>.zFlex-between</code> (space between items)</p>
+                <div class="zD-flex zFlex-between zBorder" style="padding: 1rem; background: white;">
+                    <div class="zBg-info zText-white" style="padding: 0.5rem;">1</div>
+                    <div class="zBg-info zText-white" style="padding: 0.5rem;">2</div>
+                    <div class="zBg-info zText-white" style="padding: 0.5rem;">3</div>
+                </div>
+            </div>
+
+            <div>
+                <p style="margin-bottom: 0.5rem;"><code>.zFlex-around</code> (space around items)</p>
+                <div class="zD-flex zFlex-around zBorder" style="padding: 1rem; background: white;">
+                    <div class="zBg-warning zText-dark" style="padding: 0.5rem;">1</div>
+                    <div class="zBg-warning zText-dark" style="padding: 0.5rem;">2</div>
+                    <div class="zBg-warning zText-dark" style="padding: 0.5rem;">3</div>
+                </div>
+            </div>
+
+            <div>
+                <p style="margin-bottom: 0.5rem;"><code>.zFlex-evenly</code> (equal space)</p>
+                <div class="zD-flex zFlex-evenly zBorder" style="padding: 1rem; background: white;">
+                    <div class="zBg-danger zText-white" style="padding: 0.5rem;">1</div>
+                    <div class="zBg-danger zText-white" style="padding: 0.5rem;">2</div>
+                    <div class="zBg-danger zText-white" style="padding: 0.5rem;">3</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vertical Alignment (align-items) -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Vertical Alignment (align-items)</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Control how flex items are aligned along the cross axis (vertically by default):
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0;">
+            <div>
+                <p style="margin-bottom: 0.5rem;"><code>.zFlex-items-start</code></p>
+                <div class="zD-flex zFlex-items-start zBorder" style="padding: 1rem; background: white; height: 120px; gap: 0.5rem;">
+                    <div class="zBg-primary zText-white" style="padding: 0.5rem;">1</div>
+                    <div class="zBg-primary zText-white" style="padding: 1.5rem;">2</div>
+                    <div class="zBg-primary zText-white" style="padding: 0.5rem;">3</div>
+                </div>
+            </div>
+
+            <div>
+                <p style="margin-bottom: 0.5rem;"><code>.zFlex-items-center</code></p>
+                <div class="zD-flex zFlex-items-center zBorder" style="padding: 1rem; background: white; height: 120px; gap: 0.5rem;">
+                    <div class="zBg-secondary zText-white" style="padding: 0.5rem;">1</div>
+                    <div class="zBg-secondary zText-white" style="padding: 1.5rem;">2</div>
+                    <div class="zBg-secondary zText-white" style="padding: 0.5rem;">3</div>
+                </div>
+            </div>
+
+            <div>
+                <p style="margin-bottom: 0.5rem;"><code>.zFlex-items-end</code></p>
+                <div class="zD-flex zFlex-items-end zBorder" style="padding: 1rem; background: white; height: 120px; gap: 0.5rem;">
+                    <div class="zBg-success zText-white" style="padding: 0.5rem;">1</div>
+                    <div class="zBg-success zText-white" style="padding: 1.5rem;">2</div>
+                    <div class="zBg-success zText-white" style="padding: 0.5rem;">3</div>
+                </div>
+            </div>
+
+            <div>
+                <p style="margin-bottom: 0.5rem;"><code>.zFlex-items-stretch</code> (default)</p>
+                <div class="zD-flex zFlex-items-stretch zBorder" style="padding: 1rem; background: white; height: 120px; gap: 0.5rem;">
+                    <div class="zBg-info zText-white" style="padding: 0.5rem;">1</div>
+                    <div class="zBg-info zText-white" style="padding: 0.5rem;">2</div>
+                    <div class="zBg-info zText-white" style="padding: 0.5rem;">3</div>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Perfect Centering</h3>
+        <p style="margin-bottom: 1rem;">Combine horizontal and vertical centering:</p>
+        <div class="zD-flex zFlex-center zFlex-items-center zBorder" style="padding: 0; background: white; height: 150px;">
+            <div class="zBg-primary zText-white" style="padding: 1.5rem; font-size: 1.25rem;">
+                Perfectly Centered! 🎯
+            </div>
+        </div>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; margin-top: 1rem;"><code>&lt;div class="zD-flex zFlex-center zFlex-items-center" style="height: 150px;"&gt;
+  &lt;div&gt;Perfectly Centered!&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Flex Direction -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Flex Direction</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Change the direction of flex items (row vs column):
+        </p>
+
+        <div style="display: grid; gap: 1.5rem; margin: 2rem 0;">
+            <div>
+                <p style="margin-bottom: 0.5rem;"><code>.zFlex-row</code> (default - horizontal)</p>
+                <div class="zD-flex zFlex-row zBorder" style="padding: 1rem; background: white; gap: 0.5rem;">
+                    <div class="zBg-primary zText-white" style="padding: 1rem;">1</div>
+                    <div class="zBg-secondary zText-white" style="padding: 1rem;">2</div>
+                    <div class="zBg-success zText-white" style="padding: 1rem;">3</div>
+                </div>
+            </div>
+
+            <div>
+                <p style="margin-bottom: 0.5rem;"><code>.zFlex-column</code> (vertical)</p>
+                <div class="zD-flex zFlex-column zBorder" style="padding: 1rem; background: white; gap: 0.5rem;">
+                    <div class="zBg-info zText-white" style="padding: 1rem;">1</div>
+                    <div class="zBg-warning zText-dark" style="padding: 1rem;">2</div>
+                    <div class="zBg-danger zText-white" style="padding: 1rem;">3</div>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- Horizontal (default) --&gt;
+&lt;div class="zD-flex zFlex-row"&gt;...&lt;/div&gt;
+
+&lt;!-- Vertical --&gt;
+&lt;div class="zD-flex zFlex-column"&gt;...&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Flex Wrap -->
+    <section class="zmy-6">
+        <h2 class="zText-warning">Flex Wrap</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Control whether flex items wrap to multiple lines. Click the button to toggle!
+        </p>
+
+        <div style="margin: 2rem 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <div>
+                    <strong id="wrapStatus">.zFlex-wrap</strong> (wraps to multiple lines)
+                </div>
+                <button onclick="toggleWrap()" class="zBtn zBtn-primary">
+                    Toggle Wrap
+                </button>
+            </div>
+
+            <!-- Force narrow container so wrapping is visible -->
+            <div style="max-width: 500px; margin: 0;">
+                <div id="wrapDemo" class="zD-flex zFlex-wrap zBorder" style="padding: 1rem; background: white; gap: 0.5rem;">
+                    <div class="zBg-secondary zText-white" style="padding: 1rem; min-width: 140px;">Item 1</div>
+                    <div class="zBg-secondary zText-white" style="padding: 1rem; min-width: 140px;">Item 2</div>
+                    <div class="zBg-secondary zText-white" style="padding: 1rem; min-width: 140px;">Item 3</div>
+                    <div class="zBg-secondary zText-white" style="padding: 1rem; min-width: 140px;">Item 4</div>
+                    <div class="zBg-secondary zText-white" style="padding: 1rem; min-width: 140px;">Item 5</div>
+                </div>
+            </div>
+
+            <blockquote style="background: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+                <p style="margin: 0;"><strong>💡 Notice:</strong> With <code>.zFlex-wrap</code>, items move to the next line when they don't fit. 
+                Toggle to <code>.zFlex-nowrap</code> to see items stay on one line (with horizontal scroll)!</p>
+            </blockquote>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- No wrap (default) - items overflow container --&gt;
+&lt;div class="zD-flex zFlex-nowrap"&gt;
+  &lt;div style="min-width: 150px;"&gt;Item 1&lt;/div&gt;
+  &lt;div style="min-width: 150px;"&gt;Item 2&lt;/div&gt;
+  &lt;!-- Items continue on same line --&gt;
+&lt;/div&gt;
+
+&lt;!-- Wrap - items move to next line --&gt;
+&lt;div class="zD-flex zFlex-wrap"&gt;
+  &lt;div style="min-width: 150px;"&gt;Item 1&lt;/div&gt;
+  &lt;div style="min-width: 150px;"&gt;Item 2&lt;/div&gt;
+  &lt;!-- Items wrap to next line when space runs out --&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Flex Grow & Shrink -->
+    <section class="zmy-6">
+        <h2 class="zText-danger">Flex Grow & Shrink</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Control how flex items grow and shrink to fill available space:
+        </p>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Flex Grow</h3>
+        <div class="zD-flex zBorder" style="padding: 1rem; background: white; gap: 0.5rem; margin: 1rem 0;">
+            <div class="zBg-info zText-white" style="padding: 1rem;">Fixed</div>
+            <div class="zBg-success zText-white zFlex-grow-1" style="padding: 1rem;">.zFlex-grow-1 (grows to fill space)</div>
+            <div class="zBg-info zText-white" style="padding: 1rem;">Fixed</div>
+        </div>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Flex Fill (Equal Width)</h3>
+        <div class="zD-flex zBorder" style="padding: 1rem; background: white; gap: 0.5rem; margin: 1rem 0;">
+            <div class="zBg-primary zText-white zFlex-fill" style="padding: 1rem;">.zFlex-fill</div>
+            <div class="zBg-primary zText-white zFlex-fill" style="padding: 1rem;">.zFlex-fill</div>
+            <div class="zBg-primary zText-white zFlex-fill" style="padding: 1rem;">.zFlex-fill</div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zD-flex"&gt;
+  &lt;div&gt;Fixed width&lt;/div&gt;
+  &lt;div class="zFlex-grow-1"&gt;Grows to fill space&lt;/div&gt;
+  &lt;div&gt;Fixed width&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Gap Utilities -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">Gap Utilities</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Modern spacing between flex items (no margins needed!):
+        </p>
+
+        <div style="display: grid; gap: 1rem; margin: 2rem 0;">
+            <div>
+                <p style="margin-bottom: 0.5rem;"><code>.zGap-2</code> (0.5rem = 8px)</p>
+                <div class="zD-flex zGap-2 zBorder" style="padding: 1rem; background: white;">
+                    <div class="zBg-primary zText-white" style="padding: 0.5rem;">1</div>
+                    <div class="zBg-primary zText-white" style="padding: 0.5rem;">2</div>
+                    <div class="zBg-primary zText-white" style="padding: 0.5rem;">3</div>
+                </div>
+            </div>
+
+            <div>
+                <p style="margin-bottom: 0.5rem;"><code>.zGap-4</code> (1rem = 16px)</p>
+                <div class="zD-flex zGap-4 zBorder" style="padding: 1rem; background: white;">
+                    <div class="zBg-secondary zText-white" style="padding: 0.5rem;">1</div>
+                    <div class="zBg-secondary zText-white" style="padding: 0.5rem;">2</div>
+                    <div class="zBg-secondary zText-white" style="padding: 0.5rem;">3</div>
+                </div>
+            </div>
+        </div>
+
+        <table class="zTable">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Gap Size</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>.zGap-0</code></td><td>0</td></tr>
+                <tr><td><code>.zGap-1</code></td><td>0.25rem (4px)</td></tr>
+                <tr><td><code>.zGap-2</code></td><td>0.5rem (8px)</td></tr>
+                <tr><td><code>.zGap-3</code></td><td>0.75rem (12px)</td></tr>
+                <tr><td><code>.zGap-4</code></td><td>1rem (16px)</td></tr>
+                <tr><td><code>.zGap-5</code></td><td>1.5rem (24px)</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Real-World Examples -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Real-World Examples</h2>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Navigation Bar</h3>
+        <div class="zD-flex zFlex-between zFlex-items-center zBg-dark zText-white" style="padding: 1rem;">
+            <div style="font-size: 1.25rem; font-weight: bold;">Logo</div>
+            <div class="zD-flex zGap-3">
+                <a href="#" class="zText-white" style="text-decoration: none;">Home</a>
+                <a href="#" class="zText-white" style="text-decoration: none;">About</a>
+                <a href="#" class="zText-white" style="text-decoration: none;">Contact</a>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 3rem; color: #495057;">Card Grid</h3>
+        <div class="zD-flex zFlex-wrap zGap-3">
+            <div class="zBorder zRounded zFlex-fill" style="padding: 1.5rem; min-width: 250px;">
+                <h4 class="zText-primary" style="margin-top: 0;">Feature 1</h4>
+                <p style="margin: 0;">Description of feature one</p>
+            </div>
+            <div class="zBorder zRounded zFlex-fill" style="padding: 1.5rem; min-width: 250px;">
+                <h4 class="zText-success" style="margin-top: 0;">Feature 2</h4>
+                <p style="margin: 0;">Description of feature two</p>
+            </div>
+            <div class="zBorder zRounded zFlex-fill" style="padding: 1.5rem; min-width: 250px;">
+                <h4 class="zText-info" style="margin-top: 0;">Feature 3</h4>
+                <p style="margin: 0;">Description of feature three</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 3rem; color: #495057;">Button Group</h3>
+        <div class="zD-flex zGap-2">
+            <button class="zBtn zBtn-primary zFlex-grow-1">Save</button>
+            <button class="zBtn zBtn-secondary">Cancel</button>
+        </div>
+    </section>
+
+    <!-- Responsive Flex -->
+    <section class="zmy-6">
+        <h2 class="zText-warning">Responsive Flex Utilities</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Flex utilities support responsive breakpoints (sm, md, lg):
+        </p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- Column on mobile, row on tablet+ --&gt;
+&lt;div class="zD-flex zFlex-column zFlex-md-row"&gt;
+  &lt;div&gt;Item 1&lt;/div&gt;
+  &lt;div&gt;Item 2&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Center on mobile, space-between on desktop --&gt;
+&lt;div class="zD-flex zFlex-center zFlex-lg-between"&gt;
+  &lt;div&gt;Left&lt;/div&gt;
+  &lt;div&gt;Right&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <table class="zTable">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Responsive Classes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Direction</td>
+                    <td><code>.zFlex-{sm|md|lg}-row</code>, <code>.zFlex-{sm|md|lg}-column</code></td>
+                </tr>
+                <tr>
+                    <td>Justify</td>
+                    <td><code>.zFlex-{sm|md|lg}-center</code>, <code>.zFlex-{sm|md|lg}-between</code></td>
+                </tr>
+                <tr>
+                    <td>Wrap</td>
+                    <td><code>.zFlex-{sm|md|lg}-wrap</code>, <code>.zFlex-{sm|md|lg}-nowrap</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- CSS Reference -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">CSS Reference</h2>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Complete Class List</h3>
+        <table class="zTable zTable-striped">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Classes</th>
+                    <th>CSS Property</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Horizontal Alignment</strong></td>
+                    <td><code>.zFlex-start</code>, <code>.zFlex-center</code>, <code>.zFlex-end</code>, <code>.zFlex-between</code>, <code>.zFlex-around</code>, <code>.zFlex-evenly</code></td>
+                    <td><code>justify-content</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Vertical Alignment</strong></td>
+                    <td><code>.zFlex-items-start</code>, <code>.zFlex-items-center</code>, <code>.zFlex-items-end</code>, <code>.zFlex-items-baseline</code>, <code>.zFlex-items-stretch</code></td>
+                    <td><code>align-items</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Self Alignment</strong></td>
+                    <td><code>.zFlex-self-start</code>, <code>.zFlex-self-center</code>, <code>.zFlex-self-end</code>, <code>.zFlex-self-baseline</code>, <code>.zFlex-self-stretch</code></td>
+                    <td><code>align-self</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Direction</strong></td>
+                    <td><code>.zFlex-row</code>, <code>.zFlex-row-reverse</code>, <code>.zFlex-column</code>, <code>.zFlex-column-reverse</code></td>
+                    <td><code>flex-direction</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Wrap</strong></td>
+                    <td><code>.zFlex-wrap</code>, <code>.zFlex-nowrap</code>, <code>.zFlex-wrap-reverse</code></td>
+                    <td><code>flex-wrap</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Grow/Shrink</strong></td>
+                    <td><code>.zFlex-grow-0</code>, <code>.zFlex-grow-1</code>, <code>.zFlex-shrink-0</code>, <code>.zFlex-shrink-1</code></td>
+                    <td><code>flex-grow</code>, <code>flex-shrink</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Fill</strong></td>
+                    <td><code>.zFlex-fill</code></td>
+                    <td><code>flex: 1 1 auto</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Gap</strong></td>
+                    <td><code>.zGap-0</code> through <code>.zGap-5</code></td>
+                    <td><code>gap</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Related Topics</h2>
+        <ul class="lh-lg">
+            <li><a href="ztheme-display.html">Display</a> - Display utilities (includes .zD-flex)</li>
+            <li><a href="ztheme-grid.html">Grid</a> - CSS Grid utilities</li>
+            <li><a href="ztheme-spacing.html">Spacing</a> - Margin & padding utilities</li>
+            <li><a href="ztheme-breakpoints.html">Breakpoints</a> - Responsive design breakpoints</li>
+        </ul>
+    </section>
+
+</div>
+
+<script>
+// Toggle flex wrap demo
+function toggleWrap() {
+    const demo = document.getElementById('wrapDemo');
+    const status = document.getElementById('wrapStatus');
+    
+    if (demo.classList.contains('zFlex-nowrap')) {
+        // Switch to wrap
+        demo.classList.remove('zFlex-nowrap');
+        demo.classList.add('zFlex-wrap');
+        status.textContent = '.zFlex-wrap';
+        
+        // Change item colors to purple to show it's different
+        const items = demo.querySelectorAll('div');
+        items.forEach(item => {
+            item.classList.remove('zBg-primary');
+            item.classList.add('zBg-secondary');
+        });
+    } else {
+        // Switch back to nowrap
+        demo.classList.remove('zFlex-wrap');
+        demo.classList.add('zFlex-nowrap');
+        status.textContent = '.zFlex-nowrap';
+        
+        // Change item colors back to blue
+        const items = demo.querySelectorAll('div');
+        items.forEach(item => {
+            item.classList.remove('zBg-secondary');
+            item.classList.add('zBg-primary');
+        });
+    }
+}
+</script>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

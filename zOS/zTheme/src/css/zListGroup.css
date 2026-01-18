@@ -1,0 +1,406 @@
+/* ============================================================================
+   zListGroup.css - List Group Component
+   ============================================================================
+   
+   Bootstrap-inspired list groups for displaying series of content.
+   
+   Base Class: .zList-group
+   
+   NOTE: Tab/navigation functionality requires JavaScript (zTheme.js).
+   This CSS provides the visual foundation and styles.
+   ============================================================================ */
+
+/* Base List Group
+   =============== */
+.zList-group {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+  border-radius: 0.25rem;
+}
+
+/* List Group Item
+   =============== */
+.zList-group-item {
+  position: relative;
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--color-darkgray);
+  text-decoration: none;
+  background-color: var(--color-white);
+  border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.zList-group-item:first-child {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+
+.zList-group-item:last-child {
+  border-bottom-right-radius: inherit;
+  border-bottom-left-radius: inherit;
+}
+
+.zList-group-item.zDisabled,
+.zList-group-item:disabled {
+  color: var(--color-gray);
+  pointer-events: none;
+  background-color: var(--color-white);
+}
+
+.zList-group-item + .zList-group-item {
+  border-top-width: 0;
+}
+
+.zList-group-item + .zList-group-item.zActive {
+  margin-top: -1px;
+  border-top-width: 1px;
+}
+
+/* Active State
+   ============ */
+.zList-group-item.zActive {
+  z-index: 2;
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+/* Actionable Items (Links/Buttons)
+   ================================= */
+.zList-group-item-action {
+  width: 100%;
+  color: var(--color-darkgray);
+  text-align: inherit;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zList-group-item-action {
+    transition: none;
+  }
+}
+
+.zList-group-item-action:hover,
+.zList-group-item-action:focus {
+  z-index: 1;
+  color: var(--color-darkgray);
+  text-decoration: none;
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+
+.zList-group-item-action:active {
+  color: var(--color-darkgray);
+  background-color: #e9ecef;
+}
+
+/* Flush Variant
+   ============= */
+.zList-group-flush {
+  border-radius: 0;
+}
+
+.zList-group-flush > .zList-group-item {
+  border-width: 0 0 1px;
+}
+
+.zList-group-flush > .zList-group-item:last-child {
+  border-bottom-width: 0;
+}
+
+/* Horizontal Variants
+   =================== */
+.zList-group-horizontal {
+  flex-direction: row;
+}
+
+.zList-group-horizontal > .zList-group-item:first-child {
+  border-bottom-left-radius: 0.25rem;
+  border-top-right-radius: 0;
+}
+
+.zList-group-horizontal > .zList-group-item:last-child {
+  border-top-right-radius: 0.25rem;
+  border-bottom-left-radius: 0;
+}
+
+.zList-group-horizontal > .zList-group-item.zActive {
+  margin-top: 0;
+}
+
+.zList-group-horizontal > .zList-group-item + .zList-group-item {
+  border-top-width: 1px;
+  border-left-width: 0;
+}
+
+.zList-group-horizontal > .zList-group-item + .zList-group-item.zActive {
+  margin-left: -1px;
+  border-left-width: 1px;
+}
+
+/* Responsive Horizontal */
+@media (min-width: 576px) {
+  .zList-group-horizontal-sm {
+    flex-direction: row;
+  }
+  .zList-group-horizontal-sm > .zList-group-item:first-child {
+    border-bottom-left-radius: 0.25rem;
+    border-top-right-radius: 0;
+  }
+  .zList-group-horizontal-sm > .zList-group-item:last-child {
+    border-top-right-radius: 0.25rem;
+    border-bottom-left-radius: 0;
+  }
+  .zList-group-horizontal-sm > .zList-group-item.zActive {
+    margin-top: 0;
+  }
+  .zList-group-horizontal-sm > .zList-group-item + .zList-group-item {
+    border-top-width: 1px;
+    border-left-width: 0;
+  }
+  .zList-group-horizontal-sm > .zList-group-item + .zList-group-item.zActive {
+    margin-left: -1px;
+    border-left-width: 1px;
+  }
+}
+
+@media (min-width: 768px) {
+  .zList-group-horizontal-md {
+    flex-direction: row;
+  }
+  .zList-group-horizontal-md > .zList-group-item:first-child {
+    border-bottom-left-radius: 0.25rem;
+    border-top-right-radius: 0;
+  }
+  .zList-group-horizontal-md > .zList-group-item:last-child {
+    border-top-right-radius: 0.25rem;
+    border-bottom-left-radius: 0;
+  }
+  .zList-group-horizontal-md > .zList-group-item.zActive {
+    margin-top: 0;
+  }
+  .zList-group-horizontal-md > .zList-group-item + .zList-group-item {
+    border-top-width: 1px;
+    border-left-width: 0;
+  }
+  .zList-group-horizontal-md > .zList-group-item + .zList-group-item.zActive {
+    margin-left: -1px;
+    border-left-width: 1px;
+  }
+}
+
+@media (min-width: 992px) {
+  .zList-group-horizontal-lg {
+    flex-direction: row;
+  }
+  .zList-group-horizontal-lg > .zList-group-item:first-child {
+    border-bottom-left-radius: 0.25rem;
+    border-top-right-radius: 0;
+  }
+  .zList-group-horizontal-lg > .zList-group-item:last-child {
+    border-top-right-radius: 0.25rem;
+    border-bottom-left-radius: 0;
+  }
+  .zList-group-horizontal-lg > .zList-group-item.zActive {
+    margin-top: 0;
+  }
+  .zList-group-horizontal-lg > .zList-group-item + .zList-group-item {
+    border-top-width: 1px;
+    border-left-width: 0;
+  }
+  .zList-group-horizontal-lg > .zList-group-item + .zList-group-item.zActive {
+    margin-left: -1px;
+    border-left-width: 1px;
+  }
+}
+
+/* Contextual Color Variants
+   ========================== */
+.zList-group-item-primary {
+  color: #084298;
+  background-color: #cfe2ff;
+}
+
+.zList-group-item-primary.zList-group-item-action:hover,
+.zList-group-item-primary.zList-group-item-action:focus {
+  color: #084298;
+  background-color: #bacbe6;
+}
+
+.zList-group-item-primary.zList-group-item-action.zActive {
+  color: var(--color-white);
+  background-color: #084298;
+  border-color: #084298;
+}
+
+.zList-group-item-secondary {
+  color: #41464b;
+  background-color: #e2e3e5;
+}
+
+.zList-group-item-secondary.zList-group-item-action:hover,
+.zList-group-item-secondary.zList-group-item-action:focus {
+  color: #41464b;
+  background-color: #cbccce;
+}
+
+.zList-group-item-secondary.zList-group-item-action.zActive {
+  color: var(--color-white);
+  background-color: #41464b;
+  border-color: #41464b;
+}
+
+.zList-group-item-success {
+  color: #0f5132;
+  background-color: #d1e7dd;
+}
+
+.zList-group-item-success.zList-group-item-action:hover,
+.zList-group-item-success.zList-group-item-action:focus {
+  color: #0f5132;
+  background-color: #bcd0c7;
+}
+
+.zList-group-item-success.zList-group-item-action.zActive {
+  color: var(--color-white);
+  background-color: #0f5132;
+  border-color: #0f5132;
+}
+
+.zList-group-item-info {
+  color: #055160;
+  background-color: #cff4fc;
+}
+
+.zList-group-item-info.zList-group-item-action:hover,
+.zList-group-item-info.zList-group-item-action:focus {
+  color: #055160;
+  background-color: #badce3;
+}
+
+.zList-group-item-info.zList-group-item-action.zActive {
+  color: var(--color-white);
+  background-color: #055160;
+  border-color: #055160;
+}
+
+.zList-group-item-warning {
+  color: #664d03;
+  background-color: #fff3cd;
+}
+
+.zList-group-item-warning.zList-group-item-action:hover,
+.zList-group-item-warning.zList-group-item-action:focus {
+  color: #664d03;
+  background-color: #e6dbb9;
+}
+
+.zList-group-item-warning.zList-group-item-action.zActive {
+  color: var(--color-white);
+  background-color: #664d03;
+  border-color: #664d03;
+}
+
+.zList-group-item-danger {
+  color: #842029;
+  background-color: #f8d7da;
+}
+
+.zList-group-item-danger.zList-group-item-action:hover,
+.zList-group-item-danger.zList-group-item-action:focus {
+  color: #842029;
+  background-color: #dfc2c4;
+}
+
+.zList-group-item-danger.zList-group-item-action.zActive {
+  color: var(--color-white);
+  background-color: #842029;
+  border-color: #842029;
+}
+
+.zList-group-item-light {
+  color: #636464;
+  background-color: #fefefe;
+}
+
+.zList-group-item-light.zList-group-item-action:hover,
+.zList-group-item-light.zList-group-item-action:focus {
+  color: #636464;
+  background-color: #e5e5e5;
+}
+
+.zList-group-item-light.zList-group-item-action.zActive {
+  color: var(--color-white);
+  background-color: #636464;
+  border-color: #636464;
+}
+
+.zList-group-item-dark {
+  color: #141619;
+  background-color: #d3d3d4;
+}
+
+.zList-group-item-dark.zList-group-item-action:hover,
+.zList-group-item-dark.zList-group-item-action:focus {
+  color: #141619;
+  background-color: #bebebf;
+}
+
+.zList-group-item-dark.zList-group-item-action.zActive {
+  color: var(--color-white);
+  background-color: #141619;
+  border-color: #141619;
+}
+
+/* Numbered List Groups
+   ==================== */
+.zList-group-numbered {
+  list-style-type: none;
+  counter-reset: section;
+}
+
+.zList-group-numbered > .zList-group-item::before {
+  content: counters(section, ".") ". ";
+  counter-increment: section;
+}
+
+/* Tab Content (for List Group Navigation)
+   ======================================== */
+.zTab-content {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-top: 0;
+  padding: 1rem;
+}
+
+.zTab-pane {
+  display: none;
+}
+
+.zTab-pane.zActive {
+  display: block;
+}
+
+/* Fade effect for tab transitions */
+.zTab-pane.zFade {
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.zTab-pane.zFade.zActive {
+  display: block; /* Ensure it's visible before fade */
+}
+
+.zTab-pane.zFade.zShow {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zTab-pane.zFade {
+    transition: none;
+    opacity: 1; /* No fade, just show immediately */
+  }
+}
+
+

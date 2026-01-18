@@ -1,0 +1,105 @@
+/* ============================================================================
+   zBreadcrumb.css - Breadcrumb Navigation Component
+   ============================================================================
+   
+   Bootstrap-inspired navigation breadcrumb with automatic CSS separators.
+   Shows the current page's location within a navigational hierarchy.
+   
+   Base Class: .zBreadcrumb
+   
+   Uses semantic <nav> and <ol> elements for accessibility.
+   ============================================================================ */
+
+/* Base Breadcrumb
+   =============== */
+.zBreadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin-bottom: 1rem;
+  list-style: none;
+}
+
+/* Breadcrumb Item
+   =============== */
+.zBreadcrumb-item {
+  display: flex;
+  align-items: center;
+}
+
+.zBreadcrumb-item + .zBreadcrumb-item {
+  padding-left: 0.5rem;
+}
+
+/* Add divider before all items except the first */
+.zBreadcrumb-item + .zBreadcrumb-item::before {
+  display: inline-block;
+  padding-right: 0.5rem;
+  color: var(--color-secondary);
+  content: var(--breadcrumb-divider, "/");
+}
+
+/* Active Item (Current Page)
+   =========================== */
+.zBreadcrumb-item.zActive {
+  color: var(--color-secondary);
+}
+
+/* Breadcrumb Links
+   ================ */
+.zBreadcrumb-item a {
+  color: var(--color-info);
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+}
+
+.zBreadcrumb-item a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.zBreadcrumb-item a:focus {
+  outline: 2px dotted var(--color-info);
+  outline-offset: 2px;
+}
+
+/* Custom Dividers
+   =============== */
+/* Override divider by setting CSS variable on nav:
+   <nav style="--breadcrumb-divider: '>';">
+   
+   Or remove divider entirely:
+   <nav style="--breadcrumb-divider: '';"> */
+
+/* Common Divider Variations */
+.zBreadcrumb-arrow {
+  --breadcrumb-divider: ">";
+}
+
+.zBreadcrumb-bullet {
+  --breadcrumb-divider: "•";
+}
+
+.zBreadcrumb-dash {
+  --breadcrumb-divider: "-";
+}
+
+.zBreadcrumb-none {
+  --breadcrumb-divider: "";
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .zBreadcrumb {
+    font-size: 0.875rem;
+  }
+  
+  .zBreadcrumb-item + .zBreadcrumb-item {
+    padding-left: 0.4rem;
+  }
+  
+  .zBreadcrumb-item + .zBreadcrumb-item::before {
+    padding-right: 0.4rem;
+  }
+}
+

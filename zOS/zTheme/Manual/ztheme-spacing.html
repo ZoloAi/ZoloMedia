@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spacing - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem 0;">
+    <!-- Header -->
+    <div style="margin-bottom: 3rem;">
+        <h1 style="color: var(--color-primary); margin-bottom: 0.5rem;">Spacing Utilities</h1>
+        <p style="font-size: 1.2rem; color: var(--color-body); opacity: 0.8;">
+            Control element spacing with margin, padding, and gap utilities.
+        </p>
+    </div>
+
+    <!-- Understanding Spacing -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Understanding Spacing</h2>
+        <p style="line-height: 1.7;">
+            Spacing utilities control the space <strong>around</strong> (margin) and <strong>inside</strong> (padding) elements. 
+            Gap utilities control spacing <strong>between</strong> grid or flex children. These are the most commonly used utilities 
+            for creating consistent, responsive layouts.
+        </p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+            <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 4px;">
+                <h4 style="margin: 0 0 0.5rem; color: var(--color-primary);">Margin</h4>
+                <p style="margin: 0; line-height: 1.6;">Space <strong>outside</strong> the element. Pushes other elements away.</p>
+            </div>
+            <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 4px;">
+                <h4 style="margin: 0 0 0.5rem; color: var(--color-success);">Padding</h4>
+                <p style="margin: 0; line-height: 1.6;">Space <strong>inside</strong> the element. Increases element size.</p>
+            </div>
+            <div style="background: #fff3cd; padding: 1.5rem; border-radius: 4px;">
+                <h4 style="margin: 0 0 0.5rem; color: var(--color-warning);">Gap</h4>
+                <p style="margin: 0; line-height: 1.6;">Space <strong>between</strong> grid/flex children. Modern & clean.</p>
+            </div>
+        </div>
+
+        <blockquote style="background: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Spacing Scale:</strong> 0 (none), 1 (0.25rem/4px), 2 (0.5rem/8px), 
+            3 (1rem/16px), 4 (1.5rem/24px), 5 (3rem/48px). Size 3 is the base (1rem)!</p>
+        </blockquote>
+    </section>
+
+    <!-- Margin Utilities -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Margin Utilities</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Control space around elements. Use margin to separate elements and create breathing room:
+        </p>
+
+        <!-- Visual Demo -->
+        <div style="background: #f8f9fa; padding: 2rem; border-radius: 4px; margin: 2rem 0;">
+            <div style="display: flex; flex-direction: column; gap: 0;">
+                <div class="zmb-0 zBg-primary zText-white zP-2" style="text-align: center;">.zmb-0 (no bottom margin)</div>
+                <div class="zmb-2 zBg-info zText-white zP-2" style="text-align: center;">.zmb-2 (0.5rem bottom)</div>
+                <div class="zmb-4 zBg-success zText-white zP-2" style="text-align: center;">.zmb-4 (1.5rem bottom)</div>
+                <div class="zBg-warning zText-white zP-2" style="text-align: center;">Next element</div>
+            </div>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">All Directions</h3>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;!-- All sides --&gt;
+&lt;div class="zm-3"&gt;1rem margin all sides&lt;/div&gt;
+
+&lt;!-- Specific sides --&gt;
+&lt;div class="zmt-2"&gt;0.5rem margin top&lt;/div&gt;
+&lt;div class="zmb-4"&gt;1.5rem margin bottom&lt;/div&gt;
+&lt;div class="zms-3"&gt;1rem margin start (left in LTR)&lt;/div&gt;
+&lt;div class="zme-3"&gt;1rem margin end (right in LTR)&lt;/div&gt;
+
+&lt;!-- Axes --&gt;
+&lt;div class="zmx-2"&gt;0.5rem margin left & right&lt;/div&gt;
+&lt;div class="zmy-4"&gt;1.5rem margin top & bottom&lt;/div&gt;
+
+&lt;!-- Legacy (still works) --&gt;
+&lt;div class="zml-3"&gt;1rem margin left (use .zms-3 instead)&lt;/div&gt;
+&lt;div class="zmr-3"&gt;1rem margin right (use .zme-3 instead)&lt;/div&gt;</code></pre>
+
+        <h3 style="margin: 2rem 0 1rem;">Auto Margin (Centering)</h3>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">
+            Use <code>.zmx-auto</code> to center fixed-width block elements horizontally:
+        </p>
+
+        <div style="background: #f8f9fa; padding: 2rem; border-radius: 4px; margin: 1rem 0;">
+            <div class="zmx-auto zBg-primary zText-white zP-3" style="width: 300px; text-align: center; border-radius: 4px;">
+                <strong>.zmx-auto</strong>
+                <div style="font-size: 0.9rem; margin-top: 0.5rem;">Fixed width, centered horizontally</div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;div class="zmx-auto" style="width: 300px;"&gt;
+  Centered horizontally
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Negative Margins -->
+    <section class="zmy-6">
+        <h2 class="zText-danger">Negative Margins</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Pull elements closer or create overlaps using negative margins. Use sparingly!
+        </p>
+
+        <div style="background: #f8f9fa; padding: 2rem; border-radius: 4px; margin: 2rem 0;">
+            <div class="zBg-info zText-white zP-3 zmb-n2" style="border-radius: 4px; z-index: 2; position: relative;">
+                First Card (.zmb-n2)
+            </div>
+            <div class="zBg-success zText-white zP-3" style="border-radius: 4px; z-index: 1; position: relative;">
+                Second Card (overlapped)
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;!-- Negative margins (pull elements) --&gt;
+&lt;div class="zmt-n2"&gt;Pull up by 0.5rem&lt;/div&gt;
+&lt;div class="zmb-n3"&gt;Pull down by 1rem&lt;/div&gt;
+&lt;div class="zms-n1"&gt;Pull start by 0.25rem&lt;/div&gt;
+&lt;div class="zmx-n4"&gt;Pull horizontal by 1.5rem&lt;/div&gt;
+
+&lt;!-- Create overlaps --&gt;
+&lt;div class="zmb-n2"&gt;This overlaps the next element&lt;/div&gt;
+&lt;div&gt;I'm overlapped!&lt;/div&gt;</code></pre>
+
+        <blockquote style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>⚠️ Use Carefully:</strong> Negative margins can break layouts if not used properly. 
+            Test thoroughly, especially on different screen sizes!</p>
+        </blockquote>
+    </section>
+
+    <!-- Padding Utilities -->
+    <section class="zmy-6">
+        <h2 class="zText-warning">Padding Utilities</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Control space inside elements. Padding increases element size and creates internal breathing room:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0;">
+            <div class="zp-0 zBg-primary zText-white" style="border: 2px dashed white; text-align: center;">
+                .zp-0
+            </div>
+            <div class="zp-2 zBg-primary zText-white" style="border: 2px dashed white; text-align: center;">
+                .zp-2
+            </div>
+            <div class="zp-4 zBg-primary zText-white" style="border: 2px dashed white; text-align: center;">
+                .zp-4
+            </div>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">All Directions</h3>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;!-- All sides --&gt;
+&lt;div class="zp-3"&gt;1rem padding all sides&lt;/div&gt;
+
+&lt;!-- Specific sides --&gt;
+&lt;div class="zpt-2"&gt;0.5rem padding top&lt;/div&gt;
+&lt;div class="zpb-4"&gt;1.5rem padding bottom&lt;/div&gt;
+&lt;div class="zps-3"&gt;1rem padding start (left in LTR)&lt;/div&gt;
+&lt;div class="zpe-3"&gt;1rem padding end (right in LTR)&lt;/div&gt;
+
+&lt;!-- Axes --&gt;
+&lt;div class="zpx-2"&gt;0.5rem padding left & right&lt;/div&gt;
+&lt;div class="zpy-4"&gt;1.5rem padding top & bottom&lt;/div&gt;
+
+&lt;!-- Legacy (still works) --&gt;
+&lt;div class="zpl-3"&gt;1rem padding left (use .zps-3 instead)&lt;/div&gt;
+&lt;div class="zpr-3"&gt;1rem padding right (use .zpe-3 instead)&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Gap Utilities -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Gap Utilities (Modern!)</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Control spacing between grid or flexbox children. Gap is cleaner than margins for grid layouts!
+        </p>
+
+        <!-- Grid Gap Demo -->
+        <h3 style="margin: 2rem 0 1rem;">Grid Gap</h3>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; background: #e9ecef; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+            <div class="zBg-primary zText-white zP-2" style="text-align: center;">1</div>
+            <div class="zBg-primary zText-white zP-2" style="text-align: center;">2</div>
+            <div class="zBg-primary zText-white zP-2" style="text-align: center;">3</div>
+        </div>
+        <p style="margin: 0 0 1rem 0; text-align: center; color: #666; font-size: 0.9rem;">No gap (.zGap-0)</p>
+
+        <div class="zGap-3" style="display: grid; grid-template-columns: repeat(3, 1fr); background: #e9ecef; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+            <div class="zBg-success zText-white zP-2" style="text-align: center;">1</div>
+            <div class="zBg-success zText-white zP-2" style="text-align: center;">2</div>
+            <div class="zBg-success zText-white zP-2" style="text-align: center;">3</div>
+        </div>
+        <p style="margin: 0; text-align: center; color: #666; font-size: 0.9rem;">With gap (.zGap-3 = 1rem)</p>
+
+        <!-- Flex Gap Demo -->
+        <h3 style="margin: 3rem 0 1rem;">Flex Gap</h3>
+        <div class="zD-flex zGap-2" style="background: #e9ecef; padding: 1rem; border-radius: 4px; flex-wrap: wrap;">
+            <div class="zBg-info zText-white zP-2" style="border-radius: 4px;">Flex Item 1</div>
+            <div class="zBg-info zText-white zP-2" style="border-radius: 4px;">Flex Item 2</div>
+            <div class="zBg-info zText-white zP-2" style="border-radius: 4px;">Flex Item 3</div>
+            <div class="zBg-info zText-white zP-2" style="border-radius: 4px;">Flex Item 4</div>
+        </div>
+        <p style="margin: 0.5rem 0 0 0; text-align: center; color: #666; font-size: 0.9rem;">
+            .zD-flex .zGap-2 - Works with flex wrap!
+        </p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%; margin-top: 1.5rem;"><code>&lt;!-- Grid gap --&gt;
+&lt;div class="zD-grid zGap-3"&gt;
+  &lt;div&gt;Item 1&lt;/div&gt;
+  &lt;div&gt;Item 2&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Flex gap --&gt;
+&lt;div class="zD-flex zGap-2"&gt;
+  &lt;div&gt;Item 1&lt;/div&gt;
+  &lt;div&gt;Item 2&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Row gap only (vertical spacing) --&gt;
+&lt;div class="zD-grid zRow-gap-4"&gt;...&lt;/div&gt;
+
+&lt;!-- Column gap only (horizontal spacing) --&gt;
+&lt;div class="zD-grid zColumn-gap-2"&gt;...&lt;/div&gt;</code></pre>
+
+        <blockquote style="background: #e8f5e9; padding: 1rem; border-left: 4px solid #4caf50; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Why Gap?</strong> Gap utilities are cleaner than adding margins to grid/flex children. 
+            They automatically handle first/last child edge cases and work perfectly with wrapping!</p>
+        </blockquote>
+    </section>
+
+    <!-- Practical Examples -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">Practical Examples</h2>
+
+        <!-- Card with Padding -->
+        <div style="margin: 2rem 0;">
+            <h3>Card with Padding & Margin</h3>
+            <div class="zBg-white zShadow zP-4 zmb-3" style="border-radius: 8px;">
+                <h4 style="margin: 0 0 1rem 0;">Card Title</h4>
+                <p style="margin: 0 0 1rem 0; line-height: 1.6;">This card has <code>.zP-4</code> (1.5rem padding all sides) and <code>.zmb-3</code> (1rem bottom margin).</p>
+                <button class="zBtn zBtn-primary">Action</button>
+            </div>
+            <div class="zBg-white zShadow zP-4" style="border-radius: 8px;">
+                <h4 style="margin: 0 0 1rem 0;">Second Card</h4>
+                <p style="margin: 0;">The margin on the first card creates space between these cards.</p>
+            </div>
+        </div>
+
+        <!-- Centered Content -->
+        <div style="margin: 3rem 0;">
+            <h3>Centered Content Block</h3>
+            <div class="zmx-auto zP-4 zBg-white zShadow" style="max-width: 500px; border-radius: 8px;">
+                <h4 style="margin: 0 0 1rem 0; text-align: center;">Welcome</h4>
+                <p style="margin: 0 0 1rem 0; text-align: center; line-height: 1.6;">
+                    This content is centered with <code>.zmx-auto</code> and has <code>.zP-4</code> internal padding.
+                </p>
+                <button class="zBtn zBtn-primary zW-100">Get Started</button>
+            </div>
+        </div>
+
+        <!-- Image Grid with Gap -->
+        <div style="margin: 3rem 0;">
+            <h3>Image Grid with Gap</h3>
+            <div class="zD-grid zGap-3" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+                <img src="https://picsum.photos/200/150?random=20" alt="Demo" style="width: 100%; border-radius: 4px;">
+                <img src="https://picsum.photos/200/150?random=21" alt="Demo" style="width: 100%; border-radius: 4px;">
+                <img src="https://picsum.photos/200/150?random=22" alt="Demo" style="width: 100%; border-radius: 4px;">
+                <img src="https://picsum.photos/200/150?random=23" alt="Demo" style="width: 100%; border-radius: 4px;">
+            </div>
+            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #666;">
+                <code>.zD-grid .zGap-3</code> - Clean spacing without margin hacks!
+            </p>
+        </div>
+
+        <!-- Button Group with Gap -->
+        <div style="margin: 3rem 0;">
+            <h3>Button Group with Flex Gap</h3>
+            <div class="zD-flex zGap-2" style="flex-wrap: wrap;">
+                <button class="zBtn zBtn-primary">Save</button>
+                <button class="zBtn zBtn-secondary">Cancel</button>
+                <button class="zBtn zBtn-secondary">Delete</button>
+            </div>
+            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #666;">
+                <code>.zD-flex .zGap-2</code> - Works with wrap, no margin on first/last!
+            </p>
+        </div>
+
+        <!-- Section Spacing -->
+        <div style="margin: 3rem 0;">
+            <h3>Section Spacing Pattern</h3>
+            <div>
+                <section class="zmy-5 zpy-4 zBg-white" style="border-radius: 8px;">
+                    <h4 style="margin: 0 0 1rem 0;">Section Title</h4>
+                    <p style="margin: 0; line-height: 1.6;">
+                        <code>.zmy-5</code> creates vertical space between sections. <code>.zpy-4</code> creates internal padding.
+                    </p>
+                </section>
+                <section class="zmy-5 zpy-4 zBg-white" style="border-radius: 8px;">
+                    <h4 style="margin: 0 0 1rem 0;">Another Section</h4>
+                    <p style="margin: 0; line-height: 1.6;">
+                        Consistent spacing creates rhythm and visual hierarchy.
+                    </p>
+                </section>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Consistent scale:</strong> Stick to the spacing scale (0-5) for visual consistency</li>
+            <li><strong>Prefer gap:</strong> Use <code>.zGap-*</code> for grid/flex layouts instead of margins</li>
+            <li><strong>Vertical rhythm:</strong> Use <code>.zmy-*</code> between sections for consistent spacing</li>
+            <li><strong>Component padding:</strong> Use <code>.zp-3</code> or <code>.zp-4</code> for card/panel internal padding</li>
+            <li><strong>Center blocks:</strong> Use <code>.zmx-auto</code> with fixed width for horizontal centering</li>
+            <li><strong>Negative margins sparingly:</strong> Only use for intentional overlaps or pull effects</li>
+            <li><strong>Mobile-first:</strong> Start with smaller spacing, increase on larger screens if needed</li>
+            <li><strong>RTL support:</strong> Use <code>.zms-*</code>/<code>.zme-*</code> instead of <code>.zml-*</code>/<code>.zmr-*</code></li>
+        </ul>
+
+        <blockquote style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>⚠️ Common Mistake:</strong> Don't mix margins and gap! If using <code>.zGap-*</code> 
+            on a grid/flex container, don't add margins to the children - gap handles spacing automatically!</p>
+        </blockquote>
+    </section>
+
+    <!-- Accessibility -->
+    <section class="zmy-6">
+        <h2 class="zText-dark">Accessibility</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Touch targets:</strong> Ensure adequate padding for interactive elements (min 44x44px)</li>
+            <li><strong>Reading flow:</strong> Use consistent vertical spacing to guide eye movement</li>
+            <li><strong>Focus visible:</strong> Don't remove margin/padding that makes focus indicators visible</li>
+            <li><strong>Content density:</strong> Balance whitespace with information density for readability</li>
+            <li><strong>Zoom support:</strong> Spacing scales with text zoom (using rem units)</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section class="zmy-6">
+        <h2 class="zText-info">CSS Reference</h2>
+        
+        <h3 style="margin: 2rem 0 1rem;">Spacing Scale</h3>
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>Size</th>
+                    <th>Value (rem)</th>
+                    <th>Value (px)</th>
+                    <th>When to Use</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>0</code></td>
+                    <td>0</td>
+                    <td>0px</td>
+                    <td>Remove spacing</td>
+                </tr>
+                <tr>
+                    <td><code>1</code></td>
+                    <td>0.25rem</td>
+                    <td>4px</td>
+                    <td>Tight spacing, inline elements</td>
+                </tr>
+                <tr>
+                    <td><code>2</code></td>
+                    <td>0.5rem</td>
+                    <td>8px</td>
+                    <td>Small spacing, button groups</td>
+                </tr>
+                <tr>
+                    <td><code>3</code></td>
+                    <td>1rem</td>
+                    <td>16px</td>
+                    <td><strong>Base spacing</strong> - paragraphs, list items</td>
+                </tr>
+                <tr>
+                    <td><code>4</code></td>
+                    <td>1.5rem</td>
+                    <td>24px</td>
+                    <td>Card padding, section spacing</td>
+                </tr>
+                <tr>
+                    <td><code>5</code></td>
+                    <td>3rem</td>
+                    <td>48px</td>
+                    <td>Large sections, page divisions</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin: 2rem 0 1rem;">Margin Classes</h3>
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>Direction</th>
+                    <th>Class</th>
+                    <th>CSS Property</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>All sides</td>
+                    <td><code>.zm-{0-5}</code>, <code>.zm-auto</code></td>
+                    <td><code>margin</code></td>
+                </tr>
+                <tr>
+                    <td>Top</td>
+                    <td><code>.zmt-{0-5}</code>, <code>.zmt-auto</code></td>
+                    <td><code>margin-top</code></td>
+                </tr>
+                <tr>
+                    <td>Bottom</td>
+                    <td><code>.zmb-{0-5}</code>, <code>.zmb-auto</code></td>
+                    <td><code>margin-bottom</code></td>
+                </tr>
+                <tr>
+                    <td>Start (left/LTR)</td>
+                    <td><code>.zms-{0-5}</code>, <code>.zms-auto</code></td>
+                    <td><code>margin-left</code></td>
+                </tr>
+                <tr>
+                    <td>End (right/LTR)</td>
+                    <td><code>.zme-{0-5}</code>, <code>.zme-auto</code></td>
+                    <td><code>margin-right</code></td>
+                </tr>
+                <tr>
+                    <td>Horizontal (X)</td>
+                    <td><code>.zmx-{0-5}</code>, <code>.zmx-auto</code></td>
+                    <td><code>margin-left</code> + <code>margin-right</code></td>
+                </tr>
+                <tr>
+                    <td>Vertical (Y)</td>
+                    <td><code>.zmy-{0-5}</code>, <code>.zmy-auto</code></td>
+                    <td><code>margin-top</code> + <code>margin-bottom</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin: 2rem 0 1rem;">Negative Margins</h3>
+        <p style="margin-bottom: 1rem;">Add <code>-n</code> for negative margins: <code>.zm-n1</code>, <code>.zmt-n3</code>, <code>.zmx-n2</code>, etc.</p>
+
+        <h3 style="margin: 2rem 0 1rem;">Padding Classes</h3>
+        <p style="margin-bottom: 1rem;">Same pattern as margins, but with <code>.zp-*</code> prefix. No auto or negative values for padding.</p>
+
+        <h3 style="margin: 2rem 0 1rem;">Gap Classes</h3>
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Class</th>
+                    <th>CSS Property</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>All gaps</td>
+                    <td><code>.zGap-{0-5}</code></td>
+                    <td><code>gap</code></td>
+                </tr>
+                <tr>
+                    <td>Row gap</td>
+                    <td><code>.zRow-gap-{0-5}</code></td>
+                    <td><code>row-gap</code></td>
+                </tr>
+                <tr>
+                    <td>Column gap</td>
+                    <td><code>.zColumn-gap-{0-5}</code></td>
+                    <td><code>column-gap</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p style="margin-top: 1.5rem;"><strong>Total classes:</strong> 200+ spacing utilities (margin, padding, gap, negative, auto, legacy)</p>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Related Topics</h2>
+        <ul class="lh-lg">
+            <li><a href="ztheme-sizing.html">Sizing</a> - Width and height utilities</li>
+            <li><a href="ztheme-flex.html">Flex</a> - Flexbox utilities (pairs well with gap)</li>
+            <li><a href="ztheme-grid.html">Grid</a> - Grid system (uses gap extensively)</li>
+            <li><a href="ztheme-display.html">Display</a> - Display utilities</li>
+            <li><a href="ztheme-position.html">Position</a> - Positioning utilities</li>
+        </ul>
+    </section>
+
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

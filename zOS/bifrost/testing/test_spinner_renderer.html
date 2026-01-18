@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spinner Renderer Test - zCLI BifrostClient</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css?v=20251218">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    body { background: #f8f9fa; min-height: 100vh; }
+    #log { font-family: 'Monaco', 'Courier New', monospace; font-size: 0.875rem; max-height: 300px; overflow-y: auto; }
+    .log-entry { padding: 0.25rem 0.5rem; border-bottom: 1px solid #e9ecef; }
+    .log-success { color: #198754; } .log-error { color: #dc3545; } .log-info { color: #0d6efd; }
+  </style>
+</head>
+<body>
+  <div class="zContainer zMy-4">
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h1 class="zCard-title">Spinner Renderer Test</h1>
+        <p class="zCard-text zText-muted">
+          Step 2.5: Testing spinner rendering (terminal-first loading indicators)
+        </p>
+        <div class="zAlert zAlert-info zMt-3">
+          <strong>Terminal Paradigm:</strong> <code>with display.spinner("Loading"): do_work()</code><br>
+          <strong>Backend Events:</strong> <code>spinner_start</code>, <code>spinner_stop</code><br>
+          <strong>Styles:</strong> dots, line, arc, bouncingBall, simple
+        </div>
+      </div>
+    </div>
+
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Test Controls</h2>
+        <div class="zD-flex zFlex-wrap zGap-2">
+          <button class="zBtn zBtn-outline-primary" onclick="testBasicSpinner()">Test Basic Spinner</button>
+          <button class="zBtn zBtn-outline-primary" onclick="testSizeVariants()">Test Size Variants</button>
+          <button class="zBtn zBtn-outline-primary" onclick="testColorVariants()">Test Color Variants</button>
+          <button class="zBtn zBtn-outline-primary" onclick="testMultipleSpinners()">Test Multiple Spinners</button>
+          <button class="zBtn zBtn-outline-success" onclick="testSuccessCompletion()">Test Success</button>
+          <button class="zBtn zBtn-outline-danger" onclick="testErrorCompletion()">Test Error</button>
+          <button class="zBtn zBtn-outline-warning" onclick="testStopAll()">Stop All</button>
+          <button class="zBtn zBtn-outline-dark" onclick="clearRenderZone()">Clear Zone</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Render Zone</h2>
+        <div id="render-zone" class="zBg-white zP-3 zBorder zRounded" style="min-height: 300px;">
+          <p class="zText-muted"><em>Click a test button to render spinners...</em></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="zCard">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Console Log</h2>
+        <div id="log" class="zP-3 zBg-light zBorder zRounded"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import SpinnerRenderer from '../src/rendering/spinner_renderer.js';
+
+    const renderZone = document.getElementById('render-zone');
+    const logElement = document.getElementById('log');
+    
+    // Mock logger
+    const logger = {
+      log: (msg, ...args) => logToConsole('log', msg, ...args),
+      warn: (msg, ...args) => logToConsole('warn', msg, ...args),
+      error: (msg, ...args) => logToConsole('error', msg, ...args),
+    };
+    
+    const renderer = new SpinnerRenderer(logger);
+
+    function logToConsole(type, msg, ...args) {
+      const entry = document.createElement('div');
+      entry.className = `log-entry log-${type}`;
+      const argsStr = args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ');
+      entry.textContent = `[${type.toUpperCase()}] ${msg} ${argsStr}`;
+      logElement.prepend(entry);
+    }
+
+    window.clearRenderZone = () => {
+      renderZone.innerHTML = '<p class="zText-muted"><em>Click a test button to render spinners...</em></p>';
+      logElement.innerHTML = '';
+      logger.log('Render zone cleared');
+    };
+
+    // Test 1: Basic Spinner (auto-complete after 2 seconds)
+    window.testBasicSpinner = async () => {
+      logger.log('Testing basic spinner (2 second auto-complete)...');
+      
+      const spinnerId = `spinner_test_${Date.now()}`;
+      const event = {
+        spinnerId,
+        label: 'Loading data...',
+        style: 'dots',
+        container: '#render-zone',
+        size: 'md',
+        color: 'primary'
+      };
+      
+      try {
+        renderer.start(event);
+        logger.log('✅ Spinner started successfully');
+        
+        // Simulate async operation
+        setTimeout(() => {
+          renderer.stop({ spinnerId, success: true });
+          logger.log('✅ Spinner stopped successfully');
+        }, 2000);
+      } catch (error) {
+        logger.error('❌ Spinner rendering failed:', error);
+      }
+    };
+
+    // Test 2: Size Variants (sm, md, lg)
+    window.testSizeVariants = async () => {
+      logger.log('Testing size variants (sm, md, lg)...');
+      
+      const sizes = ['sm', 'md', 'lg'];
+      
+      sizes.forEach((size, index) => {
+        const spinnerId = `spinner_size_${size}_${Date.now()}`;
+        const event = {
+          spinnerId,
+          label: `Loading (${size})...`,
+          style: 'dots',
+          container: '#render-zone',
+          size,
+          color: 'primary'
+        };
+        
+        renderer.start(event);
+        
+        // Auto-complete after 3 seconds
+        setTimeout(() => {
+          renderer.stop({ spinnerId, success: true });
+        }, 3000 + (index * 500));
+      });
+      
+      logger.log('✅ Started 3 spinners with different sizes');
+    };
+
+    // Test 3: Color Variants
+    window.testColorVariants = async () => {
+      logger.log('Testing color variants...');
+      
+      const colors = ['primary', 'success', 'danger', 'warning', 'info', 'secondary'];
+      
+      colors.forEach((color, index) => {
+        const spinnerId = `spinner_color_${color}_${Date.now()}`;
+        const event = {
+          spinnerId,
+          label: `Loading ${color}...`,
+          style: 'dots',
+          container: '#render-zone',
+          size: 'md',
+          color
+        };
+        
+        renderer.start(event);
+        
+        // Auto-complete after 3 seconds
+        setTimeout(() => {
+          renderer.stop({ spinnerId, success: true });
+        }, 3000 + (index * 500));
+      });
+      
+      logger.log('✅ Started 6 spinners with different colors');
+    };
+
+    // Test 4: Multiple Spinners (concurrent operations)
+    window.testMultipleSpinners = async () => {
+      logger.log('Testing multiple concurrent spinners...');
+      
+      const operations = [
+        { label: 'Fetching user data...', duration: 2000 },
+        { label: 'Loading settings...', duration: 3000 },
+        { label: 'Initializing database...', duration: 4000 }
+      ];
+      
+      operations.forEach((op, index) => {
+        const spinnerId = `spinner_multi_${index}_${Date.now()}`;
+        const event = {
+          spinnerId,
+          label: op.label,
+          style: 'dots',
+          container: '#render-zone',
+          size: 'md',
+          color: 'primary'
+        };
+        
+        renderer.start(event);
+        
+        // Each completes at different times
+        setTimeout(() => {
+          renderer.stop({ spinnerId, success: true });
+          logger.log(`✅ Completed: ${op.label}`);
+        }, op.duration);
+      });
+      
+      logger.log(`✅ Started ${operations.length} concurrent spinners`);
+      logger.log(`ℹ️ Active spinners: ${renderer.getActiveCount()}`);
+    };
+
+    // Test 5: Success Completion
+    window.testSuccessCompletion = async () => {
+      logger.log('Testing success completion...');
+      
+      const spinnerId = `spinner_success_${Date.now()}`;
+      const event = {
+        spinnerId,
+        label: 'Processing data...',
+        style: 'dots',
+        container: '#render-zone',
+        size: 'md',
+        color: 'success'
+      };
+      
+      renderer.start(event);
+      
+      setTimeout(() => {
+        renderer.stop({
+          spinnerId,
+          success: true,
+          message: 'Data processed successfully!'
+        });
+        logger.log('✅ Spinner completed with success message');
+      }, 2000);
+    };
+
+    // Test 6: Error Completion
+    window.testErrorCompletion = async () => {
+      logger.log('Testing error completion...');
+      
+      const spinnerId = `spinner_error_${Date.now()}`;
+      const event = {
+        spinnerId,
+        label: 'Uploading file...',
+        style: 'dots',
+        container: '#render-zone',
+        size: 'md',
+        color: 'danger'
+      };
+      
+      renderer.start(event);
+      
+      setTimeout(() => {
+        renderer.stop({
+          spinnerId,
+          success: false,
+          message: 'Upload failed - Network error'
+        });
+        logger.log('❌ Spinner completed with error message');
+      }, 2000);
+    };
+
+    // Test 7: Stop All Spinners
+    window.testStopAll = () => {
+      logger.log('Stopping all active spinners...');
+      
+      const activeCount = renderer.getActiveCount();
+      logger.log(`ℹ️ Active spinners before: ${activeCount}`);
+      
+      renderer.stopAll(true);
+      
+      logger.log(`✅ Stopped all spinners`);
+      logger.log(`ℹ️ Active spinners after: ${renderer.getActiveCount()}`);
+    };
+
+    // Auto-run first test
+    logger.log('Spinner Renderer Test initialized');
+    logger.log('Click a test button to begin...');
+    logger.log('');
+    logger.log('📝 TEST CHECKLIST:');
+    logger.log('  ✓ Uses primitives (createDiv, createSpan)');
+    logger.log('  ✓ zTheme spinner classes (.zSpinner, .zSpinner-border)');
+    logger.log('  ✓ Size variants (sm, md, lg)');
+    logger.log('  ✓ Color variants (primary, success, danger, etc.)');
+    logger.log('  ✓ Auto-completion with checkmark/X');
+    logger.log('  ✓ Duration badge display');
+    logger.log('  ✓ Auto-removal after 3 seconds');
+    logger.log('  ✓ Multiple concurrent spinners');
+    logger.log('  ✓ Stop all functionality');
+  </script>
+</body>
+</html>
+

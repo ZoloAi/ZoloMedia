@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tooltips - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav style="margin-bottom: 1rem; font-size: 0.9rem;">
+        <a href="ztheme.html" style="color: var(--color-primary);">zTheme</a>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Components</span>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Tooltips</span>
+    </nav>
+    
+    <h1>Tooltips</h1>
+    <p style="font-size: 1.25rem; color: var(--color-gray); margin-bottom: 2rem;">
+        Lightweight contextual hints that appear on hover—perfect for providing additional information without cluttering your interface.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Tooltips -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Tooltips</h2>
+        <p>Tooltips are small contextual pop-ups that appear when users hover over or focus on an element. They provide brief, helpful information without requiring a click or cluttering the interface.</p>
+        
+        <div style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>Perfect for:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Icon explanations</strong> - "Save document"</li>
+                <li><strong>Abbreviated text</strong> - Full form of acronyms</li>
+                <li><strong>Feature hints</strong> - Brief descriptions of buttons</li>
+                <li><strong>Additional context</strong> - Extra info without visual clutter</li>
+                <li><strong>Link previews</strong> - Hint at destination</li>
+            </ul>
+        </div>
+        
+        <div style="background: #fff8e1; padding: 1.5rem; border-left: 4px solid #ffa726; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>⚠️ Tooltips vs Popovers:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Tooltips:</strong> Hover-triggered, plain text only, simple hints</li>
+                <li><strong>Popovers:</strong> Click-triggered, rich HTML content, more complex info</li>
+            </ul>
+            <p style="margin: 0.5rem 0 0 0;">Use tooltips for brief hints, popovers for detailed explanations.</p>
+        </div>
+        
+        <div style="background: #ffebee; padding: 1.5rem; border-left: 4px solid #ef5350; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>📱 Mobile Limitation:</strong></p>
+            <p style="margin: 0;">
+                <strong>Tooltips don't work on touch devices!</strong> Mobile phones and tablets have no hover state. 
+                On touch screens, users must tap and hold to see tooltips, which is not intuitive. 
+                <strong>Never put critical information only in tooltips.</strong> Always ensure essential content is visible 
+                or accessible through other means (labels, help text, etc.). Consider using the <code>focus</code> trigger 
+                for better mobile support, or use click-triggered popovers instead.
+            </p>
+        </div>
+    </section>
+    
+    <!-- Basic Tooltips -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic Tooltips</h2>
+        <p><strong>Hover over</strong> the buttons below to see tooltips in action:</p>
+        
+        <div style="margin: 2rem 0; padding: 3rem; background: #f9f9f9; border-radius: 4px; text-align: center;">
+            <button class="zBtn zBtn-secondary" data-bs-toggle="tooltip" title="This is a helpful tooltip!">
+                Hover me
+            </button>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button data-bs-toggle="tooltip" title="This is a helpful tooltip!"&gt;
+  Hover me
+&lt;/button&gt;</code></pre>
+    </section>
+    
+    <!-- Four Directions -->
+    <section style="margin: 3rem 0;">
+        <h2>Four Directions</h2>
+        <p><strong>Hover over</strong> each button to see tooltips positioned in different directions:</p>
+        
+        <div style="margin: 2rem 0; padding: 3rem; background: #f9f9f9; border-radius: 4px; text-align: center;">
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <button class="zBtn zBtn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">
+                    Top
+                </button>
+                <button class="zBtn zBtn-secondary" data-bs-toggle="tooltip" data-bs-placement="end" title="Tooltip on right">
+                    Right
+                </button>
+                <button class="zBtn zBtn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tooltip on bottom">
+                    Bottom
+                </button>
+                <button class="zBtn zBtn-secondary" data-bs-toggle="tooltip" data-bs-placement="start" title="Tooltip on left">
+                    Left
+                </button>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top"&gt;Top&lt;/button&gt;
+&lt;button data-bs-toggle="tooltip" data-bs-placement="end" title="Tooltip on right"&gt;Right&lt;/button&gt;
+&lt;button data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tooltip on bottom"&gt;Bottom&lt;/button&gt;
+&lt;button data-bs-toggle="tooltip" data-bs-placement="start" title="Tooltip on left"&gt;Left&lt;/button&gt;</code></pre>
+    </section>
+    
+    <!-- Inline Text Tooltips -->
+    <section style="margin: 3rem 0;">
+        <h2>Inline Text Tooltips</h2>
+        <p>Tooltips work great on inline links and spans. <strong>Hover over</strong> the highlighted words:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px; line-height: 2;">
+            <p style="font-size: 1.1rem; margin: 0;">
+                The <a href="#" data-bs-toggle="tooltip" title="HyperText Markup Language" style="color: var(--color-primary); text-decoration: underline;">HTML</a> 
+                specification defines the structure of web pages. Combined with 
+                <a href="#" data-bs-toggle="tooltip" title="Cascading Style Sheets" style="color: var(--color-primary); text-decoration: underline;">CSS</a> 
+                and 
+                <a href="#" data-bs-toggle="tooltip" title="JavaScript - Programming language for the web" style="color: var(--color-primary); text-decoration: underline;">JavaScript</a>, 
+                you can create amazing 
+                <span data-bs-toggle="tooltip" title="User Interface" style="color: var(--color-success); font-weight: bold; cursor: help; text-decoration: underline dotted;">UI</span> 
+                experiences!
+            </p>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;p&gt;
+  The &lt;a data-bs-toggle="tooltip" title="HyperText Markup Language"&gt;HTML&lt;/a&gt; 
+  specification defines web structure.
+&lt;/p&gt;</code></pre>
+    </section>
+    
+    <!-- Icon Tooltips -->
+    <section style="margin: 3rem 0;">
+        <h2>Icon Tooltips</h2>
+        <p>Tooltips are essential for icon-only buttons. <strong>Hover over</strong> each icon to see its function:</p>
+        
+        <div style="margin: 2rem 0; padding: 3rem; background: #f9f9f9; border-radius: 4px;">
+            <div style="display: flex; gap: 1rem; justify-content: center; align-items: center; flex-wrap: wrap;">
+                <!-- Save Icon -->
+                <button class="zBtn zBtn-primary" data-bs-toggle="tooltip" title="Save document" style="padding: 0.75rem;">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z"/>
+                    </svg>
+                </button>
+                
+                <!-- Edit Icon -->
+                <button class="zBtn zBtn-success" data-bs-toggle="tooltip" title="Edit content" style="padding: 0.75rem;">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
+                    </svg>
+                </button>
+                
+                <!-- Delete Icon -->
+                <button class="zBtn zBtn-danger" data-bs-toggle="tooltip" title="Delete item" style="padding: 0.75rem;">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+                </button>
+                
+                <!-- Settings Icon -->
+                <button class="zBtn zBtn-secondary" data-bs-toggle="tooltip" title="Open settings" style="padding: 0.75rem;">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+                        <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319z"/>
+                    </svg>
+                </button>
+                
+                <!-- Info Icon -->
+                <button class="zBtn zBtn-info" data-bs-toggle="tooltip" title="Show information" style="padding: 0.75rem;">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button data-bs-toggle="tooltip" title="Save document"&gt;
+  &lt;svg&gt;...&lt;/svg&gt;
+&lt;/button&gt;</code></pre>
+    </section>
+    
+    <!-- Trigger Options -->
+    <section style="margin: 3rem 0;">
+        <h2>Trigger Options</h2>
+        <p>Control when tooltips appear with the <code>data-bs-trigger</code> attribute:</p>
+        
+        <div style="margin: 2rem 0; padding: 3rem; background: #f9f9f9; border-radius: 4px; text-align: center;">
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <button class="zBtn zBtn-secondary" data-bs-toggle="tooltip" data-bs-trigger="hover" title="Shows on hover (default)">
+                    Hover (default)
+                </button>
+                <button class="zBtn zBtn-secondary" data-bs-toggle="tooltip" data-bs-trigger="focus" title="Shows on focus (keyboard/click)">
+                    Focus
+                </button>
+                <button class="zBtn zBtn-secondary" data-bs-toggle="tooltip" data-bs-trigger="click" title="Shows on click, click again to hide">
+                    Click
+                </button>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button data-bs-toggle="tooltip" data-bs-trigger="hover" title="..."&gt;Hover&lt;/button&gt;
+&lt;button data-bs-toggle="tooltip" data-bs-trigger="focus" title="..."&gt;Focus&lt;/button&gt;
+&lt;button data-bs-toggle="tooltip" data-bs-trigger="click" title="..."&gt;Click&lt;/button&gt;</code></pre>
+    </section>
+    
+    <!-- Disabled Elements -->
+    <section style="margin: 3rem 0;">
+        <h2>Disabled Elements</h2>
+        <p>Disabled elements can't receive focus or hover events. Wrap them in a <code>&lt;span&gt;</code> to enable tooltips:</p>
+        
+        <div style="margin: 2rem 0; padding: 3rem; background: #f9f9f9; border-radius: 4px; text-align: center;">
+            <span data-bs-toggle="tooltip" title="This button is disabled" style="display: inline-block; cursor: not-allowed;">
+                <button class="zBtn zBtn-primary" disabled style="pointer-events: none;">
+                    Disabled Button
+                </button>
+            </span>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;span data-bs-toggle="tooltip" title="This button is disabled"&gt;
+  &lt;button class="zBtn zBtn-primary" disabled&gt;
+    Disabled Button
+  &lt;/button&gt;
+&lt;/span&gt;</code></pre>
+    </section>
+    
+    <!-- Data Attributes -->
+    <section style="margin: 3rem 0;">
+        <h2>Data Attributes</h2>
+        <p>Configure tooltip behavior with these data attributes:</p>
+        
+        <div style="overflow-x: auto; margin: 2rem 0;">
+            <table class="zTable zTable-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Attribute</th>
+                        <th scope="col">Values</th>
+                        <th scope="col">Default</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>data-bs-toggle</code></td>
+                        <td><code>"tooltip"</code></td>
+                        <td>—</td>
+                        <td><strong>Required.</strong> Enables tooltip functionality</td>
+                    </tr>
+                    <tr>
+                        <td><code>title</code></td>
+                        <td>string</td>
+                        <td>—</td>
+                        <td><strong>Required.</strong> The tooltip text content</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-bs-placement</code></td>
+                        <td><code>top</code>, <code>bottom</code>, <code>start</code>, <code>end</code></td>
+                        <td><code>top</code></td>
+                        <td>Tooltip position relative to trigger</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-bs-trigger</code></td>
+                        <td><code>hover</code>, <code>focus</code>, <code>click</code></td>
+                        <td><code>hover focus</code></td>
+                        <td>Event(s) that show the tooltip. <strong>Note:</strong> <code>focus</code> works on mobile (via tap), <code>hover</code> does not!</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <blockquote style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Pro Tip:</strong> For the best mobile experience, use <code>data-bs-trigger="focus"</code> instead of <code>hover</code>. This way, users can tap the element to see the tooltip on touch devices!</p>
+        </blockquote>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <div style="background: #e8f5e9; padding: 1.5rem; border-left: 4px solid #4caf50; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>✅ DO:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Keep tooltip text brief (1-2 short sentences max)</li>
+                <li>Use tooltips for icon-only buttons</li>
+                <li>Provide keyboard access (hover + focus triggers)</li>
+                <li>Use consistent placement across similar elements</li>
+                <li>Explain abbreviations and acronyms</li>
+                <li>Test with screen readers</li>
+                <li>Use plain, helpful language</li>
+            </ul>
+        </div>
+        
+        <div style="background: #ffebee; padding: 1.5rem; border-left: 4px solid #ef5350; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>❌ DON'T:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Put critical information only in tooltips</strong> - Mobile/tablet users can't hover, so they'll miss it entirely!</li>
+                <li>Use long paragraphs (use popovers instead)</li>
+                <li>Add tooltips to every element (causes tooltip fatigue)</li>
+                <li>Nest interactive elements inside tooltips</li>
+                <li><strong>Design for desktop only</strong> - Over 50% of web traffic is mobile. Test without hover!</li>
+                <li>Use tooltips on disabled elements without wrapper</li>
+                <li>Rely solely on hover (always include focus trigger for keyboard users)</li>
+            </ul>
+        </div>
+        
+        <div style="background: #e1f5fe; padding: 1.5rem; border-left: 4px solid #03a9f4; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>📱 Mobile-Friendly Alternatives:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Use visible labels or help text instead of tooltips</li>
+                <li>Use <code>data-bs-trigger="focus"</code> so tapping shows the tooltip</li>
+                <li>Consider click-triggered popovers for important information</li>
+                <li>Add an info icon (<code>ℹ️</code>) that users can tap for help</li>
+                <li>Show tooltips content in the UI on small screens with CSS <code>@media</code> queries</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Accessibility -->
+    <section style="margin: 3rem 0;">
+        <h2>Accessibility</h2>
+        <p>Tooltips must be accessible to keyboard and screen reader users:</p>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Keyboard Navigation</h3>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><strong>Tab:</strong> Move focus to tooltip trigger (shows tooltip)</li>
+                <li><strong>Shift+Tab:</strong> Move focus away (hides tooltip)</li>
+                <li><strong>Esc:</strong> Close tooltip (if trigger="click")</li>
+            </ul>
+        </div>
+        
+        <div style="background: #f3e5f5; padding: 1.5rem; border-left: 4px solid #9c27b0; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Screen Reader Support</h3>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><strong>ARIA Role:</strong> Tooltips automatically get <code>role="tooltip"</code></li>
+                <li><strong>Content:</strong> Tooltip text is announced when element receives focus</li>
+                <li><strong>Dismissal:</strong> Announced when tooltip disappears</li>
+            </ul>
+        </div>
+        
+        <div style="background: #fff3e0; padding: 1.5rem; border-left: 4px solid #ff9800; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Important Considerations</h3>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><strong>Mobile/Touch Devices:</strong> Tooltips require hover, which doesn't exist on phones/tablets. Users must long-press to see them, which is unintuitive. <strong>This is the #1 accessibility issue with tooltips!</strong></li>
+                <li><strong>Critical Info:</strong> Never put essential information only in tooltips. Always provide alternative access (visible labels, help text, expandable sections).</li>
+                <li><strong>Focus Indicators:</strong> Ensure focusable elements have visible focus styles</li>
+                <li><strong>Reduced Motion:</strong> Fade animations respect <code>prefers-reduced-motion</code></li>
+                <li><strong>Testing:</strong> Always test your interface with tooltips disabled or on a touch device to ensure usability</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: #2d2d2d; color: #f8f8f2; border-radius: 4px;">
+        <h2 style="color: #f8f8f2;">CSS Classes</h2>
+        <p style="color: #a8a8a8;">All tooltip styles are defined in <code>zTooltip.css</code>:</p>
+        
+        <table class="zTable" style="margin: 1rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col" style="color: #f8f8f2;">Class</th>
+                    <th scope="col" style="color: #f8f8f2;">Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zTooltip</code></td>
+                    <td style="color: #a8a8a8;">Main tooltip container (created by JS)</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zTooltip-arrow</code></td>
+                    <td style="color: #a8a8a8;">Positioning arrow</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zTooltip-inner</code></td>
+                    <td style="color: #a8a8a8;">Content wrapper</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zTooltip-top</code></td>
+                    <td style="color: #a8a8a8;">Position above trigger</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zTooltip-bottom</code></td>
+                    <td style="color: #a8a8a8;">Position below trigger</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zTooltip-start</code></td>
+                    <td style="color: #a8a8a8;">Position to left of trigger</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zTooltip-end</code></td>
+                    <td style="color: #a8a8a8;">Position to right of trigger</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zShow</code></td>
+                    <td style="color: #a8a8a8;">Visible state (added by JS)</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zFade</code></td>
+                    <td style="color: #a8a8a8;">Enable fade transition</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-popover.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Popovers</strong> → For richer content and click interactions
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-toasts.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Toasts</strong> → For notification messages
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-badges.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Badges</strong> → For small status indicators
+                </a>
+            </li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-toasts.html" style="color: var(--color-primary);">← Previous: Toasts</a>
+        <a href="ztheme.html" style="color: var(--color-primary);">Back to Components</a>
+    </nav>
+</div>
+
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

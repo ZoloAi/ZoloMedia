@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Color Utilities Test - Micro-Step 0.3</title>
+  
+  <!-- zTheme CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css">
+  
+  <style>
+    body {
+      background: #f8f9fa;
+      min-height: 100vh;
+      padding: 2rem 0;
+    }
+    
+    /* Demo swatches */
+    .color-swatch {
+      width: 100%;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.25rem;
+      font-weight: 500;
+      transition: transform 0.2s;
+    }
+    .color-swatch:hover {
+      transform: scale(1.02);
+    }
+    
+    /* Log styling */
+    #log {
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.875rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .log-entry {
+      padding: 0.25rem 0.5rem;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .log-success { color: #198754; }
+    .log-error { color: #dc3545; }
+    .log-info { color: #0d6efd; }
+  </style>
+</head>
+<body>
+  <div class="zContainer">
+    <h1 class="zmb-4">Color Utilities Test</h1>
+    <p class="zText-muted zmb-4">Micro-Step 0.3: Testing foundational color primitives (backgrounds, text, borders)</p>
+    
+    <!-- Test Controls Card -->
+    <div class="zCard zmb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Test Controls</h2>
+        <div class="zD-flex zFlex-wrap zGap-2">
+          <button class="zBtn zBtn-outline-primary" onclick="testBackgroundColors()">Test getBackgroundClass()</button>
+          <button class="zBtn zBtn-outline-success" onclick="testTextColors()">Test getTextColorClass()</button>
+          <button class="zBtn zBtn-outline-info" onclick="testBorderColors()">Test getBorderColorClass()</button>
+          <button class="zBtn zBtn-outline-warning" onclick="testApplyColorScheme()">Test applyColorScheme()</button>
+          <button class="zBtn zBtn-outline-secondary" onclick="testColorCombinations()">Test Combinations</button>
+          <button class="zBtn zBtn-danger" onclick="clearRenderZone()">Clear Zone</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Render Zone Card -->
+    <div class="zCard zmb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Render Zone</h2>
+        <p class="zText-muted">Colors will be visualized here (swatches with labels)</p>
+        <div id="render-zone" class="zp-3 zBg-white zBorder zRounded">
+          <p class="zText-muted"><em>Click a test button to visualize colors...</em></p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Log Card -->
+    <div class="zCard">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Console Log</h2>
+        <div id="log" class="zp-3 zBg-light zBorder zRounded">
+          <!-- Logs will appear here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts (ES6 Modules) -->
+  <script type="module">
+    import { 
+      getBackgroundClass,
+      getTextColorClass,
+      getBorderColorClass,
+      applyColorScheme,
+      getAvailableColors
+    } from '../src/rendering/color_utils.js';
+
+    const log = document.getElementById('log');
+    
+    function addLog(message, type = 'info') {
+      const entry = document.createElement('div');
+      entry.className = `log-entry log-${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      log.appendChild(entry);
+      log.scrollTop = log.scrollHeight;
+      console.log(message);
+    }
+
+    // Initialize
+    addLog('✅ Color utilities loaded successfully', 'success');
+    
+    // Log available colors
+    const colors = getAvailableColors();
+    addLog(`📊 Available backgrounds: ${colors.backgrounds.length}`, 'info');
+    addLog(`📊 Available text colors: ${colors.text.length}`, 'info');
+    addLog(`📊 Available border colors: ${colors.borders.length}`, 'info');
+    addLog('Ready! Click a test button to start.', 'info');
+
+    /**
+     * Test 1: getBackgroundClass()
+     */
+    window.testBackgroundColors = function() {
+      addLog('Running: getBackgroundClass() Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: getBackgroundClass()</h3>';
+      
+      const bgColors = [
+        'primary', 'secondary', 'success', 'info', 'warning', 'danger',
+        'light', 'dark', 'white', 'transparent'
+      ];
+      
+      const grid = document.createElement('div');
+      grid.className = 'zD-grid zGap-2';
+      grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(150px, 1fr))';
+      
+      bgColors.forEach(color => {
+        const swatch = document.createElement('div');
+        const bgClass = getBackgroundClass(color);
+        swatch.className = 'color-swatch zBorder ' + bgClass;
+        
+        // Add contrasting text for visibility
+        if (['dark', 'primary', 'secondary', 'success', 'info', 'danger'].includes(color)) {
+          swatch.classList.add('zText-white');
+        } else {
+          swatch.classList.add('zText-dark');
+        }
+        
+        swatch.innerHTML = `<div class="zText-center"><strong>${color}</strong><br><small>${bgClass}</small></div>`;
+        grid.appendChild(swatch);
+        
+        addLog(`✅ Generated: ${bgClass}`, 'success');
+      });
+      
+      zone.appendChild(grid);
+      addLog('📊 All background colors rendered', 'info');
+    };
+
+    /**
+     * Test 2: getTextColorClass()
+     */
+    window.testTextColors = function() {
+      addLog('Running: getTextColorClass() Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: getTextColorClass()</h3>';
+      
+      const textColors = [
+        'primary', 'secondary', 'success', 'info', 'warning', 'danger',
+        'light', 'dark', 'body', 'muted', 'white', 'black',
+        'black-50', 'white-50'
+      ];
+      
+      const container = document.createElement('div');
+      container.className = 'zD-flex zFlex-column zGap-2';
+      
+      textColors.forEach(color => {
+        const swatch = document.createElement('div');
+        swatch.className = 'zP-3 zBorder zRounded';
+        
+        // Use appropriate background for visibility
+        if (['light', 'white', 'white-50'].includes(color)) {
+          swatch.classList.add('zBg-dark');
+        } else if (['dark', 'black', 'black-50'].includes(color)) {
+          swatch.classList.add('zBg-light');
+        } else {
+          swatch.classList.add('zBg-white');
+        }
+        
+        const textClass = getTextColorClass(color);
+        const textElement = document.createElement('p');
+        textElement.className = textClass + ' zm-0';
+        textElement.innerHTML = `<strong>${color}</strong>: This text uses ${textClass}`;
+        
+        swatch.appendChild(textElement);
+        container.appendChild(swatch);
+        
+        addLog(`✅ Generated: ${textClass}`, 'success');
+      });
+      
+      zone.appendChild(container);
+      addLog('📊 All text colors rendered', 'info');
+    };
+
+    /**
+     * Test 3: getBorderColorClass()
+     */
+    window.testBorderColors = function() {
+      addLog('Running: getBorderColorClass() Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: getBorderColorClass()</h3>';
+      
+      const borderColors = [
+        'primary', 'secondary', 'success', 'info', 'warning', 'danger',
+        'light', 'dark', 'white'
+      ];
+      
+      const grid = document.createElement('div');
+      grid.className = 'zD-grid zGap-3';
+      grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(180px, 1fr))';
+      
+      borderColors.forEach(color => {
+        const box = document.createElement('div');
+        box.className = 'zP-3 zBg-white zBorder zBorder-3 zRounded';
+        
+        const borderClass = getBorderColorClass(color);
+        box.classList.add(borderClass);
+        
+        box.innerHTML = `
+          <div class="zText-center">
+            <strong>${color}</strong><br>
+            <small class="zText-muted">${borderClass}</small><br>
+            <small class="zText-muted">zBorder-3 width</small>
+          </div>
+        `;
+        
+        grid.appendChild(box);
+        addLog(`✅ Generated: ${borderClass}`, 'success');
+      });
+      
+      zone.appendChild(grid);
+      addLog('📊 All border colors rendered (requires zBorder class)', 'info');
+    };
+
+    /**
+     * Test 4: applyColorScheme()
+     */
+    window.testApplyColorScheme = function() {
+      addLog('Running: applyColorScheme() Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: applyColorScheme()</h3>';
+      
+      const schemes = [
+        { background: 'primary', text: 'white', border: 'primary', label: 'Primary Card' },
+        { background: 'light', text: 'dark', border: 'secondary', label: 'Light Card' },
+        { background: 'success', text: 'white', border: 'success', label: 'Success Card' },
+        { background: 'warning', text: 'dark', border: 'warning', label: 'Warning Card' },
+        { background: 'danger', text: 'white', border: 'danger', label: 'Danger Card' },
+        { background: 'white', text: 'muted', border: 'light', label: 'Muted Card' }
+      ];
+      
+      const grid = document.createElement('div');
+      grid.className = 'zD-grid zGap-3';
+      grid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';
+      
+      schemes.forEach(scheme => {
+        const card = document.createElement('div');
+        card.className = 'zP-4 zBorder zBorder-2 zRounded';
+        
+        applyColorScheme(card, {
+          background: scheme.background,
+          text: scheme.text,
+          border: scheme.border
+        });
+        
+        card.innerHTML = `
+          <h4 class="zm-0 zmb-2">${scheme.label}</h4>
+          <p class="zm-0 zmb-1"><small>BG: ${scheme.background}</small></p>
+          <p class="zm-0 zmb-1"><small>Text: ${scheme.text}</small></p>
+          <p class="zm-0"><small>Border: ${scheme.border}</small></p>
+        `;
+        
+        grid.appendChild(card);
+        addLog(`✅ Applied scheme: ${scheme.label}`, 'success');
+      });
+      
+      zone.appendChild(grid);
+      addLog('📊 All color schemes applied', 'info');
+    };
+
+    /**
+     * Test 5: Color Combinations (Real-world patterns)
+     */
+    window.testColorCombinations = function() {
+      addLog('Running: Color Combinations Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: Real-world Color Combinations</h3>';
+      
+      // Alert boxes
+      const alertsSection = document.createElement('div');
+      alertsSection.innerHTML = '<h4 class="zmb-2">Alert Boxes</h4>';
+      alertsSection.className = 'zmb-4';
+      
+      const alerts = [
+        { bg: 'success', text: 'dark', icon: '✓', message: 'Operation completed successfully!' },
+        { bg: 'info', text: 'white', icon: 'ℹ', message: 'Please review the following information.' },
+        { bg: 'warning', text: 'dark', icon: '⚠', message: 'This action requires your attention.' },
+        { bg: 'danger', text: 'white', icon: '✕', message: 'An error occurred. Please try again.' }
+      ];
+      
+      alerts.forEach(alert => {
+        const box = document.createElement('div');
+        box.className = 'zP-3 zBorder zRounded zmb-2';
+        applyColorScheme(box, { background: alert.bg, text: alert.text, border: alert.bg });
+        box.innerHTML = `<strong>${alert.icon}</strong> ${alert.message}`;
+        alertsSection.appendChild(box);
+      });
+      
+      zone.appendChild(alertsSection);
+      
+      // Card variations
+      const cardsSection = document.createElement('div');
+      cardsSection.innerHTML = '<h4 class="zmb-2 zmt-3">Card Variations</h4>';
+      
+      const cardGrid = document.createElement('div');
+      cardGrid.className = 'zD-grid zGap-3';
+      cardGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(250px, 1fr))';
+      
+      const cards = [
+        { bg: 'white', text: 'dark', border: 'light', title: 'Default Card', desc: 'Clean and minimal' },
+        { bg: 'light', text: 'dark', border: 'secondary', title: 'Light Card', desc: 'Subtle background' },
+        { bg: 'primary', text: 'white', border: 'primary', title: 'Featured Card', desc: 'Highlighted content' }
+      ];
+      
+      cards.forEach(card => {
+        const cardEl = document.createElement('div');
+        cardEl.className = 'zP-4 zBorder zBorder-2 zRounded';
+        applyColorScheme(cardEl, { background: card.bg, text: card.text, border: card.border });
+        cardEl.innerHTML = `
+          <h5 class="zm-0 zmb-2">${card.title}</h5>
+          <p class="zm-0">${card.desc}</p>
+        `;
+        cardGrid.appendChild(cardEl);
+      });
+      
+      cardsSection.appendChild(cardGrid);
+      zone.appendChild(cardsSection);
+      
+      addLog('📊 Real-world color combinations rendered', 'info');
+    };
+
+    /**
+     * Clear the render zone
+     */
+    window.clearRenderZone = function() {
+      addLog('Clearing render zone', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<p class="zText-muted"><em>Zone cleared. Click a test button...</em></p>';
+    };
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,324 @@
+/* ============================================
+   zOffcanvas.css - Slide-out Sidebar Panels
+   ============================================
+   
+   Bootstrap-inspired offcanvas styling for zTheme.
+   Provides slide-out panels from screen edges for navigation,
+   shopping carts, filters, and contextual content.
+   
+   Classes:
+   - .zOffcanvas           : Main container (hidden by default)
+   - .zOffcanvas-start     : Slides in from left
+   - .zOffcanvas-end       : Slides in from right
+   - .zOffcanvas-top       : Slides in from top
+   - .zOffcanvas-bottom    : Slides in from bottom
+   - .zOffcanvas-header    : Header section with title and close
+   - .zOffcanvas-title     : Title text
+   - .zOffcanvas-body      : Main content area
+   - .zOffcanvas-backdrop  : Overlay behind offcanvas
+   - .zShow                : Active state (visible)
+   
+   Attributes:
+   - data-bs-toggle="offcanvas"
+   - data-bs-target="#offcanvasId"
+   - data-bs-dismiss="offcanvas"
+   - data-bs-scroll="true"       : Allow body scroll
+   - data-bs-backdrop="false"    : Disable backdrop
+*/
+
+/* ============================================
+   Base Offcanvas Container
+   ============================================ */
+
+.zOffcanvas {
+    position: fixed;
+    bottom: 0;
+    z-index: 1050;
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    visibility: hidden;
+    background-color: #fff;
+    background-clip: padding-box;
+    outline: 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zOffcanvas {
+        transition: none;
+    }
+}
+
+/* ============================================
+   Placement Variants
+   ============================================ */
+
+/* Left Slide */
+.zOffcanvas-start {
+    top: 0;
+    left: 0;
+    width: 400px;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    transform: translateX(-100%);
+}
+
+/* Right Slide */
+.zOffcanvas-end {
+    top: 0;
+    right: 0;
+    width: 400px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+}
+
+/* Top Slide */
+.zOffcanvas-top {
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 30vh;
+    max-height: 100%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transform: translateY(-100%);
+}
+
+/* Bottom Slide */
+.zOffcanvas-bottom {
+    right: 0;
+    left: 0;
+    height: 30vh;
+    max-height: 100%;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    transform: translateY(100%);
+}
+
+/* ============================================
+   Show State
+   ============================================ */
+
+.zOffcanvas.zShow {
+    visibility: visible;
+    transform: translate(0, 0);
+}
+
+/* ============================================
+   Header
+   ============================================ */
+
+.zOffcanvas-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.zOffcanvas-header .zBtn-close {
+    padding: 0.5rem;
+    margin: -0.5rem -0.5rem -0.5rem auto;
+}
+
+.zOffcanvas-title {
+    margin-bottom: 0;
+    line-height: 1.5;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+/* ============================================
+   Body
+   ============================================ */
+
+.zOffcanvas-body {
+    flex-grow: 1;
+    padding: 1rem 1rem;
+    overflow-y: auto;
+}
+
+/* ============================================
+   Backdrop
+   ============================================ */
+
+.zOffcanvas-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1040;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s linear, visibility 0.15s linear;
+}
+
+.zOffcanvas-backdrop.zShow {
+    opacity: 1;
+    visibility: visible;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zOffcanvas-backdrop {
+        transition: none;
+    }
+}
+
+/* ============================================
+   Responsive Sizing
+   ============================================ */
+
+/* Mobile: Full width for horizontal offcanvas */
+@media (max-width: 576px) {
+    .zOffcanvas-start,
+    .zOffcanvas-end {
+        width: 100%;
+        max-width: 100%;
+    }
+}
+
+/* Tablet: Slightly narrower */
+@media (min-width: 577px) and (max-width: 768px) {
+    .zOffcanvas-start,
+    .zOffcanvas-end {
+        width: 320px;
+    }
+}
+
+/* ============================================
+   Width Modifiers (All Screens)
+   ============================================ */
+
+/* Fixed width options for horizontal offcanvas */
+.zOffcanvas-w-300 {
+    width: 300px !important;
+}
+
+.zOffcanvas-w-320 {
+    width: 320px !important;
+}
+
+.zOffcanvas-w-400 {
+    width: 400px !important;
+}
+
+.zOffcanvas-w-500 {
+    width: 500px !important;
+}
+
+.zOffcanvas-w-600 {
+    width: 600px !important;
+}
+
+/* Percentage width options */
+.zOffcanvas-w-25 {
+    width: 25% !important;
+}
+
+.zOffcanvas-w-33 {
+    width: 33.333% !important;
+}
+
+.zOffcanvas-w-50 {
+    width: 50% !important;
+}
+
+.zOffcanvas-w-66 {
+    width: 66.666% !important;
+}
+
+.zOffcanvas-w-75 {
+    width: 75% !important;
+}
+
+.zOffcanvas-w-80 {
+    width: 80% !important;
+}
+
+.zOffcanvas-w-85 {
+    width: 85% !important;
+}
+
+.zOffcanvas-w-90 {
+    width: 90% !important;
+}
+
+.zOffcanvas-w-100 {
+    width: 100% !important;
+}
+
+/* Height options for vertical offcanvas (top/bottom) */
+.zOffcanvas-h-25 {
+    height: 25vh !important;
+}
+
+.zOffcanvas-h-33 {
+    height: 33vh !important;
+}
+
+.zOffcanvas-h-50 {
+    height: 50vh !important;
+}
+
+.zOffcanvas-h-66 {
+    height: 66vh !important;
+}
+
+.zOffcanvas-h-75 {
+    height: 75vh !important;
+}
+
+.zOffcanvas-h-100 {
+    height: 100vh !important;
+}
+
+/* ============================================
+   Width Modifiers (Mobile-Specific)
+   ============================================ */
+
+/* Mobile-only width overrides */
+@media (max-width: 576px) {
+    /* 90% width on mobile */
+    .zOffcanvas-mobile-90 {
+        width: 90% !important;
+        max-width: 90% !important;
+    }
+    
+    /* 85% width on mobile */
+    .zOffcanvas-mobile-85 {
+        width: 85% !important;
+        max-width: 85% !important;
+    }
+    
+    /* 80% width on mobile */
+    .zOffcanvas-mobile-80 {
+        width: 80% !important;
+        max-width: 80% !important;
+    }
+    
+    /* 75% width on mobile */
+    .zOffcanvas-mobile-75 {
+        width: 75% !important;
+        max-width: 75% !important;
+    }
+    
+    /* Fixed width on mobile (320px) */
+    .zOffcanvas-mobile-fixed {
+        width: 320px !important;
+        max-width: 90% !important; /* Fallback for very small screens */
+    }
+}
+
+/* ============================================
+   Body Scroll Lock
+   ============================================ */
+
+body.zOffcanvas-open {
+    overflow: hidden;
+}
+
+/* Allow body scroll when data-bs-scroll="true" */
+body.zOffcanvas-open[data-offcanvas-scroll="true"] {
+    overflow: auto;
+}
+

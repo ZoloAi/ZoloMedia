@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z Index - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer zp-5">
+    <!-- Breadcrumb -->
+    <nav class="zSmall zmb-3">
+        <a href="ztheme.html" class="zPrimary">zTheme</a>
+        <span class="zMuted zmx-2">›</span>
+        <a href="ztheme-utilities.html" class="zPrimary">Components</a>
+        <span class="zMuted zmx-2">›</span>
+        <span>Z Index</span>
+    </nav>
+    
+    <h1>Z Index</h1>
+    <p class="zLead text-muted zmb-5">
+        Control element layering and stacking
+    </p>
+    
+    <hr class="zmy-5 hr-visible">
+    
+    <!-- What is Z-Index -->
+    <section class="zmy-6">
+        <h2>What is Z-index?</h2>
+        <p>The z-index property controls the vertical stacking order of positioned elements. Higher values appear in front of lower values.</p>
+        
+        <p class="zmt-4"><strong>Important:</strong> Z-index only works on positioned elements (<code>position: relative</code>, <code>absolute</code>, <code>fixed</code>, or <code>sticky</code>).</p>
+    </section>
+    
+    <!-- Z-Index Classes -->
+    <section class="zmy-6">
+        <h2>Z-Index Classes</h2>
+        
+        <table class="table zmy-3">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Value</th>
+                    <th scope="col">Use Case</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zZ-n1</code></td>
+                    <td>-1</td>
+                    <td>Behind content</td>
+                </tr>
+                <tr>
+                    <td><code>.zZ-0</code></td>
+                    <td>0</td>
+                    <td>Default stacking</td>
+                </tr>
+                <tr>
+                    <td><code>.zZ-1</code></td>
+                    <td>1</td>
+                    <td>Slightly elevated</td>
+                </tr>
+                <tr>
+                    <td><code>.zZ-2</code></td>
+                    <td>2</td>
+                    <td>More elevated</td>
+                </tr>
+                <tr>
+                    <td><code>.zZ-3</code></td>
+                    <td>3</td>
+                    <td>Even more elevated</td>
+                </tr>
+                <tr>
+                    <td><code>.zZ-10</code></td>
+                    <td>10</td>
+                    <td>High priority</td>
+                </tr>
+                <tr>
+                    <td><code>.zZ-100</code></td>
+                    <td>100</td>
+                    <td>Very high</td>
+                </tr>
+                <tr>
+                    <td><code>.zZ-1000</code></td>
+                    <td>1000</td>
+                    <td>UI overlays</td>
+                </tr>
+                <tr>
+                    <td><code>.zZ-auto</code></td>
+                    <td>auto</td>
+                    <td>Reset to default</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Component Layers -->
+    <section class="zmy-6">
+        <h2>Component Layer System</h2>
+        <p>Pre-defined z-index values for common UI components:</p>
+        
+        <table class="table zmy-3">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Value</th>
+                    <th scope="col">Component</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zZ-dropdown</code></td>
+                    <td>1000</td>
+                    <td>Dropdown menus</td>
+                </tr>
+                <tr>
+                    <td><code>.zZ-sticky</code></td>
+                    <td>1020</td>
+                    <td>Sticky elements</td>
+                </tr>
+                <tr>
+                    <td><code>.zZ-fixed</code></td>
+                    <td>1030</td>
+                    <td>Fixed navbars</td>
+                </tr>
+                <tr>
+                    <td><code>.zZ-modal-backdrop</code></td>
+                    <td>1040</td>
+                    <td>Modal background overlay</td>
+                </tr>
+                <tr>
+                    <td><code>.zZ-modal</code></td>
+                    <td>1050</td>
+                    <td>Modal dialogs</td>
+                </tr>
+                <tr>
+                    <td><code>.zZ-popover</code></td>
+                    <td>1060</td>
+                    <td>Popovers</td>
+                </tr>
+                <tr>
+                    <td><code>.zZ-tooltip</code></td>
+                    <td>1070</td>
+                    <td>Tooltips (highest)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Live Demo -->
+    <section class="zmy-6">
+        <h2>Live Demo</h2>
+        <p>Overlapping boxes with different z-index values:</p>
+        
+        <div class="zp-5 zmy-5" style="position: relative; height: 300px; background: #f5f5f5; border-radius: var(--border-radius-lg, 8px);">
+            <div class="zPosition-absolute zZ-1 zp-3" style="top: 50px; left: 50px; width: 150px; height: 150px; background: #e3f2fd; border: 3px solid #2196f3; border-radius: var(--border-radius-lg, 8px);">
+                <strong>Box 1</strong><br>
+                <code>.zZ-1</code>
+            </div>
+            
+            <div class="zPosition-absolute zZ-2 zp-3" style="top: 90px; left: 90px; width: 150px; height: 150px; background: #e8f5e9; border: 3px solid #4caf50; border-radius: var(--border-radius-lg, 8px);">
+                <strong>Box 2</strong><br>
+                <code>.zZ-2</code>
+            </div>
+            
+            <div class="zPosition-absolute zZ-3 zp-3" style="top: 130px; left: 130px; width: 150px; height: 150px; background: #fff3e0; border: 3px solid #ff9800; border-radius: var(--border-radius-lg, 8px);">
+                <strong>Box 3</strong><br>
+                <code>.zZ-3</code><br>
+                <small>(On top)</small>
+            </div>
+        </div>
+        
+        <pre class="zp-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zPosition-absolute zZ-1"&gt;Box 1 (Behind)&lt;/div&gt;
+&lt;div class="zPosition-absolute zZ-2"&gt;Box 2 (Middle)&lt;/div&gt;
+&lt;div class="zPosition-absolute zZ-3"&gt;Box 3 (On top)&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Use Cases -->
+    <section class="zmy-6">
+        <h2>Common Use Cases</h2>
+        
+        <h3 class="zmt-5">Fixed Header</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;header class="zPosition-fixed zTop-0 zZ-fixed"&gt;
+  Always on top of content
+&lt;/header&gt;</code></pre>
+        
+        <h3 class="zmt-5">Modal with Backdrop</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zPosition-fixed zZ-modal-backdrop"&gt;
+  Dark overlay
+&lt;/div&gt;
+&lt;div class="zPosition-fixed zZ-modal"&gt;
+  Modal dialog on top of backdrop
+&lt;/div&gt;</code></pre>
+        
+        <h3 class="zmt-5">Dropdown Menu</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zPosition-relative"&gt;
+  &lt;button&gt;Menu&lt;/button&gt;
+  &lt;div class="zPosition-absolute zZ-dropdown"&gt;
+    Dropdown content
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 class="zmt-5">Background Decoration</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zPosition-relative"&gt;
+  &lt;div class="zPosition-absolute zZ-n1"&gt;
+    Background shape behind content
+  &lt;/div&gt;
+  &lt;div&gt;Main content&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Stacking Context -->
+    <section class="zmy-6">
+        <h2>Understanding Stacking Context</h2>
+        <p>A stacking context is created when an element has:</p>
+        <ul class="lh-lg zmy-3">
+            <li>Position <code>relative</code>, <code>absolute</code>, <code>fixed</code>, or <code>sticky</code> with z-index other than <code>auto</code></li>
+            <li>Opacity less than 1</li>
+            <li>Transform, filter, or other CSS properties</li>
+        </ul>
+        
+        <p class="zmt-4"><strong>Key Point:</strong> Z-index only compares elements within the same stacking context. A child can never appear above its parent's stacking context.</p>
+    </section>
+    
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2>Best Practices</h2>
+        <ul class="lh-lg zmy-3">
+            <li><strong>Use semantic layers</strong> - Prefer <code>.zZ-modal</code> over random numbers</li>
+            <li><strong>Avoid z-index wars</strong> - Don't keep increasing values arbitrarily</li>
+            <li><strong>Document layers</strong> - Create a z-index scale for your project</li>
+            <li><strong>Test thoroughly</strong> - Check stacking in all scenarios</li>
+            <li><strong>Remember position</strong> - Z-index needs a positioned element</li>
+        </ul>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section class="zmy-6">
+        <h2>CSS Reference</h2>
+        <p>Defined in <code>zPosition.css</code>:</p>
+        
+        <pre class="zp-3 zmy-3" style="background: #2d2d2d; color: #f8f8f2; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>.zZ-1 { z-index: 1 !important; }
+.zZ-2 { z-index: 2 !important; }
+.zZ-3 { z-index: 3 !important; }
+
+/* Component layers */
+.zZ-dropdown { z-index: 1000 !important; }
+.zZ-modal { z-index: 1050 !important; }
+.zZ-tooltip { z-index: 1070 !important; }</code></pre>
+    </section>
+    
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2>Related Topics</h2>
+        <ul class="lh-lg zmy-3">
+            <li><a href="ztheme-utilities.html" class="zPrimary">Utilities Overview</a> - All utility categories</li>
+            <li><strong>Position utilities</strong> - <code>.zPosition-*</code>, <code>.zTop-*</code>, <code>.zTranslate-*</code></li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav class="zmt-6 zpt-5 zD-flex zFlex-between" style="border-top: 2px solid var(--borderColor, #dee2e6);">
+        <a href="ztheme-utilities.html" class="zPrimary">← Previous: Utilities</a>
+        <a href="ztheme.html" class="zPrimary">Back to zTheme Index</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

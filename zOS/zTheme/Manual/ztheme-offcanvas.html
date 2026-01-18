@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offcanvas - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<article style="max-width: 900px; margin: 0 auto; padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="ztheme.html">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Offcanvas</li>
+        </ol>
+    </nav>
+
+    <!-- Header -->
+    <header style="margin-bottom: 3rem;">
+        <h1>Offcanvas</h1>
+        <p class="zLead">Slide-out sidebar panels that appear from the edges of the viewport for navigation menus, shopping carts, filters, and contextual content.</p>
+    </header>
+
+    <!-- Understanding Offcanvas -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Offcanvas</h2>
+        <p>Offcanvas is a sidebar component that slides in from the screen edges. It's perfect for:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Mobile Navigation:</strong> Hide main menu off-screen until needed</li>
+            <li><strong>Shopping Carts:</strong> Slide-in cart from right without leaving page</li>
+            <li><strong>Filters:</strong> Product filters that don't clutter the main view</li>
+            <li><strong>User Profiles:</strong> Quick access panels for settings or account info</li>
+            <li><strong>Contextual Content:</strong> Help text, notifications, or additional details</li>
+        </ul>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Offcanvas vs Modal:</strong> Offcanvas slides in from screen edges and is great for navigation/persistent UI. Modals appear in the center and demand immediate attention. Both share similar backdrop and overlay behavior.
+        </blockquote>
+    </section>
+
+    <!-- Basic Offcanvas -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic Offcanvas (Left)</h2>
+        <p>The simplest offcanvas slides in from the left using <code>.zOffcanvas-start</code>:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button class="zBtn zBtn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBasic">
+                Open Left Offcanvas
+            </button>
+
+            <div class="zOffcanvas zOffcanvas-start" tabindex="-1" id="offcanvasBasic" aria-labelledby="offcanvasBasicLabel">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasBasicLabel">Navigation Menu</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <h6>Main Menu</h6>
+                    <ul style="list-style: none; padding-left: 0;">
+                        <li style="margin-bottom: 0.5rem;"><a href="#">Home</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="#">Products</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="#">Services</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="#">About</a></li>
+                        <li style="margin-bottom: 0.5rem;"><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Trigger Button --&gt;
+&lt;button class="zBtn zBtn-primary" type="button" 
+        data-bs-toggle="offcanvas" 
+        data-bs-target="#offcanvasBasic"&gt;
+  Open Left Offcanvas
+&lt;/button&gt;
+
+&lt;!-- Offcanvas Panel --&gt;
+&lt;div class="zOffcanvas zOffcanvas-start" tabindex="-1" 
+     id="offcanvasBasic" 
+     aria-labelledby="offcanvasBasicLabel"&gt;
+  
+  &lt;div class="zOffcanvas-header"&gt;
+    &lt;h5 class="zOffcanvas-title" id="offcanvasBasicLabel"&gt;Navigation Menu&lt;/h5&gt;
+    &lt;button type="button" class="zBtn-close" 
+            data-bs-dismiss="offcanvas" 
+            aria-label="Close"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  
+  &lt;div class="zOffcanvas-body"&gt;
+    &lt;!-- Your content here --&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Placement Options -->
+    <section style="margin: 3rem 0;">
+        <h2>Placement Options</h2>
+        <p>Offcanvas can slide in from any edge of the viewport using placement modifier classes:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="zBtn zBtn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasLeft">
+                    ← Left
+                </button>
+                <button class="zBtn zBtn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
+                    Right →
+                </button>
+                <button class="zBtn zBtn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop">
+                    ↑ Top
+                </button>
+                <button class="zBtn zBtn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom">
+                    ↓ Bottom
+                </button>
+            </div>
+
+            <!-- Left -->
+            <div class="zOffcanvas zOffcanvas-start" tabindex="-1" id="offcanvasLeft" aria-labelledby="offcanvasLeftLabel">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasLeftLabel">Left Offcanvas</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel slides in from the <strong>left</strong> edge. Perfect for main navigation menus.</p>
+                </div>
+            </div>
+
+            <!-- Right -->
+            <div class="zOffcanvas zOffcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasRightLabel">Right Offcanvas</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel slides in from the <strong>right</strong> edge. Great for shopping carts, notifications, or user profiles.</p>
+                </div>
+            </div>
+
+            <!-- Top -->
+            <div class="zOffcanvas zOffcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasTopLabel">Top Offcanvas</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel slides down from the <strong>top</strong>. Useful for announcements or alerts.</p>
+                </div>
+            </div>
+
+            <!-- Bottom -->
+            <div class="zOffcanvas zOffcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasBottomLabel">Bottom Offcanvas</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel slides up from the <strong>bottom</strong>. Great for mobile actions, cookie notices, or filters.</p>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Left: .zOffcanvas-start --&gt;
+&lt;div class="zOffcanvas zOffcanvas-start" id="offcanvasLeft"&gt;...&lt;/div&gt;
+
+&lt;!-- Right: .zOffcanvas-end --&gt;
+&lt;div class="zOffcanvas zOffcanvas-end" id="offcanvasRight"&gt;...&lt;/div&gt;
+
+&lt;!-- Top: .zOffcanvas-top --&gt;
+&lt;div class="zOffcanvas zOffcanvas-top" id="offcanvasTop"&gt;...&lt;/div&gt;
+
+&lt;!-- Bottom: .zOffcanvas-bottom --&gt;
+&lt;div class="zOffcanvas zOffcanvas-bottom" id="offcanvasBottom"&gt;...&lt;/div&gt;</code></pre>
+
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Placement</th>
+                    <th scope="col">Best For</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zOffcanvas-start</code></td>
+                    <td>Left edge</td>
+                    <td>Primary navigation, menu</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-end</code></td>
+                    <td>Right edge</td>
+                    <td>Cart, settings, profile</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-top</code></td>
+                    <td>Top edge</td>
+                    <td>Announcements, alerts</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-bottom</code></td>
+                    <td>Bottom edge</td>
+                    <td>Mobile actions, filters, cookies</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Backdrop Options -->
+    <section style="margin: 3rem 0;">
+        <h2>Backdrop & Scrolling Options</h2>
+        <p>Control backdrop visibility and body scrolling with data attributes:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="zBtn zBtn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScroll">
+                    Scrolling Allowed
+                </button>
+                <button class="zBtn zBtn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNoBackdrop">
+                    No Backdrop
+                </button>
+                <button class="zBtn zBtn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBoth">
+                    Both Options
+                </button>
+            </div>
+
+            <!-- Allow body scroll, with backdrop -->
+            <div class="zOffcanvas zOffcanvas-start" tabindex="-1" id="offcanvasScroll" 
+                 data-bs-scroll="true" data-bs-backdrop="true" 
+                 aria-labelledby="offcanvasScrollLabel">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasScrollLabel">Scrolling Allowed</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>Try scrolling the main page behind this offcanvas. Body scrolling is enabled with <code>data-bs-scroll="true"</code>.</p>
+                    <p>The backdrop is visible but doesn't block scrolling.</p>
+                </div>
+            </div>
+
+            <!-- No backdrop, no scroll lock -->
+            <div class="zOffcanvas zOffcanvas-start" tabindex="-1" id="offcanvasNoBackdrop" 
+                 data-bs-backdrop="false" 
+                 aria-labelledby="offcanvasNoBackdropLabel">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasNoBackdropLabel">No Backdrop</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>No backdrop is shown with <code>data-bs-backdrop="false"</code>.</p>
+                    <p>You can interact with the main page while this is open. Clicking outside won't close it.</p>
+                </div>
+            </div>
+
+            <!-- Both: scroll + backdrop -->
+            <div class="zOffcanvas zOffcanvas-start" tabindex="-1" id="offcanvasBoth" 
+                 data-bs-scroll="true" data-bs-backdrop="true" 
+                 aria-labelledby="offcanvasBothLabel">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasBothLabel">Both Options</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This combines both options:</p>
+                    <ul>
+                        <li><code>data-bs-scroll="true"</code> - Body scrolling enabled</li>
+                        <li><code>data-bs-backdrop="true"</code> - Backdrop visible</li>
+                    </ul>
+                    <p>Perfect when you want visual separation but still allow page interaction.</p>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Allow body scrolling --&gt;
+&lt;div class="zOffcanvas zOffcanvas-start" 
+     data-bs-scroll="true"&gt;
+  ...
+&lt;/div&gt;
+
+&lt;!-- No backdrop --&gt;
+&lt;div class="zOffcanvas zOffcanvas-start" 
+     data-bs-backdrop="false"&gt;
+  ...
+&lt;/div&gt;
+
+&lt;!-- Both options --&gt;
+&lt;div class="zOffcanvas zOffcanvas-start" 
+     data-bs-scroll="true" 
+     data-bs-backdrop="true"&gt;
+  ...
+&lt;/div&gt;</code></pre>
+
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Attribute</th>
+                    <th scope="col">Default</th>
+                    <th scope="col">Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>data-bs-backdrop="true"</code></td>
+                    <td>true</td>
+                    <td>Show dark overlay behind offcanvas</td>
+                </tr>
+                <tr>
+                    <td><code>data-bs-backdrop="false"</code></td>
+                    <td>—</td>
+                    <td>No backdrop, main content fully visible</td>
+                </tr>
+                <tr>
+                    <td><code>data-bs-scroll="true"</code></td>
+                    <td>false</td>
+                    <td>Allow body scrolling while offcanvas is open</td>
+                </tr>
+                <tr>
+                    <td><code>data-bs-scroll="false"</code></td>
+                    <td>false</td>
+                    <td>Lock body scroll (default behavior)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Width & Height Control -->
+    <section style="margin: 3rem 0;">
+        <h2>Width & Height Control</h2>
+        <p>Control the size of offcanvas panels with utility classes. Width applies to left/right panels, height to top/bottom panels:</p>
+
+        <h3 style="margin-top: 2rem;">Fixed Width (All Screens)</h3>
+        <p>Use fixed pixel widths for consistent sizing across all devices:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="zBtn zBtn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas300">
+                    300px
+                </button>
+                <button class="zBtn zBtn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas400">
+                    400px
+                </button>
+                <button class="zBtn zBtn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas500">
+                    500px
+                </button>
+                <button class="zBtn zBtn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas600">
+                    600px
+                </button>
+            </div>
+
+            <!-- 300px -->
+            <div class="zOffcanvas zOffcanvas-end zOffcanvas-w-300" tabindex="-1" id="offcanvas300" aria-labelledby="offcanvas300Label">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvas300Label">300px Width</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel is <strong>300px</strong> wide on all screens.</p>
+                    <p>Narrow panels for quick actions or compact menus.</p>
+                </div>
+            </div>
+
+            <!-- 400px -->
+            <div class="zOffcanvas zOffcanvas-end zOffcanvas-w-400" tabindex="-1" id="offcanvas400" aria-labelledby="offcanvas400Label">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvas400Label">400px Width (Default)</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel is <strong>400px</strong> wide (the default size).</p>
+                    <p>Good balance for most use cases.</p>
+                </div>
+            </div>
+
+            <!-- 500px -->
+            <div class="zOffcanvas zOffcanvas-end zOffcanvas-w-500" tabindex="-1" id="offcanvas500" aria-labelledby="offcanvas500Label">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvas500Label">500px Width</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel is <strong>500px</strong> wide on all screens.</p>
+                    <p>Wider panels for forms or detailed content.</p>
+                </div>
+            </div>
+
+            <!-- 600px -->
+            <div class="zOffcanvas zOffcanvas-end zOffcanvas-w-600" tabindex="-1" id="offcanvas600" aria-labelledby="offcanvas600Label">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvas600Label">600px Width</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel is <strong>600px</strong> wide on all screens.</p>
+                    <p>Extra-wide panels for rich content or complex forms.</p>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- 300px width --&gt;
+&lt;div class="zOffcanvas zOffcanvas-end zOffcanvas-w-300" id="menu"&gt;
+  ...
+&lt;/div&gt;
+
+&lt;!-- 500px width --&gt;
+&lt;div class="zOffcanvas zOffcanvas-start zOffcanvas-w-500" id="filters"&gt;
+  ...
+&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Percentage Width (All Screens)</h3>
+        <p>Use percentage widths for responsive sizing that adapts to screen size:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="zBtn zBtn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas33">
+                    33% Width
+                </button>
+                <button class="zBtn zBtn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas50">
+                    50% Width
+                </button>
+                <button class="zBtn zBtn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas75">
+                    75% Width
+                </button>
+                <button class="zBtn zBtn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas90">
+                    90% Width
+                </button>
+            </div>
+
+            <!-- 33% -->
+            <div class="zOffcanvas zOffcanvas-end zOffcanvas-w-33" tabindex="-1" id="offcanvas33" aria-labelledby="offcanvas33Label">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvas33Label">33% Width</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel takes <strong>1/3 of the screen</strong> width.</p>
+                    <p>Great for filters or secondary navigation.</p>
+                </div>
+            </div>
+
+            <!-- 50% -->
+            <div class="zOffcanvas zOffcanvas-end zOffcanvas-w-50" tabindex="-1" id="offcanvas50" aria-labelledby="offcanvas50Label">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvas50Label">50% Width</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel takes <strong>half the screen</strong> width.</p>
+                    <p>Split-screen view, perfect for comparisons or side-by-side content.</p>
+                </div>
+            </div>
+
+            <!-- 75% -->
+            <div class="zOffcanvas zOffcanvas-end zOffcanvas-w-75" tabindex="-1" id="offcanvas75" aria-labelledby="offcanvas75Label">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvas75Label">75% Width</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel takes <strong>3/4 of the screen</strong> width.</p>
+                    <p>Large panels for detailed content while keeping some context visible.</p>
+                </div>
+            </div>
+
+            <!-- 90% -->
+            <div class="zOffcanvas zOffcanvas-end zOffcanvas-w-90" tabindex="-1" id="offcanvas90" aria-labelledby="offcanvas90Label">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvas90Label">90% Width</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel takes <strong>90% of the screen</strong> width.</p>
+                    <p>Almost full-screen with a hint of background for context.</p>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- 33% width --&gt;
+&lt;div class="zOffcanvas zOffcanvas-end zOffcanvas-w-33" id="filters"&gt;
+  ...
+&lt;/div&gt;
+
+&lt;!-- 50% width (split-screen) --&gt;
+&lt;div class="zOffcanvas zOffcanvas-start zOffcanvas-w-50" id="compare"&gt;
+  ...
+&lt;/div&gt;
+
+&lt;!-- 90% width (almost full-screen) --&gt;
+&lt;div class="zOffcanvas zOffcanvas-end zOffcanvas-w-90" id="settings"&gt;
+  ...
+&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Mobile-Only Width Overrides</h3>
+        <p>Apply different widths specifically on mobile (≤576px) while keeping default on larger screens:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="zBtn zBtn-info" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMobile90">
+                    Mobile 90%
+                </button>
+                <button class="zBtn zBtn-info" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMobile80">
+                    Mobile 80%
+                </button>
+                <button class="zBtn zBtn-info" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMobile75">
+                    Mobile 75%
+                </button>
+            </div>
+
+            <!-- Mobile 90% -->
+            <div class="zOffcanvas zOffcanvas-end zOffcanvas-mobile-90" tabindex="-1" id="offcanvasMobile90" aria-labelledby="offcanvasMobile90Label">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasMobile90Label">Mobile-Specific Width</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p><strong>Mobile (≤576px):</strong> 90% width</p>
+                    <p><strong>Desktop (>576px):</strong> Default 400px width</p>
+                    <p>Perfect for responsive designs that need different sizing on mobile vs desktop.</p>
+                </div>
+            </div>
+
+            <!-- Mobile 80% -->
+            <div class="zOffcanvas zOffcanvas-end zOffcanvas-mobile-80" tabindex="-1" id="offcanvasMobile80" aria-labelledby="offcanvasMobile80Label">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasMobile80Label">Mobile 80%</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>80% width on mobile, default on desktop.</p>
+                </div>
+            </div>
+
+            <!-- Mobile 75% -->
+            <div class="zOffcanvas zOffcanvas-end zOffcanvas-w-85 zOffcanvas-mobile-75" tabindex="-1" id="offcanvasMobile75" aria-labelledby="offcanvasMobile75Label">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasMobile75Label">Combined: 75% Mobile, 85% Desktop</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p><strong>Example:</strong> Combine classes for full control!</p>
+                    <p><code>.zOffcanvas-w-85</code> + <code>.zOffcanvas-mobile-75</code></p>
+                    <p>• Mobile: 75% width</p>
+                    <p>• Desktop: 85% width</p>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Mobile-specific: 90% mobile, 400px desktop --&gt;
+&lt;div class="zOffcanvas zOffcanvas-end zOffcanvas-mobile-90" id="cart"&gt;
+  ...
+&lt;/div&gt;
+
+&lt;!-- Combined classes: 85% desktop, 75% mobile --&gt;
+&lt;div class="zOffcanvas zOffcanvas-end zOffcanvas-w-85 zOffcanvas-mobile-75" id="settings"&gt;
+  ...
+&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Height Control (Top/Bottom)</h3>
+        <p>For top/bottom offcanvas, control the height instead:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="zBtn zBtn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasHeight33">
+                    33vh Height
+                </button>
+                <button class="zBtn zBtn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasHeight50">
+                    50vh Height
+                </button>
+                <button class="zBtn zBtn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasHeight75">
+                    75vh Height
+                </button>
+            </div>
+
+            <!-- 33vh -->
+            <div class="zOffcanvas zOffcanvas-bottom zOffcanvas-h-33" tabindex="-1" id="offcanvasHeight33" aria-labelledby="offcanvasHeight33Label">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasHeight33Label">33vh Height</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel takes <strong>1/3 of the viewport height</strong>.</p>
+                </div>
+            </div>
+
+            <!-- 50vh -->
+            <div class="zOffcanvas zOffcanvas-bottom zOffcanvas-h-50" tabindex="-1" id="offcanvasHeight50" aria-labelledby="offcanvasHeight50Label">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasHeight50Label">50vh Height</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel takes <strong>half the viewport height</strong>.</p>
+                </div>
+            </div>
+
+            <!-- 75vh -->
+            <div class="zOffcanvas zOffcanvas-bottom zOffcanvas-h-75" tabindex="-1" id="offcanvasHeight75" aria-labelledby="offcanvasHeight75Label">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasHeight75Label">75vh Height</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <p>This panel takes <strong>3/4 of the viewport height</strong>.</p>
+                    <p>Great for content-heavy bottom sheets.</p>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- 33vh height for bottom panel --&gt;
+&lt;div class="zOffcanvas zOffcanvas-bottom zOffcanvas-h-33" id="cookies"&gt;
+  ...
+&lt;/div&gt;
+
+&lt;!-- 50vh height for bottom sheet --&gt;
+&lt;div class="zOffcanvas zOffcanvas-bottom zOffcanvas-h-50" id="filters"&gt;
+  ...
+&lt;/div&gt;
+
+&lt;!-- 75vh height for content-heavy panels --&gt;
+&lt;div class="zOffcanvas zOffcanvas-top zOffcanvas-h-75" id="announcement"&gt;
+  ...
+&lt;/div&gt;</code></pre>
+
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Best For</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="3"><strong>Fixed Width (All Screens)</strong></td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-w-300</code></td>
+                    <td>300px</td>
+                    <td>Compact menus, quick actions</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-w-400</code></td>
+                    <td>400px (default)</td>
+                    <td>Standard navigation, forms</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-w-500</code></td>
+                    <td>500px</td>
+                    <td>Detailed forms, settings</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-w-600</code></td>
+                    <td>600px</td>
+                    <td>Rich content, shopping carts</td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>Percentage Width (All Screens)</strong></td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-w-25</code></td>
+                    <td>25%</td>
+                    <td>Narrow sidebars</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-w-33</code></td>
+                    <td>33.333%</td>
+                    <td>1/3 split layouts</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-w-50</code></td>
+                    <td>50%</td>
+                    <td>Split-screen, comparisons</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-w-75</code></td>
+                    <td>75%</td>
+                    <td>Large panels with context</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-w-90</code></td>
+                    <td>90%</td>
+                    <td>Almost full-screen</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-w-100</code></td>
+                    <td>100%</td>
+                    <td>Full-screen panels</td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>Height (Top/Bottom Panels)</strong></td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-h-25</code></td>
+                    <td>25vh</td>
+                    <td>Small notifications</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-h-33</code></td>
+                    <td>33vh</td>
+                    <td>Cookie notices, alerts</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-h-50</code></td>
+                    <td>50vh</td>
+                    <td>Bottom sheets, filters</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-h-75</code></td>
+                    <td>75vh</td>
+                    <td>Content-heavy panels</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-h-100</code></td>
+                    <td>100vh</td>
+                    <td>Full-height panels</td>
+                </tr>
+                <tr>
+                    <td colspan="3"><strong>Mobile-Only Overrides</strong></td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-mobile-90</code></td>
+                    <td>90% mobile, default desktop</td>
+                    <td>Carts, profiles (mobile adaptation)</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-mobile-80</code></td>
+                    <td>80% mobile, default desktop</td>
+                    <td>Filters (mobile adaptation)</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-mobile-75</code></td>
+                    <td>75% mobile, default desktop</td>
+                    <td>Quick actions (mobile adaptation)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-success); background: rgba(40, 167, 69, 0.1);">
+            <strong>💡 Pro Tip:</strong> Combine general width classes with mobile-specific ones! Use <code>.zOffcanvas-w-600</code> for desktop and <code>.zOffcanvas-mobile-80</code> for mobile to create fully responsive offcanvas panels.
+        </blockquote>
+    </section>
+
+    <!-- Rich Content Example -->
+    <section style="margin: 3rem 0;">
+        <h2>Rich Content Example</h2>
+        <p>Offcanvas can contain any content: forms, dropdowns, lists, images, or custom components:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button class="zBtn zBtn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart">
+                🛒 Shopping Cart (3)
+            </button>
+
+            <div class="zOffcanvas zOffcanvas-end zOffcanvas-w-500 zOffcanvas-mobile-90" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
+                <div class="zOffcanvas-header">
+                    <h5 class="zOffcanvas-title" id="offcanvasCartLabel">Shopping Cart</h5>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="zOffcanvas-body">
+                    <!-- Cart Item 1 -->
+                    <div style="display: flex; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #dee2e6; margin-bottom: 1rem;">
+                        <img src="https://picsum.photos/seed/widget1/60/60" alt="Premium Widget" style="width: 60px; height: 60px; border-radius: 4px; flex-shrink: 0; object-fit: cover;">
+                        <div style="flex-grow: 1;">
+                            <h6 style="margin: 0 0 0.25rem 0;">Premium Widget</h6>
+                            <p style="margin: 0; font-size: 0.875rem; color: #6c757d;">Qty: 1</p>
+                            <p style="margin: 0.25rem 0 0 0; font-weight: 600;">$49.99</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Cart Item 2 -->
+                    <div style="display: flex; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #dee2e6; margin-bottom: 1rem;">
+                        <img src="https://picsum.photos/seed/gadget2/60/60" alt="Basic Gadget" style="width: 60px; height: 60px; border-radius: 4px; flex-shrink: 0; object-fit: cover;">
+                        <div style="flex-grow: 1;">
+                            <h6 style="margin: 0 0 0.25rem 0;">Basic Gadget</h6>
+                            <p style="margin: 0; font-size: 0.875rem; color: #6c757d;">Qty: 2</p>
+                            <p style="margin: 0.25rem 0 0 0; font-weight: 600;">$29.99</p>
+                        </div>
+                    </div>
+
+                    <!-- Subtotal -->
+                    <div style="padding: 1rem 0; border-bottom: 2px solid #dee2e6; margin-bottom: 1rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span>Subtotal:</span>
+                            <span style="font-weight: 600;">$109.97</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem;">
+                            <span>Shipping:</span>
+                            <span>$5.00</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 1.125rem; font-weight: 600;">
+                            <span>Total:</span>
+                            <span>$114.97</span>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <button class="zBtn zBtn-primary" style="width: 100%; margin-bottom: 0.5rem;">Checkout</button>
+                    <button class="zBtn zBtn-outline-secondary" style="width: 100%;">Continue Shopping</button>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- 500px on desktop, 90% on mobile --&gt;
+&lt;div class="zOffcanvas zOffcanvas-end zOffcanvas-w-500 zOffcanvas-mobile-90" 
+     id="offcanvasCart"&gt;
+  &lt;div class="zOffcanvas-header"&gt;
+    &lt;h5 class="zOffcanvas-title"&gt;Shopping Cart&lt;/h5&gt;
+    &lt;button type="button" class="zBtn-close" 
+            data-bs-dismiss="offcanvas"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  
+  &lt;div class="zOffcanvas-body"&gt;
+    &lt;!-- Cart Item --&gt;
+    &lt;div style="display: flex; gap: 1rem;"&gt;
+      &lt;img src="https://picsum.photos/60/60" 
+           style="width: 60px; height: 60px; border-radius: 4px;"&gt;
+      &lt;div style="flex-grow: 1;"&gt;
+        &lt;h6&gt;Product Name&lt;/h6&gt;
+        &lt;p&gt;Qty: 1&lt;/p&gt;
+        &lt;p&gt;$49.99&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    
+    &lt;!-- Checkout button --&gt;
+    &lt;button class="zBtn zBtn-primary"&gt;Checkout&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Consistent placement:</strong> Use the same edge (left/right) for navigation throughout your site</li>
+            <li><strong>Clear triggers:</strong> Make buttons obvious with icons (☰ hamburger, 🛒 cart)</li>
+            <li><strong>Close options:</strong> Always include close button AND backdrop click-to-close</li>
+            <li><strong>Mobile-first:</strong> Offcanvas shines on mobile - test thoroughly on small screens</li>
+            <li><strong>Limit content:</strong> Keep offcanvas focused - don't overwhelm with too many options</li>
+            <li><strong>Scrollable content:</strong> For long content, the body scrolls automatically</li>
+            <li><strong>Right placement:</strong> Left for navigation, right for actions (cart, profile)</li>
+            <li><strong>Use sparingly:</strong> Too many offcanvas panels can confuse users</li>
+            <li><strong>Keyboard access:</strong> Ensure focus management and ESC key closes</li>
+        </ul>
+    </section>
+
+    <!-- Accessibility -->
+    <section style="margin: 3rem 0;">
+        <h2>Accessibility</h2>
+        <p>Proper ARIA attributes ensure offcanvas is accessible to all users:</p>
+
+        <h3 style="margin-top: 2rem;">Required Attributes</h3>
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Trigger Button --&gt;
+&lt;button type="button" 
+        aria-controls="offcanvasExample"
+        data-bs-toggle="offcanvas" 
+        data-bs-target="#offcanvasExample"&gt;
+  Open Menu
+&lt;/button&gt;
+
+&lt;!-- Offcanvas Panel --&gt;
+&lt;div class="zOffcanvas zOffcanvas-start" 
+     tabindex="-1" 
+     id="offcanvasExample" 
+     aria-labelledby="offcanvasExampleLabel"&gt;
+  
+  &lt;div class="zOffcanvas-header"&gt;
+    &lt;h5 class="zOffcanvas-title" id="offcanvasExampleLabel"&gt;
+      Menu Title
+    &lt;/h5&gt;
+    &lt;button type="button" class="zBtn-close" 
+            data-bs-dismiss="offcanvas" 
+            aria-label="Close"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  
+  &lt;div class="zOffcanvas-body"&gt;
+    ...
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Keyboard Navigation</h3>
+        <p>Offcanvas automatically supports keyboard interaction:</p>
+        <ul style="line-height: 2;">
+            <li><kbd>Tab</kbd> - Navigate through focusable elements</li>
+            <li><kbd>Shift + Tab</kbd> - Navigate backwards</li>
+            <li><kbd>Esc</kbd> - Close the offcanvas</li>
+            <li><kbd>Enter</kbd> or <kbd>Space</kbd> - Activate buttons/links</li>
+        </ul>
+
+        <h3 style="margin-top: 2rem;">Focus Management</h3>
+        <ul style="line-height: 2;">
+            <li>When opened, focus moves to the offcanvas container</li>
+            <li>Focus is trapped inside the offcanvas while open</li>
+            <li>When closed, focus returns to the trigger button</li>
+            <li>Screen readers announce state changes</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+
+        <h3 style="margin-top: 2rem;">Base Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zOffcanvas</code></td>
+                    <td>Main container (hidden by default, fixed position)</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-header</code></td>
+                    <td>Header section with title and close button</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-title</code></td>
+                    <td>Title text (larger, bold)</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-body</code></td>
+                    <td>Main content area (scrollable if needed)</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-backdrop</code></td>
+                    <td>Overlay behind offcanvas (dark semi-transparent)</td>
+                </tr>
+                <tr>
+                    <td><code>.zShow</code></td>
+                    <td>Active state (makes offcanvas visible, slides in)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Placement Modifiers</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zOffcanvas-start</code></td>
+                    <td>Slides in from left (400px wide, full height)</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-end</code></td>
+                    <td>Slides in from right (400px wide, full height)</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-top</code></td>
+                    <td>Slides down from top (30vh height, full width)</td>
+                </tr>
+                <tr>
+                    <td><code>.zOffcanvas-bottom</code></td>
+                    <td>Slides up from bottom (30vh height, full width)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Data Attributes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Attribute</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>data-bs-toggle="offcanvas"</code></td>
+                    <td>Required on trigger button to enable offcanvas</td>
+                </tr>
+                <tr>
+                    <td><code>data-bs-target="#id"</code></td>
+                    <td>Target offcanvas ID to show/hide</td>
+                </tr>
+                <tr>
+                    <td><code>data-bs-dismiss="offcanvas"</code></td>
+                    <td>Close button inside offcanvas</td>
+                </tr>
+                <tr>
+                    <td><code>data-bs-backdrop="false"</code></td>
+                    <td>Disable backdrop overlay</td>
+                </tr>
+                <tr>
+                    <td><code>data-bs-scroll="true"</code></td>
+                    <td>Allow body scrolling while offcanvas is open</td>
+                </tr>
+                <tr>
+                    <td><code>aria-labelledby</code></td>
+                    <td>Links offcanvas to its title for screen readers</td>
+                </tr>
+                <tr>
+                    <td><code>aria-controls</code></td>
+                    <td>Indicates which element the trigger controls</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-modal.html">Modal</a> - Center-screen dialogs for focused content</li>
+            <li><a href="ztheme-navbar.html">Navbar</a> - Top navigation bars (often triggers offcanvas)</li>
+            <li><a href="ztheme-collapse.html">Collapse</a> - Expand/collapse content in-place</li>
+            <li><a href="ztheme-dropdown.html">Dropdown</a> - Contextual menus and options</li>
+        </ul>
+    </section>
+</article>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

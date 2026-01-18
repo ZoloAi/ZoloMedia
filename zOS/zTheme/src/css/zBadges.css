@@ -1,0 +1,163 @@
+/* ============================================================================
+   zBadges.css - Badge Component System
+   ============================================================================
+   
+   Bootstrap-inspired small count and labeling component with zTheme design.
+   
+   Base Class: .zBadge
+   
+   Badges scale to match parent element size using relative font sizing (em).
+   ============================================================================ */
+
+/* Base Badge
+   ========== */
+.zBadge {
+  display: inline-block;
+  padding: 0.35em 0.65em;
+  font-size: 0.75em;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-white);
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+}
+
+/* Empty badges collapse automatically */
+.zBadge:empty {
+  display: none;
+}
+
+/* Badge Variants
+   ============== */
+.zBadge-primary {
+  color: var(--color-darkgray);
+  background-color: var(--color-primary);
+}
+
+.zBadge-secondary {
+  color: var(--color-white);
+  background-color: var(--color-secondary);
+}
+
+.zBadge-success {
+  color: var(--color-darkgray);
+  background-color: var(--color-success);
+}
+
+.zBadge-danger {
+  color: var(--color-white);
+  background-color: var(--color-error);
+}
+
+.zBadge-warning {
+  color: var(--color-darkgray);
+  background-color: var(--color-warning);
+}
+
+.zBadge-info {
+  color: var(--color-white);
+  background-color: var(--color-info);
+}
+
+.zBadge-light {
+  color: var(--color-darkgray);
+  background-color: var(--color-light);
+}
+
+.zBadge-dark {
+  color: var(--color-white);
+  background-color: var(--color-dark);
+}
+
+/* Pill Badges
+   =========== */
+/* Note: .zRounded-pill is now centralized in zBorders.css (50rem for fully rounded ends) */
+
+/* Badge in Buttons
+   ================ */
+.zBtn .zBadge {
+  position: relative;
+  top: -1px;
+}
+
+/* Positioned Badges
+   ================= */
+/* Used with positioning utilities for notification dots */
+.zBadge.zPosition-absolute {
+  /* Requires parent with position: relative */
+  /* Use utility classes: .zPosition-relative, .zTop-0, .zStart-100, .zTranslate-middle */
+}
+
+/* ═══════════════════════════════════════════════════════════
+ * Special Badge Variants (zTheme Extensions)
+ * ═══════════════════════════════════════════════════════════ */
+
+/* Connection Status Bar (used in zVaF.html for zBifrost) */
+.zBadge-connection {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-family: 'Kalam', cursive;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--color-white);
+  border-radius: 0;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.zBadge-connection .zBadge-dot {
+  width: 0.875rem;
+  height: 0.875rem;
+  flex-shrink: 0;
+}
+
+.zBadge-pending {
+  background-color: var(--color-warning);
+  color: var(--color-darkgray);
+}
+
+.zBadge-pending .zBadge-dot {
+  animation: zBadgePulse 1.5s ease-in-out infinite;
+}
+
+.zBadge-success {
+  background-color: var(--color-success);
+}
+
+.zBadge-error {
+  background-color: var(--color-error);
+}
+
+/* Pulse Animation for Connection Badge */
+@keyframes zBadgePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .zBadge {
+    font-size: 0.7em;
+    padding: 0.3em 0.5em;
+  }
+  
+  .zBadge-connection {
+    font-size: 0.8rem;
+    padding: 0.6rem 0.8rem;
+  }
+}
+

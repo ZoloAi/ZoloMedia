@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerts - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<article style="max-width: 900px; margin: 0 auto; padding: 2rem 1rem;">
+    <header style="margin-bottom: 2rem;">
+        <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+            <ol class="zBreadcrumb">
+                <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+                <li class="zBreadcrumb-item"><a href="../ztheme.html#components">Components</a></li>
+                <li class="zBreadcrumb-item zActive" aria-current="page">Alerts</li>
+            </ol>
+        </nav>
+        <h1 style="margin: 0; color: var(--color-primary);">Alerts</h1>
+        <p class="zLead" style="margin-top: 1rem;">Provide contextual feedback messages for typical user actions with flexible and accessible alert components.</p>
+    </header>
+
+    <!-- Understanding Alerts -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Alerts</h2>
+        <p>Alerts are attention-grabbing messages that provide important feedback to users. They're perfect for:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Success messages:</strong> Confirming an action completed successfully</li>
+            <li><strong>Error notifications:</strong> Alerting users to problems that need attention</li>
+            <li><strong>Warnings:</strong> Cautioning users about potential issues</li>
+            <li><strong>Informational updates:</strong> Sharing helpful context or updates</li>
+        </ul>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Accessibility:</strong> Using color alone to convey meaning isn't enough for screen readers. Always include clear text that explains the alert's purpose. The <code>role="alert"</code> attribute helps screen readers announce important messages immediately.
+        </blockquote>
+    </section>
+
+    <!-- Basic Alerts -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic Alerts</h2>
+        <p>Alerts come in eight contextual variants to match different message types. Use the <code>.zAlert</code> base class with a variant class like <code>.zAlert-success</code>:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zAlert zAlert-primary" role="alert">
+                A primary alert—check it out!
+            </div>
+            <div class="zAlert zAlert-secondary" role="alert">
+                A secondary alert—check it out!
+            </div>
+            <div class="zAlert zAlert-success" role="alert">
+                Your changes have been saved successfully!
+            </div>
+            <div class="zAlert zAlert-danger" role="alert">
+                Error: Unable to process your request.
+            </div>
+            <div class="zAlert zAlert-warning" role="alert">
+                Warning: Your session will expire in 5 minutes.
+            </div>
+            <div class="zAlert zAlert-info" role="alert">
+                Pro tip: Press Ctrl+S to save your work.
+            </div>
+            <div class="zAlert zAlert-light" role="alert">
+                A light alert—great for subtle notices.
+            </div>
+            <div class="zAlert zAlert-dark" role="alert">
+                A dark alert—high contrast for emphasis.
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zAlert zAlert-success" role="alert"&gt;
+  Your changes have been saved successfully!
+&lt;/div&gt;
+&lt;div class="zAlert zAlert-danger" role="alert"&gt;
+  Error: Unable to process your request.
+&lt;/div&gt;
+&lt;div class="zAlert zAlert-warning" role="alert"&gt;
+  Warning: Your session will expire in 5 minutes.
+&lt;/div&gt;
+&lt;div class="zAlert zAlert-info" role="alert"&gt;
+  Pro tip: Press Ctrl+S to save your work.
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Alert Links -->
+    <section style="margin: 3rem 0;">
+        <h2>Alert Links</h2>
+        <p>Use the <code>.zAlert-link</code> class to style links within alerts. They'll automatically match the alert's color with increased font weight and underline for clarity:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zAlert zAlert-success" role="alert">
+                Your profile has been updated! <a href="#" class="zAlert-link">View profile</a>
+            </div>
+            <div class="zAlert zAlert-danger" role="alert">
+                Payment failed. Please <a href="#" class="zAlert-link">update your payment method</a>.
+            </div>
+            <div class="zAlert zAlert-warning" role="alert">
+                Your trial ends in 3 days. <a href="#" class="zAlert-link">Upgrade now</a>
+            </div>
+            <div class="zAlert zAlert-info" role="alert">
+                New features available! <a href="#" class="zAlert-link">See what's new</a>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zAlert zAlert-success" role="alert"&gt;
+  Your profile has been updated! &lt;a href="#" class="zAlert-link"&gt;View profile&lt;/a&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Additional Content -->
+    <section style="margin: 3rem 0;">
+        <h2>Rich Content Alerts</h2>
+        <p>Alerts can contain more than just text. Add headings, paragraphs, dividers, and other HTML elements for complex messages:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zAlert zAlert-success" role="alert">
+                <h4 class="zAlert-heading">Well done!</h4>
+                <p>You successfully completed the onboarding process. Your account is now fully set up and ready to use.</p>
+                <hr style="border: 0; border-top: 1px solid rgba(0,0,0,0.1); margin: 1rem 0;">
+                <p style="margin-bottom: 0;">Need help getting started? Check out our <a href="#" class="zAlert-link">quick start guide</a>.</p>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zAlert zAlert-success" role="alert"&gt;
+  &lt;h4 class="zAlert-heading"&gt;Well done!&lt;/h4&gt;
+  &lt;p&gt;You successfully completed the onboarding process...&lt;/p&gt;
+  &lt;hr&gt;
+  &lt;p&gt;Need help? Check out our &lt;a href="#" class="zAlert-link"&gt;guide&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: rgba(255, 179, 71, 0.1);">
+            <strong>Tip:</strong> Use <code>.zAlert-heading</code> on your heading element for proper color inheritance, and spacing utilities like <code>.zmb-0</code> to fine-tune margins.
+        </blockquote>
+    </section>
+
+    <!-- Dismissible Alerts -->
+    <section style="margin: 3rem 0;">
+        <h2>Dismissible Alerts</h2>
+        <p>Make alerts dismissible by adding <code>.zAlert-dismissible</code> and a close button. This gives users control over persistent messages:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zAlert zAlert-warning zAlert-dismissible" role="alert">
+                <strong>Notice:</strong> Scheduled maintenance tonight at 11 PM EST.
+                <button type="button" class="zBtn-close" aria-label="Close" onclick="this.parentElement.style.display='none'">×</button>
+            </div>
+            <div class="zAlert zAlert-info zAlert-dismissible" role="alert">
+                <strong>Update:</strong> We've improved performance across the platform.
+                <button type="button" class="zBtn-close" aria-label="Close" onclick="this.parentElement.style.display='none'">×</button>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zAlert zAlert-warning zAlert-dismissible" role="alert"&gt;
+  &lt;strong&gt;Notice:&lt;/strong&gt; Scheduled maintenance tonight.
+  &lt;button type="button" class="zBtn-close" aria-label="Close"&gt;×&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>JavaScript Integration:</strong> The examples above use inline <code>onclick</code> for simplicity. For production, use <code>zTheme.js</code> to handle dismissals with fade-out animations and proper focus management for keyboard users.
+        </blockquote>
+    </section>
+
+    <!-- When to Use -->
+    <section style="margin: 3rem 0;">
+        <h2>When to Use Each Variant</h2>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Variant</th>
+                    <th scope="col">Use Case</th>
+                    <th scope="col">Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zAlert-success</code></td>
+                    <td>Successful actions</td>
+                    <td>File uploaded, changes saved</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-danger</code></td>
+                    <td>Errors and failures</td>
+                    <td>Payment failed, invalid input</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-warning</code></td>
+                    <td>Cautions and potential issues</td>
+                    <td>Session expiring, low storage</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-info</code></td>
+                    <td>Helpful information</td>
+                    <td>Tips, updates, tutorials</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-primary</code></td>
+                    <td>Brand-related messages</td>
+                    <td>Welcome messages, highlights</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-secondary</code></td>
+                    <td>Neutral, less urgent</td>
+                    <td>General notices</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-light</code></td>
+                    <td>Subtle, low priority</td>
+                    <td>Hints, suggestions</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-dark</code></td>
+                    <td>High contrast emphasis</td>
+                    <td>Critical announcements</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Be concise:</strong> Keep alert messages brief and actionable</li>
+            <li><strong>Use appropriate variants:</strong> Match the alert color to the message severity</li>
+            <li><strong>Include actions:</strong> Provide links or buttons for users to resolve issues</li>
+            <li><strong>Don't overuse:</strong> Too many alerts can overwhelm users—prioritize what's truly important</li>
+            <li><strong>Screen readers:</strong> Always include <code>role="alert"</code> for accessibility</li>
+            <li><strong>Keyboard users:</strong> Dismissible alerts should manage focus properly when closed</li>
+            <li><strong>Auto-dismiss carefully:</strong> Critical errors shouldn't auto-dismiss—users need time to read them</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+        
+        <h3 style="margin-top: 2rem;">Alert Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zAlert</code></td>
+                    <td>Base alert container (required)</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-primary</code></td>
+                    <td>Primary brand alert (green)</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-secondary</code></td>
+                    <td>Secondary neutral alert (gray)</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-success</code></td>
+                    <td>Success confirmation (green)</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-danger</code></td>
+                    <td>Error or destructive action (red)</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-warning</code></td>
+                    <td>Warning or caution (orange)</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-info</code></td>
+                    <td>Informational message (blue)</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-light</code></td>
+                    <td>Light, subtle alert</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-dark</code></td>
+                    <td>Dark, high contrast alert</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Additional Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zAlert-link</code></td>
+                    <td>Styled links within alerts</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-heading</code></td>
+                    <td>Heading styling within alerts</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlert-dismissible</code></td>
+                    <td>Enables close button positioning</td>
+                </tr>
+                <tr>
+                    <td><code>.zBtn-close</code></td>
+                    <td>Close button for dismissible alerts</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Animation Classes (Optional)</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zFade-in</code></td>
+                    <td>Fade-in animation when alert appears</td>
+                </tr>
+                <tr>
+                    <td><code>.zFade-out</code></td>
+                    <td>Fade-out animation when alert is dismissed</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-buttons.html">Buttons</a> - Action buttons within alerts</li>
+            <li><a href="ztheme-typography.html">Typography</a> - Text styling for alert content</li>
+            <li><a href="ztheme-validation.html">Form Validation</a> - Alert-style error messages</li>
+        </ul>
+    </section>
+</article>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

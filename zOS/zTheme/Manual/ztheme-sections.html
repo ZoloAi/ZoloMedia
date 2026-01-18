@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sections - zTheme</title>
+    
+    <!-- zTheme CSS Local (Development) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<article style="max-width: 900px; margin: 0 auto; padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="ztheme.html">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Sections</li>
+        </ol>
+    </nav>
+
+    <!-- Header -->
+    <header style="margin-bottom: 3rem;">
+        <h1>Sections</h1>
+        <p class="zLead">Styled content sections with color variants, borders, and optional legends. Perfect for organizing content into visually distinct areas.</p>
+    </header>
+
+    <!-- Understanding Sections -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Sections</h2>
+        <p>Sections are flexible content containers that provide:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Visual Separation:</strong> Borders and shadows distinguish content areas</li>
+            <li><strong>Color Coding:</strong> Use semantic colors to indicate content type</li>
+            <li><strong>Flexible Layout:</strong> Flexbox column layout for easy content stacking</li>
+            <li><strong>Fieldset Styling:</strong> Optional legends for labeled sections</li>
+        </ul>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Note:</strong> For full-viewport hero sections, see <a href="ztheme-hero.html">Hero Sections</a>. Sections are for organizing content within a page, not for splash screens.
+        </blockquote>
+    </section>
+
+    <!-- Basic Section -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic Section</h2>
+        <p>The <code>.zSection</code> class creates a styled content container:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zSection">
+                <h3>Basic Section</h3>
+                <p>This is a basic section with default styling: light background, border, shadow, and rounded corners.</p>
+                <p>Content naturally stacks vertically using flexbox column layout.</p>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zSection"&gt;
+  &lt;h3&gt;Basic Section&lt;/h3&gt;
+  &lt;p&gt;This is a basic section with default styling.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+        <p style="margin-top: 1rem;"><strong>What .zSection provides:</strong></p>
+        <ul style="line-height: 2;">
+            <li>1px border with gray color</li>
+            <li>8px border radius for rounded corners</li>
+            <li>1.5rem padding inside</li>
+            <li>2rem vertical margin between sections</li>
+            <li>Subtle box shadow for depth</li>
+            <li>Flexbox column layout</li>
+        </ul>
+    </section>
+
+    <!-- Color Variants -->
+    <section style="margin: 3rem 0;">
+        <h2>Color Variants</h2>
+        <p>Apply semantic colors using modifier classes:</p>
+
+        <h3 style="margin-top: 2rem;">Primary</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zSection zSection-primary">
+                <h4>Primary Section</h4>
+                <p>Use for main features, key information, or important content areas.</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Secondary</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zSection zSection-secondary">
+                <h4>Secondary Section</h4>
+                <p>Use for supporting content, supplementary information.</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Info</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zSection zSection-info">
+                <h4>Info Section</h4>
+                <p>Use for informational content, tips, or neutral updates.</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Success</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zSection zSection-success">
+                <h4>Success Section</h4>
+                <p>Use for completed actions, confirmations, or positive outcomes.</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Warning</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zSection zSection-warning">
+                <h4>Warning Section</h4>
+                <p>Use for important notices, cautions, or things requiring attention.</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Error</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zSection zSection-error">
+                <h4>Error Section</h4>
+                <p>Use for errors, failures, or critical issues requiring user action.</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Dark</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zSection zSection-dark">
+                <h4>Dark Section</h4>
+                <p>Use for contrast, footers, or to emphasize specific content areas.</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Light</h3>
+        <div class="zDemo" style="padding: 2rem; background: #212529; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zSection zSection-light">
+                <h4>Light Section</h4>
+                <p>Use on dark backgrounds for contrast, or for subtle content areas.</p>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zSection zSection-primary"&gt;...&lt;/div&gt;
+&lt;div class="zSection zSection-info"&gt;...&lt;/div&gt;
+&lt;div class="zSection zSection-success"&gt;...&lt;/div&gt;
+&lt;div class="zSection zSection-warning"&gt;...&lt;/div&gt;
+&lt;div class="zSection zSection-error"&gt;...&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Legend Component -->
+    <section style="margin: 3rem 0;">
+        <h2>Legend Component</h2>
+        <p>Add fieldset-style titles to sections using <code>.zLegend</code>:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zSection">
+                <div class="zLegend">User Profile</div>
+                <h4 style="margin-top: 0.5rem;">Personal Information</h4>
+                <p>Name: John Doe</p>
+                <p>Email: john@example.com</p>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zSection"&gt;
+  &lt;div class="zLegend"&gt;User Profile&lt;/div&gt;
+  &lt;h4&gt;Personal Information&lt;/h4&gt;
+  &lt;p&gt;Name: John Doe&lt;/p&gt;
+  &lt;p&gt;Email: john@example.com&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Legend Positioning</h3>
+        <p>Control legend position with modifier classes:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="zSection">
+                    <div class="zLegend zLegend-left">Left Legend</div>
+                    <p style="margin-top: 0.5rem;">Default position on the left</p>
+                </div>
+                <div class="zSection">
+                    <div class="zLegend zLegend-right">Right Legend</div>
+                    <p style="margin-top: 0.5rem;">Positioned on the right</p>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zLegend zLegend-left"&gt;Left&lt;/div&gt;
+&lt;div class="zLegend zLegend-right"&gt;Right&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Title Wrapper -->
+    <section style="margin: 3rem 0;">
+        <h2>Title Wrapper Utility</h2>
+        <p>The <code>.zTitleWrapper</code> class creates a centered, full-width title container:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zSection">
+                <div class="zTitleWrapper">
+                    <h2>Centered Section Title</h2>
+                </div>
+                <p>Content below the centered title...</p>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zSection"&gt;
+  &lt;div class="zTitleWrapper"&gt;
+    &lt;h2&gt;Centered Section Title&lt;/h2&gt;
+  &lt;/div&gt;
+  &lt;p&gt;Content below the centered title...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Combining Sections -->
+    <section style="margin: 3rem 0;">
+        <h2>Combining Features</h2>
+        <p>Combine color variants, legends, and titles for rich content areas:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zSection zSection-info">
+                <div class="zLegend">Pro Tip</div>
+                <div class="zTitleWrapper">
+                    <h3 style="margin: 0.5rem 0 1rem 0;">Getting Started</h3>
+                </div>
+                <p>Sections can combine multiple features for rich, organized content. Use color variants to communicate purpose, legends for labels, and title wrappers for emphasis.</p>
+                <ul style="margin: 1rem 0 0 1.5rem;">
+                    <li>Start with the base <code>.zSection</code></li>
+                    <li>Add a color variant like <code>.zSection-info</code></li>
+                    <li>Include a <code>.zLegend</code> for context</li>
+                    <li>Use <code>.zTitleWrapper</code> for centered titles</li>
+                </ul>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zSection zSection-info"&gt;
+  &lt;div class="zLegend"&gt;Pro Tip&lt;/div&gt;
+  &lt;div class="zTitleWrapper"&gt;
+    &lt;h3&gt;Getting Started&lt;/h3&gt;
+  &lt;/div&gt;
+  &lt;p&gt;Content goes here...&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Nested Sections -->
+    <section style="margin: 3rem 0;">
+        <h2>Nested Sections</h2>
+        <p>Sections can be nested to create hierarchical content organization:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zSection zSection-light">
+                <div class="zLegend">Parent Section</div>
+                <h3>Main Container</h3>
+                <p>This is the outer section containing nested sections below.</p>
+                
+                <div class="zSection zSection-info" style="margin-top: 1.5rem;">
+                    <h4>Nested Info</h4>
+                    <p>A nested section with different styling.</p>
+                </div>
+                
+                <div class="zSection zSection-success" style="margin-top: 1rem;">
+                    <h4>Nested Success</h4>
+                    <p>Another nested section for organized content.</p>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zSection zSection-light"&gt;
+  &lt;div class="zLegend"&gt;Parent Section&lt;/div&gt;
+  &lt;h3&gt;Main Container&lt;/h3&gt;
+  
+  &lt;div class="zSection zSection-info"&gt;
+    &lt;h4&gt;Nested Info&lt;/h4&gt;
+    &lt;p&gt;A nested section.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Use semantic colors:</strong> Match color variants to content purpose (success for confirmations, error for failures)</li>
+            <li><strong>Consistent spacing:</strong> Sections have 2rem vertical margins by default - maintain consistency</li>
+            <li><strong>Legend clarity:</strong> Keep legend text short and descriptive (1-3 words)</li>
+            <li><strong>Content hierarchy:</strong> Use headings (h3, h4) inside sections for structure</li>
+            <li><strong>Don't overuse:</strong> Too many sections can fragment your content - use judiciously</li>
+            <li><strong>Color contrast:</strong> Ensure text remains readable on colored backgrounds (WCAG AA)</li>
+            <li><strong>Mobile responsive:</strong> Sections automatically adjust padding on smaller screens</li>
+        </ul>
+    </section>
+
+    <!-- Use Cases -->
+    <section style="margin: 3rem 0;">
+        <h2>Common Use Cases</h2>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <!-- Settings Panel -->
+            <div class="zSection">
+                <div class="zLegend">Settings</div>
+                <div class="zTitleWrapper">
+                    <h3>User Preferences</h3>
+                </div>
+                <p>Configure your account settings and preferences below.</p>
+            </div>
+
+            <!-- Notification -->
+            <div class="zSection zSection-warning" style="margin-top: 1rem;">
+                <h4 style="margin-top: 0;">⚠️ Important Notice</h4>
+                <p style="margin-bottom: 0;">Your subscription expires in 7 days. Please renew to avoid service interruption.</p>
+            </div>
+
+            <!-- Feature Highlight -->
+            <div class="zSection zSection-success" style="margin-top: 1rem;">
+                <div class="zLegend">New Feature</div>
+                <h4 style="margin-top: 0.5rem;">✨ Dark Mode Available</h4>
+                <p style="margin-bottom: 0;">You can now switch to dark mode in your settings!</p>
+            </div>
+        </div>
+
+        <p style="margin-top: 1rem;"><strong>Examples:</strong></p>
+        <ul style="line-height: 2;">
+            <li><strong>Settings panels:</strong> Use <code>.zSection</code> with <code>.zLegend</code></li>
+            <li><strong>Notifications:</strong> Use <code>.zSection-warning</code> or <code>.zSection-error</code></li>
+            <li><strong>Feature highlights:</strong> Use <code>.zSection-success</code> or <code>.zSection-primary</code></li>
+            <li><strong>Documentation blocks:</strong> Use <code>.zSection-info</code></li>
+            <li><strong>Form groups:</strong> Use <code>.zSection</code> to organize related form fields</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+
+        <h3 style="margin-top: 2rem;">Base Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zSection</code></td>
+                    <td>Base section component with border, shadow, and padding</td>
+                </tr>
+                <tr>
+                    <td><code>.zLegend</code></td>
+                    <td>Fieldset-style title positioned above border</td>
+                </tr>
+                <tr>
+                    <td><code>.zTitleWrapper</code></td>
+                    <td>Centered, full-width title container with bottom margin</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Color Modifiers</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Background</th>
+                    <th scope="col">Text Color</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zSection-primary</code></td>
+                    <td>Primary color</td>
+                    <td>Dark gray</td>
+                </tr>
+                <tr>
+                    <td><code>.zSection-secondary</code></td>
+                    <td>Secondary color</td>
+                    <td>White/base</td>
+                </tr>
+                <tr>
+                    <td><code>.zSection-info</code></td>
+                    <td>Info color (blue)</td>
+                    <td>White/base</td>
+                </tr>
+                <tr>
+                    <td><code>.zSection-success</code></td>
+                    <td>Success color (green)</td>
+                    <td>White/base</td>
+                </tr>
+                <tr>
+                    <td><code>.zSection-warning</code></td>
+                    <td>Warning color (yellow)</td>
+                    <td>Dark gray</td>
+                </tr>
+                <tr>
+                    <td><code>.zSection-error</code></td>
+                    <td>Error color (red)</td>
+                    <td>White/base</td>
+                </tr>
+                <tr>
+                    <td><code>.zSection-dark</code></td>
+                    <td>Dark gray</td>
+                    <td>White/base</td>
+                </tr>
+                <tr>
+                    <td><code>.zSection-light</code></td>
+                    <td>Light/white</td>
+                    <td>Dark gray</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Legend Positioning</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Position</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zLegend-left</code></td>
+                    <td>Left side (default)</td>
+                </tr>
+                <tr>
+                    <td><code>.zLegend-right</code></td>
+                    <td>Right side</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Usage in zCLI -->
+    <section style="margin: 3rem 0;">
+        <h2>Usage in zCLI</h2>
+        <p>When using zTheme with zCLI's declarative UI, sections are automatically created for each zKey. You can customize using <code>_zClass</code> metadata:</p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code># Default: Auto-wrapped in .zContainer
+zAbout:
+  About_Section:
+    - zDisplay:
+        event: header
+        content: "About Us"
+
+# Custom: Use zSection styling instead
+zAbout:
+  _zClass: "zSection zSection-info"
+  About_Section:
+    - zDisplay:
+        event: header
+        content: "About Us"</code></pre>
+    </section>
+
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-hero.html">Hero Sections</a> - Full-viewport hero areas</li>
+            <li><a href="ztheme-containers.html">Containers</a> - Responsive layout containers</li>
+            <li><a href="ztheme-cards.html">Cards</a> - Card components for content blocks</li>
+            <li><a href="ztheme-panels.html">Panels</a> - Panel components</li>
+        </ul>
+    </section>
+</article>
+
+<!-- Load zTheme JavaScript -->
+<script src="../dist/ztheme.js"></script>
+
+</body>
+</html>
+

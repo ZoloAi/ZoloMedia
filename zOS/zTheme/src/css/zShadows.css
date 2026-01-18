@@ -1,0 +1,115 @@
+/* ============================================
+   zShadows.css - Box Shadow Utilities
+   ============================================
+   
+   Bootstrap-inspired shadow utilities with z prefix.
+   Add depth and elevation to elements with box-shadow.
+   
+   Classes:
+   - Bootstrap 5: .zShadow-none, .zShadow-sm, .zShadow, .zShadow-lg
+   - zTheme Extended: .zShadow-xl, .zShadow-inset
+   
+   Example:
+   <div class="zCard zShadow">...</div>
+   <div class="zCard zShadow-lg">...</div>
+   
+   ============================================ */
+
+/* CSS Variables
+   ============== */
+:root {
+  /* Bootstrap 5 Shadow Values */
+  --shadow-sm: 0 .125rem .25rem rgba(0, 0, 0, .075);
+  --shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
+  --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, .175);
+  
+  /* zTheme Extensions */
+  --shadow-xl: 0 2rem 4rem rgba(0, 0, 0, .2);
+  
+  /* Inset Shadows (Pressed/Recessed Effects) */
+  --shadow-inset: inset 0 2px 4px rgba(0, 0, 0, .15);
+  --shadow-inset-lg: inset 0 3px 6px rgba(0, 0, 0, .2);
+  --shadow-inset-xl: inset 0 4px 8px rgba(0, 0, 0, .25);
+}
+
+/* ============================================
+   Bootstrap 5 Shadow Utilities
+   ============================================ */
+
+/* No Shadow */
+.zShadow-none {
+  box-shadow: none !important;
+}
+
+/* Small Shadow - Subtle depth */
+.zShadow-sm {
+  box-shadow: var(--shadow-sm) !important;
+}
+
+/* Regular Shadow - Default elevation */
+.zShadow {
+  box-shadow: var(--shadow) !important;
+}
+
+/* Large Shadow - Prominent elevation */
+.zShadow-lg {
+  box-shadow: var(--shadow-lg) !important;
+}
+
+/* ============================================
+   zTheme Extended Shadows
+   ============================================ */
+
+/* Extra Large Shadow - Maximum elevation */
+.zShadow-xl {
+  box-shadow: var(--shadow-xl) !important;
+}
+
+/* ============================================
+   Inset Shadows - Pressed/Recessed Effects
+   ============================================ */
+
+/* Base Inset - Subtle pressed effect */
+.zShadow-inset {
+  box-shadow: var(--shadow-inset) !important;
+}
+
+/* Large Inset - Deep depression */
+.zShadow-inset-lg {
+  box-shadow: var(--shadow-inset-lg) !important;
+}
+
+/* Extra Large Inset - Very deep well */
+.zShadow-inset-xl {
+  box-shadow: var(--shadow-inset-xl) !important;
+}
+
+/* ============================================
+   Legacy Support (zEffects.css compatibility)
+   ============================================
+   
+   Maintain backward compatibility with old naming.
+   These map to the new Bootstrap 5-aligned classes.
+   ============================================ */
+
+.zBoxShadow-none {
+  box-shadow: none !important;
+}
+
+.zBoxShadow-sm {
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.zBoxShadow-md {
+  box-shadow: var(--shadow) !important;
+}
+
+.zBoxShadow-lg {
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.zBoxShadow-xl {
+  box-shadow: var(--shadow-xl) !important;
+}
+
+

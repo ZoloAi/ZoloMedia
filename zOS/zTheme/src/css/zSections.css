@@ -1,0 +1,109 @@
+/* ============================================
+   zSections.css - Section Components
+   Styled content sections with variants
+   ============================================ */
+
+/* Base Section Component
+   ====================== */
+.zSection {
+  border: 1px solid var(--color-gray);
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: var(--color-base);
+  color: var(--color-darkgray);
+  margin: 2rem 0;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Color Variants (Bootstrap-style)
+   ================================= */
+.zSection-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-darkgray);
+}
+
+.zSection-secondary {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: var(--color-base);
+}
+
+.zSection-info {
+  background-color: var(--color-info);
+  border-color: var(--color-info);
+  color: var(--color-base);
+}
+
+.zSection-success {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  color: var(--color-base);
+}
+
+.zSection-warning {
+  background-color: var(--color-warning);
+  border-color: var(--color-warning);
+  color: var(--color-darkgray);
+}
+
+.zSection-error {
+  background-color: var(--color-error);
+  border-color: var(--color-error);
+  color: var(--color-base);
+}
+
+.zSection-light {
+  background-color: var(--color-base);
+  border-color: var(--color-gray);
+  color: var(--color-darkgray);
+}
+
+.zSection-dark {
+  background-color: var(--color-darkgray);
+  border-color: var(--color-darkgray);
+  color: var(--color-base);
+}
+
+/* Legend Component (Fieldset-style titles)
+   ========================================= */
+.zLegend {
+  position: absolute;
+  top: -1em;
+  left: 1rem;
+  background: linear-gradient(
+    to top,
+    var(--color-warning) 55%,
+    rgba(255, 255, 255, 0) 95%
+  );
+  padding: 0 1rem;
+  font-size: var(--h5size);
+  font-weight: 700;
+  color: var(--color-darkgray);
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.zLegend-right {
+  right: 1rem;
+  left: auto;
+}
+
+.zLegend-left {
+  left: 1rem;
+}
+
+/* Title Wrapper Utility
+   ===================== */
+.zTitleWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  width: 100%;
+  text-align: center;
+}
+

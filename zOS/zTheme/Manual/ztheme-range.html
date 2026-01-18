@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Range - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="../ztheme.html#forms">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Range</li>
+        </ol>
+    </nav>
+    
+    <h1>Range</h1>
+    <p class="zLead" style="margin-bottom: 2rem;">
+        Create slider controls for selecting numeric values within a range.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Range Controls -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Range Controls</h2>
+        <p>The <code>&lt;input type="range"&gt;</code> element is a semantic HTML form control that creates a slider for selecting numeric values. It's excellent for accessibility:</p>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-success); background: #f8f9fa;">
+            <strong>Accessibility Benefits:</strong>
+            <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
+                <li><strong>Keyboard navigation:</strong> Arrow keys adjust the value, Home/End keys jump to min/max</li>
+                <li><strong>Screen readers:</strong> Announce the current value, min/max, and step</li>
+                <li><strong>Touch-friendly:</strong> Large draggable area works well on mobile devices</li>
+                <li><strong>Clear constraints:</strong> Users can't enter invalid values (always within min/max)</li>
+            </ul>
+        </blockquote>
+        
+        <p><strong>When to use:</strong> Volume controls, brightness, price filters, rating scales, zoom levels, or any numeric value within a defined range.</p>
+    </section>
+    
+    <!-- The Range Input -->
+    <section style="margin: 3rem 0;">
+        <h2>The Range Element</h2>
+        <p>Start with semantic HTML, then enhance with <code>.zRange</code> for consistent, branded styling.</p>
+        
+        <h3 style="margin-top: 1.5rem;">Semantic HTML (Browser Default)</h3>
+        <p>A basic range slider without any zTheme styling - notice the browser's default appearance:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="basicRange" class="zLabel">Volume (Browser Default)</label>
+            <input type="range" id="basicRange" min="0" max="100" value="50" style="width: 100%;">
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;label for="basicRange"&gt;Volume&lt;/label&gt;
+&lt;input type="range" id="basicRange" min="0" max="100" value="50"&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">With .zRange Styling</h3>
+        <p>Add <code>.zRange</code> for branded, cross-browser consistent styling:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="styledRange" class="zLabel">Volume (zTheme Styled)</label>
+            <input type="range" class="zRange" id="styledRange" min="0" max="100" value="50">
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;label for="styledRange"&gt;Volume&lt;/label&gt;
+&lt;input type="range" class="zRange" id="styledRange" min="0" max="100" value="50"&gt;</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>What .zRange Adds:</strong>
+            <ul style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
+                <li>Custom thumb (draggable circle) with primary color branding (green)</li>
+                <li>Styled track (background line) with rounded corners and shadow</li>
+                <li>Consistent appearance across Chrome, Firefox, and Safari</li>
+                <li>Enhanced focus states for keyboard navigation (green glow)</li>
+                <li>Active state visual feedback when dragging (lighter green)</li>
+                <li>Smooth transitions and animations</li>
+            </ul>
+        </blockquote>
+    </section>
+    
+    <!-- Min, Max, and Step -->
+    <section style="margin: 3rem 0;">
+        <h2>Min, Max, and Step</h2>
+        <p>Control the slider's range and precision with <code>min</code>, <code>max</code>, and <code>step</code> attributes.</p>
+        
+        <h3 style="margin-top: 1.5rem;">Custom Range</h3>
+        <p>Set minimum and maximum values (defaults: 0 to 100):</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="priceRange" class="zLabel">Price Filter: $<span id="priceValue">100</span></label>
+            <input type="range" class="zRange" id="priceRange" min="20" max="200" value="100">
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;label for="priceRange"&gt;Price Filter: $&lt;span id="priceValue"&gt;100&lt;/span&gt;&lt;/label&gt;
+&lt;input type="range" class="zRange" id="priceRange" min="20" max="200" value="100"&gt;
+
+&lt;script&gt;
+  const priceSlider = document.getElementById('priceRange');
+  const priceDisplay = document.getElementById('priceValue');
+  priceSlider.addEventListener('input', () => {
+    priceDisplay.textContent = priceSlider.value;
+  });
+&lt;/script&gt;</code></pre>
+        
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const priceSlider = document.getElementById('priceRange');
+            const priceDisplay = document.getElementById('priceValue');
+            if (priceSlider && priceDisplay) {
+                priceSlider.addEventListener('input', () => {
+                    priceDisplay.textContent = priceSlider.value;
+                });
+            }
+        });
+        </script>
+        
+        <h3 style="margin-top: 2rem;">Step Increments</h3>
+        <p>Control the increment steps (default: 1). Use <code>step="0.5"</code> for finer control:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="ratingRange" class="zLabel">Rating (0.5 increments)</label>
+            <input type="range" class="zRange" id="ratingRange" min="0" max="5" step="0.5" value="4">
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;input type="range" class="zRange" min="0" max="5" step="0.5" value="4"&gt;</code></pre>
+    </section>
+    
+    <!-- Disabled State -->
+    <section style="margin: 3rem 0;">
+        <h2>Disabled State</h2>
+        <p>Add the <code>disabled</code> attribute to prevent interaction.</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="disabledRange" class="zLabel">Locked setting</label>
+            <input type="range" class="zRange" id="disabledRange" min="0" max="100" value="50" disabled>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;input type="range" class="zRange" disabled&gt;</code></pre>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <h3>Always Use Labels</h3>
+        <p>Associate every range input with a label for accessibility:</p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;label for="volume" class="zLabel"&gt;Volume&lt;/label&gt;
+&lt;input type="range" class="zRange" id="volume"&gt;</code></pre>
+        
+        <h3 style="margin-top: 1.5rem;">Show Current Value</h3>
+        <p>Display the current slider value to users with JavaScript:</p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;label for="brightness"&gt;Brightness: &lt;span id="brightnessValue"&gt;50&lt;/span&gt;%&lt;/label&gt;
+&lt;input type="range" class="zRange" id="brightness" value="50"&gt;
+
+&lt;script&gt;
+  const slider = document.getElementById('brightness');
+  const display = document.getElementById('brightnessValue');
+  slider.addEventListener('input', () => {
+    display.textContent = slider.value;
+  });
+&lt;/script&gt;</code></pre>
+        
+        <h3 style="margin-top: 1.5rem;">Set Meaningful Defaults</h3>
+        <p>Always set a <code>value</code> attribute to show users the initial position:</p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- Good: Shows starting position --&gt;
+&lt;input type="range" class="zRange" value="50"&gt;
+
+&lt;!-- Bad: Slider position unclear --&gt;
+&lt;input type="range" class="zRange"&gt;</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: #f8f9fa;">
+            <strong>Browser Limitation:</strong> Firefox supports "filling" the track from the left or right of the thumb. Other browsers don't. zTheme doesn't implement this for cross-browser consistency.
+        </blockquote>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: var(--color-base); border-left: 4px solid var(--color-info);">
+        <h2>CSS Reference</h2>
+        
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto; margin-top: 1rem;"><code>/* Range slider class */
+.zRange
+
+/* Key CSS variables */
+--form-range-track-width: 100%;
+--form-range-track-height: 0.5rem;
+--form-range-track-bg: var(--color-border);
+--form-range-thumb-width: 1rem;
+--form-range-thumb-height: 1rem;
+--form-range-thumb-bg: var(--color-primary);
+--form-range-thumb-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);</code></pre>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-form-control.html" class="zPrimary">Form Control</a> - Text inputs and textareas</li>
+            <li><a href="ztheme-select.html" class="zPrimary">Select</a> - Dropdown menus</li>
+            <li><a href="ztheme-checks-radios.html" class="zPrimary">Checks & Radios</a> - Selection controls</li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-checks-radios.html" class="zPrimary">← Previous: Checks & Radios</a>
+        <a href="ztheme-input-group.html" class="zPrimary">Next: Input Group →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

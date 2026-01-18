@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem 0;">
+    <!-- Header -->
+    <div style="margin-bottom: 3rem;">
+        <h1 style="color: var(--color-primary); margin-bottom: 0.5rem;">Text Utilities</h1>
+        <p style="font-size: 1.2rem; color: var(--color-body); opacity: 0.8;">
+            Control text alignment, wrapping, transformation, sizing, weight, and styling.
+        </p>
+    </div>
+
+    <!-- Understanding Text Utilities -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Understanding Text Utilities</h2>
+        <p style="line-height: 1.7;">
+            Text utilities control how text appears and behaves. Use these utilities to align text, control wrapping, 
+            adjust size and weight, and apply transformations without custom CSS.
+        </p>
+        <blockquote style="background: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>🌍 International Support:</strong> zTheme text utilities are RTL-aware! 
+            For Hebrew (עברית), Arabic (العربية), and other RTL languages, see the 
+            <a href="ztheme-rtl.html">RTL Support Guide</a> for complete internationalization setup.</p>
+        </blockquote>
+    </section>
+
+    <!-- Text Alignment -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Text Alignment</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Align text within its container using <strong>RTL-aware</strong> utilities:
+        </p>
+
+        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 4px; margin: 2rem 0;">
+            <p class="zText-start zP-2 zmb-2" style="background: white; border-radius: 4px;">
+                <strong>.zText-start</strong> - Start aligned (left in LTR, <strong>right in RTL</strong>)
+            </p>
+            <p class="zText-center zP-2 zmb-2" style="background: white; border-radius: 4px;">
+                <strong>.zText-center</strong> - Center aligned (same in both directions)
+            </p>
+            <p class="zText-end zP-2" style="background: white; border-radius: 4px;">
+                <strong>.zText-end</strong> - End aligned (right in LTR, <strong>left in RTL</strong>)
+            </p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;p class="zText-start"&gt;Start aligned&lt;/p&gt;
+&lt;p class="zText-center"&gt;Center aligned&lt;/p&gt;
+&lt;p class="zText-end"&gt;End aligned&lt;/p&gt;</code></pre>
+
+        <blockquote style="background: #e8f5e9; padding: 1rem; border-left: 4px solid #4caf50; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>🌍 RTL Support:</strong> These alignment classes automatically adapt when 
+            <code>dir="rtl"</code> is set on the <code>&lt;html&gt;</code> tag. Perfect for Hebrew (עברית), Arabic (العربية), 
+            and other RTL languages! See <a href="ztheme-rtl.html">RTL Support Guide</a> for full internationalization setup.</p>
+        </blockquote>
+    </section>
+
+    <!-- Text Wrapping -->
+    <section class="zmy-6">
+        <h2 class="zText-warning">Text Wrapping & Overflow</h2>
+        
+        <h3 style="margin: 2rem 0 1rem;">Wrap & No-Wrap</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 2rem 0;">
+            <div class="zBg-white zP-3 zBorder" style="border-radius: 4px;">
+                <code>.zText-wrap</code>
+                <div class="zText-wrap zmt-2" style="width: 150px; background: #e3f2fd; padding: 0.5rem; border-radius: 4px;">
+                    This text will wrap to multiple lines when it runs out of space.
+                </div>
+            </div>
+            <div class="zBg-white zP-3 zBorder" style="border-radius: 4px;">
+                <code>.zText-nowrap</code>
+                <div class="zText-nowrap zmt-2" style="width: 150px; background: #fff3cd; padding: 0.5rem; border-radius: 4px; overflow: hidden;">
+                    This text will not wrap and overflow.
+                </div>
+            </div>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">Break Long Words</h3>
+        <div class="zBg-white zP-3 zBorder" style="border-radius: 4px; max-width: 400px;">
+            <code>.zText-break</code>
+            <div class="zText-break zmt-2" style="background: #e8f5e9; padding: 0.5rem; border-radius: 4px;">
+                verylongwordwithoutspaceswillbreakproperlywithtext-break
+            </div>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">Truncate with Ellipsis</h3>
+        <div class="zBg-white zP-3 zBorder" style="border-radius: 4px; max-width: 400px;">
+            <code>.zText-truncate</code>
+            <div class="zText-truncate zmt-2" style="background: #fee; padding: 0.5rem; border-radius: 4px;">
+                This is a very long text that will be truncated with an ellipsis when it exceeds its container width...
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%; margin-top: 1.5rem;"><code>&lt;p class="zText-wrap"&gt;Wrapping text&lt;/p&gt;
+&lt;p class="zText-nowrap"&gt;No wrapping&lt;/p&gt;
+&lt;p class="zText-break"&gt;verylongword...&lt;/p&gt;
+&lt;p class="zText-truncate"&gt;Truncated...&lt;/p&gt;</code></pre>
+
+        <blockquote style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>⚠️ Truncate requires width:</strong> <code>.zText-truncate</code> only works on 
+            elements with a defined width or max-width!</p>
+        </blockquote>
+    </section>
+
+    <!-- Text Transform -->
+    <section class="zmy-6">
+        <h2 class="zText-danger">Text Transform</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Change text case with transform utilities:
+        </p>
+
+        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 4px; margin: 2rem 0;">
+            <p class="zText-lowercase zP-2 zmb-2" style="background: white; border-radius: 4px;">
+                <code>.zText-lowercase</code> - THIS BECOMES this
+            </p>
+            <p class="zText-uppercase zP-2 zmb-2" style="background: white; border-radius: 4px;">
+                <code>.zText-uppercase</code> - this becomes THIS
+            </p>
+            <p class="zText-capitalize zP-2" style="background: white; border-radius: 4px;">
+                <code>.zText-capitalize</code> - this becomes This
+            </p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;p class="zText-lowercase"&gt;MAKE lowercase&lt;/p&gt;
+&lt;p class="zText-uppercase"&gt;make UPPERCASE&lt;/p&gt;
+&lt;p class="zText-capitalize"&gt;capitalize each word&lt;/p&gt;</code></pre>
+
+        <blockquote style="background: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Capitalize only changes first letter:</strong> 
+            <code>.zText-capitalize</code> transforms "hELLO wORLD" to "HELLO WORLD" (only first letter of each word).</p>
+        </blockquote>
+    </section>
+
+    <!-- Font Size -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Font Size</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Change font size to match heading sizes. As the number increases, size <strong>decreases</strong>:
+        </p>
+
+        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 4px; margin: 2rem 0;">
+            <p class="zFs-1 zmb-2"><code>.zFs-1</code> - 2.5rem (h1 size)</p>
+            <p class="zFs-2 zmb-2"><code>.zFs-2</code> - 2rem (h2 size)</p>
+            <p class="zFs-3 zmb-2"><code>.zFs-3</code> - 1.75rem (h3 size)</p>
+            <p class="zFs-4 zmb-2"><code>.zFs-4</code> - 1.5rem (h4 size)</p>
+            <p class="zFs-5 zmb-2"><code>.zFs-5</code> - 1.25rem (h5 size)</p>
+            <p class="zFs-6"><code>.zFs-6</code> - 1rem (h6 size, base)</p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;p class="zFs-1"&gt;Largest text&lt;/p&gt;
+&lt;p class="zFs-3"&gt;Medium text&lt;/p&gt;
+&lt;p class="zFs-6"&gt;Base size text&lt;/p&gt;</code></pre>
+    </section>
+
+    <!-- Font Weight -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">Font Weight</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Control how thick or thin text appears:
+        </p>
+
+        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 4px; margin: 2rem 0;">
+            <p class="zFw-light zmb-2"><code>.zFw-light</code> - Light weight (300)</p>
+            <p class="zFw-lighter zmb-2"><code>.zFw-lighter</code> - Lighter (relative to parent)</p>
+            <p class="zFw-normal zmb-2"><code>.zFw-normal</code> - Normal weight (400)</p>
+            <p class="zFw-bold zmb-2"><code>.zFw-bold</code> - Bold weight (700)</p>
+            <p class="zFw-bolder"><code>.zFw-bolder</code> - Bolder (relative to parent)</p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;p class="zFw-light"&gt;Light text&lt;/p&gt;
+&lt;p class="zFw-normal"&gt;Normal text&lt;/p&gt;
+&lt;p class="zFw-bold"&gt;Bold text&lt;/p&gt;</code></pre>
+    </section>
+
+    <!-- Font Style -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Font Style</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Toggle italic styling:
+        </p>
+
+        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 4px; margin: 2rem 0;">
+            <p class="zFst-normal zmb-2"><code>.zFst-normal</code> - Normal text (not italic)</p>
+            <p class="zFst-italic"><code>.zFst-italic</code> - Italic text</p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;p class="zFst-normal"&gt;Normal text&lt;/p&gt;
+&lt;p class="zFst-italic"&gt;Italic text&lt;/p&gt;</code></pre>
+    </section>
+
+    <!-- Line Height -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Line Height</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Control spacing between lines of text:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 2rem 0;">
+            <div class="zBg-white zP-3 zBorder" style="border-radius: 4px;">
+                <code>.zLh-1</code>
+                <p class="zLh-1 zmt-2" style="background: #e3f2fd; padding: 0.5rem; border-radius: 4px;">
+                    Tight line height (1). Multiple lines show very close spacing between them.
+                </p>
+            </div>
+            <div class="zBg-white zP-3 zBorder" style="border-radius: 4px;">
+                <code>.zLh-sm</code>
+                <p class="zLh-sm zmt-2" style="background: #e8f5e9; padding: 0.5rem; border-radius: 4px;">
+                    Small line height (1.25). Multiple lines show slightly closer spacing.
+                </p>
+            </div>
+            <div class="zBg-white zP-3 zBorder" style="border-radius: 4px;">
+                <code>.zLh-base</code>
+                <p class="zLh-base zmt-2" style="background: #fff3cd; padding: 0.5rem; border-radius: 4px;">
+                    Base line height (1.5). Default spacing, good for reading.
+                </p>
+            </div>
+            <div class="zBg-white zP-3 zBorder" style="border-radius: 4px;">
+                <code>.zLh-lg</code>
+                <p class="zLh-lg zmt-2" style="background: #fee; padding: 0.5rem; border-radius: 4px;">
+                    Large line height (2). Multiple lines show generous spacing.
+                </p>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;p class="zLh-1"&gt;Tight spacing&lt;/p&gt;
+&lt;p class="zLh-sm"&gt;Small spacing&lt;/p&gt;
+&lt;p class="zLh-base"&gt;Normal spacing (default)&lt;/p&gt;
+&lt;p class="zLh-lg"&gt;Loose spacing&lt;/p&gt;</code></pre>
+    </section>
+
+    <!-- Monospace -->
+    <section class="zmy-6">
+        <h2 class="zText-warning">Monospace Font</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Use monospace font for code or technical content:
+        </p>
+
+        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 4px; margin: 2rem 0;">
+            <p class="zmb-2">Regular font: The quick brown fox jumps over the lazy dog</p>
+            <p class="zFont-monospace">Monospace font: The quick brown fox jumps over the lazy dog</p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;p class="zFont-monospace"&gt;Code or technical text&lt;/p&gt;</code></pre>
+    </section>
+
+    <!-- Text Decoration -->
+    <section class="zmy-6">
+        <h2 class="zText-danger">Text Decoration</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Add or remove underlines and strikethrough:
+        </p>
+
+        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 4px; margin: 2rem 0;">
+            <p class="zText-decoration-none zmb-2">
+                <a href="#" class="zText-decoration-none"><code>.zText-decoration-none</code> - Link with no underline</a>
+            </p>
+            <p class="zText-decoration-underline zmb-2">
+                <span class="zText-decoration-underline"><code>.zText-decoration-underline</code> - Text with underline</span>
+            </p>
+            <p class="zText-decoration-line-through">
+                <span class="zText-decoration-line-through"><code>.zText-decoration-line-through</code> - Strikethrough text</span>
+            </p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;a href="#" class="zText-decoration-none"&gt;No underline&lt;/a&gt;
+&lt;p class="zText-decoration-underline"&gt;Underlined&lt;/p&gt;
+&lt;p class="zText-decoration-line-through"&gt;Strikethrough&lt;/p&gt;</code></pre>
+    </section>
+
+    <!-- Text Reset -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Text Reset</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Reset text or link color to inherit from parent:
+        </p>
+
+        <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 4px; margin: 2rem 0;">
+            <p class="zText-primary">
+                Primary color text with a <a href="#" class="zText-reset">reset link</a> that inherits parent color.
+            </p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;p class="zText-primary"&gt;
+  Primary text with &lt;a class="zText-reset"&gt;reset link&lt;/a&gt;
+&lt;/p&gt;</code></pre>
+    </section>
+
+    <!-- Practical Examples -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">Practical Examples</h2>
+
+        <!-- Card Header -->
+        <div style="margin: 2rem 0;">
+            <h3>Card with Styled Header</h3>
+            <div class="zBg-white zShadow zP-4" style="border-radius: 8px;">
+                <h2 class="zText-uppercase zFw-light zLh-1 zmb-3" style="color: var(--color-primary);">Premium Plan</h2>
+                <p class="zFs-5 zFw-bold zmb-2">$29/month</p>
+                <p class="zLh-lg zmb-3">Get access to all features with our premium plan. Perfect for growing teams.</p>
+                <button class="zBtn zBtn-primary zW-100">Subscribe Now</button>
+            </div>
+        </div>
+
+        <!-- Truncated List -->
+        <div style="margin: 3rem 0;">
+            <h3>File List with Truncation</h3>
+            <ul style="list-style: none; padding: 0; max-width: 400px;">
+                <li class="zP-2 zBg-white zBorder zmb-1" style="border-radius: 4px;">
+                    <code class="zText-truncate" style="display: block;">very-long-filename-that-gets-truncated.pdf</code>
+                </li>
+                <li class="zP-2 zBg-white zBorder zmb-1" style="border-radius: 4px;">
+                    <code class="zText-truncate" style="display: block;">another-extremely-long-document-name.docx</code>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Emphasized Quote -->
+        <div style="margin: 3rem 0;">
+            <h3>Styled Blockquote</h3>
+            <blockquote class="zBg-white zP-4 zShadow" style="border-left: 4px solid var(--color-primary); border-radius: 4px;">
+                <p class="zFs-4 zFst-italic zLh-lg" style="margin: 0;">
+                    "Design is not just what it looks like and feels like. Design is how it works."
+                </p>
+                <footer class="zText-end zmt-3 zFw-bold">— Steve Jobs</footer>
+            </blockquote>
+        </div>
+
+        <!-- Code Snippet -->
+        <div style="margin: 3rem 0;">
+            <h3>Code Example</h3>
+            <div class="zBg-dark zP-3" style="border-radius: 4px;">
+                <code class="zFont-monospace zText-white zLh-lg" style="display: block;">
+                    <span style="color: #f92672;">const</span> <span style="color: #66d9ef;">greeting</span> = <span style="color: #e6db74;">"Hello, World!"</span>;<br>
+                    <span style="color: #f92672;">console</span>.<span style="color: #a6e22e;">log</span>(greeting);
+                </code>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Readability first:</strong> Use <code>.zLh-base</code> or <code>.zLh-lg</code> for body text</li>
+            <li><strong>Hierarchy with size:</strong> Use font size utilities to establish visual hierarchy</li>
+            <li><strong>Weight for emphasis:</strong> Use <code>.zFw-bold</code> sparingly for key information</li>
+            <li><strong>Transform cautiously:</strong> Uppercase can be hard to read in long passages</li>
+            <li><strong>Truncate with care:</strong> Always provide full text in title attribute or tooltip</li>
+            <li><strong>Monospace for code:</strong> Always use <code>.zFont-monospace</code> for code snippets</li>
+            <li><strong>Center sparingly:</strong> Center align works best for headings and short text</li>
+            <li><strong>Break for URLs:</strong> Use <code>.zText-break</code> for long URLs or email addresses</li>
+        </ul>
+
+        <blockquote style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>⚠️ Don't mix too many:</strong> Combining too many text utilities can make 
+            content hard to read. Keep it simple and consistent!</p>
+        </blockquote>
+    </section>
+
+    <!-- Accessibility -->
+    <section class="zmy-6">
+        <h2 class="zText-dark">Accessibility</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Sufficient contrast:</strong> Ensure text color contrasts well with background (WCAG AA minimum)</li>
+            <li><strong>Line height for readability:</strong> Use <code>.zLh-base</code> or larger for body text</li>
+            <li><strong>Don't rely on uppercase alone:</strong> Screen readers may not announce case changes</li>
+            <li><strong>Avoid full justification:</strong> Not provided as it reduces readability</li>
+            <li><strong>Truncated text:</strong> Provide full content in alt text or expandable section</li>
+            <li><strong>Italic sparingly:</strong> Can be harder to read for dyslexic users</li>
+            <li><strong>Monospace sizing:</strong> May need larger font size for readability</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section class="zmy-6">
+        <h2 class="zText-info">CSS Reference</h2>
+        
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Classes</th>
+                    <th>Values</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Alignment</td>
+                    <td><code>.zText-start</code>, <code>.zText-center</code>, <code>.zText-end</code></td>
+                    <td>left, center, right</td>
+                </tr>
+                <tr>
+                    <td>Wrapping</td>
+                    <td><code>.zText-wrap</code>, <code>.zText-nowrap</code></td>
+                    <td>normal, nowrap</td>
+                </tr>
+                <tr>
+                    <td>Breaking</td>
+                    <td><code>.zText-break</code>, <code>.zText-truncate</code></td>
+                    <td>break-word, ellipsis</td>
+                </tr>
+                <tr>
+                    <td>Transform</td>
+                    <td><code>.zText-lowercase</code>, <code>.zText-uppercase</code>, <code>.zText-capitalize</code></td>
+                    <td>lowercase, uppercase, capitalize</td>
+                </tr>
+                <tr>
+                    <td>Font Size</td>
+                    <td><code>.zFs-1</code> through <code>.zFs-6</code></td>
+                    <td>2.5rem to 1rem</td>
+                </tr>
+                <tr>
+                    <td>Font Weight</td>
+                    <td><code>.zFw-light</code>, <code>.zFw-lighter</code>, <code>.zFw-normal</code>, <code>.zFw-bold</code>, <code>.zFw-bolder</code></td>
+                    <td>300, lighter, 400, 700, bolder</td>
+                </tr>
+                <tr>
+                    <td>Font Style</td>
+                    <td><code>.zFst-normal</code>, <code>.zFst-italic</code></td>
+                    <td>normal, italic</td>
+                </tr>
+                <tr>
+                    <td>Line Height</td>
+                    <td><code>.zLh-1</code>, <code>.zLh-sm</code>, <code>.zLh-base</code>, <code>.zLh-lg</code></td>
+                    <td>1, 1.25, 1.5, 2</td>
+                </tr>
+                <tr>
+                    <td>Font Family</td>
+                    <td><code>.zFont-monospace</code></td>
+                    <td>monospace font stack</td>
+                </tr>
+                <tr>
+                    <td>Decoration</td>
+                    <td><code>.zText-decoration-none</code>, <code>-underline</code>, <code>-line-through</code></td>
+                    <td>none, underline, line-through</td>
+                </tr>
+                <tr>
+                    <td>Reset</td>
+                    <td><code>.zText-reset</code></td>
+                    <td>inherit</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p style="margin-top: 1.5rem;"><strong>Total classes:</strong> 32 text utilities</p>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Related Topics</h2>
+        <ul class="lh-lg">
+            <li><a href="ztheme-typography.html">Typography</a> - Headings, paragraphs, lists</li>
+            <li><a href="ztheme-colors.html">Colors</a> - Text color utilities</li>
+            <li><a href="ztheme-spacing.html">Spacing</a> - Margin and padding</li>
+            <li><a href="ztheme-display.html">Display</a> - Display utilities</li>
+            <li><a href="ztheme-overflow.html">Overflow</a> - Overflow control</li>
+            <li><strong><a href="ztheme-rtl.html">RTL Support</a></strong> - Right-to-Left language support (Hebrew, Arabic, Persian, Urdu)</li>
+        </ul>
+    </section>
+
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

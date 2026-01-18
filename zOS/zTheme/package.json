@@ -1,0 +1,30 @@
+{
+  "name": "ztheme",
+  "version": "1.0.0",
+  "description": "Modern CSS framework with handwritten typography and SVG icons for zCLI applications",
+  "main": "dist/ztheme.css",
+  "files": [
+    "dist/**/*",
+    "src/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YOUR_USERNAME/zTheme.git"
+  },
+  "keywords": [
+    "css",
+    "framework",
+    "theme",
+    "zcli",
+    "typography",
+    "icons",
+    "ui"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YOUR_USERNAME/zTheme/issues"
+  },
+  "homepage": "https://github.com/YOUR_USERNAME/zTheme#readme",
+  "cdn": "https://cdn.jsdelivr.net/gh/YOUR_USERNAME/zTheme@main/dist/ztheme.css"
+}

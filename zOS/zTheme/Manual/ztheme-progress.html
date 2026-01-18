@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav style="margin-bottom: 1rem; font-size: 0.9rem;">
+        <a href="ztheme.html" style="color: var(--color-primary);">zTheme</a>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Components</span>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Progress</span>
+    </nav>
+    
+    <h1>Progress</h1>
+    <p style="font-size: 1.25rem; color: var(--color-gray); margin-bottom: 2rem;">
+        Visualize task completion with Bootstrap-inspired progress bars featuring labels, backgrounds, stripes, and animations.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Progress Bars -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Progress Bars</h2>
+        <p>Progress bars provide visual feedback about the completion status of operations. They consist of a wrapper (`.zProgress`) and an inner bar (`.zProgress-bar`) that sets the width based on progress value.</p>
+        
+        <div style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>Key Features:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Accessible by default</strong> - Built-in ARIA attributes for screen readers</li>
+                <li><strong>Smooth transitions</strong> - Width changes animate smoothly (0.6s ease)</li>
+                <li><strong>Flexible styling</strong> - Colors, stripes, and height variants</li>
+                <li><strong>Stacked bars</strong> - Multiple bars can show different segments</li>
+                <li><strong>Indeterminate state</strong> - For operations with unknown duration (bonus feature)</li>
+            </ul>
+        </div>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>💡 When to use progress bars:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>File uploads/downloads</strong> - Show transfer progress</li>
+                <li><strong>Form completion</strong> - Multi-step forms or onboarding</li>
+                <li><strong>Loading states</strong> - Data processing or computation</li>
+                <li><strong>Goal tracking</strong> - Fundraising, achievements, skill levels</li>
+                <li><strong>Batch operations</strong> - Processing multiple items</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Basic Progress Bar -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic Progress Bar</h2>
+        <p>Set the width of the `.zProgress-bar` using inline styles or width utilities. Always include ARIA attributes for accessibility.</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div class="zProgress">
+                <div class="zProgress-bar" id="basicProgress" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+            
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="zBtn zBtn-primary" onclick="setProgress('basicProgress', 0)">Reset</button>
+                <button class="zBtn zBtn-secondary" onclick="setProgress('basicProgress', 25)">25%</button>
+                <button class="zBtn zBtn-secondary" onclick="setProgress('basicProgress', 50)">50%</button>
+                <button class="zBtn zBtn-secondary" onclick="setProgress('basicProgress', 75)">75%</button>
+                <button class="zBtn zBtn-success" onclick="setProgress('basicProgress', 100)">100%</button>
+                <button class="zBtn zBtn-info" onclick="simulateProgress('basicProgress')">Simulate Upload</button>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zProgress"&gt;
+  &lt;div class="zProgress-bar" 
+       role="progressbar" 
+       style="width: 25%" 
+       aria-valuenow="25" 
+       aria-valuemin="0" 
+       aria-valuemax="100"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Labels -->
+    <section style="margin: 3rem 0;">
+        <h2>Labels</h2>
+        <p>Add text inside the `.zProgress-bar` to display the current value or status.</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div class="zProgress">
+                <div class="zProgress-bar" id="labelProgress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+            
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="zBtn zBtn-primary" onclick="simulateProgress('labelProgress')">Start Progress</button>
+                <button class="zBtn zBtn-secondary" onclick="setProgress('labelProgress', 0)">Reset</button>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zProgress"&gt;
+  &lt;div class="zProgress-bar" 
+       role="progressbar" 
+       style="width: 25%;" 
+       aria-valuenow="25" 
+       aria-valuemin="0" 
+       aria-valuemax="100"&gt;
+    25%
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Height -->
+    <section style="margin: 3rem 0;">
+        <h2>Height</h2>
+        <p>Set custom heights using inline styles on `.zProgress`, or use utility classes `.zProgress-sm` and `.zProgress-lg`.</p>
+        
+        <h3 style="margin-top: 2rem;">Custom Height (Inline Style)</h3>
+        <div style="margin: 1rem 0;">
+            <div class="zProgress" style="height: 1px;">
+                <div class="zProgress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="zProgress" style="height: 20px; margin-top: 1rem;">
+                <div class="zProgress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zProgress" style="height: 1px;"&gt;
+  &lt;div class="zProgress-bar" style="width: 25%;"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="zProgress" style="height: 20px;"&gt;
+  &lt;div class="zProgress-bar" style="width: 25%;"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">Size Variants (Utility Classes)</h3>
+        <div style="margin: 1rem 0;">
+            <p><strong>Small:</strong></p>
+            <div class="zProgress zProgress-sm">
+                <div class="zProgress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+            </div>
+            
+            <p style="margin-top: 1.5rem;"><strong>Default:</strong></p>
+            <div class="zProgress">
+                <div class="zProgress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+            </div>
+            
+            <p style="margin-top: 1.5rem;"><strong>Large:</strong></p>
+            <div class="zProgress zProgress-lg">
+                <div class="zProgress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zProgress zProgress-sm"&gt;...&lt;/div&gt;
+&lt;div class="zProgress"&gt;...&lt;/div&gt;
+&lt;div class="zProgress zProgress-lg"&gt;...&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Background Colors -->
+    <section style="margin: 3rem 0;">
+        <h2>Background Colors</h2>
+        <p>Use background utility classes to change the appearance of progress bars.</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <p><strong>Success:</strong></p>
+            <div class="zProgress">
+                <div class="zProgress-bar zBg-success" id="colorSuccess" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+            
+            <p style="margin-top: 1.5rem;"><strong>Info:</strong></p>
+            <div class="zProgress">
+                <div class="zProgress-bar zBg-info" id="colorInfo" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+            
+            <p style="margin-top: 1.5rem;"><strong>Warning:</strong></p>
+            <div class="zProgress">
+                <div class="zProgress-bar zBg-warning" id="colorWarning" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+            
+            <p style="margin-top: 1.5rem;"><strong>Danger:</strong></p>
+            <div class="zProgress">
+                <div class="zProgress-bar zBg-danger" id="colorDanger" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+            
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="zBtn zBtn-primary" onclick="simulateAllColors()">Simulate All</button>
+                <button class="zBtn zBtn-secondary" onclick="resetAllColors()">Reset All</button>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zProgress-bar zBg-success" style="width: 25%"&gt;&lt;/div&gt;
+&lt;div class="zProgress-bar zBg-info" style="width: 50%"&gt;&lt;/div&gt;
+&lt;div class="zProgress-bar zBg-warning" style="width: 75%"&gt;&lt;/div&gt;
+&lt;div class="zProgress-bar zBg-danger" style="width: 100%"&gt;&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Multiple Bars -->
+    <section style="margin: 3rem 0;">
+        <h2>Multiple Bars</h2>
+        <p>Stack multiple progress bars inside a single `.zProgress` to show different segments or categories.</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div class="zProgress" id="multipleContainer">
+                <div class="zProgress-bar" id="multi1" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="zProgress-bar zBg-success" id="multi2" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="zProgress-bar zBg-info" id="multi3" role="progressbar" style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            
+            <div style="margin-top: 1rem; text-align: center; color: #6c757d; font-size: 0.875rem;">
+                <span id="multipleLabel">System: 0% | Apps: 0% | Media: 0% | Free: 100%</span>
+            </div>
+            
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="zBtn zBtn-primary" onclick="simulateMultiple()">Simulate Disk Usage</button>
+                <button class="zBtn zBtn-secondary" onclick="resetMultiple()">Reset</button>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zProgress"&gt;
+  &lt;div class="zProgress-bar" style="width: 15%"&gt;&lt;/div&gt;
+  &lt;div class="zProgress-bar zBg-success" style="width: 30%"&gt;&lt;/div&gt;
+  &lt;div class="zProgress-bar zBg-info" style="width: 20%"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Use case:</strong> Show different components of a total, like disk usage (System: 15%, Apps: 30%, Media: 20%, Free: 35%).</p>
+        </div>
+    </section>
+    
+    <!-- Striped -->
+    <section style="margin: 3rem 0;">
+        <h2>Striped</h2>
+        <p>Add `.zProgress-bar-striped` to apply a diagonal stripe pattern via CSS gradient.</p>
+        
+        <div style="margin: 2rem 0;">
+            <div class="zProgress">
+                <div class="zProgress-bar zProgress-bar-striped" role="progressbar" style="width: 10%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="zProgress" style="margin-top: 1rem;">
+                <div class="zProgress-bar zProgress-bar-striped zBg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="zProgress" style="margin-top: 1rem;">
+                <div class="zProgress-bar zProgress-bar-striped zBg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="zProgress" style="margin-top: 1rem;">
+                <div class="zProgress-bar zProgress-bar-striped zBg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="zProgress" style="margin-top: 1rem;">
+                <div class="zProgress-bar zProgress-bar-striped zBg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zProgress-bar zProgress-bar-striped" style="width: 10%"&gt;&lt;/div&gt;
+&lt;div class="zProgress-bar zProgress-bar-striped zBg-success" style="width: 25%"&gt;&lt;/div&gt;
+&lt;div class="zProgress-bar zProgress-bar-striped zBg-info" style="width: 50%"&gt;&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Animated Stripes -->
+    <section style="margin: 3rem 0;">
+        <h2>Animated Stripes</h2>
+        <p>Add `.zProgress-bar-animated` to animate the stripes from right to left. Great for indicating ongoing processes.</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div class="zProgress">
+                <div class="zProgress-bar zProgress-bar-striped zProgress-bar-animated" id="animatedProgress" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">0%</div>
+            </div>
+            
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button class="zBtn zBtn-primary" onclick="simulateProgress('animatedProgress')">Start Processing</button>
+                <button class="zBtn zBtn-secondary" onclick="setProgress('animatedProgress', 0)">Reset</button>
+                <button class="zBtn zBtn-info" id="toggleAnimBtn" onclick="toggleAnimation()">Stop Animation</button>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zProgress"&gt;
+  &lt;div class="zProgress-bar zProgress-bar-striped zProgress-bar-animated" 
+       role="progressbar" 
+       style="width: 75%" 
+       aria-valuenow="75" 
+       aria-valuemin="0" 
+       aria-valuemax="100"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <div style="background: #fff3e0; padding: 1.5rem; border-left: 4px solid #ff9800; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>⚠️ Accessibility Note:</strong> Animations are automatically disabled for users who prefer reduced motion (via <code>prefers-reduced-motion</code> media query).</p>
+        </div>
+    </section>
+    
+    <!-- Indeterminate State (Bonus Feature) -->
+    <section style="margin: 3rem 0;">
+        <h2>Indeterminate State (Bonus)</h2>
+        <p>For operations where the total duration is unknown, use `.zProgress-indeterminate` on the wrapper. This creates a smooth wave animation.</p>
+        
+        <div style="margin: 2rem 0;">
+            <p><strong>Primary (Default):</strong></p>
+            <div class="zProgress zProgress-indeterminate">
+                <div class="zProgress-bar" role="progressbar"></div>
+            </div>
+            
+            <p style="margin-top: 1.5rem;"><strong>Success:</strong></p>
+            <div class="zProgress zProgress-indeterminate">
+                <div class="zProgress-bar zBg-success" role="progressbar"></div>
+            </div>
+            
+            <p style="margin-top: 1.5rem;"><strong>Info:</strong></p>
+            <div class="zProgress zProgress-indeterminate">
+                <div class="zProgress-bar zBg-info" role="progressbar"></div>
+            </div>
+            
+            <p style="margin-top: 1.5rem;"><strong>Warning:</strong></p>
+            <div class="zProgress zProgress-indeterminate">
+                <div class="zProgress-bar zBg-warning" role="progressbar"></div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zProgress zProgress-indeterminate"&gt;
+  &lt;div class="zProgress-bar" role="progressbar"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="zProgress zProgress-indeterminate"&gt;
+  &lt;div class="zProgress-bar zBg-success" role="progressbar"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 When to use:</strong> Server requests, file processing, or any task where you can't calculate percentage complete. Provides better UX than spinners for longer operations.</p>
+        </div>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <div style="background: #e8f5e9; padding: 1.5rem; border-left: 4px solid #4caf50; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>✅ DO:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Always include ARIA attributes (<code>role</code>, <code>aria-valuenow</code>, <code>aria-valuemin</code>, <code>aria-valuemax</code>)</li>
+                <li>Show percentage labels when space allows (helps users estimate time)</li>
+                <li>Update progress smoothly - let CSS transitions handle animation</li>
+                <li>Use colors meaningfully (success=complete, warning=caution, danger=error)</li>
+                <li>Consider indeterminate state for operations with unknown duration</li>
+                <li>Test with keyboard navigation and screen readers</li>
+            </ul>
+        </div>
+        
+        <div style="background: #ffebee; padding: 1.5rem; border-left: 4px solid #ef5350; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>❌ DON'T:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Use progress bars for binary states (use checkmarks or toggles instead)</li>
+                <li>Fake progress - users will notice if 90% takes as long as first 50%</li>
+                <li>Animate progress bar width manually (let CSS transitions do it)</li>
+                <li>Use too many colors in stacked bars (3-4 max for readability)</li>
+                <li>Forget to update ARIA values when progress changes</li>
+                <li>Use progress bars for very fast operations (< 1 second)</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Accessibility -->
+    <section style="margin: 3rem 0;">
+        <h2>Accessibility</h2>
+        <p>Progress bars are accessible by default when you include the proper ARIA attributes:</p>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Required ARIA Attributes</h3>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><strong><code>role="progressbar"</code></strong> - Identifies the element as a progress bar</li>
+                <li><strong><code>aria-valuenow</code></strong> - Current value (e.g., 75 for 75%)</li>
+                <li><strong><code>aria-valuemin</code></strong> - Minimum value (usually 0)</li>
+                <li><strong><code>aria-valuemax</code></strong> - Maximum value (usually 100)</li>
+            </ul>
+        </div>
+        
+        <div style="background: #fff3e0; padding: 1.5rem; border-left: 4px solid #ff9800; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Screen Reader Announcement</h3>
+            <p style="margin: 0.5rem 0;">When a screen reader encounters a progress bar with proper ARIA attributes, it announces:</p>
+            <p style="margin: 0.5rem 0; padding-left: 1rem; font-style: italic;">"Progress bar, 75 percent"</p>
+            <p style="margin: 0.5rem 0;">Make sure to update <code>aria-valuenow</code> via JavaScript as progress changes!</p>
+        </div>
+        
+        <div style="background: #f3e5f5; padding: 1.5rem; border-left: 4px solid #9c27b0; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Reduced Motion</h3>
+            <p style="margin: 0;">Animations (striped, indeterminate) automatically respect the <code>prefers-reduced-motion</code> CSS media query. Users who prefer reduced motion won't see animations.</p>
+        </div>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: #2d2d2d; color: #f8f8f2; border-radius: 4px;">
+        <h2 style="color: #f8f8f2;">CSS Classes</h2>
+        <p style="color: #a8a8a8;">All progress styles are defined in <code>zProgress.css</code>:</p>
+        
+        <table class="zTable" style="margin: 1rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col" style="color: #f8f8f2;">Class</th>
+                    <th scope="col" style="color: #f8f8f2;">Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zProgress</code></td>
+                    <td style="color: #a8a8a8;">Wrapper container for progress bars</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zProgress-bar</code></td>
+                    <td style="color: #a8a8a8;">Progress fill element</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zProgress-sm</code></td>
+                    <td style="color: #a8a8a8;">Small size variant (0.5rem height)</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zProgress-lg</code></td>
+                    <td style="color: #a8a8a8;">Large size variant (1.5rem height)</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zProgress-bar-striped</code></td>
+                    <td style="color: #a8a8a8;">Adds diagonal stripe pattern</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zProgress-bar-animated</code></td>
+                    <td style="color: #a8a8a8;">Animates stripes (requires striped)</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zProgress-indeterminate</code></td>
+                    <td style="color: #a8a8a8;">Indeterminate loading state (bonus)</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zBg-success</code></td>
+                    <td style="color: #a8a8a8;">Green background</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zBg-info</code></td>
+                    <td style="color: #a8a8a8;">Cyan background</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zBg-warning</code></td>
+                    <td style="color: #a8a8a8;">Yellow background</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zBg-danger</code></td>
+                    <td style="color: #a8a8a8;">Red background</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-spinners.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Spinners</strong> → For indeterminate loading states
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-badges.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Badges</strong> → For status indicators and counts
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-alerts.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Alerts</strong> → For completion or error messages
+                </a>
+            </li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-popover.html" style="color: var(--color-primary);">← Previous: Popover</a>
+        <a href="ztheme.html" style="color: var(--color-primary);">Back to Components</a>
+    </nav>
+</div>
+
+<script>
+// ============================================
+// Progress Bar Interactive Demos
+// ============================================
+
+// Set progress to a specific value
+function setProgress(elementId, value) {
+    const bar = document.getElementById(elementId);
+    if (!bar) return;
+    
+    bar.style.width = value + '%';
+    bar.setAttribute('aria-valuenow', value);
+    bar.textContent = value + '%';
+}
+
+// Simulate realistic progress (like file upload)
+function simulateProgress(elementId, speed = 50) {
+    const bar = document.getElementById(elementId);
+    if (!bar) return;
+    
+    // Reset first
+    setProgress(elementId, 0);
+    
+    let progress = 0;
+    const interval = setInterval(() => {
+        // Simulate realistic progress (fast at first, slower near end)
+        if (progress < 30) {
+            progress += Math.random() * 8;
+        } else if (progress < 70) {
+            progress += Math.random() * 5;
+        } else if (progress < 95) {
+            progress += Math.random() * 2;
+        } else {
+            progress += Math.random() * 0.5;
+        }
+        
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(interval);
+        }
+        
+        setProgress(elementId, Math.floor(progress));
+    }, speed);
+}
+
+// Simulate all color variants together
+function simulateAllColors() {
+    simulateProgress('colorSuccess', 60);
+    setTimeout(() => simulateProgress('colorInfo', 55), 200);
+    setTimeout(() => simulateProgress('colorWarning', 65), 400);
+    setTimeout(() => simulateProgress('colorDanger', 50), 600);
+}
+
+// Reset all color variants
+function resetAllColors() {
+    setProgress('colorSuccess', 0);
+    setProgress('colorInfo', 0);
+    setProgress('colorWarning', 0);
+    setProgress('colorDanger', 0);
+}
+
+// Simulate multiple stacked bars (disk usage)
+function simulateMultiple() {
+    const bar1 = document.getElementById('multi1');
+    const bar2 = document.getElementById('multi2');
+    const bar3 = document.getElementById('multi3');
+    const label = document.getElementById('multipleLabel');
+    
+    if (!bar1 || !bar2 || !bar3 || !label) return;
+    
+    // Reset
+    bar1.style.width = '0%';
+    bar2.style.width = '0%';
+    bar3.style.width = '0%';
+    
+    // Target values
+    const target1 = 15; // System
+    const target2 = 30; // Apps
+    const target3 = 20; // Media
+    // Free = 100 - (15 + 30 + 20) = 35%
+    
+    let current1 = 0, current2 = 0, current3 = 0;
+    
+    const interval = setInterval(() => {
+        let updated = false;
+        
+        if (current1 < target1) {
+            current1 = Math.min(current1 + 1, target1);
+            bar1.style.width = current1 + '%';
+            bar1.setAttribute('aria-valuenow', current1);
+            updated = true;
+        }
+        
+        if (current1 >= 10 && current2 < target2) {
+            current2 = Math.min(current2 + 1, target2);
+            bar2.style.width = current2 + '%';
+            bar2.setAttribute('aria-valuenow', current2);
+            updated = true;
+        }
+        
+        if (current2 >= 20 && current3 < target3) {
+            current3 = Math.min(current3 + 1, target3);
+            bar3.style.width = current3 + '%';
+            bar3.setAttribute('aria-valuenow', current3);
+            updated = true;
+        }
+        
+        // Update label
+        const free = 100 - (current1 + current2 + current3);
+        label.textContent = `System: ${current1}% | Apps: ${current2}% | Media: ${current3}% | Free: ${free}%`;
+        
+        if (!updated) {
+            clearInterval(interval);
+        }
+    }, 30);
+}
+
+// Reset multiple bars
+function resetMultiple() {
+    const bar1 = document.getElementById('multi1');
+    const bar2 = document.getElementById('multi2');
+    const bar3 = document.getElementById('multi3');
+    const label = document.getElementById('multipleLabel');
+    
+    if (!bar1 || !bar2 || !bar3 || !label) return;
+    
+    bar1.style.width = '0%';
+    bar1.setAttribute('aria-valuenow', 0);
+    bar2.style.width = '0%';
+    bar2.setAttribute('aria-valuenow', 0);
+    bar3.style.width = '0%';
+    bar3.setAttribute('aria-valuenow', 0);
+    
+    label.textContent = 'System: 0% | Apps: 0% | Media: 0% | Free: 100%';
+}
+
+// Toggle animation on/off
+function toggleAnimation() {
+    const bar = document.getElementById('animatedProgress');
+    const btn = document.getElementById('toggleAnimBtn');
+    
+    if (!bar || !btn) return;
+    
+    if (bar.classList.contains('zProgress-bar-animated')) {
+        bar.classList.remove('zProgress-bar-animated');
+        btn.textContent = 'Start Animation';
+        btn.classList.remove('zBtn-info');
+        btn.classList.add('zBtn-success');
+    } else {
+        bar.classList.add('zProgress-bar-animated');
+        btn.textContent = 'Stop Animation';
+        btn.classList.remove('zBtn-success');
+        btn.classList.add('zBtn-info');
+    }
+}
+</script>
+
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

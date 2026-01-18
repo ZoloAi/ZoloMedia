@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vertical Align - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer-lg zpy-5" style="max-width: 900px;">
+    <h1 class="zText-success" style="font-size: 2.5rem; margin-bottom: 0.5rem;">Vertical Alignment</h1>
+    <p class="zText-muted" style="font-size: 1.1rem; margin-bottom: 3rem;">
+        Control vertical alignment of inline and table elements
+    </p>
+
+    <!-- Understanding Vertical Alignment -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Understanding Vertical Alignment</h2>
+        <p style="line-height: 1.7;">
+            Vertical alignment utilities control how inline, inline-block, inline-table, and table cell elements 
+            align vertically within their container.
+        </p>
+        
+        <blockquote style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>⚠️ Important:</strong> These utilities only work on inline, inline-block, 
+            inline-table, and table cell elements. For vertically centering block elements like <code>&lt;div&gt;</code>, 
+            use <a href="ztheme-flex.html">Flexbox utilities</a> instead!</p>
+        </blockquote>
+    </section>
+
+    <!-- Inline Elements -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Inline Elements</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Align inline elements like <code>&lt;span&gt;</code> and <code>&lt;img&gt;</code> within their line:
+        </p>
+
+        <div style="background: #f8f9fa; padding: 2rem; border-radius: 4px; margin: 2rem 0; overflow-x: auto;">
+            <div style="line-height: 4rem; font-size: 1.5rem; white-space: nowrap; min-width: min-content;">
+                <span class="zAlign-baseline" style="background: #e3f2fd; padding: 0.25rem 0.5rem; border-radius: 3px;">baseline</span>
+                <span class="zAlign-top" style="background: #e8f5e9; padding: 0.25rem 0.5rem; border-radius: 3px;">top</span>
+                <span class="zAlign-middle" style="background: #fff3cd; padding: 0.25rem 0.5rem; border-radius: 3px;">middle</span>
+                <span class="zAlign-bottom" style="background: #f3e5f5; padding: 0.25rem 0.5rem; border-radius: 3px;">bottom</span>
+                <span class="zAlign-text-top" style="background: #fce4ec; padding: 0.25rem 0.5rem; border-radius: 3px;">text-top</span>
+                <span class="zAlign-text-bottom" style="background: #e0f2f1; padding: 0.25rem 0.5rem; border-radius: 3px;">text-bottom</span>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;span class="zAlign-baseline"&gt;baseline&lt;/span&gt;
+&lt;span class="zAlign-top"&gt;top&lt;/span&gt;
+&lt;span class="zAlign-middle"&gt;middle&lt;/span&gt;
+&lt;span class="zAlign-bottom"&gt;bottom&lt;/span&gt;
+&lt;span class="zAlign-text-top"&gt;text-top&lt;/span&gt;
+&lt;span class="zAlign-text-bottom"&gt;text-bottom&lt;/span&gt;</code></pre>
+
+        <blockquote style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 1.5rem 0;">
+            <p style="margin: 0;"><strong>⚠️ Note:</strong> <code>text-top</code> and <code>text-bottom</code> align to the <strong>font's ascender/descender lines</strong>, not the line box. This causes counterintuitive positioning (text-top appears below where you'd expect). Use <code>.zAlign-top</code>, <code>.zAlign-middle</code>, and <code>.zAlign-bottom</code> for predictable results.</p>
+        </blockquote>
+    </section>
+
+    <!-- Table Cells -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Table Cells</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Control vertical alignment within table cells (especially useful for tall rows):
+        </p>
+
+        <table class="zTable zTable-bordered" style="margin: 2rem 0;">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Baseline</th>
+                    <th style="width: 25%;">Top</th>
+                    <th style="width: 25%;">Middle</th>
+                    <th style="width: 25%;">Bottom</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="height: 150px;">
+                    <td class="zAlign-baseline" style="background: #e3f2fd;">baseline</td>
+                    <td class="zAlign-top" style="background: #e8f5e9;">top</td>
+                    <td class="zAlign-middle" style="background: #fff3cd;">middle</td>
+                    <td class="zAlign-bottom" style="background: #f3e5f5;">bottom</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;table class="zTable"&gt;
+  &lt;tr style="height: 150px;"&gt;
+    &lt;td class="zAlign-baseline"&gt;baseline&lt;/td&gt;
+    &lt;td class="zAlign-top"&gt;top&lt;/td&gt;
+    &lt;td class="zAlign-middle"&gt;middle&lt;/td&gt;
+    &lt;td class="zAlign-bottom"&gt;bottom&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+
+        <blockquote style="background: #f8f9fa; padding: 1rem; border-left: 4px solid #6c757d; margin: 1.5rem 0;">
+            <p style="margin: 0;"><strong>Note:</strong> <code>.zAlign-text-top</code> and <code>.zAlign-text-bottom</code> also exist but are not recommended for table cells due to unpredictable font-metric behavior.</p>
+        </blockquote>
+    </section>
+
+    <!-- Practical Examples -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Practical Examples</h2>
+
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Icon Alignment</h3>
+        <div style="background: white; padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px;">
+            <p style="font-size: 1.2rem; margin-bottom: 1rem;">
+                <span class="zAlign-baseline" style="font-size: 2rem; color: #2196f3;">●</span>
+                Baseline (default)
+            </p>
+            <p style="font-size: 1.2rem; margin-bottom: 1rem;">
+                <span class="zAlign-middle" style="font-size: 2rem; color: #4caf50;">●</span>
+                Middle (better!)
+            </p>
+            <p style="font-size: 1.2rem; margin: 0;">
+                <span class="zAlign-bottom" style="font-size: 2rem; color: #ff9800;">●</span>
+                Bottom
+            </p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%; margin-top: 1rem;"><code>&lt;p&gt;
+  &lt;span class="zAlign-middle" style="font-size: 2rem;"&gt;●&lt;/span&gt;
+  Icon text
+&lt;/p&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Image Alignment</h3>
+        <div style="background: white; padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px;">
+            <img src="https://picsum.photos/60/60?random=1" class="zAlign-middle" style="margin-right: 0.5rem; border-radius: 50%;">
+            <span style="font-size: 1.2rem;">Avatar aligned to text middle</span>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%; margin-top: 1rem;"><code>&lt;img src="avatar.jpg" class="zAlign-middle"&gt;
+&lt;span&gt;User name&lt;/span&gt;</code></pre>
+    </section>
+
+    <!-- Alignment Reference -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Alignment Reference</h2>
+        
+        <table class="zTable zTable-bordered" style="margin: 2rem 0;">
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Class</th>
+                    <th style="width: 25%;">Value</th>
+                    <th>Best For</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zAlign-baseline</code></td>
+                    <td><code>baseline</code></td>
+                    <td>Default browser behavior</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlign-top</code></td>
+                    <td><code>top</code></td>
+                    <td>Align to top of tallest element</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlign-middle</code></td>
+                    <td><code>middle</code></td>
+                    <td>⭐ Icons, images, table cells</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlign-bottom</code></td>
+                    <td><code>bottom</code></td>
+                    <td>Align to bottom of container</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlign-text-top</code></td>
+                    <td><code>text-top</code></td>
+                    <td>⚠️ Not recommended - unpredictable</td>
+                </tr>
+                <tr>
+                    <td><code>.zAlign-text-bottom</code></td>
+                    <td><code>text-bottom</code></td>
+                    <td>⚠️ Not recommended - unpredictable</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Best Practices</h2>
+        
+        <div style="background: white; padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; margin: 2rem 0;">
+            <h4 style="margin-top: 0; color: #4caf50;">✅ Do</h4>
+            <ul style="line-height: 1.8; margin-bottom: 2rem;">
+                <li>Use <code>.zAlign-middle</code> for icons next to text</li>
+                <li>Use <code>.zAlign-top</code> for table cells with varying content heights</li>
+                <li>Use <code>.zAlign-middle</code> for centering small images inline</li>
+                <li>Combine with <code>line-height</code> for fine-tuned control</li>
+            </ul>
+            
+            <h4 style="color: #f44336;">❌ Don't</h4>
+            <ul style="line-height: 1.8; margin: 0;">
+                <li>Try to use on block elements (<code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>) - won't work!</li>
+                <li>Use for centering page layouts - use <a href="ztheme-flex.html">Flexbox</a> instead</li>
+                <li>Forget that alignment is relative to the line or cell height</li>
+                <li>Overcomplicate - <code>.zAlign-middle</code> solves 90% of use cases</li>
+            </ul>
+        </div>
+
+        <blockquote style="background: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Pro Tip:</strong> For centering block-level content vertically, 
+            use <code>.zFlex-column .zJustify-center</code> instead. Vertical alignment utilities are specifically 
+            for inline and table contexts.</p>
+        </blockquote>
+    </section>
+
+    <!-- Accessibility -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Accessibility</h2>
+        
+        <ul style="line-height: 1.8;">
+            <li><strong>Visual only:</strong> Alignment is purely visual and doesn't affect screen readers</li>
+            <li><strong>Icons:</strong> When aligning icons, ensure they have proper <code>aria-label</code> or are decorative</li>
+            <li><strong>Images:</strong> Always include <code>alt</code> text on aligned images</li>
+            <li><strong>Tables:</strong> Use proper <code>&lt;th&gt;</code> and <code>scope</code> attributes regardless of alignment</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">CSS Reference</h2>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>/* Vertical Alignment Utilities */
+.zAlign-baseline    { vertical-align: baseline !important; }
+.zAlign-top         { vertical-align: top !important; }
+.zAlign-middle      { vertical-align: middle !important; }
+.zAlign-bottom      { vertical-align: bottom !important; }
+
+/* Not recommended - unpredictable behavior */
+.zAlign-text-top    { vertical-align: text-top !important; }
+.zAlign-text-bottom { vertical-align: text-bottom !important; }</code></pre>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Related Topics</h2>
+        <ul class="lh-lg">
+            <li><a href="ztheme-flex.html">Flexbox</a> - For vertical centering of block elements</li>
+            <li><a href="ztheme-display.html">Display</a> - Control element display type</li>
+            <li><a href="ztheme-text.html">Text Utilities</a> - Text alignment and styling</li>
+            <li><a href="ztheme-tables.html">Tables</a> - Table styling and structure</li>
+        </ul>
+    </section>
+
+    <!-- Navigation -->
+    <div style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 2px solid #dee2e6;">
+        <a href="ztheme-text.html" class="zBtn zBtn-outline-primary">&larr; Text Utilities</a>
+        <a href="ztheme.html" class="zBtn zBtn-primary">Back to zTheme</a>
+        <a href="ztheme-visibility.html" class="zBtn zBtn-outline-primary">Visibility &rarr;</a>
+    </div>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

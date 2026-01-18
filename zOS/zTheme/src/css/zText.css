@@ -1,0 +1,124 @@
+/* ============================================
+   zText.css - Text Utilities
+   ============================================
+   
+   Text alignment, wrapping, transformation, sizing, weight, and styling.
+   Aligned with modern typography patterns.
+   
+   Classes:
+   - Alignment: .zText-start, .zText-center, .zText-end
+   - Wrapping: .zText-wrap, .zText-nowrap, .zText-break
+   - Transform: .zText-lowercase, .zText-uppercase, .zText-capitalize
+   - Font Size: .zFs-1 through .zFs-6
+   - Font Weight: .zFw-bold, .zFw-normal, .zFw-light
+   - Font Style: .zFst-italic, .zFst-normal
+   - Line Height: .zLh-1, .zLh-sm, .zLh-base, .zLh-lg
+   - Monospace: .zFont-monospace
+   - Decoration: .zText-decoration-none, -underline, -line-through
+   - Reset: .zText-reset
+   
+   Example:
+   <p class="zText-center zFs-4 zFw-bold">Centered, large, bold</p>
+   <p class="zText-uppercase zFst-italic">Uppercase italic</p>
+   
+   ============================================ */
+
+/* ============================================
+   Text Alignment
+   ============================================ */
+
+.zText-start { text-align: left !important; }
+.zText-center { text-align: center !important; }
+.zText-end { text-align: right !important; }
+
+/* ============================================
+   Text Wrapping & Overflow
+   ============================================ */
+
+/* Wrap Text */
+.zText-wrap { white-space: normal !important; }
+
+/* Prevent Wrapping */
+.zText-nowrap { white-space: nowrap !important; }
+
+/* Break Long Words */
+.zText-break {
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+}
+
+/* Truncate with Ellipsis */
+.zText-truncate {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* ============================================
+   Text Transform
+   ============================================ */
+
+.zText-lowercase { text-transform: lowercase !important; }
+.zText-uppercase { text-transform: uppercase !important; }
+.zText-capitalize { text-transform: capitalize !important; }
+
+/* ============================================
+   Font Size
+   ============================================ */
+
+.zFs-1 { font-size: 2.5rem !important; }    /* h1 size */
+.zFs-2 { font-size: 2rem !important; }      /* h2 size */
+.zFs-3 { font-size: 1.75rem !important; }   /* h3 size */
+.zFs-4 { font-size: 1.5rem !important; }    /* h4 size */
+.zFs-5 { font-size: 1.25rem !important; }   /* h5 size */
+.zFs-6 { font-size: 1rem !important; }      /* h6 size */
+
+/* ============================================
+   Font Weight
+   ============================================ */
+
+.zFw-light { font-weight: 300 !important; }
+.zFw-lighter { font-weight: lighter !important; }
+.zFw-normal { font-weight: 400 !important; }
+.zFw-bold { font-weight: 700 !important; }
+.zFw-bolder { font-weight: bolder !important; }
+
+/* ============================================
+   Font Style
+   ============================================ */
+
+.zFst-normal { font-style: normal !important; }
+.zFst-italic { font-style: italic !important; }
+
+/* ============================================
+   Line Height
+   ============================================ */
+
+.zLh-1 { line-height: 1 !important; }
+.zLh-sm { line-height: 1.25 !important; }
+.zLh-base { line-height: 1.5 !important; }
+.zLh-lg { line-height: 2 !important; }
+
+/* ============================================
+   Font Family
+   ============================================ */
+
+.zFont-monospace {
+  font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+}
+
+/* ============================================
+   Text Decoration
+   ============================================ */
+
+.zText-decoration-none { text-decoration: none !important; }
+.zText-decoration-underline { text-decoration: underline !important; }
+.zText-decoration-line-through { text-decoration: line-through !important; }
+
+/* ============================================
+   Text Reset
+   ============================================ */
+
+.zText-reset { color: inherit !important; }
+
+

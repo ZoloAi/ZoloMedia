@@ -1,0 +1,32 @@
+# MANIFEST.in - Include non-Python files in the distribution
+# This ensures all necessary data files are included when installing via pip
+
+# Include documentation
+include README.md
+include LICENSE
+include run_zcli_tests.sh
+recursive-include Documentation *.md
+
+# Include test suite and demos
+recursive-include zTestSuite *.py *.yaml *.md
+recursive-include zTestRunner *.py *.yaml *.md *.sh
+
+# Include schemas and UI files
+recursive-include Schemas *.yaml
+recursive-include UI *.yaml
+
+# Include zOS utils documentation
+recursive-include zOS/utils *.md
+
+# Exclude compiled Python files and caches
+global-exclude __pycache__
+global-exclude *.py[cod]
+global-exclude *$py.class
+global-exclude *.so
+
+# Exclude build artifacts
+prune build
+prune dist
+prune *.egg-info
+prune venv
+

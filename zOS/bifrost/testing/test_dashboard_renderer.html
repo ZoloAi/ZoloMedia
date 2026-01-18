@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Renderer Test - zCLI BifrostClient</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css?v=20251218">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    body { background: #f8f9fa; min-height: 100vh; }
+    #log { font-family: 'Monaco', 'Courier New', monospace; font-size: 0.875rem; max-height: 300px; overflow-y: auto; }
+    .log-entry { padding: 0.25rem 0.5rem; border-bottom: 1px solid #e9ecef; }
+    .log-success { color: #198754; } .log-error { color: #dc3545; } .log-info { color: #0d6efd; }
+    
+    /* Dashboard-specific styles */
+    .zVertical-layout {
+      display: flex;
+      flex-direction: row !important; /* Explicitly set horizontal layout */
+      gap: 1.5rem;
+      min-height: 400px;
+      width: 100%;
+    }
+    .zDash-sidebar {
+      min-width: 220px;
+      max-width: 220px;
+      flex-shrink: 0; /* Prevent sidebar from shrinking */
+      background: #fff;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .zTab-content {
+      flex: 1; /* Take remaining space */
+      background: #fff;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      overflow: auto; /* Handle overflow */
+    }
+  </style>
+</head>
+<body>
+  <div class="zContainer zMy-4">
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h1 class="zCard-title">Dashboard Renderer Test</h1>
+        <p class="zCard-text zText-muted">
+          Step 2.4: Testing dashboard rendering with sidebar navigation
+        </p>
+      </div>
+    </div>
+
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Test Controls</h2>
+        <div class="zD-flex zFlex-wrap zGap-2">
+          <button class="zBtn zBtn-outline-primary" onclick="testBasicDashboard()">Test Basic Dashboard</button>
+          <button class="zBtn zBtn-outline-primary" onclick="testDashboardWithIcons()">Test Dashboard with Icons</button>
+          <button class="zBtn zBtn-outline-primary" onclick="testPanelSwitching()">Test Panel Switching</button>
+          <button class="zBtn zBtn-outline-primary" onclick="testPreserveContent()">Test Preserve Content</button>
+          <button class="zBtn zBtn-outline-dark" onclick="clearRenderZone()">Clear Zone</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Render Zone</h2>
+        <div id="render-zone" class="zBg-white" style="min-height: 500px;">
+          <p class="zText-muted zP-3"><em>Click a test button to render dashboard...</em></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="zCard">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Console Log</h2>
+        <div id="log" class="zP-3 zBg-light zBorder zRounded"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import DashboardRenderer from '../src/rendering/dashboard_renderer.js';
+
+    const renderZone = document.getElementById('render-zone');
+    const logElement = document.getElementById('log');
+    
+    // Mock logger
+    const logger = {
+      log: (msg, ...args) => logToConsole('log', msg, ...args),
+      warn: (msg, ...args) => logToConsole('warn', msg, ...args),
+      error: (msg, ...args) => logToConsole('error', msg, ...args),
+    };
+    
+    // Mock WebSocket client
+    const mockClient = {
+      connection: {
+        send: async (data) => {
+          const request = JSON.parse(data);
+          logger.log('[MockClient] Received walker request:', request);
+          
+          // Simulate panel loading after delay
+          setTimeout(() => {
+            const contentArea = document.getElementById('dashboard-panel-content');
+            if (contentArea) {
+              contentArea.innerHTML = `
+                <div class="zCard">
+                  <div class="zCard-body">
+                    <h3 class="zCard-title">${request.zBlock} Panel</h3>
+                    <p class="zCard-text">This is the content for the <strong>${request.zBlock}</strong> panel.</p>
+                    <p class="zText-muted">In a real application, this would be populated by the backend via WebSocket chunks.</p>
+                  </div>
+                </div>
+              `;
+              logger.log(`[MockClient] Panel ${request.zBlock} loaded successfully`);
+            }
+          }, 500);
+        }
+      }
+    };
+    
+    const renderer = new DashboardRenderer(logger, mockClient);
+
+    function logToConsole(type, msg, ...args) {
+      const entry = document.createElement('div');
+      entry.className = `log-entry log-${type}`;
+      const argsStr = args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ');
+      entry.textContent = `[${type.toUpperCase()}] ${msg} ${argsStr}`;
+      logElement.prepend(entry);
+    }
+
+    window.clearRenderZone = () => {
+      renderZone.innerHTML = '<p class="zText-muted zP-3"><em>Click a test button to render dashboard...</em></p>';
+      logElement.innerHTML = '';
+      logger.log('Render zone cleared');
+    };
+
+    // Mock fetch globally for all tests (graceful fallback for 404s)
+    const originalFetch = window.fetch;
+    window.fetch = async (url) => {
+      if (url.includes('/api/dashboard/panel/meta')) {
+        // Return default metadata (no custom icons/labels)
+        return {
+          ok: true,
+          json: async () => ({
+            success: true,
+            meta: {
+              panel_icon: 'bi-file-text',
+              panel_label: new URL(url, window.location.origin).searchParams.get('zPath').split('.').pop()
+            }
+          })
+        };
+      }
+      return originalFetch(url);
+    };
+
+    // Test 1: Basic Dashboard
+    window.testBasicDashboard = async () => {
+      logger.log('Testing basic dashboard (no icons)...');
+      
+      renderZone.innerHTML = '';
+      
+      const config = {
+        folder: '@.Dashboard',
+        sidebar: ['Overview', 'Analytics', 'Settings'],
+        default: 'Overview'
+      };
+      
+      try {
+        await renderer.render(config, renderZone);
+        logger.log('✅ Basic dashboard rendered successfully');
+      } catch (error) {
+        logger.error('❌ Dashboard rendering failed:', error);
+      }
+    };
+
+    // Test 2: Dashboard with Icons (override default mock with custom icons)
+    window.testDashboardWithIcons = async () => {
+      logger.log('Testing dashboard with Bootstrap Icons...');
+      
+      renderZone.innerHTML = '';
+      
+      const config = {
+        folder: '@.Dashboard',
+        sidebar: ['Home', 'Profile', 'Messages', 'Settings', 'Logout'],
+        default: 'Home'
+      };
+      
+      // Temporarily override fetch with custom icons
+      const tempFetch = window.fetch;
+      window.fetch = async (url) => {
+        if (url.includes('/api/dashboard/panel/meta')) {
+          const panelName = new URL(url, window.location.origin).searchParams.get('zPath').split('.').pop();
+          const icons = {
+            'Home': 'bi-house-fill',
+            'Profile': 'bi-person-circle',
+            'Messages': 'bi-chat-dots-fill',
+            'Settings': 'bi-gear-fill',
+            'Logout': 'bi-box-arrow-right'
+          };
+          return {
+            ok: true,
+            json: async () => ({
+              success: true,
+              meta: {
+                panel_icon: icons[panelName] || 'bi-file-text',
+                panel_label: panelName
+              }
+            })
+          };
+        }
+        return tempFetch(url);
+      };
+      
+      try {
+        await renderer.render(config, renderZone);
+        logger.log('✅ Dashboard with icons rendered successfully');
+      } catch (error) {
+        logger.error('❌ Dashboard rendering failed:', error);
+      } finally {
+        // Restore original mock
+        window.fetch = tempFetch;
+      }
+    };
+
+    // Test 3: Panel Switching
+    window.testPanelSwitching = async () => {
+      logger.log('Testing panel switching interaction...');
+      
+      renderZone.innerHTML = '';
+      
+      const config = {
+        folder: '@.Dashboard',
+        sidebar: ['Dashboard', 'Users', 'Reports'],
+        default: 'Dashboard'
+      };
+      
+      try {
+        await renderer.render(config, renderZone);
+        logger.log('✅ Dashboard rendered - try clicking sidebar links to switch panels');
+        logger.log('ℹ️ Watch the console for panel load events');
+      } catch (error) {
+        logger.error('❌ Dashboard rendering failed:', error);
+      }
+    };
+
+    // Test 4: Preserve Existing Content
+    window.testPreserveContent = async () => {
+      logger.log('Testing content preservation...');
+      
+      // Add some existing content first
+      renderZone.innerHTML = `
+        <div class="zCard zMb-3">
+          <div class="zCard-body">
+            <h3 class="zCard-title">Existing Content</h3>
+            <p class="zCard-text">This content should be preserved when the dashboard is rendered.</p>
+          </div>
+        </div>
+      `;
+      
+      const config = {
+        folder: '@.Dashboard',
+        sidebar: ['Panel A', 'Panel B'],
+        default: 'Panel A'
+      };
+      
+      try {
+        await renderer.render(config, renderZone);
+        logger.log('✅ Dashboard rendered - check if existing content was preserved above');
+      } catch (error) {
+        logger.error('❌ Dashboard rendering failed:', error);
+      }
+    };
+
+    // Auto-run first test
+    logger.log('Dashboard Renderer Test initialized');
+    logger.log('Click a test button to begin...');
+  </script>
+</body>
+</html>
+

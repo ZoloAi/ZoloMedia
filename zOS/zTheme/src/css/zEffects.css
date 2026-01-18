@@ -1,0 +1,69 @@
+/* ============================================
+   zEffects.css - Visual Effects
+   ============================================
+   
+   Text shadows, glows, and hover effects.
+   Box shadow utilities have been moved to zShadows.css
+   for better organization and Bootstrap 5 alignment.
+   
+   See: zShadows.css for box-shadow utilities
+   ============================================ */
+
+/* CSS Variables */
+:root {
+    --zShadowColor-light: rgba(0, 0, 0, 0.1);
+    --zShadowColor-medium: rgba(0, 0, 0, 0.2);
+    --zShadowColor-dark: rgba(0, 0, 0, 0.3);
+    --zGlowColor: rgba(255, 255, 255, 0.8);
+    --zGlowColor-soft: rgba(255, 255, 255, 0.6);
+}
+  
+  /* Text Shadow Effects */
+  /* -------------------------------- */
+  
+  /* No Shadow */
+  .zTextShadow-none {
+    text-shadow: none !important;
+  }
+  
+  /* Light Text Shadow */
+  .zTextShadow-light {
+    text-shadow: 1px 1px 2px var(--zShadowColor-light) !important;
+  }
+  
+  /* Medium Text Shadow */
+  .zTextShadow-md {
+    text-shadow: 2px 2px 4px var(--zShadowColor-medium) !important;
+  }
+  
+  /* Heavy Text Shadow */
+  .zTextShadow-lg {
+    text-shadow: 4px 4px 6px var(--zShadowColor-dark) !important;
+  }
+  
+  /* Glowing Text Shadow */
+  .zTextShadow-glow {
+    text-shadow: 0 0 10px var(--zGlowColor), 0 0 20px var(--zGlowColor-soft) !important;
+  }
+  
+  /* Hover Effects */
+  /* -------------------------------- */
+  
+  /* Box Shadow on Hover */
+  .zHoverBoxShadow {
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .zHoverBoxShadow:hover {
+    box-shadow: 0 12px 18px var(--zShadowColor-medium), 0 5px 10px var(--zShadowColor-dark);
+  }
+  
+  /* Text Shadow on Hover */
+  .zHoverTextShadow {
+    transition: text-shadow 0.3s ease;
+  }
+  
+  .zHoverTextShadow:hover {
+    text-shadow: 2px 2px 6px var(--zShadowColor-dark);
+  }
+  

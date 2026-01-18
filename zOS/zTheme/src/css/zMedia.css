@@ -1,0 +1,84 @@
+/* Navigation styling */
+.file-management-nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+}
+
+/* Thumbnail (grid) view */
+.flex-wrap-view {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    list-style: none; /* No bullets */
+    padding: 0;
+    justify-content: flex-start;
+}
+
+/* List view (unstyled) */
+.block-view,
+.list-view {
+    list-style: none; /* No bullets */
+    padding: 0;
+    margin: 0;
+}
+
+/* Modern Thumbnail Container for Directory and File Icons */
+.thumbnail-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 120px; /* Slightly larger for better visibility */
+    height: 140px; /* Adjusted height for better balance */
+    background-color: #f9f9fb; /* Light, modern background color */
+    border: 1px solid #e0e0e0; /* Subtle border for definition */
+    border-radius: 12px; /* Rounded corners for a modern look */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth interaction */
+    padding: 10px; /* Inner padding for spacing */
+    overflow: hidden; /* Prevent content overflow */
+    cursor: pointer; /* Indicate interactivity */
+}
+
+/* Hover effect for thumbnail container */
+.thumbnail-container:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+/* Icon styling inside the thumbnail container */
+.thumbnail-container .directory-icon,
+.thumbnail-container .file-icon {
+    font-size: 2.5rem; /* Large icon size for emphasis */
+    color: #6c757d; /* Neutral gray color for icons */
+    margin-bottom: 8px; /* Spacing below icon */
+}
+
+/* File name styling inside the thumbnail container */
+.thumbnail-container .file-name {
+    font-size: 0.85rem; /* Adjusted font size for readability */
+    font-weight: 500; /* Slightly bold for better visibility */
+    color: #333; /* Dark text for contrast */
+    text-align: center; /* Center-aligned text */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Clip overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis for long names */
+}
+
+.file-item.selected {
+    background-color: #d1ecf1; /* Light blue background */
+    border: 2px solid #0c5460; /* Dark blue border */
+    transform: scale(1.03); /* Slightly enlarge selected items */
+}
+
+.highlight-matched {
+    background-color: var(--mainGreen); /* Light green for matches */
+    color: #155724; /* Dark green text */
+}
+
+.highlight-missing {
+    background-color: #f8d7da; /* Light red for missing */
+    color: #721c24; /* Dark red text */
+}

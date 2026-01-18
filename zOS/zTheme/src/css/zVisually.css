@@ -1,0 +1,112 @@
+/* ============================================
+   zVisually.css - Visually Hidden Helpers
+   ============================================
+   
+   Accessibility helpers for hiding content visually
+   while keeping it accessible to screen readers.
+   
+   Classes:
+   - .zVisually-hidden          : Hide element, visible to screen readers
+   - .zVisually-hidden-focusable: Hide until focused (skip links)
+   
+   Usage:
+   <h2 class="zVisually-hidden">For screen readers only</h2>
+   <a class="zVisually-hidden-focusable" href="#main">Skip to content</a>
+*/
+
+/* ============================================
+   Visually Hidden
+   ============================================
+   
+   Hide element visually but keep it accessible
+   to assistive technologies (screen readers).
+   
+   Use cases:
+   - Screen reader only headings
+   - Hidden form labels (when visual label exists)
+   - Icon button accessible names
+   - Loading spinner text
+   - Skip navigation links (with -focusable)
+*/
+
+.zVisually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* ============================================
+   Visually Hidden Focusable
+   ============================================
+   
+   Hide element by default, but show when focused.
+   Perfect for "Skip to main content" links.
+   
+   Also works on containers with :focus-within:
+   - Container hidden by default
+   - Shows when any child receives focus
+   - Great for skip navigation menus
+*/
+
+.zVisually-hidden-focusable:not(:focus):not(:focus-within) {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* ============================================
+   How It Works
+   ============================================
+   
+   The technique uses multiple CSS properties to
+   hide content visually while keeping it in the
+   DOM and accessible to screen readers:
+   
+   - position: absolute    → Remove from layout
+   - width/height: 1px     → Tiny but exists
+   - padding: 0            → No internal space
+   - margin: -1px          → Pull out of view
+   - overflow: hidden      → Hide any overflow
+   - clip: rect(0,0,0,0)   → Clip to nothing
+   - white-space: nowrap   → Prevent wrapping
+   - border: 0             → No visible border
+   
+   For -focusable variant:
+   - Uses :not(:focus) and :not(:focus-within)
+   - Element appears normally when focused
+   - Container appears when child gets focus
+*/
+
+/* ============================================
+   Accessibility Notes
+   ============================================
+   
+   DO use for:
+   ✅ Screen reader only headings
+   ✅ Hidden form labels (with visible placeholder)
+   ✅ Icon button accessible names
+   ✅ Skip navigation links (-focusable)
+   ✅ Loading state announcements
+   
+   DON'T use for:
+   ❌ Hiding important content from everyone
+   ❌ Content that should be hidden from screen readers
+      (use aria-hidden="true" instead)
+   ❌ Display-none alternative (this is for a11y only!)
+   
+   For hiding from everyone including screen readers:
+   Use display: none or .zDisplay-none instead
+*/
+

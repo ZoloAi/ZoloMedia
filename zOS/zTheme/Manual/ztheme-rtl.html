@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rtl - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem 0;">
+    <!-- Header -->
+    <div style="margin-bottom: 3rem;">
+        <h1 style="color: var(--color-primary); margin-bottom: 0.5rem;">RTL (Right-to-Left) Support</h1>
+        <p style="font-size: 1.2rem; color: var(--color-body); opacity: 0.8;">
+            Build multilingual applications with full RTL language support (Hebrew, Arabic, Persian, Urdu).
+        </p>
+    </div>
+
+    <!-- Understanding RTL -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Understanding RTL</h2>
+        <p style="line-height: 1.7;">
+            RTL (Right-to-Left) languages like <strong>Hebrew</strong> (עברית), <strong>Arabic</strong> (العربية), 
+            <strong>Persian</strong> (فارسی), and <strong>Urdu</strong> (اردو) read from right to left. This affects:
+        </p>
+        <ul style="line-height: 2;">
+            <li><strong>Text direction:</strong> Text flows right-to-left</li>
+            <li><strong>Layout:</strong> UI elements mirror (menus, sidebars, buttons)</li>
+            <li><strong>Margins/Padding:</strong> Left becomes right and vice versa</li>
+            <li><strong>Icons:</strong> Directional icons should flip (arrows, chevrons)</li>
+        </ul>
+
+        <blockquote style="background: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Global Solution:</strong> zTheme uses the HTML <code>dir</code> attribute 
+            for global direction control. Set <code>dir="rtl"</code> on the <code>&lt;html&gt;</code> tag, and all 
+            RTL-aware utilities automatically adapt!</p>
+        </blockquote>
+    </section>
+
+    <!-- Global Implementation -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Global RTL Implementation</h2>
+        
+        <h3 style="margin: 2rem 0 1rem;">Option 1: HTML dir Attribute (Recommended)</h3>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">
+            The <strong>standard and recommended</strong> way to enable RTL globally:
+        </p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="he" dir="rtl"&gt; &lt;!-- Hebrew, RTL --&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;דף בעברית&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- All content automatically adapts to RTL --&gt;
+  &lt;div class="zContainer"&gt;
+    &lt;p class="zText-start"&gt;זה מיושר להתחלה (ימין ב-RTL)&lt;/p&gt;
+    &lt;button class="zBtn zBtn-primary zms-3"&gt;כפתור&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+        <h3 style="margin: 3rem 0 1rem;">For LTR (Left-to-Right) - Default</h3>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;html lang="en" dir="ltr"&gt; &lt;!-- English, LTR (default) --&gt;</code></pre>
+
+        <h3 style="margin: 3rem 0 1rem;">Common Language Codes</h3>
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>Language</th>
+                    <th>Code</th>
+                    <th>Direction</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Hebrew</td>
+                    <td><code>he</code></td>
+                    <td><code>rtl</code></td>
+                    <td><code>&lt;html lang="he" dir="rtl"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>Arabic</td>
+                    <td><code>ar</code></td>
+                    <td><code>rtl</code></td>
+                    <td><code>&lt;html lang="ar" dir="rtl"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>Persian (Farsi)</td>
+                    <td><code>fa</code></td>
+                    <td><code>rtl</code></td>
+                    <td><code>&lt;html lang="fa" dir="rtl"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>Urdu</td>
+                    <td><code>ur</code></td>
+                    <td><code>rtl</code></td>
+                    <td><code>&lt;html lang="ur" dir="rtl"&gt;</code></td>
+                </tr>
+                <tr>
+                    <td>English</td>
+                    <td><code>en</code></td>
+                    <td><code>ltr</code></td>
+                    <td><code>&lt;html lang="en" dir="ltr"&gt;</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Dynamic Language Switching -->
+    <section class="zmy-6">
+        <h2 class="zText-warning">Dynamic Language Switching</h2>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">
+            For applications that support multiple languages, switch direction dynamically with JavaScript:
+        </p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>// Switch to RTL (Hebrew, Arabic, etc.)
+function setRTL() {
+  document.documentElement.setAttribute('dir', 'rtl');
+  document.documentElement.setAttribute('lang', 'he'); // or 'ar', 'fa', 'ur'
+}
+
+// Switch to LTR (English, etc.)
+function setLTR() {
+  document.documentElement.setAttribute('dir', 'ltr');
+  document.documentElement.setAttribute('lang', 'en');
+}
+
+// Toggle direction
+function toggleDirection() {
+  const currentDir = document.documentElement.getAttribute('dir');
+  if (currentDir === 'rtl') {
+    setLTR();
+  } else {
+    setRTL();
+  }
+}
+
+// Auto-detect from user preference or browser
+function detectDirection() {
+  const userLang = navigator.language || navigator.userLanguage;
+  const rtlLanguages = ['he', 'ar', 'fa', 'ur'];
+  
+  if (rtlLanguages.some(lang => userLang.startsWith(lang))) {
+    setRTL();
+  } else {
+    setLTR();
+  }
+}</code></pre>
+
+        <h3 style="margin: 2rem 0 1rem;">Server-Side (Python/Flask Example)</h3>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>from flask import render_template, session
+
+@app.route('/')
+def index():
+    # Get user's language preference
+    lang = session.get('language', 'en')
+    dir = 'rtl' if lang in ['he', 'ar', 'fa', 'ur'] else 'ltr'
+    
+    return render_template('index.html', lang=lang, dir=dir)
+
+# In base.html template:
+# &lt;html lang="{{ lang }}" dir="{{ dir }}"&gt;</code></pre>
+    </section>
+
+    <!-- RTL-Aware Utilities -->
+    <section class="zmy-6">
+        <h2 class="zText-danger">RTL-Aware Utilities</h2>
+        <p style="line-height: 1.7; margin-bottom: 1.5rem;">
+            zTheme utilities automatically adapt to RTL when <code>dir="rtl"</code> is set. Use these instead of 
+            left/right:
+        </p>
+
+        <h3 style="margin: 2rem 0 1rem;">Spacing: Use Start/End Instead of Left/Right</h3>
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>✅ RTL-Aware (Use This)</th>
+                    <th>❌ Fixed Direction (Avoid)</th>
+                    <th>Behavior</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zms-3</code></td>
+                    <td><code>.zml-3</code></td>
+                    <td>Margin start: left in LTR, right in RTL</td>
+                </tr>
+                <tr>
+                    <td><code>.zme-3</code></td>
+                    <td><code>.zmr-3</code></td>
+                    <td>Margin end: right in LTR, left in RTL</td>
+                </tr>
+                <tr>
+                    <td><code>.zps-4</code></td>
+                    <td><code>.zpl-4</code></td>
+                    <td>Padding start: left in LTR, right in RTL</td>
+                </tr>
+                <tr>
+                    <td><code>.zpe-4</code></td>
+                    <td><code>.zpr-4</code></td>
+                    <td>Padding end: right in LTR, left in RTL</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin: 3rem 0 1rem;">Text Alignment: Use Start/End</h3>
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>✅ RTL-Aware (Use This)</th>
+                    <th>Behavior</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zText-start</code></td>
+                    <td>Align to start: left in LTR, right in RTL</td>
+                </tr>
+                <tr>
+                    <td><code>.zText-center</code></td>
+                    <td>Center (same in both)</td>
+                </tr>
+                <tr>
+                    <td><code>.zText-end</code></td>
+                    <td>Align to end: right in LTR, left in RTL</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin: 3rem 0 1rem;">Position: Use Start/End</h3>
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>✅ RTL-Aware (Use This)</th>
+                    <th>❌ Fixed Direction (Avoid)</th>
+                    <th>Behavior</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zStart-0</code></td>
+                    <td><code>.zLeft-0</code></td>
+                    <td>Position from start edge</td>
+                </tr>
+                <tr>
+                    <td><code>.zEnd-0</code></td>
+                    <td><code>.zRight-0</code></td>
+                    <td>Position from end edge</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <blockquote style="background: #e8f5e9; padding: 1rem; border-left: 4px solid #4caf50; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Best Practice:</strong> Always use <code>start</code>/<code>end</code> 
+            utilities in your code. The legacy <code>left</code>/<code>right</code> classes are kept for backward 
+            compatibility but won't adapt to RTL!</p>
+        </blockquote>
+    </section>
+
+    <!-- Visual Demo -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Live RTL Demo</h2>
+        <p style="line-height: 1.7; margin-bottom: 1.5rem;">
+            Toggle direction to see RTL-aware utilities in action:
+        </p>
+
+        <div style="text-align: center; margin-bottom: 2rem;">
+            <button onclick="toggleDemoDir()" class="zBtn zBtn-primary">Toggle Direction (Currently: <span id="currentDir">LTR</span>)</button>
+        </div>
+
+        <div id="rtlDemo" dir="ltr" style="background: #f8f9fa; padding: 2rem; border-radius: 8px; border: 3px solid var(--color-primary);">
+            <!-- Text Alignment Demo -->
+            <h3 style="margin-top: 0;">Text Alignment</h3>
+            <p class="zText-start zBg-white zP-2 zmb-2" style="border-radius: 4px;">
+                <code>.zText-start</code> - Aligns to start (left→LTR, right→RTL)
+            </p>
+            <p class="zText-center zBg-white zP-2 zmb-2" style="border-radius: 4px;">
+                <code>.zText-center</code> - Always centered
+            </p>
+            <p class="zText-end zBg-white zP-2 zmb-3" style="border-radius: 4px;">
+                <code>.zText-end</code> - Aligns to end (right→LTR, left→RTL)
+            </p>
+
+            <!-- Spacing Demo -->
+            <h3>Spacing (Margin Start)</h3>
+            <div class="zBg-white zP-2 zmb-3" style="border-radius: 4px;">
+                <div class="zms-0 zBg-primary zText-white zP-2 zmb-2" style="border-radius: 4px; width: 200px;">
+                    .zms-0 (no margin)
+                </div>
+                <div class="zms-5 zBg-success zText-white zP-2" style="border-radius: 4px; width: 200px;">
+                    .zms-5 (3rem from start)
+                </div>
+            </div>
+
+            <!-- Card Layout Demo -->
+            <h3>Card with Image (Float Start)</h3>
+            <div class="zBg-white zP-3" style="border-radius: 8px;">
+                <img src="https://picsum.photos/120/120" alt="Demo" class="zFloat-start zme-3 zmb-2" style="border-radius: 4px;">
+                <h4 style="margin: 0 0 0.5rem 0;">Card Title</h4>
+                <p style="margin: 0; line-height: 1.6;">
+                    The image floats to the start (left in LTR, right in RTL) with margin-end creating space. 
+                    This is a common pattern for image + text layouts.
+                </p>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+
+        <script>
+        function toggleDemoDir() {
+          const demo = document.getElementById('rtlDemo');
+          const dirSpan = document.getElementById('currentDir');
+          const currentDir = demo.getAttribute('dir');
+          
+          if (currentDir === 'ltr') {
+            demo.setAttribute('dir', 'rtl');
+            dirSpan.textContent = 'RTL';
+          } else {
+            demo.setAttribute('dir', 'ltr');
+            dirSpan.textContent = 'LTR';
+          }
+        }
+        </script>
+    </section>
+
+    <!-- Things That Need Manual Handling -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">What Needs Manual RTL Handling</h2>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">
+            Some elements require manual adjustment for RTL:
+        </p>
+
+        <h3 style="margin: 2rem 0 1rem;">1. Directional Icons</h3>
+        <p style="line-height: 1.7;">
+            Icons with direction (arrows, chevrons) should flip in RTL:
+        </p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>/* CSS approach */
+[dir="rtl"] .icon-arrow-right {
+  transform: scaleX(-1); /* Flip horizontally */
+}
+
+/* Or use separate icons */
+&lt;span class="icon-arrow-right"&gt;→&lt;/span&gt; &lt;!-- LTR --&gt;
+&lt;span class="icon-arrow-left" style="display:none;"&gt;←&lt;/span&gt; &lt;!-- RTL --&gt;</code></pre>
+
+        <h3 style="margin: 2rem 0 1rem;">2. Custom Positioning</h3>
+        <p style="line-height: 1.7;">
+            If you use custom <code>left</code>/<code>right</code> in inline styles, add RTL variants:
+        </p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>/* Instead of: */
+style="left: 20px;"
+
+/* Use CSS logical properties: */
+style="inset-inline-start: 20px;" /* Modern browsers */
+
+/* Or use classes: */
+class="zStart-0" /* zTheme utility */</code></pre>
+
+        <h3 style="margin: 2rem 0 1rem;">3. Shadows & Gradients</h3>
+        <p style="line-height: 1.7;">
+            Box shadows and gradients with direction should flip:
+        </p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>[dir="rtl"] .card {
+  box-shadow: -2px 2px 8px rgba(0,0,0,0.1); /* Flip shadow */
+}
+
+[dir="rtl"] .gradient {
+  background: linear-gradient(to left, blue, red); /* Flip gradient */
+}</code></pre>
+
+        <h3 style="margin: 2rem 0 1rem;">4. Text in Images</h3>
+        <p style="line-height: 1.7;">
+            Images with embedded text need separate RTL versions or should be avoided.
+        </p>
+
+        <blockquote style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>⚠️ Pro Tip:</strong> Test your RTL layouts with actual RTL text (Hebrew/Arabic). 
+            English text won't expose alignment issues that only appear with RTL characters!</p>
+        </blockquote>
+    </section>
+
+    <!-- Testing RTL -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Testing Your RTL Implementation</h2>
+        
+        <h3 style="margin: 2rem 0 1rem;">Browser DevTools</h3>
+        <p style="line-height: 1.7;">
+            Test RTL quickly in browser console:
+        </p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>// In browser console:
+document.documentElement.setAttribute('dir', 'rtl')  // Test RTL
+document.documentElement.setAttribute('dir', 'ltr')  // Back to LTR</code></pre>
+
+        <h3 style="margin: 2rem 0 1rem;">Sample Hebrew Text for Testing</h3>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>שלום עולם! זהו טקסט לדוגמה בעברית.
+זולו היא חברה שממוקמת בתל אביב.
+אנחנו בונים מוצרים עבור העולם כולו.</code></pre>
+
+        <h3 style="margin: 2rem 0 1rem;">Sample Arabic Text for Testing</h3>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>مرحبا بالعالم! هذا نص تجريبي باللغة العربية.
+نحن نبني منتجات للعالم أجمع.</code></pre>
+
+        <h3 style="margin: 2rem 0 1rem;">Checklist</h3>
+        <ul style="line-height: 2;">
+            <li>✅ Set <code>dir="rtl"</code> on <code>&lt;html&gt;</code></li>
+            <li>✅ Use <code>.zms-*</code>/<code>.zme-*</code> instead of <code>.zml-*</code>/<code>.zmr-*</code></li>
+            <li>✅ Use <code>.zText-start</code>/<code>.zText-end</code> instead of left/right</li>
+            <li>✅ Test with actual RTL text (Hebrew/Arabic)</li>
+            <li>✅ Check directional icons flip correctly</li>
+            <li>✅ Verify forms, buttons, and navigation work properly</li>
+            <li>✅ Test on mobile (mobile RTL can have unique issues)</li>
+        </ul>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Use start/end everywhere:</strong> Always prefer <code>start</code>/<code>end</code> over <code>left</code>/<code>right</code></li>
+            <li><strong>Test early:</strong> Don't wait until the end to add RTL support</li>
+            <li><strong>Real content:</strong> Test with actual Hebrew/Arabic text, not Lorem Ipsum</li>
+            <li><strong>Mobile testing:</strong> RTL on mobile can expose unique layout issues</li>
+            <li><strong>Icons with meaning:</strong> Flip directional icons (arrows), but not semantic ones (✓, ✗)</li>
+            <li><strong>Forms:</strong> Test form validation and error messages in RTL</li>
+            <li><strong>Numbers:</strong> Remember numbers stay LTR even in RTL text</li>
+            <li><strong>Mixed content:</strong> Handle mixed LTR/RTL content with <code>dir="auto"</code></li>
+        </ul>
+    </section>
+
+    <!-- Accessibility -->
+    <section class="zmy-6">
+        <h2 class="zText-dark">Accessibility & RTL</h2>
+        <ul style="line-height: 2;">
+            <li><strong>lang attribute:</strong> Always set <code>lang="he"</code> or <code>lang="ar"</code> with RTL</li>
+            <li><strong>Screen readers:</strong> Proper <code>lang</code> helps screen readers pronounce correctly</li>
+            <li><strong>Keyboard navigation:</strong> Arrow keys should follow visual direction in RTL</li>
+            <li><strong>ARIA labels:</strong> Translate ARIA labels for RTL languages</li>
+            <li><strong>Focus order:</strong> Ensure tab order follows RTL visual flow</li>
+        </ul>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Related Topics</h2>
+        <ul class="lh-lg">
+            <li><a href="ztheme-spacing.html">Spacing</a> - Start/end margin & padding</li>
+            <li><a href="ztheme-text.html">Text</a> - Start/end text alignment</li>
+            <li><a href="ztheme-position.html">Position</a> - Start/end positioning</li>
+            <li><a href="ztheme-float.html">Float</a> - Start/end floats</li>
+            <li><a href="ztheme-flex.html">Flex</a> - Flexbox with RTL</li>
+        </ul>
+    </section>
+
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

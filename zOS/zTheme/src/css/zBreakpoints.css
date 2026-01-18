@@ -1,0 +1,42 @@
+/* ============================================
+   zBreakpoints.css - Responsive Breakpoints
+   Bootstrap-inspired breakpoint system
+   ============================================ */
+
+/* Breakpoint Variables (following Bootstrap 5 conventions)
+   ========================================================= */
+:root {
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-xxl: 1400px;
+  
+  /* Container max-widths at each breakpoint */
+  --container-sm: 540px;
+  --container-md: 720px;
+  --container-lg: 960px;
+  --container-xl: 1140px;
+  --container-xxl: 1320px;
+}
+
+/* Container Classes
+   ================== */
+/* 
+   Note: Container classes (.zContainer, .zContainer-fluid, etc.) have been
+   moved to zContainers.css for better organization.
+   
+   See: zContainers.css for the full implementation
+*/
+
+/* Display Utilities for Breakpoints
+   ================================== */
+/* 
+   Note: Display utilities (.zD-*) have been moved to zDisplay.css
+   for better organization and to include additional values (grid, table)
+   and print utilities.
+   
+   See: zDisplay.css for the full implementation
+*/
+

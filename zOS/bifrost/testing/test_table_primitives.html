@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table Primitives Test Suite</title>
+  
+  <!-- zTheme CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css">
+  
+  <style>
+    body {
+      background: #f8f9fa;
+      min-height: 100vh;
+    }
+    
+    /* Console log styling */
+    #console-log {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    
+    /* Demo borders for visualization */
+    .demo-border {
+      border: 2px dashed #6c757d;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      background: white;
+    }
+    
+    /* Basic table styling for visibility (NOT zTheme, just for demo) */
+    .render-zone table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+    
+    .render-zone th,
+    .render-zone td {
+      border: 1px solid #dee2e6;
+      padding: 0.5rem;
+      text-align: left;
+    }
+    
+    .render-zone th {
+      background: #e9ecef;
+      font-weight: 600;
+    }
+    
+    .render-zone caption {
+      caption-side: top;
+      padding: 0.5rem;
+      font-weight: 600;
+      text-align: left;
+      background: #f8f9fa;
+    }
+    
+    .render-zone tfoot {
+      background: #f8f9fa;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="zContainer zMy-4">
+    <!-- Header -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h1 class="zCard-title">📊 Table Primitives Test Suite</h1>
+        <p class="zText-muted">Testing raw HTML table element factory functions (Layer 0.0)</p>
+        <p><strong>Module:</strong> <code>rendering/table_primitives.js</code></p>
+        <p class="zText-muted"><em>Note: Basic styling applied for visibility - primitives are unstyled by default</em></p>
+      </div>
+    </div>
+
+    <!-- Test Controls -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h3 class="zCard-title zMb-3">Test Scenarios</h3>
+        <div class="zD-flex zFlex-wrap zGap-2">
+          <button class="zBtn zBtn-outline-primary" onclick="testBasicTable()">1. Basic Table</button>
+          <button class="zBtn zBtn-outline-secondary" onclick="testTableWithCaption()">2. With Caption</button>
+          <button class="zBtn zBtn-outline-success" onclick="testTableSections()">3. Sections (thead/tbody/tfoot)</button>
+          <button class="zBtn zBtn-outline-info" onclick="testCellSpanning()">4. Cell Spanning</button>
+          <button class="zBtn zBtn-outline-warning" onclick="testComplexTable()">5. Complex Table</button>
+          <button class="zBtn zBtn-outline-danger" onclick="clearRenderZone()">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Render Zone -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h3 class="zCard-title zMb-3">Render Zone</h3>
+        <div id="render-zone" class="render-zone zP-3 zBg-light zBorder zRounded">
+          <p class="zText-muted">Click a test button to render table elements...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Console Log -->
+    <div class="zCard">
+      <div class="zCard-body">
+        <h3 class="zCard-title zMb-3">Console Log</h3>
+        <div id="console-log" class="zP-3 zBg-dark zText-white zRounded"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Module imports -->
+  <script type="module">
+    import {
+      createTable,
+      createCaption,
+      createColgroup,
+      createCol,
+      createThead,
+      createTbody,
+      createTfoot,
+      createTr,
+      createTh,
+      createTd
+    } from '../src/rendering/primitives/table_primitives.js';
+
+    // Mock console logging
+    const logElement = document.getElementById('console-log');
+    function log(message, type = 'info') {
+      const timestamp = new Date().toLocaleTimeString();
+      const prefix = type === 'error' ? '❌' : type === 'success' ? '✅' : '📝';
+      logElement.textContent += `[${timestamp}] ${prefix} ${message}\n`;
+      logElement.scrollTop = logElement.scrollHeight;
+    }
+
+    // Helper to get render zone
+    function getRenderZone() {
+      return document.getElementById('render-zone');
+    }
+
+    // Helper to clear render zone
+    window.clearRenderZone = function() {
+      const zone = getRenderZone();
+      zone.innerHTML = '<p class="zText-muted">Render zone cleared.</p>';
+      log('Render zone cleared');
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // Test 1: Basic Table
+    // ═══════════════════════════════════════════════════════════════
+    window.testBasicTable = function() {
+      log('Testing basic table structure...');
+      const zone = getRenderZone();
+      zone.innerHTML = '<h4 class="zMb-3">Test: Basic Table</h4>';
+
+      const container = document.createElement('div');
+      container.className = 'demo-border';
+      container.innerHTML = '<strong>Simple 2x3 Table:</strong><br>';
+
+      // Create table
+      const table = createTable({ id: 'basic-table' });
+      log(`Created table element`);
+
+      // Create tbody
+      const tbody = createTbody();
+      log(`Created tbody`);
+
+      // Row 1
+      const row1 = createTr();
+      const cell1_1 = createTd();
+      cell1_1.textContent = 'Name';
+      const cell1_2 = createTd();
+      cell1_2.textContent = 'Age';
+      row1.appendChild(cell1_1);
+      row1.appendChild(cell1_2);
+      tbody.appendChild(row1);
+
+      // Row 2
+      const row2 = createTr();
+      const cell2_1 = createTd();
+      cell2_1.textContent = 'Alice';
+      const cell2_2 = createTd();
+      cell2_2.textContent = '30';
+      row2.appendChild(cell2_1);
+      row2.appendChild(cell2_2);
+      tbody.appendChild(row2);
+
+      // Row 3
+      const row3 = createTr();
+      const cell3_1 = createTd();
+      cell3_1.textContent = 'Bob';
+      const cell3_2 = createTd();
+      cell3_2.textContent = '25';
+      row3.appendChild(cell3_1);
+      row3.appendChild(cell3_2);
+      tbody.appendChild(row3);
+
+      table.appendChild(tbody);
+      container.appendChild(table);
+      zone.appendChild(container);
+
+      log(`Created 3 rows with 2 cells each`);
+      log('✅ Basic table test complete', 'success');
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // Test 2: Table with Caption
+    // ═══════════════════════════════════════════════════════════════
+    window.testTableWithCaption = function() {
+      log('Testing table with caption...');
+      const zone = getRenderZone();
+      zone.innerHTML = '<h4 class="zMb-3">Test: Table with Caption</h4>';
+
+      const container = document.createElement('div');
+      container.className = 'demo-border';
+      container.innerHTML = '<strong>Table with Caption Element:</strong><br>';
+
+      // Create table
+      const table = createTable({ id: 'captioned-table' });
+
+      // Add caption (should be first child)
+      const caption = createCaption();
+      caption.textContent = 'User Information - December 2024';
+      table.appendChild(caption);
+      log(`Created caption: "${caption.textContent}"`);
+
+      // Add tbody
+      const tbody = createTbody();
+      
+      // Header row (using th)
+      const headerRow = createTr();
+      const th1 = createTh('col');
+      th1.textContent = 'Username';
+      const th2 = createTh('col');
+      th2.textContent = 'Email';
+      headerRow.appendChild(th1);
+      headerRow.appendChild(th2);
+      tbody.appendChild(headerRow);
+
+      // Data row
+      const dataRow = createTr();
+      const td1 = createTd();
+      td1.textContent = 'alice_wonder';
+      const td2 = createTd();
+      td2.textContent = 'alice@example.com';
+      dataRow.appendChild(td1);
+      dataRow.appendChild(td2);
+      tbody.appendChild(dataRow);
+
+      table.appendChild(tbody);
+      container.appendChild(table);
+      zone.appendChild(container);
+
+      log(`Created table with caption and 2 rows`);
+      log('✅ Caption test complete', 'success');
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // Test 3: Table Sections (thead/tbody/tfoot)
+    // ═══════════════════════════════════════════════════════════════
+    window.testTableSections = function() {
+      log('Testing table sections (thead/tbody/tfoot)...');
+      const zone = getRenderZone();
+      zone.innerHTML = '<h4 class="zMb-3">Test: Table Sections</h4>';
+
+      const container = document.createElement('div');
+      container.className = 'demo-border';
+      container.innerHTML = '<strong>Semantic Table with Header, Body, and Footer:</strong><br>';
+
+      // Create table
+      const table = createTable({ id: 'sectioned-table' });
+
+      // THEAD
+      const thead = createThead();
+      const headerRow = createTr();
+      ['Product', 'Price', 'Quantity'].forEach(text => {
+        const th = createTh('col');
+        th.textContent = text;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+      log(`Created thead with 3 column headers`);
+
+      // TBODY
+      const tbody = createTbody();
+      const data = [
+        ['Laptop', '$999', '2'],
+        ['Mouse', '$25', '5'],
+        ['Keyboard', '$75', '3']
+      ];
+      data.forEach(rowData => {
+        const row = createTr();
+        rowData.forEach(cellData => {
+          const td = createTd();
+          td.textContent = cellData;
+          row.appendChild(td);
+        });
+        tbody.appendChild(row);
+      });
+      table.appendChild(tbody);
+      log(`Created tbody with ${data.length} data rows`);
+
+      // TFOOT
+      const tfoot = createTfoot();
+      const footerRow = createTr();
+      const totalLabelCell = createTd({ colspan: '2' });
+      totalLabelCell.textContent = 'Total Items:';
+      const totalValueCell = createTd();
+      totalValueCell.textContent = '10';
+      footerRow.appendChild(totalLabelCell);
+      footerRow.appendChild(totalValueCell);
+      tfoot.appendChild(footerRow);
+      table.appendChild(tfoot);
+      log(`Created tfoot with total row`);
+
+      container.appendChild(table);
+      zone.appendChild(container);
+
+      log('✅ Table sections test complete', 'success');
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // Test 4: Cell Spanning
+    // ═══════════════════════════════════════════════════════════════
+    window.testCellSpanning = function() {
+      log('Testing cell spanning (colspan/rowspan)...');
+      const zone = getRenderZone();
+      zone.innerHTML = '<h4 class="zMb-3">Test: Cell Spanning</h4>';
+
+      const container = document.createElement('div');
+      container.className = 'demo-border';
+      container.innerHTML = '<strong>Table with Colspan and Rowspan:</strong><br>';
+
+      // Create table
+      const table = createTable({ id: 'spanning-table' });
+      const tbody = createTbody();
+
+      // Row 1: Header spanning 3 columns
+      const row1 = createTr();
+      const headerCell = createTh('col', { colspan: '3' });
+      headerCell.textContent = 'Q4 Sales Report';
+      row1.appendChild(headerCell);
+      tbody.appendChild(row1);
+      log(`Created header cell spanning 3 columns`);
+
+      // Row 2: Column headers
+      const row2 = createTr();
+      ['Month', 'Revenue', 'Growth'].forEach(text => {
+        const th = createTh('col');
+        th.textContent = text;
+        row2.appendChild(th);
+      });
+      tbody.appendChild(row2);
+
+      // Row 3-5: Data with rowspan on last cell
+      const months = ['October', 'November', 'December'];
+      const revenues = ['$50k', '$75k', '$100k'];
+      
+      months.forEach((month, idx) => {
+        const row = createTr();
+        const monthCell = createTd();
+        monthCell.textContent = month;
+        const revenueCell = createTd();
+        revenueCell.textContent = revenues[idx];
+        row.appendChild(monthCell);
+        row.appendChild(revenueCell);
+        
+        // Add growth cell only to first row (spans 3 rows)
+        if (idx === 0) {
+          const growthCell = createTd({ rowspan: '3' });
+          growthCell.textContent = '↑ 25%';
+          growthCell.style.textAlign = 'center';
+          growthCell.style.verticalAlign = 'middle';
+          row.appendChild(growthCell);
+          log(`Created cell spanning 3 rows`);
+        }
+        
+        tbody.appendChild(row);
+      });
+
+      table.appendChild(tbody);
+      container.appendChild(table);
+      zone.appendChild(container);
+
+      log('✅ Cell spanning test complete', 'success');
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // Test 5: Complex Table with All Features
+    // ═══════════════════════════════════════════════════════════════
+    window.testComplexTable = function() {
+      log('Testing complex table with all features...');
+      const zone = getRenderZone();
+      zone.innerHTML = '<h4 class="zMb-3">Test: Complex Table</h4>';
+
+      const container = document.createElement('div');
+      container.className = 'demo-border';
+      container.innerHTML = '<strong>Table with Caption, Sections, and Spanning:</strong><br>';
+
+      // Create table
+      const table = createTable({ id: 'complex-table' });
+
+      // Caption
+      const caption = createCaption();
+      caption.textContent = 'Employee Performance Review - 2024';
+      table.appendChild(caption);
+      log(`Added caption`);
+
+      // THEAD
+      const thead = createThead();
+      const headerRow = createTr();
+      ['Employee', 'Q1', 'Q2', 'Q3', 'Q4', 'Average'].forEach(text => {
+        const th = createTh('col');
+        th.textContent = text;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+      log(`Created thead with 6 columns`);
+
+      // TBODY
+      const tbody = createTbody();
+      const employees = [
+        ['Alice Johnson', '95', '92', '98', '94'],
+        ['Bob Smith', '88', '90', '85', '87'],
+        ['Carol White', '92', '94', '96', '95']
+      ];
+
+      employees.forEach(empData => {
+        const row = createTr();
+        
+        // Name cell (row header)
+        const nameCell = createTh('row');
+        nameCell.textContent = empData[0];
+        row.appendChild(nameCell);
+        
+        // Score cells
+        let total = 0;
+        for (let i = 1; i < empData.length; i++) {
+          const scoreCell = createTd();
+          scoreCell.textContent = empData[i];
+          scoreCell.style.textAlign = 'center';
+          row.appendChild(scoreCell);
+          total += parseInt(empData[i]);
+        }
+        
+        // Average cell
+        const avgCell = createTd();
+        avgCell.textContent = Math.round(total / 4).toString();
+        avgCell.style.textAlign = 'center';
+        avgCell.style.fontWeight = '600';
+        row.appendChild(avgCell);
+        
+        tbody.appendChild(row);
+      });
+      table.appendChild(tbody);
+      log(`Created tbody with ${employees.length} employee rows`);
+
+      // TFOOT
+      const tfoot = createTfoot();
+      const footerRow = createTr();
+      const teamAvgLabel = createTh('row', { colspan: '5' });
+      teamAvgLabel.textContent = 'Team Average:';
+      teamAvgLabel.style.textAlign = 'right';
+      const teamAvgValue = createTd();
+      teamAvgValue.textContent = '92';
+      teamAvgValue.style.textAlign = 'center';
+      teamAvgValue.style.fontWeight = '600';
+      footerRow.appendChild(teamAvgLabel);
+      footerRow.appendChild(teamAvgValue);
+      tfoot.appendChild(footerRow);
+      table.appendChild(tfoot);
+      log(`Created tfoot with team average`);
+
+      container.appendChild(table);
+      zone.appendChild(container);
+
+      log('✅ Complex table test complete', 'success');
+    };
+
+    // Initial log message
+    log('Table Primitives Test Suite Ready');
+    log('Click a test button above to begin testing');
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="../ztheme.html#forms">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Validation</li>
+        </ol>
+    </nav>
+    
+    <h1>Validation</h1>
+    <p class="zLead" style="margin-bottom: 2rem;">
+        Guide users with instant feedback on their form input using HTML5 validation and zTheme styling
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Validation -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Form Validation</h2>
+        
+        <h3>What is Validation?</h3>
+        <p>Form validation checks if user input meets your requirements before submission. For example:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Required fields:</strong> "Please fill out this field"</li>
+            <li><strong>Email format:</strong> "Please enter a valid email address"</li>
+            <li><strong>Password strength:</strong> "Password must be at least 8 characters"</li>
+        </ul>
+        
+        <h3 style="margin-top: 1.5rem;">Why Validate?</h3>
+        <ul style="line-height: 2;">
+            <li><strong>Catch errors early:</strong> Users fix mistakes before submitting</li>
+            <li><strong>Save server resources:</strong> Invalid data never reaches your backend</li>
+            <li><strong>Improve UX:</strong> Instant feedback feels responsive and helpful</li>
+        </ul>
+        
+        <h3 style="margin-top: 1.5rem;">Three Validation Approaches</h3>
+        <ol style="line-height: 2;">
+            <li><strong>Browser Default:</strong> Built-in HTML5 validation (easiest, fully accessible)</li>
+            <li><strong>Custom Styling:</strong> zTheme-styled feedback messages (visually cohesive)</li>
+            <li><strong>Server-Side:</strong> Backend validates and returns feedback (most secure)</li>
+        </ol>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: #fff8e1;">
+            <strong>Accessibility:</strong> Browser default validation is the most accessible option. Custom validation styles may not be announced by screen readers. For production, consider combining browser validation (for accessibility) with server-side validation (for security).
+        </blockquote>
+    </section>
+    
+    <!-- Browser Default Validation -->
+    <section style="margin: 3rem 0;">
+        <h2>Browser Default Validation</h2>
+        <p>The simplest approach: use HTML5 validation attributes like <code>required</code>, <code>type="email"</code>, <code>minlength</code>, and <code>pattern</code>. The browser handles everything:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <form class="zRow zG-3">
+                <div class="zCol-md-6 zmb-3">
+                    <label for="browserEmail" class="zLabel zmb-2">Email</label>
+                    <input type="email" class="zInput" id="browserEmail" required>
+                </div>
+                <div class="zCol-md-6 zmb-3">
+                    <label for="browserPassword" class="zLabel zmb-2">Password</label>
+                    <input type="password" class="zInput" id="browserPassword" minlength="8" required>
+                </div>
+                <div class="zCol-12 zmb-3">
+                    <label for="browserUsername" class="zLabel zmb-2">Username</label>
+                    <input type="text" class="zInput" id="browserUsername" pattern="[a-zA-Z0-9]+" required>
+                    <div class="zSmall zMuted" style="margin-top: 0.25rem;">Letters and numbers only</div>
+                </div>
+                <div class="zCol-12">
+                    <button type="submit" class="zBtn zBtn-primary">Create Account</button>
+                </div>
+            </form>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;form&gt;
+  &lt;label for="email" class="zLabel"&gt;Email&lt;/label&gt;
+  &lt;input type="email" class="zInput" id="email" required&gt;
+  
+  &lt;label for="password" class="zLabel"&gt;Password&lt;/label&gt;
+  &lt;input type="password" class="zInput" id="password" minlength="8" required&gt;
+  
+  &lt;button type="submit" class="zBtn zBtn-primary"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">Common HTML5 Validation Attributes</h3>
+        <ul style="line-height: 2;">
+            <li><code>required</code> - Field must be filled out</li>
+            <li><code>type="email"</code> - Must be valid email format</li>
+            <li><code>type="url"</code> - Must be valid URL</li>
+            <li><code>minlength="8"</code> - Minimum character count</li>
+            <li><code>maxlength="100"</code> - Maximum character count</li>
+            <li><code>pattern="[A-Z]+"</code> - Must match regex pattern</li>
+            <li><code>min="1"</code> / <code>max="10"</code> - For number inputs</li>
+        </ul>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Try it:</strong> Leave the email field empty or enter invalid data, then click "Create Account". The browser will show its native validation messages (style varies by browser and OS).
+        </blockquote>
+    </section>
+    
+    <!-- Custom Styled Validation -->
+    <section style="margin: 3rem 0;">
+        <h2>Custom Styled Validation</h2>
+        <p>For a visually cohesive experience, use zTheme's custom validation styling. Add the <code>.zValidation</code> class to your form and include feedback divs:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <form class="zRow zG-3 zValidation" novalidate>
+                <div class="zCol-md-6 zmb-3">
+                    <label for="customFirst" class="zLabel zmb-2">First Name</label>
+                    <input type="text" class="zInput" id="customFirst" value="Sarah" required>
+                    <div class="zValid-feedback">Looks good!</div>
+                </div>
+                <div class="zCol-md-6 zmb-3">
+                    <label for="customLast" class="zLabel zmb-2">Last Name</label>
+                    <input type="text" class="zInput" id="customLast" value="Chen" required>
+                    <div class="zValid-feedback">Looks good!</div>
+                </div>
+                <div class="zCol-md-6 zmb-3">
+                    <label for="customEmail" class="zLabel zmb-2">Email</label>
+                    <input type="email" class="zInput" id="customEmail" required>
+                    <div class="zInvalid-feedback">Please enter a valid email address.</div>
+                </div>
+                <div class="zCol-md-6 zmb-3">
+                    <label for="customCity" class="zLabel zmb-2">City</label>
+                    <input type="text" class="zInput" id="customCity" required>
+                    <div class="zInvalid-feedback">Please provide your city.</div>
+                </div>
+                <div class="zCol-12 zmb-3">
+                    <div class="zCheck">
+                        <input class="zCheck-input" type="checkbox" id="customTerms" required>
+                        <label class="zCheck-label" for="customTerms">I agree to the terms and conditions</label>
+                        <div class="zInvalid-feedback">You must agree before submitting.</div>
+                    </div>
+                </div>
+                <div class="zCol-12">
+                    <button class="zBtn zBtn-primary" type="submit">Submit Form</button>
+                </div>
+            </form>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;form class="zRow zG-3 zValidation" novalidate&gt;
+  &lt;div class="zCol-md-6 zmb-3"&gt;
+    &lt;label for="firstName" class="zLabel zmb-2"&gt;First Name&lt;/label&gt;
+    &lt;input type="text" class="zInput" id="firstName" required&gt;
+    &lt;div class="zValid-feedback"&gt;Looks good!&lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;div class="zCol-md-6 zmb-3"&gt;
+    &lt;label for="email" class="zLabel zmb-2"&gt;Email&lt;/label&gt;
+    &lt;input type="email" class="zInput" id="email" required&gt;
+    &lt;div class="zInvalid-feedback"&gt;Please enter a valid email.&lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;div class="zCol-12"&gt;
+    &lt;button type="submit" class="zBtn zBtn-primary"&gt;Submit&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">How It Works</h3>
+        <ol style="line-height: 2;">
+            <li><strong><code>novalidate</code>:</strong> Disables browser default tooltips (we'll style our own)</li>
+            <li><strong><code>.zValidation</code>:</strong> Tells JavaScript to handle validation</li>
+            <li><strong><code>.zWas-validated</code>:</strong> Added by JavaScript after submit attempt</li>
+            <li><strong><code>.zValid-feedback</code>:</strong> Green message shown when input is valid</li>
+            <li><strong><code>.zInvalid-feedback</code>:</strong> Red message shown when input is invalid</li>
+        </ol>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Try it:</strong> Click "Submit Form" without filling in Email or City. You'll see red borders and error messages. Fill them in correctly and submit again to see green borders and success messages.
+        </blockquote>
+        
+        <h3 style="margin-top: 2rem;">Required JavaScript</h3>
+        <p>To enable custom validation, you have two options:</p>
+        
+        <h4 style="margin-top: 1.5rem;">Option 1: Use zTheme.js (Recommended)</h4>
+        <p>Include the centralized JavaScript file that handles validation automatically:</p>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;script src="/static/js/zTheme.js"&gt;&lt;/script&gt;</code></pre>
+        
+        <p style="margin-top: 1rem;">This file auto-initializes all <code>.zValidation</code> forms on page load. No additional code needed!</p>
+        
+        <h4 style="margin-top: 1.5rem;">Option 2: Manual Implementation</h4>
+        <p>If you prefer to implement it yourself or need custom behavior:</p>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;script&gt;
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.querySelectorAll('.zValidation');
+        Array.prototype.slice.call(forms).forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('zWas-validated');
+            }, false);
+        });
+    }, false);
+})();
+&lt;/script&gt;</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Note:</strong> When using zBifrost client, <code>zTheme.js</code> will be automatically loaded with the theme. No manual inclusion needed.
+        </blockquote>
+    </section>
+    
+    <!-- Server-Side Validation -->
+    <section style="margin: 3rem 0;">
+        <h2>Server-Side Validation</h2>
+        <p>Server-side validation validates data on the backend <strong>after</strong> form submission. The server validates the data, then returns HTML with <code>.zValid</code> or <code>.zInvalid</code> classes applied to show results.</p>
+        
+        <h3 style="margin-top: 1.5rem;">How It Works</h3>
+        <ol style="line-height: 2;">
+            <li><strong>User submits form</strong> → Data sent to backend</li>
+            <li><strong>Backend validates</strong> → Checks database, business rules, etc.</li>
+            <li><strong>Server re-renders form</strong> → Adds <code>.zValid</code> or <code>.zInvalid</code> classes</li>
+            <li><strong>User sees feedback</strong> → Green borders for valid, red for invalid</li>
+        </ol>
+        
+        <h3 style="margin-top: 1.5rem;">Visual Example</h3>
+        <p>This shows how the form looks <strong>after</strong> the backend validates and re-renders it:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <form class="zRow zG-3">
+                <div class="zCol-md-6 zmb-3">
+                    <label for="serverEmail" class="zLabel zmb-2">Email</label>
+                    <input type="email" class="zInput zValid" id="serverEmail" value="sarah@example.com">
+                    <div class="zValid-feedback" style="display: block;">✓ Email is available!</div>
+                </div>
+                <div class="zCol-md-6 zmb-3">
+                    <label for="serverUsername" class="zLabel zmb-2">Username</label>
+                    <input type="text" class="zInput zInvalid" id="serverUsername" value="admin">
+                    <div class="zInvalid-feedback" style="display: block;">✗ Username "admin" is already taken.</div>
+                </div>
+                <div class="zCol-12">
+                    <button type="submit" class="zBtn zBtn-primary">Try Again</button>
+                </div>
+            </form>
+        </div>
+        
+        <h3 style="margin-top: 2rem;">Backend Implementation</h3>
+        <p>Your backend validates the data and renders the form with appropriate classes:</p>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- Backend (Python/Flask example) --&gt;
+{% raw %}{% if errors.email %}{% endraw %}
+  &lt;input type="email" class="zInput zInvalid" value="{% raw %}{{ email }}{% endraw %}"&gt;
+  &lt;div class="zInvalid-feedback"&gt;{% raw %}{{ errors.email }}{% endraw %}&lt;/div&gt;
+{% raw %}{% elif email %}{% endraw %}
+  &lt;input type="email" class="zInput zValid" value="{% raw %}{{ email }}{% endraw %}"&gt;
+  &lt;div class="zValid-feedback"&gt;Email is available!&lt;/div&gt;
+{% raw %}{% else %}{% endraw %}
+  &lt;input type="email" class="zInput" value=""&gt;
+{% raw %}{% endif %}{% endraw %}</code></pre>
+        
+        <p style="margin-top: 1rem;">The key: your server-side code adds <code>.zValid</code> or <code>.zInvalid</code> classes based on validation results.</p>
+        
+        <h3 style="margin-top: 2rem;">When to Use Server-Side</h3>
+        <ul style="line-height: 2;">
+            <li><strong>Database checks:</strong> "Is this username/email already registered?"</li>
+            <li><strong>Security validation:</strong> "Does this password meet our security policy?"</li>
+            <li><strong>Business logic:</strong> "Is this promo code valid and not expired?"</li>
+            <li><strong>Payment processing:</strong> "Is this credit card valid?"</li>
+            <li><strong>Always for critical data:</strong> Never trust client-side validation alone</li>
+        </ul>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-primary); background: #f0f7f0;">
+            <strong>Best Practice:</strong> Use client-side validation for instant UX feedback, but <strong>always validate on the server</strong> for security. Client-side validation can be bypassed by malicious users.
+        </blockquote>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: #fff8e1;">
+            <strong>TODO: zData/zSchema Integration</strong><br>
+            Future enhancement: Integrate server-side validation with zCLI's <code>zData</code> and <code>zSchema</code> subsystems for automatic validation based on data models. This would allow defining validation rules once and applying them on both client and server.<br><br>
+            <strong>Planned approach:</strong>
+            <ul style="margin: 0.5rem 0 0 1rem; line-height: 1.8;">
+                <li>Define schemas in <code>zSchema</code> files (e.g., <code>user_schema.yaml</code>)</li>
+                <li>Backend auto-validates against schema via <code>zData</code></li>
+                <li>Returns standardized error format</li>
+                <li>Template helper auto-applies <code>.zValid</code>/<code>.zInvalid</code> classes</li>
+            </ul>
+            See: <code>Documentation/zData_GUIDE.md</code> and <code>Documentation/zSchema_GUIDE.md</code> (when available)
+        </blockquote>
+    </section>
+    
+    <!-- Supported Elements -->
+    <section style="margin: 3rem 0;">
+        <h2>Supported Elements</h2>
+        <p>Validation styles work with all form controls. Here's a visual reference showing each element type in its invalid state:</p>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Note:</strong> This form has <code>.zWas-validated</code> applied for demonstration purposes, so validation feedback is visible immediately. In real use, validation typically appears after the user submits the form.
+        </blockquote>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <form class="zWas-validated">
+                <div class="zmb-3">
+                    <label for="validTextarea" class="zLabel zmb-2">Message</label>
+                    <textarea class="zInput" id="validTextarea" rows="3" placeholder="Tell us what you think..." required></textarea>
+                    <div class="zInvalid-feedback">Please enter a message.</div>
+                </div>
+                
+                <div class="zmb-3">
+                    <label for="validSelect" class="zLabel zmb-2">Country</label>
+                    <select class="zSelect" id="validSelect" required>
+                        <option value="">Choose country...</option>
+                        <option value="us">🇺🇸 United States</option>
+                        <option value="ca">🇨🇦 Canada</option>
+                        <option value="uk">🇬🇧 United Kingdom</option>
+                    </select>
+                    <div class="zInvalid-feedback">Please select a country.</div>
+                </div>
+                
+                <div class="zmb-3">
+                    <div class="zCheck">
+                        <input type="checkbox" class="zCheck-input" id="validCheck" required>
+                        <label class="zCheck-label" for="validCheck">I have read the privacy policy</label>
+                        <div class="zInvalid-feedback">You must acknowledge this.</div>
+                    </div>
+                </div>
+                
+                <div class="zmb-3">
+                    <label class="zLabel zmb-2">Priority Level</label>
+                    <div class="zCheck">
+                        <input type="radio" class="zCheck-input" id="validRadio1" name="priority" required>
+                        <label class="zCheck-label" for="validRadio1">Low</label>
+                    </div>
+                    <div class="zCheck">
+                        <input type="radio" class="zCheck-input" id="validRadio2" name="priority" required>
+                        <label class="zCheck-label" for="validRadio2">High</label>
+                        <div class="zInvalid-feedback">Please select a priority level.</div>
+                    </div>
+                </div>
+                
+                <button class="zBtn zBtn-primary" type="submit" disabled>Submit Feedback</button>
+            </form>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;form class="zWas-validated"&gt;
+  &lt;!-- Textarea --&gt;
+  &lt;textarea class="zInput" required&gt;&lt;/textarea&gt;
+  &lt;div class="zInvalid-feedback"&gt;Please enter a message.&lt;/div&gt;
+  
+  &lt;!-- Select --&gt;
+  &lt;select class="zSelect" required&gt;
+    &lt;option value=""&gt;Choose...&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;div class="zInvalid-feedback"&gt;Please select an option.&lt;/div&gt;
+  
+  &lt;!-- Checkbox --&gt;
+  &lt;input type="checkbox" class="zCheck-input" required&gt;
+  &lt;div class="zInvalid-feedback"&gt;You must check this.&lt;/div&gt;
+  
+  &lt;!-- Radio --&gt;
+  &lt;input type="radio" class="zCheck-input" name="group" required&gt;
+  &lt;div class="zInvalid-feedback"&gt;Please select one.&lt;/div&gt;
+&lt;/form&gt;</code></pre>
+    </section>
+    
+    <!-- Validation with Input Groups -->
+    <section style="margin: 3rem 0;">
+        <h2>Validation with Input Groups</h2>
+        <p>When validating <a href="ztheme-input-group.html" class="zPrimary">input groups</a>, wrap the input group in a <code>.zHas-validation</code> div to ensure proper styling:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <form class="zValidation" novalidate>
+                <div class="zmb-3 zHas-validation">
+                    <label for="groupUsername" class="zLabel zmb-2">Username</label>
+                    <div class="zInputGroup">
+                        <span class="zInputGroup-text">@</span>
+                        <input type="text" class="zInput" id="groupUsername" aria-describedby="groupUsername-prepend" required>
+                        <div class="zInvalid-feedback">Please choose a username.</div>
+                    </div>
+                </div>
+                
+                <div class="zmb-3 zHas-validation">
+                    <label for="groupWebsite" class="zLabel zmb-2">Website</label>
+                    <div class="zInputGroup">
+                        <input type="url" class="zInput" id="groupWebsite" aria-describedby="groupWebsite-append" required>
+                        <span class="zInputGroup-text">.com</span>
+                        <div class="zInvalid-feedback">Please enter your website.</div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="zBtn zBtn-primary">Submit</button>
+            </form>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zHas-validation"&gt;
+  &lt;label for="username" class="zLabel"&gt;Username&lt;/label&gt;
+  &lt;div class="zInputGroup"&gt;
+    &lt;span class="zInputGroup-text"&gt;@&lt;/span&gt;
+    &lt;input type="text" class="zInput" id="username" required&gt;
+    &lt;div class="zInvalid-feedback"&gt;Please choose a username.&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <h3>Write Helpful Messages</h3>
+        <ul style="line-height: 2;">
+            <li>❌ "Invalid input"</li>
+            <li>✅ "Email must include an @ symbol"</li>
+            <li>❌ "Error"</li>
+            <li>✅ "Password must be at least 8 characters"</li>
+        </ul>
+        
+        <h3 style="margin-top: 1.5rem;">Validate on Submit, Not on Type</h3>
+        <p>Don't show errors while the user is still typing. Wait until they attempt to submit (or blur the field). This avoids frustrating "Email is invalid" messages before they've finished typing.</p>
+        
+        <h3 style="margin-top: 1.5rem;">Always Validate Server-Side</h3>
+        <p>Client-side validation improves UX but can be bypassed. Always validate on the server for security and data integrity.</p>
+        
+        <h3 style="margin-top: 1.5rem;">Use Native Validation When Possible</h3>
+        <p>Browser default validation is accessible, tested, and works without JavaScript. Consider it for simpler forms.</p>
+        
+        <h3 style="margin-top: 1.5rem;">Test with Screen Readers</h3>
+        <p>Custom validation may not announce errors to assistive technologies. Test with screen readers or stick to browser defaults for critical forms.</p>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+        
+        <h3>Validation Classes</h3>
+        <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--color-border); text-align: left;">
+                    <th style="padding: 0.75rem;">Class</th>
+                    <th style="padding: 0.75rem;">Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zValidation</code></td>
+                    <td style="padding: 0.75rem;">Form that uses custom validation</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zWas-validated</code></td>
+                    <td style="padding: 0.75rem;">Added after submit attempt</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zValid</code></td>
+                    <td style="padding: 0.75rem;">Apply to input for valid state</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zInvalid</code></td>
+                    <td style="padding: 0.75rem;">Apply to input for invalid state</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zValid-feedback</code></td>
+                    <td style="padding: 0.75rem;">Success message (shown when valid)</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zInvalid-feedback</code></td>
+                    <td style="padding: 0.75rem;">Error message (shown when invalid)</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zHas-validation</code></td>
+                    <td style="padding: 0.75rem;">Wrapper for validated input groups</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 style="margin-top: 2rem;">HTML5 Validation Attributes</h3>
+        <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--color-border); text-align: left;">
+                    <th style="padding: 0.75rem;">Attribute</th>
+                    <th style="padding: 0.75rem;">Example</th>
+                    <th style="padding: 0.75rem;">Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>required</code></td>
+                    <td style="padding: 0.75rem;"><code>&lt;input required&gt;</code></td>
+                    <td style="padding: 0.75rem;">Field must have value</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>minlength</code></td>
+                    <td style="padding: 0.75rem;"><code>&lt;input minlength="8"&gt;</code></td>
+                    <td style="padding: 0.75rem;">Minimum characters</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>maxlength</code></td>
+                    <td style="padding: 0.75rem;"><code>&lt;input maxlength="100"&gt;</code></td>
+                    <td style="padding: 0.75rem;">Maximum characters</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>pattern</code></td>
+                    <td style="padding: 0.75rem;"><code>&lt;input pattern="[A-Z]+"&gt;</code></td>
+                    <td style="padding: 0.75rem;">Must match regex</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>type</code></td>
+                    <td style="padding: 0.75rem;"><code>&lt;input type="email"&gt;</code></td>
+                    <td style="padding: 0.75rem;">Format validation</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-form-control.html" class="zPrimary">Form Controls</a> - Input, textarea, and form basics</li>
+            <li><a href="ztheme-input-group.html" class="zPrimary">Input Groups</a> - Add-ons and combined inputs</li>
+            <li><a href="ztheme-floating-labels.html" class="zPrimary">Floating Labels</a> - Animated label patterns</li>
+            <li><a href="ztheme-form-layout.html" class="zPrimary">Form Layout</a> - Structure multi-column forms</li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-form-layout.html" class="zPrimary">← Previous: Layout</a>
+        <a href="ztheme.html" class="zPrimary">Back to zTheme Showcase</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

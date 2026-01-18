@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sizing - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem 0;">
+    <!-- Header -->
+    <div style="margin-bottom: 3rem;">
+        <h1 style="color: var(--color-primary); margin-bottom: 0.5rem;">Sizing Utilities</h1>
+        <p style="font-size: 1.2rem; color: var(--color-body); opacity: 0.8;">
+            Control element dimensions with width, height, and viewport sizing utilities.
+        </p>
+    </div>
+
+    <!-- Understanding Sizing -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Understanding Sizing</h2>
+        <p style="line-height: 1.7;">
+            Sizing utilities let you control element dimensions relative to their <strong>parent container</strong> (percentage-based) 
+            or relative to the <strong>viewport</strong> (vw/vh units). Use these utilities for responsive layouts without custom CSS.
+        </p>
+        <blockquote style="background: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Key Concept:</strong> Percentage widths are relative to the parent element, 
+            while viewport units (vw/vh) are relative to the browser window. Choose based on whether you need container-based 
+            or window-based sizing!</p>
+        </blockquote>
+    </section>
+
+    <!-- Width Utilities -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Width Utilities</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Set element width as a percentage of its parent container:
+        </p>
+
+        <div style="border: 2px dashed var(--color-border); padding: 1.5rem; background: #f8f9fa; border-radius: 4px; margin: 2rem 0;">
+            <div class="zW-25 zP-2 zBg-primary zText-white zMb-2" style="text-align: center;">.zW-25</div>
+            <div class="zW-33 zP-2 zBg-secondary zText-white zMb-2" style="text-align: center;">.zW-33</div>
+            <div class="zW-50 zP-2 zBg-info zText-white zMb-2" style="text-align: center;">.zW-50</div>
+            <div class="zW-66 zP-2 zBg-warning zText-white zMb-2" style="text-align: center;">.zW-66</div>
+            <div class="zW-75 zP-2 zBg-success zText-white zMb-2" style="text-align: center;">.zW-75</div>
+            <div class="zW-100 zP-2 zBg-danger zText-white" style="text-align: center;">.zW-100</div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;div class="zW-25"&gt;25% width&lt;/div&gt;
+&lt;div class="zW-33"&gt;33% width (thirds)&lt;/div&gt;
+&lt;div class="zW-50"&gt;50% width (half)&lt;/div&gt;
+&lt;div class="zW-66"&gt;66% width (two thirds)&lt;/div&gt;
+&lt;div class="zW-75"&gt;75% width&lt;/div&gt;
+&lt;div class="zW-100"&gt;100% width (full)&lt;/div&gt;
+&lt;div class="zW-auto"&gt;Auto width&lt;/div&gt;</code></pre>
+
+        <h3 style="margin: 2rem 0 1rem;">Max Width</h3>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">Prevent elements from exceeding their container:</p>
+        
+        <div style="border: 2px dashed var(--color-border); padding: 1.5rem; background: #f8f9fa; border-radius: 4px; margin: 1rem 0; max-width: 400px;">
+            <img src="https://picsum.photos/800/400" alt="Demo" class="zMw-100" style="display: block; border-radius: 4px;">
+            <p style="margin: 0.5rem 0 0 0; text-align: center; font-size: 0.9rem; color: #666;">
+                800px image with <code>.zMw-100</code> fits in 400px container
+            </p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;img src="large-image.jpg" class="zMw-100" alt="..."&gt;</code></pre>
+    </section>
+
+    <!-- Height Utilities -->
+    <section class="zmy-6">
+        <h2 class="zText-warning">Height Utilities</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Set element height as a percentage of its parent container:
+        </p>
+
+        <div style="border: 2px dashed var(--color-border); padding: 1.5rem; background: #f8f9fa; border-radius: 4px; margin: 2rem 0; height: 300px; display: flex; align-items: flex-end; gap: 0.5rem;">
+            <div class="zH-25 zBg-primary zText-white" style="width: 100px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                .zH-25
+            </div>
+            <div class="zH-50 zBg-secondary zText-white" style="width: 100px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                .zH-50
+            </div>
+            <div class="zH-75 zBg-info zText-white" style="width: 100px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                .zH-75
+            </div>
+            <div class="zH-100 zBg-success zText-white" style="width: 100px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                .zH-100
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;div style="height: 300px;"&gt;
+  &lt;div class="zH-25"&gt;25% of parent&lt;/div&gt;
+  &lt;div class="zH-50"&gt;50% of parent&lt;/div&gt;
+  &lt;div class="zH-75"&gt;75% of parent&lt;/div&gt;
+  &lt;div class="zH-100"&gt;100% of parent&lt;/div&gt;
+  &lt;div class="zH-auto"&gt;Auto height&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <h3 style="margin: 2rem 0 1rem;">Max Height</h3>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">Prevent vertical overflow:</p>
+        
+        <div style="border: 2px dashed var(--color-border); padding: 1.5rem; background: #f8f9fa; border-radius: 4px; margin: 1rem 0; height: 150px;">
+            <div class="zMh-100 zOverflow-auto zBg-white zP-2" style="border: 1px solid var(--color-border); border-radius: 4px;">
+                <p style="margin: 0;">This content has <code>.zMh-100</code> and scrolls if it exceeds the parent container height.</p>
+                <p>Line 2</p>
+                <p>Line 3</p>
+                <p>Line 4</p>
+                <p>Line 5</p>
+                <p>Line 6</p>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;div class="zMh-100 zOverflow-auto"&gt;...content...&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Viewport Sizing -->
+    <section class="zmy-6">
+        <h2 class="zText-danger">Viewport Sizing</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Size elements relative to the browser viewport (window), not the parent container:
+        </p>
+
+        <!-- Viewport Width -->
+        <h3 style="margin: 2rem 0 1rem;">Viewport Width (vw)</h3>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">
+            <code>1vw = 1%</code> of viewport width. Useful for full-width sections:
+        </p>
+
+        <div style="background: #e9ecef; padding: 1rem; border-radius: 4px; margin: 1rem 0;">
+            <div class="zVw-100 zBg-primary zText-white zP-3" style="margin-left: calc(-50vw + 50%); text-align: center; border-radius: 4px;">
+                <strong>.zVw-100</strong> - Full viewport width (breaks out of container!)
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0;">
+            <div class="zBg-info zText-white zP-2" style="text-align: center; border-radius: 4px;">
+                <div style="font-size: 0.85rem; margin-bottom: 0.5rem;"><code>.zVw-25</code></div>
+                <div style="font-size: 0.75rem;">25% of viewport</div>
+            </div>
+            <div class="zBg-success zText-white zP-2" style="text-align: center; border-radius: 4px;">
+                <div style="font-size: 0.85rem; margin-bottom: 0.5rem;"><code>.zVw-50</code></div>
+                <div style="font-size: 0.75rem;">50% of viewport</div>
+            </div>
+            <div class="zBg-warning zText-white zP-2" style="text-align: center; border-radius: 4px;">
+                <div style="font-size: 0.85rem; margin-bottom: 0.5rem;"><code>.zVw-75</code></div>
+                <div style="font-size: 0.75rem;">75% of viewport</div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;!-- Available viewport widths --&gt;
+&lt;div class="zVw-10"&gt;10% of viewport&lt;/div&gt;
+&lt;div class="zVw-25"&gt;25% of viewport&lt;/div&gt;
+&lt;div class="zVw-50"&gt;50% of viewport&lt;/div&gt;
+&lt;div class="zVw-75"&gt;75% of viewport&lt;/div&gt;
+&lt;div class="zVw-90"&gt;90% of viewport&lt;/div&gt;
+&lt;div class="zVw-100"&gt;100% of viewport (full width)&lt;/div&gt;
+
+&lt;!-- Min viewport width --&gt;
+&lt;div class="zMin-vw-100"&gt;At least 100vw wide&lt;/div&gt;</code></pre>
+
+        <!-- Viewport Height -->
+        <h3 style="margin: 3rem 0 1rem;">Viewport Height (vh)</h3>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">
+            <code>1vh = 1%</code> of viewport height. Perfect for hero sections and full-screen layouts:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.5rem; margin: 2rem 0; background: #e9ecef; padding: 1rem; border-radius: 4px;">
+            <div class="zBg-primary zText-white" style="height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 0.85rem;">
+                <code>.zVh-100</code>
+            </div>
+            <div class="zBg-secondary zText-white" style="height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 0.85rem;">
+                <code>.zVh-75</code>
+            </div>
+            <div class="zBg-info zText-white" style="height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 0.85rem;">
+                <code>.zVh-50</code>
+            </div>
+            <div class="zBg-success zText-white" style="height: 20px; display: flex; align-items: center; justify-content: center; border-radius: 4px; font-size: 0.85rem;">
+                <code>.zVh-25</code>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;!-- Common viewport heights --&gt;
+&lt;div class="zVh-100"&gt;Full screen height&lt;/div&gt;
+&lt;div class="zVh-75"&gt;3/4 screen height&lt;/div&gt;
+&lt;div class="zVh-50"&gt;Half screen height&lt;/div&gt;
+&lt;div class="zVh-25"&gt;Quarter screen height&lt;/div&gt;
+
+&lt;!-- Additional sizes: 10, 20, 30, 40, 60, 70, 80, 90 --&gt;
+
+&lt;!-- Min viewport heights --&gt;
+&lt;div class="zMin-vh-50"&gt;At least 50vh tall&lt;/div&gt;
+&lt;div class="zMin-vh-75"&gt;At least 75vh tall&lt;/div&gt;
+&lt;div class="zMin-vh-100"&gt;At least 100vh tall (full screen minimum)&lt;/div&gt;</code></pre>
+
+        <blockquote style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>⚠️ Mobile Note:</strong> On mobile browsers, <code>100vh</code> includes the address 
+            bar area, which can cause unexpected scrolling. Consider using <code>.zMin-vh-100</code> instead, or use 
+            <code>90vh</code> or <code>95vh</code> for better mobile experience!</p>
+        </blockquote>
+    </section>
+
+    <!-- Practical Examples -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Practical Examples</h2>
+
+        <!-- Responsive Images -->
+        <div style="margin: 2rem 0;">
+            <h3>Responsive Images</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div>
+                    <img src="https://picsum.photos/400/300?random=1" alt="Demo" class="zW-100 zMw-100" style="border-radius: 4px;">
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #666; text-align: center;">
+                        <code>.zW-100 .zMw-100</code>
+                    </p>
+                </div>
+                <div>
+                    <img src="https://picsum.photos/400/300?random=2" alt="Demo" class="zW-100 zMw-100" style="border-radius: 4px;">
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #666; text-align: center;">
+                        <code>.zW-100 .zMw-100</code>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div style="margin: 3rem 0;">
+            <h3>Two Column Layout (33% / 66%)</h3>
+            <div style="display: flex; gap: 1rem;">
+                <div class="zW-33 zBg-primary zText-white zP-3" style="border-radius: 4px;">
+                    <strong>Sidebar</strong>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">.zW-33</p>
+                </div>
+                <div class="zW-66 zBg-secondary zText-white zP-3" style="border-radius: 4px;">
+                    <strong>Main Content</strong>
+                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem;">.zW-66</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <div style="margin: 3rem 0;">
+            <h3>Hero Section (Full Screen)</h3>
+            <div class="zVh-50 zBg-info zText-white zD-flex zAlign-items-center zJustify-content-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px;">
+                <div style="text-align: center;">
+                    <h2 style="margin: 0 0 1rem 0; color: white;">Full Height Hero</h2>
+                    <p style="margin: 0; font-size: 1.1rem;"><code>.zVh-50</code> for half-screen height</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Centered Modal-like Card -->
+        <div style="margin: 3rem 0;">
+            <h3>Centered Card</h3>
+            <div class="zD-flex zAlign-items-center zJustify-content-center" style="background: #e9ecef; padding: 2rem; border-radius: 8px; min-height: 300px;">
+                <div class="zW-75 zBg-white zP-4 zShadow-lg" style="border-radius: 8px; max-width: 500px;">
+                    <h4 style="margin: 0 0 1rem 0;">Sign In</h4>
+                    <p style="margin: 0 0 1rem 0; color: #666;">This card is <code>.zW-75</code> with a max-width for perfect centering.</p>
+                    <button class="zBtn zBtn-primary zW-100">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scrollable Content -->
+        <div style="margin: 3rem 0;">
+            <h3>Scrollable Container</h3>
+            <div class="zMh-100 zOverflow-auto zBg-white zP-3 zBorder" style="height: 200px; border-radius: 4px;">
+                <h4 style="margin: 0 0 1rem 0;">Terms of Service</h4>
+                <p style="line-height: 1.6;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p style="line-height: 1.6;">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p style="line-height: 1.6;">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <p style="line-height: 1.6;">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p style="line-height: 1.6; margin: 0;">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+            </div>
+            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: #666;">
+                <code>.zMh-100 .zOverflow-auto</code> - Max height with scroll
+            </p>
+        </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Responsive images:</strong> Always use <code>.zMw-100</code> on images to prevent overflow</li>
+            <li><strong>Full-width sections:</strong> Use <code>.zW-100</code> for container-based or <code>.zVw-100</code> for viewport-based</li>
+            <li><strong>Hero sections:</strong> <code>.zVh-100</code> for full-screen, but test on mobile (address bar issues)</li>
+            <li><strong>Sidebars:</strong> Use <code>.zW-25</code>/<code>.zW-33</code> for sidebars, <code>.zW-75</code>/<code>.zW-66</code> for content</li>
+            <li><strong>Mobile-first:</strong> Use viewport units cautiously - they can cause horizontal scroll</li>
+            <li><strong>Max constraints:</strong> Combine <code>.zW-100</code> with inline <code>max-width</code> for responsive yet constrained elements</li>
+            <li><strong>Height requires context:</strong> Percentage heights only work if parent has defined height</li>
+            <li><strong>Viewport units for breakout:</strong> <code>vw</code> can break out of containers for full-width effects</li>
+        </ul>
+
+        <blockquote style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>⚠️ Common Pitfall:</strong> Percentage heights (<code>.zH-50</code>) don't work unless 
+            the parent has an explicit height! Either give the parent a fixed height, <code>vh</code> height, or use 
+            <code>min-height</code> instead.</p>
+        </blockquote>
+    </section>
+
+    <!-- Accessibility -->
+    <section class="zmy-6">
+        <h2 class="zText-dark">Accessibility</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Zoom considerations:</strong> Fixed viewport sizes may cause issues at high zoom levels</li>
+            <li><strong>Overflow:</strong> Always test that content doesn't get cut off at different screen sizes</li>
+            <li><strong>Touch targets:</strong> Ensure interactive elements maintain sufficient size (min 44x44px)</li>
+            <li><strong>Text readability:</strong> Don't let width constraints make text too narrow (min ~45 characters)</li>
+            <li><strong>Landscape/portrait:</strong> Test <code>vh</code> units in both orientations on mobile</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">CSS Reference</h2>
+        
+        <h3 style="margin: 2rem 0 1rem;">Width Utilities</h3>
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>CSS Value</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zW-25</code></td>
+                    <td><code>width: 25%</code></td>
+                    <td>Quarter width</td>
+                </tr>
+                <tr>
+                    <td><code>.zW-33</code></td>
+                    <td><code>width: 33.333333%</code></td>
+                    <td>One third (zTheme)</td>
+                </tr>
+                <tr>
+                    <td><code>.zW-50</code></td>
+                    <td><code>width: 50%</code></td>
+                    <td>Half width</td>
+                </tr>
+                <tr>
+                    <td><code>.zW-66</code></td>
+                    <td><code>width: 66.666667%</code></td>
+                    <td>Two thirds (zTheme)</td>
+                </tr>
+                <tr>
+                    <td><code>.zW-75</code></td>
+                    <td><code>width: 75%</code></td>
+                    <td>Three quarters</td>
+                </tr>
+                <tr>
+                    <td><code>.zW-100</code></td>
+                    <td><code>width: 100%</code></td>
+                    <td>Full width</td>
+                </tr>
+                <tr>
+                    <td><code>.zW-auto</code></td>
+                    <td><code>width: auto</code></td>
+                    <td>Natural width</td>
+                </tr>
+                <tr>
+                    <td><code>.zMw-100</code></td>
+                    <td><code>max-width: 100%</code></td>
+                    <td>Max width constraint</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin: 2rem 0 1rem;">Height Utilities</h3>
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>CSS Value</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zH-25</code></td>
+                    <td><code>height: 25%</code></td>
+                    <td>Quarter height (parent must have height)</td>
+                </tr>
+                <tr>
+                    <td><code>.zH-50</code></td>
+                    <td><code>height: 50%</code></td>
+                    <td>Half height</td>
+                </tr>
+                <tr>
+                    <td><code>.zH-75</code></td>
+                    <td><code>height: 75%</code></td>
+                    <td>Three quarters</td>
+                </tr>
+                <tr>
+                    <td><code>.zH-100</code></td>
+                    <td><code>height: 100%</code></td>
+                    <td>Full height</td>
+                </tr>
+                <tr>
+                    <td><code>.zH-auto</code></td>
+                    <td><code>height: auto</code></td>
+                    <td>Natural height</td>
+                </tr>
+                <tr>
+                    <td><code>.zMh-100</code></td>
+                    <td><code>max-height: 100%</code></td>
+                    <td>Max height constraint</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin: 2rem 0 1rem;">Viewport Utilities</h3>
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>CSS Value</th>
+                    <th>Use Case</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zVw-100</code></td>
+                    <td><code>width: 100vw</code></td>
+                    <td>Full viewport width</td>
+                </tr>
+                <tr>
+                    <td><code>.zVw-{10,25,50,75,90}</code></td>
+                    <td><code>width: {value}vw</code></td>
+                    <td>Partial viewport widths (zTheme)</td>
+                </tr>
+                <tr>
+                    <td><code>.zMin-vw-100</code></td>
+                    <td><code>min-width: 100vw</code></td>
+                    <td>Minimum viewport width</td>
+                </tr>
+                <tr>
+                    <td><code>.zVh-100</code></td>
+                    <td><code>height: 100vh</code></td>
+                    <td>Full viewport height (hero sections)</td>
+                </tr>
+                <tr>
+                    <td><code>.zVh-{10,20,25,30,40,50,60,70,75,80,90}</code></td>
+                    <td><code>height: {value}vh</code></td>
+                    <td>Partial viewport heights (zTheme)</td>
+                </tr>
+                <tr>
+                    <td><code>.zMin-vh-50</code></td>
+                    <td><code>min-height: 50vh</code></td>
+                    <td>Minimum half screen (zTheme)</td>
+                </tr>
+                <tr>
+                    <td><code>.zMin-vh-75</code></td>
+                    <td><code>min-height: 75vh</code></td>
+                    <td>Minimum 3/4 screen (zTheme)</td>
+                </tr>
+                <tr>
+                    <td><code>.zMin-vh-100</code></td>
+                    <td><code>min-height: 100vh</code></td>
+                    <td>Minimum full screen (better mobile)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p style="margin-top: 1.5rem;"><strong>Total classes:</strong> 37 sizing utilities (8 width + 6 height + 23 viewport)</p>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Related Topics</h2>
+        <ul class="lh-lg">
+            <li><a href="ztheme-spacing.html">Spacing</a> - Padding and margin utilities</li>
+            <li><a href="ztheme-display.html">Display</a> - Display utilities (block, inline, flex, grid)</li>
+            <li><a href="ztheme-flex.html">Flex</a> - Flexbox utilities for layout</li>
+            <li><a href="ztheme-grid.html">Grid</a> - Grid system for responsive layouts</li>
+            <li><a href="ztheme-overflow.html">Overflow</a> - Control content overflow</li>
+        </ul>
+    </section>
+
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

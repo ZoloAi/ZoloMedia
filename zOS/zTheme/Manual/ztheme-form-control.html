@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Control - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="../ztheme.html#forms">Forms</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Form Control</li>
+        </ol>
+    </nav>
+    
+    <h1>Form Control</h1>
+    <p style="font-size: 1.25rem; color: var(--color-gray); margin-bottom: 2rem;">
+        Style text inputs, textareas, and form elements with consistent, accessible design
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Form Controls -->
+    <section style="margin: 3rem 0;">
+        <h2>Form Control Elements</h2>
+        <p>Form controls are semantic HTML elements for collecting user input: <code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code>, and <code>&lt;select&gt;</code>. These elements are crucial for user interaction and should always be paired with <code>&lt;label&gt;</code> elements for accessibility.</p>
+        
+        <p><strong>Why form controls matter:</strong></p>
+        <ul style="margin: 1rem 0;">
+            <li><strong>Accessibility</strong> - Screen readers announce labels and input types</li>
+            <li><strong>Mobile UX</strong> - Correct input types show appropriate keyboards (email, number, etc.)</li>
+            <li><strong>Validation</strong> - Built-in browser validation for email, URL, and other types</li>
+            <li><strong>Usability</strong> - Labels make forms easier to understand and use</li>
+        </ul>
+        
+        <h3 style="margin-top: 2rem;">Basic Semantic Form Controls</h3>
+        <p>Here are form controls using just semantic HTML (no styling classes). The reboot provides minimal default styling:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: 4px; margin: 2rem 0;">
+            <div style="margin-bottom: 1rem;">
+                <label for="basicEmail">Email address</label><br>
+                <input type="email" id="basicEmail" placeholder="name@example.com">
+            </div>
+            <div>
+                <label for="basicTextarea">Message</label><br>
+                <textarea id="basicTextarea" rows="3"></textarea>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;label for="basicEmail"&gt;Email address&lt;/label&gt;
+&lt;input type="email" id="basicEmail" placeholder="name@example.com"&gt;
+
+&lt;label for="basicTextarea"&gt;Message&lt;/label&gt;
+&lt;textarea id="basicTextarea" rows="3"&gt;&lt;/textarea&gt;</code></pre>
+        
+        <div style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0;"><strong>Accessibility requirement:</strong> Every form control must have an associated label. The <code>for</code> attribute on the label must match the <code>id</code> on the input. This connection helps screen readers announce what each field is for.</p>
+        </div>
+        
+        <h3 style="margin-top: 2rem;">Enhanced Styling with .zInput</h3>
+        <p>zTheme provides <code>.zInput</code> for consistent, professional form styling with proper spacing, borders, focus states, and organic rounded corners:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: 4px; margin: 2rem 0;">
+            <div style="margin-bottom: 1.5rem;">
+                <label for="styledEmail" class="zLabel">Email address</label>
+                <input type="email" class="zInput" id="styledEmail" placeholder="name@example.com">
+            </div>
+            <div>
+                <label for="styledTextarea" class="zLabel">Message</label>
+                <textarea class="zInput" id="styledTextarea" rows="3" placeholder="Your message here..."></textarea>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;label for="styledEmail" class="zLabel"&gt;Email address&lt;/label&gt;
+&lt;input type="email" class="zInput" id="styledEmail" placeholder="name@example.com"&gt;
+
+&lt;label for="styledTextarea" class="zLabel"&gt;Message&lt;/label&gt;
+&lt;textarea class="zInput" id="styledTextarea" rows="3"&gt;&lt;/textarea&gt;</code></pre>
+        
+        <p><strong>What the utility classes add:</strong></p>
+        <ul style="margin: 1rem 0;">
+            <li><code>.zInput</code> - Full width, consistent padding, borders, rounded corners, focus states</li>
+            <li><code>.zLabel</code> - Proper spacing above input, consistent font weight</li>
+        </ul>
+    </section>
+    
+    <!-- Sizing -->
+    <section style="margin: 3rem 0;">
+        <h2>Sizing</h2>
+        <p>Use <code>.zInput-lg</code> and <code>.zInput-sm</code> to adjust input height for different contexts:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: 4px; margin: 2rem 0;">
+            <div style="margin-bottom: 1rem;">
+                <input class="zInput zInput-lg" type="text" placeholder="Large input" aria-label="Large input">
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <input class="zInput" type="text" placeholder="Default input" aria-label="Default input">
+            </div>
+            <div>
+                <input class="zInput zInput-sm" type="text" placeholder="Small input" aria-label="Small input">
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- Large --&gt;
+&lt;input class="zInput zInput-lg" type="text" placeholder="Large input"&gt;
+
+&lt;!-- Default --&gt;
+&lt;input class="zInput" type="text" placeholder="Default input"&gt;
+
+&lt;!-- Small --&gt;
+&lt;input class="zInput zInput-sm" type="text" placeholder="Small input"&gt;</code></pre>
+    </section>
+    
+    <!-- Input States -->
+    <section style="margin: 3rem 0;">
+        <h2>Input States</h2>
+        
+        <h3>Disabled</h3>
+        <p>Add the <code>disabled</code> attribute to prevent user interaction and show a disabled appearance:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: 4px; margin: 2rem 0;">
+            <input class="zInput" type="text" placeholder="Disabled input" disabled>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;input class="zInput" type="text" placeholder="Disabled input" disabled&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">Readonly</h3>
+        <p>Add the <code>readonly</code> attribute to prevent editing while keeping the value visible and selectable:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: 4px; margin: 2rem 0;">
+            <input class="zInput" type="text" value="Readonly input - you can select but not edit" readonly>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;input class="zInput" type="text" value="Readonly input..." readonly&gt;</code></pre>
+        
+        <div style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0;"><strong>Disabled vs. Readonly:</strong></p>
+            <ul style="margin: 0.5rem 0 0 1.5rem;">
+                <li><strong>Disabled</strong> - Grayed out, not focusable, not submitted with form</li>
+                <li><strong>Readonly</strong> - Normal appearance, focusable, text selectable, submitted with form</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Readonly Plain Text -->
+    <section style="margin: 3rem 0;">
+        <h2>Readonly Plain Text</h2>
+        <p>When displaying read-only data in a form, use <code>.zInput-plaintext</code> to style it as plain text instead of a form field. This removes borders and background while maintaining proper spacing.</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zmb-3 zRow">
+                <label for="staticEmail" class="zCol-sm-3 zCol-label">Email</label>
+                <div class="zCol-sm-9">
+                    <input type="text" readonly class="zInput-plaintext" id="staticEmail" value="email@example.com">
+                </div>
+            </div>
+            <div class="zmb-3 zRow">
+                <label for="staticName" class="zCol-sm-3 zCol-label">Full Name</label>
+                <div class="zCol-sm-9">
+                    <input type="text" readonly class="zInput-plaintext" id="staticName" value="Sarah Chen">
+                </div>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- readonly + .zInput-plaintext = plain text styling --&gt;
+&lt;input type="text" readonly class="zInput-plaintext" value="email@example.com"&gt;</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Use Case:</strong> Perfect for displaying user profile data, order confirmations, or any read-only information within a form context.
+        </blockquote>
+        
+        <h3 style="margin-top: 2rem;">Inline Plaintext</h3>
+        <p>Combine <code>.zInput-plaintext</code> with <code>.zRow</code> and <code>.zCol-auto</code> for inline layouts.</p>
+        
+        <!-- NOTE: Button styling is scaffolding only. Will be refined in zButtons documentation. -->
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <form class="zRow zG-3" style="align-items: flex-start;">
+                <div class="zCol-auto">
+                    <input type="text" readonly class="zInput-plaintext" value="email@example.com" style="padding-top: 0.375rem;">
+                </div>
+                <div class="zCol-auto">
+                    <input type="password" class="zInput" placeholder="Password">
+                </div>
+                <div class="zCol-auto" style="margin-top: 0.5rem;">
+                    <!-- TODO: Button styling is temporary scaffolding. Will be refined in zButtons section. -->
+                    <button type="submit" class="zBtn zBtn-primary">Confirm identity</button>
+                </div>
+            </form>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;form class="zRow zG-3" style="align-items: flex-start;"&gt;
+  &lt;div class="zCol-auto"&gt;
+    &lt;input type="text" readonly class="zInput-plaintext" value="email@example.com"&gt;
+  &lt;/div&gt;
+  &lt;div class="zCol-auto" style="margin-top: 0.5rem;"&gt;
+    &lt;button type="submit" class="zBtn zBtn-primary"&gt;Confirm&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+    </section>
+    
+    <!-- File Input -->
+    <section style="margin: 3rem 0;">
+        <h2>File Input</h2>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="mb-3">
+                <label for="formFile" class="zLabel">Default file input example</label>
+                <input class="zInput" type="file" id="formFile">
+            </div>
+            <div class="mb-3">
+                <label for="formFileMultiple" class="zLabel">Multiple files input example</label>
+                <input class="zInput" type="file" id="formFileMultiple" multiple>
+            </div>
+            <div class="mb-3">
+                <label for="formFileDisabled" class="zLabel">Disabled file input example</label>
+                <input class="zInput" type="file" id="formFileDisabled" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="formFileSm" class="zLabel">Small file input example</label>
+                <input class="zInput zInput-sm" id="formFileSm" type="file">
+            </div>
+            <div>
+                <label for="formFileLg" class="zLabel">Large file input example</label>
+                <input class="zInput zInput-lg" id="formFileLg" type="file">
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="mb-3"&gt;
+  &lt;label for="formFile" class="zLabel"&gt;Default file input example&lt;/label&gt;
+  &lt;input class="zInput" type="file" id="formFile"&gt;
+&lt;/div&gt;
+&lt;div class="mb-3"&gt;
+  &lt;label for="formFileMultiple" class="zLabel"&gt;Multiple files input example&lt;/label&gt;
+  &lt;input class="zInput" type="file" id="formFileMultiple" multiple&gt;
+&lt;/div&gt;
+&lt;div class="mb-3"&gt;
+  &lt;label for="formFileDisabled" class="zLabel"&gt;Disabled file input example&lt;/label&gt;
+  &lt;input class="zInput" type="file" id="formFileDisabled" disabled&gt;
+&lt;/div&gt;
+&lt;div class="mb-3"&gt;
+  &lt;label for="formFileSm" class="zLabel"&gt;Small file input example&lt;/label&gt;
+  &lt;input class="zInput zInput-sm" id="formFileSm" type="file"&gt;
+&lt;/div&gt;
+&lt;div&gt;
+  &lt;label for="formFileLg" class="zLabel"&gt;Large file input example&lt;/label&gt;
+  &lt;input class="zInput zInput-lg" id="formFileLg" type="file"&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Color -->
+    <section style="margin: 3rem 0;">
+        <h2>Color</h2>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="exampleColorInput" class="zLabel">Color picker</label>
+            <input type="color" class="zInput zInput-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;label for="exampleColorInput" class="zLabel"&gt;Color picker&lt;/label&gt;
+&lt;input type="color" class="zInput zInput-color" id="exampleColorInput" value="#563d7c" title="Choose your color"&gt;</code></pre>
+    </section>
+    
+    <!-- Datalists -->
+    <section style="margin: 3rem 0;">
+        <h2>Datalists</h2>
+        <p>Datalists allow you to create a group of <code>&lt;option&gt;</code>s that can be accessed (and autocompleted) from within an <code>&lt;input&gt;</code>. These are similar to <code>&lt;select&gt;</code> elements, but come with more menu styling limitations and differences. While most browsers and operating systems include some support for <code>&lt;datalist&gt;</code> elements, their styling is inconsistent at best.</p>
+        
+        <div style="background: #fff8e1; padding: 1.5rem; border-left: 4px solid #ffa726; margin: 2rem 0;">
+            Learn more about <a href="https://caniuse.com/datalist" class="zPrimary">support for datalist elements</a>.
+        </div>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="exampleDataList" class="zLabel">Datalist example</label>
+            <input class="zInput" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
+            <datalist id="datalistOptions">
+                <option value="San Francisco">
+                <option value="New York">
+                <option value="Seattle">
+                <option value="Los Angeles">
+                <option value="Chicago">
+            </datalist>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;label for="exampleDataList" class="zLabel"&gt;Datalist example&lt;/label&gt;
+&lt;input class="zInput" list="datalistOptions" id="exampleDataList" placeholder="Type to search..."&gt;
+&lt;datalist id="datalistOptions"&gt;
+  &lt;option value="San Francisco"&gt;
+  &lt;option value="New York"&gt;
+  &lt;option value="Seattle"&gt;
+  &lt;option value="Los Angeles"&gt;
+  &lt;option value="Chicago"&gt;
+&lt;/datalist&gt;</code></pre>
+    </section>
+    
+    <!-- CSS Variables -->
+    <section style="margin: 3rem 0; padding: 2rem; background: var(--color-base); border-left: 4px solid var(--color-info);">
+        <h2>CSS Variables</h2>
+        <p><code>$input-*</code> variables are shared across form controls:</p>
+        
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto; margin-top: 1rem;"><code>:root {
+  /* Base input styles */
+  --input-btn-padding-y: 0.375rem;
+  --input-btn-padding-x: 0.75rem;
+  --input-btn-font-size: 1rem;
+  --input-btn-line-height: 1.5;
+  
+  /* Sizing variants */
+  --input-btn-padding-y-sm: 0.25rem;
+  --input-btn-padding-x-sm: 0.5rem;
+  --input-btn-font-size-sm: 0.875rem;
+  
+  --input-btn-padding-y-lg: 0.5rem;
+  --input-btn-padding-x-lg: 1rem;
+  --input-btn-font-size-lg: 1.25rem;
+  
+  /* Form control colors */
+  --form-control-bg: #fff;
+  --form-control-disabled-bg: #e9ecef;
+  --form-control-color: var(--color-darkgray);
+  --form-control-border-color: #ced4da;
+  --form-control-border-radius: 0.25rem;
+  
+  /* Focus state */
+  --form-control-focus-bg: #fff;
+  --form-control-focus-border-color: #86b7fe;
+  --input-btn-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}</code></pre>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--borderColor, #dee2e6); display: flex; justify-content: space-between;">
+        <a href="ztheme-forms-overview.html" class="zPrimary">← Previous: Overview</a>
+        <a href="ztheme-select.html" class="zPrimary">Next: Select →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

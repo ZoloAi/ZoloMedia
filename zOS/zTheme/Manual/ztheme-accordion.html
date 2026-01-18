@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accordion - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="../ztheme.html#components">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Accordion</li>
+        </ol>
+    </nav>
+    
+    <h1>Accordion</h1>
+    <p class="zLead" style="margin-bottom: 2rem;">
+        Organize content into collapsible panels that expand and collapse with smooth animations
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Accordions -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Accordions</h2>
+        
+        <h3>What are Accordions?</h3>
+        <p>Accordions are vertically stacked panels that expand to reveal hidden content. Only one panel is typically open at a time, making them perfect for:</p>
+        <ul style="line-height: 2;">
+            <li><strong>FAQs:</strong> Frequently Asked Questions</li>
+            <li><strong>Documentation:</strong> Organized by topic or category</li>
+            <li><strong>Product features:</strong> Detailed specifications</li>
+            <li><strong>Complex forms:</strong> Breaking long forms into sections</li>
+        </ul>
+        
+        <h3 style="margin-top: 1.5rem;">Why Use Accordions?</h3>
+        <ul style="line-height: 2;">
+            <li><strong>Save space:</strong> Show only relevant content</li>
+            <li><strong>Reduce cognitive load:</strong> Focus on one section at a time</li>
+            <li><strong>Organize content:</strong> Natural hierarchy for related information</li>
+            <li><strong>Mobile-friendly:</strong> Perfect for smaller screens</li>
+        </ul>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Accessibility:</strong> Accordions use semantic HTML and ARIA attributes to ensure screen readers announce expanded/collapsed states. Users can navigate with keyboard (Tab, Enter, Space).
+        </blockquote>
+    </section>
+    
+    <!-- Native HTML Accordion -->
+    <section style="margin: 3rem 0;">
+        <h2>Native HTML Accordion</h2>
+        <p>HTML5 provides built-in collapsible elements using <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> tags. No JavaScript required!</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <details open>
+                <summary style="cursor: pointer; font-weight: 500; padding: 0.5rem 0; user-select: none;">What is zCLI?</summary>
+                <div style="padding: 1rem 0 0.5rem 1rem; color: #666;">
+                    <strong>zCLI is a Python framework</strong> that simplifies building modern web applications. It provides a unified interface for common tasks like server management, database operations, and WebSocket communication.
+                </div>
+            </details>
+            
+            <details style="margin-top: 1rem;">
+                <summary style="cursor: pointer; font-weight: 500; padding: 0.5rem 0; user-select: none;">How do I install zCLI?</summary>
+                <div style="padding: 1rem 0 0.5rem 1rem; color: #666;">
+                    Installation is simple: <code>pip install zolo-zcli</code>. You can also clone from GitHub for the latest development version.
+                </div>
+            </details>
+            
+            <details style="margin-top: 1rem;">
+                <summary style="cursor: pointer; font-weight: 500; padding: 0.5rem 0; user-select: none;">What subsystems are included?</summary>
+                <div style="padding: 1rem 0 0.5rem 1rem; color: #666;">
+                    <strong>zCLI includes several subsystems:</strong> zConfig (configuration), zLogger (logging), zServer (HTTP server), zBifrost (WebSocket), zTheme (CSS framework), and more.
+                </div>
+            </details>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;details open&gt;
+  &lt;summary&gt;What is zCLI?&lt;/summary&gt;
+  &lt;div&gt;
+    &lt;strong&gt;zCLI is a Python framework...&lt;/strong&gt;
+  &lt;/div&gt;
+&lt;/details&gt;
+
+&lt;details&gt;
+  &lt;summary&gt;How do I install zCLI?&lt;/summary&gt;
+  &lt;div&gt;
+    Installation is simple...
+  &lt;/div&gt;
+&lt;/details&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">Benefits of Native HTML</h3>
+        <ul style="line-height: 2;">
+            <li>✅ <strong>No JavaScript:</strong> Works out of the box</li>
+            <li>✅ <strong>Fully accessible:</strong> Screen readers understand it natively</li>
+            <li>✅ <strong>Keyboard friendly:</strong> Tab and Enter work automatically</li>
+            <li>✅ <strong>Lightweight:</strong> Zero dependencies</li>
+            <li>✅ <strong>Progressive enhancement:</strong> Works even if CSS/JS fails</li>
+        </ul>
+        
+        <h3 style="margin-top: 1.5rem;">Limitations</h3>
+        <ul style="line-height: 2;">
+            <li>❌ <strong>Each panel independent:</strong> Can't auto-close others</li>
+            <li>❌ <strong>Limited styling:</strong> Browser default appearance varies</li>
+            <li>❌ <strong>No animations:</strong> Instant expand/collapse (no smooth transition)</li>
+            <li>❌ <strong>No grouping:</strong> Can't enforce "only one open at a time"</li>
+        </ul>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>When to use native vs zAccordion:</strong><br>
+            Use <code>&lt;details&gt;</code> for simple, independent collapsible sections (like a single FAQ item).<br>
+            Use <code>.zAccordion</code> for grouped panels with consistent styling, auto-close behavior, and smooth animations.
+        </blockquote>
+    </section>
+    
+    <!-- zTheme Enhanced Accordion -->
+    <section style="margin: 3rem 0;">
+        <h2>zTheme Enhanced Accordion</h2>
+        <p>The <code>.zAccordion</code> component builds on the native HTML concept with enhanced styling, animations, and behavior. Click on any panel header to expand it - when one opens, others automatically close:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zAccordion" id="accordionExample">
+                <div class="zAccordion-item">
+                    <h3 class="zAccordion-header">
+                        <button class="zAccordion-button" type="button" 
+                                aria-expanded="true" aria-controls="collapseOne">
+                            What is zCLI?
+                        </button>
+                    </h3>
+                    <div id="collapseOne" class="zAccordion-collapse" aria-labelledby="headingOne">
+                        <div class="zAccordion-body">
+                            <strong>zCLI is a Python framework</strong> that simplifies building modern web applications. It provides a unified interface for common tasks like server management, database operations, and WebSocket communication. Think of it as your all-in-one toolkit for rapid development.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="zAccordion-item">
+                    <h3 class="zAccordion-header">
+                        <button class="zAccordion-button zCollapsed" type="button"
+                                aria-expanded="false" aria-controls="collapseTwo">
+                            How do I install zCLI?
+                        </button>
+                    </h3>
+                    <div id="collapseTwo" class="zAccordion-collapse zCollapsed" aria-labelledby="headingTwo">
+                        <div class="zAccordion-body">
+                            Installation is simple: <code>pip install zolo-zcli</code>. You can also clone from GitHub for the latest development version. Full installation guide available in our documentation.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="zAccordion-item">
+                    <h3 class="zAccordion-header">
+                        <button class="zAccordion-button zCollapsed" type="button"
+                                aria-expanded="false" aria-controls="collapseThree">
+                            What subsystems are included?
+                        </button>
+                    </h3>
+                    <div id="collapseThree" class="zAccordion-collapse zCollapsed" aria-labelledby="headingThree">
+                        <div class="zAccordion-body">
+                            <strong>zCLI includes several subsystems:</strong> zConfig (configuration), zLogger (logging), zServer (HTTP server), zBifrost (WebSocket), zTheme (CSS framework), and more. Each subsystem is designed to work seamlessly together while remaining modular.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zAccordion" id="accordionExample"&gt;
+  &lt;div class="zAccordion-item"&gt;
+    &lt;h3 class="zAccordion-header"&gt;
+      &lt;button class="zAccordion-button" type="button"
+              aria-expanded="true" aria-controls="collapseOne"&gt;
+        What is zCLI?
+      &lt;/button&gt;
+    &lt;/h3&gt;
+    &lt;div id="collapseOne" class="zAccordion-collapse"&gt;
+      &lt;div class="zAccordion-body"&gt;
+        &lt;strong&gt;zCLI is a Python framework...&lt;/strong&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;!-- More items... --&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">How It Works</h3>
+        <ol style="line-height: 2;">
+            <li><strong>Click button:</strong> Expands the associated panel</li>
+            <li><strong>Toggle class:</strong> <code>.zCollapsed</code> is added/removed by <code>zTheme.js</code></li>
+            <li><strong>CSS transition:</strong> Smooth expand/collapse animation</li>
+            <li><strong>Auto-close others:</strong> <code>zTheme.js</code> automatically closes other panels in the group</li>
+        </ol>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>No onclick handlers needed!</strong> The <code>zTheme.js</code> file (loaded globally) automatically finds all <code>.zAccordion</code> elements and adds click handlers on page load. Just use the HTML structure, and it works!
+        </blockquote>
+    </section>
+    
+    <!-- Flush Accordion -->
+    <section style="margin: 3rem 0;">
+        <h2>Flush Accordion</h2>
+        <p>Remove borders and background for a cleaner, edge-to-edge look. Perfect for sidebars or embedded content:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zAccordion zAccordion-flush" id="accordionFlush">
+                <div class="zAccordion-item">
+                    <h3 class="zAccordion-header">
+                        <button class="zAccordion-button" type="button"
+                                aria-expanded="true" aria-controls="flushOne">
+                            Getting Started
+                        </button>
+                    </h3>
+                    <div id="flushOne" class="zAccordion-collapse" aria-labelledby="flushHeadingOne">
+                        <div class="zAccordion-body">
+                            Learn the basics of zCLI by following our quick-start guide. You'll have your first app running in under 5 minutes!
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="zAccordion-item">
+                    <h3 class="zAccordion-header">
+                        <button class="zAccordion-button zCollapsed" type="button"
+                                aria-expanded="false" aria-controls="flushTwo">
+                            Core Concepts
+                        </button>
+                    </h3>
+                    <div id="flushTwo" class="zAccordion-collapse zCollapsed" aria-labelledby="flushHeadingTwo">
+                        <div class="zAccordion-body">
+                            Understand zSpark configuration, subsystem architecture, and the declarative approach that makes zCLI so powerful.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="zAccordion-item">
+                    <h3 class="zAccordion-header">
+                        <button class="zAccordion-button zCollapsed" type="button"
+                                aria-expanded="false" aria-controls="flushThree">
+                            Advanced Topics
+                        </button>
+                    </h3>
+                    <div id="flushThree" class="zAccordion-collapse zCollapsed" aria-labelledby="flushHeadingThree">
+                        <div class="zAccordion-body">
+                            Dive deep into custom subsystems, performance optimization, and deploying zCLI applications to production environments.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zAccordion zAccordion-flush" id="accordionFlush"&gt;
+  &lt;div class="zAccordion-item"&gt;
+    &lt;h3 class="zAccordion-header"&gt;
+      &lt;button class="zAccordion-button" type="button"&gt;
+        Getting Started
+      &lt;/button&gt;
+    &lt;/h3&gt;
+    &lt;div class="zAccordion-collapse"&gt;
+      &lt;div class="zAccordion-body"&gt;
+        Learn the basics...
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- JavaScript Implementation -->
+    <section style="margin: 3rem 0;">
+        <h2>JavaScript Implementation</h2>
+        
+        <h3>Automatic Initialization</h3>
+        <p>Accordions work automatically when you include <code>zTheme.js</code> (already loaded in <code>base.html</code>). No additional JavaScript needed!</p>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-primary); background: #f0f7f0;">
+            <strong>✨ Auto-Initialization:</strong> Just add the <code>.zAccordion</code> class to your container, and <code>zTheme.js</code> automatically handles all click events, state management, and ARIA attributes. It works just like form validation!
+        </blockquote>
+        
+        <h3 style="margin-top: 2rem;">How It Works (Under the Hood)</h3>
+        <p>For developers curious about the implementation, here's how <code>zTheme.js</code> handles accordions:</p>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>// Inside zTheme.js - automatically runs on page load
+function initAccordion() {
+    const accordions = document.querySelectorAll('.zAccordion');
+    
+    accordions.forEach(accordion => {
+        const buttons = accordion.querySelectorAll('.zAccordion-button');
+        
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                const panel = button.closest('.zAccordion-item')
+                                   .querySelector('.zAccordion-collapse');
+                
+                const isOpen = !panel.classList.contains('zCollapsed');
+                
+                // Close all panels in this accordion
+                accordion.querySelectorAll('.zAccordion-collapse')
+                         .forEach(p => p.classList.add('zCollapsed'));
+                accordion.querySelectorAll('.zAccordion-button')
+                         .forEach(b => {
+                             b.classList.add('zCollapsed');
+                             b.setAttribute('aria-expanded', 'false');
+                         });
+                
+                // Toggle the clicked panel
+                if (isOpen) {
+                    panel.classList.add('zCollapsed');
+                    button.classList.add('zCollapsed');
+                    button.setAttribute('aria-expanded', 'false');
+                } else {
+                    panel.classList.remove('zCollapsed');
+                    button.classList.remove('zCollapsed');
+                    button.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+    });
+}</code></pre>
+        
+        <h3 style="margin-top: 2rem;">Manual Re-initialization</h3>
+        <p>If you dynamically add accordions after page load (e.g., via AJAX), re-initialize them:</p>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>// After dynamically adding an accordion
+window.zTheme.initAccordion();</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Note:</strong> When <code>zTheme.js</code> is integrated into zBifrost client (future enhancement), accordion initialization will happen automatically even for dynamically rendered content.
+        </blockquote>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <h3>Use Semantic Headings</h3>
+        <p>Always wrap accordion buttons in proper heading tags (<code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>, etc.) for semantic structure and SEO:</p>
+        <ul style="line-height: 2;">
+            <li>✅ <code>&lt;h3 class="zAccordion-header"&gt;&lt;button&gt;...&lt;/button&gt;&lt;/h3&gt;</code></li>
+            <li>❌ <code>&lt;div class="zAccordion-header"&gt;&lt;button&gt;...&lt;/button&gt;&lt;/div&gt;</code></li>
+        </ul>
+        
+        <h3 style="margin-top: 1.5rem;">Keep Content Concise</h3>
+        <p>Accordion panels should contain focused, digestible content. If a panel is too long, consider:</p>
+        <ul style="line-height: 2;">
+            <li>Breaking it into multiple panels</li>
+            <li>Using nested accordions (sparingly)</li>
+            <li>Linking to a dedicated page for detailed content</li>
+        </ul>
+        
+        <h3 style="margin-top: 1.5rem;">Consider Initial State</h3>
+        <p>Think about which panel(s) should be open by default:</p>
+        <ul style="line-height: 2;">
+            <li><strong>First panel open:</strong> Good for FAQs or getting started guides</li>
+            <li><strong>All closed:</strong> Good for optional details or advanced options</li>
+            <li><strong>Specific panel open:</strong> Based on user context or URL anchor</li>
+        </ul>
+        
+        <h3 style="margin-top: 1.5rem;">Test Keyboard Navigation</h3>
+        <p>Ensure users can:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Tab:</strong> Navigate between accordion buttons</li>
+            <li><strong>Enter/Space:</strong> Toggle panels</li>
+            <li><strong>Screen readers:</strong> Hear "expanded" or "collapsed" states</li>
+        </ul>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+        
+        <h3>Class Hierarchy</h3>
+        <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+            <thead>
+                <tr style="border-bottom: 2px solid var(--color-border); text-align: left;">
+                    <th style="padding: 0.75rem;">Class</th>
+                    <th style="padding: 0.75rem;">Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zAccordion</code></td>
+                    <td style="padding: 0.75rem;">Container for accordion items</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zAccordion-item</code></td>
+                    <td style="padding: 0.75rem;">Individual accordion panel</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zAccordion-header</code></td>
+                    <td style="padding: 0.75rem;">Heading wrapper (use <code>&lt;h2&gt;</code>-<code>&lt;h6&gt;</code>)</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zAccordion-button</code></td>
+                    <td style="padding: 0.75rem;">Clickable button to toggle panel</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zAccordion-collapse</code></td>
+                    <td style="padding: 0.75rem;">Collapsible content wrapper</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zAccordion-body</code></td>
+                    <td style="padding: 0.75rem;">Actual content inside panel</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zCollapsed</code></td>
+                    <td style="padding: 0.75rem;">Applied to closed panels (toggle state)</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--color-border);">
+                    <td style="padding: 0.75rem;"><code>.zAccordion-flush</code></td>
+                    <td style="padding: 0.75rem;">Modifier for borderless, edge-to-edge style</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 style="margin-top: 2rem;">CSS Variables</h3>
+        <p>Customize accordion appearance by overriding these variables:</p>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>:root {
+  --accordion-bg: var(--color-white, #fff);
+  --accordion-border-color: var(--color-border, #dee2e6);
+  --accordion-header-hover-bg: #f8f9fa;
+  --accordion-header-active-bg: var(--color-primary, #a2d46e);
+  --accordion-header-active-color: var(--color-white, #fff);
+  --accordion-body-padding: 1rem 1.25rem;
+  --accordion-transition: all 0.3s ease;
+}</code></pre>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-collapse.html" class="zPrimary">Collapse</a> - Generic collapsible content (coming soon)</li>
+            <li><a href="ztheme-modal.html" class="zPrimary">Modal</a> - Popup dialogs for focused content</li>
+            <li><a href="ztheme-tabs.html" class="zPrimary">Tabs</a> - Alternative navigation pattern (coming soon)</li>
+            <li><a href="ztheme-cards.html" class="zPrimary">Cards</a> - Content containers (coming soon)</li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-validation.html" class="zPrimary">← Previous: Validation</a>
+        <a href="ztheme.html" class="zPrimary">Back to zTheme Showcase</a>
+    </nav>
+</div>
+
+<!-- Accordion JavaScript is handled by zTheme.js (loaded globally in base.html) -->
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

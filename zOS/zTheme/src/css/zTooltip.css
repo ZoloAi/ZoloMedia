@@ -1,0 +1,223 @@
+/* ============================================
+   zTooltip.css - Contextual Hover Tips
+   ============================================
+   
+   Bootstrap-inspired tooltips for displaying helpful
+   hints and additional context on hover.
+   
+   Classes:
+   - .zTooltip              : Main tooltip container
+   - .zTooltip-arrow        : Positioning arrow
+   - .zTooltip-inner        : Content wrapper
+   - .zTooltip-top          : Position above element
+   - .zTooltip-bottom       : Position below element
+   - .zTooltip-start        : Position to left
+   - .zTooltip-end          : Position to right
+   
+   Structure:
+   <div class="zTooltip zTooltip-top" role="tooltip">
+     <div class="zTooltip-arrow"></div>
+     <div class="zTooltip-inner">
+       Tooltip text
+     </div>
+   </div>
+   
+   Usage:
+   Add data attributes to trigger element:
+   <button data-bs-toggle="tooltip" title="Helpful hint">Hover me</button>
+*/
+
+/* ============================================
+   Base Tooltip Styles
+   ============================================ */
+
+.zTooltip {
+    position: absolute;
+    z-index: 1080;
+    display: block;
+    margin: 0;
+    font-family: var(--font-family, system-ui, -apple-system, sans-serif);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: left;
+    text-align: start;
+    text-decoration: none;
+    text-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+    word-break: normal;
+    word-spacing: normal;
+    white-space: normal;
+    line-break: auto;
+    font-size: 0.875rem;
+    word-wrap: break-word;
+    opacity: 0;
+}
+
+.zTooltip.zShow {
+    opacity: 0.9;
+}
+
+/* Fade animation */
+.zTooltip.zFade {
+    transition: opacity 0.15s linear;
+}
+
+/* ============================================
+   Tooltip Arrow
+   ============================================ */
+
+.zTooltip-arrow {
+    position: absolute;
+    display: block;
+    width: 0.8rem;
+    height: 0.4rem;
+}
+
+.zTooltip-arrow::before {
+    position: absolute;
+    content: "";
+    border-color: transparent;
+    border-style: solid;
+}
+
+/* ============================================
+   Tooltip Inner (Content)
+   ============================================ */
+
+.zTooltip-inner {
+    max-width: 200px;
+    padding: 0.25rem 0.5rem;
+    color: #fff;
+    text-align: center;
+    background-color: #000;
+    border-radius: 0.25rem;
+}
+
+/* ============================================
+   Placement: Top
+   ============================================ */
+
+.zTooltip-top,
+.zTooltip-auto[data-popper-placement^="top"] {
+    padding: 0.4rem 0;
+}
+
+.zTooltip-top .zTooltip-arrow,
+.zTooltip-auto[data-popper-placement^="top"] .zTooltip-arrow {
+    bottom: 0;
+    left: 50%;
+    margin-left: -0.4rem;
+}
+
+.zTooltip-top .zTooltip-arrow::before,
+.zTooltip-auto[data-popper-placement^="top"] .zTooltip-arrow::before {
+    top: -1px;
+    border-width: 0.4rem 0.4rem 0;
+    border-top-color: #000;
+}
+
+/* ============================================
+   Placement: Bottom
+   ============================================ */
+
+.zTooltip-bottom,
+.zTooltip-auto[data-popper-placement^="bottom"] {
+    padding: 0.4rem 0;
+}
+
+.zTooltip-bottom .zTooltip-arrow,
+.zTooltip-auto[data-popper-placement^="bottom"] .zTooltip-arrow {
+    top: 0;
+    left: 50%;
+    margin-left: -0.4rem;
+}
+
+.zTooltip-bottom .zTooltip-arrow::before,
+.zTooltip-auto[data-popper-placement^="bottom"] .zTooltip-arrow::before {
+    bottom: -1px;
+    border-width: 0 0.4rem 0.4rem;
+    border-bottom-color: #000;
+}
+
+/* ============================================
+   Placement: Start (Left)
+   ============================================ */
+
+.zTooltip-start,
+.zTooltip-auto[data-popper-placement^="left"] {
+    padding: 0 0.4rem;
+}
+
+.zTooltip-start .zTooltip-arrow,
+.zTooltip-auto[data-popper-placement^="left"] .zTooltip-arrow {
+    right: 0;
+    width: 0.4rem;
+    height: 0.8rem;
+    top: 50%;
+    margin-top: -0.4rem;
+}
+
+.zTooltip-start .zTooltip-arrow::before,
+.zTooltip-auto[data-popper-placement^="left"] .zTooltip-arrow::before {
+    left: -1px;
+    border-width: 0.4rem 0 0.4rem 0.4rem;
+    border-left-color: #000;
+}
+
+/* ============================================
+   Placement: End (Right)
+   ============================================ */
+
+.zTooltip-end,
+.zTooltip-auto[data-popper-placement^="right"] {
+    padding: 0 0.4rem;
+}
+
+.zTooltip-end .zTooltip-arrow,
+.zTooltip-auto[data-popper-placement^="right"] .zTooltip-arrow {
+    left: 0;
+    width: 0.4rem;
+    height: 0.8rem;
+    top: 50%;
+    margin-top: -0.4rem;
+}
+
+.zTooltip-end .zTooltip-arrow::before,
+.zTooltip-auto[data-popper-placement^="right"] .zTooltip-arrow::before {
+    right: -1px;
+    border-width: 0.4rem 0.4rem 0.4rem 0;
+    border-right-color: #000;
+}
+
+/* ============================================
+   Reduced Motion Support
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .zTooltip.zFade {
+        transition: none;
+    }
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+
+/* Tooltips should have role="tooltip"
+   
+   Example:
+   <button data-bs-toggle="tooltip" 
+           data-bs-placement="top"
+           title="Helpful hint text">
+     Hover me
+   </button>
+   
+   The tooltip element is created dynamically:
+   <div class="zTooltip zTooltip-top" role="tooltip">
+     <div class="zTooltip-arrow"></div>
+     <div class="zTooltip-inner">Helpful hint text</div>
+   </div>
+*/
+

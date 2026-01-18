@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Position - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem 0;">
+    <!-- Header -->
+    <div style="margin-bottom: 3rem;">
+        <h1 style="color: var(--color-primary); margin-bottom: 0.5rem;">Position Utilities</h1>
+        <p style="font-size: 1.2rem; color: var(--color-body); opacity: 0.8;">
+            Configure element positioning, placement, and layering with comprehensive utilities.
+        </p>
+    </div>
+
+    <!-- Understanding Position -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Understanding Position</h2>
+        <p style="line-height: 1.7;">
+            The <code>position</code> property determines how an element is positioned in the document. 
+            Combined with edge positioning (top/bottom/start/end) and z-index, you can create complex layouts.
+        </p>
+        <blockquote style="background: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Bootstrap 5 Alignment:</strong> We use <code>.zStart-*</code> and 
+            <code>.zEnd-*</code> (RTL-aware) alongside legacy <code>.zLeft-*</code> and <code>.zRight-*</code> for 
+            backward compatibility!</p>
+        </blockquote>
+    </section>
+
+    <!-- Position Values -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Position Values</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Five position values control how elements are placed and behave during scrolling:
+        </p>
+
+        <div style="display: grid; gap: 1.5rem; margin: 2rem 0;">
+            <!-- Static -->
+            <div style="padding: 1rem; background: white; border-left: 4px solid var(--color-dark); border-radius: 4px;">
+                <h3><code>.zPosition-static</code></h3>
+                <p style="margin: 0.5rem 0;">
+                    <strong>Default behavior.</strong> Element follows normal document flow. 
+                    Top/bottom/left/right and z-index have no effect.
+                </p>
+                <p style="margin: 0.5rem 0; font-size: 0.9rem; color: #666;">
+                    <strong>Use case:</strong> Reset positioned elements back to default behavior
+                </p>
+            </div>
+
+            <!-- Relative -->
+            <div style="padding: 1rem; background: white; border-left: 4px solid var(--color-primary); border-radius: 4px;">
+                <h3><code>.zPosition-relative</code></h3>
+                <p style="margin: 0.5rem 0;">
+                    <strong>Positioned relative to itself.</strong> Element remains in document flow but can be 
+                    offset. Creates positioning context for absolute children.
+                </p>
+                <p style="margin: 0.5rem 0; font-size: 0.9rem; color: #666;">
+                    <strong>Use case:</strong> Container for absolute/fixed children, slight adjustments
+                </p>
+            </div>
+
+            <!-- Absolute -->
+            <div style="padding: 1rem; background: white; border-left: 4px solid var(--color-warning); border-radius: 4px;">
+                <h3><code>.zPosition-absolute</code></h3>
+                <p style="margin: 0.5rem 0;">
+                    <strong>Removed from document flow.</strong> Positioned relative to nearest positioned ancestor 
+                    (or viewport if none). Other elements ignore its space.
+                </p>
+                <p style="margin: 0.5rem 0; font-size: 0.9rem; color: #666;">
+                    <strong>Use case:</strong> Overlays, dropdowns, tooltips, badges, notifications
+                </p>
+            </div>
+
+            <!-- Fixed -->
+            <div style="padding: 1rem; background: white; border-left: 4px solid var(--color-error); border-radius: 4px;">
+                <h3><code>.zPosition-fixed</code></h3>
+                <p style="margin: 0.5rem 0;">
+                    <strong>Fixed to viewport.</strong> Removed from document flow. Always visible even when scrolling. 
+                    Positioned relative to viewport.
+                </p>
+                <p style="margin: 0.5rem 0; font-size: 0.9rem; color: #666;">
+                    <strong>Use case:</strong> Fixed headers/footers, floating action buttons, sticky notifications
+                </p>
+            </div>
+
+            <!-- Sticky -->
+            <div style="padding: 1rem; background: white; border-left: 4px solid var(--color-success); border-radius: 4px;">
+                <h3><code>.zPosition-sticky</code></h3>
+                <p style="margin: 0.5rem 0;">
+                    <strong>Hybrid behavior.</strong> Acts relative until scroll threshold, then becomes fixed. 
+                    Stays within parent container.
+                </p>
+                <p style="margin: 0.5rem 0; font-size: 0.9rem; color: #666;">
+                    <strong>Use case:</strong> Sticky headers, table headers, sidebar navigation
+                </p>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;div class="zPosition-static"&gt;Default flow&lt;/div&gt;
+&lt;div class="zPosition-relative"&gt;Relative positioning&lt;/div&gt;
+&lt;div class="zPosition-absolute"&gt;Absolute positioning&lt;/div&gt;
+&lt;div class="zPosition-fixed"&gt;Fixed to viewport&lt;/div&gt;
+&lt;div class="zPosition-sticky"&gt;Sticky positioning&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Edge Positioning -->
+    <section class="zmy-6">
+        <h2 class="zText-warning">Edge Positioning</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Position elements at specific edges with values: <code>0</code>, <code>50</code>, <code>100</code>. 
+            Use <strong>start/end</strong> for RTL support or <strong>left/right</strong> for explicit direction.
+        </p>
+
+        <div style="margin: 2rem 0;">
+            <!-- Interactive Demo -->
+            <div style="padding: 1rem; background: #f5f5f5; border-radius: 4px; margin-bottom: 1rem;">
+                <strong>Interactive Demo:</strong> Select an edge and value to position the blue box
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.5rem; margin-top: 1rem;">
+                    <select id="edgeSelect" class="zForm-control">
+                        <option value="top">Top</option>
+                        <option value="start">Start (left)</option>
+                        <option value="bottom">Bottom</option>
+                        <option value="end">End (right)</option>
+                    </select>
+                    <select id="valueSelect" class="zForm-control">
+                        <option value="0">0</option>
+                        <option value="50">50%</option>
+                        <option value="100">100%</option>
+                    </select>
+                    <button onclick="applyPosition()" class="zBtn zBtn-primary zBtn-sm">Apply</button>
+                    <button onclick="resetPosition()" class="zBtn zBtn-secondary zBtn-sm">Reset</button>
+                </div>
+                <div style="margin-top: 0.5rem;">
+                    <strong>Current:</strong> <span id="positionStatus">.zPosition-absolute</span>
+                </div>
+            </div>
+
+            <!-- Position Demo Container -->
+            <div style="position: relative; height: 300px; border: 2px dashed var(--color-border); background: white; max-width: 100%; overflow: hidden;">
+                <div style="position: absolute; top: 10px; left: 10px; font-size: 0.85rem; color: #999;">
+                    Parent: .zPosition-relative
+                </div>
+                <div id="positionBox" class="zPosition-absolute zTop-0 zStart-0" 
+                     style="width: 80px; height: 80px; background: var(--color-primary); color: white; 
+                            display: flex; align-items: center; justify-content: center; font-weight: bold; 
+                            transition: all 0.3s ease; border-radius: 4px;">
+                    Box
+                </div>
+            </div>
+
+            <blockquote style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 2rem 0;">
+                <p style="margin: 0 0 0.5rem 0;"><strong>📐 How it works:</strong> Edge positioning requires 
+                <code>.zPosition-absolute</code>, <code>.zPosition-fixed</code>, or <code>.zPosition-sticky</code>. 
+                Won't work with <code>static</code> or <code>relative</code>!</p>
+                <p style="margin: 0;"><strong>⚠️ Important:</strong> Edge values position the element's <strong>edge</strong>, 
+                not its center! <code>.zTop-50</code> puts the <em>top edge</em> at 50%, so the box extends downward. 
+                <code>.zTop-100</code> puts the top edge at the bottom (100%), so the box goes outside the container! 
+                Use <code>.zTranslate-middle</code> to center elements (see below).</p>
+            </blockquote>
+        </div>
+
+        <h3>Visual Comparison: Edge vs. Centered</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin: 2rem 0;">
+            <!-- Without translate-middle -->
+            <div>
+                <h4 style="margin-bottom: 0.5rem;">Edge Positioning Only</h4>
+                <div style="position: relative; height: 200px; border: 2px solid var(--color-warning); background: white; border-radius: 4px;">
+                    <div class="zPosition-absolute zTop-50 zStart-50" 
+                         style="width: 60px; height: 60px; background: var(--color-warning); color: white; 
+                                display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px;">
+                        Box
+                    </div>
+                    <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: rgba(255,0,0,0.3);"></div>
+                    <div style="position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: rgba(255,0,0,0.3);"></div>
+                </div>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem; color: #666;">
+                    <code>.zTop-50 .zStart-50</code><br>
+                    Top-left corner at center (50%, 50%)
+                </p>
+            </div>
+
+            <!-- With translate-middle -->
+            <div>
+                <h4 style="margin-bottom: 0.5rem;">With Centering Transform</h4>
+                <div style="position: relative; height: 200px; border: 2px solid var(--color-success); background: white; border-radius: 4px;">
+                    <div class="zPosition-absolute zTop-50 zStart-50 zTranslate-middle" 
+                         style="width: 60px; height: 60px; background: var(--color-success); color: white; 
+                                display: flex; align-items: center; justify-content: center; font-weight: bold; border-radius: 4px;">
+                        Box
+                    </div>
+                    <div style="position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: rgba(0,255,0,0.3);"></div>
+                    <div style="position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: rgba(0,255,0,0.3);"></div>
+                </div>
+                <p style="font-size: 0.85rem; margin-top: 0.5rem; color: #666;">
+                    <code>.zTop-50 .zStart-50 .zTranslate-middle</code><br>
+                    Box center at center ✅
+                </p>
+            </div>
+        </div>
+
+        <h3>All Edge Classes</h3>
+        <table class="zTable zTable-striped" style="margin: 2rem 0;">
+            <thead>
+                <tr>
+                    <th>Edge</th>
+                    <th>Classes</th>
+                    <th>CSS Property</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Top</strong></td>
+                    <td><code>.zTop-0</code>, <code>.zTop-50</code>, <code>.zTop-100</code></td>
+                    <td><code>top: 0 | 50% | 100%</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Start (left)</strong></td>
+                    <td><code>.zStart-0</code>, <code>.zStart-50</code>, <code>.zStart-100</code></td>
+                    <td><code>left: 0 | 50% | 100%</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Bottom</strong></td>
+                    <td><code>.zBottom-0</code>, <code>.zBottom-50</code>, <code>.zBottom-100</code></td>
+                    <td><code>bottom: 0 | 50% | 100%</code></td>
+                </tr>
+                <tr>
+                    <td><strong>End (right)</strong></td>
+                    <td><code>.zEnd-0</code>, <code>.zEnd-50</code>, <code>.zEnd-100</code></td>
+                    <td><code>right: 0 | 50% | 100%</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Legacy (left)</strong></td>
+                    <td><code>.zLeft-0</code>, <code>.zLeft-50</code>, <code>.zLeft-100</code></td>
+                    <td><code>left: 0 | 50% | 100%</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Legacy (right)</strong></td>
+                    <td><code>.zRight-0</code>, <code>.zRight-50</code>, <code>.zRight-100</code></td>
+                    <td><code>right: 0 | 50% | 100%</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;div class="zPosition-relative"&gt;
+  &lt;!-- Top-left corner --&gt;
+  &lt;div class="zPosition-absolute zTop-0 zStart-0"&gt;📌&lt;/div&gt;
+  
+  &lt;!-- Top-right corner --&gt;
+  &lt;div class="zPosition-absolute zTop-0 zEnd-0"&gt;📌&lt;/div&gt;
+  
+  &lt;!-- Center --&gt;
+  &lt;div class="zPosition-absolute zTop-50 zStart-50"&gt;📌&lt;/div&gt;
+  
+  &lt;!-- Bottom-left corner --&gt;
+  &lt;div class="zPosition-absolute zBottom-0 zStart-0"&gt;📌&lt;/div&gt;
+  
+  &lt;!-- Bottom-right corner --&gt;
+  &lt;div class="zPosition-absolute zBottom-0 zEnd-0"&gt;📌&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Translate/Centering -->
+    <section class="zmy-6">
+        <h2 class="zText-danger">Centering with Transform</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Transform utilities perfectly center elements by shifting them back by 50% of their own size.
+        </p>
+
+        <div style="display: grid; gap: 2rem; margin: 2rem 0;">
+            <!-- Translate Middle (Both) -->
+            <div>
+                <h3><code>.zTranslate-middle</code></h3>
+                <div style="position: relative; height: 200px; border: 2px solid var(--color-primary); background: white; max-width: 100%; overflow: hidden;">
+                    <div class="zPosition-absolute zTop-50 zStart-50 zTranslate-middle" 
+                         style="padding: 1rem; background: var(--color-primary); color: white; border-radius: 4px;">
+                        Perfect Center!
+                    </div>
+                </div>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                    <code>transform: translate(-50%, -50%)</code> - Centers both X and Y axes
+                </p>
+            </div>
+
+            <!-- Translate Middle X -->
+            <div>
+                <h3><code>.zTranslate-middle-x</code></h3>
+                <div style="position: relative; height: 200px; border: 2px solid var(--color-secondary); background: white; max-width: 100%; overflow: hidden;">
+                    <div class="zPosition-absolute zTop-0 zStart-50 zTranslate-middle-x" 
+                         style="padding: 1rem; background: var(--color-secondary); color: white; border-radius: 4px;">
+                        Centered X (Top)
+                    </div>
+                    <div class="zPosition-absolute zBottom-0 zStart-50 zTranslate-middle-x" 
+                         style="padding: 1rem; background: var(--color-secondary); color: white; border-radius: 4px;">
+                        Centered X (Bottom)
+                    </div>
+                </div>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                    <code>transform: translateX(-50%)</code> - Centers only horizontally
+                </p>
+            </div>
+
+            <!-- Translate Middle Y -->
+            <div>
+                <h3><code>.zTranslate-middle-y</code></h3>
+                <div style="position: relative; height: 200px; border: 2px solid var(--color-info); background: white; max-width: 100%; overflow: hidden;">
+                    <div class="zPosition-absolute zTop-50 zStart-0 zTranslate-middle-y" 
+                         style="padding: 1rem; background: var(--color-info); color: white; border-radius: 4px;">
+                        Centered Y (Left)
+                    </div>
+                    <div class="zPosition-absolute zTop-50 zEnd-0 zTranslate-middle-y" 
+                         style="padding: 1rem; background: var(--color-info); color: white; border-radius: 4px;">
+                        Centered Y (Right)
+                    </div>
+                </div>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                    <code>transform: translateY(-50%)</code> - Centers only vertically
+                </p>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;!-- Perfect center --&gt;
+&lt;div class="zPosition-absolute zTop-50 zStart-50 zTranslate-middle"&gt;
+  Centered!
+&lt;/div&gt;
+
+&lt;!-- Center horizontally only --&gt;
+&lt;div class="zPosition-absolute zTop-0 zStart-50 zTranslate-middle-x"&gt;
+  Top, centered X
+&lt;/div&gt;
+
+&lt;!-- Center vertically only --&gt;
+&lt;div class="zPosition-absolute zTop-50 zStart-0 zTranslate-middle-y"&gt;
+  Left, centered Y
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Position Helpers -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Position Helpers</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Pre-built positioning patterns for common layouts like fixed headers and sticky navigation.
+        </p>
+
+        <div style="display: grid; gap: 1.5rem; margin: 2rem 0;">
+            <!-- Fixed Top -->
+            <div style="padding: 1rem; background: white; border-left: 4px solid var(--color-error); border-radius: 4px;">
+                <h3><code>.zFixed-top</code></h3>
+                <p style="margin: 0.5rem 0;">
+                    <strong>Fixed header:</strong> <code>position: fixed</code> + <code>top: 0</code> + 
+                    full width + z-index: 1030
+                </p>
+                <p style="margin: 0.5rem 0; font-size: 0.9rem; color: #666;">
+                    <strong>Use case:</strong> Fixed navigation headers that stay visible while scrolling
+                </p>
+            </div>
+
+            <!-- Fixed Bottom -->
+            <div style="padding: 1rem; background: white; border-left: 4px solid var(--color-warning); border-radius: 4px;">
+                <h3><code>.zFixed-bottom</code></h3>
+                <p style="margin: 0.5rem 0;">
+                    <strong>Fixed footer:</strong> <code>position: fixed</code> + <code>bottom: 0</code> + 
+                    full width + z-index: 1030
+                </p>
+                <p style="margin: 0.5rem 0; font-size: 0.9rem; color: #666;">
+                    <strong>Use case:</strong> Cookie notices, bottom toolbars, floating action buttons
+                </p>
+            </div>
+
+            <!-- Sticky Top -->
+            <div style="padding: 1rem; background: white; border-left: 4px solid var(--color-success); border-radius: 4px;">
+                <h3><code>.zSticky-top</code></h3>
+                <p style="margin: 0.5rem 0;">
+                    <strong>Sticky header:</strong> <code>position: sticky</code> + <code>top: 0</code> + z-index: 1020
+                </p>
+                <p style="margin: 0.5rem 0; font-size: 0.9rem; color: #666;">
+                    <strong>Use case:</strong> Section headers, table headers that stick when scrolling
+                </p>
+            </div>
+
+            <!-- Responsive Sticky -->
+            <div style="padding: 1rem; background: white; border-left: 4px solid var(--color-info); border-radius: 4px;">
+                <h3>Responsive: <code>.zSticky-{breakpoint}-top</code></h3>
+                <p style="margin: 0.5rem 0;">
+                    <strong>Conditional sticky:</strong> Only sticky at specified breakpoint and above
+                </p>
+                <p style="margin: 0.5rem 0; font-size: 0.9rem; color: #666;">
+                    <strong>Breakpoints:</strong> sm, md, lg, xl, xxl
+                </p>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;!-- Fixed header --&gt;
+&lt;nav class="zNavbar zFixed-top"&gt;...&lt;/nav&gt;
+
+&lt;!-- Fixed footer/toolbar --&gt;
+&lt;footer class="zFixed-bottom"&gt;...&lt;/footer&gt;
+
+&lt;!-- Sticky header --&gt;
+&lt;header class="zSticky-top"&gt;...&lt;/header&gt;
+
+&lt;!-- Sticky only on desktop --&gt;
+&lt;aside class="zSticky-lg-top"&gt;Sidebar&lt;/aside&gt;</code></pre>
+    </section>
+
+    <!-- Z-Index -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">Z-Index Layering</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Control element stacking order with z-index utilities.
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 2rem 0;">
+            <div>
+                <h4>Numeric Values</h4>
+                <ul style="font-size: 0.9rem; line-height: 1.8;">
+                    <li><code>.zZ-n1</code> - Behind</li>
+                    <li><code>.zZ-0</code> - Default</li>
+                    <li><code>.zZ-1, .zZ-2, .zZ-3</code></li>
+                    <li><code>.zZ-10, .zZ-100, .zZ-1000</code></li>
+                    <li><code>.zZ-auto</code> - Auto</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Component Layers</h4>
+                <ul style="font-size: 0.9rem; line-height: 1.8;">
+                    <li><code>.zZ-dropdown</code> - 1000</li>
+                    <li><code>.zZ-sticky</code> - 1020</li>
+                    <li><code>.zZ-fixed</code> - 1030</li>
+                    <li><code>.zZ-modal-backdrop</code> - 1040</li>
+                    <li><code>.zZ-modal</code> - 1050</li>
+                    <li><code>.zZ-popover</code> - 1060</li>
+                    <li><code>.zZ-tooltip</code> - 1070</li>
+                </ul>
+            </div>
+        </div>
+
+        <blockquote style="background: #e8f5e9; padding: 1rem; border-left: 4px solid #4caf50; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Component Layers:</strong> Use semantic z-index classes like 
+            <code>.zZ-modal</code> instead of numeric values for consistent layering across your app!</p>
+        </blockquote>
+    </section>
+
+    <!-- Practical Examples -->
+    <section class="zmy-6">
+        <h2 class="zText-warning">Practical Examples</h2>
+
+        <!-- Notification Badge -->
+        <div style="margin: 2rem 0;">
+            <h3>Notification Badge</h3>
+            <div style="padding: 2rem; background: white; border: 2px solid var(--color-border); border-radius: 4px;">
+                <button type="button" class="zBtn zBtn-primary zPosition-relative">
+                    Inbox
+                    <span class="zPosition-absolute zTop-0 zStart-100 zTranslate-middle zBadge zBg-error zRounded-pill">
+                        12
+                        <span class="zVisually-hidden">unread messages</span>
+                    </span>
+                </button>
+                <button type="button" class="zBtn zBtn-secondary zPosition-relative" style="margin-left: 1rem;">
+                    Alerts
+                    <span class="zPosition-absolute zTop-0 zStart-100 zTranslate-middle zBadge zRounded-circle zBg-warning" 
+                          style="width: 12px; height: 12px; padding: 0;">
+                        <span class="zVisually-hidden">new notifications</span>
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Centered Modal -->
+        <div style="margin: 2rem 0;">
+            <h3>Centered Overlay</h3>
+            <div style="position: relative; height: 300px; background: #f5f5f5; border: 2px solid var(--color-border); border-radius: 4px; overflow: hidden;">
+                <img src="https://picsum.photos/400/300" alt="Background" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="zPosition-absolute zTop-50 zStart-50 zTranslate-middle" 
+                     style="background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 90%; text-align: center;">
+                    <h4 style="margin: 0 0 1rem 0;">Perfectly Centered!</h4>
+                    <p style="margin: 0 0 1rem 0;">Using <code>.zTop-50 .zStart-50 .zTranslate-middle</code></p>
+                    <button class="zBtn zBtn-primary zBtn-sm">Got it</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Corner Badges -->
+        <div style="margin: 2rem 0;">
+            <h3>Corner Positioned Elements</h3>
+            <div style="position: relative; height: 250px; background: white; border: 2px solid var(--color-border); border-radius: 4px; padding: 1rem;">
+                <div class="zPosition-absolute zTop-0 zStart-0" style="background: var(--color-primary); color: white; padding: 0.5rem 1rem; border-radius: 0 0 8px 0;">
+                    Top-Start
+                </div>
+                <div class="zPosition-absolute zTop-0 zEnd-0" style="background: var(--color-secondary); color: white; padding: 0.5rem 1rem; border-radius: 0 0 0 8px;">
+                    Top-End
+                </div>
+                <div class="zPosition-absolute zBottom-0 zStart-0" style="background: var(--color-success); color: white; padding: 0.5rem 1rem; border-radius: 0 8px 0 0;">
+                    Bottom-Start
+                </div>
+                <div class="zPosition-absolute zBottom-0 zEnd-0" style="background: var(--color-error); color: white; padding: 0.5rem 1rem; border-radius: 8px 0 0 0;">
+                    Bottom-End
+                </div>
+                <div class="zPosition-absolute zTop-50 zStart-50 zTranslate-middle" style="background: var(--color-info); color: white; padding: 1rem 2rem; border-radius: 8px;">
+                    Center
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Positioning context:</strong> Absolute elements need a positioned parent (relative/absolute/fixed)</li>
+            <li><strong>Z-index layers:</strong> Use semantic classes (.zZ-modal) instead of arbitrary numbers</li>
+            <li><strong>Fixed elements:</strong> May require padding on body to prevent content overlap</li>
+            <li><strong>Sticky support:</strong> Check browser compatibility (IE11 doesn't support it)</li>
+            <li><strong>Transform centering:</strong> Use .zTranslate-middle for perfect centering</li>
+            <li><strong>RTL support:</strong> Prefer .zStart-* and .zEnd-* over .zLeft-* and .zRight-*</li>
+            <li><strong>Mobile-first:</strong> Use responsive sticky (.zSticky-lg-top) for desktop-only stickiness</li>
+        </ul>
+    </section>
+
+    <!-- Accessibility -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">Accessibility</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Fixed/absolute positioning:</strong> Can disrupt natural tab order for keyboard users</li>
+            <li><strong>Hidden content:</strong> Content outside viewport may be inaccessible to screen readers</li>
+            <li><strong>Focus management:</strong> Ensure focus moves logically, not by visual position</li>
+            <li><strong>Skip links:</strong> Provide skip-to-content links with fixed headers</li>
+            <li><strong>Badges:</strong> Use .zVisually-hidden for screen reader text in notification badges</li>
+            <li><strong>Overlays:</strong> Trap focus within modals/dialogs, return focus on close</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section class="zmy-6">
+        <h2 class="zText-dark">CSS Reference</h2>
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Classes</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Position Values</strong></td>
+                    <td><code>.zPosition-{value}</code></td>
+                    <td>5 classes</td>
+                </tr>
+                <tr>
+                    <td><strong>Edge Positioning</strong></td>
+                    <td><code>.zTop-*</code>, <code>.zStart-*</code>, <code>.zBottom-*</code>, <code>.zEnd-*</code></td>
+                    <td>12 classes</td>
+                </tr>
+                <tr>
+                    <td><strong>Legacy Edges</strong></td>
+                    <td><code>.zLeft-*</code>, <code>.zRight-*</code></td>
+                    <td>6 classes</td>
+                </tr>
+                <tr>
+                    <td><strong>Transform</strong></td>
+                    <td><code>.zTranslate-middle</code>, <code>.zTranslate-middle-x</code>, <code>.zTranslate-middle-y</code></td>
+                    <td>3 classes</td>
+                </tr>
+                <tr>
+                    <td><strong>Z-Index</strong></td>
+                    <td><code>.zZ-{value}</code></td>
+                    <td>9 numeric + 7 semantic = 16 classes</td>
+                </tr>
+                <tr>
+                    <td><strong>Helpers</strong></td>
+                    <td><code>.zFixed-top</code>, <code>.zFixed-bottom</code>, <code>.zSticky-*-top</code></td>
+                    <td>8 classes (1 base + 6 responsive + 1 fixed-bottom)</td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="margin-top: 1.5rem;"><strong>Total:</strong> 59 position utilities</p>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Related Topics</h2>
+        <ul class="lh-lg">
+            <li><a href="ztheme-display.html">Display</a> - Display property utilities</li>
+            <li><a href="ztheme-overflow.html">Overflow</a> - Overflow control for positioned elements</li>
+            <li><a href="ztheme-sizing.html">Sizing</a> - Width and height utilities</li>
+            <li><a href="ztheme-spacing.html">Spacing</a> - Margin and padding utilities</li>
+            <li><a href="ztheme-z-index.html">Z-index</a> - Detailed z-index layering guide</li>
+        </ul>
+    </section>
+
+</div>
+
+<script>
+// Interactive edge positioning demo
+let currentEdge = '';
+let currentValue = '';
+
+function applyPosition() {
+    const edge = document.getElementById('edgeSelect').value;
+    const value = document.getElementById('valueSelect').value;
+    const box = document.getElementById('positionBox');
+    const status = document.getElementById('positionStatus');
+    
+    // Remove all edge classes
+    box.className = 'zPosition-absolute';
+    box.style.cssText = 'width: 80px; height: 80px; background: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: all 0.3s ease; border-radius: 4px;';
+    
+    // Build class name
+    const edgeClass = edge.charAt(0).toUpperCase() + edge.slice(1);
+    const className = `.z${edgeClass}-${value}`;
+    
+    // Apply new position
+    box.classList.add(`z${edgeClass}-${value}`);
+    
+    // Update status
+    status.textContent = `.zPosition-absolute ${className}`;
+    
+    currentEdge = edge;
+    currentValue = value;
+}
+
+function resetPosition() {
+    const box = document.getElementById('positionBox');
+    const status = document.getElementById('positionStatus');
+    
+    box.className = 'zPosition-absolute zTop-0 zStart-0';
+    box.style.cssText = 'width: 80px; height: 80px; background: var(--color-primary); color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: all 0.3s ease; border-radius: 4px;';
+    
+    status.textContent = '.zPosition-absolute .zTop-0 .zStart-0';
+    
+    document.getElementById('edgeSelect').value = 'top';
+    document.getElementById('valueSelect').value = '0';
+}
+</script>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

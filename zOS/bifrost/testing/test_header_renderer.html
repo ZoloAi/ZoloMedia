@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Header Renderer Test - zCLI BifrostClient</title>
+  
+  <!-- zTheme CSS (CDN with cache-busting) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css?v=20251218">
+  
+  <style>
+    /* ONLY body background - NO component styles! */
+    body {
+      background: #f8f9fa;
+      min-height: 100vh;
+    }
+    
+    /* Log styling (not for zTheme components) */
+    #log {
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.875rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .log-entry {
+      padding: 0.25rem 0.5rem;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .log-success { color: #198754; }
+    .log-error { color: #dc3545; }
+    .log-info { color: #0d6efd; }
+  </style>
+</head>
+<body>
+  <!-- Main Container (zTheme) -->
+  <div class="zContainer zMy-4">
+    
+    <!-- Header Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h1 class="zCard-title">Header Renderer Test</h1>
+        <p class="zCard-text zText-muted">
+          Micro-Step 2: Testing semantic header rendering (h1-h6 with colors)
+        </p>
+      </div>
+    </div>
+
+    <!-- Test Controls Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Test Controls</h2>
+        <div class="zD-flex zFlex-wrap zGap-2">
+          <button class="zBtn zBtn-outline-primary" onclick="testAllLevels()">Test All Levels (h1-h6)</button>
+          <button class="zBtn zBtn-outline-success" onclick="testColors()">Test All Colors</button>
+          <button class="zBtn zBtn-outline-info" onclick="testIndent0()">Test Indent 0</button>
+          <button class="zBtn zBtn-outline-warning" onclick="testCustomClass()">Test Custom Class</button>
+          <button class="zBtn zBtn-outline-secondary" onclick="testMixed()">Test Mixed</button>
+          <button class="zBtn zBtn-outline-danger" onclick="clearRenderZone()">Clear Zone</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Render Zone Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Render Zone</h2>
+        <div id="render-zone" class="zP-3 zBg-light zBorder zRounded">
+          <!-- Headers will render here -->
+          <p class="zText-muted"><em>Click a test button to render headers...</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log Card -->
+    <div class="zCard">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Console Log</h2>
+        <div id="log" class="zP-3 zBg-light zBorder zRounded">
+          <!-- Logs will appear here -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts (ES6 Modules) -->
+  <script type="module">
+    import { HeaderRenderer } from '../src/rendering/header_renderer.js';
+
+    // Mock logger that outputs to both console and on-page log
+    const mockLogger = {
+      log: (msg) => {
+        console.log(msg);
+        addLog(msg, 'info');
+      },
+      error: (msg) => {
+        console.error(msg);
+        addLog(msg, 'error');
+      },
+      warn: (msg) => {
+        console.warn(msg);
+        addLog(msg, 'error');
+      }
+    };
+
+    function addLog(message, type = 'info') {
+      const logDiv = document.getElementById('log');
+      const entry = document.createElement('div');
+      entry.className = `log-entry log-${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logDiv.appendChild(entry);
+      logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    // Initialize renderer
+    const renderer = new HeaderRenderer(mockLogger);
+    addLog('HeaderRenderer initialized', 'success');
+
+    // Test Functions (exposed to global scope)
+    window.testAllLevels = function() {
+      addLog('Running: All Header Levels Test (h1-h6)', 'info');
+      renderer.render({ label: 'indent 1 → h1 (Main Title)', indent: 1 }, 'render-zone');
+      renderer.render({ label: 'indent 2 → h2 (Section)', indent: 2 }, 'render-zone');
+      renderer.render({ label: 'indent 3 → h3 (Subsection)', indent: 3 }, 'render-zone');
+      renderer.render({ label: 'indent 4 → h4', indent: 4 }, 'render-zone');
+      renderer.render({ label: 'indent 5 → h5', indent: 5 }, 'render-zone');
+      renderer.render({ label: 'indent 6 → h6', indent: 6 }, 'render-zone');
+      renderer.render({ label: 'indent 10 → h6 (capped)', indent: 10 }, 'render-zone');
+    };
+
+    window.testColors = function() {
+      addLog('Running: All Colors Test', 'info');
+      const colors = ['primary', 'secondary', 'info', 'success', 'warning', 'error'];
+      colors.forEach(color => {
+        renderer.render({
+          label: `${color.charAt(0).toUpperCase() + color.slice(1)} Color Header`,
+          color: color,
+          indent: 2
+        }, 'render-zone');
+      });
+    };
+
+    window.testIndent0 = function() {
+      addLog('Running: Indent 0 Test (reserved - should warn)', 'info');
+      renderer.render({ 
+        label: 'indent 0 (reserved, treated as h1 with warning)', 
+        indent: 0 
+      }, 'render-zone');
+      addLog('Check console for warning about indent=0', 'info');
+      renderer.render({ 
+        label: 'indent 1 → proper h1', 
+        indent: 1 
+      }, 'render-zone');
+    };
+
+    window.testCustomClass = function() {
+      addLog('Running: Custom Class Test', 'info');
+      renderer.render({
+        label: 'Header with custom class (zDisplay-1 - larger)',
+        indent: 2,
+        class: 'zDisplay-1'
+      }, 'render-zone');
+      renderer.render({
+        label: 'Header with text-center',
+        indent: 3,
+        class: 'zText-center'
+      }, 'render-zone');
+    };
+
+    window.testMixed = function() {
+      addLog('Running: Mixed Features Test', 'info');
+      renderer.render({
+        label: 'h1 with Primary Color',
+        color: 'primary',
+        indent: 1
+      }, 'render-zone');
+      renderer.render({
+        label: 'h2 with Success Color and Custom Class',
+        color: 'success',
+        indent: 2,
+        class: 'zText-center'
+      }, 'render-zone');
+      renderer.render({
+        label: 'h3 with Warning Color',
+        color: 'warning',
+        indent: 3
+      }, 'render-zone');
+    };
+
+    window.clearRenderZone = function() {
+      addLog('Clearing render zone', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<p class="zText-muted"><em>Zone cleared. Click a test button...</em></p>';
+    };
+
+    // Auto-run basic test on load
+    addLog('Ready! Click a test button to start.', 'success');
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,274 @@
+/* ============================================
+   zTables.css - Table Styles
+   Bootstrap-inspired opt-in table styling
+   Based on Bootstrap 5.0
+   ============================================ */
+
+/* Table Variables
+   =============== */
+:root {
+  /* Cell padding */
+  --table-cell-padding-y: 0.5rem;
+  --table-cell-padding-x: 0.5rem;
+  --table-cell-padding-y-sm: 0.25rem;
+  --table-cell-padding-x-sm: 0.25rem;
+  
+  /* Colors */
+  --table-color: var(--color-darkgray);
+  --table-bg: transparent;
+  --table-accent-bg: transparent;
+  
+  /* Borders */
+  --table-border-width: 1px;
+  --table-border-color: var(--color-border);
+  
+  /* Striped */
+  --table-striped-bg: rgba(0, 0, 0, 0.05);
+  
+  /* Hover */
+  --table-hover-bg: rgba(0, 0, 0, 0.075);
+  
+  /* Active */
+  --table-active-bg: rgba(0, 0, 0, 0.1);
+  
+  /* Caption */
+  --table-caption-color: var(--color-gray);
+  
+  /* Vertical alignment */
+  --table-cell-vertical-align: top;
+}
+
+/* Base Table (.zTable is opt-in)
+   ============================= */
+.zTable {
+  --bs-table-bg: var(--table-bg);
+  --bs-table-accent-bg: var(--table-accent-bg);
+  --bs-table-striped-color: var(--table-color);
+  --bs-table-striped-bg: var(--table-striped-bg);
+  --bs-table-active-color: var(--table-color);
+  --bs-table-active-bg: var(--table-active-bg);
+  --bs-table-hover-color: var(--table-color);
+  --bs-table-hover-bg: var(--table-hover-bg);
+  
+  width: 100%;
+  margin-bottom: 1rem;
+  color: var(--table-color);
+  vertical-align: var(--table-cell-vertical-align);
+  border-color: var(--table-border-color);
+}
+
+.zTable > :not(caption) > * > * {
+  padding: var(--table-cell-padding-y) var(--table-cell-padding-x);
+  background-color: var(--bs-table-bg);
+  border-bottom-width: var(--table-border-width);
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg);
+}
+
+.zTable > tbody {
+  vertical-align: inherit;
+}
+
+.zTable > thead {
+  vertical-align: bottom;
+}
+
+.zTable > :not(:last-child) > :last-child > * {
+  border-bottom-color: currentColor;
+}
+
+/* Caption
+   ======= */
+.zCaption-top {
+  caption-side: top;
+}
+
+/* Condensed Table
+   =============== */
+.zTable-sm > :not(caption) > * > * {
+  padding: var(--table-cell-padding-y-sm) var(--table-cell-padding-x-sm);
+}
+
+/* Table Borders
+   ============= */
+.zTable-bordered > :not(caption) > * {
+  border-width: var(--table-border-width) 0;
+}
+
+.zTable-bordered > :not(caption) > * > * {
+  border-width: 0 var(--table-border-width);
+}
+
+.zTable-borderless > :not(caption) > * > * {
+  border-bottom-width: 0;
+}
+
+/* Striped Rows
+   ============ */
+.zTable-striped > tbody > tr:nth-of-type(odd) {
+  --bs-table-accent-bg: var(--table-striped-bg);
+  color: var(--bs-table-striped-color);
+}
+
+/* Hoverable Rows
+   ============== */
+.zTable-hover > tbody > tr:hover {
+  --bs-table-accent-bg: var(--table-hover-bg);
+  color: var(--bs-table-hover-color);
+}
+
+/* Active State
+   ============ */
+.zTable-active {
+  --bs-table-accent-bg: var(--table-active-bg);
+  color: var(--bs-table-active-color);
+}
+
+/* Table Variants
+   ============== */
+.zTable-primary {
+  --bs-table-bg: rgba(162, 212, 110, 0.2);
+  --bs-table-striped-bg: rgba(162, 212, 110, 0.25);
+  --bs-table-hover-bg: rgba(162, 212, 110, 0.3);
+  --bs-table-active-bg: rgba(162, 212, 110, 0.35);
+  border-color: rgba(162, 212, 110, 0.4);
+  color: var(--color-darkgray);
+}
+
+.zTable-secondary {
+  --bs-table-bg: rgba(147, 112, 219, 0.2);
+  --bs-table-striped-bg: rgba(147, 112, 219, 0.25);
+  --bs-table-hover-bg: rgba(147, 112, 219, 0.3);
+  --bs-table-active-bg: rgba(147, 112, 219, 0.35);
+  border-color: rgba(147, 112, 219, 0.4);
+  color: var(--color-darkgray);
+}
+
+.zTable-success {
+  --bs-table-bg: rgba(82, 183, 136, 0.2);
+  --bs-table-striped-bg: rgba(82, 183, 136, 0.25);
+  --bs-table-hover-bg: rgba(82, 183, 136, 0.3);
+  --bs-table-active-bg: rgba(82, 183, 136, 0.35);
+  border-color: rgba(82, 183, 136, 0.4);
+  color: var(--color-darkgray);
+}
+
+.zTable-info {
+  --bs-table-bg: rgba(92, 169, 255, 0.2);
+  --bs-table-striped-bg: rgba(92, 169, 255, 0.25);
+  --bs-table-hover-bg: rgba(92, 169, 255, 0.3);
+  --bs-table-active-bg: rgba(92, 169, 255, 0.35);
+  border-color: rgba(92, 169, 255, 0.4);
+  color: var(--color-darkgray);
+}
+
+.zTable-warning {
+  --bs-table-bg: rgba(255, 179, 71, 0.2);
+  --bs-table-striped-bg: rgba(255, 179, 71, 0.25);
+  --bs-table-hover-bg: rgba(255, 179, 71, 0.3);
+  --bs-table-active-bg: rgba(255, 179, 71, 0.35);
+  border-color: rgba(255, 179, 71, 0.4);
+  color: var(--color-darkgray);
+}
+
+.zTable-danger {
+  --bs-table-bg: rgba(230, 57, 70, 0.2);
+  --bs-table-striped-bg: rgba(230, 57, 70, 0.25);
+  --bs-table-hover-bg: rgba(230, 57, 70, 0.3);
+  --bs-table-active-bg: rgba(230, 57, 70, 0.35);
+  border-color: rgba(230, 57, 70, 0.4);
+  color: var(--color-darkgray);
+}
+
+.zTable-light {
+  --bs-table-bg: #f8f9fa;
+  --table-striped-bg: rgba(0, 0, 0, 0.05);
+  --bs-table-striped-color: #000;
+  --table-hover-bg: rgba(0, 0, 0, 0.075);
+  --bs-table-hover-color: #000;
+  --table-active-bg: rgba(0, 0, 0, 0.1);
+  --bs-table-active-color: #000;
+  border-color: #d4d5d6;
+  color: #000;
+}
+
+.zTable-dark {
+  --bs-table-bg: #212529;
+  --table-striped-bg: rgba(255, 255, 255, 0.05);
+  --bs-table-striped-color: #fff;
+  --table-hover-bg: rgba(255, 255, 255, 0.075);
+  --bs-table-hover-color: #fff;
+  --table-active-bg: rgba(255, 255, 255, 0.1);
+  --bs-table-active-color: #fff;
+  border-color: #414549;
+  color: #fff;
+}
+
+/* Responsive Tables
+   ================= */
+.zTable-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Breakpoint-specific responsive tables */
+@media (max-width: 575.98px) {
+  .zTable-responsive-sm {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .zTable-responsive-md {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .zTable-responsive-lg {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .zTable-responsive-xl {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 1399.98px) {
+  .zTable-responsive-xxl {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Vertical Alignment
+   ================== */
+/* NOTE: Vertical alignment utilities (.zAlign-*) are now centralized 
+   in zVerticalAlign.css for better organization */
+
+
+/* Table Head & Foot
+   ================= */
+.zTable > thead {
+  vertical-align: bottom;
+}
+
+.zTable > tfoot {
+  vertical-align: bottom;
+}
+
+/* Table Caption
+   ============= */
+.zTable caption {
+  padding-top: var(--table-cell-padding-y);
+  padding-bottom: var(--table-cell-padding-y);
+  color: var(--table-caption-color);
+  text-align: left;
+}
+
+/* Caption is at bottom by default (set in reboot on table element) */

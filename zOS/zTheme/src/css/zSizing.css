@@ -1,0 +1,95 @@
+/* ============================================
+   zSizing.css - Sizing Utilities
+   ============================================
+   
+   Width, height, max/min, and viewport utilities.
+   Aligned with modern responsive design patterns.
+   
+   Classes:
+   - Width: .zW-25, .zW-50, .zW-75, .zW-100, .zW-auto
+   - Height: .zH-25, .zH-50, .zH-75, .zH-100, .zH-auto
+   - Max: .zMw-100, .zMh-100
+   - Viewport: .zVw-100, .zVh-100, .zMin-vw-100, .zMin-vh-100
+   
+   Example:
+   <div class="zW-50">50% width</div>
+   <div class="zVh-100">Full viewport height</div>
+   
+   ============================================ */
+
+/* ============================================
+   Width Utilities
+   ============================================ */
+
+/* Percentage Widths */
+.zW-25 { width: 25% !important; }
+.zW-50 { width: 50% !important; }
+.zW-75 { width: 75% !important; }
+.zW-100 { width: 100% !important; }
+.zW-auto { width: auto !important; }
+
+/* Additional Thirds (zTheme Enhancement) */
+.zW-33 { width: 33.333333% !important; }
+.zW-66 { width: 66.666667% !important; }
+
+/* Max Width */
+.zMw-100 { max-width: 100% !important; }
+
+/* ============================================
+   Height Utilities
+   ============================================ */
+
+/* Percentage Heights */
+.zH-25 { height: 25% !important; }
+.zH-50 { height: 50% !important; }
+.zH-75 { height: 75% !important; }
+.zH-100 { height: 100% !important; }
+.zH-auto { height: auto !important; }
+
+/* Max Height */
+.zMh-100 { max-height: 100% !important; }
+
+/* ============================================
+   Viewport Width Utilities
+   ============================================ */
+
+/* Full Viewport Width */
+.zVw-100 { width: 100vw !important; }
+
+/* Min Viewport Width */
+.zMin-vw-100 { min-width: 100vw !important; }
+
+/* Additional Viewport Widths (zTheme Enhancement) */
+.zVw-90 { width: 90vw !important; }
+.zVw-75 { width: 75vw !important; }
+.zVw-50 { width: 50vw !important; }
+.zVw-25 { width: 25vw !important; }
+.zVw-10 { width: 10vw !important; }
+
+/* ============================================
+   Viewport Height Utilities
+   ============================================ */
+
+/* Full Viewport Height */
+.zVh-100 { height: 100vh !important; }
+
+/* Min Viewport Height */
+.zMin-vh-100 { min-height: 100vh !important; }
+
+/* Additional Viewport Heights (zTheme Enhancement) */
+.zVh-90 { height: 90vh !important; }
+.zVh-80 { height: 80vh !important; }
+.zVh-75 { height: 75vh !important; }
+.zVh-70 { height: 70vh !important; }
+.zVh-60 { height: 60vh !important; }
+.zVh-50 { height: 50vh !important; }
+.zVh-40 { height: 40vh !important; }
+.zVh-30 { height: 30vh !important; }
+.zVh-25 { height: 25vh !important; }
+.zVh-20 { height: 20vh !important; }
+.zVh-10 { height: 10vh !important; }
+
+/* Additional Min Heights (zTheme Enhancement) */
+.zMin-vh-50 { min-height: 50vh !important; }
+.zMin-vh-75 { min-height: 75vh !important; }
+

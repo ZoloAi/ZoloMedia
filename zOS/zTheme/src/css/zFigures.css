@@ -1,0 +1,43 @@
+/* ============================================
+   zFigures.css - Figure Component
+   Bootstrap-inspired semantic image captioning
+   Based on Bootstrap 5.0
+   ============================================ */
+
+/* Figure Variables
+   ================ */
+:root {
+  --figure-caption-font-size: 0.875em;
+  --figure-caption-color: var(--color-gray);
+}
+
+/* Figure Component (opt-in styling)
+   ================================== */
+.zFigure {
+  display: inline-block;
+}
+
+.zFigure-img {
+  margin-bottom: 0.5rem;
+  line-height: 1;
+}
+
+.zFigure-caption {
+  font-size: var(--figure-caption-font-size);
+  color: var(--figure-caption-color);
+}
+
+/* Text Alignment Utilities
+   ========================= */
+.zText-start {
+  text-align: left !important;
+}
+
+.zText-center {
+  text-align: center !important;
+}
+
+.zText-end {
+  text-align: right !important;
+}
+

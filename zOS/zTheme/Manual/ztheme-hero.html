@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Sections - zTheme</title>
+    
+    <!-- zTheme CSS Local (Development) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+        
+        /* Demo container for hero examples */
+        .demo-container {
+            margin: 2rem 0;
+            border: 2px dashed #dee2e6;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+        
+        /* Prevent hero examples from taking full viewport in demo */
+        .demo-container .zHero-full {
+            min-height: 400px !important;
+        }
+    </style>
+</head>
+<body>
+
+<article style="max-width: 900px; margin: 0 auto; padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="ztheme.html">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Hero Sections</li>
+        </ol>
+    </nav>
+
+    <!-- Header -->
+    <header style="margin-bottom: 3rem;">
+        <h1>Hero Sections</h1>
+        <p class="zLead">Full-viewport hero sections for landing pages, welcome screens, and call-to-action areas. Provides centered content with flexible height and color options.</p>
+    </header>
+
+    <!-- Understanding Hero Sections -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Hero Sections</h2>
+        <p>A hero section is a prominent introductory area at the top of a page, typically featuring:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Large Headings:</strong> Eye-catching titles that communicate your main message</li>
+            <li><strong>Supporting Text:</strong> Taglines or descriptions that elaborate on the heading</li>
+            <li><strong>Call-to-Action:</strong> Buttons or links encouraging user engagement</li>
+            <li><strong>Visual Impact:</strong> Background colors, gradients, or images</li>
+            <li><strong>Centered Layout:</strong> Content centered both horizontally and vertically</li>
+        </ul>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Note:</strong> Hero sections work best as the first major content on a page. They should be visually distinct and immediately convey your page's purpose.
+        </blockquote>
+    </section>
+
+    <!-- Basic Hero -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic Hero</h2>
+        <p>The <code>.zHero</code> class provides a centered, flexible section with default 50vh height:</p>
+
+        <div class="demo-container">
+            <section class="zHero">
+                <h1>Welcome to zTheme</h1>
+                <p>A modern CSS framework for beautiful web applications</p>
+            </section>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;section class="zHero"&gt;
+  &lt;h1&gt;Welcome to zTheme&lt;/h1&gt;
+  &lt;p&gt;A modern CSS framework for beautiful web applications&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+    </section>
+
+    <!-- Hero Heights -->
+    <section style="margin: 3rem 0;">
+        <h2>Height Variants</h2>
+        <p>Control the hero section height with these modifier classes:</p>
+
+        <h3 style="margin-top: 2rem;">Full Viewport (.zHero-full)</h3>
+        <p>Fills the viewport (uses 100vh / 100svh / 100dvh) and subtracts any fixed header offset using <code>--zHero-offset</code> so the content always stays centered:</p>
+
+        <div class="demo-container">
+            <section class="zHero zHero-full zHero-primary">
+                <div class="zHero-content">
+                    <h1>Full Height Hero</h1>
+                    <p>This hero fills the entire viewport</p>
+                    <button class="zBtn zBtn-light">Get Started</button>
+                </div>
+            </section>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;section class="zHero zHero-full zHero-primary"&gt;
+  &lt;div class="zHero-content"&gt;
+    &lt;h1&gt;Full Height Hero&lt;/h1&gt;
+    &lt;p&gt;This hero fills the entire viewport&lt;/p&gt;
+    &lt;button class="zBtn zBtn-light"&gt;Get Started&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+
+        <p style="margin-top: 1rem; color: #54595f;">Tip: if you have a persistent header (like <code>.zNavbar</code>), set <code>--zHero-offset</code> to that height so the hero fills the remaining space:</p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1rem 0;"><code>&lt;section class="zHero zHero-full" style="--zHero-offset: var(--zNavbar-height, 0px);"&gt;
+  ...
+&lt;/section&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Available Height Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Height</th>
+                    <th scope="col">Use Case</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zHero-full</code></td>
+                    <td>Viewport height − <code>--zHero-offset</code></td>
+                    <td>Landing pages, primary call-to-action, layouts under fixed headers</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-three-quarter</code></td>
+                    <td>75vh</td>
+                    <td>Prominent but not dominant</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-half</code></td>
+                    <td>50vh (default)</td>
+                    <td>Section headers, mid-page heroes</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-quarter</code></td>
+                    <td>25vh</td>
+                    <td>Compact headers, sub-pages</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Hero Content Container -->
+    <section style="margin: 3rem 0;">
+        <h2>Content Container</h2>
+        <p>Use <code>.zHero-content</code> to constrain content width for better readability:</p>
+
+        <div class="demo-container">
+            <section class="zHero zHero-half zHero-gradient">
+                <div class="zHero-content">
+                    <h1>Constrained Content</h1>
+                    <p>This content is limited to 800px width for optimal readability, even on very wide screens. Long paragraphs won't stretch across the entire viewport.</p>
+                </div>
+            </section>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;section class="zHero zHero-half zHero-gradient"&gt;
+  &lt;div class="zHero-content"&gt;
+    &lt;h1&gt;Constrained Content&lt;/h1&gt;
+    &lt;p&gt;This content is limited to 800px width...&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Content Width Variants</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Max Width</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zHero-content</code></td>
+                    <td>800px (default)</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-content-wide</code></td>
+                    <td>1200px</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-content-narrow</code></td>
+                    <td>600px</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Color Variants -->
+    <section style="margin: 3rem 0;">
+        <h2>Color Variants</h2>
+        <p>Apply background colors using theme-aware color classes:</p>
+
+        <h3 style="margin-top: 2rem;">Primary</h3>
+        <div class="demo-container">
+            <section class="zHero zHero-quarter zHero-primary">
+                <h2>Primary Hero</h2>
+                <p>Uses your theme's primary color</p>
+            </section>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Secondary</h3>
+        <div class="demo-container">
+            <section class="zHero zHero-quarter zHero-secondary">
+                <h2>Secondary Hero</h2>
+                <p>Uses your theme's secondary color</p>
+            </section>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Dark</h3>
+        <div class="demo-container">
+            <section class="zHero zHero-quarter zHero-dark">
+                <h2>Dark Hero</h2>
+                <p>Dark background, light text</p>
+            </section>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Light</h3>
+        <div class="demo-container">
+            <section class="zHero zHero-quarter zHero-light">
+                <h2>Light Hero</h2>
+                <p>Light background, dark text</p>
+            </section>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;section class="zHero zHero-primary"&gt;...&lt;/section&gt;
+&lt;section class="zHero zHero-secondary"&gt;...&lt;/section&gt;
+&lt;section class="zHero zHero-dark"&gt;...&lt;/section&gt;
+&lt;section class="zHero zHero-light"&gt;...&lt;/section&gt;</code></pre>
+    </section>
+
+    <!-- Gradient Variants -->
+    <section style="margin: 3rem 0;">
+        <h2>Gradient Backgrounds</h2>
+        <p>Add visual interest with gradient backgrounds:</p>
+
+        <h3 style="margin-top: 2rem;">Diagonal Gradient</h3>
+        <div class="demo-container">
+            <section class="zHero zHero-quarter zHero-gradient">
+                <h2>Gradient Hero</h2>
+                <p>Primary to Secondary (135deg)</p>
+            </section>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Vertical Gradient</h3>
+        <div class="demo-container">
+            <section class="zHero zHero-quarter zHero-gradient-vertical">
+                <h2>Vertical Gradient</h2>
+                <p>Top to bottom gradient</p>
+            </section>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;section class="zHero zHero-gradient"&gt;...&lt;/section&gt;
+&lt;section class="zHero zHero-gradient-vertical"&gt;...&lt;/section&gt;
+&lt;section class="zHero zHero-gradient-dark"&gt;...&lt;/section&gt;</code></pre>
+    </section>
+
+    <!-- Background Images -->
+    <section style="margin: 3rem 0;">
+        <h2>Background Images</h2>
+        <p>Add background images with <code>.zHero-cover</code> and optional <code>.zHero-overlay</code> for text readability:</p>
+
+        <div class="demo-container">
+            <section class="zHero zHero-half zHero-cover zHero-overlay" style="background-image: url('https://picsum.photos/1920/1080');">
+                <div class="zHero-content">
+                    <h1>Hero with Background Image</h1>
+                    <p>The overlay ensures text remains readable over any image</p>
+                    <button class="zBtn zBtn-primary">Learn More</button>
+                </div>
+            </section>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;section class="zHero zHero-half zHero-cover zHero-overlay" 
+         style="background-image: url('path/to/image.jpg');"&gt;
+  &lt;div class="zHero-content"&gt;
+    &lt;h1&gt;Hero with Background Image&lt;/h1&gt;
+    &lt;p&gt;The overlay ensures text remains readable&lt;/p&gt;
+    &lt;button class="zBtn zBtn-primary"&gt;Learn More&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: rgba(255, 193, 7, 0.1);">
+            <strong>Tip:</strong> Use <code>.zHero-overlay</code> to add a semi-transparent dark layer over background images, ensuring text remains readable regardless of image content.
+        </blockquote>
+    </section>
+
+    <!-- Alignment -->
+    <section style="margin: 3rem 0;">
+        <h2>Content Alignment</h2>
+        <p>Control the horizontal and vertical alignment of hero content:</p>
+
+        <h3 style="margin-top: 2rem;">Horizontal Alignment</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zHero-left</code></td>
+                    <td>Align content to the left</td>
+                </tr>
+                <tr>
+                    <td>(default)</td>
+                    <td>Center align (default behavior)</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-right</code></td>
+                    <td>Align content to the right</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Vertical Alignment</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zHero-top</code></td>
+                    <td>Align content to the top</td>
+                </tr>
+                <tr>
+                    <td>(default)</td>
+                    <td>Center vertically (default behavior)</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-bottom</code></td>
+                    <td>Align content to the bottom</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="demo-container">
+            <section class="zHero zHero-quarter zHero-left zHero-light">
+                <div class="zHero-content">
+                    <h2>Left Aligned</h2>
+                    <p>Content aligned to the left</p>
+                </div>
+            </section>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;section class="zHero zHero-left"&gt;...&lt;/section&gt;
+&lt;section class="zHero zHero-right"&gt;...&lt;/section&gt;
+&lt;section class="zHero zHero-top"&gt;...&lt;/section&gt;
+&lt;section class="zHero zHero-bottom"&gt;...&lt;/section&gt;</code></pre>
+    </section>
+
+    <!-- Real-World Example -->
+    <section style="margin: 3rem 0;">
+        <h2>Real-World Example</h2>
+        <p>A complete landing page hero with all common elements:</p>
+
+        <div class="demo-container">
+            <section class="zHero zHero-full zHero-gradient">
+                <div class="zHero-content">
+                    <h1 style="font-size: 3rem; margin-bottom: 1rem;">Welcome to Our App</h1>
+                    <p style="font-size: 1.25rem; margin-bottom: 2rem;">The best solution for managing your workflow efficiently and effectively</p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button class="zBtn zBtn-lg zBtn-light">Get Started Free</button>
+                        <button class="zBtn zBtn-lg zBtn-outline-light">Learn More</button>
+                    </div>
+                    <p style="margin-top: 2rem; font-size: 0.875rem; opacity: 0.9;">No credit card required • Free 14-day trial</p>
+                </div>
+            </section>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;section class="zHero zHero-full zHero-gradient"&gt;
+  &lt;div class="zHero-content"&gt;
+    &lt;h1 style="font-size: 3rem; margin-bottom: 1rem;"&gt;
+      Welcome to Our App
+    &lt;/h1&gt;
+    &lt;p style="font-size: 1.25rem; margin-bottom: 2rem;"&gt;
+      The best solution for managing your workflow
+    &lt;/p&gt;
+    &lt;div style="display: flex; gap: 1rem; justify-content: center;"&gt;
+      &lt;button class="zBtn zBtn-lg zBtn-light"&gt;Get Started Free&lt;/button&gt;
+      &lt;button class="zBtn zBtn-lg zBtn-outline-light"&gt;Learn More&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;p style="margin-top: 2rem; font-size: 0.875rem;"&gt;
+      No credit card required • Free 14-day trial
+    &lt;/p&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+    </section>
+
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Keep it focused:</strong> One clear message and call-to-action per hero</li>
+            <li><strong>Use hierarchy:</strong> Make your main heading significantly larger than supporting text</li>
+            <li><strong>Ensure readability:</strong> Always test text visibility over background images/colors</li>
+            <li><strong>Mobile-first:</strong> Test on mobile devices - heroes can be overwhelming on small screens</li>
+            <li><strong>Performance:</strong> Optimize background images for web (compress, appropriate resolution)</li>
+            <li><strong>Accessibility:</strong> Ensure sufficient color contrast (WCAG AA minimum)</li>
+            <li><strong>Loading speed:</strong> Hero sections are first impression - optimize for fast load</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+
+        <h3 style="margin-top: 2rem;">Base Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zHero</code></td>
+                    <td>Base hero section (50vh, centered)</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-content</code></td>
+                    <td>Content container (800px max-width)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Height Variants</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Height</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zHero-full</code></td>
+                    <td>100vh</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-three-quarter</code></td>
+                    <td>75vh</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-half</code></td>
+                    <td>50vh</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-quarter</code></td>
+                    <td>25vh</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Color Variants</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zHero-primary</code></td>
+                    <td>Primary color background</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-secondary</code></td>
+                    <td>Secondary color background</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-dark</code></td>
+                    <td>Dark background, light text</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-light</code></td>
+                    <td>Light background, dark text</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-gradient</code></td>
+                    <td>Diagonal gradient (primary → secondary)</td>
+                </tr>
+                <tr>
+                    <td><code>.zHero-gradient-vertical</code></td>
+                    <td>Vertical gradient (top → bottom)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Usage in zCLI -->
+    <section style="margin: 3rem 0;">
+        <h2>Usage in zCLI</h2>
+        <p>When using zTheme with zCLI's declarative UI system, you can apply hero styles using the <code>_zClass</code> metadata:</p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code># zUI YAML Definition
+zVaF:
+  _zClass: "zHero zHero-full zHero-gradient"
+  Hero_Section:
+    - zDisplay:
+        event: header
+        content: "Welcome to Our App"
+        color: PRIMARY
+    - zDisplay:
+        event: text
+        content: "The best solution for your needs"
+        indent: 1</code></pre>
+
+        <p>This will automatically wrap the <code>Hero_Section</code> content in a full-height gradient hero section.</p>
+    </section>
+
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-sections.html">Sections</a> - General section components</li>
+            <li><a href="ztheme-navbar.html">Navbar</a> - Navigation headers</li>
+            <li><a href="ztheme-buttons.html">Buttons</a> - Call-to-action buttons</li>
+            <li><a href="ztheme-flex.html">Flexbox Utilities</a> - Layout utilities</li>
+        </ul>
+    </section>
+</article>
+
+<!-- Load zTheme JavaScript for interactive components -->
+<script src="../dist/ztheme.js"></script>
+
+</body>
+</html>

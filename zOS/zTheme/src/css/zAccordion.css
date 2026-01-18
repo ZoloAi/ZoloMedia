@@ -1,0 +1,262 @@
+/**
+ * ═══════════════════════════════════════════════════════════════
+ * zAccordion Component Styles
+ * ═══════════════════════════════════════════════════════════════
+ * 
+ * Collapsible content panels with smooth transitions.
+ * Based on HTML5 <details>/<summary> for semantic foundation.
+ */
+
+/* ═══════════════════════════════════════════════════════════════
+   Native HTML <details> Reboot
+   ═══════════════════════════════════════════════════════════════
+   
+   Basic styling for semantic HTML5 details/summary elements.
+   These work without any classes - progressive enhancement!
+   */
+
+details {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+summary {
+  display: list-item; /* Browser default */
+  cursor: pointer;
+  user-select: none;
+  padding: 0.5rem 0;
+  font-weight: 500;
+}
+
+summary:hover {
+  color: var(--color-primary, #a2d46e);
+}
+
+summary:focus {
+  outline: 2px solid var(--color-primary, #a2d46e);
+  outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CSS Variables
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --accordion-bg: var(--color-white, #fff);
+  --accordion-border-color: var(--color-border, #dee2e6);
+  --accordion-border-width: 1px;
+  --accordion-border-radius: 4px;
+  
+  --accordion-header-bg: var(--color-white, #fff);
+  --accordion-header-color: var(--color-darkgray, #212529);
+  --accordion-header-hover-bg: #f8f9fa;
+  
+  --accordion-header-active-bg: var(--color-primary, #a2d46e);
+  --accordion-header-active-color: var(--color-white, #fff);
+  
+  --accordion-body-padding: 1rem 1.25rem;
+  --accordion-transition: all 0.3s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Accordion Container
+   ═══════════════════════════════════════════════════════════════ */
+
+.zAccordion {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Accordion Item
+   ═══════════════════════════════════════════════════════════════ */
+
+.zAccordion-item {
+  background-color: var(--accordion-bg);
+  border: var(--accordion-border-width) solid var(--accordion-border-color);
+  margin-bottom: -1px; /* Collapse borders */
+}
+
+.zAccordion-item:first-child {
+  border-top-left-radius: var(--accordion-border-radius);
+  border-top-right-radius: var(--accordion-border-radius);
+}
+
+.zAccordion-item:last-child {
+  border-bottom-left-radius: var(--accordion-border-radius);
+  border-bottom-right-radius: var(--accordion-border-radius);
+  margin-bottom: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Accordion Header (Button)
+   ═══════════════════════════════════════════════════════════════ */
+
+.zAccordion-header {
+  margin: 0;
+}
+
+.zAccordion-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--accordion-header-color);
+  text-align: left;
+  background-color: var(--accordion-header-bg);
+  border: 0;
+  border-radius: 0;
+  overflow-anchor: none;
+  transition: var(--accordion-transition);
+  cursor: pointer;
+}
+
+.zAccordion-button:hover {
+  background-color: var(--accordion-header-hover-bg);
+}
+
+.zAccordion-button:focus {
+  z-index: 3;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(var(--color-primary-rgb, 162, 212, 110), 0.25);
+}
+
+/* Active/expanded state */
+.zAccordion-button:not(.zCollapsed) {
+  color: var(--accordion-header-active-color);
+  background-color: var(--accordion-header-active-bg);
+  box-shadow: inset 0 -1px 0 var(--accordion-border-color);
+}
+
+/* Chevron icon */
+.zAccordion-button::after {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-left: auto;
+  content: "";
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-size: 1.25rem;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Rotated chevron when expanded */
+.zAccordion-button:not(.zCollapsed)::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  transform: rotate(-180deg);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Accordion Collapse (Content Container)
+   ═══════════════════════════════════════════════════════════════ */
+
+.zAccordion-collapse {
+  overflow: hidden;
+  transition: var(--accordion-transition);
+}
+
+/* Collapsed state */
+.zAccordion-collapse.zCollapsed {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* Expanded state */
+.zAccordion-collapse:not(.zCollapsed) {
+  max-height: 1000px; /* Adjust based on your content */
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Accordion Body (Content)
+   ═══════════════════════════════════════════════════════════════ */
+
+.zAccordion-body {
+  padding: var(--accordion-body-padding);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Flush Variant (No borders, no background)
+   ═══════════════════════════════════════════════════════════════ */
+
+.zAccordion-flush .zAccordion-item {
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+}
+
+.zAccordion-flush .zAccordion-item:first-child {
+  border-top: 0;
+}
+
+.zAccordion-flush .zAccordion-item:last-child {
+  border-bottom: 0;
+}
+
+.zAccordion-flush .zAccordion-button {
+  background-color: transparent;
+  color: var(--accordion-header-color); /* Ensure dark text on transparent bg */
+}
+
+.zAccordion-flush .zAccordion-button:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Override active state for flush - keep dark text */
+.zAccordion-flush .zAccordion-button:not(.zCollapsed) {
+  color: var(--accordion-header-color); /* Keep dark text when expanded */
+  background-color: rgba(var(--color-primary-rgb, 162, 212, 110), 0.1); /* Subtle green tint */
+  box-shadow: none; /* Remove shadow for flush style */
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Responsive Adjustments
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  .zAccordion-button {
+    padding: 0.875rem 1rem;
+    font-size: 0.95rem;
+  }
+  
+  .zAccordion-body {
+    padding: 0.875rem 1rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Accessibility Enhancements
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .zAccordion-button::after {
+    transition: none;
+  }
+  
+  .zAccordion-collapse {
+    transition: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Print Styles
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+  /* Expand all accordions when printing */
+  .zAccordion-collapse {
+    max-height: none !important;
+    opacity: 1 !important;
+  }
+  
+  .zAccordion-button::after {
+    display: none;
+  }
+}
+

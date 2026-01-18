@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Primitives Test Suite</title>
+  
+  <!-- zTheme CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css">
+  
+  <style>
+    body {
+      background: #f8f9fa;
+      min-height: 100vh;
+    }
+    
+    /* Console log styling */
+    #console-log {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    
+    /* Demo borders for visualization */
+    .demo-border {
+      border: 2px dashed #6c757d;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      background: white;
+    }
+    
+    /* Media element containers */
+    .media-container {
+      margin-bottom: 1rem;
+    }
+    
+    /* Picture demo styling */
+    picture img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="zContainer zMy-4">
+    <!-- Header -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h1 class="zCard-title">🖼️ Media Primitives Test Suite</h1>
+        <p class="zText-muted">Testing raw HTML media element factory functions (Layer 0.0)</p>
+        <p><strong>Module:</strong> <code>rendering/media_primitives.js</code></p>
+        <p><strong>Media Files:</strong> Using real demo files from <code>local_planning/</code></p>
+        <ul class="zText-muted" style="font-size: 0.9rem;">
+          <li><strong>Images:</strong> demo_image.png (+ large, medium, small variants)</li>
+          <li><strong>Video:</strong> Bryant Park.mov (experimental film by Zolo)</li>
+          <li><strong>Audio:</strong> oh dorian.mp3 (indie folk song by Zolo)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Test Controls -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h3 class="zCard-title zMb-3">Test Scenarios</h3>
+        <div class="zD-flex zFlex-wrap zGap-2">
+          <button class="zBtn zBtn-outline-primary" onclick="testCreateImage()">1. createImage()</button>
+          <button class="zBtn zBtn-outline-secondary" onclick="testCreateVideo()">2. createVideo()</button>
+          <button class="zBtn zBtn-outline-success" onclick="testCreateAudio()">3. createAudio()</button>
+          <button class="zBtn zBtn-outline-info" onclick="testCreatePicture()">4. createPicture()</button>
+          <button class="zBtn zBtn-outline-warning" onclick="testCreateSource()">5. createSource()</button>
+          <button class="zBtn zBtn-outline-danger" onclick="clearRenderZone()">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Render Zone -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h3 class="zCard-title zMb-3">Render Zone</h3>
+        <div id="render-zone" class="zP-3 zBg-light zBorder zRounded">
+          <p class="zText-muted">Click a test button to render media elements...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Console Log -->
+    <div class="zCard">
+      <div class="zCard-body">
+        <h3 class="zCard-title zMb-3">Console Log</h3>
+        <div id="console-log" class="zP-3 zBg-dark zText-white zRounded"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Module imports -->
+  <script type="module">
+    import {
+      createImage,
+      createVideo,
+      createAudio,
+      createPicture,
+      createSource
+    } from '../src/rendering/primitives/media_primitives.js';
+
+    // Mock console logging
+    const logElement = document.getElementById('console-log');
+    function log(message, type = 'info') {
+      const timestamp = new Date().toLocaleTimeString();
+      const prefix = type === 'error' ? '❌' : type === 'success' ? '✅' : '📝';
+      logElement.textContent += `[${timestamp}] ${prefix} ${message}\n`;
+      logElement.scrollTop = logElement.scrollHeight;
+    }
+
+    // Helper to get render zone
+    function getRenderZone() {
+      return document.getElementById('render-zone');
+    }
+
+    // Helper to clear render zone
+    window.clearRenderZone = function() {
+      const zone = getRenderZone();
+      zone.innerHTML = '<p class="zText-muted">Render zone cleared.</p>';
+      log('Render zone cleared');
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // Test 1: createImage()
+    // ═══════════════════════════════════════════════════════════════
+    window.testCreateImage = function() {
+      log('Testing createImage()...');
+      const zone = getRenderZone();
+      zone.innerHTML = '<h4 class="zMb-3">Test: createImage()</h4>';
+
+      // Test 1.1: Basic image (from terminal demo)
+      const container1 = document.createElement('div');
+      container1.className = 'demo-border';
+      container1.innerHTML = '<strong>Basic Image (demo_image.png):</strong><br>';
+      const img1 = createImage(
+        '../../local_planning/demo_image.png',
+        'Cosmic Brain Trivia Arena - AI-powered trivia game'
+      );
+      container1.appendChild(img1);
+      zone.appendChild(container1);
+      log(`Created basic image: demo_image.png`);
+
+      // Test 1.2: Image with dimensions (small variant)
+      const container2 = document.createElement('div');
+      container2.className = 'demo-border';
+      container2.innerHTML = '<strong>Image with Dimensions (demo_image_small.png):</strong><br>';
+      const img2 = createImage(
+        '../../local_planning/demo_image_small.png',
+        'Cosmic Brain Trivia Arena - Small thumbnail',
+        { width: '320', class: 'zRounded' }
+      );
+      container2.appendChild(img2);
+      zone.appendChild(container2);
+      log(`Created thumbnail: demo_image_small.png with width=${img2.width}`);
+
+      // Test 1.3: Lazy-loaded image (medium variant)
+      const container3 = document.createElement('div');
+      container3.className = 'demo-border';
+      container3.innerHTML = '<strong>Lazy-loaded Image (demo_image_medium.png):</strong><br>';
+      const img3 = createImage(
+        '../../local_planning/demo_image_medium.png',
+        'Cosmic Brain Trivia Arena - Medium size',
+        { loading: 'lazy', class: 'zRounded zBorder zBorder-info' }
+      );
+      container3.appendChild(img3);
+      zone.appendChild(container3);
+      log(`Created lazy-loaded image with loading="${img3.loading}"`);
+
+      // Test 1.4: Large image
+      const container4 = document.createElement('div');
+      container4.className = 'demo-border';
+      container4.innerHTML = '<strong>Large Image (demo_image_large.png):</strong><br>';
+      const img4 = createImage(
+        '../../local_planning/demo_image_large.png',
+        'Cosmic Brain Trivia Arena - Large size',
+        { class: 'zRounded' }
+      );
+      container4.appendChild(img4);
+      zone.appendChild(container4);
+      log(`Created large image: demo_image_large.png`);
+
+      log('✅ createImage() test complete', 'success');
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // Test 2: createVideo()
+    // ═══════════════════════════════════════════════════════════════
+    window.testCreateVideo = function() {
+      log('Testing createVideo()...');
+      const zone = getRenderZone();
+      zone.innerHTML = '<h4 class="zMb-3">Test: createVideo()</h4>';
+
+      // Test 2.1: Basic video with controls (Bryant Park)
+      const container1 = document.createElement('div');
+      container1.className = 'demo-border media-container';
+      container1.innerHTML = '<strong>Basic Video (Bryant Park.mov):</strong><br><em>Experimental film shot in 16mm by Zolo</em><br>';
+      const video1 = createVideo(
+        '../../local_planning/Bryant Park.mov',
+        { controls: true, width: '640', preload: 'metadata' }
+      );
+      container1.appendChild(video1);
+      zone.appendChild(container1);
+      log(`Created video: Bryant Park.mov`);
+
+      // Test 2.2: Video with poster (using demo_image as poster)
+      const container2 = document.createElement('div');
+      container2.className = 'demo-border media-container';
+      container2.innerHTML = '<strong>Video with Poster Image:</strong><br><em>Using demo_image.png as poster</em><br>';
+      const video2 = createVideo(
+        '../../local_planning/Bryant Park.mov',
+        {
+          controls: true,
+          poster: '../../local_planning/demo_image.png',
+          width: '640',
+          preload: 'none'
+        }
+      );
+      container2.appendChild(video2);
+      zone.appendChild(container2);
+      log(`Created video with poster: demo_image.png`);
+
+      // Test 2.3: Video with attributes (autoplay muted loop)
+      const container3 = document.createElement('div');
+      container3.className = 'demo-border media-container';
+      container3.innerHTML = '<strong>Video (muted, can autoplay):</strong><br><em>Muted videos can autoplay in most browsers</em><br>';
+      const video3 = createVideo(
+        '../../local_planning/Bryant Park.mov',
+        { 
+          controls: true, 
+          muted: true,
+          width: '640',
+          preload: 'metadata'
+        }
+      );
+      container3.appendChild(video3);
+      zone.appendChild(container3);
+      log(`Created muted video: muted=${video3.muted}`);
+
+      log('✅ createVideo() test complete', 'success');
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // Test 3: createAudio()
+    // ═══════════════════════════════════════════════════════════════
+    window.testCreateAudio = function() {
+      log('Testing createAudio()...');
+      const zone = getRenderZone();
+      zone.innerHTML = '<h4 class="zMb-3">Test: createAudio()</h4>';
+
+      // Test 3.1: Basic audio with controls (Oh Dorian)
+      const container1 = document.createElement('div');
+      container1.className = 'demo-border media-container';
+      container1.innerHTML = '<strong>Basic Audio (oh dorian.mp3):</strong><br><em>Indie folk song by Zolo - guitar and vocals</em><br>';
+      const audio1 = createAudio(
+        '../../local_planning/oh dorian.mp3',
+        { controls: true, preload: 'metadata' }
+      );
+      container1.appendChild(audio1);
+      zone.appendChild(container1);
+      log(`Created audio: oh dorian.mp3`);
+
+      // Test 3.2: Looping audio
+      const container2 = document.createElement('div');
+      container2.className = 'demo-border media-container';
+      container2.innerHTML = '<strong>Looping Audio:</strong><br><em>Same song with loop enabled</em><br>';
+      const audio2 = createAudio(
+        '../../local_planning/oh dorian.mp3',
+        { controls: true, loop: true, preload: 'none' }
+      );
+      container2.appendChild(audio2);
+      zone.appendChild(container2);
+      log(`Created looping audio: loop=${audio2.loop}`);
+
+      // Test 3.3: Audio with preload settings
+      const container3 = document.createElement('div');
+      container3.className = 'demo-border media-container';
+      container3.innerHTML = '<strong>Audio with Preload:</strong><br><em>preload="auto" for faster playback</em><br>';
+      const audio3 = createAudio(
+        '../../local_planning/oh dorian.mp3',
+        { controls: true, preload: 'auto' }
+      );
+      container3.appendChild(audio3);
+      zone.appendChild(container3);
+      log(`Created audio with preload="${audio3.preload}"`);
+
+      log('✅ createAudio() test complete', 'success');
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // Test 4: createPicture() + createSource()
+    // ═══════════════════════════════════════════════════════════════
+    window.testCreatePicture = function() {
+      log('Testing createPicture()...');
+      const zone = getRenderZone();
+      zone.innerHTML = '<h4 class="zMb-3">Test: createPicture() + createSource()</h4>';
+
+      // Test 4.1: Responsive image with art direction (using our demo images)
+      const container1 = document.createElement('div');
+      container1.className = 'demo-border media-container';
+      container1.innerHTML = '<strong>Responsive Image (Cosmic Brain Trivia Arena):</strong><br><em>Resize window to see different image sizes</em><br>';
+      const picture1 = createPicture({ id: 'responsive-demo' });
+      const srcLarge = createSource(
+        '../../local_planning/demo_image_large.png',
+        '(min-width: 1024px)'
+      );
+      const srcMedium = createSource(
+        '../../local_planning/demo_image_medium.png',
+        '(min-width: 640px)'
+      );
+      const srcSmall = createSource(
+        '../../local_planning/demo_image_small.png',
+        '(min-width: 320px)'
+      );
+      const fallbackImg = createImage(
+        '../../local_planning/demo_image.png',
+        'Cosmic Brain Trivia Arena - AI-powered trivia game with cosmic theme',
+        { class: 'zRounded' }
+      );
+      picture1.appendChild(srcLarge);
+      picture1.appendChild(srcMedium);
+      picture1.appendChild(srcSmall);
+      picture1.appendChild(fallbackImg);
+      container1.appendChild(picture1);
+      zone.appendChild(container1);
+      log(`Created responsive picture with 4 sources (large, medium, small, fallback)`);
+
+      // Test 4.2: Picture with minimal sources
+      const container2 = document.createElement('div');
+      container2.className = 'demo-border media-container';
+      container2.innerHTML = '<strong>Picture with 2 Sources:</strong><br><em>Desktop (large) vs Mobile (medium)</em><br>';
+      const picture2 = createPicture();
+      const srcDesktop = createSource(
+        '../../local_planning/demo_image_large.png',
+        '(min-width: 768px)'
+      );
+      const fallbackMobile = createImage(
+        '../../local_planning/demo_image_medium.png',
+        'Cosmic Brain Trivia Arena - Responsive demonstration',
+        { class: 'zRounded zBorder zBorder-info' }
+      );
+      picture2.appendChild(srcDesktop);
+      picture2.appendChild(fallbackMobile);
+      container2.appendChild(picture2);
+      zone.appendChild(container2);
+      log(`Created simple responsive picture (desktop vs mobile)`);
+
+      log('✅ createPicture() test complete', 'success');
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // Test 5: createSource() (standalone test)
+    // ═══════════════════════════════════════════════════════════════
+    window.testCreateSource = function() {
+      log('Testing createSource()...');
+      const zone = getRenderZone();
+      zone.innerHTML = '<h4 class="zMb-3">Test: createSource() - Attribute Verification</h4>';
+
+      const container = document.createElement('div');
+      container.className = 'demo-border';
+      container.innerHTML = '<strong>Source Element Attributes (using real demo files):</strong><pre>';
+
+      // Test 5.1: Source with media query (large image)
+      const src1 = createSource('../../local_planning/demo_image_large.png', '(min-width: 1024px)');
+      container.innerHTML += `Source 1 (media query - desktop):
+  srcset: "${src1.srcset}"
+  media: "${src1.media}"
+  type: "${src1.type}"
+
+`;
+      log(`Created source with media: ${src1.media}`);
+
+      // Test 5.2: Source with media query (medium image)
+      const src2 = createSource('../../local_planning/demo_image_medium.png', '(min-width: 640px)');
+      container.innerHTML += `Source 2 (media query - tablet):
+  srcset: "${src2.srcset}"
+  media: "${src2.media}"
+  type: "${src2.type}"
+
+`;
+      log(`Created source with media: ${src2.media}`);
+
+      // Test 5.3: Source with type (video)
+      const src3 = createSource('../../local_planning/Bryant Park.mov', null, 'video/quicktime');
+      container.innerHTML += `Source 3 (type - video):
+  srcset: "${src3.srcset}"
+  media: "${src3.media}"
+  type: "${src3.type}"
+
+`;
+      log(`Created source with type: ${src3.type}`);
+
+      // Test 5.4: Source with type (audio)
+      const src4 = createSource('../../local_planning/oh dorian.mp3', null, 'audio/mpeg');
+      container.innerHTML += `Source 4 (type - audio):
+  srcset: "${src4.srcset}"
+  media: "${src4.media}"
+  type: "${src4.type}"
+`;
+      container.innerHTML += '</pre>';
+      log(`Created source with type: ${src4.type}`);
+
+      zone.appendChild(container);
+      log('✅ createSource() test complete', 'success');
+    };
+
+    // Initial log message
+    log('Media Primitives Test Suite Ready');
+    log('Click a test button above to begin testing');
+  </script>
+</body>
+</html>
+

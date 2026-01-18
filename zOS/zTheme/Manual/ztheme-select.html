@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="../ztheme.html#forms">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Select</li>
+        </ol>
+    </nav>
+    
+    <h1>Select</h1>
+    <p class="zLead" style="margin-bottom: 2rem;">
+        Style dropdown menus with <code>.zSelect</code> for consistent, accessible selection controls.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- The Select Element -->
+    <section style="margin: 3rem 0;">
+        <h2>The Select Element</h2>
+        <p>The <code>&lt;select&gt;</code> element creates a dropdown menu. zTheme provides minimal reboot styling for semantic HTML, then enhances it with the <code>.zSelect</code> utility class.</p>
+        
+        <h3 style="margin-top: 1.5rem;">Semantic HTML (Reboot Only)</h3>
+        <p>A basic <code>&lt;select&gt;</code> with reboot styling:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="basicSelect" class="zLabel">Choose an option</label>
+            <select id="basicSelect">
+                <option>Select an option</option>
+                <option value="1">Option One</option>
+                <option value="2">Option Two</option>
+                <option value="3">Option Three</option>
+            </select>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;select&gt;
+  &lt;option&gt;Select an option&lt;/option&gt;
+  &lt;option value="1"&gt;Option One&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">With .zSelect Styling</h3>
+        <p>Add <code>.zSelect</code> for enhanced styling with custom dropdown arrow and consistent appearance:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="styledSelect" class="zLabel">Choose an option</label>
+            <select class="zSelect" id="styledSelect" aria-label="Styled select example">
+                <option>Select an option</option>
+                <option value="1">Option One</option>
+                <option value="2">Option Two</option>
+                <option value="3">Option Three</option>
+            </select>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;select class="zSelect"&gt;
+  &lt;option&gt;Select an option&lt;/option&gt;
+  &lt;option value="1"&gt;Option One&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>What .zSelect Adds:</strong> Custom dropdown arrow, consistent padding, border styling, and focus states. The <code>&lt;option&gt;</code> elements cannot be styled due to browser limitations.
+        </blockquote>
+    </section>
+    
+    <!-- Sizing -->
+    <section style="margin: 3rem 0;">
+        <h2>Sizing</h2>
+        <p>Match select sizes with text inputs using <code>.zSelect-lg</code> and <code>.zSelect-sm</code>.</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="selectLarge" class="zLabel">Large Select</label>
+            <select class="zSelect zSelect-lg zmb-3" id="selectLarge">
+                <option>Large dropdown</option>
+                <option value="1">Option One</option>
+                <option value="2">Option Two</option>
+            </select>
+            
+            <label for="selectSmall" class="zLabel">Small Select</label>
+            <select class="zSelect zSelect-sm" id="selectSmall">
+                <option>Small dropdown</option>
+                <option value="1">Option One</option>
+                <option value="2">Option Two</option>
+            </select>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- Large --&gt;
+&lt;select class="zSelect zSelect-lg"&gt;...&lt;/select&gt;
+
+&lt;!-- Small --&gt;
+&lt;select class="zSelect zSelect-sm"&gt;...&lt;/select&gt;</code></pre>
+    </section>
+    
+    <!-- Multiple Selection -->
+    <section style="margin: 3rem 0;">
+        <h2>Multiple Selection</h2>
+        <p>Allow users to select multiple options with the <code>multiple</code> attribute. This displays all options in a scrollable list.</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="multiSelect" class="zLabel">Select multiple items (hold Ctrl/Cmd)</label>
+            <select class="zSelect" id="multiSelect" multiple>
+                <option value="1">Engineering</option>
+                <option value="2">Design</option>
+                <option value="3">Marketing</option>
+                <option value="4">Sales</option>
+                <option value="5">Support</option>
+            </select>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;select class="zSelect" multiple&gt;
+  &lt;option value="1"&gt;Engineering&lt;/option&gt;
+  &lt;option value="2"&gt;Design&lt;/option&gt;
+  &lt;option value="3"&gt;Marketing&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">Visible Options (Size)</h3>
+        <p>Control how many options are visible at once with the <code>size</code> attribute:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="sizeSelect" class="zLabel">Select with 4 visible options</label>
+            <select class="zSelect" id="sizeSelect" size="4">
+                <option value="1">Engineering</option>
+                <option value="2">Design</option>
+                <option value="3">Marketing</option>
+                <option value="4">Sales</option>
+                <option value="5">Support</option>
+                <option value="6">Operations</option>
+            </select>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- Show 4 options at once --&gt;
+&lt;select class="zSelect" size="4"&gt;
+  &lt;option value="1"&gt;Engineering&lt;/option&gt;
+  &lt;option value="2"&gt;Design&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+    </section>
+    
+    <!-- Disabled State -->
+    <section style="margin: 3rem 0;">
+        <h2>Disabled State</h2>
+        <p>Add the <code>disabled</code> attribute to prevent user interaction and show a clear visual indication.</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="disabledSelect" class="zLabel">Disabled Select</label>
+            <select class="zSelect" id="disabledSelect" disabled>
+                <option>Cannot interact with this</option>
+                <option value="1">Option One</option>
+                <option value="2">Option Two</option>
+            </select>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;select class="zSelect" disabled&gt;
+  &lt;option&gt;Cannot interact with this&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-error); background: #f8f9fa;">
+            <strong>Disabled Styling:</strong> Disabled selects use <code>var(--color-error)</code> background with white text to clearly communicate "unavailable" status.
+        </blockquote>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <h3>Always Use Labels</h3>
+        <p>Associate every <code>&lt;select&gt;</code> with a <code>&lt;label&gt;</code> for accessibility:</p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;label for="department" class="zLabel"&gt;Department&lt;/label&gt;
+&lt;select class="zSelect" id="department"&gt;...&lt;/select&gt;</code></pre>
+        
+        <h3 style="margin-top: 1.5rem;">First Option as Prompt</h3>
+        <p>Use the first option as a prompt, not a selectable value:</p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;select class="zSelect"&gt;
+  &lt;option&gt;Select a department&lt;/option&gt; ← Prompt
+  &lt;option value="eng"&gt;Engineering&lt;/option&gt; ← Actual choices
+&lt;/select&gt;</code></pre>
+        
+        <h3 style="margin-top: 1.5rem;">Browser Limitations</h3>
+        <blockquote style="margin: 1rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Note:</strong> The styling applied by <code>.zSelect</code> only affects the <code>&lt;select&gt;</code> element itself. Individual <code>&lt;option&gt;</code> elements cannot be styled due to browser limitations.
+        </blockquote>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: var(--color-base); border-left: 4px solid var(--color-info);">
+        <h2>CSS Reference</h2>
+        <p>Select elements inherit variables from form controls:</p>
+        
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto; margin-top: 1rem;"><code>/* Size variants */
+.zSelect        /* Default size */
+.zSelect-sm     /* Small: 0.875rem */
+.zSelect-lg     /* Large: 1.25rem */
+
+/* Key CSS variables */
+--form-control-bg: #fff;
+--form-control-disabled-bg: var(--color-error);  /* Red for disabled */
+--form-control-color: var(--color-darkgray);
+--form-control-border-color: var(--color-gray);</code></pre>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-form-control.html" class="zPrimary">Form Control</a> - Text inputs and textareas</li>
+            <li><a href="ztheme-checks-radios.html" class="zPrimary">Checks & Radios</a> - Selection controls</li>
+            <li><a href="ztheme-form-layout.html" class="zPrimary">Form Layout</a> - Organizing form elements</li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-form-control.html" class="zPrimary">← Previous: Form Control</a>
+        <a href="ztheme-checks-radios.html" class="zPrimary">Next: Checks & Radios →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

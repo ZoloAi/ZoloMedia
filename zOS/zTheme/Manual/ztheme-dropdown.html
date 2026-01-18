@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dropdown - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<article style="max-width: 900px; margin: 0 auto; padding: 2rem;">
+    <!-- Header -->
+    <header style="margin-bottom: 3rem;">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+            <ol class="zBreadcrumb">
+                <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+                <li class="zBreadcrumb-item"><a href="ztheme.html">Components</a></li>
+                <li class="zBreadcrumb-item zActive" aria-current="page">Dropdowns</li>
+            </ol>
+        </nav>
+
+        <h1>Dropdowns</h1>
+        <p class="zLead">Toggle contextual overlays for displaying lists of links, actions, and more with click-based dropdown menus.</p>
+    </header>
+
+    <!-- Understanding Dropdowns -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Dropdowns</h2>
+        <p>Dropdowns are contextual menus that appear when users click a button or link. They're perfect for:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Actions:</strong> Show a list of actions users can take</li>
+            <li><strong>Navigation:</strong> Display additional menu items</li>
+            <li><strong>Filters:</strong> Provide sorting or filtering options</li>
+            <li><strong>Settings:</strong> Show configuration choices</li>
+            <li><strong>User menus:</strong> Display profile, logout, settings</li>
+        </ul>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Accessibility:</strong> Dropdowns support keyboard navigation (↑ ↓ arrow keys to navigate, Escape to close) and use <code>aria-expanded</code> to communicate state to screen readers.
+        </blockquote>
+    </section>
+
+    <!-- Basic Dropdown -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic Dropdown</h2>
+        <p>Wrap the toggle button and menu in a <code>.zDropdown</code> container:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zDropdown">
+                <button class="zBtn zBtn-secondary zDropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dropdown Button
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                    <li><a class="zDropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zDropdown"&gt;
+  &lt;button class="zBtn zBtn-secondary zDropdown-toggle" 
+          type="button" 
+          data-bs-toggle="dropdown" 
+          aria-expanded="false"&gt;
+    Dropdown Button
+  &lt;/button&gt;
+  &lt;ul class="zDropdown-menu"&gt;
+    &lt;li&gt;&lt;a class="zDropdown-item" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a class="zDropdown-item" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a class="zDropdown-item" href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+
+        <p style="margin-top: 1rem;"><strong>How it works:</strong></p>
+        <ul style="line-height: 1.8;">
+            <li><code>.zDropdown</code> — Container with <code>position: relative</code></li>
+            <li><code>.zDropdown-toggle</code> — Button/link that opens the menu</li>
+            <li><code>data-bs-toggle="dropdown"</code> — Tells zTheme to attach click handler</li>
+            <li><code>.zDropdown-menu</code> — The hidden menu that appears on click</li>
+            <li><code>.zDropdown-item</code> — Individual menu items (links or buttons)</li>
+        </ul>
+    </section>
+
+    <!-- Link as Toggle -->
+    <section style="margin: 3rem 0;">
+        <h2>Link as Toggle</h2>
+        <p>You can use a link with <code>role="button"</code> instead of a button:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zDropdown">
+                <a class="zBtn zBtn-secondary zDropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Dropdown Link
+                </a>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                    <li><a class="zDropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;a class="zBtn zBtn-secondary zDropdown-toggle" 
+   href="#" 
+   role="button" 
+   data-bs-toggle="dropdown"&gt;
+  Dropdown Link
+&lt;/a&gt;</code></pre>
+    </section>
+
+    <!-- Button Variants -->
+    <section style="margin: 3rem 0;">
+        <h2>Button Variants</h2>
+        <p>Dropdowns work with any button variant:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0; display: flex; flex-wrap: wrap; gap: 1rem;">
+            <div class="zDropdown">
+                <button class="zBtn zBtn-primary zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Primary
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                </ul>
+            </div>
+
+            <div class="zDropdown">
+                <button class="zBtn zBtn-success zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Success
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                </ul>
+            </div>
+
+            <div class="zDropdown">
+                <button class="zBtn zBtn-warning zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Warning
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                </ul>
+            </div>
+
+            <div class="zDropdown">
+                <button class="zBtn zBtn-danger zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Danger
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Split Button -->
+    <section style="margin: 3rem 0;">
+        <h2>Split Button</h2>
+        <p>Create a split button dropdown with a separate dropdown toggle:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zBtn-group">
+                <button type="button" class="zBtn zBtn-primary">Action</button>
+                <button type="button" class="zBtn zBtn-primary zDropdown-toggle zDropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="zVisually-hidden">Toggle Dropdown</span>
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                    <li><a class="zDropdown-item" href="#">Something else here</a></li>
+                    <li><hr class="zDropdown-divider"></li>
+                    <li><a class="zDropdown-item" href="#">Separated link</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zBtn-group"&gt;
+  &lt;button type="button" class="zBtn zBtn-primary"&gt;Action&lt;/button&gt;
+  &lt;button type="button" 
+          class="zBtn zBtn-primary zDropdown-toggle zDropdown-toggle-split" 
+          data-bs-toggle="dropdown"&gt;
+    &lt;span class="zVisually-hidden"&gt;Toggle Dropdown&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;ul class="zDropdown-menu"&gt;...&lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Sizing -->
+    <section style="margin: 3rem 0;">
+        <h2>Sizing</h2>
+        <p>Use button size classes to control dropdown toggle size:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0; display: flex; flex-wrap: wrap; gap: 1rem; align-items: center;">
+            <div class="zDropdown">
+                <button class="zBtn zBtn-secondary zBtn-lg zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Large Button
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                </ul>
+            </div>
+
+            <div class="zDropdown">
+                <button class="zBtn zBtn-secondary zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Default Button
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                </ul>
+            </div>
+
+            <div class="zDropdown">
+                <button class="zBtn zBtn-secondary zBtn-sm zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Small Button
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dark Dropdown -->
+    <section style="margin: 3rem 0;">
+        <h2>Dark Dropdown</h2>
+        <p>Add <code>.zDropdown-menu-dark</code> for a dark themed menu:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #2c3e50; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zDropdown">
+                <button class="zBtn zBtn-secondary zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Dark Dropdown
+                </button>
+                <ul class="zDropdown-menu zDropdown-menu-dark">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                    <li><a class="zDropdown-item" href="#">Something else here</a></li>
+                    <li><hr class="zDropdown-divider"></li>
+                    <li><a class="zDropdown-item" href="#">Separated link</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;ul class="zDropdown-menu zDropdown-menu-dark"&gt;
+  &lt;li&gt;&lt;a class="zDropdown-item" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+  ...
+&lt;/ul&gt;</code></pre>
+    </section>
+
+    <!-- Directions -->
+    <section style="margin: 3rem 0;">
+        <h2>Directions</h2>
+        <p>Control menu direction with wrapper classes:</p>
+
+        <h3 style="margin-top: 2rem;">Dropup</h3>
+        <p>Menu appears above the toggle:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zDropup">
+                <button class="zBtn zBtn-secondary zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Dropup
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                    <li><a class="zDropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zDropup"&gt;
+  &lt;button class="zBtn zBtn-secondary zDropdown-toggle" data-bs-toggle="dropdown"&gt;
+    Dropup
+  &lt;/button&gt;
+  &lt;ul class="zDropdown-menu"&gt;...&lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Dropend (Right)</h3>
+        <p>Menu appears to the right:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zDropend">
+                <button class="zBtn zBtn-secondary zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Dropend
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                    <li><a class="zDropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Dropstart (Left)</h3>
+        <p>Menu appears to the left:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zDropstart">
+                <button class="zBtn zBtn-secondary zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Dropstart
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                    <li><a class="zDropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Items -->
+    <section style="margin: 3rem 0;">
+        <h2>Menu Items</h2>
+        
+        <h3 style="margin-top: 2rem;">Active State</h3>
+        <p>Add <code>.zActive</code> to highlight the current item:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zDropdown">
+                <button class="zBtn zBtn-secondary zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Menu with Active
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Regular link</a></li>
+                    <li><a class="zDropdown-item zActive" href="#">Active link</a></li>
+                    <li><a class="zDropdown-item" href="#">Another link</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Disabled State</h3>
+        <p>Add <code>.zDisabled</code> to make an item non-clickable:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zDropdown">
+                <button class="zBtn zBtn-secondary zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Menu with Disabled
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><a class="zDropdown-item" href="#">Regular link</a></li>
+                    <li><a class="zDropdown-item zDisabled" href="#">Disabled link</a></li>
+                    <li><a class="zDropdown-item" href="#">Another link</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Content -->
+    <section style="margin: 3rem 0;">
+        <h2>Menu Content</h2>
+        
+        <h3 style="margin-top: 2rem;">Headers</h3>
+        <p>Add labels to sections with <code>.zDropdown-header</code>:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zDropdown">
+                <button class="zBtn zBtn-secondary zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Menu with Headers
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><h6 class="zDropdown-header">Dropdown header</h6></li>
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                    <li><hr class="zDropdown-divider"></li>
+                    <li><h6 class="zDropdown-header">Another header</h6></li>
+                    <li><a class="zDropdown-item" href="#">Separated link</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Dividers</h3>
+        <p>Separate groups with <code>&lt;hr class="zDropdown-divider"&gt;</code>:</p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;li&gt;&lt;hr class="zDropdown-divider"&gt;&lt;/li&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Text</h3>
+        <p>Add non-interactive text with <code>.zDropdown-item-text</code>:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zDropdown">
+                <button class="zBtn zBtn-secondary zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Menu with Text
+                </button>
+                <ul class="zDropdown-menu">
+                    <li><span class="zDropdown-item-text">Dropdown item text</span></li>
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Alignment -->
+    <section style="margin: 3rem 0;">
+        <h2>Menu Alignment</h2>
+        <p>Align the menu to the right with <code>.zDropdown-menu-end</code>:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0; text-align: right;">
+            <div class="zDropdown" style="display: inline-block;">
+                <button class="zBtn zBtn-secondary zDropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    Right-aligned Menu
+                </button>
+                <ul class="zDropdown-menu zDropdown-menu-end">
+                    <li><a class="zDropdown-item" href="#">Action</a></li>
+                    <li><a class="zDropdown-item" href="#">Another action</a></li>
+                    <li><a class="zDropdown-item" href="#">Something else here</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;ul class="zDropdown-menu zDropdown-menu-end"&gt;
+  ...
+&lt;/ul&gt;</code></pre>
+
+        <p style="margin-top: 1.5rem;"><strong>Responsive alignment:</strong> Use <code>.zDropdown-menu-md-end</code>, <code>.zDropdown-menu-lg-end</code>, etc. for responsive alignment.</p>
+    </section>
+
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Keep menus focused:</strong> Limit to 5-7 items for easy scanning</li>
+            <li><strong>Use semantic HTML:</strong> Use <code>&lt;button&gt;</code> for actions, <code>&lt;a&gt;</code> for navigation</li>
+            <li><strong>Group related items:</strong> Use headers and dividers to organize content</li>
+            <li><strong>Show current state:</strong> Use <code>.zActive</code> for the current selection</li>
+            <li><strong>Disable unavailable options:</strong> Use <code>.zDisabled</code> instead of hiding</li>
+            <li><strong>Mobile-friendly:</strong> Dropdowns work on touch devices—test on mobile!</li>
+            <li><strong>Keyboard accessible:</strong> Use arrow keys to navigate, Escape to close</li>
+            <li><strong>Clear labels:</strong> Button text should indicate what the menu contains</li>
+        </ul>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: rgba(255, 179, 71, 0.1);">
+            <strong>Avoid dropdown overload:</strong> If you have more than 10 items, consider using a search field, tabbed interface, or navigation page instead.
+        </blockquote>
+    </section>
+
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+
+        <h3 style="margin-top: 2rem;">Dropdown Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zDropdown</code></td>
+                    <td>Container for dropdown (default direction: down)</td>
+                </tr>
+                <tr>
+                    <td><code>.zDropup</code></td>
+                    <td>Container for dropup (direction: up)</td>
+                </tr>
+                <tr>
+                    <td><code>.zDropend</code></td>
+                    <td>Container for dropend (direction: right)</td>
+                </tr>
+                <tr>
+                    <td><code>.zDropstart</code></td>
+                    <td>Container for dropstart (direction: left)</td>
+                </tr>
+                <tr>
+                    <td><code>.zDropdown-toggle</code></td>
+                    <td>Button/link that triggers the menu</td>
+                </tr>
+                <tr>
+                    <td><code>.zDropdown-toggle-split</code></td>
+                    <td>Split button dropdown toggle styling</td>
+                </tr>
+                <tr>
+                    <td><code>.zDropdown-menu</code></td>
+                    <td>The dropdown menu container</td>
+                </tr>
+                <tr>
+                    <td><code>.zShow</code></td>
+                    <td>Shows the menu (managed by JavaScript)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Menu Item Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zDropdown-item</code></td>
+                    <td>Individual menu item (link or button)</td>
+                </tr>
+                <tr>
+                    <td><code>.zActive</code></td>
+                    <td>Highlighted/current menu item</td>
+                </tr>
+                <tr>
+                    <td><code>.zDisabled</code></td>
+                    <td>Non-clickable/disabled menu item</td>
+                </tr>
+                <tr>
+                    <td><code>.zDropdown-header</code></td>
+                    <td>Section header within menu</td>
+                </tr>
+                <tr>
+                    <td><code>.zDropdown-divider</code></td>
+                    <td>Horizontal divider (&lt;hr&gt;)</td>
+                </tr>
+                <tr>
+                    <td><code>.zDropdown-item-text</code></td>
+                    <td>Non-interactive text in menu</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Variants</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zDropdown-menu-dark</code></td>
+                    <td>Dark themed menu</td>
+                </tr>
+                <tr>
+                    <td><code>.zDropdown-menu-end</code></td>
+                    <td>Right-aligned menu</td>
+                </tr>
+                <tr>
+                    <td><code>.zDropdown-menu-start</code></td>
+                    <td>Left-aligned menu (default)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Data Attributes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Attribute</th>
+                    <th scope="col">Required</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>data-bs-toggle="dropdown"</code></td>
+                    <td>Yes</td>
+                    <td>Identifies element as a dropdown trigger</td>
+                </tr>
+                <tr>
+                    <td><code>aria-expanded</code></td>
+                    <td>Recommended</td>
+                    <td>Accessibility: current state (auto-managed)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Auto-Initialization:</strong> Just add the data attributes and <code>zTheme.js</code> handles the rest. For dynamically added dropdowns, call <code>window.zTheme.initDropdown()</code>.
+        </blockquote>
+    </section>
+
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-buttons.html">Buttons</a> - Dropdown triggers use button styling</li>
+            <li><a href="ztheme-button-group.html">Button Groups</a> - For split button dropdowns</li>
+            <li><a href="ztheme-collapse.html">Collapse</a> - Alternative for mobile menus</li>
+        </ul>
+    </section>
+</article>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms Overview - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="../ztheme.html#forms">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Forms Overview</li>
+        </ol>
+    </nav>
+    
+    <h1>Forms Overview</h1>
+    <p class="zLead text-muted" style="margin-bottom: 2rem;">
+        Examples and usage guidelines for form control styles, layout options, and custom components for creating a wide variety of forms
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--borderColor, #dee2e6);">
+    
+    <!-- Quick Links -->
+    <section style="margin: 3rem 0;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 2rem 0;">
+            <div style="background: var(--color-base); border: 2px solid var(--color-primary); border-radius: var(--border-radius-lg, 8px); padding: 1.5rem;">
+                <h3 class="zPrimary" style="margin-top: 0;">Form control</h3>
+                <p class="zMuted">Style textual inputs and textareas with support for multiple states</p>
+            </div>
+            
+            <div style="background: var(--color-base); border: 2px solid var(--color-secondary); border-radius: var(--border-radius-lg, 8px); padding: 1.5rem;">
+                <h3 class="zSecondary" style="margin-top: 0;">Select</h3>
+                <p class="zMuted">Improve browser default select elements with custom styling</p>
+            </div>
+            
+            <div style="background: var(--color-base); border: 2px solid var(--color-success); border-radius: var(--border-radius-lg, 8px); padding: 1.5rem;">
+                <h3 class="zSuccess" style="margin-top: 0;">Checks & radios</h3>
+                <p class="zMuted">Custom radio buttons and checkboxes for selecting options</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Overview -->
+    <section style="margin: 3rem 0;">
+        <h2>Overview</h2>
+        <p>zTheme's form controls expand on our Rebooted form styles with classes. Use these classes to opt into their customized displays for a more consistent rendering across browsers and devices.</p>
+        
+        <p style="margin-top: 1rem;">Be sure to use an appropriate <code>type</code> attribute on all inputs (e.g., <code>email</code> for email address or <code>number</code> for numerical information) to take advantage of newer input controls like email verification, number selection, and more.</p>
+        
+        <p style="margin-top: 1rem;">Here's a quick example to demonstrate zTheme's form styles:</p>
+        
+        <!-- Example Form -->
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <form>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1">
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;form&gt;
+  &lt;div class="mb-3"&gt;
+    &lt;label for="exampleInputEmail1" class="form-label"&gt;Email address&lt;/label&gt;
+    &lt;input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"&gt;
+    &lt;div id="emailHelp" class="form-text"&gt;We'll never share your email with anyone else.&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="mb-3"&gt;
+    &lt;label for="exampleInputPassword1" class="form-label"&gt;Password&lt;/label&gt;
+    &lt;input type="password" class="form-control" id="exampleInputPassword1"&gt;
+  &lt;/div&gt;
+  &lt;div class="mb-3 form-check"&gt;
+    &lt;input type="checkbox" class="form-check-input" id="exampleCheck1"&gt;
+    &lt;label class="form-check-label" for="exampleCheck1"&gt;Check me out&lt;/label&gt;
+  &lt;/div&gt;
+  &lt;button type="submit" class="btn btn-primary"&gt;Submit&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+    </section>
+    
+    <!-- Form Text -->
+    <section style="margin: 3rem 0;">
+        <h2>Form Text</h2>
+        <p>Block-level or inline-level form text can be created using <code>.form-text</code>.</p>
+        
+        <div style="background: #fff8e1; padding: 1.5rem; border-left: 4px solid #ffa726; margin: 2rem 0;">
+            <strong>Associating form text with form controls:</strong> Form text should be explicitly associated with the form control it relates to using the <code>aria-describedby</code> attribute. This ensures assistive technologies will announce this form text when the user focuses or enters the control.
+        </div>
+        
+        <h3 style="margin-top: 2rem;">Block-level help text</h3>
+        <p>Form text below inputs can be styled with <code>.form-text</code>:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="inputPassword5" class="form-label">Password</label>
+            <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
+            <div id="passwordHelpBlock" class="form-text">
+                Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;label for="inputPassword5" class="form-label"&gt;Password&lt;/label&gt;
+&lt;input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock"&gt;
+&lt;div id="passwordHelpBlock" class="form-text"&gt;
+  Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+&lt;/div&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">Inline help text</h3>
+        <p>Inline text can use any typical inline HTML element with the <code>.form-text</code> class:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <label for="inputPassword6" class="col-form-label">Password</label>
+                </div>
+                <div class="col-auto">
+                    <input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
+                </div>
+                <div class="col-auto">
+                    <span id="passwordHelpInline" class="form-text">Must be 8-20 characters long.</span>
+                </div>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="row g-3 align-items-center"&gt;
+  &lt;div class="col-auto"&gt;
+    &lt;label for="inputPassword6" class="col-form-label"&gt;Password&lt;/label&gt;
+  &lt;/div&gt;
+  &lt;div class="col-auto"&gt;
+    &lt;input type="password" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline"&gt;
+  &lt;/div&gt;
+  &lt;div class="col-auto"&gt;
+    &lt;span id="passwordHelpInline" class="form-text"&gt;Must be 8-20 characters long.&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Disabled Forms -->
+    <section style="margin: 3rem 0;">
+        <h2>Disabled Forms</h2>
+        <p>Add the <code>disabled</code> boolean attribute on an input to prevent user interactions and make it appear lighter.</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <input class="form-control" type="text" placeholder="Disabled input here..." disabled>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;input class="form-control" type="text" placeholder="Disabled input here..." disabled&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">Disabled fieldset</h3>
+        <p>Add the <code>disabled</code> attribute to a <code>&lt;fieldset&gt;</code> to disable all controls within:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <form>
+                <fieldset disabled>
+                    <legend>Disabled fieldset example</legend>
+                    <div class="mb-3">
+                        <label for="disabledTextInput" class="form-label">Disabled input</label>
+                        <input type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">
+                    </div>
+                    <div class="mb-3">
+                        <label for="disabledSelect" class="form-label">Disabled select menu</label>
+                        <select id="disabledSelect" class="form-select">
+                            <option>Disabled select</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="disabledFieldsetCheck" disabled>
+                            <label class="form-check-label" for="disabledFieldsetCheck">
+                                Can't check this
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </fieldset>
+            </form>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;form&gt;
+  &lt;fieldset disabled&gt;
+    &lt;legend&gt;Disabled fieldset example&lt;/legend&gt;
+    &lt;div class="mb-3"&gt;
+      &lt;label for="disabledTextInput" class="form-label"&gt;Disabled input&lt;/label&gt;
+      &lt;input type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input"&gt;
+    &lt;/div&gt;
+    &lt;div class="mb-3"&gt;
+      &lt;label for="disabledSelect" class="form-label"&gt;Disabled select menu&lt;/label&gt;
+      &lt;select id="disabledSelect" class="form-select"&gt;
+        &lt;option&gt;Disabled select&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;div class="mb-3"&gt;
+      &lt;div class="form-check"&gt;
+        &lt;input class="form-check-input" type="checkbox" id="disabledFieldsetCheck" disabled&gt;
+        &lt;label class="form-check-label" for="disabledFieldsetCheck"&gt;
+          Can't check this
+        &lt;/label&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;button type="submit" class="btn btn-primary"&gt;Submit&lt;/button&gt;
+  &lt;/fieldset&gt;
+&lt;/form&gt;</code></pre>
+    </section>
+    
+    <!-- Accessibility -->
+    <section style="margin: 3rem 0;">
+        <h2>Accessibility</h2>
+        <p>Ensure that all form controls have an appropriate accessible name so that their purpose can be conveyed to users of assistive technologies. The simplest way to achieve this is to use a <code>&lt;label&gt;</code> element, or—in the case of buttons—to include sufficiently descriptive text as part of the <code>&lt;button&gt;...&lt;/button&gt;</code> content.</p>
+        
+        <p style="margin-top: 1rem;">For situations where it's not possible to include a visible <code>&lt;label&gt;</code> or appropriate text content, there are alternative ways of still providing an accessible name:</p>
+        
+        <ul style="line-height: 1.8;">
+            <li><code>&lt;label&gt;</code> elements hidden using the <code>.visually-hidden</code> class</li>
+            <li>Pointing to an existing element that can act as a label using <code>aria-labelledby</code></li>
+            <li>Providing a <code>title</code> attribute</li>
+            <li>Explicitly setting the accessible name on an element using <code>aria-label</code></li>
+        </ul>
+        
+        <div style="background: #e8f5e9; padding: 1.5rem; border-left: 4px solid #4caf50; margin: 2rem 0;">
+            <strong>Best Practice:</strong> Some form of visible label is generally the best approach, both for accessibility and usability.
+        </div>
+    </section>
+    
+    <!-- CSS Variables -->
+    <section style="margin: 3rem 0; padding: 2rem; background: var(--color-base); border-left: 4px solid var(--color-info);">
+        <h2>CSS Variables</h2>
+        <p>Many form variables are set at a general level to be re-used and extended by individual form components. Key variables include:</p>
+        
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto; margin-top: 1rem;"><code>:root {
+  /* Input/Button shared variables */
+  --input-btn-padding-y: 0.375rem;
+  --input-btn-padding-x: 0.75rem;
+  --input-btn-font-size: 1rem;
+  --input-btn-line-height: 1.5;
+  
+  /* Focus state */
+  --input-btn-focus-width: 0.25rem;
+  --input-btn-focus-color: rgba(13, 110, 253, 0.25);
+  --input-btn-focus-box-shadow: 0 0 0 0.25rem var(--input-btn-focus-color);
+  
+  /* Form control specific */
+  --form-control-bg: #fff;
+  --form-control-color: var(--color-darkgray);
+  --form-control-border-color: #ced4da;
+  --form-control-border-radius: 0.25rem;
+}</code></pre>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--borderColor, #dee2e6); display: flex; justify-content: space-between;">
+        <a href="ztheme.html" class="zPrimary">← Back to zTheme Index</a>
+        <a href="ztheme-form-control.html" class="zPrimary">Next: Form Control →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reboot - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer zp-5">
+    <!-- Breadcrumb -->
+    <nav class="zSmall zmb-3">
+        <a href="ztheme.html" class="zPrimary">zTheme</a>
+        <span class="zMuted zmx-2">›</span>
+        <a href="ztheme.html" class="zPrimary">Components</a>
+        <span class="zMuted zmx-2">›</span>
+        <span>Reboot</span>
+    </nav>
+    
+    <h1>Reboot</h1>
+    <p class="zLead text-muted zmb-5">
+        CSS reset for consistent cross-browser styling
+    </p>
+    
+    <hr class="zmy-5 hr-visible">
+    
+    <!-- What is Reboot -->
+    <section class="zmy-6">
+        <h2>What is Reboot?</h2>
+        <p>Different browsers style HTML elements differently by default. Reboot fixes this by giving all basic HTML elements (headings, paragraphs, lists, tables, etc.) consistent styling across all browsers.</p>
+        <p class="zmt-3">Think of it as a "fresh start" for your HTML elements - everything looks the same whether someone views your site in Chrome, Firefox, Safari, or any other browser.</p>
+        <p class="zmt-3">This is a <strong>quick reference</strong> page showing what Reboot does. For detailed styling options, see the following pages:</p>
+        <ul class="lh-lg zmy-3">
+            <li><a href="ztheme-typography.html" class="zPrimary">Typography</a> - Headings, paragraphs, lists, and text styling</li>
+            <li><a href="ztheme-images.html" class="zPrimary">Images</a> - Image styling and responsive images</li>
+            <li><a href="ztheme-tables.html" class="zPrimary">Tables</a> - Table components and styling</li>
+            <li><a href="ztheme-figures.html" class="zPrimary">Figures</a> - Figure and caption styling</li>
+        </ul>
+    </section>
+    
+    <!-- Approach -->
+    <section class="zmy-6">
+        <h2>Approach</h2>
+        <p>Before diving into Reboot's principles, let's understand CSS units:</p>
+        
+        <h3 class="zmt-4">Understanding <code>em</code> and <code>rem</code></h3>
+        <p><strong>What is <code>em</code>?</strong></p>
+        <p>An <code>em</code> is relative to the parent element's font size. If a parent has <code>font-size: 20px</code>, then <code>1em = 20px</code> for its children.</p>
+        <p class="zmt-2"><strong>The problem:</strong> <code>em</code> compounds. If you nest elements, each level multiplies:</p>
+        <ul class="lh-lg zmy-2">
+            <li>Parent: <code>font-size: 20px</code></li>
+            <li>Child with <code>font-size: 1.5em</code> = <code>30px</code> (20 × 1.5)</li>
+            <li>Grandchild with <code>font-size: 1.5em</code> = <code>45px</code> (30 × 1.5) ← Gets bigger unexpectedly!</li>
+        </ul>
+        
+        <p class="zmt-4"><strong>What is <code>rem</code>?</strong></p>
+        <p><code>rem</code> = "root em" - always relative to the root <code>&lt;html&gt;</code> element's font size (usually 16px).</p>
+        <ul class="lh-lg zmy-2">
+            <li><code>1rem = 16px</code> (always)</li>
+            <li><code>2rem = 32px</code> (always)</li>
+            <li><code>0.5rem = 8px</code> (always)</li>
+        </ul>
+        <p class="zmt-2"><strong>The benefit:</strong> No compounding! <code>1rem</code> is always <code>16px</code> no matter how deeply nested.</p>
+        
+        <h3 class="zmt-5">Reboot's Key Principles</h3>
+        <ul class="lh-lg zmy-3">
+            <li><strong>Use <code>rem</code> for spacing</strong> - Consistent, predictable sizing throughout</li>
+            <li><strong>Avoid <code>margin-top</code></strong> - Using only <code>margin-bottom</code> prevents spacing issues</li>
+            <li><strong>Accessibility</strong> - When users change browser font size, <code>rem</code>-based layouts scale proportionally</li>
+            <li><strong>Inherit fonts</strong> - Child elements inherit parent font settings unless specified otherwise</li>
+        </ul>
+    </section>
+    
+    <!-- Page Defaults -->
+    <section class="zmy-6">
+        <h2>Page Defaults</h2>
+        <p>The <code>&lt;html&gt;</code> and <code>&lt;body&gt;</code> elements are updated for better page-wide defaults:</p>
+        
+        <ul class="lh-lg zmy-3">
+            <li><strong>Box-sizing</strong> - Set to <code>border-box</code> globally (including <code>*::before</code> and <code>*::after</code>)</li>
+            <li><strong>Font-size</strong> - <code>16px</code> assumed on <code>&lt;html&gt;</code>, <code>1rem</code> on <code>&lt;body&gt;</code> for responsive scaling</li>
+            <li><strong>Typography</strong> - Global <code>font-family</code>, <code>font-weight</code>, <code>line-height</code>, and <code>color</code> on <code>&lt;body&gt;</code></li>
+            <li><strong>Background</strong> - Default <code>background-color: #fff</code> for safety</li>
+        </ul>
+    </section>
+    
+    <!-- Native Font Stack -->
+    <section class="zmy-6">
+        <h2>Native Font Stack</h2>
+        <p>zTheme uses a "native font stack" for optimum text rendering on every device and OS:</p>
+        
+        <pre class="zp-3 zmy-5" style="background: #f5f5f5; border-radius: 4px; overflow-x: auto;"><code>font-family:
+  system-ui,              /* Cross-platform */
+  -apple-system,          /* Safari (macOS/iOS) */
+  "Segoe UI",             /* Windows */
+  Roboto,                 /* Android */
+  "Helvetica Neue", Arial,
+  "Noto Sans",            /* Linux */
+  "Liberation Sans",
+  sans-serif,
+  "Apple Color Emoji",    /* Emoji fonts */
+  "Segoe UI Emoji",
+  "Segoe UI Symbol",
+  "Noto Color Emoji";</code></pre>
+        
+        <p><strong>Note:</strong> The font stack includes emoji fonts, so many symbol characters will render as multi-colored pictographs. Appearance varies by browser/platform.</p>
+    </section>
+    
+    <!-- Headings and Paragraphs -->
+    <section class="zmy-6">
+        <h2>Headings and Paragraphs</h2>
+        <p>All headings and paragraphs have <code>margin-top</code> removed. Headings have <code>margin-bottom: .5rem</code> and paragraphs have <code>margin-bottom: 1rem</code>.</p>
+        <p class="zmt-2"><strong>→</strong> For detailed typography options, see <a href="ztheme-typography.html" class="zPrimary">Typography</a></p>
+        
+        <table class="table zmy-3">
+            <thead>
+                <tr>
+                    <th scope="col">Heading</th>
+                    <th scope="col">Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>&lt;h1&gt;</code></td>
+                    <td><h1 class="zmt-0 zmb-0">h1. zTheme heading</h1></td>
+                </tr>
+                <tr>
+                    <td><code>&lt;h2&gt;</code></td>
+                    <td><h2 class="zmt-0 zmb-0">h2. zTheme heading</h2></td>
+                </tr>
+                <tr>
+                    <td><code>&lt;h3&gt;</code></td>
+                    <td><h3 class="zmt-0 zmb-0">h3. zTheme heading</h3></td>
+                </tr>
+                <tr>
+                    <td><code>&lt;h4&gt;</code></td>
+                    <td><h4 class="zmt-0 zmb-0">h4. zTheme heading</h4></td>
+                </tr>
+                <tr>
+                    <td><code>&lt;h5&gt;</code></td>
+                    <td><h5 class="zmt-0 zmb-0">h5. zTheme heading</h5></td>
+                </tr>
+                <tr>
+                    <td><code>&lt;h6&gt;</code></td>
+                    <td><h6 class="zmt-0 zmb-0">h6. zTheme heading</h6></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Lists -->
+    <section class="zmy-6">
+        <h2>Lists</h2>
+        <p>All lists have <code>margin-top</code> removed and <code>margin-bottom: 1rem</code>. Nested lists have no <code>margin-bottom</code>.</p>
+        <p class="zmt-2"><strong>→</strong> For more list styling options, see <a href="ztheme-typography.html" class="zPrimary">Typography</a></p>
+        
+        <div class="zmy-5" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+                <h3>Unordered List</h3>
+                <ul>
+                    <li>All lists have their top margin removed</li>
+                    <li>And their bottom margin normalized</li>
+                    <li>Nested lists have no bottom margin
+                        <ul>
+                            <li>This way they have a more even appearance</li>
+                            <li>Particularly when followed by more list items</li>
+                        </ul>
+                    </li>
+                    <li>The left padding has also been reset</li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3>Ordered List</h3>
+                <ol>
+                    <li>Here's an ordered list</li>
+                    <li>With a few list items</li>
+                    <li>It has the same overall look</li>
+                    <li>As the previous unordered list</li>
+                </ol>
+            </div>
+        </div>
+        
+        <h3 class="zmt-5">Description Lists</h3>
+        <p>Description lists have updated margins. <code>&lt;dd&gt;</code>s reset <code>margin-left</code> to <code>0</code> and add <code>margin-bottom: .5rem</code>. <code>&lt;dt&gt;</code>s are bolded.</p>
+        
+        <dl class="zmy-3">
+            <dt>Description lists</dt>
+            <dd>A description list is perfect for defining terms.</dd>
+            <dt>Term</dt>
+            <dd>Definition for the term.</dd>
+            <dd>A second definition for the same term.</dd>
+            <dt>Another term</dt>
+            <dd>Definition for this other term.</dd>
+        </dl>
+    </section>
+    
+    <!-- Inline Code -->
+    <section class="zmy-6">
+        <h2>Inline Code</h2>
+        <p>Wrap inline snippets of code with <code>&lt;code&gt;</code>. Be sure to escape HTML angle brackets.</p>
+        
+        <div class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: 4px;">
+            For example, <code>&lt;section&gt;</code> should be wrapped as inline.
+        </div>
+        
+        <pre class="zp-3" style="background: #f5f5f5; border-radius: 4px; overflow-x: auto;"><code>For example, &lt;code&gt;&amp;lt;section&amp;gt;&lt;/code&gt; should be wrapped as inline.</code></pre>
+    </section>
+    
+    <!-- Code Blocks -->
+    <section class="zmy-6">
+        <h2>Code Blocks</h2>
+        <p>Use <code>&lt;pre&gt;</code> for multiple lines of code. Be sure to escape angle brackets for proper rendering.</p>
+        
+        <pre class="zp-3 zmy-5" style="background: #2d2d2d; color: #f8f8f2; border-radius: 4px; overflow-x: auto;"><code>&lt;p&gt;Sample text here...&lt;/p&gt;
+&lt;p&gt;And another line of sample text here...&lt;/p&gt;</code></pre>
+        
+        <p><strong>→</strong> For more text and code styling, see <a href="ztheme-typography.html" class="zPrimary">Typography</a></p>
+    </section>
+    
+    <!-- Variables, Input, Output -->
+    <section class="zmy-6">
+        <h2>Variables, User Input, and Sample Output</h2>
+        
+        <h3 class="zmt-4">Variables</h3>
+        <p>For indicating variables use the <code>&lt;var&gt;</code> tag.</p>
+        <div class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: 4px;">
+            <var>y</var> = <var>m</var><var>x</var> + <var>b</var>
+        </div>
+        
+        <h3 class="zmt-5">User Input</h3>
+        <p>Use the <code>&lt;kbd&gt;</code> to indicate input typically entered via keyboard.</p>
+        <div class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: 4px;">
+            To switch directories, type <kbd>cd</kbd> followed by the name of the directory.<br>
+            To edit settings, press <kbd><kbd>ctrl</kbd> + <kbd>,</kbd></kbd>
+        </div>
+        
+        <h3 class="zmt-5">Sample Output</h3>
+        <p>For indicating sample output from a program use the <code>&lt;samp&gt;</code> tag.</p>
+        <div class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: 4px;">
+            <samp>This text is meant to be treated as sample output from a computer program.</samp>
+        </div>
+    </section>
+    
+    <!-- Tables -->
+    <section class="zmy-6">
+        <h2>Tables</h2>
+        <p>Tables are adjusted to style <code>&lt;caption&gt;</code>s, collapse borders, and ensure consistent <code>text-align</code>.</p>
+        <p class="zmt-2"><strong>→</strong> For table variants and styling, see <a href="ztheme-tables.html" class="zPrimary">Tables</a></p>
+        
+        <table class="table zmy-3" style="border: 1px solid #dee2e6;">
+            <caption class="zMuted" style="padding: 0.5rem; text-align: left;">This is an example table, and this is its caption to describe the contents.</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Table heading</th>
+                    <th scope="col">Table heading</th>
+                    <th scope="col">Table heading</th>
+                    <th scope="col">Table heading</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Table cell</td>
+                    <td>Table cell</td>
+                    <td>Table cell</td>
+                    <td>Table cell</td>
+                </tr>
+                <tr>
+                    <td>Table cell</td>
+                    <td>Table cell</td>
+                    <td>Table cell</td>
+                    <td>Table cell</td>
+                </tr>
+                <tr>
+                    <td>Table cell</td>
+                    <td>Table cell</td>
+                    <td>Table cell</td>
+                    <td>Table cell</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Forms -->
+    <section class="zmy-6">
+        <h2>Forms</h2>
+        <p>Various form elements have been rebooted for simpler base styles:</p>
+        
+        <ul class="lh-lg zmy-3">
+            <li><code>&lt;fieldset&gt;</code>s have no borders, padding, or margin</li>
+            <li><code>&lt;legend&gt;</code>s are styled as headings</li>
+            <li><code>&lt;label&gt;</code>s are <code>display: inline-block</code> to allow margins</li>
+            <li><code>&lt;textarea&gt;</code>s only resize vertically</li>
+            <li><code>&lt;button&gt;</code>s have <code>cursor: pointer</code> when not disabled</li>
+        </ul>
+        
+        <p class="zmt-3"><strong>→</strong> For detailed form styling, see <a href="ztheme-forms-overview.html" class="zPrimary">Forms</a></p>
+        
+        <h3 class="zmt-5">Pointers on Buttons</h3>
+        <p>Elements with <code>role="button"</code> get <code>cursor: pointer</code> to indicate interactivity.</p>
+        
+        <div class="zmy-3">
+            <span role="button" tabindex="0" class="zp-3" style="display: inline-block; background: var(--color-primary); color: white; border-radius: 4px; cursor: pointer;">Non-button element button</span>
+        </div>
+    </section>
+    
+    <!-- Misc Elements -->
+    <section class="zmy-6">
+        <h2>Miscellaneous Elements</h2>
+        
+        <h3 class="zmt-4">Address</h3>
+        <p>The <code>&lt;address&gt;</code> element has <code>font-style</code> reset from <code>italic</code> to <code>normal</code>.</p>
+        
+        <address class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: 4px;">
+            <strong>Twitter, Inc.</strong><br>
+            1355 Market St, Suite 900<br>
+            San Francisco, CA 94103<br>
+            <abbr title="Phone">P:</abbr> (123) 456-7890
+        </address>
+        
+        <h3 class="zmt-5">Blockquote</h3>
+        <p>The default margin is reset to <code>0 0 1rem</code> for consistency.</p>
+        
+        <blockquote class="zp-3 zmy-3" style="border-left: 4px solid var(--color-primary); background: #f5f5f5;">
+            <p class="zmt-0 zmb-0">A well-known quote, contained in a blockquote element.</p>
+            <footer class="zmt-2 small text-muted">
+                Someone famous in <cite>Source Title</cite>
+            </footer>
+        </blockquote>
+        
+        <h3 class="zmt-5">Inline Elements</h3>
+        <p>The <code>&lt;abbr&gt;</code> element receives basic styling to stand out.</p>
+        
+        <p class="zmy-3">
+            Nulla <abbr title="attribute">attr</abbr> vitae elit libero, a pharetra augue.
+        </p>
+        
+        <h3 class="zmt-5">Summary</h3>
+        <p>The <code>cursor</code> is reset to <code>pointer</code> to indicate interactivity.</p>
+        
+        <details class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: 4px;">
+            <summary>Some details</summary>
+            <p class="zmt-2">More info about the details.</p>
+        </details>
+    </section>
+    
+    <!-- HTML5 Hidden Attribute -->
+    <section class="zmy-6">
+        <h2>HTML5 <code>[hidden]</code> Attribute</h2>
+        <p>HTML5's <code>[hidden]</code> attribute is improved to <code>display: none !important;</code> to prevent accidental overrides.</p>
+        
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: 4px; overflow-x: auto;"><code>&lt;input type="text" hidden&gt;</code></pre>
+        
+        <p><strong>Note:</strong> To toggle visibility without affecting document flow, use the <code>.zD-none</code> class instead.</p>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section class="zmy-6">
+        <h2>CSS Reference</h2>
+        <p>All reboot styles are defined in <code>zReboot.css</code>. This file provides a consistent baseline across browsers.</p>
+        
+        <p class="zmt-4"><strong>Next Steps:</strong> Reboot gives you a solid foundation. The following pages show you how to style and enhance your content:</p>
+        <ul class="lh-lg zmy-3">
+            <li><a href="ztheme-typography.html" class="zPrimary">Typography</a> - Style your text</li>
+            <li><a href="ztheme-images.html" class="zPrimary">Images</a> - Make images responsive</li>
+            <li><a href="ztheme-tables.html" class="zPrimary">Tables</a> - Style data tables</li>
+            <li><a href="ztheme-figures.html" class="zPrimary">Figures</a> - Add captions to images</li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav class="zmt-6 zpt-5 zD-flex zFlex-between" style="border-top: 2px solid var(--borderColor, #dee2e6);">
+        <a href="ztheme.html" class="zPrimary">← Back to zTheme Index</a>
+        <a href="ztheme-typography.html" class="zPrimary">Next: Typography →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

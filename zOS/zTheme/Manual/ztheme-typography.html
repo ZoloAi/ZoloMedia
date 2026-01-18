@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typography - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer zp-5">
+    <!-- Breadcrumb -->
+    <nav class="zmb-3 zSmall">
+        <a href="ztheme.html" class="zPrimary">zTheme</a>
+        <span class="zMuted zmx-2">›</span>
+        <span class="zMuted">Components</span>
+        <span class="zMuted zmx-2">›</span>
+        <span class="zMuted">Typography</span>
+    </nav>
+
+    <h1 class="zmt-0">Typography</h1>
+    <p class="zLead zMuted zmb-6">
+        Consistent text styling and inline elements.
+    </p>
+
+    <hr class="hr-visible zmy-5">
+
+    <!-- Global Settings -->
+    <section class="zmy-6">
+        <h2>Global Settings</h2>
+        <p>zTheme provides consistent typography across all browsers and devices.</p>
+
+        <ul class="zLh-lg zmy-3">
+            <li><strong>Native font stack</strong> - Uses your device's system font</li>
+            <li><strong>Accessible</strong> - Respects user browser settings (default 16px=1rem)</li>
+            <li><strong>Customizable</strong> - Override with CSS variables</li>
+        </ul>
+
+        <p class="zmt-4"><strong>Default Font Stack:</strong></p>
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>system-ui, -apple-system, "Segoe UI", Roboto,
+"Helvetica Neue", Arial, "Noto Sans",
+"Liberation Sans", sans-serif</code></pre>
+    </section>
+
+    <!-- Paragraphs -->
+    <section class="zmy-6">
+        <h2>Paragraphs</h2>
+        <p>The <code>&lt;p&gt;</code> tag is the foundation of text content on the web. It represents a paragraph of
+            text.</p>
+
+        <div class="zp-4 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <p>This is a regular paragraph. It contains text that flows naturally and wraps to multiple lines when
+                needed.</p>
+            <p class="zmb-0">Paragraphs automatically have spacing between them to separate different thoughts or
+                sections of content.</p>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;This is a regular paragraph.&lt;/p&gt;
+&lt;p&gt;Another paragraph here.&lt;/p&gt;</code></pre>
+    </section>
+
+    <!-- Lead -->
+    <section class="zmy-6">
+        <h2>Lead</h2>
+        <p>Make a paragraph stand out by adding <code>.zLead</code>.</p>
+
+        <div class="zp-4 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <p class="zLead zmb-0">
+                This is a lead paragraph. It stands out from regular paragraphs.
+            </p>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p class="zLead"&gt;
+  This is a lead paragraph. It stands out from regular paragraphs.
+&lt;/p&gt;</code></pre>
+    </section>
+
+    <!-- Text Color Utilities -->
+    <section class="zmy-6">
+        <h2>Text Color Utilities</h2>
+        <p>Convey meaning through color with contextual text color classes.</p>
+
+        <div class="zp-4 zmy-3 zLh-lg" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <p class="zPrimary">Primary text color</p>
+            <p class="zSecondary">Secondary text color</p>
+            <p class="zSuccess">Success text color</p>
+            <p class="zInfo">Info text color</p>
+            <p class="zWarning">Warning text color</p>
+            <p class="zDanger">Danger text color</p>
+            <p class="zLight zp-2" style="background: #343a40;">Light text color (shown on dark background)</p>
+            <p class="zDark">Dark text color</p>
+            <p class="zMuted">Muted text color</p>
+            <p class="zWhite zp-2 zmb-0" style="background: #343a40;">White text color (shown on dark background)
+            </p>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p class="zPrimary"&gt;Primary text color&lt;/p&gt;
+&lt;p class="zSecondary"&gt;Secondary text color&lt;/p&gt;
+&lt;p class="zSuccess"&gt;Success text color&lt;/p&gt;
+&lt;p class="zDanger"&gt;Danger text color&lt;/p&gt;
+&lt;p class="zMuted"&gt;Muted text color&lt;/p&gt;</code></pre>
+
+        <div class="zp-3 zmy-4" style="background: #f5f5f5; border-left: 4px solid var(--color-warning); border-radius: var(--border-radius, 4px);">
+            <p class="zmt-0"><strong>Accessibility:</strong> Color alone isn't enough. Colorblind users and screen readers can't see color differences.</p>
+            
+            <p class="zmt-3 zmb-0"><strong>❌ Bad:</strong> <span class="zDanger">"Error"</span> with only red color<br>
+            <strong>✓ Good:</strong> <span class="zDanger">⚠️ Error: Please check your email format</span> (icon + descriptive text)</p>
+        </div>
+    </section>
+
+    <!-- Inline Text Elements -->
+    <section class="zmy-6">
+        <h2>Inline Elements</h2>
+        <p>Just like colors need extra context for accessibility, HTML elements work the same way. HTML provides two types of inline elements: <strong>semantic</strong> (with meaning) and <strong>non-semantic</strong> (visual only).</p>
+
+        <p class="zmt-3"><strong>Why does this matter?</strong></p>
+        <ul class="zLh-lg zmy-3">
+            <li><strong>Semantic</strong> - Tells screen readers and search engines <em>what the text means</em>, not just how it looks (accessibility & SEO ready)</li>
+            <li><strong>Non-semantic</strong> - Visual styling only, like using color alone - no special meaning conveyed</li>
+        </ul>
+
+        <h3 class="zmt-5">Semantic Elements</h3>
+        <p>These are <strong>inline</strong> elements - they're used inside paragraphs to style parts of your text. They have meaning for accessibility and SEO:</p>
+        
+        <div class="zmy-4">
+            <h4 class="zSmall zmt-0">Highlight</h4>
+            <p>You can use the mark tag to <mark>highlight</mark> text.</p>
+            <pre class="zp-3 zmy-2"
+                style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;You can use the mark tag to &lt;mark&gt;highlight&lt;/mark&gt; text.&lt;/p&gt;</code></pre>
+        </div>
+
+        <div class="zmy-4">
+            <h4 class="zSmall zmt-0">Deleted</h4>
+            <p><del>This text has been deleted from the document.</del></p>
+            <pre class="zp-3 zmy-2"
+                style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;&lt;del&gt;This text has been deleted from the document.&lt;/del&gt;&lt;/p&gt;</code></pre>
+        </div>
+
+        <div class="zmy-4">
+            <h4 class="zSmall zmt-0">Inserted</h4>
+            <p><ins>This text has been added to the document.</ins></p>
+            <pre class="zp-3 zmy-2"
+                style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;&lt;ins&gt;This text has been added to the document.&lt;/ins&gt;&lt;/p&gt;</code></pre>
+        </div>
+
+        <div class="zmy-4">
+            <h4 class="zSmall zmt-0">Strong Importance</h4>
+            <p><strong>This text is important.</strong></p>
+            <pre class="zp-3 zmy-2"
+                style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;&lt;strong&gt;This text is important.&lt;/strong&gt;&lt;/p&gt;</code></pre>
+        </div>
+
+        <div class="zmy-4">
+            <h4 class="zSmall zmt-0">Emphasis</h4>
+            <p>I <em>really</em> need to finish this.</p>
+            <pre class="zp-3 zmy-2"
+                style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;I &lt;em&gt;really&lt;/em&gt; need to finish this.&lt;/p&gt;</code></pre>
+        </div>
+
+        <div class="zmy-4">
+            <h4 class="zSmall zmt-0">Small / Fine Print</h4>
+            <p><small>This is fine print.</small></p>
+            <pre class="zp-3 zmy-2"
+                style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;&lt;small&gt;This is fine print.&lt;/small&gt;&lt;/p&gt;</code></pre>
+        </div>
+
+        <h3 class="zmt-5">Non-Semantic Elements</h3>
+        <p>These are also inline elements used inside paragraphs, but for visual styling only (no special meaning):</p>
+
+        <div class="zmy-4">
+            <h4 class="zSmall zmt-0">Bold</h4>
+            <p><b>This text is bold.</b></p>
+            <pre class="zp-3 zmy-2"
+                style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;&lt;b&gt;This text is bold.&lt;/b&gt;&lt;/p&gt;</code></pre>
+        </div>
+
+        <div class="zmy-4">
+            <h4 class="zSmall zmt-0">Italic</h4>
+            <p><i>This text is italic.</i></p>
+            <pre class="zp-3 zmy-2"
+                style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;&lt;i&gt;This text is italic.&lt;/i&gt;&lt;/p&gt;</code></pre>
+        </div>
+
+        <div class="zmy-4">
+            <h4 class="zSmall zmt-0">Strikethrough</h4>
+            <p><s>This text is crossed out.</s></p>
+            <pre class="zp-3 zmy-2"
+                style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;&lt;s&gt;This text is crossed out.&lt;/s&gt;&lt;/p&gt;</code></pre>
+        </div>
+
+        <div class="zmy-4">
+            <h4 class="zSmall zmt-0">Underline</h4>
+            <p><u>This text is underlined.</u></p>
+            <pre class="zp-3 zmy-2"
+                style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;&lt;u&gt;This text is underlined.&lt;/u&gt;&lt;/p&gt;</code></pre>
+        </div>
+
+        <p class="zmt-5">zTheme also provides CSS classes as alternatives to HTML elements. Use <code>.zMark</code> instead of <code>&lt;mark&gt;</code>, for example.</p>
+        
+        <div class="zmy-4">
+            <h4 class="zSmall zmt-0">.zMark</h4>
+            <p>You can use the <span class="zMark">mark class</span> to highlight text.</p>
+            <pre class="zp-3 zmy-2"
+                style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;You can use the &lt;span class="zMark"&gt;mark class&lt;/span&gt; to highlight text.&lt;/p&gt;</code></pre>
+        </div>
+        
+        <div class="zmy-4">
+            <h4 class="zSmall zmt-0">.zSmall</h4>
+            <p>This is regular text and <span class="zSmall">this is smaller text</span> using the class.</p>
+            <pre class="zp-3 zmy-2"
+                style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;This is regular text and &lt;span class="zSmall"&gt;this is smaller text&lt;/span&gt; using the class.&lt;/p&gt;</code></pre>
+        </div>
+        
+        <div class="zmy-4">
+            <h4 class="zSmall zmt-0">.zMuted</h4>
+            <p>This is regular text and <span class="zMuted">this is muted text</span> for less emphasis.</p>
+            <pre class="zp-3 zmy-2"
+                style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;This is regular text and &lt;span class="zMuted"&gt;this is muted text&lt;/span&gt; for less emphasis.&lt;/p&gt;</code></pre>
+        </div>
+    </section>
+
+    <!-- Headings -->
+    <section class="zmy-6">
+        <h2>Headings</h2>
+        <p>Headings organize your content and help both people and search engines understand your page structure.</p>
+
+        <p class="zmt-4"><strong>All six heading levels:</strong></p>
+        <div class="zp-4 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <h1 class="zmy-2">h1. heading</h1>
+            <h2 class="zmy-2">h2. heading</h2>
+            <h3 class="zmy-2">h3. heading</h3>
+            <h4 class="zmy-2">h4. heading</h4>
+            <h5 class="zmy-2">h5. heading</h5>
+            <h6 class="zmy-2 zmb-0">h6. heading</h6>
+        </div>
+
+        <div class="zp-3 zmy-3" style="background: #f5f5f5; border-left: 4px solid var(--color-primary); border-radius: var(--border-radius, 4px);">
+            <p class="zmb-0"><strong>Hierarchy:</strong> Use <code>&lt;h1&gt;</code> for main title, <code>&lt;h2&gt;</code> for sections, <code>&lt;h3&gt;</code> for subsections, etc.</p>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;h1&gt;Main Page Title&lt;/h1&gt;
+&lt;h2&gt;Section Heading&lt;/h2&gt;
+&lt;h3&gt;Subsection Heading&lt;/h3&gt;
+&lt;h4&gt;Sub-subsection Heading&lt;/h4&gt;
+&lt;h5&gt;Smaller Heading&lt;/h5&gt;
+&lt;h6&gt;Smallest Heading&lt;/h6&gt;</code></pre>
+    </section>
+
+    <!-- Heading Utility Classes -->
+    <section class="zmy-6">
+        <h2>Heading Utility Classes</h2>
+        <p>Sometimes you need text that <em>looks</em> like a heading without affecting your page structure. Use <code>.zH1</code> through <code>.zH6</code> classes instead of <code>&lt;h1&gt;</code> through <code>&lt;h6&gt;</code> for visual styling without semantic meaning.</p>
+
+        <div class="zp-4 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <h4>My Blog Section</h4>
+            <h5>Introduction</h5>
+            <p>Some text here...</p>
+            <p class="zH4">A big styled quote that looks important</p>
+            <p class="zmb-0">More text continues...</p>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;h4&gt;My Blog Section&lt;/h4&gt;
+&lt;h5&gt;Introduction&lt;/h5&gt;
+&lt;p&gt;Some text here...&lt;/p&gt;
+&lt;p class="zH4"&gt;A big styled quote that looks important&lt;/p&gt;
+&lt;p&gt;More text continues...&lt;/p&gt;</code></pre>
+
+        <p class="zmt-3 zSmall">In this example, the quote <em>looks</em> like an <code>&lt;h4&gt;</code>, but doesn't break the heading hierarchy or confuse search engines.</p>
+    </section>
+
+    <!-- Customizing Headings -->
+    <section class="zmy-6">
+        <h2>Customizing Headings</h2>
+        <p>Headings can combine inline elements and color classes to add secondary text or emphasis.</p>
+
+        <div class="zp-4 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <h1 class="zmy-3">
+                User Dashboard
+                <small class="zMuted">Welcome back, Sarah</small>
+            </h1>
+            
+            <h2 class="zmy-3">
+                Chapter 3: <small>zTheme</small>
+            </h2>
+            
+            <h3 class="zmy-3">
+                Project Status:
+                <small class="zSuccess">Complete</small>
+            </h3>
+            
+            <h4 class="zmy-3 zmb-0">
+                Total Revenue
+                <mark>$24,500</mark>
+            </h4>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;h1&gt;
+  User Dashboard
+  &lt;small class="zMuted"&gt;Welcome back, Sarah&lt;/small&gt;
+&lt;/h1&gt;
+
+&lt;h2&gt;
+  Chapter 3: &lt;small&gt;The Journey Begins&lt;/small&gt;
+&lt;/h2&gt;
+
+&lt;h3&gt;
+  Project Status
+  &lt;small class="zSuccess"&gt;✓ Complete&lt;/small&gt;
+&lt;/h3&gt;
+
+&lt;h4&gt;
+  Total Revenue
+  &lt;mark&gt;$24,500&lt;/mark&gt;
+&lt;/h4&gt;</code></pre>
+    </section>
+
+    <!-- Title Headings -->
+    <section class="zmy-6">
+        <h2>Title Headings</h2>
+        <p>Need a heading that really stands out? Use <strong>title headings</strong> for larger, more prominent text.</p>
+
+        <div class="zp-4 zmy-4" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <h1 class="zTitle-1 zmy-2">Title 1</h1>
+            <h1 class="zTitle-2 zmy-2">Title 2</h1>
+            <h1 class="zTitle-3 zmy-2">Title 3</h1>
+            <h1 class="zTitle-4 zmy-2">Title 4</h1>
+            <h1 class="zTitle-5 zmy-2">Title 5</h1>
+            <h1 class="zTitle-6 zmy-2 zmb-0">Title 6</h1>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;h1 class="zTitle-1"&gt;Title 1&lt;/h1&gt;
+&lt;h1 class="zTitle-2"&gt;Title 2&lt;/h1&gt;
+&lt;h1 class="zTitle-3"&gt;Title 3&lt;/h1&gt;
+&lt;h1 class="zTitle-4"&gt;Title 4&lt;/h1&gt;
+&lt;h1 class="zTitle-5"&gt;Title 5&lt;/h1&gt;
+&lt;h1 class="zTitle-6"&gt;Title 6&lt;/h1&gt;</code></pre>
+
+        <div class="zp-3 zmy-3" style="background: #f5f5f5; border-left: 4px solid var(--color-primary); border-radius: var(--border-radius, 4px);">
+            <p class="zmb-0"><strong>Notice:</strong> The <code>&lt;h1&gt;</code> element is semantic (tells browsers and screen readers this is a heading), while <code>.zTitle-*</code> classes just push the visual styling to make it extra large.</p>
+        </div>
+    </section>
+
+    <!-- Abbreviations -->
+    <section class="zmy-6">
+        <h2>Abbreviations</h2>
+        <p>The <code>&lt;abbr&gt;</code> tag marks abbreviations and acronyms. When you hover over them, a tooltip appears with the full meaning.</p>
+
+        <div class="zp-3 zmy-3" style="background: #fff4e6; border-left: 4px solid var(--color-warning); border-radius: var(--border-radius, 4px);">
+            <p class="zmb-0"><strong>Try it:</strong> Hover your mouse over the underlined words below and keep it still for about 1 second - a tooltip will appear with the full meaning.</p>
+        </div>
+
+        <div class="zp-4 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); font-size: 1.2rem;">
+            <p>Our <abbr title="Application Programming Interface">API</abbr> supports <abbr title="JavaScript Object Notation">JSON</abbr> and <abbr title="Extensible Markup Language">XML</abbr>.</p>
+            <p>Contact <abbr title="Doctor">Dr.</abbr> Smith at <abbr title="National Aeronautics and Space Administration">NASA</abbr> headquarters.</p>
+            <p class="zmb-0">Please reply <abbr title="As Soon As Possible" class="zAcronym">ASAP</abbr> regarding the <abbr title="HyperText Markup Language" class="zAcronym">HTML</abbr> update.</p>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;p&gt;Our &lt;abbr title="Application Programming Interface"&gt;API&lt;/abbr&gt; supports JSON.&lt;/p&gt;
+&lt;p&gt;Contact &lt;abbr title="Doctor"&gt;Dr.&lt;/abbr&gt; Smith at NASA.&lt;/p&gt;
+&lt;p&gt;Reply &lt;abbr title="As Soon As Possible" class="zAcronym"&gt;ASAP&lt;/abbr&gt;.&lt;/p&gt;</code></pre>
+
+        <div class="zp-3 zmy-3" style="background: #f5f5f5; border-left: 4px solid var(--color-primary); border-radius: var(--border-radius, 4px);">
+            <p class="zmb-0"><strong>.zAcronym</strong> makes all-caps acronyms (NASA, HTML, API) slightly smaller so they don't overpower surrounding text.</p>
+        </div>
+    </section>
+
+    <!-- Blockquotes -->
+    <section class="zmy-6">
+        <h2>Blockquotes</h2>
+        <p>The <code>&lt;blockquote&gt;</code> element is a semantic HTML tag for quoting content from another source. It tells screen readers and search engines "this is a quote" - important for SEO and accessibility. zTheme automatically styles all blockquotes with indentation, a left border, and larger font.</p>
+
+        <div class="zp-4 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <blockquote class="zmb-0">
+                <p>A well-known quote, contained in a blockquote element.</p>
+            </blockquote>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;blockquote&gt;
+  &lt;p&gt;A well-known quote, contained in a blockquote element.&lt;/p&gt;
+&lt;/blockquote&gt;</code></pre>
+
+        <h3 class="zmt-5">Blockquote Utility Class</h3>
+        <p>Want to style a <code>&lt;div&gt;</code> or other element to look like a blockquote without the semantic meaning? Use the <code>.zBlockquote</code> utility class:</p>
+
+        <div class="zp-4 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <div class="zBlockquote zmb-0">
+                <p>This looks like a blockquote but uses a div element.</p>
+            </div>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zBlockquote"&gt;
+  &lt;p&gt;This looks like a blockquote but uses a div element.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+        <h3 class="zmt-5">Naming a Source</h3>
+        <p>To properly attribute a quote, use semantic HTML elements: <code>&lt;figure&gt;</code> wraps the entire quote with source, <code>&lt;figcaption&gt;</code> contains the attribution, and <code>&lt;cite&gt;</code> marks the source title. Use the <code>.zBlockquote-footer</code> utility class to style the caption.</p>
+
+        <div class="zp-4 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <figure class="zmb-0">
+                <blockquote>
+                    <p>A well-known quote, contained in a blockquote element.</p>
+                </blockquote>
+                <figcaption class="zBlockquote-footer">
+                    Someone famous in <cite title="Source Title">Source Title</cite>
+                </figcaption>
+            </figure>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;figure&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;A well-known quote, contained in a blockquote element.&lt;/p&gt;
+  &lt;/blockquote&gt;
+  &lt;figcaption class="zBlockquote-footer"&gt;
+    Someone famous in &lt;cite title="Source Title"&gt;Source Title&lt;/cite&gt;
+  &lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+
+        <div class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-left: 4px solid var(--color-primary); border-radius: var(--border-radius, 4px);">
+            <p class="zmb-0"><strong>Semantic elements:</strong> <code>&lt;figure&gt;</code>, <code>&lt;blockquote&gt;</code>, <code>&lt;figcaption&gt;</code>, and <code>&lt;cite&gt;</code> are all semantic HTML - they tell screen readers and search engines the structure and meaning. Only <code>.zBlockquote-footer</code> is a zTheme utility class for visual styling.</p>
+        </div>
+
+        <p class="zmt-3"><strong>→</strong> For more about figures, see <a href="ztheme-figures.html"
+                class="zPrimary">Figures</a></p>
+    </section>
+
+    <!-- Lists -->
+    <section class="zmy-6">
+        <h2>Lists</h2>
+        <p>Lists are semantic HTML elements that group related items. Use <code>&lt;ul&gt;</code> for unordered (bullet) lists, <code>&lt;ol&gt;</code> for ordered (numbered) lists, and <code>&lt;dl&gt;</code> for description lists. All use <code>&lt;li&gt;</code> for list items.</p>
+
+        <h3 class="zmt-4">Unordered Lists</h3>
+        <p>Use <code>&lt;ul&gt;</code> when the order of items doesn't matter. Items are marked with bullets by default.</p>
+
+        <div class="zp-4 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <ul class="zmb-0">
+                <li>Coffee</li>
+                <li>Tea</li>
+                <li>Milk</li>
+            </ul>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;ul&gt;
+  &lt;li&gt;Coffee&lt;/li&gt;
+  &lt;li&gt;Tea&lt;/li&gt;
+  &lt;li&gt;Milk&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+        <h3 class="zmt-5">Ordered Lists</h3>
+        <p>Use <code>&lt;ol&gt;</code> when the sequence matters. Items are numbered automatically.</p>
+
+        <div class="zp-4 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <ol class="zmb-0">
+                <li>First step</li>
+                <li>Second step</li>
+                <li>Third step</li>
+            </ol>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;ol&gt;
+  &lt;li&gt;First step&lt;/li&gt;
+  &lt;li&gt;Second step&lt;/li&gt;
+  &lt;li&gt;Third step&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+
+        <h3 class="zmt-5">Description Lists</h3>
+        <p>Use <code>&lt;dl&gt;</code> for term-definition pairs. <code>&lt;dt&gt;</code> is the term, <code>&lt;dd&gt;</code> is the description.</p>
+
+        <div class="zp-4 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <dl class="zmb-0">
+                <dt>HTML</dt>
+                <dd>Hypertext Markup Language</dd>
+                <dt>CSS</dt>
+                <dd>Cascading Style Sheets</dd>
+            </dl>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;dl&gt;
+  &lt;dt&gt;HTML&lt;/dt&gt;
+  &lt;dd&gt;Hypertext Markup Language&lt;/dd&gt;
+  &lt;dt&gt;CSS&lt;/dt&gt;
+  &lt;dd&gt;Cascading Style Sheets&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+
+        <h3 class="zmt-5">Unstyled Lists</h3>
+        <p>Need to remove bullets and padding? Use the <code>.zList-unstyled</code> utility class. This only affects immediate children - nested lists remain styled.</p>
+
+        <div class="zp-4 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <ul class="zList-unstyled zmb-0">
+                <li>No bullets here</li>
+                <li>Clean and simple</li>
+                <li>Still a semantic list</li>
+                <li>Nested lists:
+                    <ul>
+                        <li>Keep their bullets</li>
+                        <li>And normal styling</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;ul class="zList-unstyled"&gt;
+  &lt;li&gt;No bullets here&lt;/li&gt;
+  &lt;li&gt;Clean and simple&lt;/li&gt;
+  &lt;li&gt;Still a semantic list&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+        <h3 class="zmt-5">Inline Lists</h3>
+        <p>Display list items horizontally (like navigation) with <code>.zList-inline</code> on the list and <code>.zList-inline-item</code> on each item.</p>
+
+        <div class="zp-4 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <ul class="zList-inline zmb-0">
+                <li class="zList-inline-item">Home</li>
+                <li class="zList-inline-item">About</li>
+                <li class="zList-inline-item">Contact</li>
+            </ul>
+        </div>
+
+        <pre class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;ul class="zList-inline"&gt;
+  &lt;li class="zList-inline-item"&gt;Home&lt;/li&gt;
+  &lt;li class="zList-inline-item"&gt;About&lt;/li&gt;
+  &lt;li class="zList-inline-item"&gt;Contact&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+        <div class="zp-3 zmy-3"
+            style="background: #f5f5f5; border-left: 4px solid var(--color-primary); border-radius: var(--border-radius, 4px);">
+            <p class="zmb-0"><strong>Tip:</strong> Inline lists are perfect for navigation menus - search engines understand the semantic structure while users see a horizontal layout.</p>
+        </div>
+    </section>
+
+    <!-- Responsive Font Sizes -->
+    <section class="zmy-6">
+        <h2>Responsive Font Sizes</h2>
+        <p>All typography in zTheme automatically adjusts to look great on any device - from phones to desktop monitors. Text scales proportionally, maintaining readability without manual adjustments.</p>
+
+        <p class="zmt-3">We use <code>rem</code> units for all font sizes. This means if a user increases their browser's default font size (for better readability), your text scales up accordingly - much better for accessibility!</p>
+
+        <p class="zmt-4"><strong>→</strong> Learn more about <code>rem</code> units in <a href="ztheme-reboot.html"
+                class="zPrimary">Reboot</a></p>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="zmt-6 zpt-5 zD-flex zFlex-between" style="border-top: 2px solid var(--borderColor, #dee2e6);">
+        <a href="ztheme-reboot.html" class="zPrimary">← Previous: Reboot</a>
+        <a href="ztheme-images.html" class="zPrimary">Next: Images →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

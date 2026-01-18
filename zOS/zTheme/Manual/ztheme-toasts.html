@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toasts - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav style="margin-bottom: 1rem; font-size: 0.9rem;">
+        <a href="ztheme.html" style="color: var(--color-primary);">zTheme</a>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Components</span>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Toasts</span>
+    </nav>
+    
+    <h1>Toasts</h1>
+    <p style="font-size: 1.25rem; color: var(--color-gray); margin-bottom: 2rem;">
+        Lightweight notifications that mimic push notifications—perfect for status updates and alerts.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Toasts -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Toasts</h2>
+        <p>Toasts are lightweight notification pop-ups designed to mimic mobile push notifications. They appear temporarily in a corner of the screen to inform users about actions, updates, or system messages without interrupting their workflow.</p>
+        
+        <div style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>Perfect for:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Success confirmations</strong> - "File uploaded successfully"</li>
+                <li><strong>Error notifications</strong> - "Connection lost, retrying..."</li>
+                <li><strong>Status updates</strong> - "3 new messages received"</li>
+                <li><strong>Background operations</strong> - "Export complete"</li>
+                <li><strong>Undo actions</strong> - "Item deleted. Undo?"</li>
+            </ul>
+        </div>
+        
+        <div style="background: #fff8e1; padding: 1.5rem; border-left: 4px solid #ffa726; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>⚠️ Toasts vs Alerts:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Toasts:</strong> Temporary, auto-dismiss, non-blocking, corner-positioned</li>
+                <li><strong>Alerts:</strong> Persistent, inline with content, require user action to dismiss</li>
+            </ul>
+            <p style="margin: 0.5rem 0 0 0;">Use toasts for transient messages, alerts for important warnings that need attention.</p>
+        </div>
+    </section>
+    
+    <!-- Basic Toast -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic Toast</h2>
+        <p>A basic toast with a header and body. Click the button to show it:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px; text-align: center;">
+            <button class="zBtn zBtn-primary" onclick="showBasicToast()">Show Toast</button>
+            
+            <div style="margin-top: 2rem; display: inline-block;">
+                <div class="zToast" id="basicToast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="zToast-header">
+                        <svg style="width: 20px; height: 20px; margin-right: 0.5rem; fill: #0d6efd;" viewBox="0 0 16 16">
+                            <circle cx="8" cy="8" r="6" fill="currentColor"/>
+                        </svg>
+                        <strong style="margin-right: auto;">Bootstrap</strong>
+                        <small>11 mins ago</small>
+                        <button type="button" class="zBtn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="zToast-body">
+                        Hello, world! This is a toast message.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zToast" role="alert" aria-live="assertive" aria-atomic="true"&gt;
+  &lt;div class="zToast-header"&gt;
+    &lt;strong style="margin-right: auto;"&gt;Bootstrap&lt;/strong&gt;
+    &lt;small&gt;11 mins ago&lt;/small&gt;
+    &lt;button type="button" class="zBtn-close" data-bs-dismiss="toast"&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="zToast-body"&gt;
+    Hello, world! This is a toast message.
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Live Toast Example -->
+    <section style="margin: 3rem 0;">
+        <h2>Live Toast Example</h2>
+        <p>Toasts typically appear in the corner of the screen. Click the button to see a toast appear in the bottom-right corner:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px; text-align: center;">
+            <button class="zBtn zBtn-primary" onclick="showLiveToast()">Show Live Toast</button>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- Button to trigger --&gt;
+&lt;button onclick="toast._show()"&gt;Show Live Toast&lt;/button&gt;
+
+&lt;!-- Toast positioned in corner --&gt;
+&lt;div class="zToast-container" style="position: fixed; bottom: 1rem; right: 1rem; z-index: 1090;"&gt;
+  &lt;div class="zToast zFade" role="alert"&gt;
+    &lt;div class="zToast-header"&gt;
+      &lt;strong style="margin-right: auto;"&gt;Notification&lt;/strong&gt;
+      &lt;small&gt;Just now&lt;/small&gt;
+      &lt;button class="zBtn-close" data-bs-dismiss="toast"&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="zToast-body"&gt;
+      Your action completed successfully!
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Stacking Toasts -->
+    <section style="margin: 3rem 0;">
+        <h2>Stacking Toasts</h2>
+        <p>Multiple toasts stack vertically with automatic spacing. Click to show multiple notifications:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px; text-align: center;">
+            <button class="zBtn zBtn-primary" onclick="showStackedToasts()">Show Stacked Toasts</button>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zToast-container"&gt;
+  &lt;div class="zToast"&gt;...&lt;/div&gt;
+  &lt;div class="zToast"&gt;...&lt;/div&gt;
+  &lt;div class="zToast"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Color Schemes -->
+    <section style="margin: 3rem 0;">
+        <h2>Color Schemes</h2>
+        <p>Use contextual color classes to convey meaning through colors:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem;">
+                <button class="zBtn zBtn-success" onclick="showColorToast('success')">Success</button>
+                <button class="zBtn zBtn-danger" onclick="showColorToast('danger')">Danger</button>
+                <button class="zBtn zBtn-warning" onclick="showColorToast('warning')">Warning</button>
+                <button class="zBtn zBtn-info" onclick="showColorToast('info')">Info</button>
+                <button class="zBtn zBtn-primary" onclick="showColorToast('primary')">Primary</button>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                <!-- Success -->
+                <div class="zToast zToast-success" id="toastSuccess" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+                    <div class="zToast-header">
+                        <strong style="margin-right: auto;">✓ Success</strong>
+                        <small>Just now</small>
+                        <button type="button" class="zBtn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="zToast-body">
+                        Operation completed successfully!
+                    </div>
+                </div>
+                
+                <!-- Danger -->
+                <div class="zToast zToast-danger" id="toastDanger" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+                    <div class="zToast-header">
+                        <strong style="margin-right: auto;">✕ Error</strong>
+                        <small>Just now</small>
+                        <button type="button" class="zBtn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="zToast-body">
+                        Something went wrong!
+                    </div>
+                </div>
+                
+                <!-- Warning -->
+                <div class="zToast zToast-warning" id="toastWarning" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+                    <div class="zToast-header">
+                        <strong style="margin-right: auto;">⚠ Warning</strong>
+                        <small>Just now</small>
+                        <button type="button" class="zBtn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="zToast-body">
+                        Please review your input.
+                    </div>
+                </div>
+                
+                <!-- Info -->
+                <div class="zToast zToast-info" id="toastInfo" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+                    <div class="zToast-header">
+                        <strong style="margin-right: auto;">ℹ Info</strong>
+                        <small>Just now</small>
+                        <button type="button" class="zBtn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="zToast-body">
+                        New update available.
+                    </div>
+                </div>
+                
+                <!-- Primary -->
+                <div class="zToast zToast-primary" id="toastPrimary" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+                    <div class="zToast-header">
+                        <strong style="margin-right: auto;">📢 Notice</strong>
+                        <small>Just now</small>
+                        <button type="button" class="zBtn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="zToast-body">
+                        Important notification!
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zToast zToast-success" role="alert"&gt;...&lt;/div&gt;
+&lt;div class="zToast zToast-danger" role="alert"&gt;...&lt;/div&gt;
+&lt;div class="zToast zToast-warning" role="alert"&gt;...&lt;/div&gt;
+&lt;div class="zToast zToast-info" role="alert"&gt;...&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Placement -->
+    <section style="margin: 3rem 0;">
+        <h2>Placement</h2>
+        <p>Position toasts anywhere on the screen using CSS positioning utilities:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                <button class="zBtn zBtn-secondary zBtn-sm" onclick="showPositionToast('top-start')">Top Left</button>
+                <button class="zBtn zBtn-secondary zBtn-sm" onclick="showPositionToast('top-center')">Top Center</button>
+                <button class="zBtn zBtn-secondary zBtn-sm" onclick="showPositionToast('top-end')">Top Right</button>
+                <button class="zBtn zBtn-secondary zBtn-sm" onclick="showPositionToast('middle-start')">Middle Left</button>
+                <button class="zBtn zBtn-secondary zBtn-sm" onclick="showPositionToast('middle-center')">Center</button>
+                <button class="zBtn zBtn-secondary zBtn-sm" onclick="showPositionToast('middle-end')">Middle Right</button>
+                <button class="zBtn zBtn-secondary zBtn-sm" onclick="showPositionToast('bottom-start')">Bottom Left</button>
+                <button class="zBtn zBtn-secondary zBtn-sm" onclick="showPositionToast('bottom-center')">Bottom Center</button>
+                <button class="zBtn zBtn-secondary zBtn-sm" onclick="showPositionToast('bottom-end')">Bottom Right</button>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- Top-right corner (common) --&gt;
+&lt;div style="position: fixed; top: 1rem; right: 1rem; z-index: 1090;"&gt;
+  &lt;div class="zToast"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Bottom-center --&gt;
+&lt;div style="position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index: 1090;"&gt;
+  &lt;div class="zToast"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Data Attributes -->
+    <section style="margin: 3rem 0;">
+        <h2>Data Attributes</h2>
+        <p>Configure toast behavior with these data attributes:</p>
+        
+        <div style="overflow-x: auto; margin: 2rem 0;">
+            <table class="zTable zTable-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Attribute</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Default</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>data-bs-animation</code></td>
+                        <td>boolean</td>
+                        <td><code>true</code></td>
+                        <td>Apply CSS fade transition</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-bs-autohide</code></td>
+                        <td>boolean</td>
+                        <td><code>true</code></td>
+                        <td>Automatically hide the toast</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-bs-delay</code></td>
+                        <td>number</td>
+                        <td><code>5000</code></td>
+                        <td>Delay before auto-hide (milliseconds)</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-bs-dismiss</code></td>
+                        <td>string</td>
+                        <td><code>"toast"</code></td>
+                        <td>Add to button to enable dismiss</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <div style="background: #e8f5e9; padding: 1.5rem; border-left: 4px solid #4caf50; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>✅ DO:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Keep messages short and scannable (1-2 sentences max)</li>
+                <li>Use color coding to convey meaning (green=success, red=error)</li>
+                <li>Position consistently (usually top-right or bottom-right)</li>
+                <li>Include a dismiss button for manual closing</li>
+                <li>Use appropriate ARIA attributes for accessibility</li>
+                <li>Set reasonable auto-hide delays (3-7 seconds)</li>
+                <li>Stack toasts vertically for multiple notifications</li>
+            </ul>
+        </div>
+        
+        <div style="background: #ffebee; padding: 1.5rem; border-left: 4px solid #ef5350; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>❌ DON'T:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Use toasts for critical errors (use modals or alerts instead)</li>
+                <li>Make toasts auto-hide too quickly (users need time to read)</li>
+                <li>Show too many toasts at once (3 max recommended)</li>
+                <li>Put important actions in auto-hiding toasts</li>
+                <li>Use toasts for long-form content (use modals)</li>
+                <li>Block the main content area with toasts</li>
+                <li>Forget to test with screen readers</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Accessibility -->
+    <section style="margin: 3rem 0;">
+        <h2>Accessibility</h2>
+        <p>Toasts must be accessible to all users, especially screen reader users:</p>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Required ARIA Attributes</h3>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><strong><code>role="alert"</code></strong> - For errors and critical messages</li>
+                <li><strong><code>role="status"</code></strong> - For informational messages</li>
+                <li><strong><code>aria-live="assertive"</code></strong> - For urgent messages (interrupts)</li>
+                <li><strong><code>aria-live="polite"</code></strong> - For non-urgent messages (waits for pause)</li>
+                <li><strong><code>aria-atomic="true"</code></strong> - Ensures entire toast is read</li>
+            </ul>
+        </div>
+        
+        <div style="background: #fff3e0; padding: 1.5rem; border-left: 4px solid #ff9800; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Important Considerations</h3>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><strong>Auto-hide timing:</strong> Give users enough time to read (minimum 5 seconds)</li>
+                <li><strong>Keyboard access:</strong> If <code>autohide: false</code>, ensure dismiss button is keyboard accessible</li>
+                <li><strong>Live regions:</strong> Toasts should exist in the DOM before being shown</li>
+                <li><strong>Focus management:</strong> Toasts don't receive focus (by design, to avoid interrupting workflow)</li>
+            </ul>
+        </div>
+        
+        <div style="background: #f3e5f5; padding: 1.5rem; border-left: 4px solid #9c27b0; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Reduced Motion</h3>
+            <p style="margin: 0;">Fade animations are automatically disabled for users who prefer reduced motion via the <code>prefers-reduced-motion</code> media query.</p>
+        </div>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: #2d2d2d; color: #f8f8f2; border-radius: 4px;">
+        <h2 style="color: #f8f8f2;">CSS Classes</h2>
+        <p style="color: #a8a8a8;">All toast styles are defined in <code>zToast.css</code>:</p>
+        
+        <table class="zTable" style="margin: 1rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col" style="color: #f8f8f2;">Class</th>
+                    <th scope="col" style="color: #f8f8f2;">Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zToast</code></td>
+                    <td style="color: #a8a8a8;">Main toast container</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zToast-container</code></td>
+                    <td style="color: #a8a8a8;">Wrapper for stacking toasts</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zToast-header</code></td>
+                    <td style="color: #a8a8a8;">Toast header section</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zToast-body</code></td>
+                    <td style="color: #a8a8a8;">Toast body/content</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zToast-primary</code></td>
+                    <td style="color: #a8a8a8;">Primary color variant</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zToast-success</code></td>
+                    <td style="color: #a8a8a8;">Success color variant</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zToast-danger</code></td>
+                    <td style="color: #a8a8a8;">Danger/error color variant</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zToast-warning</code></td>
+                    <td style="color: #a8a8a8;">Warning color variant</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zToast-info</code></td>
+                    <td style="color: #a8a8a8;">Info color variant</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zShow</code></td>
+                    <td style="color: #a8a8a8;">Visible state (added by JS)</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zFade</code></td>
+                    <td style="color: #a8a8a8;">Enable fade transition</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-alerts.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Alerts</strong> → For persistent inline notifications
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-modal.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Modals</strong> → For critical messages requiring user action
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-badges.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Badges</strong> → For persistent status indicators
+                </a>
+            </li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-spinners.html" style="color: var(--color-primary);">← Previous: Spinners</a>
+        <a href="ztheme.html" style="color: var(--color-primary);">Back to Components</a>
+    </nav>
+</div>
+
+<!-- Toast Containers for Live Demos -->
+<div id="liveToastContainer" class="zToast-container" style="position: fixed; bottom: 1rem; right: 1rem; z-index: 1090;">
+    <!-- Toasts will be inserted here dynamically -->
+</div>
+
+<div id="positionToastContainer" style="position: fixed; z-index: 1090;">
+    <!-- Position demo toasts -->
+</div>
+
+<script>
+// ============================================
+// Toast Interactive Demos
+// ============================================
+
+// Show basic toast
+function showBasicToast() {
+    const toast = document.getElementById('basicToast');
+    if (toast && toast._show) {
+        toast._show();
+    }
+}
+
+// Show live toast in corner
+function showLiveToast() {
+    const container = document.getElementById('liveToastContainer');
+    if (!container) return;
+    
+    // Create toast
+    const toast = document.createElement('div');
+    toast.className = 'zToast zFade';
+    toast.setAttribute('role', 'alert');
+    toast.setAttribute('aria-live', 'assertive');
+    toast.setAttribute('aria-atomic', 'true');
+    toast.setAttribute('data-bs-autohide', 'true');
+    toast.setAttribute('data-bs-delay', '5000');
+    
+    toast.innerHTML = `
+        <div class="zToast-header">
+            <svg style="width: 20px; height: 20px; margin-right: 0.5rem; fill: #198754;" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+            </svg>
+            <strong style="margin-right: auto;">Success</strong>
+            <small>Just now</small>
+            <button type="button" class="zBtn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="zToast-body">
+            Your action completed successfully!
+        </div>
+    `;
+    
+    container.appendChild(toast);
+    
+    // Re-initialize toasts
+    if (window.zTheme && window.zTheme.initToast) {
+        window.zTheme.initToast();
+    }
+    
+    // Show after a brief delay
+    setTimeout(() => {
+        if (toast._show) toast._show();
+    }, 100);
+    
+    // Remove from DOM after hiding
+    toast.addEventListener('hidden.bs.toast', () => {
+        toast.remove();
+    });
+}
+
+// Show stacked toasts
+function showStackedToasts() {
+    const messages = [
+        { type: 'success', icon: '✓', title: 'File Uploaded', body: 'document.pdf uploaded successfully' },
+        { type: 'info', icon: 'ℹ', title: 'Processing', body: 'Converting file to PDF...' },
+        { type: 'success', icon: '✓', title: 'Complete', body: 'All tasks finished!' }
+    ];
+    
+    const container = document.getElementById('liveToastContainer');
+    if (!container) return;
+    
+    messages.forEach((msg, index) => {
+        setTimeout(() => {
+            const toast = document.createElement('div');
+            toast.className = `zToast zToast-${msg.type} zFade`;
+            toast.setAttribute('role', 'alert');
+            toast.setAttribute('aria-live', 'assertive');
+            toast.setAttribute('aria-atomic', 'true');
+            toast.setAttribute('data-bs-autohide', 'true');
+            toast.setAttribute('data-bs-delay', '6000');
+            
+            toast.innerHTML = `
+                <div class="zToast-header">
+                    <strong style="margin-right: auto;">${msg.icon} ${msg.title}</strong>
+                    <small>${index === 0 ? 'Just now' : index + ' sec ago'}</small>
+                    <button type="button" class="zBtn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="zToast-body">
+                    ${msg.body}
+                </div>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Re-initialize
+            if (window.zTheme && window.zTheme.initToast) {
+                window.zTheme.initToast();
+            }
+            
+            // Show
+            setTimeout(() => {
+                if (toast._show) toast._show();
+            }, 100);
+            
+            // Cleanup
+            toast.addEventListener('hidden.bs.toast', () => {
+                toast.remove();
+            });
+        }, index * 800);
+    });
+}
+
+// Show color variant toasts
+function showColorToast(type) {
+    const toast = document.getElementById(`toast${type.charAt(0).toUpperCase() + type.slice(1)}`);
+    if (toast && toast._show) {
+        toast._show();
+    }
+}
+
+// Show positioned toast
+function showPositionToast(position) {
+    const container = document.getElementById('positionToastContainer');
+    if (!container) return;
+    
+    // Clear previous position
+    container.style.top = '';
+    container.style.bottom = '';
+    container.style.left = '';
+    container.style.right = '';
+    container.style.transform = '';
+    
+    // Set position
+    const [vertical, horizontal] = position.split('-');
+    
+    if (vertical === 'top') {
+        container.style.top = '1rem';
+    } else if (vertical === 'middle') {
+        container.style.top = '50%';
+        container.style.transform = 'translateY(-50%)';
+    } else if (vertical === 'bottom') {
+        container.style.bottom = '1rem';
+    }
+    
+    if (horizontal === 'start') {
+        container.style.left = '1rem';
+        if (vertical === 'middle') {
+            container.style.transform = 'translateY(-50%)';
+        }
+    } else if (horizontal === 'center') {
+        container.style.left = '50%';
+        if (vertical === 'middle') {
+            container.style.transform = 'translate(-50%, -50%)';
+        } else {
+            container.style.transform = 'translateX(-50%)';
+        }
+    } else if (horizontal === 'end') {
+        container.style.right = '1rem';
+        if (vertical === 'middle') {
+            container.style.transform = 'translateY(-50%)';
+        }
+    }
+    
+    // Create toast
+    const toast = document.createElement('div');
+    toast.className = 'zToast zFade';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.setAttribute('aria-atomic', 'true');
+    toast.setAttribute('data-bs-autohide', 'true');
+    toast.setAttribute('data-bs-delay', '3000');
+    
+    const positionLabel = position.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase());
+    
+    toast.innerHTML = `
+        <div class="zToast-header">
+            <strong style="margin-right: auto;">📍 ${positionLabel}</strong>
+            <small>Now</small>
+            <button type="button" class="zBtn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="zToast-body">
+            Toast positioned at ${positionLabel.toLowerCase()}
+        </div>
+    `;
+    
+    container.appendChild(toast);
+    
+    // Re-initialize
+    if (window.zTheme && window.zTheme.initToast) {
+        window.zTheme.initToast();
+    }
+    
+    // Show
+    setTimeout(() => {
+        if (toast._show) toast._show();
+    }, 100);
+    
+    // Cleanup
+    toast.addEventListener('hidden.bs.toast', () => {
+        toast.remove();
+    });
+}
+</script>
+
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icons - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer-lg zpy-5" style="max-width: 900px;">
+    <h1 class="zText-success" style="font-size: 2.5rem; margin-bottom: 0.5rem;">Icons</h1>
+    <p class="zText-muted" style="font-size: 1.1rem; margin-bottom: 3rem;">
+        Bootstrap Icons - A robust, production-ready icon library for zTheme applications
+    </p>
+
+    <!-- Understanding Icons -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Understanding the Icon System</h2>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">
+            zTheme uses <strong>Bootstrap Icons</strong> - a free, high-quality, open-source icon library with over 2,000 icons. This professional icon system offers:
+        </p>
+
+        <ul style="line-height: 1.8;">
+            <li><strong>2,000+ icons</strong> - Comprehensive library covering all use cases</li>
+            <li><strong>One-line CDN include</strong> - Simple integration, no configuration needed</li>
+            <li><strong>No styling conflicts</strong> - Pure icons with no framework dependencies</li>
+            <li><strong>Scalable</strong> - Vector-based icons look perfect at any size</li>
+            <li><strong>Customizable</strong> - Full control over size, color, and styling via CSS</li>
+            <li><strong>Accessible</strong> - Built with accessibility best practices</li>
+        </ul>
+
+        <blockquote style="background: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Why Bootstrap Icons?</strong> Maintained by the Bootstrap team, Bootstrap Icons is battle-tested across millions of websites. It's lightweight (~300KB cached across sites), has zero styling conflicts, and provides everything you need without the maintenance burden of a custom icon system.</p>
+        </blockquote>
+    </section>
+
+    <!-- Basic Usage -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Basic Usage</h2>
+        
+        <h3>Including Icons in Your Page</h3>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">
+            Add Bootstrap Icons to your project with a single line in your <code>&lt;head&gt;</code>:
+        </p>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; margin-bottom: 2rem;"><code>&lt;head&gt;
+  &lt;!-- zTheme CSS --&gt;
+  &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"&gt;
+  
+  &lt;!-- Bootstrap Icons --&gt;
+  &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"&gt;
+&lt;/head&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Using Icons</h3>
+        <p style="line-height: 1.7; margin-bottom: 1.5rem;">
+            Icons use simple, intuitive class names with the <code>bi</code> prefix:
+        </p>
+
+        <div style="background: white; padding: 2rem; border: 2px solid #dee2e6; border-radius: 4px; margin: 2rem 0;">
+            <p style="font-size: 1.2rem;">
+                <i class="bi bi-house-fill" style="color: #2196f3; font-size: 1.5rem;"></i>
+                Home
+            </p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;i class="bi bi-house-fill"&gt;&lt;/i&gt; Home</code></pre>
+
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Icon Sizes</h3>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">
+            Control icon size using <code>font-size</code> or zTheme size classes:
+        </p>
+        
+        <div style="background: white; padding: 2rem; border: 2px solid #dee2e6; border-radius: 4px; margin: 2rem 0; display: flex; align-items: center; gap: 1.5rem;">
+            <i class="bi bi-house-fill" style="font-size: 0.875rem;"></i>
+            <i class="bi bi-house-fill" style="font-size: 1rem;"></i>
+            <i class="bi bi-house-fill" style="font-size: 1.5rem;"></i>
+            <i class="bi bi-house-fill" style="font-size: 2rem;"></i>
+            <i class="bi bi-house-fill" style="font-size: 3rem;"></i>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;i class="bi bi-house-fill" style="font-size: 0.875rem;"&gt;&lt;/i&gt; &lt;!-- Small --&gt;
+&lt;i class="bi bi-house-fill" style="font-size: 1rem;"&gt;&lt;/i&gt;     &lt;!-- Default --&gt;
+&lt;i class="bi bi-house-fill" style="font-size: 1.5rem;"&gt;&lt;/i&gt;   &lt;!-- Large --&gt;
+&lt;i class="bi bi-house-fill" style="font-size: 2rem;"&gt;&lt;/i&gt;     &lt;!-- XL --&gt;
+&lt;i class="bi bi-house-fill" style="font-size: 3rem;"&gt;&lt;/i&gt;     &lt;!-- 2XL --&gt;</code></pre>
+    </section>
+
+    <!-- Icon Gallery -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Popular Icon Examples</h2>
+        <p style="line-height: 1.7; margin-bottom: 2rem;">
+            Bootstrap Icons includes 2,000+ icons. Here are some commonly used ones:
+        </p>
+
+        <h3 style="margin-bottom: 1.5rem;">Navigation Icons</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-house-fill" style="color: #2196f3; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-house-fill</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-grid-fill" style="color: #2196f3; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-grid-fill</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-list" style="color: #2196f3; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-list</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-search" style="color: #2196f3; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-search</code></p>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 1.5rem;">User & People Icons</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-person-fill" style="color: #4caf50; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-person-fill</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-people-fill" style="color: #4caf50; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-people-fill</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-person-badge" style="color: #4caf50; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-person-badge</code></p>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 1.5rem;">Business Icons</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-building" style="color: #ff9800; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-building</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-briefcase-fill" style="color: #ff9800; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-briefcase-fill</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-cart-fill" style="color: #ff9800; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-cart-fill</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-piggy-bank" style="color: #ff9800; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-piggy-bank</code></p>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 1.5rem;">Package & Inventory Icons</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-box-seam" style="color: #9c27b0; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-box-seam</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-boxes" style="color: #9c27b0; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-boxes</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-list-check" style="color: #9c27b0; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-list-check</code></p>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 1.5rem;">Action Icons</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-arrow-repeat" style="color: #f44336; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-arrow-repeat</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-magic" style="color: #f44336; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-magic</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-pencil-fill" style="color: #f44336; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-pencil-fill</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-trash-fill" style="color: #f44336; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-trash-fill</code></p>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 1.5rem;">Communication Icons</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-chat-square-text" style="color: #00bcd4; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-chat-square-text</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-envelope-fill" style="color: #00bcd4; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-envelope-fill</code></p>
+            </div>
+            <div style="padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; text-align: center;">
+                <i class="bi bi-telephone-fill" style="color: #00bcd4; font-size: 3rem; margin-bottom: 0.5rem;"></i>
+                <p style="margin: 0; font-size: 0.9rem; color: #666;"><code>bi-telephone-fill</code></p>
+            </div>
+        </div>
+
+        <blockquote style="background: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>🔍 Find More Icons:</strong> Browse the complete library at <a href="https://icons.getbootstrap.com" target="_blank" rel="noopener">icons.getbootstrap.com</a> - use the search to find exactly what you need!</p>
+        </blockquote>
+    </section>
+
+    <!-- Styling Icons -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Styling Icons</h2>
+
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Icon Colors</h3>
+        <p style="line-height: 1.7; margin-bottom: 1.5rem;">
+            Icons inherit text color from their parent. Use zTheme color utilities or custom colors:
+        </p>
+
+        <div style="background: white; padding: 2rem; border: 2px solid #dee2e6; border-radius: 4px; margin: 2rem 0; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;">
+            <i class="bi bi-house-fill zText-primary" style="font-size: 1.5rem;"></i>
+            <i class="bi bi-house-fill zText-success" style="font-size: 1.5rem;"></i>
+            <i class="bi bi-house-fill zText-danger" style="font-size: 1.5rem;"></i>
+            <i class="bi bi-house-fill zText-warning" style="font-size: 1.5rem;"></i>
+            <i class="bi bi-house-fill zText-info" style="font-size: 1.5rem;"></i>
+            <i class="bi bi-house-fill zText-muted" style="font-size: 1.5rem;"></i>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;i class="bi bi-house-fill zText-primary"&gt;&lt;/i&gt;
+&lt;i class="bi bi-house-fill zText-success"&gt;&lt;/i&gt;
+&lt;i class="bi bi-house-fill" style="color: #9c27b0;"&gt;&lt;/i&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Icons in Buttons</h3>
+        <div style="background: white; padding: 2rem; border: 2px solid #dee2e6; border-radius: 4px; margin: 2rem 0; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <button class="zBtn zBtn-primary">
+                <i class="bi bi-house-fill"></i>
+                Home
+            </button>
+            <button class="zBtn zBtn-success">
+                <i class="bi bi-people-fill"></i>
+                Users
+            </button>
+            <button class="zBtn zBtn-danger">
+                <i class="bi bi-cart-fill"></i>
+                Cart
+            </button>
+            <button class="zBtn zBtn-outline-primary">
+                <i class="bi bi-arrow-repeat"></i>
+                Refresh
+            </button>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button class="zBtn zBtn-primary"&gt;
+  &lt;i class="bi bi-house-fill"&gt;&lt;/i&gt;
+  Home
+&lt;/button&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Icons in Text</h3>
+        <div style="background: white; padding: 2rem; border: 2px solid #dee2e6; border-radius: 4px; margin: 2rem 0;">
+            <p style="font-size: 1.1rem;">
+                Visit your
+                <i class="bi bi-house-fill" style="color: #2196f3;"></i>
+                dashboard to see
+                <i class="bi bi-people-fill" style="color: #4caf50;"></i>
+                team members and
+                <i class="bi bi-cart-fill" style="color: #ff9800;"></i>
+                shopping cart.
+            </p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;p&gt;
+  Visit your 
+  &lt;i class="bi bi-house-fill"&gt;&lt;/i&gt; 
+  dashboard
+&lt;/p&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Custom Sizing</h3>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">
+            Control icon size using <code>font-size</code>:
+        </p>
+        
+        <div style="background: white; padding: 2rem; border: 2px solid #dee2e6; border-radius: 4px; margin: 2rem 0; display: flex; gap: 2rem; align-items: center;">
+            <i class="bi bi-star-fill zText-warning" style="font-size: 1rem;"></i>
+            <i class="bi bi-star-fill zText-warning" style="font-size: 2rem;"></i>
+            <i class="bi bi-star-fill zText-warning" style="font-size: 3rem;"></i>
+            <i class="bi bi-star-fill zText-warning" style="font-size: 4rem;"></i>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;i class="bi bi-star-fill" style="font-size: 1rem;"&gt;&lt;/i&gt;
+&lt;i class="bi bi-star-fill" style="font-size: 2rem;"&gt;&lt;/i&gt;
+&lt;i class="bi bi-star-fill" style="font-size: 3rem;"&gt;&lt;/i&gt;</code></pre>
+    </section>
+
+    <!-- Finding Icons -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Finding the Right Icon</h2>
+        <p style="line-height: 1.7; margin-bottom: 1.5rem;">
+            Bootstrap Icons provides a searchable gallery at <a href="https://icons.getbootstrap.com" target="_blank" rel="noopener"><strong>icons.getbootstrap.com</strong></a>
+        </p>
+
+        <div style="background: white; padding: 2rem; border: 2px solid #dee2e6; border-radius: 4px; margin: 2rem 0;">
+            <h4 style="margin-top: 0;">How to Find Icons:</h4>
+            <ol style="line-height: 1.8;">
+                <li>Visit <a href="https://icons.getbootstrap.com" target="_blank" rel="noopener">icons.getbootstrap.com</a></li>
+                <li>Use the search bar (e.g., "home", "user", "settings")</li>
+                <li>Click an icon to see its name and variations</li>
+                <li>Copy the class name (e.g., <code>bi-house-fill</code>)</li>
+                <li>Use it in your HTML: <code>&lt;i class="bi bi-house-fill"&gt;&lt;/i&gt;</code></li>
+            </ol>
+
+            <h4 style="margin-top: 2rem;">Icon Naming Convention:</h4>
+            <ul style="line-height: 1.8; margin: 0;">
+                <li><code>bi-icon-name</code> - Outlined version (lighter)</li>
+                <li><code>bi-icon-name-fill</code> - Filled version (bolder)</li>
+                <li><code>bi-icon-name-square</code> - Square variant</li>
+                <li><code>bi-icon-name-circle</code> - Circle variant</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Best Practices</h2>
+        
+        <div style="background: white; padding: 1.5rem; border: 2px solid #dee2e6; border-radius: 4px; margin: 2rem 0;">
+            <h4 style="margin-top: 0; color: #4caf50;">✅ Do</h4>
+            <ul style="line-height: 1.8; margin-bottom: 2rem;">
+                <li>Use consistent icon styles (all filled OR all outlined, not mixed)</li>
+                <li>Ensure icons have proper contrast against backgrounds (WCAG AA minimum)</li>
+                <li>Add spacing between icons and text (0.25-0.5rem)</li>
+                <li>Use appropriate sizes - not too small (min 16px) or overwhelmingly large</li>
+                <li>Choose meaningful icons that match their purpose</li>
+                <li>Test icons at all responsive breakpoints</li>
+            </ul>
+            
+            <h4 style="color: #f44336;">❌ Don't</h4>
+            <ul style="line-height: 1.8; margin: 0;">
+                <li>Mix filled and outlined styles inconsistently</li>
+                <li>Use icons smaller than 14px - they become unclear</li>
+                <li>Rely solely on color to convey meaning (accessibility)</li>
+                <li>Use too many different icons - keep it focused</li>
+                <li>Forget to test icon readability on mobile devices</li>
+                <li>Use decorative icons without proper ARIA labels when needed</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Accessibility -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Accessibility</h2>
+        
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Decorative Icons</h3>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">
+            Icons that are purely decorative (next to text labels) should be hidden from screen readers:
+        </p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button class="zBtn zBtn-primary"&gt;
+  &lt;i class="bi bi-house-fill" aria-hidden="true"&gt;&lt;/i&gt;
+  Home
+&lt;/button&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Standalone Icons</h3>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">
+            If an icon is the ONLY indicator (no text), add an appropriate label:
+        </p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button class="zBtn zBtn-primary" aria-label="Go to home page"&gt;
+  &lt;i class="bi bi-house-fill"&gt;&lt;/i&gt;
+&lt;/button&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Interactive Icons</h3>
+        <p style="line-height: 1.7; margin-bottom: 1rem;">
+            For clickable icons, ensure proper focus states and touch targets (minimum 44x44px):
+        </p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button 
+  class="zBtn" 
+  aria-label="Refresh data"
+  style="padding: 0.75rem; min-width: 44px; min-height: 44px;"&gt;
+  &lt;i class="bi bi-arrow-repeat" style="font-size: 1.5rem;"&gt;&lt;/i&gt;
+&lt;/button&gt;</code></pre>
+    </section>
+
+    <!-- Performance -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Why Bootstrap Icons?</h2>
+        
+        <table class="zTable zTable-bordered" style="margin: 2rem 0;">
+            <thead>
+                <tr>
+                    <th style="width: 25%;">Feature</th>
+                    <th style="width: 25%;">Bootstrap Icons</th>
+                    <th style="width: 25%;">Font Awesome</th>
+                    <th style="width: 25%;">Custom Sprites</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Setup</strong></td>
+                    <td style="color: #4caf50;"><strong>One CDN line</strong></td>
+                    <td style="color: #4caf50;">One CDN line</td>
+                    <td style="color: #f44336;">Manual inline</td>
+                </tr>
+                <tr>
+                    <td><strong>Icon Count</strong></td>
+                    <td style="color: #4caf50;"><strong>2,000+</strong></td>
+                    <td style="color: #2196f3;">1,500+</td>
+                    <td style="color: #f44336;">~20 typical</td>
+                </tr>
+                <tr>
+                    <td><strong>File Size</strong></td>
+                    <td style="color: #ff9800;">~300KB (cached)</td>
+                    <td style="color: #f44336;">~350KB+</td>
+                    <td style="color: #4caf50;">~5KB</td>
+                </tr>
+                <tr>
+                    <td><strong>Maintenance</strong></td>
+                    <td style="color: #4caf50;"><strong>Zero</strong></td>
+                    <td style="color: #4caf50;">Zero</td>
+                    <td style="color: #f44336;">Manual updates</td>
+                </tr>
+                <tr>
+                    <td><strong>Styling Conflicts</strong></td>
+                    <td style="color: #4caf50;"><strong>None</strong></td>
+                    <td style="color: #ff9800;">Minimal</td>
+                    <td style="color: #4caf50;">None</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <blockquote style="background: #e8f5e9; padding: 1rem; border-left: 4px solid #4caf50; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>🚀 Result:</strong> Bootstrap Icons provides the best balance of simplicity, robustness, and zero maintenance. The ~300KB is cached across millions of websites, making it effectively instant for most users. Perfect for production applications.</p>
+        </blockquote>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Related Topics</h2>
+        <ul class="lh-lg">
+            <li><a href="ztheme-buttons.html">Buttons</a> - Using icons in buttons</li>
+            <li><a href="ztheme-colors.html">Colors</a> - Icon color utilities</li>
+            <li><a href="ztheme-navbar.html">Navbar</a> - Icons in navigation</li>
+            <li><a href="ztheme-approach.html">Approach</a> - Design philosophy</li>
+        </ul>
+    </section>
+
+    <!-- Navigation -->
+    <div style="display: flex; justify-content: space-between; margin-top: 4rem; padding-top: 2rem; border-top: 2px solid #dee2e6;">
+        <a href="ztheme-approach.html" class="zBtn zBtn-outline-primary">&larr; Approach</a>
+        <a href="ztheme.html" class="zBtn zBtn-primary">Back to zTheme</a>
+        <a href="https://icons.getbootstrap.com" target="_blank" rel="noopener" class="zBtn zBtn-outline-info">Browse All Icons &rarr;</a>
+    </div>
+</div>
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+</body>
+</html>

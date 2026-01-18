@@ -1,0 +1,250 @@
+/* ============================================
+   zProgress.css - Progress Bars
+   ============================================
+   
+   Bootstrap-inspired progress bars for showing task completion
+   and status indicators.
+   
+   Classes:
+   - .zProgress             : Wrapper container
+   - .zProgress-bar         : Progress fill element
+   - .zProgress-bar-striped : Striped pattern
+   - .zProgress-bar-animated: Animated stripes
+   
+   Background Utilities:
+   - .zBg-success, .zBg-info, .zBg-warning, .zBg-danger
+   
+   Structure:
+   <div class="zProgress">
+     <div class="zProgress-bar" 
+          role="progressbar" 
+          style="width: 75%"
+          aria-valuenow="75" 
+          aria-valuemin="0" 
+          aria-valuemax="100">
+       75%
+     </div>
+   </div>
+*/
+
+/* ============================================
+   Base Progress Container
+   ============================================ */
+
+.zProgress {
+    display: flex;
+    height: 1rem;
+    overflow: hidden;
+    font-size: 0.75rem;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+}
+
+/* ============================================
+   Progress Bar (Fill Element)
+   ============================================ */
+
+.zProgress-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #0d6efd;
+    transition: width 0.6s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zProgress-bar {
+        transition: none;
+    }
+}
+
+/* ============================================
+   Height Variants
+   ============================================ */
+
+/* Custom heights via inline styles on .zProgress:
+   <div class="zProgress" style="height: 20px;">
+   
+   Or use utility classes for common sizes: */
+
+.zProgress-sm {
+    height: 0.5rem;
+    font-size: 0.65rem;
+}
+
+.zProgress-lg {
+    height: 1.5rem;
+    font-size: 0.875rem;
+}
+
+/* ============================================
+   Color Variants
+   ============================================ */
+
+.zProgress-bar.zBg-success {
+    background-color: var(--color-success);
+}
+
+.zProgress-bar.zBg-info {
+    background-color: var(--color-info);
+}
+
+.zProgress-bar.zBg-warning {
+    background-color: var(--color-warning);
+}
+
+.zProgress-bar.zBg-danger {
+    background-color: var(--color-error);
+}
+
+/* ============================================
+   Striped Pattern
+   ============================================ */
+
+.zProgress-bar-striped {
+    background-image: linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.15) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.15) 75%,
+        transparent 75%,
+        transparent
+    );
+    background-size: 1rem 1rem;
+}
+
+/* ============================================
+   Animated Stripes
+   ============================================ */
+
+.zProgress-bar-animated {
+    animation: zProgress-bar-stripes 1s linear infinite;
+}
+
+@keyframes zProgress-bar-stripes {
+    0% {
+        background-position-x: 1rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .zProgress-bar-animated {
+        animation: none;
+    }
+}
+
+/* ============================================
+   Multiple / Stacked Bars
+   ============================================ */
+
+/* Multiple bars stack naturally inside .zProgress
+   Example:
+   <div class="zProgress">
+     <div class="zProgress-bar" style="width: 15%"></div>
+     <div class="zProgress-bar zBg-success" style="width: 30%"></div>
+     <div class="zProgress-bar zBg-info" style="width: 20%"></div>
+   </div>
+*/
+
+/* ============================================
+   Nice-to-Have: Indeterminate State
+   ============================================
+   
+   For operations where progress is unknown.
+   Not in Bootstrap but useful for loading states.
+*/
+
+.zProgress-indeterminate .zProgress-bar {
+    width: 100% !important;
+    background-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        transparent 35%,
+        #0d6efd 50%,
+        transparent 65%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: zProgress-indeterminate 1.5s ease-in-out infinite;
+}
+
+@keyframes zProgress-indeterminate {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Indeterminate with colors */
+.zProgress-indeterminate .zProgress-bar.zBg-success {
+    background-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        transparent 35%,
+        #198754 50%,
+        transparent 65%,
+        transparent 100%
+    );
+}
+
+.zProgress-indeterminate .zProgress-bar.zBg-info {
+    background-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        transparent 35%,
+        #0dcaf0 50%,
+        transparent 65%,
+        transparent 100%
+    );
+}
+
+.zProgress-indeterminate .zProgress-bar.zBg-warning {
+    background-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        transparent 35%,
+        #ffc107 50%,
+        transparent 65%,
+        transparent 100%
+    );
+}
+
+.zProgress-indeterminate .zProgress-bar.zBg-danger {
+    background-image: linear-gradient(
+        90deg,
+        transparent 0%,
+        transparent 35%,
+        #dc3545 50%,
+        transparent 65%,
+        transparent 100%
+    );
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+
+/* Ensure progress bars have proper ARIA attributes:
+   - role="progressbar"
+   - aria-valuenow="current value"
+   - aria-valuemin="0"
+   - aria-valuemax="100"
+   
+   Example:
+   <div class="zProgress-bar" 
+        role="progressbar" 
+        aria-valuenow="75" 
+        aria-valuemin="0" 
+        aria-valuemax="100"
+        style="width: 75%">
+     75%
+   </div>
+*/

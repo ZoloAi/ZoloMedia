@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<article style="max-width: 900px; margin: 0 auto; padding: 2rem 1rem;">
+    <header style="margin-bottom: 2rem;">
+        <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+            <ol class="zBreadcrumb">
+                <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+                <li class="zBreadcrumb-item"><a href="../ztheme.html#components">Components</a></li>
+                <li class="zBreadcrumb-item zActive" aria-current="page">Carousel</li>
+            </ol>
+        </nav>
+        <h1 style="margin: 0; color: var(--color-primary);">Carousel</h1>
+        <p class="zLead" style="margin-top: 1rem;">A slideshow component for cycling through images or content slides with CSS 3D transforms and JavaScript.</p>
+    </header>
+
+    <!-- Important Notice -->
+    <div class="zAlert zAlert-info" role="alert" style="margin-bottom: 2rem;">
+        <h4 class="zAlert-heading">✨ Auto-Initialization</h4>
+        <p>Carousels on this page are automatically initialized by <code>zTheme.js</code>. The demos below cycle every 5 seconds—hover over them to pause!</p>
+    </div>
+    
+    <div class="zAlert zAlert-warning" role="alert" style="margin-bottom: 2rem;">
+        <h4 class="zAlert-heading">⚠️ Accessibility Notice</h4>
+        <p style="margin-bottom: 0;">Carousels are <strong>not</strong> automatically accessible. Ensure images have <code>alt</code> attributes, controls are keyboard accessible, and users can pause auto-cycling (especially important for motion sensitivity).</p>
+    </div>
+
+    <!-- Understanding Carousels -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Carousels</h2>
+        <p>Carousels (also called sliders or slideshows) cycle through a series of content—typically images, but can be text, cards, or custom markup. They're useful for:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Image galleries:</strong> Showcasing product photos, portfolio work, or featured images</li>
+            <li><strong>Hero sections:</strong> Rotating banners on homepages or landing pages</li>
+            <li><strong>Testimonials:</strong> Cycling through customer reviews or quotes</li>
+            <li><strong>Feature highlights:</strong> Presenting multiple product features or benefits</li>
+        </ul>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: rgba(255, 179, 71, 0.1);">
+            <strong>Accessibility Concerns:</strong> Carousels are <strong>not</strong> automatically accessible. Users with screen readers or keyboard-only navigation may struggle. Use carousels sparingly and ensure:
+            <ul style="margin-top: 0.5rem;">
+                <li>Previous/next controls are keyboard accessible</li>
+                <li>Users can pause auto-cycling (especially important for motion sensitivity)</li>
+                <li>Images have proper <code>alt</code> attributes</li>
+                <li>Consider if a simple image grid might be better for your use case</li>
+            </ul>
+        </blockquote>
+    </section>
+
+    <!-- The Foundation -->
+    <section style="margin: 3rem 0;">
+        <h2>The Semantic Foundation</h2>
+        <p>At its core, a carousel is just a container with multiple content items. Without styling or JavaScript, all slides are visible as a simple stack:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div>
+                <div>
+                    <div style="padding: 3rem; background: var(--color-primary); color: var(--color-darkgray); text-align: center; margin-bottom: 1rem;">
+                        Slide 1
+                    </div>
+                    <div style="padding: 3rem; background: var(--color-info); color: var(--color-white); text-align: center; margin-bottom: 1rem;">
+                        Slide 2
+                    </div>
+                    <div style="padding: 3rem; background: var(--color-secondary); color: var(--color-white); text-align: center;">
+                        Slide 3
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div&gt;
+  &lt;div&gt;
+    &lt;div&gt;Slide 1&lt;/div&gt;
+    &lt;div&gt;Slide 2&lt;/div&gt;
+    &lt;div&gt;Slide 3&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Non-Semantic HTML:</strong> Carousels use generic <code>&lt;div&gt;</code> containers because they're purely presentational. The semantic meaning comes from the content inside each slide (images, headings, paragraphs, etc.).
+        </blockquote>
+    </section>
+
+    <!-- Enhanced Carousel -->
+    <section style="margin: 3rem 0;">
+        <h2>Enhanced Carousel with .zCarousel</h2>
+        <p>The <code>.zCarousel</code> classes transform the stack into a slideshow with transitions. Only one slide is visible at a time, with smooth animations between slides:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zCarousel" data-ride="true" data-interval="5000" style="max-width: 600px; margin: 0 auto;">
+                <div class="zCarousel-inner">
+                    <div class="zCarousel-item zActive">
+                        <div style="padding: 3rem; background: var(--color-primary); color: var(--color-darkgray); text-align: center;">
+                            <h3>Slide 1</h3>
+                            <p>First slide content</p>
+                        </div>
+                    </div>
+                    <div class="zCarousel-item">
+                        <div style="padding: 3rem; background: var(--color-info); color: var(--color-white); text-align: center;">
+                            <h3>Slide 2</h3>
+                            <p>Second slide content</p>
+                        </div>
+                    </div>
+                    <div class="zCarousel-item">
+                        <div style="padding: 3rem; background: var(--color-secondary); color: var(--color-white); text-align: center;">
+                            <h3>Slide 3</h3>
+                            <p>Third slide content</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Controls -->
+                <button class="zCarousel-control-prev" type="button">
+                    <span class="zCarousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="zVisually-hidden">Previous</span>
+                </button>
+                <button class="zCarousel-control-next" type="button">
+                    <span class="zCarousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="zVisually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zCarousel" data-ride="true" data-interval="5000"&gt;
+  &lt;div class="zCarousel-inner"&gt;
+    &lt;div class="zCarousel-item zActive"&gt;
+      &lt;!-- First slide content --&gt;
+    &lt;/div&gt;
+    &lt;div class="zCarousel-item"&gt;
+      &lt;!-- Second slide content --&gt;
+    &lt;/div&gt;
+    &lt;div class="zCarousel-item"&gt;
+      &lt;!-- Third slide content --&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;!-- Previous/Next controls --&gt;
+  &lt;button class="zCarousel-control-prev" type="button"&gt;
+    &lt;span class="zCarousel-control-prev-icon"&gt;&lt;/span&gt;
+    &lt;span class="zVisually-hidden"&gt;Previous&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;button class="zCarousel-control-next" type="button"&gt;
+    &lt;span class="zCarousel-control-next-icon"&gt;&lt;/span&gt;
+    &lt;span class="zVisually-hidden"&gt;Next&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+        <p style="margin-top: 1rem;"><strong>The transformation:</strong> <code>.zCarousel</code> hides all slides except the one marked <code>.zActive</code>, with smooth CSS transitions. Add <code>data-ride="true"</code> to auto-start cycling.</p>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-primary); background: rgba(162, 212, 110, 0.1);">
+            <strong>zTheme Pattern:</strong> The <code>&lt;div&gt;</code> structure provides the container (unstyled stack). The <code>.zCarousel</code> classes add the slideshow styling and transitions. JavaScript adds interactivity.
+        </blockquote>
+    </section>
+
+    <!-- Image Carousels -->
+    <section style="margin: 3rem 0;">
+        <h2>Image Carousels</h2>
+        <p>The most common use case—cycling through images. Use responsive image sizing for mobile-friendly slideshows:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zCarousel" data-ride="true" data-interval="4000" style="max-width: 600px; margin: 0 auto;">
+                <!-- Indicators -->
+                <div class="zCarousel-indicators">
+                    <button type="button" class="zActive" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" aria-label="Slide 2"></button>
+                    <button type="button" aria-label="Slide 3"></button>
+                </div>
+                
+                <div class="zCarousel-inner">
+                    <div class="zCarousel-item zActive">
+                        <img src="https://picsum.photos/600/400?random=1" style="width: 100%; display: block;" alt="Beautiful landscape">
+                    </div>
+                    <div class="zCarousel-item">
+                        <img src="https://picsum.photos/600/400?random=2" style="width: 100%; display: block;" alt="City skyline">
+                    </div>
+                    <div class="zCarousel-item">
+                        <img src="https://picsum.photos/600/400?random=3" style="width: 100%; display: block;" alt="Nature scene">
+                    </div>
+                </div>
+                
+                <!-- Controls -->
+                <button class="zCarousel-control-prev" type="button">
+                    <span class="zCarousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="zVisually-hidden">Previous</span>
+                </button>
+                <button class="zCarousel-control-next" type="button">
+                    <span class="zCarousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="zVisually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zCarousel"&gt;
+  &lt;div class="zCarousel-inner"&gt;
+    &lt;div class="zCarousel-item zActive"&gt;
+      &lt;img src="image1.jpg" style="width: 100%; display: block;" alt="..."&gt;
+    &lt;/div&gt;
+    &lt;div class="zCarousel-item"&gt;
+      &lt;img src="image2.jpg" style="width: 100%; display: block;" alt="..."&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <p style="margin-top: 1rem;"><strong>Note:</strong> Use <code>width: 100%; display: block;</code> on images to prevent layout shifts and ensure they fill the carousel width.</p>
+    </section>
+
+    <!-- Interactive Features -->
+    <section style="margin: 3rem 0;">
+        <h2>Interactive Features</h2>
+        <p>Carousels support multiple interaction methods automatically via <code>zTheme.js</code>:</p>
+        
+        <h3 style="margin-top: 2rem;">Navigation Methods</h3>
+        <ul style="line-height: 2;">
+            <li><strong>Previous/Next Buttons:</strong> Click arrows to navigate manually</li>
+            <li><strong>Indicators (Dots):</strong> Click dots to jump to specific slides</li>
+            <li><strong>Keyboard Navigation:</strong> Use ← → arrow keys (or ↑ ↓ for vertical)</li>
+            <li><strong>Touch Swipe:</strong> Swipe left/right on mobile (or up/down for vertical)</li>
+            <li><strong>Auto-Cycling:</strong> Slides change automatically with <code>data-ride="true"</code></li>
+            <li><strong>Pause on Hover:</strong> Hover over carousel to pause auto-cycling</li>
+        </ul>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-primary); background: rgba(162, 212, 110, 0.1);">
+            <strong>Try it now!</strong> The carousels on this page demonstrate all these features. Try clicking controls, swiping on mobile, or using arrow keys!
+        </blockquote>
+    </section>
+
+    <!-- Transition Effects -->
+    <section style="margin: 3rem 0;">
+        <h2>Transition Effects</h2>
+        <p>Choose different animation styles by adding modifier classes to <code>.zCarousel</code>:</p>
+        
+        <h3 style="margin-top: 2rem;">Fade Transition</h3>
+        <p>Crossfade effect—gentle and elegant. Add <code>.zCarousel-fade</code>:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zCarousel zCarousel-fade" data-ride="true" data-interval="3000" style="max-width: 600px; margin: 0 auto;">
+                <div class="zCarousel-inner">
+                    <div class="zCarousel-item zActive">
+                        <div style="padding: 3rem; background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-success) 100%); color: var(--color-darkgray); text-align: center;">
+                            <h3>Fade Slide 1</h3>
+                            <p>Smooth crossfade transition</p>
+                        </div>
+                    </div>
+                    <div class="zCarousel-item">
+                        <div style="padding: 3rem; background: linear-gradient(135deg, var(--color-info) 0%, var(--color-secondary) 100%); color: var(--color-white); text-align: center;">
+                            <h3>Fade Slide 2</h3>
+                            <p>No sliding motion</p>
+                        </div>
+                    </div>
+                    <div class="zCarousel-item">
+                        <div style="padding: 3rem; background: linear-gradient(135deg, var(--color-warning) 0%, var(--color-error) 100%); color: var(--color-white); text-align: center;">
+                            <h3>Fade Slide 3</h3>
+                            <p>Perfect for text content</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="zCarousel-control-prev" type="button">
+                    <span class="zCarousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="zVisually-hidden">Previous</span>
+                </button>
+                <button class="zCarousel-control-next" type="button">
+                    <span class="zCarousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="zVisually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zCarousel zCarousel-fade" data-ride="true"&gt;
+  &lt;div class="zCarousel-inner"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Vertical Transition (zTheme Extension)</h3>
+        <p>Slides move vertically instead of horizontally. Add <code>.zCarousel-vertical</code>:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zCarousel zCarousel-vertical" data-ride="true" data-interval="3500" style="max-width: 600px; margin: 0 auto; height: 250px;">
+                <div class="zCarousel-inner">
+                    <div class="zCarousel-item zActive">
+                        <div style="padding: 3rem; background: var(--color-success); color: var(--color-white); text-align: center; height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                            <h3>Vertical Slide 1</h3>
+                            <p>Slides up and down</p>
+                        </div>
+                    </div>
+                    <div class="zCarousel-item">
+                        <div style="padding: 3rem; background: var(--color-info); color: var(--color-white); text-align: center; height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                            <h3>Vertical Slide 2</h3>
+                            <p>Great for vertical feeds</p>
+                        </div>
+                    </div>
+                    <div class="zCarousel-item">
+                        <div style="padding: 3rem; background: var(--color-warning); color: var(--color-darkgray); text-align: center; height: 250px; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                            <h3>Vertical Slide 3</h3>
+                            <p>Use arrow keys: ↑ ↓</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="zCarousel-control-prev" type="button">
+                    <span class="zCarousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="zVisually-hidden">Previous</span>
+                </button>
+                <button class="zCarousel-control-next" type="button">
+                    <span class="zCarousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="zVisually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zCarousel zCarousel-vertical" data-ride="true"&gt;
+  &lt;div class="zCarousel-inner"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Touch Swipe:</strong> All carousel transitions support touch swipe on mobile devices by default! Swipe left/right for horizontal carousels, swipe up/down for vertical carousels. Disable with <code>data-touch="false"</code>.
+        </blockquote>
+    </section>
+
+    <!-- Progress Bar Pagination -->
+    <section style="margin: 3rem 0;">
+        <h2>Progress Bar Pagination</h2>
+        <p>Instead of dot indicators, use a progress bar to show slide position. Add <code>.zCarousel-progress</code> with <code>.zCarousel-progress-bar</code>:</p>
+        
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zCarousel" data-ride="true" data-interval="3000" style="max-width: 600px; margin: 0 auto;">
+                <div class="zCarousel-inner">
+                    <div class="zCarousel-item zActive">
+                        <img src="https://picsum.photos/600/400?random=10" style="width: 100%; display: block;" alt="Progress slide 1">
+                    </div>
+                    <div class="zCarousel-item">
+                        <img src="https://picsum.photos/600/400?random=11" style="width: 100%; display: block;" alt="Progress slide 2">
+                    </div>
+                    <div class="zCarousel-item">
+                        <img src="https://picsum.photos/600/400?random=12" style="width: 100%; display: block;" alt="Progress slide 3">
+                    </div>
+                    <div class="zCarousel-item">
+                        <img src="https://picsum.photos/600/400?random=13" style="width: 100%; display: block;" alt="Progress slide 4">
+                    </div>
+                </div>
+                
+                <!-- Progress Bar (instead of dots) -->
+                <div class="zCarousel-progress">
+                    <div class="zCarousel-progress-bar" style="width: 25%;"></div>
+                </div>
+                
+                <button class="zCarousel-control-prev" type="button">
+                    <span class="zCarousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="zVisually-hidden">Previous</span>
+                </button>
+                <button class="zCarousel-control-next" type="button">
+                    <span class="zCarousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="zVisually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zCarousel" data-ride="true"&gt;
+  &lt;div class="zCarousel-inner"&gt;
+    &lt;div class="zCarousel-item zActive"&gt;...&lt;/div&gt;
+    &lt;div class="zCarousel-item"&gt;...&lt;/div&gt;
+    &lt;div class="zCarousel-item"&gt;...&lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;!-- Progress Bar --&gt;
+  &lt;div class="zCarousel-progress"&gt;
+    &lt;div class="zCarousel-progress-bar"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;button class="zCarousel-control-prev"&gt;...&lt;/button&gt;
+  &lt;button class="zCarousel-control-next"&gt;...&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+        <p style="margin-top: 1rem;"><strong>Variants:</strong> Use <code>.zCarousel-progress-thin</code>, <code>.zCarousel-progress-thick</code>, or <code>.zCarousel-progress-top</code> for different styles.</p>
+    </section>
+
+    <!-- User Customization -->
+    <section style="margin: 3rem 0;">
+        <h2>User Customization & Overrides</h2>
+        <p>zTheme is designed to be customized. You can override any default styling or behavior by loading your custom CSS/JS <strong>after</strong> zTheme files:</p>
+
+        <h3 style="margin-top: 2rem;">CSS Customization</h3>
+        <p>Override carousel styling by redefining classes in your custom stylesheet:</p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- In your HTML --&gt;
+&lt;link rel="stylesheet" href="/static/css/zTheme.css"&gt;
+&lt;link rel="stylesheet" href="/static/css/my-custom.css"&gt;  &lt;!-- Your overrides --&gt;
+
+&lt;!-- In my-custom.css --&gt;
+/* Custom carousel control colors */
+.zCarousel-control-prev,
+.zCarousel-control-next {
+  opacity: 0.8;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Custom progress bar color */
+.zCarousel-progress-bar {
+  background-color: #ff6b6b;
+}
+
+/* Custom transition duration */
+.zCarousel-item {
+  transition: transform 1s ease-in-out;
+}</code></pre>
+
+        <h3 style="margin-top: 2rem;">JavaScript Hooks (Swiper-Inspired)</h3>
+        <p>Add custom behavior using data attributes and global callback functions:</p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- HTML: Define hooks via data attributes --&gt;
+&lt;div class="zCarousel" 
+     data-ride="true"
+     data-on-slide-change="mySlideHandler"
+     data-on-transition-start="myStartHandler"
+     data-on-transition-end="myEndHandler"&gt;
+  &lt;div class="zCarousel-inner"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- JavaScript: Define callback functions --&gt;
+&lt;script&gt;
+  // Called whenever slide changes
+  function mySlideHandler(event) {
+    console.log('Slide changed to:', event.index);
+    console.log('Direction:', event.direction);
+  }
+  
+  // Called when transition starts
+  function myStartHandler(event) {
+    console.log('Transitioning from', event.from, 'to', event.to);
+  }
+  
+  // Called when transition completes
+  function myEndHandler(event) {
+    console.log('Transition complete. Current slide:', event.index);
+    // Example: Update external UI, trigger analytics, etc.
+  }
+&lt;/script&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">CSS Variables for Easy Theming</h3>
+        <p>Customize carousel appearance globally using CSS variables:</p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>:root {
+  /* Override carousel colors */
+  --carousel-control-opacity: 0.7;
+  --carousel-control-hover-opacity: 1;
+  --carousel-indicator-active-bg: var(--color-primary);
+  --carousel-progress-bg: rgba(255, 255, 255, 0.5);
+  --carousel-progress-bar-bg: var(--color-success);
+  --carousel-caption-color: var(--color-white);
+  --carousel-transition-duration: 0.6s;
+}</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-primary); background: rgba(162, 212, 110, 0.1);">
+            <strong>Load Order Matters:</strong> Always load your custom CSS <em>after</em> zTheme CSS files. This ensures your overrides take precedence due to CSS cascade rules. Same principle applies to JavaScript—define your hooks <em>before</em> zTheme initializes.
+        </blockquote>
+    </section>
+
+    <!-- Choosing the Right Transition -->
+    <section style="margin: 3rem 0;">
+        <h2>Choosing the Right Transition</h2>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Transition</th>
+                    <th scope="col">Best For</th>
+                    <th scope="col">Avoid When</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Horizontal Slide</strong> (default)</td>
+                    <td>Image galleries, product showcases</td>
+                    <td>Text-heavy content (distracting)</td>
+                </tr>
+                <tr>
+                    <td><strong>Fade</strong></td>
+                    <td>Testimonials, quotes, text content</td>
+                    <td>Image galleries (less dynamic)</td>
+                </tr>
+                <tr>
+                    <td><strong>Vertical Slide</strong></td>
+                    <td>News feeds, social media posts</td>
+                    <td>Wide horizontal content</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Use sparingly:</strong> Carousels hide content—users often miss slides beyond the first</li>
+            <li><strong>Keep it simple:</strong> 3-5 slides maximum; more becomes overwhelming</li>
+            <li><strong>Choose appropriate transition:</strong> Fade for text, slide for images, vertical for feeds</li>
+            <li><strong>Provide controls:</strong> Always include previous/next buttons for user control</li>
+            <li><strong>Add indicators:</strong> Dots help users understand total slide count and position</li>
+            <li><strong>Pause on hover:</strong> Stop auto-cycling when users hover (built-in accessibility)</li>
+            <li><strong>Accessible alt text:</strong> Every image needs a descriptive <code>alt</code> attribute</li>
+            <li><strong>Touch-friendly:</strong> Touch swipe is enabled by default on mobile</li>
+            <li><strong>Keyboard accessible:</strong> Arrow keys work by default</li>
+            <li><strong>Motion sensitivity:</strong> Slide transitions respect <code>prefers-reduced-motion</code></li>
+            <li><strong>Performance:</strong> Optimize images for fast loading</li>
+            <li><strong>Consider alternatives:</strong> Sometimes a grid or tabbed interface is more usable</li>
+        </ul>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-error); background: rgba(255, 71, 87, 0.1);">
+            <strong>When NOT to Use Carousels:</strong>
+            <ul style="margin-top: 0.5rem;">
+                <li>Critical information users must see (they'll miss it)</li>
+                <li>More than 5 items (too many slides to navigate)</li>
+                <li>Content that benefits from comparison (use a grid instead)</li>
+                <li>Pages targeting motion-sensitive users exclusively</li>
+            </ul>
+        </blockquote>
+    </section>
+
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+        
+        <h3 style="margin-top: 2rem;">Carousel Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zCarousel</code></td>
+                    <td>Base carousel container (horizontal slide, default)</td>
+                </tr>
+                <tr>
+                    <td><code>.zCarousel-inner</code></td>
+                    <td>Wrapper for carousel items (handles overflow)</td>
+                </tr>
+                <tr>
+                    <td><code>.zCarousel-item</code></td>
+                    <td>Individual slide container</td>
+                </tr>
+                <tr>
+                    <td><code>.zActive</code></td>
+                    <td>Marks the currently visible slide</td>
+                </tr>
+                <tr>
+                    <td><code>.zCarousel-fade</code></td>
+                    <td>Crossfade transition (opacity)</td>
+                </tr>
+                <tr>
+                    <td><code>.zCarousel-vertical</code></td>
+                    <td>Vertical slide transition (zTheme extension)</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <h3 style="margin-top: 2rem;">Data Attributes (JavaScript Configuration)</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Attribute</th>
+                    <th scope="col">Default</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>data-ride</code></td>
+                    <td><code>false</code></td>
+                    <td>Auto-start cycling on page load</td>
+                </tr>
+                <tr>
+                    <td><code>data-interval</code></td>
+                    <td><code>5000</code></td>
+                    <td>Time between slides (milliseconds)</td>
+                </tr>
+                <tr>
+                    <td><code>data-wrap</code></td>
+                    <td><code>true</code></td>
+                    <td>Loop back to first slide after last</td>
+                </tr>
+                <tr>
+                    <td><code>data-pause</code></td>
+                    <td><code>true</code></td>
+                    <td>Pause cycling on hover</td>
+                </tr>
+                <tr>
+                    <td><code>data-touch</code></td>
+                    <td><code>true</code></td>
+                    <td>Enable touch swipe on mobile devices</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">JavaScript Event Hooks (Swiper-Inspired)</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Hook</th>
+                    <th scope="col">Fires When</th>
+                    <th scope="col">Event Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>data-on-slide-change</code></td>
+                    <td>Active slide changes</td>
+                    <td><code>{ index, direction }</code></td>
+                </tr>
+                <tr>
+                    <td><code>data-on-transition-start</code></td>
+                    <td>Slide transition begins</td>
+                    <td><code>{ from, to, direction }</code></td>
+                </tr>
+                <tr>
+                    <td><code>data-on-transition-end</code></td>
+                    <td>Slide transition completes</td>
+                    <td><code>{ index, direction }</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p style="margin-top: 1rem;"><strong>Example use cases:</strong> Analytics tracking, syncing external UI, triggering animations, updating related content.</p>
+    </section>
+
+        <h3 style="margin-top: 2rem;">Control Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zCarousel-control-prev</code></td>
+                    <td>Previous slide button</td>
+                </tr>
+                <tr>
+                    <td><code>.zCarousel-control-next</code></td>
+                    <td>Next slide button</td>
+                </tr>
+                <tr>
+                    <td><code>.zCarousel-control-prev-icon</code></td>
+                    <td>Left arrow icon (SVG)</td>
+                </tr>
+                <tr>
+                    <td><code>.zCarousel-control-next-icon</code></td>
+                    <td>Right arrow icon (SVG)</td>
+                </tr>
+                <tr>
+                    <td><code>.zCarousel-indicators</code></td>
+                    <td>Container for dot indicator buttons</td>
+                </tr>
+                <tr>
+                    <td><code>.zCarousel-progress</code></td>
+                    <td>Progress bar container</td>
+                </tr>
+                <tr>
+                    <td><code>.zCarousel-progress-bar</code></td>
+                    <td>Animated progress bar fill</td>
+                </tr>
+                <tr>
+                    <td><code>.zCarousel-progress-thin</code></td>
+                    <td>Thinner progress bar (2px)</td>
+                </tr>
+                <tr>
+                    <td><code>.zCarousel-progress-thick</code></td>
+                    <td>Thicker progress bar (6px)</td>
+                </tr>
+                <tr>
+                    <td><code>.zCarousel-progress-top</code></td>
+                    <td>Position progress bar at top</td>
+                </tr>
+                <tr>
+                    <td><code>.zCarousel-caption</code></td>
+                    <td>Text overlay on slide</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-images.html">Images</a> - Responsive image sizing for carousel slides</li>
+            <li><a href="ztheme-buttons.html">Buttons</a> - Control button styling</li>
+            <li><a href="ztheme-cards.html">Cards</a> - Alternative to carousels for showcasing content</li>
+        </ul>
+    </section>
+</article>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

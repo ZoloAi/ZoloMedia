@@ -1,0 +1,30 @@
+/* ============================================
+   zOverflow.css - Overflow Utilities
+   Control content overflow behavior
+   ============================================ */
+
+/* Overflow (Both Axes)
+   ==================== */
+.zOverflow-auto { overflow: auto !important; }
+.zOverflow-hidden { overflow: hidden !important; }
+.zOverflow-visible { overflow: visible !important; }
+.zOverflow-scroll { overflow: scroll !important; }
+
+/* Overflow X (Horizontal)
+   ======================= */
+.zOverflow-x-auto { overflow-x: auto !important; }
+.zOverflow-x-hidden { overflow-x: hidden !important; }
+.zOverflow-x-visible { overflow-x: visible !important; }
+.zOverflow-x-scroll { overflow-x: scroll !important; }
+
+/* Overflow Y (Vertical)
+   ===================== */
+.zOverflow-y-auto { overflow-y: auto !important; }
+.zOverflow-y-hidden { overflow-y: hidden !important; }
+.zOverflow-y-visible { overflow-y: visible !important; }
+.zOverflow-y-scroll { overflow-y: scroll !important; }
+
+/* NOTE: Text overflow utilities (.zText-truncate, .zText-break, .zText-nowrap) 
+   are now centralized in zText.css for better organization */
+
+

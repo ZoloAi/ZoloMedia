@@ -1,0 +1,90 @@
+/* ============================================
+   zImages.css - Image Utilities
+   Bootstrap-inspired responsive images and thumbnails
+   Based on Bootstrap 5.0
+   
+   Note: Rounded corner utilities (.zRounded*) are centralized
+   in zBorders.css and work for all elements including images.
+   ============================================ */
+
+/* Image Variables
+   =============== */
+:root {
+  /* Thumbnails */
+  --thumbnail-padding: 0.25rem;
+  --thumbnail-bg: var(--color-base, #fff);
+  --thumbnail-border-width: 1px;
+  --thumbnail-border-color: var(--color-border, #dee2e6);
+  --thumbnail-border-radius: var(--border-radius); /* Uses global border-radius from css_vars.css */
+  --thumbnail-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Responsive Images
+   ================= */
+/* Note: All images are responsive by default via zReboot.css
+   The .zImg-fluid class is no longer necessary but kept for specific use cases */
+.zImg-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Image Thumbnails
+   ================ */
+.zImg-thumbnail {
+  padding: var(--thumbnail-padding);
+  background-color: var(--thumbnail-bg);
+  border: var(--thumbnail-border-width) solid var(--thumbnail-border-color);
+  border-radius: var(--thumbnail-border-radius);
+  box-shadow: var(--thumbnail-box-shadow);
+  max-width: 100%;
+  height: auto;
+}
+
+/* Image Alignment
+   =============== */
+/* 
+   Note: Float utilities (.zFloat-start, .zFloat-end, etc.) have been
+   moved to zFloat.css for better organization and centralization.
+   
+   Display utilities (.zD-block) are in zDisplay.css.
+   Spacing utilities (.zMx-auto) are in zSpacing.css.
+   
+   To center an image:
+   <img src="..." class="zD-block zMx-auto" alt="...">
+*/
+
+/* Text Alignment for Images
+   ========================= */
+.zText-start {
+  text-align: left !important;
+}
+
+.zText-end {
+  text-align: right !important;
+}
+
+.zText-center {
+  text-align: center !important;
+}
+
+/* Object Fit Utilities
+   ==================== */
+.zObject-fit-contain {
+  object-fit: contain !important;
+}
+
+.zObject-fit-cover {
+  object-fit: cover !important;
+}
+
+.zObject-fit-fill {
+  object-fit: fill !important;
+}
+
+.zObject-fit-scale {
+  object-fit: scale-down !important;
+}
+
+.zObject-fit-none {
+  object-fit: none !important;
+}

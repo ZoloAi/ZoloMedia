@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overflow - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem 0;">
+    <!-- Header -->
+    <div style="margin-bottom: 3rem;">
+        <h1 style="color: var(--color-primary); margin-bottom: 0.5rem;">Overflow Utilities</h1>
+        <p style="font-size: 1.2rem; color: var(--color-body); opacity: 0.8;">
+            Control how content overflows an element's boundaries.
+        </p>
+    </div>
+
+    <!-- Understanding Overflow -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Understanding Overflow</h2>
+        <p style="line-height: 1.7;">
+            The <code>overflow</code> property controls what happens when content is too large for its container. 
+            You can hide overflowing content, add scrollbars, or let it extend beyond the boundaries.
+        </p>
+        <blockquote style="background: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Tip:</strong> zTheme extends Bootstrap 5's overflow utilities with 
+            axis-specific controls (<code>overflow-x</code> and <code>overflow-y</code>) for fine-grained control!</p>
+        </blockquote>
+    </section>
+
+    <!-- Basic Overflow -->
+    <section class="zmy-6">
+        <h2 class="zText-success">Basic Overflow (Both Axes)</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            These utilities affect both horizontal and vertical overflow. Click the buttons to toggle between values!
+        </p>
+
+        <div style="margin: 2rem 0;">
+            <!-- Toggle Controls -->
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; padding: 1rem; background: #f5f5f5; border-radius: 4px;">
+                <button onclick="setOverflow('auto')" class="zBtn zBtn-primary zBtn-sm" id="btnAuto">
+                    .zOverflow-auto
+                </button>
+                <button onclick="setOverflow('hidden')" class="zBtn zBtn-secondary zBtn-sm" id="btnHidden">
+                    .zOverflow-hidden
+                </button>
+                <button onclick="setOverflow('visible')" class="zBtn zBtn-secondary zBtn-sm" id="btnVisible">
+                    .zOverflow-visible
+                </button>
+                <button onclick="setOverflow('scroll')" class="zBtn zBtn-secondary zBtn-sm" id="btnScroll">
+                    .zOverflow-scroll
+                </button>
+            </div>
+
+            <!-- Status Display -->
+            <div style="margin-bottom: 1rem;">
+                <strong>Current: </strong><span id="overflowStatus" style="color: var(--color-primary);">.zOverflow-auto</span>
+            </div>
+
+            <!-- Interactive Demo Container -->
+            <div style="margin-bottom: 2rem;">
+                <div id="overflowDemo" class="zOverflow-auto zBorder" style="height: 200px; width: 100%; max-width: 600px; padding: 1rem; background: white; transition: all 0.3s ease;">
+                    <p><strong id="demoTitle">Overflow: auto</strong> - <span id="demoDesc">Scrollbars appear automatically when content exceeds the container.</span></p>
+                    <p>This is an interactive demo! Click the buttons above to see how different overflow values behave. 
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore 
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut 
+                    aliquip ex ea commodo consequat.</p>
+                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est 
+                    laborum. Notice how the overflow behavior changes when you toggle between values!</p>
+                    <p id="extraText">This text might overflow depending on the setting. Try scrolling (if enabled) or notice how 
+                    it extends beyond the box (if visible) or gets clipped (if hidden).</p>
+                </div>
+            </div>
+
+            <!-- Use Case Information -->
+            <div id="useCaseInfo" style="padding: 1rem; background: #e3f2fd; border-left: 4px solid #2196f3; border-radius: 4px;">
+                <p style="margin: 0;"><strong>💡 Use case:</strong> <span id="useCase">Scrollable content areas, chat windows, long lists</span></p>
+            </div>
+
+            <blockquote style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 2rem 0;">
+                <p style="margin: 0;"><strong>⚠️ Note:</strong> With <code>.zOverflow-visible</code>, content extends 
+                beyond the box boundaries. We've added extra spacing below to prevent overlap with other content!</p>
+            </blockquote>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;!-- Auto scrollbars (most common) --&gt;
+&lt;div class="zOverflow-auto" style="height: 200px;"&gt;
+  Long content...
+&lt;/div&gt;
+
+&lt;!-- Hide overflow --&gt;
+&lt;div class="zOverflow-hidden"&gt;
+  Content is clipped
+&lt;/div&gt;
+
+&lt;!-- Allow overflow --&gt;
+&lt;div class="zOverflow-visible"&gt;
+  Extends beyond boundaries
+&lt;/div&gt;
+
+&lt;!-- Always show scrollbars --&gt;
+&lt;div class="zOverflow-scroll" style="height: 200px;"&gt;
+  Content with persistent scrollbars
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Axis-Specific Overflow -->
+    <section class="zmy-6">
+        <h2 class="zText-warning">Axis-Specific Overflow</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            <strong>zTheme Enhancement:</strong> Control horizontal (X) and vertical (Y) overflow independently! 
+            Toggle between axis values below.
+        </p>
+
+        <div style="margin: 2rem 0;">
+            <!-- Axis Toggle Controls -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+                <!-- X-Axis Controls -->
+                <div style="padding: 1rem; background: #fff3cd; border-radius: 4px; border: 2px solid #ffc107;">
+                    <strong style="display: block; margin-bottom: 0.5rem;">Horizontal (X-Axis):</strong>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">
+                        <button onclick="setAxisOverflow('x', 'auto')" class="zBtn zBtn-warning zBtn-sm" id="btnXAuto">auto</button>
+                        <button onclick="setAxisOverflow('x', 'hidden')" class="zBtn zBtn-secondary zBtn-sm" id="btnXHidden">hidden</button>
+                        <button onclick="setAxisOverflow('x', 'scroll')" class="zBtn zBtn-secondary zBtn-sm" id="btnXScroll">scroll</button>
+                    </div>
+                </div>
+                
+                <!-- Y-Axis Controls -->
+                <div style="padding: 1rem; background: #e3f2fd; border-radius: 4px; border: 2px solid #2196f3;">
+                    <strong style="display: block; margin-bottom: 0.5rem;">Vertical (Y-Axis):</strong>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.25rem;">
+                        <button onclick="setAxisOverflow('y', 'auto')" class="zBtn zBtn-info zBtn-sm" id="btnYAuto">auto</button>
+                        <button onclick="setAxisOverflow('y', 'hidden')" class="zBtn zBtn-secondary zBtn-sm" id="btnYHidden">hidden</button>
+                        <button onclick="setAxisOverflow('y', 'scroll')" class="zBtn zBtn-secondary zBtn-sm" id="btnYScroll">scroll</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Display -->
+            <div style="margin-bottom: 1rem; padding: 1rem; background: #f5f5f5; border-radius: 4px;">
+                <strong>Current: </strong>
+                <span id="axisStatusX" style="color: #f57c00; font-weight: bold;">.zOverflow-x-auto</span> + 
+                <span id="axisStatusY" style="color: #1976d2; font-weight: bold;">.zOverflow-y-auto</span>
+            </div>
+
+            <!-- Interactive Axis Demo -->
+            <div style="margin-bottom: 2rem; max-width: 100%; overflow: hidden;">
+                <div class="zBorder" style="background: white; max-width: 500px;">
+                    <div id="axisDemo" class="zOverflow-x-auto zOverflow-y-auto" style="height: 200px; width: 100%; padding: 1rem; transition: all 0.3s ease;">
+                        <div id="axisContent" style="width: 900px;">
+                            <p><strong>Interactive Axis Demo</strong></p>
+                            <p>This content is both WIDE (900px) and TALL. Toggle the X and Y overflow controls above 
+                            to see how each axis can be controlled independently!</p>
+                            <p><strong>Horizontal (X):</strong> Try 'hidden' to clip the wide text, or 'scroll' to force scrollbars.</p>
+                            <p><strong>Vertical (Y):</strong> Try 'hidden' to clip this tall content, or 'scroll' for persistent scrollbars.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt 
+                            ut labore et dolore magna aliqua. This demonstrates independent axis control!</p>
+                            <p>Notice how you can combine different values - like horizontal scrolling with vertical clipping, 
+                            or vice versa. This is perfect for responsive layouts!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <blockquote style="background: #e8f5e9; padding: 1rem; border-left: 4px solid #4caf50; border-radius: 4px;">
+                <p style="margin: 0;"><strong>💡 Common Pattern:</strong> Use 
+                <code>.zOverflow-x-auto .zOverflow-y-hidden</code> for wide tables on mobile, or 
+                <code>.zOverflow-x-hidden .zOverflow-y-auto</code> for chat windows where horizontal scroll isn't needed!</p>
+            </blockquote>
+        </div>
+
+        <h3 style="margin: 2rem 0 1rem;">All Axis-Specific Classes</h3>
+        <table class="zTable zTable-striped">
+            <thead>
+                <tr>
+                    <th>Axis</th>
+                    <th>Classes</th>
+                    <th>Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="4"><strong>Horizontal (X)</strong></td>
+                    <td><code>.zOverflow-x-auto</code></td>
+                    <td>Horizontal scrollbar when needed</td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-x-hidden</code></td>
+                    <td>Hide horizontal overflow</td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-x-visible</code></td>
+                    <td>Allow horizontal overflow</td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-x-scroll</code></td>
+                    <td>Always show horizontal scrollbar</td>
+                </tr>
+                <tr>
+                    <td rowspan="4"><strong>Vertical (Y)</strong></td>
+                    <td><code>.zOverflow-y-auto</code></td>
+                    <td>Vertical scrollbar when needed</td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-y-hidden</code></td>
+                    <td>Hide vertical overflow</td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-y-visible</code></td>
+                    <td>Allow vertical overflow</td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-y-scroll</code></td>
+                    <td>Always show vertical scrollbar</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%; margin-top: 2rem;"><code>&lt;!-- Horizontal scrolling table --&gt;
+&lt;div class="zOverflow-x-auto"&gt;
+  &lt;table class="zTable"&gt;...wide table...&lt;/table&gt;
+&lt;/div&gt;
+
+&lt;!-- Vertical chat window --&gt;
+&lt;div class="zOverflow-y-auto" style="height: 400px;"&gt;
+  &lt;!-- Chat messages --&gt;
+&lt;/div&gt;
+
+&lt;!-- Prevent horizontal scroll, allow vertical --&gt;
+&lt;div class="zOverflow-x-hidden zOverflow-y-auto"&gt;
+  &lt;!-- Long text content --&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Text Overflow -->
+    <section class="zmy-6">
+        <h2 class="zText-danger">Text Overflow</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Special utilities for handling text overflow with ellipsis and word breaking.
+        </p>
+
+        <div style="display: grid; gap: 2rem; margin: 2rem 0;">
+            <!-- Text Truncate -->
+            <div style="max-width: 100%; overflow: hidden;">
+                <h3><code>.zText-truncate</code></h3>
+                <div class="zBorder" style="padding: 1rem; background: white; max-width: 100%; overflow: hidden;">
+                    <div style="max-width: 400px; width: 100%;">
+                        <p class="zText-truncate" style="margin: 0; width: 100%;">
+                            This is a very long text that will be truncated with an ellipsis when it exceeds the maximum width of its container...
+                        </p>
+                    </div>
+                </div>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                    Single line with ellipsis (…) - requires defined width!
+                </p>
+            </div>
+
+            <!-- Text Break -->
+            <div>
+                <h3><code>.zText-break</code></h3>
+                <div class="zBorder" style="padding: 1rem; background: white; max-width: 400px;">
+                    <p class="zText-break" style="margin: 0;">
+                        ThisIsAVeryLongWordWithNoSpacesThatWouldNormallyOverflowTheContainerButWithTextBreakItWrapsCorrectly
+                    </p>
+                </div>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                    Breaks long words to prevent overflow
+                </p>
+            </div>
+
+            <!-- Text Nowrap -->
+            <div>
+                <h3><code>.zText-nowrap</code></h3>
+                <div class="zBorder" style="padding: 1rem; background: white; max-width: 400px; overflow-x: auto;">
+                    <p class="zText-nowrap" style="margin: 0;">
+                        This text will stay on a single line and not wrap, even if the container is narrow. It will extend beyond the boundaries.
+                    </p>
+                </div>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                    Prevents text wrapping (single line)
+                </p>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;!-- Truncate with ellipsis --&gt;
+&lt;p class="zText-truncate" style="max-width: 300px;"&gt;
+  Very long text...
+&lt;/p&gt;
+
+&lt;!-- Break long words --&gt;
+&lt;p class="zText-break"&gt;
+  VeryLongWordWithoutSpaces
+&lt;/p&gt;
+
+&lt;!-- Don't wrap text --&gt;
+&lt;span class="zText-nowrap"&gt;Stay on one line&lt;/span&gt;</code></pre>
+    </section>
+
+    <!-- Practical Examples -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Practical Examples</h2>
+
+        <!-- Responsive Table -->
+        <div style="margin: 2rem 0;">
+            <h3>Responsive Table</h3>
+            <div class="zOverflow-x-auto zBorder" style="background: white; max-width: 100%;">
+                <table class="zTable zTable-striped" style="min-width: 800px; margin: 0;">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Laptop Pro</td>
+                            <td>High-performance laptop</td>
+                            <td>Electronics</td>
+                            <td>$1,299</td>
+                            <td>15</td>
+                            <td><button class="zBtn zBtn-sm zBtn-primary">Edit</button></td>
+                        </tr>
+                        <tr>
+                            <td>Wireless Mouse</td>
+                            <td>Ergonomic design</td>
+                            <td>Accessories</td>
+                            <td>$29</td>
+                            <td>142</td>
+                            <td><button class="zBtn zBtn-sm zBtn-primary">Edit</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                Wide table scrolls horizontally on small screens
+            </p>
+        </div>
+
+        <!-- Chat Window -->
+        <div style="margin: 2rem 0;">
+            <h3>Chat Window</h3>
+            <div class="zBorder" style="background: white;">
+                <div class="zOverflow-y-auto" style="height: 250px; padding: 1rem;">
+                    <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: #e3f2fd; border-radius: 8px;">
+                        <strong>Alice:</strong> Hey, how are you?
+                    </div>
+                    <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: #f1f8e9; border-radius: 8px;">
+                        <strong>Bob:</strong> Good! Working on the new project.
+                    </div>
+                    <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: #e3f2fd; border-radius: 8px;">
+                        <strong>Alice:</strong> Nice! How's it going?
+                    </div>
+                    <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: #f1f8e9; border-radius: 8px;">
+                        <strong>Bob:</strong> Making great progress. Should be done by Friday.
+                    </div>
+                    <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: #e3f2fd; border-radius: 8px;">
+                        <strong>Alice:</strong> Awesome! Let me know if you need help.
+                    </div>
+                    <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: #f1f8e9; border-radius: 8px;">
+                        <strong>Bob:</strong> Will do, thanks!
+                    </div>
+                </div>
+                <div style="padding: 1rem; border-top: 1px solid var(--color-border);">
+                    <input type="text" class="zForm-control" placeholder="Type a message...">
+                </div>
+            </div>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                Fixed height with vertical scrolling
+            </p>
+        </div>
+
+        <!-- Image Gallery -->
+        <div style="margin: 2rem 0;">
+            <h3>Horizontal Scrolling Gallery</h3>
+            <div class="zOverflow-x-auto zBorder" style="background: white; padding: 1rem; max-width: 100%;">
+                <div style="display: flex; gap: 1rem; width: max-content;">
+                    <img src="https://picsum.photos/200/150?random=1" alt="Gallery 1" class="zRounded">
+                    <img src="https://picsum.photos/200/150?random=2" alt="Gallery 2" class="zRounded">
+                    <img src="https://picsum.photos/200/150?random=3" alt="Gallery 3" class="zRounded">
+                    <img src="https://picsum.photos/200/150?random=4" alt="Gallery 4" class="zRounded">
+                    <img src="https://picsum.photos/200/150?random=5" alt="Gallery 5" class="zRounded">
+                    <img src="https://picsum.photos/200/150?random=6" alt="Gallery 6" class="zRounded">
+                </div>
+            </div>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                Horizontal scrolling image gallery
+            </p>
+        </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Use .zOverflow-auto:</strong> Most common choice - scrollbars only when needed</li>
+            <li><strong>Set container dimensions:</strong> Overflow requires defined width/height to work</li>
+            <li><strong>Mobile tables:</strong> Use <code>.zOverflow-x-auto</code> for wide tables</li>
+            <li><strong>Chat/feeds:</strong> Use <code>.zOverflow-y-auto</code> with fixed height</li>
+            <li><strong>Image cropping:</strong> Use <code>.zOverflow-hidden</code> for fixed-size containers</li>
+            <li><strong>Dropdowns/tooltips:</strong> Use <code>.zOverflow-visible</code> to extend beyond parent</li>
+            <li><strong>Text truncation:</strong> Combine <code>.zText-truncate</code> with max-width</li>
+            <li><strong>Long URLs:</strong> Use <code>.zText-break</code> to prevent horizontal overflow</li>
+            <li><strong>Performance:</strong> Avoid <code>overflow: visible</code> on large scrolling containers</li>
+        </ul>
+    </section>
+
+    <!-- Accessibility -->
+    <section class="zmy-6">
+        <h2 class="zText-dark">Accessibility</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Keyboard scrolling:</strong> Scrollable areas should be keyboard accessible</li>
+            <li><strong>Focus indicators:</strong> Ensure focus is visible in scrollable containers</li>
+            <li><strong>Scroll cues:</strong> Provide visual hints that content is scrollable</li>
+            <li><strong>Touch targets:</strong> Scrollbars should be wide enough for touch devices</li>
+            <li><strong>Hidden content:</strong> Remember <code>.zOverflow-hidden</code> hides content from everyone</li>
+            <li><strong>Screen readers:</strong> All content is read regardless of overflow setting</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section class="zmy-6">
+        <h2 class="zText-info">CSS Reference</h2>
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Classes</th>
+                    <th>CSS Property</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="4"><strong>Both Axes</strong></td>
+                    <td><code>.zOverflow-auto</code></td>
+                    <td><code>overflow: auto</code></td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-hidden</code></td>
+                    <td><code>overflow: hidden</code></td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-visible</code></td>
+                    <td><code>overflow: visible</code></td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-scroll</code></td>
+                    <td><code>overflow: scroll</code></td>
+                </tr>
+                <tr>
+                    <td rowspan="4"><strong>Horizontal (X)</strong></td>
+                    <td><code>.zOverflow-x-auto</code></td>
+                    <td><code>overflow-x: auto</code></td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-x-hidden</code></td>
+                    <td><code>overflow-x: hidden</code></td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-x-visible</code></td>
+                    <td><code>overflow-x: visible</code></td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-x-scroll</code></td>
+                    <td><code>overflow-x: scroll</code></td>
+                </tr>
+                <tr>
+                    <td rowspan="4"><strong>Vertical (Y)</strong></td>
+                    <td><code>.zOverflow-y-auto</code></td>
+                    <td><code>overflow-y: auto</code></td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-y-hidden</code></td>
+                    <td><code>overflow-y: hidden</code></td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-y-visible</code></td>
+                    <td><code>overflow-y: visible</code></td>
+                </tr>
+                <tr>
+                    <td><code>.zOverflow-y-scroll</code></td>
+                    <td><code>overflow-y: scroll</code></td>
+                </tr>
+                <tr>
+                    <td rowspan="3"><strong>Text</strong></td>
+                    <td><code>.zText-truncate</code></td>
+                    <td><code>overflow: hidden; text-overflow: ellipsis; white-space: nowrap</code></td>
+                </tr>
+                <tr>
+                    <td><code>.zText-break</code></td>
+                    <td><code>word-wrap: break-word; word-break: break-word</code></td>
+                </tr>
+                <tr>
+                    <td><code>.zText-nowrap</code></td>
+                    <td><code>white-space: nowrap</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p style="margin-top: 1.5rem;">
+            <strong>Total classes:</strong> 15 overflow utilities<br>
+            • 4 Bootstrap 5 classes (both axes)<br>
+            • 8 zTheme enhancements (axis-specific)<br>
+            • 3 text overflow utilities
+        </p>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Related Topics</h2>
+        <ul class="lh-lg">
+            <li><a href="ztheme-sizing.html">Sizing</a> - Width and height utilities (required for overflow)</li>
+            <li><a href="ztheme-text-truncation.html">Text Truncation</a> - Helper for truncating text</li>
+            <li><a href="ztheme-display.html">Display</a> - Display property utilities</li>
+            <li><a href="ztheme-position.html">Position</a> - Position utilities</li>
+            <li><a href="ztheme-spacing.html">Spacing</a> - Padding utilities for scrollable areas</li>
+        </ul>
+    </section>
+
+</div>
+
+<script>
+// Overflow demo toggle functionality
+const overflowValues = {
+    auto: {
+        title: 'Overflow: auto',
+        desc: 'Scrollbars appear automatically when content exceeds the container.',
+        useCase: 'Scrollable content areas, chat windows, long lists',
+        color: 'var(--color-primary)'
+    },
+    hidden: {
+        title: 'Overflow: hidden',
+        desc: 'Content beyond the container is clipped and hidden. No scrollbars appear.',
+        useCase: 'Image cropping, fixed-size cards, hide overflowing decorations',
+        color: 'var(--color-error)'
+    },
+    visible: {
+        title: 'Overflow: visible',
+        desc: 'Content extends beyond the container boundaries (default behavior). Can overlap other content!',
+        useCase: 'Dropdowns, tooltips, popups that extend beyond parent',
+        color: 'var(--color-warning)'
+    },
+    scroll: {
+        title: 'Overflow: scroll',
+        desc: 'Scrollbars always visible, even if content fits. Ensures consistent layout.',
+        useCase: 'When you want consistent scrollbar appearance, code editors',
+        color: 'var(--color-success)'
+    }
+};
+
+function setOverflow(value) {
+    const demo = document.getElementById('overflowDemo');
+    const status = document.getElementById('overflowStatus');
+    const title = document.getElementById('demoTitle');
+    const desc = document.getElementById('demoDesc');
+    const useCase = document.getElementById('useCase');
+    const useCaseInfo = document.getElementById('useCaseInfo');
+    
+    // Remove all overflow classes
+    demo.classList.remove('zOverflow-auto', 'zOverflow-hidden', 'zOverflow-visible', 'zOverflow-scroll');
+    
+    // Add new overflow class
+    demo.classList.add(`zOverflow-${value}`);
+    
+    // Update text content
+    status.textContent = `.zOverflow-${value}`;
+    title.textContent = overflowValues[value].title;
+    desc.textContent = overflowValues[value].desc;
+    useCase.textContent = overflowValues[value].useCase;
+    
+    // Update button states
+    document.querySelectorAll('[id^="btn"]').forEach(btn => {
+        btn.classList.remove('zBtn-primary');
+        btn.classList.add('zBtn-secondary');
+    });
+    
+    const activeBtn = document.getElementById(`btn${value.charAt(0).toUpperCase() + value.slice(1)}`);
+    if (activeBtn) {
+        activeBtn.classList.remove('zBtn-secondary');
+        activeBtn.classList.add('zBtn-primary');
+    }
+    
+    // Change border color for visual feedback
+    useCaseInfo.style.borderColor = overflowValues[value].color;
+    useCaseInfo.style.background = value === 'hidden' ? '#fee' : 
+                                    value === 'visible' ? '#fff3cd' : 
+                                    value === 'scroll' ? '#e8f5e9' : '#e3f2fd';
+    
+    // Add extra margin for visible to prevent overlap
+    const section = demo.closest('div[style*="margin: 2rem 0"]');
+    if (value === 'visible') {
+        section.style.marginBottom = '6rem';
+    } else {
+        section.style.marginBottom = '2rem';
+    }
+}
+
+// Initialize with auto
+setOverflow('auto');
+
+// Axis-specific overflow demo
+let currentX = 'auto';
+let currentY = 'auto';
+
+function setAxisOverflow(axis, value) {
+    const demo = document.getElementById('axisDemo');
+    const statusX = document.getElementById('axisStatusX');
+    const statusY = document.getElementById('axisStatusY');
+    
+    if (axis === 'x') {
+        // Remove old X class
+        demo.classList.remove(`zOverflow-x-${currentX}`);
+        // Add new X class
+        demo.classList.add(`zOverflow-x-${value}`);
+        currentX = value;
+        statusX.textContent = `.zOverflow-x-${value}`;
+        
+        // Update X button states
+        document.querySelectorAll('[id^="btnX"]').forEach(btn => {
+            btn.classList.remove('zBtn-warning');
+            btn.classList.add('zBtn-secondary');
+        });
+        const activeBtn = document.getElementById(`btnX${value.charAt(0).toUpperCase() + value.slice(1)}`);
+        if (activeBtn) {
+            activeBtn.classList.remove('zBtn-secondary');
+            activeBtn.classList.add('zBtn-warning');
+        }
+    } else {
+        // Remove old Y class
+        demo.classList.remove(`zOverflow-y-${currentY}`);
+        // Add new Y class
+        demo.classList.add(`zOverflow-y-${value}`);
+        currentY = value;
+        statusY.textContent = `.zOverflow-y-${value}`;
+        
+        // Update Y button states
+        document.querySelectorAll('[id^="btnY"]').forEach(btn => {
+            btn.classList.remove('zBtn-info');
+            btn.classList.add('zBtn-secondary');
+        });
+        const activeBtn = document.getElementById(`btnY${value.charAt(0).toUpperCase() + value.slice(1)}`);
+        if (activeBtn) {
+            activeBtn.classList.remove('zBtn-secondary');
+            activeBtn.classList.add('zBtn-info');
+        }
+    }
+}
+
+// Initialize axis demo
+setAxisOverflow('x', 'auto');
+setAxisOverflow('y', 'auto');
+</script>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

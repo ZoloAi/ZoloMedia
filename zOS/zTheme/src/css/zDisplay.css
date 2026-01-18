@@ -1,0 +1,177 @@
+/* ============================================
+   zDisplay.css - Display Property Utilities
+   ============================================
+   
+   Bootstrap-inspired responsive display utilities with z prefix.
+   Control element display values across breakpoints and print media.
+   
+   Classes:
+   - .zD-none, .zD-inline, .zD-inline-block, .zD-block
+   - .zD-grid, .zD-table, .zD-table-row, .zD-table-cell
+   - .zD-flex, .zD-inline-flex
+   - Responsive: .zD-{breakpoint}-{value} (sm, md, lg, xl, xxl)
+   - Print: .zD-print-{value}
+   
+   Example:
+   <div class="zD-none zD-md-block">Hidden on mobile, visible on desktop</div>
+   <div class="zD-flex zD-print-none">Flex on screen, hidden when printing</div>
+   
+   ============================================ */
+
+/* ============================================
+   Base Display Values
+   ============================================
+   
+   Apply to all breakpoints (xs and up).
+   ============================================ */
+
+.zD-none {
+    display: none !important;
+}
+
+.zD-inline {
+    display: inline !important;
+}
+
+.zD-inline-block {
+    display: inline-block !important;
+}
+
+.zD-block {
+    display: block !important;
+}
+
+.zD-grid {
+    display: grid !important;
+}
+
+.zD-table {
+    display: table !important;
+}
+
+.zD-table-row {
+    display: table-row !important;
+}
+
+.zD-table-cell {
+    display: table-cell !important;
+}
+
+.zD-flex {
+    display: flex !important;
+}
+
+.zD-inline-flex {
+    display: inline-flex !important;
+}
+
+/* ============================================
+   Responsive Display Utilities - Small (sm) ≥576px
+   ============================================ */
+
+@media (min-width: 576px) {
+    .zD-sm-none { display: none !important; }
+    .zD-sm-inline { display: inline !important; }
+    .zD-sm-inline-block { display: inline-block !important; }
+    .zD-sm-block { display: block !important; }
+    .zD-sm-grid { display: grid !important; }
+    .zD-sm-table { display: table !important; }
+    .zD-sm-table-row { display: table-row !important; }
+    .zD-sm-table-cell { display: table-cell !important; }
+    .zD-sm-flex { display: flex !important; }
+    .zD-sm-inline-flex { display: inline-flex !important; }
+}
+
+/* ============================================
+   Responsive Display Utilities - Medium (md) ≥768px
+   ============================================ */
+
+@media (min-width: 768px) {
+    .zD-md-none { display: none !important; }
+    .zD-md-inline { display: inline !important; }
+    .zD-md-inline-block { display: inline-block !important; }
+    .zD-md-block { display: block !important; }
+    .zD-md-grid { display: grid !important; }
+    .zD-md-table { display: table !important; }
+    .zD-md-table-row { display: table-row !important; }
+    .zD-md-table-cell { display: table-cell !important; }
+    .zD-md-flex { display: flex !important; }
+    .zD-md-inline-flex { display: inline-flex !important; }
+}
+
+/* ============================================
+   Responsive Display Utilities - Large (lg) ≥992px
+   ============================================ */
+
+@media (min-width: 992px) {
+    .zD-lg-none { display: none !important; }
+    .zD-lg-inline { display: inline !important; }
+    .zD-lg-inline-block { display: inline-block !important; }
+    .zD-lg-block { display: block !important; }
+    .zD-lg-grid { display: grid !important; }
+    .zD-lg-table { display: table !important; }
+    .zD-lg-table-row { display: table-row !important; }
+    .zD-lg-table-cell { display: table-cell !important; }
+    .zD-lg-flex { display: flex !important; }
+    .zD-lg-inline-flex { display: inline-flex !important; }
+}
+
+/* ============================================
+   Responsive Display Utilities - Extra Large (xl) ≥1200px
+   ============================================ */
+
+@media (min-width: 1200px) {
+    .zD-xl-none { display: none !important; }
+    .zD-xl-inline { display: inline !important; }
+    .zD-xl-inline-block { display: inline-block !important; }
+    .zD-xl-block { display: block !important; }
+    .zD-xl-grid { display: grid !important; }
+    .zD-xl-table { display: table !important; }
+    .zD-xl-table-row { display: table-row !important; }
+    .zD-xl-table-cell { display: table-cell !important; }
+    .zD-xl-flex { display: flex !important; }
+    .zD-xl-inline-flex { display: inline-flex !important; }
+}
+
+/* ============================================
+   Responsive Display Utilities - Extra Extra Large (xxl) ≥1400px
+   ============================================ */
+
+@media (min-width: 1400px) {
+    .zD-xxl-none { display: none !important; }
+    .zD-xxl-inline { display: inline !important; }
+    .zD-xxl-inline-block { display: inline-block !important; }
+    .zD-xxl-block { display: block !important; }
+    .zD-xxl-grid { display: grid !important; }
+    .zD-xxl-table { display: table !important; }
+    .zD-xxl-table-row { display: table-row !important; }
+    .zD-xxl-table-cell { display: table-cell !important; }
+    .zD-xxl-flex { display: flex !important; }
+    .zD-xxl-inline-flex { display: inline-flex !important; }
+}
+
+/* ============================================
+   Print Display Utilities
+   ============================================
+   
+   Control display values when printing (@media print).
+   Useful for hiding/showing content in print view.
+   
+   Example:
+   <div class="zD-print-none">Hidden when printing</div>
+   <div class="zD-none zD-print-block">Only visible when printing</div>
+   ============================================ */
+
+@media print {
+    .zD-print-none { display: none !important; }
+    .zD-print-inline { display: inline !important; }
+    .zD-print-inline-block { display: inline-block !important; }
+    .zD-print-block { display: block !important; }
+    .zD-print-grid { display: grid !important; }
+    .zD-print-table { display: table !important; }
+    .zD-print-table-row { display: table-row !important; }
+    .zD-print-table-cell { display: table-cell !important; }
+    .zD-print-flex { display: flex !important; }
+    .zD-print-inline-flex { display: inline-flex !important; }
+}
+

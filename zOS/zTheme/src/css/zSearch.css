@@ -1,0 +1,43 @@
+/* ============================================
+   zSearch.css - Search Components
+   Search input and autocomplete suggestions
+   ============================================ */
+
+/* Search Container
+   ================ */
+.zContainer-Search {
+  position: relative;
+  margin: 1em 0;
+}
+
+/* Search Suggestions Dropdown
+   =========================== */
+.zSearchSuggestions {
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  background-color: var(--color-base);
+  border: 1px solid var(--borderColor, #dee2e6);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+/* Individual Suggestion Item
+   ========================== */
+.suggestion-item {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-size: var(--bodySmPsize);
+  transition: background-color 0.15s ease;
+}
+
+.suggestion-item:hover {
+  background-color: var(--hoverBg, rgba(0, 0, 0, 0.1));
+}
+
+.suggestion-item:active {
+  background-color: var(--activeBg, rgba(0, 0, 0, 0.15));
+}
+

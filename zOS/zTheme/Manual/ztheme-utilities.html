@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Utilities - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer zp-5">
+    <!-- Breadcrumb -->
+    <nav class="zSmall zmb-3">
+        <a href="ztheme.html" class="zPrimary">zTheme</a>
+        <span class="zMuted zmx-2">›</span>
+        <a href="ztheme.html" class="zPrimary">Layout</a>
+        <span class="zMuted zmx-2">›</span>
+        <span>Utilities</span>
+    </nav>
+    
+    <h1>Utilities</h1>
+    <p class="zLead text-muted zmb-5">
+        Single-purpose classes for rapid UI development
+    </p>
+    
+    <hr class="zmy-5 hr-visible">
+    
+    <!-- What Are Utilities -->
+    <section class="zmy-6">
+        <h2>What Are Utilities?</h2>
+        <p>Utilities are single-purpose CSS classes that apply one specific style. They enable rapid prototyping and consistent styling without writing custom CSS.</p>
+        
+        <h3 class="zmt-5">Example</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zm-3 zp-4 text-center"&gt;
+  Margin: 1rem, Padding: 1.5rem, Centered text
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Utility Categories -->
+    <section class="zmy-6">
+        <h2>Utility Categories</h2>
+        
+        <div class="zmy-5" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+            
+            <!-- Spacing -->
+            <div class="zp-4" style="background: var(--color-base); border: 2px solid var(--color-primary); border-radius: var(--border-radius-lg, 8px);">
+                <h3 class="text-primary zmt-0">Spacing</h3>
+                <p class="zMuted">Margin and padding</p>
+                <ul class="lh-lg">
+                    <li><code>.zm-*</code> - Margin</li>
+                    <li><code>.zp-*</code> - Padding</li>
+                    <li><code>.zmt-*</code>, <code>.zmr-*</code>, <code>.zmb-*</code>, <code>.zml-*</code></li>
+                    <li><code>.zmx-*</code>, <code>.zmy-*</code></li>
+                </ul>
+                <p class="zmt-3"><strong>File:</strong> <code>zSpacing.css</code></p>
+            </div>
+            
+            <!-- Sizing -->
+            <div class="zp-4" style="background: var(--color-base); border: 2px solid var(--color-secondary); border-radius: var(--border-radius-lg, 8px);">
+                <h3 class="zSecondary zmt-0">Sizing</h3>
+                <p class="zMuted">Width and height</p>
+                <ul class="lh-lg">
+                    <li><code>.zW-*</code> - Width (%, vw)</li>
+                    <li><code>.zH-*</code> - Height (%, vh)</li>
+                    <li><code>.zMw-*</code> - Max-width</li>
+                    <li><code>.zMh-*</code> - Max-height</li>
+                </ul>
+                <p class="zmt-3"><strong>File:</strong> <code>zSizing.css</code></p>
+            </div>
+            
+            <!-- Flex -->
+            <div class="zp-4" style="background: var(--color-base); border: 2px solid var(--color-success); border-radius: var(--border-radius-lg, 8px);">
+                <h3 class="zSuccess zmt-0">Flex</h3>
+                <p class="zMuted">Flexbox alignment</p>
+                <ul class="lh-lg">
+                    <li><code>.zD-flex</code> - Enable flex</li>
+                    <li><code>.zFlex-start</code>, <code>.zFlex-center</code>, <code>.zFlex-end</code></li>
+                    <li><code>.zFlex-items-*</code></li>
+                    <li><code>.zFlex-row</code>, <code>.zFlex-column</code></li>
+                </ul>
+                <p class="zmt-3"><strong>File:</strong> <code>zFlex.css</code></p>
+            </div>
+            
+            <!-- Position -->
+            <div class="zp-4" style="background: var(--color-base); border: 2px solid var(--color-warning); border-radius: var(--border-radius-lg, 8px);">
+                <h3 class="zWarning zmt-0">Position</h3>
+                <p class="zMuted">Positioning and layering</p>
+                <ul class="lh-lg">
+                    <li><code>.zPosition-*</code></li>
+                    <li><code>.zTop-*</code>, <code>.zRight-*</code>, <code>.zBottom-*</code>, <code>.zLeft-*</code></li>
+                    <li><code>.zTranslate-middle</code></li>
+                    <li><a href="ztheme-z-index.html" class="zPrimary"><code>.zZ-*</code> - Z-index →</a></li>
+                </ul>
+                <p class="zmt-3"><strong>File:</strong> <code>zPosition.css</code></p>
+            </div>
+            
+            <!-- Float -->
+            <div class="zp-4" style="background: var(--color-base); border: 2px solid var(--color-info); border-radius: var(--border-radius-lg, 8px);">
+                <h3 class="zInfo zmt-0">Float</h3>
+                <p class="zMuted">Float and clearfix</p>
+                <ul class="lh-lg">
+                    <li><code>.zFloat-start</code></li>
+                    <li><code>.zFloat-end</code></li>
+                    <li><code>.zFloat-none</code></li>
+                    <li><code>.zClearfix</code></li>
+                </ul>
+                <p class="zmt-3"><strong>File:</strong> <code>zFloat.css</code></p>
+            </div>
+            
+            <!-- Overflow -->
+            <div class="zp-4" style="background: var(--color-base); border: 2px solid var(--color-error); border-radius: var(--border-radius-lg, 8px);">
+                <h3 class="zDanger zmt-0">Overflow</h3>
+                <p class="zMuted">Content overflow</p>
+                <ul class="lh-lg">
+                    <li><code>.zOverflow-*</code></li>
+                    <li><code>.zOverflow-x-*</code></li>
+                    <li><code>.zOverflow-y-*</code></li>
+                    <li><code>.zText-truncate</code></li>
+                </ul>
+                <p class="zmt-3"><strong>File:</strong> <code>zOverflow.css</code></p>
+            </div>
+            
+        </div>
+    </section>
+    
+    <!-- Naming Convention -->
+    <section class="zmy-6">
+        <h2>Naming Convention</h2>
+        <p>All utility classes follow a consistent pattern:</p>
+        
+        <div class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px);">
+            <code>.z{Property}-{Value}</code>
+        </div>
+        
+        <h3 class="zmt-5">Examples</h3>
+        <ul class="lh-lg zmy-3">
+            <li><code>.zm-3</code> → Margin: 1rem</li>
+            <li><code>.zW-50</code> → Width: 50%</li>
+            <li><code>.zPosition-relative</code> → Position: relative</li>
+            <li><code>.zFlex-center</code> → Justify-content: center</li>
+        </ul>
+        
+        <h3 class="zmt-5">Directional Modifiers</h3>
+        <p>For spacing utilities (margin/padding):</p>
+        <ul class="lh-lg zmy-3">
+            <li><code>t</code> = top</li>
+            <li><code>r</code> = right</li>
+            <li><code>b</code> = bottom</li>
+            <li><code>l</code> = left</li>
+            <li><code>x</code> = horizontal (left + right)</li>
+            <li><code>y</code> = vertical (top + bottom)</li>
+        </ul>
+    </section>
+    
+    <!-- Spacing Scale -->
+    <section class="zmy-6">
+        <h2>Spacing Scale</h2>
+        <p>All spacing utilities use a six-level scale based on <code>1rem</code>:</p>
+        
+        <table class="table zmy-3">
+            <thead>
+                <tr>
+                    <th scope="col">Level</th>
+                    <th scope="col">Value</th>
+                    <th scope="col">Pixels</th>
+                    <th scope="col">Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>0</code></td>
+                    <td>0</td>
+                    <td>0px</td>
+                    <td><code>.zm-0</code></td>
+                </tr>
+                <tr>
+                    <td><code>1</code></td>
+                    <td>0.25rem</td>
+                    <td>4px</td>
+                    <td><code>.zm-1</code></td>
+                </tr>
+                <tr>
+                    <td><code>2</code></td>
+                    <td>0.5rem</td>
+                    <td>8px</td>
+                    <td><code>.zm-2</code></td>
+                </tr>
+                <tr>
+                    <td><code>3</code></td>
+                    <td>1rem</td>
+                    <td>16px</td>
+                    <td><code>.zm-3</code></td>
+                </tr>
+                <tr>
+                    <td><code>4</code></td>
+                    <td>1.5rem</td>
+                    <td>24px</td>
+                    <td><code>.zm-4</code></td>
+                </tr>
+                <tr>
+                    <td><code>5</code></td>
+                    <td>3rem</td>
+                    <td>48px</td>
+                    <td><code>.zm-5</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Quick Examples -->
+    <section class="zmy-6">
+        <h2>Quick Examples</h2>
+        
+        <h3 class="zmt-5">Centering Content</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zD-flex zFlex-center zFlex-items-center" style="height: 200px;"&gt;
+  Centered both ways
+&lt;/div&gt;</code></pre>
+        
+        <h3 class="zmt-5">Spacing Around Card</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zm-4 zp-3"&gt;
+  Card with margin outside, padding inside
+&lt;/div&gt;</code></pre>
+        
+        <h3 class="zmt-5">Full Width, Half Height</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zW-100 zVh-50"&gt;
+  Hero section
+&lt;/div&gt;</code></pre>
+        
+        <h3 class="zmt-5">Sticky Header</h3>
+        <pre class="zp-3 zmy-3" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;header class="zPosition-sticky zTop-0 zZ-fixed"&gt;
+  Always on top
+&lt;/header&gt;</code></pre>
+    </section>
+    
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2>Best Practices</h2>
+        <ul class="lh-lg zmy-3">
+            <li><strong>Consistency</strong> - Use utilities for common patterns</li>
+            <li><strong>Composition</strong> - Combine utilities instead of custom CSS</li>
+            <li><strong>Readability</strong> - Don't overload with too many classes</li>
+            <li><strong>Components</strong> - Extract repeated patterns</li>
+            <li><strong>!important</strong> - Utilities use <code>!important</code> for reliability</li>
+        </ul>
+    </section>
+    
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2>Related Topics</h2>
+        <ul class="lh-lg zmy-3">
+            <li><a href="ztheme-z-index.html" class="zPrimary">Z-index</a> - Layering and stacking</li>
+            <li><a href="ztheme-grid.html" class="zPrimary">Grid</a> - Layout system using flex utilities</li>
+            <li><a href="ztheme-breakpoints.html" class="zPrimary">Breakpoints</a> - Responsive utility classes</li>
+        </ul>
+        <p class="zmt-4 text-muted"><em>More utility documentation coming soon: Borders, Colors, Shadows, Text utilities</em></p>
+    </section>
+    
+    <!-- Navigation -->
+    <nav class="zmt-6 zpt-5 zD-flex zFlex-between" style="border-top: 2px solid var(--borderColor, #dee2e6);">
+        <a href="ztheme-gutters.html" class="zPrimary">← Previous: Gutters</a>
+        <a href="ztheme-z-index.html" class="zPrimary">Next: Z-index →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

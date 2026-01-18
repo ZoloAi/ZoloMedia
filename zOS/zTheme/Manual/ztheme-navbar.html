@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<!-- SVG Icon Sprite (inline for offline support) -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="icon-hamburger-fill" viewBox="0 0 16 16" fill="currentColor">
+    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+  </symbol>
+  <symbol id="icon-house" viewBox="0 0 16 16" fill="currentColor">
+    <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z" />
+    <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z" />
+  </symbol>
+  <symbol id="icon-cart-fill" viewBox="0 0 16 16" fill="currentColor">
+    <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
+  </symbol>
+  <symbol id="icon-user-fill" viewBox="0 0 16 16" fill="currentColor">
+    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+  </symbol>
+</svg>
+
+<article style="max-width: 900px; margin: 0 auto; padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="ztheme.html">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Navbar</li>
+        </ol>
+    </nav>
+
+    <!-- Header -->
+    <header style="margin-bottom: 3rem;">
+        <h1>Navbar</h1>
+        <p class="zLead">Responsive navigation headers for site-wide navigation with branding, links, dropdowns, and mobile toggling.</p>
+    </header>
+
+    <!-- Understanding Navbar -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Navbar</h2>
+        <p>A navbar is a site-wide navigation component that appears at the top (or bottom) of your pages. It's essential for:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Site Navigation:</strong> Primary links to main sections (Home, Products, About, Contact)</li>
+            <li><strong>Branding:</strong> Logo and company name for consistent identity</li>
+            <li><strong>Responsive Layout:</strong> Collapses into a mobile menu on smaller screens</li>
+            <li><strong>Utility Links:</strong> Login, search, cart, or user profile access</li>
+            <li><strong>Fixed Position:</strong> Stays visible during scrolling for easy access</li>
+        </ul>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Note:</strong> For in-page navigation and content switching (tabs, pills), use <a href="ztheme-navs.html">Navs & Tabs</a> instead. Navbar is specifically for site-wide, persistent navigation.
+        </blockquote>
+    </section>
+
+    <!-- The Nav Element -->
+    <section style="margin: 3rem 0;">
+        <h2>The Nav Element</h2>
+        <p>HTML provides the semantic <code>&lt;nav&gt;</code> element for navigation sections. Our reboot provides minimal, clean styling for navigation elements:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav style="padding: 1rem; background: white; border-bottom: 1px solid #dee2e6;">
+                <a href="#" style="margin-right: 1rem; font-weight: 600;">Brand</a>
+                <a href="#" style="margin-right: 1rem;">Home</a>
+                <a href="#" style="margin-right: 1rem;">Features</a>
+                <a href="#">About</a>
+            </nav>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav&gt;
+  &lt;a href="/"&gt;Brand&lt;/a&gt;
+  &lt;a href="/"&gt;Home&lt;/a&gt;
+  &lt;a href="/features"&gt;Features&lt;/a&gt;
+  &lt;a href="/about"&gt;About&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+
+        <p style="margin-top: 1rem;"><strong>What the reboot provides:</strong></p>
+        <ul style="line-height: 2;">
+            <li>Clean, semantic HTML structure</li>
+            <li>Basic link styling</li>
+            <li>Consistent spacing</li>
+            <li>Accessibility foundation</li>
+        </ul>
+    </section>
+
+    <!-- Enhanced Navbar with .zNavbar -->
+    <section style="margin: 3rem 0;">
+        <h2>Enhanced Navbar with .zNavbar</h2>
+        <p>The <code>.zNavbar</code> class adds zTheme's enhanced styling: flexbox layout, proper spacing, responsive behavior, and theme variants.</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav class="zNavbar">
+                <a href="#" class="zNavbar-brand">Brand</a>
+                <button class="zNavbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navDemo1">
+                    <svg class="zIcon zIcon-lg">
+                        <use xlink:href="#icon-hamburger-fill"></use>
+                    </svg>
+                </button>
+                <div class="zNavbar-collapse" id="navDemo1">
+                    <ul class="zNavbar-nav">
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link active">Home</a>
+                        </li>
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link">Features</a>
+                        </li>
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link">Pricing</a>
+                        </li>
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav class="zNavbar"&gt;
+  &lt;a href="#" class="zNavbar-brand"&gt;Brand&lt;/a&gt;
+  &lt;div class="zNavbar-collapse"&gt;
+    &lt;ul class="zNavbar-nav"&gt;
+      &lt;li class="zNav-item"&gt;
+        &lt;a href="#" class="zNav-link active"&gt;Home&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li class="zNav-item"&gt;
+        &lt;a href="#" class="zNav-link"&gt;Features&lt;/a&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;</code></pre>
+
+        <p style="margin-top: 1rem;"><strong>What .zNavbar adds:</strong></p>
+        <ul style="line-height: 2;">
+            <li>Flexbox layout with proper alignment</li>
+            <li>Enhanced spacing and padding</li>
+            <li>Bottom border for visual separation</li>
+            <li>Hover and active states</li>
+            <li>Foundation for responsive behavior</li>
+        </ul>
+    </section>
+
+    <!-- Mobile Toggle -->
+    <section style="margin: 3rem 0;">
+        <h2>Mobile Toggle</h2>
+        <p>Add a <code>.zNavbar-toggler</code> button to show/hide navigation on mobile screens (≤640px):</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav class="zNavbar">
+                <a href="#" class="zNavbar-brand">MyApp</a>
+                <button class="zNavbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="zNavbar-toggler-icon" aria-hidden="true">
+                        <svg class="zIcon zIcon-lg" focusable="false">
+                            <use xlink:href="#icon-hamburger-fill"></use>
+                        </svg>
+                    </span>
+                </button>
+                <div class="zNavbar-collapse" id="navbarResponsive">
+                    <ul class="zNavbar-nav">
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link active">Home</a>
+                        </li>
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link">Features</a>
+                        </li>
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link">Pricing</a>
+                        </li>
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        
+        <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 0.5rem; border-left: 4px solid #4caf50; margin: 1.5rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>📱 Try it:</strong></p>
+            <ul style="margin: 0;">
+                <li><strong>Desktop (>640px):</strong> Nav links displayed inline, toggle button hidden</li>
+                <li><strong>Mobile (≤640px):</strong> Toggle button appears, click it to expand/collapse menu vertically</li>
+                <li><strong>Mobile expanded:</strong> Links stack vertically below brand for easy touch interaction</li>
+            </ul>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav class="zNavbar"&gt;
+  &lt;a href="#" class="zNavbar-brand"&gt;MyApp&lt;/a&gt;
+  
+  &lt;!-- Mobile toggle button --&gt;
+  &lt;button class="zNavbar-toggler" type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"&gt;
+    &lt;span class="zNavbar-toggler-icon" aria-hidden="true"&gt;
+      &lt;svg class="zIcon zIcon-lg" focusable="false"&gt;
+        &lt;use xlink:href="#icon-hamburger-fill"&gt;&lt;/use&gt;
+      &lt;/svg&gt;
+    &lt;/span&gt;
+  &lt;/button&gt;
+  
+  &lt;!-- Collapsible content --&gt;
+  &lt;div class="zNavbar-collapse" id="navbarResponsive"&gt;
+    &lt;ul class="zNavbar-nav"&gt;
+      &lt;li class="zNav-item"&gt;
+        &lt;a href="#" class="zNav-link active"&gt;Home&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;!-- more items --&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-success); background: rgba(40, 167, 69, 0.1);">
+            <strong>Auto-Initialization:</strong> Just add <code>data-bs-toggle="collapse"</code> and <code>zTheme.js</code> handles everything: toggling visibility, managing aria attributes, and responsive breakpoints!
+        </blockquote>
+    </section>
+
+    <!-- Theme Variants -->
+    <section style="margin: 3rem 0;">
+        <h2>Theme Variants</h2>
+        <p>Use <code>.zNavbar-light</code> or <code>.zNavbar-dark</code> to adapt the navbar to different background colors:</p>
+
+        <h3 style="margin-top: 2rem;">Light Theme</h3>
+        <p>Use on light backgrounds (default white, or custom light colors):</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav class="zNavbar zNavbar-light">
+                <a href="#" class="zNavbar-brand">Light Brand</a>
+                <button class="zNavbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navLight">
+                    <svg class="zIcon zIcon-lg">
+                        <use xlink:href="#icon-hamburger-fill"></use>
+                    </svg>
+                </button>
+                <div class="zNavbar-collapse" id="navLight">
+                    <ul class="zNavbar-nav">
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link active">Home</a>
+                        </li>
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link">Features</a>
+                        </li>
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav class="zNavbar zNavbar-light"&gt;
+  &lt;a href="#" class="zNavbar-brand"&gt;Light Brand&lt;/a&gt;
+  &lt;!-- nav items --&gt;
+&lt;/nav&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Dark Theme</h3>
+        <p>Use on dark backgrounds for better contrast. Add <code>.zNavbar-toggler-dark</code> to the toggle button so the icon and border stay visible on smaller screens:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #212529; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav class="zNavbar zNavbar-dark">
+                <a href="#" class="zNavbar-brand">Dark Brand</a>
+                <button class="zNavbar-toggler zNavbar-toggler-dark" type="button" data-bs-toggle="collapse" data-bs-target="#navDark">
+                    <svg class="zIcon zIcon-lg">
+                        <use xlink:href="#icon-hamburger-fill"></use>
+                    </svg>
+                </button>
+                <div class="zNavbar-collapse" id="navDark">
+                    <ul class="zNavbar-nav">
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link active">Home</a>
+                        </li>
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link">Features</a>
+                        </li>
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav class="zNavbar zNavbar-dark"&gt;
+  &lt;a href="#" class="zNavbar-brand"&gt;Dark Brand&lt;/a&gt;
+  &lt;!-- nav items --&gt;
+&lt;/nav&gt;</code></pre>
+    </section>
+
+    <!-- Dropdown Menus -->
+    <section style="margin: 3rem 0;">
+        <h2>Dropdown Menus</h2>
+        <p>Add dropdown menus to navbar items for grouped navigation using <code>.zNav-dropdown</code>:</p>
+
+        <div class="zDemo" style="padding: 2rem 2rem 10rem 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav class="zNavbar">
+                <a href="#" class="zNavbar-brand">Brand</a>
+                <button class="zNavbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navDropdown">
+                    <svg class="zIcon zIcon-lg">
+                        <use xlink:href="#icon-hamburger-fill"></use>
+                    </svg>
+                </button>
+                <div class="zNavbar-collapse" id="navDropdown">
+                    <ul class="zNavbar-nav">
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link">Home</a>
+                        </li>
+                        <li class="zNav-item zNav-dropdown">
+                            <a href="#" class="zNav-link">Products ▾</a>
+                            <ul class="zNav-dropdown-menu">
+                                <li><a href="#" class="zNav-dropdown-item">Widget Pro</a></li>
+                                <li><a href="#" class="zNav-dropdown-item">Widget Plus</a></li>
+                                <li><a href="#" class="zNav-dropdown-item active">Widget Basic</a></li>
+                            </ul>
+                        </li>
+                        <li class="zNav-item">
+                            <a href="#" class="zNav-link">About</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <p style="margin: 1rem 0 0 0; font-size: 0.875rem; color: #6c757d;">
+                ↑ <strong>Desktop:</strong> Hover over "Products" to see the dropdown. <strong>Mobile:</strong> Tap "Products" to toggle dropdown (won't navigate).
+            </p>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;li class="zNav-item zNav-dropdown"&gt;
+  &lt;a href="#" class="zNav-link"&gt;Products ▾&lt;/a&gt;
+  &lt;ul class="zNav-dropdown-menu"&gt;
+    &lt;li&gt;&lt;a href="#" class="zNav-dropdown-item"&gt;Widget Pro&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#" class="zNav-dropdown-item"&gt;Widget Plus&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#" class="zNav-dropdown-item active"&gt;Widget Basic&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/li&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Desktop vs Mobile:</strong>
+            <ul style="margin: 0.5rem 0 0 0;">
+                <li><strong>Desktop (>640px):</strong> Dropdowns appear on hover. Click the parent link to navigate.</li>
+                <li><strong>Mobile (≤640px):</strong> Dropdowns toggle on click (no navigation). Displayed inline below parent with full width and subtle background for better touch interaction.</li>
+            </ul>
+        </blockquote>
+    </section>
+
+    <!-- Positioning -->
+    <section style="margin: 3rem 0;">
+        <h2>Positioning</h2>
+        <p>Control navbar placement with positioning utilities:</p>
+
+        <h3 style="margin-top: 2rem;">Fixed Top</h3>
+        <p>Add <code>.zNavbar-fixed-top</code> to keep the navbar pinned to the top of the viewport:</p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav class="zNavbar zNavbar-fixed-top"&gt;
+  &lt;!-- navbar content --&gt;
+&lt;/nav&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Sticky Top</h3>
+        <p>Add <code>.zNavbar-sticky-top</code> to make the navbar stick to the top when scrolling past it:</p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav class="zNavbar zNavbar-sticky-top"&gt;
+  &lt;!-- navbar content --&gt;
+&lt;/nav&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Fixed Bottom</h3>
+        <p>Add <code>.zNavbar-fixed-bottom</code> to keep the navbar pinned to the bottom of the viewport:</p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav class="zNavbar zNavbar-fixed-bottom"&gt;
+  &lt;!-- navbar content --&gt;
+&lt;/nav&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: rgba(255, 193, 7, 0.1);">
+            <strong>⚠️ Body Padding Required:</strong> When using <code>.zNavbar-fixed-top</code> or <code>.zNavbar-fixed-bottom</code>, add padding to your <code>&lt;body&gt;</code> element (e.g., <code>padding-top: 56px;</code>) to prevent content from hiding underneath the navbar.
+        </blockquote>
+    </section>
+
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Use semantic HTML:</strong> Always use <code>&lt;nav&gt;</code> for navigation sections</li>
+            <li><strong>Clear branding:</strong> Make your brand/logo a link to the home page</li>
+            <li><strong>Limit links:</strong> Keep navbar to 3-7 top-level items for clarity</li>
+            <li><strong>Active state:</strong> Mark the current page with <code>.active</code> and <code>aria-current="page"</code></li>
+            <li><strong>Mobile first:</strong> Test toggle functionality on mobile breakpoints</li>
+            <li><strong>Use dropdowns:</strong> Group related links in dropdowns instead of cluttering the navbar</li>
+            <li><strong>Consistent placement:</strong> Keep navbar position consistent across your site</li>
+            <li><strong>Test keyboard:</strong> Ensure all links are accessible via keyboard (Tab key)</li>
+            <li><strong>Skip link:</strong> Consider adding a "Skip to main content" link for screen readers</li>
+        </ul>
+    </section>
+
+    <!-- Accessibility -->
+    <section style="margin: 3rem 0;">
+        <h2>Accessibility</h2>
+        <p>Proper ARIA attributes and semantic HTML are essential for navbar accessibility:</p>
+
+        <h3 style="margin-top: 2rem;">Required Attributes</h3>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;nav class="zNavbar" aria-label="Main navigation"&gt;
+  &lt;a href="/" class="zNavbar-brand"&gt;Brand&lt;/a&gt;
+  
+  &lt;button class="zNavbar-toggler" 
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-expanded="false"
+          aria-controls="navbarNav"
+          aria-label="Toggle navigation"&gt;
+    &lt;span class="zNavbar-toggler-icon" aria-hidden="true"&gt;
+      &lt;svg class="zIcon zIcon-lg" focusable="false"&gt;
+        &lt;use xlink:href="#icon-hamburger-fill"&gt;&lt;/use&gt;
+      &lt;/svg&gt;
+    &lt;/span&gt;
+  &lt;/button&gt;
+  
+  &lt;div class="zNavbar-collapse" id="navbarNav"&gt;
+    &lt;ul class="zNavbar-nav"&gt;
+      &lt;li class="zNav-item"&gt;
+        &lt;a href="/" class="zNav-link active" aria-current="page"&gt;Home&lt;/a&gt;
+      &lt;/li&gt;
+      &lt;li class="zNav-item"&gt;
+        &lt;a href="/features" class="zNav-link"&gt;Features&lt;/a&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Keyboard Navigation</h3>
+        <p>Navbar links automatically support keyboard navigation:</p>
+        <ul style="line-height: 2;">
+            <li><kbd>Tab</kbd> - Move between links and toggle button</li>
+            <li><kbd>Enter</kbd> or <kbd>Space</kbd> - Activate link or toggle</li>
+            <li><kbd>Esc</kbd> - Close expanded mobile menu (if open)</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+
+        <h3 style="margin-top: 2rem;">Base Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zNavbar</code></td>
+                    <td>Main navbar container (flexbox layout)</td>
+                </tr>
+                <tr>
+                    <td><code>.zNavbar-brand</code></td>
+                    <td>Brand/logo section (larger, bold text)</td>
+                </tr>
+                <tr>
+                    <td><code>.zNavbar-nav</code></td>
+                    <td>Navigation items container (flexbox)</td>
+                </tr>
+                <tr>
+                    <td><code>.zNav-item</code></td>
+                    <td>Individual nav item (list item wrapper)</td>
+                </tr>
+                <tr>
+                    <td><code>.zNav-link</code></td>
+                    <td>Navigation link styling with hover states</td>
+                </tr>
+                <tr>
+                    <td><code>.zNavbar-toggler</code></td>
+                    <td>Mobile menu toggle button (shows ≤640px)</td>
+                </tr>
+                <tr>
+                    <td><code>.zNavbar-toggler-dark</code></td>
+                    <td>Dark-background variant for toggle button/icon</td>
+                </tr>
+                <tr>
+                    <td><code>.zNavbar-toggler-icon</code></td>
+                    <td>Hamburger icon inside toggle button</td>
+                </tr>
+                <tr>
+                    <td><code>.zNavbar-collapse</code></td>
+                    <td>Collapsible navigation container</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Theme Modifiers</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zNavbar-light</code></td>
+                    <td>Light background theme (gray text on light bg)</td>
+                </tr>
+                <tr>
+                    <td><code>.zNavbar-dark</code></td>
+                    <td>Dark background theme (white text on dark bg)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Positioning Modifiers</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zNavbar-fixed-top</code></td>
+                    <td>Fixed to top of viewport (<code>position: fixed; top: 0;</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>.zNavbar-fixed-bottom</code></td>
+                    <td>Fixed to bottom of viewport (<code>position: fixed; bottom: 0;</code>)</td>
+                </tr>
+                <tr>
+                    <td><code>.zNavbar-sticky-top</code></td>
+                    <td>Sticks to top when scrolled (<code>position: sticky; top: 0;</code>)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Dropdown Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zNav-dropdown</code></td>
+                    <td>Dropdown container on nav item</td>
+                </tr>
+                <tr>
+                    <td><code>.zNav-dropdown-menu</code></td>
+                    <td>Dropdown menu container (hidden by default)</td>
+                </tr>
+                <tr>
+                    <td><code>.zNav-dropdown-item</code></td>
+                    <td>Individual dropdown menu item</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Data Attributes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Attribute</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>data-bs-toggle="collapse"</code></td>
+                    <td>Enables toggle behavior on button</td>
+                </tr>
+                <tr>
+                    <td><code>data-bs-target="#id"</code></td>
+                    <td>Target element ID to collapse/expand</td>
+                </tr>
+                <tr>
+                    <td><code>aria-expanded</code></td>
+                    <td>Indicates if menu is expanded (true/false)</td>
+                </tr>
+                <tr>
+                    <td><code>aria-controls</code></td>
+                    <td>ID of element controlled by button</td>
+                </tr>
+                <tr>
+                    <td><code>aria-current="page"</code></td>
+                    <td>Marks current/active page link</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-navs.html">Navs & Tabs</a> - In-page navigation and content switching</li>
+            <li><a href="ztheme-breadcrumb.html">Breadcrumb</a> - Location-based navigation</li>
+            <li><a href="ztheme-buttons.html">Buttons</a> - Button styling for navbar actions</li>
+            <li><a href="ztheme-dropdown.html">Dropdown</a> - Advanced dropdown menus</li>
+        </ul>
+    </section>
+</article>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

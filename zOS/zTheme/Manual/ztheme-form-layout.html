@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Layout - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="../ztheme.html#forms">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Form Layout</li>
+        </ol>
+    </nav>
+    
+    <h1>Form Layout</h1>
+    <p class="zLead" style="margin-bottom: 2rem;">
+        Structure your forms with vertical stacking, horizontal layouts, or multi-column grids.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Form Layout -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Form Layout</h2>
+        <p>Form layout determines how form controls, labels, and buttons are arranged on the page. zTheme provides no default styling for the <code>&lt;form&gt;</code> element itself—instead, you use the <a href="ztheme-grid.html" class="zPrimary">grid system</a> and spacing utilities to create the layout you need.</p>
+        
+        <p><strong>Common layouts:</strong></p>
+        <ul style="line-height: 2;">
+            <li><strong>Vertical (default):</strong> Labels above inputs, everything stacks—best for mobile, simple forms</li>
+            <li><strong>Horizontal:</strong> Labels beside inputs—compact, good for settings/preferences</li>
+            <li><strong>Multi-column:</strong> Multiple fields per row—efficient for long forms (checkout, profile)</li>
+        </ul>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-success); background: #f8f9fa;">
+            <strong>Mobile-First:</strong> All form controls (<code>.zInput</code>, <code>.zSelect</code>, etc.) are <code>display: block</code> and <code>width: 100%</code> by default, so they stack vertically. Use the grid system to create side-by-side layouts for larger screens.
+        </blockquote>
+        
+        <p><strong>When to use each:</strong> Vertical for mobile-first/simple forms, horizontal for compact settings, multi-column for data-heavy forms (addresses, checkout).</p>
+    </section>
+    
+    <!-- Vertical Forms (Default) -->
+    <section style="margin: 3rem 0;">
+        <h2>Vertical Forms (Default)</h2>
+        <p>With no layout classes, forms stack vertically. Use spacing utilities like <code>.zmb-3</code> (margin-bottom) to separate fields:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <form>
+                <div class="zmb-3">
+                    <label for="email" class="zLabel">Email Address</label>
+                    <input type="email" class="zInput" id="email" placeholder="sarah.chen@company.com">
+                </div>
+                <div class="zmb-3">
+                    <label for="password" class="zLabel">Password</label>
+                    <input type="password" class="zInput" id="password" placeholder="Enter your password">
+                </div>
+                <button type="submit" class="zBtn zBtn-info">Sign In</button>
+            </form>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;form&gt;
+  &lt;div class="zmb-3"&gt;
+    &lt;label for="email" class="zLabel"&gt;Email Address&lt;/label&gt;
+    &lt;input type="email" class="zInput" id="email"&gt;
+  &lt;/div&gt;
+  &lt;div class="zmb-3"&gt;
+    &lt;label for="password" class="zLabel"&gt;Password&lt;/label&gt;
+    &lt;input type="password" class="zInput" id="password"&gt;
+  &lt;/div&gt;
+  &lt;button type="submit" class="zBtn zBtn-info"&gt;Sign In&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+    </section>
+    
+    <!-- Multi-Column Forms -->
+    <section style="margin: 3rem 0;">
+        <h2>Multi-Column Forms</h2>
+        <p>Use the <a href="ztheme-grid.html" class="zPrimary">grid system</a> (<code>.zRow</code>, <code>.zCol-*</code>) to create multi-column layouts. Add <code>.zG-3</code> for gutters:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <form class="zRow zG-3">
+                <div class="zCol-md-6 zmb-3">
+                    <label for="firstName" class="zLabel zmb-2">First Name</label>
+                    <input type="text" class="zInput" id="firstName" placeholder="Sarah">
+                </div>
+                <div class="zCol-md-6 zmb-3">
+                    <label for="lastName" class="zLabel zmb-2">Last Name</label>
+                    <input type="text" class="zInput" id="lastName" placeholder="Chen">
+                </div>
+                <div class="zCol-12 zmb-3">
+                    <label for="address" class="zLabel zmb-2">Street Address</label>
+                    <input type="text" class="zInput" id="address" placeholder="123 Main Street">
+                </div>
+                <div class="zCol-md-6 zmb-3">
+                    <label for="city" class="zLabel zmb-2">City</label>
+                    <input type="text" class="zInput" id="city" placeholder="San Francisco">
+                </div>
+                <div class="zCol-md-4 zmb-3">
+                    <label for="state" class="zLabel zmb-2">State</label>
+                    <select class="zSelect" id="state">
+                        <option selected>Choose state...</option>
+                        <option value="ca">California</option>
+                        <option value="ny">New York</option>
+                        <option value="tx">Texas</option>
+                    </select>
+                </div>
+                <div class="zCol-md-2 zmb-3">
+                    <label for="zip" class="zLabel zmb-2">ZIP</label>
+                    <input type="text" class="zInput" id="zip" placeholder="94102">
+                </div>
+                <div class="zCol-12">
+                    <button type="submit" class="zBtn zBtn-info">Save Address</button>
+                </div>
+            </form>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;form class="zRow zG-3"&gt;
+  &lt;div class="zCol-md-6 zmb-3"&gt;
+    &lt;label for="firstName" class="zLabel zmb-2"&gt;First Name&lt;/label&gt;
+    &lt;input type="text" class="zInput" id="firstName"&gt;
+  &lt;/div&gt;
+  &lt;div class="zCol-md-6 zmb-3"&gt;
+    &lt;label for="lastName" class="zLabel zmb-2"&gt;Last Name&lt;/label&gt;
+    &lt;input type="text" class="zInput" id="lastName"&gt;
+  &lt;/div&gt;
+  &lt;div class="zCol-12 zmb-3"&gt;
+    &lt;label for="address" class="zLabel zmb-2"&gt;Street Address&lt;/label&gt;
+    &lt;input type="text" class="zInput" id="address"&gt;
+  &lt;/div&gt;
+  &lt;!-- More fields... --&gt;
+  &lt;div class="zCol-12"&gt;
+    &lt;button type="submit" class="zBtn zBtn-info"&gt;Save Address&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Key spacing pattern:</strong> Use <code>.zmb-2</code> on labels (tight label-to-input), <code>.zmb-3</code> on columns (field group separation), and <code>.zG-3</code> for horizontal gaps between side-by-side fields. This creates proper hierarchy in both mobile (stacked) and desktop (side-by-side) views.
+        </blockquote>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-success); background: #f8f9fa;">
+            <strong>Mobile behavior:</strong> On small screens, <code>.zCol-md-6</code> becomes full-width (stacks vertically). On medium screens and up, fields appear side-by-side. This is mobile-first responsive design!
+        </blockquote>
+    </section>
+    
+    <!-- Horizontal Forms -->
+    <section style="margin: 3rem 0;">
+        <h2>Horizontal Forms</h2>
+        <p>Place labels and inputs side-by-side using <code>.zRow</code> for each field. Labels typically use <code>.zCol-sm-2</code> or <code>.zCol-sm-3</code>:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <form>
+                <div class="zRow zmb-3">
+                    <label for="emailHoriz" class="zCol-sm-3 zLabel" style="padding-top: 0.5rem;">Email</label>
+                    <div class="zCol-sm-9">
+                        <input type="email" class="zInput" id="emailHoriz" placeholder="your@email.com">
+                    </div>
+                </div>
+                <div class="zRow zmb-3">
+                    <label for="passwordHoriz" class="zCol-sm-3 zLabel" style="padding-top: 0.5rem;">Password</label>
+                    <div class="zCol-sm-9">
+                        <input type="password" class="zInput" id="passwordHoriz">
+                    </div>
+                </div>
+                <div class="zRow zmb-3">
+                    <div class="zCol-sm-9 zOffset-sm-3">
+                        <div class="zCheck">
+                            <input class="zCheck-input" type="checkbox" id="rememberMe">
+                            <label class="zCheck-label" for="rememberMe">Remember me</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="zRow">
+                    <div class="zCol-sm-9 zOffset-sm-3">
+                        <button type="submit" class="zBtn zBtn-info">Sign In</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;form&gt;
+  &lt;div class="zRow zmb-3"&gt;
+    &lt;label for="email" class="zCol-sm-3 zLabel"&gt;Email&lt;/label&gt;
+    &lt;div class="zCol-sm-9"&gt;
+      &lt;input type="email" class="zInput" id="email"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;div class="zRow zmb-3"&gt;
+    &lt;label for="password" class="zCol-sm-3 zLabel"&gt;Password&lt;/label&gt;
+    &lt;div class="zCol-sm-9"&gt;
+      &lt;input type="password" class="zInput" id="password"&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;!-- Checkbox with offset to align with inputs --&gt;
+  &lt;div class="zRow zmb-3"&gt;
+    &lt;div class="zCol-sm-9 zOffset-sm-3"&gt;
+      &lt;div class="zCheck"&gt;
+        &lt;input class="zCheck-input" type="checkbox" id="remember"&gt;
+        &lt;label class="zCheck-label" for="remember"&gt;Remember me&lt;/label&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: #f8f9fa;">
+            <strong>Tip:</strong> Add <code>padding-top: 0.5rem</code> to labels to vertically center them with inputs. Use <code>.zOffset-sm-3</code> to align elements (like checkboxes/buttons) with the input column.
+        </blockquote>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <h3>Use Proper Spacing Hierarchy</h3>
+        <p>Multi-column forms need two levels of spacing:</p>
+        <ul style="line-height: 2;">
+            <li><code>.zmb-2</code> on labels - tight connection to input (0.5rem)</li>
+            <li><code>.zmb-3</code> on columns - field group separation (1rem)</li>
+            <li><code>.zG-3</code> on form - horizontal gaps between side-by-side fields</li>
+        </ul>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;form class="zRow zG-3"&gt;
+  &lt;div class="zCol-md-6 zmb-3"&gt;
+    &lt;label class="zLabel zmb-2"&gt;First Name&lt;/label&gt;
+    &lt;input type="text" class="zInput"&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+        
+        <h3 style="margin-top: 1.5rem;">Start Mobile-First</h3>
+        <p>Always design forms for vertical stacking (mobile), then enhance for larger screens:</p>
+        <ul style="line-height: 2;">
+            <li>✅ <code>.zmb-3</code> on columns ensures good mobile spacing</li>
+            <li>✅ <code>.zCol-md-6</code> creates side-by-side on desktop</li>
+            <li>❌ Don't rely only on <code>.zG-3</code>—it doesn't control vertical stacking</li>
+        </ul>
+        
+        <h3 style="margin-top: 1.5rem;">Group Related Fields</h3>
+        <p>Use <code>&lt;fieldset&gt;</code> and <code>&lt;legend&gt;</code> to group related fields for accessibility:</p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;fieldset&gt;
+  &lt;legend&gt;Shipping Address&lt;/legend&gt;
+  &lt;!-- Address fields here --&gt;
+&lt;/fieldset&gt;
+
+&lt;fieldset&gt;
+  &lt;legend&gt;Payment Information&lt;/legend&gt;
+  &lt;!-- Payment fields here --&gt;
+&lt;/fieldset&gt;</code></pre>
+        
+        <h3 style="margin-top: 1.5rem;">Choose the Right Layout</h3>
+        <ul style="line-height: 2;">
+            <li><strong>Vertical:</strong> Login, signup, simple contact forms (≤5 fields)</li>
+            <li><strong>Multi-column:</strong> Addresses, checkout, long forms (>10 fields)</li>
+            <li><strong>Horizontal:</strong> Settings, preferences, admin panels (compact space)</li>
+        </ul>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-grid.html" class="zPrimary">Grid</a> - Layout system used for form structure</li>
+            <li><a href="ztheme-gutters.html" class="zPrimary">Gutters</a> - Spacing between columns</li>
+            <li><a href="ztheme-form-control.html" class="zPrimary">Form Control</a> - Input and textarea styling</li>
+            <li><a href="ztheme-select.html" class="zPrimary">Select</a> - Dropdown menus</li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-floating-labels.html" class="zPrimary">← Previous: Floating Labels</a>
+        <a href="ztheme-validation.html" class="zPrimary">Next: Validation →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

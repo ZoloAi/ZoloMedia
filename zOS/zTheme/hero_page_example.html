@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zolo - A Digital Solution</title>
+  
+  <!-- zTheme CSS from CDN (Production) -->
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+  
+  <!-- zTheme CSS Local (Development - Testing) -->
+  <link rel="stylesheet" href="dist/ztheme.css">
+  <!-- SVG Icon Sprite (inline for zNavbar hamburger icon) -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="icon-hamburger-fill" viewBox="0 0 16 16" fill="currentColor">
+    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+  </symbol>
+</svg>
+
+</head>
+<body style="background: var(--mainGrad);">
+  <!-- SVG Icons from CDN (loaded for use) -->
+  <object data="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/icons.svg" type="image/svg+xml" style="display: none;"></object>
+  
+  <!-- ═══════════════════════════════════════════════════════════════
+       NAVIGATION BAR - Top navigation with brand
+       ═══════════════════════════════════════════════════════════════ -->
+  <nav class="zNavbar zNavbar-dark" role="navigation">
+    <!-- Brand/Logo -->
+    <a class="zNavbar-brand" href="/">Zolo</a>
+    
+    <!-- Mobile hamburger toggle -->
+    <button class="zNavbar-toggler" type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#mainNav" 
+            aria-controls="mainNav" 
+            aria-expanded="false" 
+            aria-label="Toggle navigation">
+      <svg class="zIcon zIcon-lg" focusable="false">
+        <use xlink:href="#icon-hamburger-fill"></use>
+      </svg>
+    </button>
+    
+    <!-- Navigation links -->
+    <div class="zNavbar-collapse" id="mainNav">
+      <ul class="zNavbar-nav">
+        <li class="zNav-item">
+          <a class="zNav-link active" href="/">Home</a>
+        </li>
+        <li class="zNav-item">
+          <a class="zNav-link" href="/about">About</a>
+        </li>
+        <li class="zNav-item">
+          <a class="zNav-link" href="/products">Products</a>
+        </li>
+        <li class="zNav-item">
+          <a class="zNav-link" href="/zcli">zCLI</a>
+        </li>
+        <li class="zNav-item">
+          <a class="zNav-link" href="/contact">Contact</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  
+  <!-- ═══════════════════════════════════════════════════════════════
+       HERO SECTION - Full viewport with gradient background
+       ═══════════════════════════════════════════════════════════════ -->
+  <section class="zHero zHero-full hero-gradient" style="--zHero-offset: var(--zNavbar-height, 0px);">
+    <div class="zHero-content">
+      <!-- Company Name -->
+      <h1 class="zDisplay-1 zTitle-1 zmb-3">Zolo</h1>
+      
+      <!-- Tagline -->
+      <h2 class="zDisplay-4 zmb-4">
+        A Digital Solution
+      </h2>
+      
+      <!-- Description -->
+      <p class="zLead zmb-5">
+        Building the next generation of developer tools. 
+        Empowering creators to turn ideas into reality faster—with less code, 
+        more clarity, and complete flexibility.
+      </p>
+      
+      <!-- CTA Buttons -->
+      <div class="zBtn-group">
+        <a href="/products" class="zBtn zBtn-light zBtn-lg">
+          <svg class="zIcon">
+            <use xlink:href="#icon-apps"></use>
+          </svg>
+          Explore Products
+        </a>
+        <a href="/zcli" class="zBtn zBtn-outline-light zBtn-lg">
+          <svg class="zIcon">
+            <use xlink:href="#icon-box"></use>
+          </svg>
+          zCLI (Open Source)
+        </a>
+        <a href="https://github.com/ZoloAi" class="zBtn zBtn-outline-light zBtn-lg">
+          <svg class="zIcon">
+            <use xlink:href="#icon-building"></use>
+          </svg>
+          GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- zTheme JavaScript -->
+  <script src="dist/ztheme.js"></script>
+  
+  <script>
+    console.log('🎨 Zolo Hero Page - Pure zTheme');
+    console.log('✅ Navigation: Working');
+    console.log('✅ Hero: Full viewport with gradient');
+    console.log('✅ Responsive: Mobile-ready');
+  </script>
+</body>
+</html>

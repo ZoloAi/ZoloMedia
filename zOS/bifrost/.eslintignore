@@ -1,0 +1,5 @@
+node_modules/
+dist/
+testing/
+fonts/
+*.min.js

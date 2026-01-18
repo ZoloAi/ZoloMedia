@@ -1,0 +1,83 @@
+/* ============================================
+   zScrollspy.css - Scroll-Based Navigation
+   ============================================
+   
+   Minimal CSS for scrollspy functionality. 
+   Most behavior is handled by JavaScript in zTheme.js.
+   
+   Data Attributes:
+   - data-bs-spy="scroll"       : Enable scrollspy on element
+   - data-bs-target="#navbar"   : Nav element to update
+   - data-bs-offset="10"        : Offset from top (pixels)
+   
+   Usage:
+   <body data-bs-spy="scroll" data-bs-target="#navbar">
+     <nav id="navbar">
+       <a href="#section1">Section 1</a>
+       <a href="#section2">Section 2</a>
+     </nav>
+     <div id="section1">...</div>
+     <div id="section2">...</div>
+   </body>
+*/
+
+/* ============================================
+   Smooth Scrolling
+   ============================================ */
+
+/* Enable smooth scrolling for anchor links */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Disable for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* ============================================
+   Scrollable Containers
+   ============================================ */
+
+/* Example styling for scrollable containers */
+.zScrollspy-example {
+    position: relative;
+    height: 400px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+/* Add scroll margin to account for fixed headers */
+[id] {
+    scroll-margin-top: 70px;
+}
+
+/* ============================================
+   Active State (Applied by JavaScript)
+   ============================================ */
+
+/* The .zActive class is automatically added/removed by JavaScript
+   based on scroll position. No additional CSS needed here - 
+   existing .zActive styles from zNav.css and zListGroup.css apply. */
+
+/* ============================================
+   Accessibility
+   ============================================ */
+
+/* Ensure scrollable containers are keyboard accessible */
+[data-bs-spy="scroll"] {
+    /* tabindex="0" should be added in HTML for keyboard access */
+}
+
+[data-bs-spy="scroll"]:focus {
+    outline: 2px solid #0d6efd;
+    outline-offset: 2px;
+}
+
+/* Remove outline for mouse users */
+[data-bs-spy="scroll"]:focus:not(:focus-visible) {
+    outline: none;
+}
+

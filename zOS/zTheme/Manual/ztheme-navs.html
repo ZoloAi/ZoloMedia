@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navs - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<article style="max-width: 900px; margin: 0 auto; padding: 2rem;">
+    <!-- Header -->
+    <header style="margin-bottom: 3rem;">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+            <ol class="zBreadcrumb">
+                <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+                <li class="zBreadcrumb-item"><a href="ztheme.html">Components</a></li>
+                <li class="zBreadcrumb-item zActive" aria-current="page">Navs & Tabs</li>
+            </ol>
+        </nav>
+
+        <h1>Navs & Tabs</h1>
+        <p class="zLead">Flexible navigation components for building menus, tabs, pills, and content switchers with semantic HTML and accessible interactions.</p>
+    </header>
+
+    <!-- Understanding Navs & Tabs -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Navs & Tabs</h2>
+        <p>Navigation components are essential for organizing and switching between related content. Use them for:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Tabs:</strong> Switch between views of related content (settings sections, form steps)</li>
+            <li><strong>Pills:</strong> Button-style navigation for dashboard sections or filters</li>
+            <li><strong>Vertical Nav:</strong> Sidebar navigation for documentation or settings</li>
+            <li><strong>Content Switching:</strong> Show/hide content without page reload</li>
+            <li><strong>Sub-navigation:</strong> Secondary navigation within a page section</li>
+        </ul>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Note:</strong> For top-level site navigation (header menus), use <a href="ztheme-navbar.html">Navbar</a> instead. This component is for in-page navigation and content switching.
+        </blockquote>
+    </section>
+
+    <!-- Base Nav -->
+    <section style="margin: 3rem 0;">
+        <h2>Base Navigation</h2>
+        <p>The base <code>.zNav</code> component uses flexbox and provides a foundation for all navigation styles:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zNav">
+                <li class="zNav-item">
+                    <a class="zNav-link zActive" aria-current="page" href="#base-nav-demo">Active</a>
+                </li>
+                <li class="zNav-item">
+                    <a class="zNav-link" href="#base-nav-demo">Link</a>
+                </li>
+                <li class="zNav-item">
+                    <a class="zNav-link" href="#base-nav-demo">Link</a>
+                </li>
+                <li class="zNav-item">
+                    <a class="zNav-link zDisabled" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;ul class="zNav"&gt;
+  &lt;li class="zNav-item"&gt;
+    &lt;a class="zNav-link zActive" aria-current="page" href="#"&gt;Active&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class="zNav-item"&gt;
+    &lt;a class="zNav-link" href="#"&gt;Link&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class="zNav-item"&gt;
+    &lt;a class="zNav-link zDisabled" tabindex="-1" aria-disabled="true"&gt;Disabled&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+        <p style="margin-top: 1.5rem;"><strong>Flexible markup:</strong> You can use <code>&lt;ul&gt;</code>, <code>&lt;nav&gt;</code>, or standalone links:</p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- With &lt;nav&gt; element --&gt;
+&lt;nav class="zNav"&gt;
+  &lt;a class="zNav-link zActive" href="#"&gt;Active&lt;/a&gt;
+  &lt;a class="zNav-link" href="#"&gt;Link&lt;/a&gt;
+  &lt;a class="zNav-link zDisabled"&gt;Disabled&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+    </section>
+
+    <!-- Tabs Style -->
+    <section style="margin: 3rem 0;">
+        <h2>Tabs</h2>
+        <p>Add <code>.zNav-tabs</code> for a classic tabbed interface with bottom border:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zNav zNav-tabs" role="tablist">
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link zActive" data-bs-toggle="tab" href="#tab1" role="tab" aria-selected="true">Home</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link" data-bs-toggle="tab" href="#tab2" role="tab" aria-selected="false">Profile</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link" data-bs-toggle="tab" href="#tab3" role="tab" aria-selected="false">Contact</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link zDisabled" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <div class="zTab-content">
+                <div class="zTab-pane zActive" id="tab1" role="tabpanel">
+                    <p><strong>Home content</strong> - This is the home tab panel. Click other tabs to switch content!</p>
+                </div>
+                <div class="zTab-pane" id="tab2" role="tabpanel">
+                    <p><strong>Profile content</strong> - Your profile information would go here.</p>
+                </div>
+                <div class="zTab-pane" id="tab3" role="tabpanel">
+                    <p><strong>Contact content</strong> - Contact form or information here.</p>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;ul class="zNav zNav-tabs" role="tablist"&gt;
+  &lt;li class="zNav-item" role="presentation"&gt;
+    &lt;a class="zNav-link zActive" data-bs-toggle="tab" href="#home" role="tab"&gt;Home&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class="zNav-item" role="presentation"&gt;
+    &lt;a class="zNav-link" data-bs-toggle="tab" href="#profile" role="tab"&gt;Profile&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class="zTab-content"&gt;
+  &lt;div class="zTab-pane zActive" id="home" role="tabpanel"&gt;
+    Home content...
+  &lt;/div&gt;
+  &lt;div class="zTab-pane" id="profile" role="tabpanel"&gt;
+    Profile content...
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-success); background: rgba(40, 167, 69, 0.1);">
+            <strong>Auto-Initialization:</strong> Just add <code>data-bs-toggle="tab"</code> and <code>zTheme.js</code> handles everything: switching content, keyboard navigation, and ARIA attributes!
+        </blockquote>
+    </section>
+
+    <!-- Pills Style -->
+    <section style="margin: 3rem 0;">
+        <h2>Pills</h2>
+        <p>Add <code>.zNav-pills</code> for rounded, button-like navigation:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zNav zNav-pills" role="tablist">
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link zActive" data-bs-toggle="tab" href="#pill1" role="tab">Active</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link" data-bs-toggle="tab" href="#pill2" role="tab">Link</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link" data-bs-toggle="tab" href="#pill3" role="tab">Link</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link zDisabled" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+            </ul>
+            <div class="zTab-content" style="margin-top: 1rem;">
+                <div class="zTab-pane zActive" id="pill1" role="tabpanel">
+                    <p>Pills content panel 1</p>
+                </div>
+                <div class="zTab-pane" id="pill2" role="tabpanel">
+                    <p>Pills content panel 2</p>
+                </div>
+                <div class="zTab-pane" id="pill3" role="tabpanel">
+                    <p>Pills content panel 3</p>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;ul class="zNav zNav-pills"&gt;
+  &lt;li class="zNav-item"&gt;
+    &lt;a class="zNav-link zActive" data-bs-toggle="tab" href="#tab1"&gt;Active&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class="zNav-item"&gt;
+    &lt;a class="zNav-link" data-bs-toggle="tab" href="#tab2"&gt;Link&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+    </section>
+
+    <!-- Underline Style (Modern) -->
+    <section style="margin: 3rem 0;">
+        <h2>Underline Style</h2>
+        <p>Modern underline navigation with <code>.zNav-underline</code> - clean and minimal:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <nav class="zNav zNav-underline" role="tablist">
+                <a class="zNav-link zActive" data-bs-toggle="tab" href="#underline1" role="tab">Overview</a>
+                <a class="zNav-link" data-bs-toggle="tab" href="#underline2" role="tab">Details</a>
+                <a class="zNav-link" data-bs-toggle="tab" href="#underline3" role="tab">Specs</a>
+                <a class="zNav-link zDisabled" tabindex="-1" aria-disabled="true">Disabled</a>
+            </nav>
+            <div class="zTab-content" style="margin-top: 1rem;">
+                <div class="zTab-pane zActive" id="underline1" role="tabpanel">
+                    <p><strong>Overview</strong> - Click the tabs above to see the underline move smoothly!</p>
+                </div>
+                <div class="zTab-pane" id="underline2" role="tabpanel">
+                    <p><strong>Details</strong> - Notice how clean the underline style looks.</p>
+                </div>
+                <div class="zTab-pane" id="underline3" role="tabpanel">
+                    <p><strong>Specs</strong> - Perfect for modern, minimal interfaces.</p>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- For interactive tabs --&gt;
+&lt;nav class="zNav zNav-underline" role="tablist"&gt;
+  &lt;a class="zNav-link zActive" data-bs-toggle="tab" href="#tab1"&gt;Overview&lt;/a&gt;
+  &lt;a class="zNav-link" data-bs-toggle="tab" href="#tab2"&gt;Details&lt;/a&gt;
+  &lt;a class="zNav-link zDisabled"&gt;Disabled&lt;/a&gt;
+&lt;/nav&gt;
+
+&lt;!-- For static navigation (page links) --&gt;
+&lt;nav class="zNav zNav-underline"&gt;
+  &lt;a class="zNav-link zActive" href="/overview"&gt;Overview&lt;/a&gt;
+  &lt;a class="zNav-link" href="/details"&gt;Details&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+    </section>
+
+    <!-- Vertical Navigation -->
+    <section style="margin: 3rem 0;">
+        <h2>Vertical Navigation (Sidebar)</h2>
+        <p>Create sidebar layouts with <code>.zFlex-column</code> - perfect for settings, documentation, or dashboard interfaces:</p>
+
+        <h3 style="margin-top: 2rem;">Left Sidebar (Default)</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zVertical-layout">
+                <ul class="zNav zNav-pills zFlex-column" role="tablist">
+                    <li class="zNav-item" role="presentation">
+                        <a class="zNav-link zActive" data-bs-toggle="tab" href="#vert1" role="tab">Dashboard</a>
+                    </li>
+                    <li class="zNav-item" role="presentation">
+                        <a class="zNav-link" data-bs-toggle="tab" href="#vert2" role="tab">Settings</a>
+                    </li>
+                    <li class="zNav-item" role="presentation">
+                        <a class="zNav-link" data-bs-toggle="tab" href="#vert3" role="tab">Profile</a>
+                    </li>
+                    <li class="zNav-item" role="presentation">
+                        <a class="zNav-link zDisabled" tabindex="-1" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                <div class="zTab-content" style="border: 1px solid #dee2e6; border-radius: 0.25rem; min-height: 200px;">
+                    <div class="zTab-pane zActive" id="vert1" role="tabpanel">
+                        <p><strong>Dashboard Content</strong></p>
+                        <p>This layout is perfect for settings pages, documentation, or any interface with a sidebar navigation.</p>
+                        <p><strong>Desktop:</strong> Sidebar on left, content on right</p>
+                        <p><strong>Mobile:</strong> Navigation scrolls horizontally at top</p>
+                    </div>
+                    <div class="zTab-pane" id="vert2" role="tabpanel">
+                        <p><strong>Settings Content</strong></p>
+                        <p>The vertical pills style works great for this sidebar layout.</p>
+                    </div>
+                    <div class="zTab-pane" id="vert3" role="tabpanel">
+                        <p><strong>Profile Content</strong></p>
+                        <p>Click different tabs to see the content switch!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Right Sidebar</h3>
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <div class="zVertical-layout-right">
+                <ul class="zNav zNav-pills zFlex-column" role="tablist">
+                    <li class="zNav-item" role="presentation">
+                        <a class="zNav-link zActive" data-bs-toggle="tab" href="#vertR1" role="tab">Overview</a>
+                    </li>
+                    <li class="zNav-item" role="presentation">
+                        <a class="zNav-link" data-bs-toggle="tab" href="#vertR2" role="tab">Details</a>
+                    </li>
+                    <li class="zNav-item" role="presentation">
+                        <a class="zNav-link" data-bs-toggle="tab" href="#vertR3" role="tab">Advanced</a>
+                    </li>
+                </ul>
+                <div class="zTab-content" style="border: 1px solid #dee2e6; border-radius: 0.25rem; min-height: 200px;">
+                    <div class="zTab-pane zActive" id="vertR1" role="tabpanel">
+                        <p><strong>Overview (Right Sidebar)</strong></p>
+                        <p>Sidebar appears on the right on desktop, perfect for auxiliary navigation or filters.</p>
+                    </div>
+                    <div class="zTab-pane" id="vertR2" role="tabpanel">
+                        <p><strong>Details Content</strong></p>
+                        <p>Content on left, navigation on right!</p>
+                    </div>
+                    <div class="zTab-pane" id="vertR3" role="tabpanel">
+                        <p><strong>Advanced Content</strong></p>
+                        <p>Great for documentation or settings with secondary nav.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="background: #e3f2fd; padding: 1.5rem; border-radius: 0.5rem; border-left: 4px solid #2196f3; margin: 1.5rem 0;">
+            <p style="margin: 0;"><strong>🎯 Smart Responsive Behavior:</strong></p>
+            <ul style="margin-bottom: 0; margin-top: 0.5rem;">
+                <li><strong>Desktop (>768px):</strong> Sidebar + content side-by-side</li>
+                <li><strong>Mobile (≤768px):</strong> Tabs scroll horizontally (no sidebar)</li>
+                <li>Much better UX than stacking vertically!</li>
+            </ul>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Left sidebar layout (recommended) --&gt;
+&lt;div class="zVertical-layout"&gt;
+  &lt;nav class="zNav zNav-pills zFlex-column"&gt;
+    &lt;a class="zNav-link zActive" data-bs-toggle="tab" href="#tab1"&gt;Dashboard&lt;/a&gt;
+    &lt;a class="zNav-link" data-bs-toggle="tab" href="#tab2"&gt;Settings&lt;/a&gt;
+  &lt;/nav&gt;
+  &lt;div class="zTab-content"&gt;
+    &lt;div class="zTab-pane zActive" id="tab1"&gt;Content...&lt;/div&gt;
+    &lt;div class="zTab-pane" id="tab2"&gt;Content...&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Right sidebar layout --&gt;
+&lt;div class="zVertical-layout-right"&gt;
+  &lt;nav class="zNav zNav-pills zFlex-column"&gt;...&lt;/nav&gt;
+  &lt;div class="zTab-content"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Wider sidebar variants (250px instead of 200px) --&gt;
+&lt;div class="zVertical-layout-wide"&gt;...&lt;/div&gt;
+&lt;div class="zVertical-layout-wide-right"&gt;...&lt;/div&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-success); background: rgba(40, 167, 69, 0.1);">
+            <strong>✨ Smart Responsive:</strong> Use <code>.zVertical-layout</code> containers for automatic responsive behavior:
+            <ul style="margin: 0.5rem 0 0 0;">
+                <li>Desktop: Sidebar + content side-by-side</li>
+                <li>Mobile: Horizontal scrolling tabs (no overflow!)</li>
+            </ul>
+        </blockquote>
+    </section>
+
+    <!-- Fill and Justify -->
+    <section style="margin: 3rem 0;">
+        <h2>Fill and Justify</h2>
+        <p>Control how nav items distribute width across the container:</p>
+
+        <h3 style="margin-top: 2rem;">Default (No Fill)</h3>
+        <p>By default, nav items only take up as much space as their content needs:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zNav zNav-pills" role="tablist">
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link zActive" data-bs-toggle="tab" href="#default1" role="tab">A</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link" data-bs-toggle="tab" href="#default2" role="tab">Long Text</a>
+                </li>
+            </ul>
+            <div class="zTab-content" style="margin-top: 1rem;">
+                <div class="zTab-pane zActive" id="default1" role="tabpanel">
+                    <p style="margin: 0; padding: 1rem; background: white; border-radius: 0.25rem;">
+                        <strong>Default behavior:</strong> Items only as wide as their content. "A" is tiny, "Long Text" is wider. Notice the empty space on the right!
+                    </p>
+                </div>
+                <div class="zTab-pane" id="default2" role="tabpanel">
+                    <p style="margin: 0; padding: 1rem; background: white; border-radius: 0.25rem;">
+                        <strong>Long Text:</strong> This item is wider because it has more text. Compare with "A" which is narrow.
+                    </p>
+                </div>
+            </div>
+            <p style="margin: 1rem 0 0 0; font-size: 0.875rem; color: #6c757d;">
+                ↑ Click tabs. Notice "A" is tiny, "Long Text" is wider, with empty space remaining.
+            </p>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Fill (Proportional Growth)</h3>
+        <p>With <code>.zNav-fill</code>, items <strong>grow proportionally</strong> to fill available space, but longer items stay wider. On mobile, if items don't fit, they scroll horizontally:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zNav zNav-pills zNav-fill" role="tablist">
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link zActive" data-bs-toggle="tab" href="#fill1" role="tab">A</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link" data-bs-toggle="tab" href="#fill2" role="tab">Long Text</a>
+                </li>
+            </ul>
+            <div class="zTab-content" style="margin-top: 1rem;">
+                <div class="zTab-pane zActive" id="fill1" role="tabpanel">
+                    <p style="margin: 0; padding: 1rem; background: white; border-radius: 0.25rem;">
+                        <strong>Fill behavior:</strong> Items fill the entire width but maintain proportional sizing. "A" grows, "Long Text" is wider. No empty space!
+                    </p>
+                </div>
+                <div class="zTab-pane" id="fill2" role="tabpanel">
+                    <p style="margin: 0; padding: 1rem; background: white; border-radius: 0.25rem;">
+                        <strong>Long Text:</strong> This item is wider than "A" because of its longer content, but both fill the available space proportionally.
+                    </p>
+                </div>
+            </div>
+            <p style="margin: 1rem 0 0 0; font-size: 0.875rem; color: #6c757d;">
+                ↑ Click to compare. Items fill the space proportionally: "A" grows but "Long Text" is wider - no gaps!
+            </p>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Justified (Equal Width)</h3>
+        <p>With <code>.zNav-justified</code>, all items have <strong>exactly equal width</strong> regardless of content. On mobile, if items would be too narrow, they scroll horizontally:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zNav zNav-pills zNav-justified" role="tablist">
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link zActive" data-bs-toggle="tab" href="#justified1" role="tab">A</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link" data-bs-toggle="tab" href="#justified2" role="tab">Long Text</a>
+                </li>
+            </ul>
+            <div class="zTab-content" style="margin-top: 1rem;">
+                <div class="zTab-pane zActive" id="justified1" role="tabpanel">
+                    <p style="margin: 0; padding: 1rem; background: white; border-radius: 0.25rem;">
+                        <strong>Justified behavior:</strong> All items have EXACTLY the same width - perfectly symmetrical! See how "A" is as wide as "Long Text".
+                    </p>
+                </div>
+                <div class="zTab-pane" id="justified2" role="tabpanel">
+                    <p style="margin: 0; padding: 1rem; background: white; border-radius: 0.25rem;">
+                        <strong>Long Text:</strong> This item is the exact same width as "A" despite having more text - that's justified layout!
+                    </p>
+                </div>
+            </div>
+            <p style="margin: 1rem 0 0 0; font-size: 0.875rem; color: #6c757d;">
+                ↑ Click to compare. Both items exactly the same width - see how "A" is as wide as "Long Text"!
+            </p>
+        </div>
+
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Behavior</th>
+                    <th scope="col">Visual Result</th>
+                    <th scope="col">Use When</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><em>(default)</em></td>
+                    <td>Items only as wide as content</td>
+                    <td>Different widths + gaps</td>
+                    <td>Standard navigation</td>
+                </tr>
+                <tr style="background: rgba(40, 167, 69, 0.1);">
+                    <td><code>.zNav-fill</code></td>
+                    <td>Items grow to fill space proportionally</td>
+                    <td>Different widths, NO gaps</td>
+                    <td>Fill container width</td>
+                </tr>
+                <tr style="background: rgba(23, 162, 184, 0.1);">
+                    <td><code>.zNav-justified</code></td>
+                    <td>All items forced to equal width</td>
+                    <td>SAME width, NO gaps</td>
+                    <td>Symmetrical layout</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Default: content-based width --&gt;
+&lt;ul class="zNav zNav-pills"&gt;...&lt;/ul&gt;
+
+&lt;!-- Fill: proportional growth --&gt;
+&lt;ul class="zNav zNav-pills zNav-fill"&gt;...&lt;/ul&gt;
+
+&lt;!-- Justified: equal width --&gt;
+&lt;ul class="zNav zNav-pills zNav-justified"&gt;...&lt;/ul&gt;</code></pre>
+
+        <div style="background: #fff3cd; padding: 1.5rem; border-radius: 0.5rem; border-left: 4px solid #ffc107; margin: 1.5rem 0;">
+            <p style="margin: 0;"><strong>🎯 Quick Guide:</strong></p>
+            <ul style="margin: 0.5rem 0 0 0;">
+                <li><strong>Default:</strong> Use for standard navigation with varied content</li>
+                <li><strong>.zNav-fill:</strong> Use to fill container while maintaining visual hierarchy</li>
+                <li><strong>.zNav-justified:</strong> Use for perfectly symmetrical, balanced layouts</li>
+            </ul>
+            <p style="margin: 0.75rem 0 0 0; padding-top: 0.75rem; border-top: 1px solid #ffc107;"><strong>📱 Mobile behavior:</strong> On narrow screens, fill/justified layouts enable horizontal scrolling (with min-width: 80px) to prevent items from becoming too narrow or overlapping.</p>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Visual Comparison</h3>
+        <div style="display: grid; grid-template-columns: 1fr; gap: 1rem; margin: 1.5rem 0;">
+            <div style="border: 2px solid #6c757d; padding: 1rem; border-radius: 0.5rem; background: white;">
+                <p style="margin: 0 0 0.5rem 0; font-weight: 600; color: #6c757d;">Default (no class)</p>
+                <div style="display: flex; gap: 0.25rem; background: #e9ecef; padding: 0.5rem; border-radius: 0.25rem;">
+                    <div style="background: #6c757d; color: white; padding: 0.75rem; border-radius: 0.25rem; flex: 0 0 auto; text-align: center;">A</div>
+                    <div style="background: #6c757d; color: white; padding: 0.75rem 1.5rem; border-radius: 0.25rem; flex: 0 0 auto; text-align: center;">Long Text</div>
+                    <div style="flex: 1; background: #f8f9fa; border: 2px dashed #dee2e6; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: #6c757d; min-width: 100px;"><em>empty space →</em></div>
+                </div>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.75rem; color: #6c757d;">↑ Items vary in width, gaps remain</p>
+            </div>
+            
+            <div style="border: 2px solid #28a745; padding: 1rem; border-radius: 0.5rem; background: white;">
+                <p style="margin: 0 0 0.5rem 0; font-weight: 600; color: #28a745;">.zNav-fill (proportional)</p>
+                <div style="display: flex; gap: 0.25rem; background: #e9ecef; padding: 0.5rem; border-radius: 0.25rem;">
+                    <div style="background: #28a745; color: white; padding: 0.75rem; border-radius: 0.25rem; flex: 1 1 auto; text-align: center; min-width: 0;">A</div>
+                    <div style="background: #28a745; color: white; padding: 0.75rem; border-radius: 0.25rem; flex: 2 2 auto; text-align: center; min-width: 0;">Long Text</div>
+                </div>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.75rem; color: #6c757d;">↑ Both fill space, but "Long Text" is wider</p>
+            </div>
+            
+            <div style="border: 2px solid #17a2b8; padding: 1rem; border-radius: 0.5rem; background: white;">
+                <p style="margin: 0 0 0.5rem 0; font-weight: 600; color: #17a2b8;">.zNav-justified (equal)</p>
+                <div style="display: flex; gap: 0.25rem; background: #e9ecef; padding: 0.5rem; border-radius: 0.25rem;">
+                    <div style="background: #17a2b8; color: white; padding: 0.75rem; border-radius: 0.25rem; flex: 1 1 0; text-align: center; min-width: 0;">A</div>
+                    <div style="background: #17a2b8; color: white; padding: 0.75rem; border-radius: 0.25rem; flex: 1 1 0; text-align: center; min-width: 0;">Long Text</div>
+                </div>
+                <p style="margin: 0.5rem 0 0 0; font-size: 0.75rem; color: #6c757d;">↑ Both exactly same width - perfectly even!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fade Animation -->
+    <section style="margin: 3rem 0;">
+        <h2>Fade Animation</h2>
+        <p>Add smooth fade transitions (0.3s) when switching tabs with <code>.zFade</code>:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <ul class="zNav zNav-tabs" role="tablist">
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link zActive" data-bs-toggle="tab" href="#fade1" role="tab">Home</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link" data-bs-toggle="tab" href="#fade2" role="tab">Profile</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link" data-bs-toggle="tab" href="#fade3" role="tab">Contact</a>
+                </li>
+            </ul>
+            <div class="zTab-content">
+                <div class="zTab-pane zFade zActive zShow" id="fade1" role="tabpanel">
+                    <p><strong>Home with fade</strong> - Notice the smooth fade transition!</p>
+                </div>
+                <div class="zTab-pane zFade" id="fade2" role="tabpanel">
+                    <p><strong>Profile with fade</strong> - The content fades in smoothly.</p>
+                </div>
+                <div class="zTab-pane zFade" id="fade3" role="tabpanel">
+                    <p><strong>Contact with fade</strong> - Elegant and professional!</p>
+                </div>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zTab-content"&gt;
+  &lt;!-- First pane needs both zActive and zShow --&gt;
+  &lt;div class="zTab-pane zFade zActive zShow" id="home"&gt;...&lt;/div&gt;
+  &lt;div class="zTab-pane zFade" id="profile"&gt;...&lt;/div&gt;
+  &lt;div class="zTab-pane zFade" id="contact"&gt;...&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Mobile Behavior -->
+    <section style="margin: 3rem 0;">
+        <h2>Mobile Behavior</h2>
+        <p>Tabs automatically adapt to mobile screens with <strong>horizontal scrolling</strong> - the modern, professional standard used by Gmail, Twitter, Chrome, and most mobile apps:</p>
+
+        <div style="background: #e8f5e9; padding: 1.5rem; border-radius: 0.5rem; border-left: 4px solid #4caf50; margin: 1.5rem 0;">
+            <p style="margin: 0;"><strong>✨ Automatic on mobile (≤768px):</strong></p>
+            <ul style="margin-bottom: 0; margin-top: 0.5rem;">
+                <li>Tabs scroll horizontally (swipe to see more)</li>
+                <li>Smooth touch scrolling with momentum</li>
+                <li>No awkward vertical stacking</li>
+                <li>Hidden scrollbar for clean look</li>
+                <li>Scroll snap for better UX</li>
+            </ul>
+        </div>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <p style="margin-bottom: 1rem;"><strong>Try it:</strong> Resize your browser to mobile width or view on mobile - tabs will scroll horizontally! →</p>
+            <ul class="zNav zNav-tabs" role="tablist">
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link zActive" data-bs-toggle="tab" href="#mobile1" role="tab">Dashboard</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link" data-bs-toggle="tab" href="#mobile2" role="tab">Analytics</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link" data-bs-toggle="tab" href="#mobile3" role="tab">Reports</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link" data-bs-toggle="tab" href="#mobile4" role="tab">Settings</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link" data-bs-toggle="tab" href="#mobile5" role="tab">Notifications</a>
+                </li>
+                <li class="zNav-item" role="presentation">
+                    <a class="zNav-link" data-bs-toggle="tab" href="#mobile6" role="tab">Profile</a>
+                </li>
+            </ul>
+            <div class="zTab-content">
+                <div class="zTab-pane zActive" id="mobile1" role="tabpanel">
+                    <p>Dashboard content - On mobile, swipe the tabs left/right to see all options!</p>
+                </div>
+                <div class="zTab-pane" id="mobile2" role="tabpanel">
+                    <p>Analytics content</p>
+                </div>
+                <div class="zTab-pane" id="mobile3" role="tabpanel">
+                    <p>Reports content</p>
+                </div>
+                <div class="zTab-pane" id="mobile4" role="tabpanel">
+                    <p>Settings content</p>
+                </div>
+                <div class="zTab-pane" id="mobile5" role="tabpanel">
+                    <p>Notifications content</p>
+                </div>
+                <div class="zTab-pane" id="mobile6" role="tabpanel">
+                    <p>Profile content</p>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 2rem;">Force Vertical Stacking (Optional)</h3>
+        <p>For settings pages or special cases where vertical stacking is preferred, add <code>.zNav-mobile-vertical</code>:</p>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Force vertical stacking on mobile --&gt;
+&lt;ul class="zNav zNav-tabs zNav-mobile-vertical"&gt;
+  &lt;li class="zNav-item"&gt;
+    &lt;a class="zNav-link zActive" href="#"&gt;Settings&lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li class="zNav-item"&gt;
+    &lt;a class="zNav-link" href="#"&gt;Privacy&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Mobile Best Practice:</strong> Horizontal scrolling tabs are the industry standard for mobile. Only use vertical stacking for sidebar-style navigation or settings interfaces.
+        </blockquote>
+    </section>
+
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Use semantic HTML:</strong> Use <code>&lt;nav&gt;</code> for navigation, <code>&lt;ul&gt;</code> for related groups</li>
+            <li><strong>Accessible markup:</strong> Include <code>role="tablist"</code>, <code>role="tab"</code>, <code>role="tabpanel"</code></li>
+            <li><strong>Active state:</strong> Always mark one item with <code>.zActive</code> and <code>aria-current="page"</code></li>
+            <li><strong>Disabled items:</strong> Use <code>.zDisabled</code> with <code>tabindex="-1"</code> and <code>aria-disabled="true"</code></li>
+            <li><strong>Keyboard navigation:</strong> Tab system includes arrow key navigation automatically</li>
+            <li><strong>Content structure:</strong> Wrap tab panes in <code>.zTab-content</code> for proper styling</li>
+            <li><strong>Mobile friendly:</strong> Tabs scroll horizontally automatically on mobile (768px and below)</li>
+            <li><strong>Limit tabs:</strong> Keep to 5-7 tabs max; more than that, consider dropdowns or reorganizing</li>
+            <li><strong>Short labels:</strong> Keep tab labels concise for better mobile experience</li>
+            <li><strong>Test touch:</strong> Ensure tabs are easy to tap on mobile (min 44×44px touch target)</li>
+        </ul>
+    </section>
+
+    <!-- Accessibility -->
+    <section style="margin: 3rem 0;">
+        <h2>Accessibility</h2>
+        <p>Proper ARIA attributes and keyboard navigation are essential:</p>
+
+        <h3 style="margin-top: 2rem;">Required Attributes</h3>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;ul class="zNav zNav-tabs" role="tablist"&gt;
+  &lt;li class="zNav-item" role="presentation"&gt;
+    &lt;a class="zNav-link zActive" 
+       data-bs-toggle="tab" 
+       href="#home" 
+       role="tab"
+       aria-selected="true"&gt;Home&lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class="zTab-content"&gt;
+  &lt;div class="zTab-pane zActive" 
+       id="home" 
+       role="tabpanel"
+       aria-labelledby="home-tab"&gt;
+    Content...
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <h3 style="margin-top: 2rem;">Keyboard Navigation</h3>
+        <p>The tab system automatically supports:</p>
+        <ul style="line-height: 2;">
+            <li><kbd>Tab</kbd> - Move focus into/out of tab list</li>
+            <li><kbd>Arrow Left/Right</kbd> - Navigate between tabs (horizontal)</li>
+            <li><kbd>Arrow Up/Down</kbd> - Navigate between tabs (vertical)</li>
+            <li><kbd>Home</kbd> - Jump to first tab</li>
+            <li><kbd>End</kbd> - Jump to last tab</li>
+            <li><kbd>Enter/Space</kbd> - Activate focused tab</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+
+        <h3 style="margin-top: 2rem;">Base Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zNav</code></td>
+                    <td>Base navigation component (flexbox container)</td>
+                </tr>
+                <tr>
+                    <td><code>.zNav-item</code></td>
+                    <td>Navigation item wrapper (list item)</td>
+                </tr>
+                <tr>
+                    <td><code>.zNav-link</code></td>
+                    <td>Navigation link/button</td>
+                </tr>
+                <tr>
+                    <td><code>.zActive</code></td>
+                    <td>Active/current navigation item</td>
+                </tr>
+                <tr>
+                    <td><code>.zDisabled</code></td>
+                    <td>Disabled navigation item</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Style Modifiers</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zNav-tabs</code></td>
+                    <td>Tab style with bottom border</td>
+                </tr>
+                <tr>
+                    <td><code>.zNav-pills</code></td>
+                    <td>Pill/button style with rounded corners</td>
+                </tr>
+                <tr>
+                    <td><code>.zNav-underline</code></td>
+                    <td>Modern underline style</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Layout Modifiers</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zFlex-column</code></td>
+                    <td>Vertical navigation layout</td>
+                </tr>
+                <tr>
+                    <td><code>.zNav-fill</code></td>
+                    <td>Items fill available space proportionally</td>
+                </tr>
+                <tr>
+                    <td><code>.zNav-justified</code></td>
+                    <td>Items have equal width</td>
+                </tr>
+                <tr>
+                    <td><code>.zNav-mobile-vertical</code></td>
+                    <td>Force vertical stacking on mobile (≤768px)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Sidebar Layout Containers</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Desktop Behavior</th>
+                    <th scope="col">Mobile Behavior</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zVertical-layout</code></td>
+                    <td>200px left sidebar + content</td>
+                    <td>Horizontal scrolling tabs</td>
+                </tr>
+                <tr>
+                    <td><code>.zVertical-layout-right</code></td>
+                    <td>Content + 200px right sidebar</td>
+                    <td>Horizontal scrolling tabs</td>
+                </tr>
+                <tr>
+                    <td><code>.zVertical-layout-wide</code></td>
+                    <td>250px left sidebar + content</td>
+                    <td>Horizontal scrolling tabs</td>
+                </tr>
+                <tr>
+                    <td><code>.zVertical-layout-wide-right</code></td>
+                    <td>Content + 250px right sidebar</td>
+                    <td>Horizontal scrolling tabs</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p style="margin-top: 1rem;"><strong>Mobile behavior:</strong> Horizontal tabs (≤768px) scroll smoothly with no overflow. Vertical navigation automatically becomes horizontal on mobile - much better UX! For special cases requiring vertical stacking, use <code>.zNav-mobile-vertical</code>.</p>
+
+        <h3 style="margin-top: 2rem;">Tab Content</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zTab-content</code></td>
+                    <td>Container for tab panes</td>
+                </tr>
+                <tr>
+                    <td><code>.zTab-pane</code></td>
+                    <td>Individual content panel</td>
+                </tr>
+                <tr>
+                    <td><code>.zFade</code></td>
+                    <td>Fade animation for transitions</td>
+                </tr>
+                <tr>
+                    <td><code>.zShow</code></td>
+                    <td>Show state (auto-managed by JS)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Data Attributes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Attribute</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>data-bs-toggle="tab"</code></td>
+                    <td>Enables tab switching behavior</td>
+                </tr>
+                <tr>
+                    <td><code>href="#id"</code></td>
+                    <td>Target tab pane ID</td>
+                </tr>
+                <tr>
+                    <td><code>role="tablist"</code></td>
+                    <td>ARIA role for tab container</td>
+                </tr>
+                <tr>
+                    <td><code>role="tab"</code></td>
+                    <td>ARIA role for tab trigger</td>
+                </tr>
+                <tr>
+                    <td><code>role="tabpanel"</code></td>
+                    <td>ARIA role for content panel</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-navbar.html">Navbar</a> - Top-level site navigation</li>
+            <li><a href="ztheme-breadcrumb.html">Breadcrumb</a> - Location-based navigation</li>
+            <li><a href="ztheme-pagination.html">Pagination</a> - Page navigation</li>
+            <li><a href="ztheme-dropdown.html">Dropdown</a> - Dropdown menus for navigation</li>
+            <li><a href="ztheme-list-group.html">List Group</a> - Alternative content list with tabs</li>
+        </ul>
+    </section>
+</article>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

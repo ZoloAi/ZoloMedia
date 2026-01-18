@@ -1,0 +1,64 @@
+/* ============================================
+   zFloat.css - Float Utilities
+   Float and clearfix utilities
+   ============================================ */
+
+/* Float Utilities
+   =============== */
+.zFloat-start { float: left !important; }
+.zFloat-end { float: right !important; }
+.zFloat-none { float: none !important; }
+
+/* Legacy Names (Backward Compatibility)
+   ===================================== */
+.zFloat-left { float: left !important; }
+.zFloat-right { float: right !important; }
+
+/* Clearfix Utility
+   ================ */
+.zClearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive Float Utilities - Small (sm) ≥576px
+   =============================================== */
+@media (min-width: 576px) {
+  .zFloat-sm-start { float: left !important; }
+  .zFloat-sm-end { float: right !important; }
+  .zFloat-sm-none { float: none !important; }
+}
+
+/* Responsive Float Utilities - Medium (md) ≥768px
+   ================================================ */
+@media (min-width: 768px) {
+  .zFloat-md-start { float: left !important; }
+  .zFloat-md-end { float: right !important; }
+  .zFloat-md-none { float: none !important; }
+}
+
+/* Responsive Float Utilities - Large (lg) ≥992px
+   =============================================== */
+@media (min-width: 992px) {
+  .zFloat-lg-start { float: left !important; }
+  .zFloat-lg-end { float: right !important; }
+  .zFloat-lg-none { float: none !important; }
+}
+
+/* Responsive Float Utilities - Extra Large (xl) ≥1200px
+   ====================================================== */
+@media (min-width: 1200px) {
+  .zFloat-xl-start { float: left !important; }
+  .zFloat-xl-end { float: right !important; }
+  .zFloat-xl-none { float: none !important; }
+}
+
+/* Responsive Float Utilities - Extra Extra Large (xxl) ≥1400px
+   ============================================================== */
+@media (min-width: 1400px) {
+  .zFloat-xxl-start { float: left !important; }
+  .zFloat-xxl-end { float: right !important; }
+  .zFloat-xxl-none { float: none !important; }
+}
+

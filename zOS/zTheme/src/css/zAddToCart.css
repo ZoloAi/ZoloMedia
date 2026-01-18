@@ -1,0 +1,36 @@
+.product-variants li {
+    list-style-type: none; /* Removes bullet points */
+    padding-left: 0;       /* Removes padding which is usually reserved for bullet points */
+    background: var(--mainGreen);
+}
+
+.btn-add-to-cart {
+    background-color: #555;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: var(--font-family-sans-serif); /* Font-family from CSS variables */
+  }
+  
+  .btn-add-to-cart:hover {
+    background-color: #444; /* Slightly darker shade for hover effect */
+  }
+  
+.transparent-btn-minus,
+.transparent-btn-plus {
+    background: none;
+    border: none;
+    padding: 0 10px;
+    font-size: var(--bodyPsize);
+}
+
+.transparent-quantity-input {
+    min-width: 50px;
+    width: 75px;
+    text-align: center;
+    border: none;
+    background: none;
+    font-size: var(--bodyPsize);
+}

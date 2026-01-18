@@ -1,0 +1,136 @@
+/* ============================================
+   zRatio.css - Aspect Ratio Helpers
+   ============================================
+   
+   Maintain aspect ratios for responsive embeds
+   (videos, iframes, images, etc).
+   
+   Uses CSS custom properties for easy customization
+   and responsive aspect ratio changes.
+   
+   Classes:
+   - .zRatio          : Base ratio container
+   - .zRatio-1x1      : Square (1:1) aspect ratio
+   - .zRatio-4x3      : Classic TV (4:3) aspect ratio
+   - .zRatio-16x9     : Widescreen (16:9) aspect ratio
+   - .zRatio-21x9     : Ultrawide (21:9) aspect ratio
+   
+   Usage:
+   <div class="zRatio zRatio-16x9">
+     <iframe src="video.mp4"></iframe>
+   </div>
+   
+   Custom ratio:
+   <div class="zRatio" style="--z-aspect-ratio: 50%;">
+     <div>2x1 custom ratio</div>
+   </div>
+*/
+
+/* ============================================
+   Base Ratio Container
+   ============================================ */
+
+.zRatio {
+    position: relative;
+    width: 100%;
+}
+
+/* Universal selector for all direct children */
+.zRatio::before {
+    display: block;
+    padding-top: var(--z-aspect-ratio);
+    content: "";
+}
+
+.zRatio > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ============================================
+   Predefined Aspect Ratios
+   ============================================ */
+
+/* 1x1 - Square (1:1) */
+.zRatio-1x1 {
+    --z-aspect-ratio: 100%;
+}
+
+/* 4x3 - Classic TV (4:3) */
+.zRatio-4x3 {
+    --z-aspect-ratio: calc(3 / 4 * 100%);
+    /* = 75% */
+}
+
+/* 16x9 - Widescreen (16:9) */
+.zRatio-16x9 {
+    --z-aspect-ratio: calc(9 / 16 * 100%);
+    /* = 56.25% */
+}
+
+/* 21x9 - Ultrawide (21:9) */
+.zRatio-21x9 {
+    --z-aspect-ratio: calc(9 / 21 * 100%);
+    /* ≈ 42.86% */
+}
+
+/* ============================================
+   Common Media Aspect Ratios (Bonus)
+   ============================================ */
+
+/* 3x2 - Classic photo (3:2) */
+.zRatio-3x2 {
+    --z-aspect-ratio: calc(2 / 3 * 100%);
+    /* ≈ 66.67% */
+}
+
+/* 2x1 - Wide banner (2:1) */
+.zRatio-2x1 {
+    --z-aspect-ratio: 50%;
+}
+
+/* ============================================
+   How It Works
+   ============================================
+   
+   The ::before pseudo-element creates padding-top
+   based on the aspect ratio percentage. This reserves
+   space in the layout.
+   
+   The child element is absolutely positioned to fill
+   the reserved space, maintaining the aspect ratio
+   regardless of screen size.
+   
+   Custom ratios:
+   Override --z-aspect-ratio with inline styles or
+   custom CSS for responsive behavior.
+   
+   Example responsive:
+   .zRatio-4x3 {
+     @media (min-width: 768px) {
+       --z-aspect-ratio: 50%; // 2x1 on medium screens
+     }
+   }
+*/
+
+/* ============================================
+   Accessibility & Best Practices
+   ============================================
+   
+   - Always provide proper alt text for images
+   - Include title attributes for iframes
+   - For video, provide captions/subtitles
+   - Test with keyboard navigation
+   - Ensure iframe content is accessible
+   
+   Common use cases:
+   - YouTube/Vimeo embeds (16:9)
+   - Instagram posts (1:1)
+   - Classic video (4:3)
+   - Wide banners (21:9 or 2:1)
+   - Photo galleries (3:2 or 4:3)
+*/
+

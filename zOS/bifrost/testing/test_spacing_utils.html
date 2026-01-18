@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spacing Utilities Test - Micro-Step 0.2</title>
+  
+  <!-- zTheme CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css">
+  
+  <style>
+    body {
+      background: #f8f9fa;
+      min-height: 100vh;
+      padding: 2rem 0;
+    }
+    
+    /* Demo borders (to visualize spacing) */
+    .demo-box {
+      border: 2px solid #0d6efd;
+      background: white;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .demo-box-inner {
+      border: 2px dashed #6c757d;
+      background: #e9ecef;
+      padding: 0.5rem;
+    }
+    
+    /* Log styling */
+    #log {
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.875rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .log-entry {
+      padding: 0.25rem 0.5rem;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .log-success { color: #198754; }
+    .log-error { color: #dc3545; }
+    .log-info { color: #0d6efd; }
+  </style>
+</head>
+<body>
+  <div class="zContainer">
+    <h1 class="zmb-4">Spacing Utilities Test</h1>
+    <p class="zText-muted zmb-4">Micro-Step 0.2: Testing foundational spacing primitives (margins, padding, gaps)</p>
+    
+    <!-- Test Controls Card -->
+    <div class="zCard zmb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Test Controls</h2>
+        <div class="zD-flex zFlex-wrap zGap-2">
+          <button class="zBtn zBtn-outline-primary" onclick="testMarginClasses()">Test getMarginClass()</button>
+          <button class="zBtn zBtn-outline-success" onclick="testPaddingClasses()">Test getPaddingClass()</button>
+          <button class="zBtn zBtn-outline-info" onclick="testGapClasses()">Test getGapClass()</button>
+          <button class="zBtn zBtn-outline-warning" onclick="testApplySpacing()">Test applySpacing()</button>
+          <button class="zBtn zBtn-outline-secondary" onclick="testNegativeMargins()">Test Negative Margins</button>
+          <button class="zBtn zBtn-danger" onclick="clearRenderZone()">Clear Zone</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Render Zone Card -->
+    <div class="zCard zmb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Render Zone</h2>
+        <p class="zText-muted">Spacing will be visualized here (blue borders show boxes, spacing creates gaps)</p>
+        <div id="render-zone" class="zp-3 zBg-light zBorder zRounded">
+          <p class="zText-muted"><em>Click a test button to visualize spacing...</em></p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Log Card -->
+    <div class="zCard">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Console Log</h2>
+        <div id="log" class="zp-3 zBg-light zBorder zRounded">
+          <!-- Logs will appear here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts (ES6 Modules) -->
+  <script type="module">
+    import { 
+      getMarginClass,
+      getPaddingClass,
+      getGapClass,
+      applySpacing
+    } from '../src/rendering/spacing_utils.js';
+
+    const log = document.getElementById('log');
+    
+    function addLog(message, type = 'info') {
+      const entry = document.createElement('div');
+      entry.className = `log-entry log-${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      log.appendChild(entry);
+      log.scrollTop = log.scrollHeight;
+      console.log(message);
+    }
+
+    // Initialize
+    addLog('✅ Spacing utilities loaded successfully', 'success');
+    addLog('Ready! Click a test button to start.', 'info');
+
+    /**
+     * Test 1: getMarginClass()
+     */
+    window.testMarginClasses = function() {
+      addLog('Running: getMarginClass() Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: getMarginClass()</h3>';
+      
+      // Test 1a: All sides
+      const box1 = document.createElement('div');
+      box1.className = 'demo-box ' + getMarginClass(3); // zm-3
+      box1.innerHTML = '<div class="demo-box-inner">Box with zm-3 (all sides)</div>';
+      zone.appendChild(box1);
+      addLog(`✅ Generated: ${getMarginClass(3)} (all sides)`, 'success');
+      
+      // Test 1b: Top margin
+      const box2 = document.createElement('div');
+      box2.className = 'demo-box ' + getMarginClass(4, 'top'); // zmt-4
+      box2.innerHTML = '<div class="demo-box-inner">Box with zmt-4</div>';
+      zone.appendChild(box2);
+      addLog(`✅ Generated: ${getMarginClass(4, 'top')} (top margin)`, 'success');
+      
+      // Test 1c: X-axis (horizontal centering)
+      const box3 = document.createElement('div');
+      box3.className = 'demo-box ' + getMarginClass('auto', 'x');
+      box3.style.width = '50%';
+      box3.innerHTML = '<div class="demo-box-inner">Box with zmx-auto (centered)</div>';
+      zone.appendChild(box3);
+      addLog(`✅ Generated: ${getMarginClass('auto', 'x')} (horizontal center)`, 'success');
+      
+      // Test 1d: Y-axis
+      const box4 = document.createElement('div');
+      box4.className = 'demo-box ' + getMarginClass(5, 'y'); // zmy-5
+      box4.innerHTML = '<div class="demo-box-inner">Box with zmy-5</div>';
+      zone.appendChild(box4);
+      addLog(`✅ Generated: ${getMarginClass(5, 'y')} (vertical margins)`, 'success');
+      
+      addLog('📊 All margin class variations working correctly', 'info');
+    };
+
+    /**
+     * Test 2: getPaddingClass()
+     */
+    window.testPaddingClasses = function() {
+      addLog('Running: getPaddingClass() Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: getPaddingClass()</h3>';
+      
+      // Test 2a: All sides
+      const box1 = document.createElement('div');
+      box1.className = 'demo-box ' + getPaddingClass(4); // zp-4
+      box1.innerHTML = '<div class="demo-box-inner">Content with zp-4 (all sides)</div>';
+      zone.appendChild(box1);
+      addLog(`✅ Generated: ${getPaddingClass(4)} (all sides padding)`, 'success');
+      
+      // Test 2b: X-axis
+      const box2 = document.createElement('div');
+      box2.className = 'demo-box ' + getPaddingClass(5, 'x'); // zpx-5
+      box2.innerHTML = '<div class="demo-box-inner">Content with zpx-5 (horizontal)</div>';
+      zone.appendChild(box2);
+      addLog(`✅ Generated: ${getPaddingClass(5, 'x')} (horizontal padding)`, 'success');
+      
+      // Test 2c: Y-axis
+      const box3 = document.createElement('div');
+      box3.className = 'demo-box ' + getPaddingClass(3, 'y'); // zpy-3
+      box3.innerHTML = '<div class="demo-box-inner">Content with zpy-3 (vertical)</div>';
+      zone.appendChild(box3);
+      addLog(`✅ Generated: ${getPaddingClass(3, 'y')} (vertical padding)`, 'success');
+      
+      // Test 2d: Individual sides
+      const box4 = document.createElement('div');
+      box4.className = 'demo-box ' + getPaddingClass(2, 'top') + ' ' + getPaddingClass(2, 'bottom');
+      box4.innerHTML = '<div class="demo-box-inner">Content with zpt-2 + zpb-2</div>';
+      zone.appendChild(box4);
+      addLog(`✅ Generated: ${getPaddingClass(2, 'top')} + ${getPaddingClass(2, 'bottom')}`, 'success');
+      
+      addLog('📊 All padding class variations working correctly', 'info');
+    };
+
+    /**
+     * Test 3: getGapClass()
+     */
+    window.testGapClasses = function() {
+      addLog('Running: getGapClass() Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: getGapClass()</h3>';
+      
+      // Test 3a: Flex row with gap
+      const wrapper1 = document.createElement('div');
+      wrapper1.className = 'zD-flex ' + getGapClass(3) + ' zmb-3'; // zGap-3
+      for (let i = 1; i <= 4; i++) {
+        const box = document.createElement('div');
+        box.className = 'demo-box';
+        box.innerHTML = `<div class="demo-box-inner">Item ${i}</div>`;
+        wrapper1.appendChild(box);
+      }
+      zone.appendChild(wrapper1);
+      addLog(`✅ Generated: ${getGapClass(3)} (flex row with 1rem gap)`, 'success');
+      
+      // Test 3b: Flex column with gap
+      const wrapper2 = document.createElement('div');
+      wrapper2.className = 'zD-flex zFlex-column ' + getGapClass(2) + ' zmb-3'; // zGap-2
+      for (let i = 1; i <= 3; i++) {
+        const box = document.createElement('div');
+        box.className = 'demo-box';
+        box.innerHTML = `<div class="demo-box-inner">Row ${i}</div>`;
+        wrapper2.appendChild(box);
+      }
+      zone.appendChild(wrapper2);
+      addLog(`✅ Generated: ${getGapClass(2)} (flex column with 0.5rem gap)`, 'success');
+      
+      // Test 3c: Grid with gap
+      const wrapper3 = document.createElement('div');
+      wrapper3.className = 'zD-grid ' + getGapClass(4);
+      wrapper3.style.gridTemplateColumns = 'repeat(3, 1fr)';
+      for (let i = 1; i <= 6; i++) {
+        const box = document.createElement('div');
+        box.className = 'demo-box';
+        box.innerHTML = `<div class="demo-box-inner">Cell ${i}</div>`;
+        wrapper3.appendChild(box);
+      }
+      zone.appendChild(wrapper3);
+      addLog(`✅ Generated: ${getGapClass(4)} (grid with 1.5rem gap)`, 'success');
+      
+      addLog('📊 All gap class variations working correctly', 'info');
+    };
+
+    /**
+     * Test 4: applySpacing()
+     */
+    window.testApplySpacing = function() {
+      addLog('Running: applySpacing() Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: applySpacing()</h3>';
+      
+      // Test 4a: Combined margin and padding
+      const box1 = document.createElement('div');
+      box1.className = 'demo-box';
+      applySpacing(box1, {
+        margin: { top: 3, bottom: 3 },
+        padding: { x: 4, y: 2 }
+      });
+      box1.innerHTML = '<div class="demo-box-inner">Config: margin.top=3, margin.bottom=3, padding.x=4, padding.y=2</div>';
+      zone.appendChild(box1);
+      addLog('✅ Applied spacing via config object (margin + padding)', 'success');
+      
+      // Test 4b: Centered box with padding
+      const box2 = document.createElement('div');
+      box2.className = 'demo-box';
+      box2.style.width = '60%';
+      applySpacing(box2, {
+        margin: { x: 'auto', y: 4 },
+        padding: { all: 3 }
+      });
+      box2.innerHTML = '<div class="demo-box-inner">Config: margin.x=auto (centered), padding.all=3</div>';
+      zone.appendChild(box2);
+      addLog('✅ Applied spacing with auto centering', 'success');
+      
+      // Test 4c: Flex container with gap
+      const box3 = document.createElement('div');
+      box3.className = 'zD-flex zFlex-wrap';
+      applySpacing(box3, {
+        margin: { top: 4 },
+        padding: { all: 2 },
+        gap: 2
+      });
+      for (let i = 1; i <= 5; i++) {
+        const item = document.createElement('div');
+        item.className = 'demo-box';
+        item.style.flex = '1 1 150px';
+        item.innerHTML = `<div class="demo-box-inner">Item ${i}</div>`;
+        box3.appendChild(item);
+      }
+      zone.appendChild(box3);
+      addLog('✅ Applied spacing with gap to flex container', 'success');
+      
+      addLog('📊 applySpacing() config-based approach working correctly', 'info');
+    };
+
+    /**
+     * Test 5: Negative Margins
+     */
+    window.testNegativeMargins = function() {
+      addLog('Running: Negative Margins Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: Negative Margins (Pull Effect)</h3>';
+      
+      // Test 5a: Pull up with negative top margin
+      const box1 = document.createElement('div');
+      box1.className = 'demo-box zmb-4';
+      box1.innerHTML = '<div class="demo-box-inner">Reference Box</div>';
+      zone.appendChild(box1);
+      
+      const box2 = document.createElement('div');
+      box2.className = 'demo-box ' + getMarginClass(-2, 'top'); // zmt-n2
+      box2.innerHTML = '<div class="demo-box-inner">Box with zmt-n2 (pulled up)</div>';
+      zone.appendChild(box2);
+      addLog(`✅ Generated: ${getMarginClass(-2, 'top')} (pull up by 0.5rem)`, 'success');
+      
+      // Test 5b: Pull horizontally with negative x margin
+      const box3 = document.createElement('div');
+      box3.className = 'demo-box ' + getMarginClass(-3, 'x') + ' zmt-4';
+      box3.innerHTML = '<div class="demo-box-inner">Box with zmx-n3 (pulled inward)</div>';
+      zone.appendChild(box3);
+      addLog(`✅ Generated: ${getMarginClass(-3, 'x')} (pull horizontally by 1rem)`, 'success');
+      
+      addLog('📊 Negative margin classes working correctly', 'info');
+      addLog('⚠️ Use negative margins sparingly - they break normal flow', 'info');
+    };
+
+    /**
+     * Clear the render zone
+     */
+    window.clearRenderZone = function() {
+      addLog('Clearing render zone', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<p class="zText-muted"><em>Zone cleared. Click a test button...</em></p>';
+    };
+  </script>
+</body>
+</html>
+

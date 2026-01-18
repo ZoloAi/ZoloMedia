@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiper Renderer Test - Bifrost</title>
+    
+    <!-- zTheme CSS from CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background: var(--color-lightgray);
+            padding: 2rem;
+        }
+        .test-card {
+            margin-bottom: 2rem;
+        }
+        .test-controls {
+            padding: 1rem;
+            background: var(--color-light);
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+        /* Custom slide colors for testing */
+        .slide-1 { background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-success) 100%) !important; }
+        .slide-2 { background: linear-gradient(135deg, var(--color-info) 0%, var(--color-primary) 100%) !important; }
+        .slide-3 { background: linear-gradient(135deg, var(--color-warning) 0%, var(--color-danger) 100%) !important; }
+        .slide-4 { background: linear-gradient(135deg, var(--color-danger) 0%, var(--color-secondary) 100%) !important; }
+        .slide-5 { background: linear-gradient(135deg, var(--color-success) 0%, var(--color-info) 100%) !important; }
+    </style>
+</head>
+<body>
+    <div class="zContainer">
+        <div class="zCard">
+            <div class="zCard-body">
+                <h1 class="zCard-title zText-primary">
+                    <i class="bi bi-arrows-move"></i>
+                    Swiper Renderer Test
+                </h1>
+                <p class="zText-muted">Testing terminal-first swiper implementation with zTheme carousel</p>
+            </div>
+        </div>
+
+        <!-- Test Controls -->
+        <div class="test-controls">
+            <h3 class="zText-info">Test Scenarios</h3>
+            <p class="zText-muted zMb-2">
+                <strong>Keyboard Navigation:</strong> Use arrow keys (◀▶), number keys (1-5), or 'P' to pause/resume
+            </p>
+            <div class="zD-flex zFlex-wrap zGap-2">
+                <button class="zBtn zBtn-primary" onclick="test1_basicSwiper()">
+                    1. Basic Swiper (3 slides)
+                </button>
+                <button class="zBtn zBtn-secondary" onclick="test2_autoAdvance()">
+                    2. Auto-Advance (5s delay)
+                </button>
+                <button class="zBtn zBtn-success" onclick="test3_loopMode()">
+                    3. Loop Mode
+                </button>
+                <button class="zBtn zBtn-warning" onclick="test4_fadeVariant()">
+                    4. Fade Transition
+                </button>
+                <button class="zBtn zBtn-info" onclick="test5_noIndicators()">
+                    5. No Indicators/Controls
+                </button>
+                <button class="zBtn zBtn-primary" onclick="test6_multipleSwipers()">
+                    6. Multiple Concurrent Swipers
+                </button>
+                <button class="zBtn zBtn-danger" onclick="clearAll()">
+                    Stop All
+                </button>
+            </div>
+        </div>
+
+        <!-- Render Zone -->
+        <div class="zCard test-card">
+            <div class="zCard-body">
+                <h2 class="zCard-title zText-info">Render Zone</h2>
+                <div id="test-zone" class="zBg-light zBorder zRounded" style="min-height: 300px;">
+                    <div class="zP-3">
+                        <p class="zText-muted">Click a test button to render swipers...</p>
+                        <div class="zAlert zAlert-info" role="alert">
+                            <h5 class="zAlert-heading">💡 Keyboard Shortcuts</h5>
+                            <ul style="margin-bottom: 0;">
+                                <li><strong>←/→</strong> - Previous/Next slide</li>
+                                <li><strong>1-9</strong> - Jump to slide number</li>
+                                <li><strong>P</strong> - Pause/Resume auto-advance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logger Output -->
+        <div class="zCard">
+            <div class="zCard-body">
+                <h3 class="zText-secondary">
+                    <i class="bi bi-terminal"></i>
+                    Logger Output
+                </h3>
+                <div id="logger-output" class="zP-2 zBg-dark zText-light zRounded" style="font-family: monospace; font-size: 0.9rem; max-height: 300px; overflow-y: auto;">
+                    📝 Ready to test...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the renderer
+        import SwiperRenderer from '../src/rendering/swiper_renderer.js';
+
+        // Mock logger
+        const logger = {
+            log: (...args) => {
+                const timestamp = new Date().toLocaleTimeString();
+                const message = args.map(arg => 
+                    typeof arg === 'object' ? JSON.stringify(arg) : arg
+                ).join(' ');
+                const logDiv = document.getElementById('logger-output');
+                logDiv.innerHTML += `\n[${timestamp}] ✅ ${message}`;
+                logDiv.scrollTop = logDiv.scrollHeight;
+                console.log(...args);
+            },
+            warn: (...args) => {
+                const timestamp = new Date().toLocaleTimeString();
+                const message = args.map(arg => 
+                    typeof arg === 'object' ? JSON.stringify(arg) : arg
+                ).join(' ');
+                const logDiv = document.getElementById('logger-output');
+                logDiv.innerHTML += `\n[${timestamp}] ⚠️ ${message}`;
+                logDiv.scrollTop = logDiv.scrollHeight;
+                console.warn(...args);
+            }
+        };
+
+        // Initialize renderer
+        const renderer = new SwiperRenderer(logger);
+
+        logger.log('✅ SwiperRenderer initialized (Terminal-First Refactor)');
+        logger.log('✅ API: init(event), update(event), complete(event)');
+        logger.log('🎠 Testing zTheme carousel with keyboard nav, auto-advance, and loop mode');
+        logger.log('⌨️  Terminal paradigm: Arrow keys, number keys, pause (P), quit (Q)');
+
+        // Export for onclick handlers
+        window.renderer = renderer;
+        window.logger = logger;
+
+        // Test 1: Basic Swiper (3 slides)
+        window.test1_basicSwiper = () => {
+            logger.log('Testing basic swiper with 3 slides...');
+            renderer.init({
+                swiperId: 'test-basic-' + Date.now(),
+                label: 'Getting Started',
+                slides: [
+                    '<div class="slide-1"><h2 class="zText-white">Welcome to zCLI!</h2><p class="zText-white">Slide 1</p></div>',
+                    '<div class="slide-2"><h2 class="zText-white">Feature Overview</h2><p class="zText-white">Slide 2</p></div>',
+                    '<div class="slide-3"><h2 class="zText-white">Thank You!</h2><p class="zText-white">Slide 3</p></div>'
+                ],
+                currentSlide: 0,
+                totalSlides: 3,
+                autoAdvance: false,
+                delay: 3,
+                loop: false,
+                container: '#test-zone',
+                variant: 'slide',
+                showIndicators: true,
+                showControls: true
+            });
+        };
+
+        // Test 2: Auto-Advance (5s delay)
+        window.test2_autoAdvance = () => {
+            logger.log('Testing auto-advance with 5s delay...');
+            renderer.init({
+                swiperId: 'test-auto-' + Date.now(),
+                label: 'Auto-Advancing Carousel',
+                slides: [
+                    '<div class="slide-1"><h3 class="zText-white">Slide 1</h3><p class="zText-white">Auto-advances every 5 seconds</p></div>',
+                    '<div class="slide-2"><h3 class="zText-white">Slide 2</h3><p class="zText-white">Press P to pause</p></div>',
+                    '<div class="slide-3"><h3 class="zText-white">Slide 3</h3><p class="zText-white">Press P again to resume</p></div>'
+                ],
+                currentSlide: 0,
+                totalSlides: 3,
+                autoAdvance: true,
+                delay: 5,
+                loop: false,
+                container: '#test-zone',
+                variant: 'slide',
+                showIndicators: true,
+                showControls: true
+            });
+        };
+
+        // Test 3: Loop Mode
+        window.test3_loopMode = () => {
+            logger.log('Testing loop mode with auto-advance...');
+            renderer.init({
+                swiperId: 'test-loop-' + Date.now(),
+                label: 'Looping Carousel',
+                slides: [
+                    '<div class="slide-1"><h3 class="zText-white">Slide 1</h3><p class="zText-white">Loops back to start</p></div>',
+                    '<div class="slide-2"><h3 class="zText-white">Slide 2</h3><p class="zText-white">Use arrow keys to navigate</p></div>',
+                    '<div class="slide-3"><h3 class="zText-white">Slide 3</h3><p class="zText-white">Goes to Slide 1 next</p></div>'
+                ],
+                currentSlide: 0,
+                totalSlides: 3,
+                autoAdvance: true,
+                delay: 3,
+                loop: true,
+                container: '#test-zone',
+                variant: 'slide',
+                showIndicators: true,
+                showControls: true
+            });
+        };
+
+        // Test 4: Fade Transition
+        window.test4_fadeVariant = () => {
+            logger.log('Testing fade transition variant...');
+            renderer.init({
+                swiperId: 'test-fade-' + Date.now(),
+                label: 'Fade Transition',
+                slides: [
+                    '<div class="slide-1"><h3 class="zText-white">Fade Effect</h3><p class="zText-white">Crossfade transition</p></div>',
+                    '<div class="slide-2"><h3 class="zText-white">Smooth</h3><p class="zText-white">No sliding motion</p></div>',
+                    '<div class="slide-3"><h3 class="zText-white">Elegant</h3><p class="zText-white">Opacity-based</p></div>'
+                ],
+                currentSlide: 0,
+                totalSlides: 3,
+                autoAdvance: true,
+                delay: 4,
+                loop: true,
+                container: '#test-zone',
+                variant: 'fade',
+                showIndicators: true,
+                showControls: true
+            });
+        };
+
+        // Test 5: No Indicators/Controls
+        window.test5_noIndicators = () => {
+            logger.log('Testing swiper without indicators/controls...');
+            renderer.init({
+                swiperId: 'test-minimal-' + Date.now(),
+                label: 'Minimal Carousel',
+                slides: [
+                    '<div class="slide-1"><h3 class="zText-white">Minimal UI</h3><p class="zText-white">No controls or indicators</p></div>',
+                    '<div class="slide-2"><h3 class="zText-white">Keyboard Only</h3><p class="zText-white">Use arrow keys</p></div>',
+                    '<div class="slide-3"><h3 class="zText-white">Clean Design</h3><p class="zText-white">Auto-advances in 3s</p></div>'
+                ],
+                currentSlide: 0,
+                totalSlides: 3,
+                autoAdvance: true,
+                delay: 3,
+                loop: true,
+                container: '#test-zone',
+                variant: 'slide',
+                showIndicators: false,
+                showControls: false
+            });
+        };
+
+        // Test 6: Multiple Concurrent Swipers
+        window.test6_multipleSwipers = () => {
+            logger.log('Testing multiple concurrent swipers...');
+            
+            // Swiper 1
+            renderer.init({
+                swiperId: 'test-multi-1-' + Date.now(),
+                label: 'Carousel A (Fast)',
+                slides: [
+                    '<div class="slide-1"><h4 class="zText-white">A1</h4></div>',
+                    '<div class="slide-2"><h4 class="zText-white">A2</h4></div>',
+                    '<div class="slide-3"><h4 class="zText-white">A3</h4></div>'
+                ],
+                currentSlide: 0,
+                totalSlides: 3,
+                autoAdvance: true,
+                delay: 2,
+                loop: true,
+                container: '#test-zone',
+                variant: 'slide',
+                showIndicators: true,
+                showControls: true
+            });
+
+            // Swiper 2
+            setTimeout(() => {
+                renderer.init({
+                    swiperId: 'test-multi-2-' + Date.now(),
+                    label: 'Carousel B (Slow, Fade)',
+                    slides: [
+                        '<div class="slide-4"><h4 class="zText-white">B1</h4></div>',
+                        '<div class="slide-5"><h4 class="zText-white">B2</h4></div>',
+                        '<div class="slide-1"><h4 class="zText-white">B3</h4></div>'
+                    ],
+                    currentSlide: 0,
+                    totalSlides: 3,
+                    autoAdvance: true,
+                    delay: 4,
+                    loop: true,
+                    container: '#test-zone',
+                    variant: 'fade',
+                    showIndicators: true,
+                    showControls: true
+                });
+            }, 500);
+        };
+
+        // Clear all
+        window.clearAll = () => {
+            logger.log('Stopping all swipers...');
+            renderer.stopAll();
+            document.getElementById('test-zone').innerHTML = '<div class="zP-3"><p class="zText-muted">Click a test button to render swipers...</p></div>';
+        };
+
+        logger.log('Ready to test! Click a button above or use keyboard shortcuts.');
+    </script>
+</body>
+</html>
+

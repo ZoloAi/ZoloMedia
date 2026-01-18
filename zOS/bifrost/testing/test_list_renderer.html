@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List Renderer Test - zCLI BifrostClient</title>
+  
+  <!-- zTheme CSS (CDN with cache-busting) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css?v=20251218">
+  
+  <style>
+    /* ONLY body background - NO component styles! */
+    body {
+      background: #f8f9fa;
+      min-height: 100vh;
+    }
+    
+    /* Log styling (not for zTheme components) */
+    #log {
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.875rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .log-entry {
+      padding: 0.25rem 0.5rem;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .log-success { color: #198754; }
+    .log-error { color: #dc3545; }
+    .log-info { color: #0d6efd; }
+  </style>
+</head>
+<body>
+  <!-- Main Container (zTheme) -->
+  <div class="zContainer zMy-4">
+    
+    <!-- Header Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h1 class="zCard-title">List Renderer Test</h1>
+        <p class="zCard-text zText-muted">
+          Micro-Step 4: Testing list rendering (bullet and numbered lists)
+        </p>
+      </div>
+    </div>
+
+    <!-- Test Controls Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Test Controls</h2>
+        <div class="zD-flex zFlex-wrap zGap-2">
+          <button class="zBtn zBtn-outline-primary" onclick="testBulletList()">Test Bullet List</button>
+          <button class="zBtn zBtn-outline-success" onclick="testNumberedList()">Test Numbered List</button>
+          <button class="zBtn zBtn-outline-info" onclick="testBothStyles()">Test Both Styles</button>
+          <button class="zBtn zBtn-outline-warning" onclick="testIndent()">Test Indent</button>
+          <button class="zBtn zBtn-outline-secondary" onclick="testEmptyList()">Test Empty List</button>
+          <button class="zBtn zBtn-outline-dark" onclick="clearRenderZone()">Clear Zone</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Render Zone Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Render Zone</h2>
+        <div id="render-zone" class="zP-3 zBg-white zBorder zRounded">
+          <!-- Lists will render here -->
+          <p class="zText-muted"><em>Click a test button to render lists...</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log Card -->
+    <div class="zCard">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Console Log</h2>
+        <div id="log" class="zP-3 zBg-light zBorder zRounded">
+          <!-- Logs will appear here -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts (ES6 Modules) -->
+  <script type="module">
+    import { ListRenderer } from '../src/rendering/list_renderer.js';
+
+    // Mock logger that outputs to both console and on-page log
+    const mockLogger = {
+      log: (msg) => {
+        console.log(msg);
+        addLog(msg, 'info');
+      },
+      error: (msg) => {
+        console.error(msg);
+        addLog(msg, 'error');
+      },
+      warn: (msg) => {
+        console.warn(msg);
+        addLog(msg, 'error');
+      }
+    };
+
+    function addLog(message, type = 'info') {
+      const logDiv = document.getElementById('log');
+      const entry = document.createElement('div');
+      entry.className = `log-entry log-${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logDiv.appendChild(entry);
+      logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    // Initialize renderer
+    const renderer = new ListRenderer(mockLogger);
+    addLog('ListRenderer initialized', 'success');
+
+    // Test Functions (exposed to global scope)
+    window.testBulletList = function() {
+      addLog('Running: Bullet List Test', 'info');
+      renderer.render({
+        items: [
+          'First item in bullet list',
+          'Second item in bullet list',
+          'Third item in bullet list'
+        ],
+        style: 'bullet'
+      }, 'render-zone');
+    };
+
+    window.testNumberedList = function() {
+      addLog('Running: Numbered List Test', 'info');
+      renderer.render({
+        items: [
+          'First item in numbered list',
+          'Second item in numbered list',
+          'Third item in numbered list',
+          'Fourth item in numbered list'
+        ],
+        style: 'number'
+      }, 'render-zone');
+    };
+
+    window.testBothStyles = function() {
+      addLog('Running: Both Styles Test', 'info');
+      
+      // Bullet list
+      const bulletHeader = document.createElement('h3');
+      bulletHeader.textContent = 'Bullet List:';
+      document.getElementById('render-zone').appendChild(bulletHeader);
+      
+      renderer.render({
+        items: ['Apple', 'Banana', 'Cherry'],
+        style: 'bullet'
+      }, 'render-zone');
+      
+      // Numbered list
+      const numberHeader = document.createElement('h3');
+      numberHeader.textContent = 'Numbered List:';
+      numberHeader.style.marginTop = '1rem';
+      document.getElementById('render-zone').appendChild(numberHeader);
+      
+      renderer.render({
+        items: ['First step', 'Second step', 'Third step'],
+        style: 'number'
+      }, 'render-zone');
+    };
+
+    window.testIndent = function() {
+      addLog('Running: Indent Test', 'info');
+      
+      // Header
+      const header = document.createElement('h3');
+      header.textContent = 'Lists with Progressive Indentation:';
+      document.getElementById('render-zone').appendChild(header);
+      
+      renderer.render({
+        items: ['Indent 0 (flush left)'],
+        style: 'bullet',
+        indent: 0
+      }, 'render-zone');
+      
+      renderer.render({
+        items: ['Indent 1 (1rem)'],
+        style: 'bullet',
+        indent: 1
+      }, 'render-zone');
+      
+      renderer.render({
+        items: ['Indent 2 (2rem)'],
+        style: 'bullet',
+        indent: 2
+      }, 'render-zone');
+      
+      renderer.render({
+        items: ['Indent 3 (3rem)'],
+        style: 'number',
+        indent: 3
+      }, 'render-zone');
+    };
+
+    window.testEmptyList = function() {
+      addLog('Running: Empty List Test', 'info');
+      renderer.render({
+        items: [],
+        style: 'bullet'
+      }, 'render-zone');
+    };
+
+    window.clearRenderZone = function() {
+      addLog('Clearing render zone', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<p class="zText-muted"><em>Zone cleared. Click a test button...</em></p>';
+    };
+
+    // Auto-run basic test on load
+    addLog('Ready! Click a test button to start.', 'success');
+  </script>
+</body>
+</html>
+

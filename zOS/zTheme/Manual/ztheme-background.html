@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer zp-5">
+    <h1 class="zmb-2">🎨 Background Utilities</h1>
+    <p class="zLead text-muted zmb-6">
+        Convey meaning through background colors and add visual depth with gradients.
+    </p>
+
+    <hr class="zmy-5 hr-visible">
+
+    <!-- Understanding Background Utilities -->
+    <section class="zmy-6">
+        <h2 class="zPrimary">Understanding Background Utilities</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Background utilities apply color to elements to convey meaning, establish visual hierarchy, 
+            or create zones. Unlike color themes for components, background utilities are <strong>layout-level helpers</strong> 
+            that work with any element.
+        </p>
+
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>⚠️ Important:</strong> Background utilities <strong>do NOT set text color</strong>. 
+            Always pair them with <code>.zText-white</code> or <code>.zText-dark</code> for proper contrast!</p>
+        </div>
+    </section>
+
+    <!-- Basic Background Colors -->
+    <section class="zmy-6">
+        <h2 class="zSecondary">Background Colors</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            All theme colors are available as background utilities:
+        </p>
+
+        <div style="display: grid; gap: 1rem; margin: 2rem 0;">
+            <div class="zBg-primary zText-white" style="padding: 1.5rem; border-radius: 8px;">
+                <strong>.zBg-primary</strong> - Primary brand color (Intention)
+            </div>
+
+            <div class="zBg-secondary zText-white" style="padding: 1.5rem; border-radius: 8px;">
+                <strong>.zBg-secondary</strong> - Secondary brand color (Validation)
+            </div>
+
+            <div class="zBg-success zText-white" style="padding: 1.5rem; border-radius: 8px;">
+                <strong>.zBg-success</strong> - Success states (Manifestation)
+            </div>
+
+            <div class="zBg-info zText-white" style="padding: 1.5rem; border-radius: 8px;">
+                <strong>.zBg-info</strong> - Informational content (Perception)
+            </div>
+
+            <div class="zBg-warning zText-dark" style="padding: 1.5rem; border-radius: 8px;">
+                <strong>.zBg-warning</strong> - Warning states (Caution)
+            </div>
+
+            <div class="zBg-danger zText-white" style="padding: 1.5rem; border-radius: 8px;">
+                <strong>.zBg-danger</strong> - Error/danger states (Decisive)
+            </div>
+
+            <div class="zBg-light zText-dark" style="padding: 1.5rem; border-radius: 8px; border: 1px solid #dee2e6;">
+                <strong>.zBg-light</strong> - Light neutral background
+            </div>
+
+            <div class="zBg-dark zText-white" style="padding: 1.5rem; border-radius: 8px;">
+                <strong>.zBg-dark</strong> - Dark neutral background
+            </div>
+
+            <div class="zBg-white zText-dark" style="padding: 1.5rem; border-radius: 8px; border: 1px solid #dee2e6;">
+                <strong>.zBg-white</strong> - Pure white background
+            </div>
+
+            <div class="zBg-body zText-dark" style="padding: 1.5rem; border-radius: 8px; border: 1px solid #dee2e6;">
+                <strong>.zBg-body</strong> - Body background color (warm natural tone)
+            </div>
+
+            <div class="zBg-transparent zText-dark" style="padding: 1.5rem; border-radius: 8px; border: 1px solid #dee2e6;">
+                <strong>.zBg-transparent</strong> - Transparent background
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zBg-primary zText-white zp-3"&gt;Primary&lt;/div&gt;
+&lt;div class="zBg-success zText-white zp-3"&gt;Success&lt;/div&gt;
+&lt;div class="zBg-warning zText-dark zp-3"&gt;Warning&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Background Gradients -->
+    <section class="zmy-6">
+        <h2 class="zInfo">Background Gradients</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Add <code>.zBg-gradient</code> to any background color to apply a subtle gradient overlay. 
+            The gradient starts with semi-transparent white at the top and fades to transparent at the bottom, 
+            creating visual depth.
+        </p>
+
+        <div style="display: grid; gap: 1rem; margin: 2rem 0;">
+            <div class="zBg-primary zBg-gradient zText-white" style="padding: 1.5rem; border-radius: 8px;">
+                <strong>.zBg-primary.zBg-gradient</strong> - Primary with gradient overlay
+            </div>
+
+            <div class="zBg-success zBg-gradient zText-white" style="padding: 1.5rem; border-radius: 8px;">
+                <strong>.zBg-success.zBg-gradient</strong> - Success with gradient overlay
+            </div>
+
+            <div class="zBg-info zBg-gradient zText-white" style="padding: 1.5rem; border-radius: 8px;">
+                <strong>.zBg-info.zBg-gradient</strong> - Info with gradient overlay
+            </div>
+
+            <div class="zBg-danger zBg-gradient zText-white" style="padding: 1.5rem; border-radius: 8px;">
+                <strong>.zBg-danger.zBg-gradient</strong> - Danger with gradient overlay
+            </div>
+
+            <div class="zBg-dark zBg-gradient zText-white" style="padding: 1.5rem; border-radius: 8px;">
+                <strong>.zBg-dark.zBg-gradient</strong> - Dark with gradient overlay
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zBg-primary zBg-gradient zText-white"&gt;
+  Subtle gradient overlay for visual depth
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Real-World Examples -->
+    <section class="zmy-6">
+        <h2 class="zSuccess">Real-World Examples</h2>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Hero Section</h3>
+        <div class="zBg-primary zBg-gradient zText-white" style="padding: 4rem 2rem; border-radius: 8px; text-align: center;">
+            <h1 style="color: white; margin-bottom: 1rem;">Welcome to zCLI</h1>
+            <p style="font-size: 1.25rem; margin-bottom: 1.5rem;">Build powerful command-line applications with ease</p>
+            <button class="zBtn zBtn-light zBtn-lg">Get Started</button>
+        </div>
+
+        <h3 style="margin-top: 3rem; color: #495057;">Alert Boxes</h3>
+        <div style="display: grid; gap: 1rem;">
+            <div class="zBg-success zText-white" style="padding: 1rem; border-radius: 4px;">
+                ✅ <strong>Success:</strong> Your changes have been saved successfully!
+            </div>
+
+            <div class="zBg-info zText-white" style="padding: 1rem; border-radius: 4px;">
+                ℹ️ <strong>Info:</strong> Did you know? You can customize theme colors in css_vars.css
+            </div>
+
+            <div class="zBg-warning zText-dark" style="padding: 1rem; border-radius: 4px;">
+                ⚠️ <strong>Warning:</strong> This action cannot be undone. Proceed with caution.
+            </div>
+
+            <div class="zBg-danger zText-white" style="padding: 1rem; border-radius: 4px;">
+                ❌ <strong>Error:</strong> Failed to connect to database. Check your configuration.
+            </div>
+        </div>
+
+        <h3 style="margin-top: 3rem; color: #495057;">Card with Colored Header</h3>
+        <div style="border: 1px solid #dee2e6; border-radius: 8px; overflow: hidden; max-width: 500px;">
+            <div class="zBg-primary zBg-gradient zText-white" style="padding: 1.5rem;">
+                <h3 style="margin: 0; color: white;">Feature Card</h3>
+            </div>
+            <div class="zBg-white" style="padding: 1.5rem;">
+                <p style="margin: 0 0 1rem 0;">This card uses a colored gradient header to draw attention and establish visual hierarchy.</p>
+                <button class="zBtn zBtn-primary">Learn More</button>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 3rem; color: #495057;">Code Block</h3>
+        <div class="zBg-dark zText-white" style="padding: 1.5rem; border-radius: 8px; font-family: 'Courier New', monospace;">
+            <div style="color: #A2D46E;">$ python main.py</div>
+            <div style="margin-top: 0.5rem;">Initializing zCLI...</div>
+            <div style="color: #52B788;">✓ Server started on port 8080</div>
+        </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2 class="zWarning">Best Practices</h2>
+
+        <div style="display: grid; gap: 1.5rem; margin-top: 1.5rem;">
+            <div>
+                <h3 style="color: #198754; display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.5rem;">✅</span> DO
+                </h3>
+                <ul style="line-height: 1.8; margin-top: 0.5rem;">
+                    <li>Always pair background utilities with text color utilities for proper contrast</li>
+                    <li>Use semantic colors to convey meaning (success = green, danger = red)</li>
+                    <li>Test color combinations for accessibility (WCAG 2.1 AA minimum)</li>
+                    <li>Use gradients sparingly for visual hierarchy</li>
+                    <li>Leverage <code>.zBg-body</code> for sections that should match page background</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 style="color: #dc3545; display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.5rem;">❌</span> DON'T
+                </h3>
+                <ul style="line-height: 1.8; margin-top: 0.5rem;">
+                    <li>Don't use background utilities without considering text contrast</li>
+                    <li>Don't overuse gradients (they can slow page rendering if excessive)</li>
+                    <li>Don't rely solely on color to convey information (use icons/text too)</li>
+                    <li>Don't forget to test on different screen brightness levels</li>
+                    <li>Don't use <code>.zBg-warning</code> with white text (poor contrast!)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Accessibility -->
+    <section class="zmy-6">
+        <h2 class="zDanger">Accessibility Considerations</h2>
+        
+        <div style="background: #fff8e1; padding: 1.5rem; border-left: 4px solid #ffa726; margin: 2rem 0;">
+            <h3 style="margin-top: 0;">Color Contrast Requirements</h3>
+            <p style="margin-bottom: 1rem;">
+                WCAG 2.1 requires a <strong>contrast ratio of at least 4.5:1</strong> for normal text 
+                and <strong>3:1 for large text</strong> (18px+).
+            </p>
+
+            <table class="zTable" style="background: white; margin-top: 1rem;">
+                <thead>
+                    <tr>
+                        <th>Background</th>
+                        <th>Use with .zText-white</th>
+                        <th>Use with .zText-dark</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>.zBg-primary</code></td>
+                        <td style="color: #198754;">✅ Good</td>
+                        <td style="color: #dc3545;">❌ Poor</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zBg-secondary</code></td>
+                        <td style="color: #198754;">✅ Good</td>
+                        <td style="color: #dc3545;">❌ Poor</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zBg-success</code></td>
+                        <td style="color: #198754;">✅ Good</td>
+                        <td style="color: #dc3545;">❌ Poor</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zBg-info</code></td>
+                        <td style="color: #198754;">✅ Good</td>
+                        <td style="color: #dc3545;">❌ Poor</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zBg-warning</code></td>
+                        <td style="color: #dc3545;">❌ Poor</td>
+                        <td style="color: #198754;">✅ Good</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zBg-danger</code></td>
+                        <td style="color: #198754;">✅ Good</td>
+                        <td style="color: #dc3545;">❌ Poor</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zBg-light</code></td>
+                        <td style="color: #dc3545;">❌ Poor</td>
+                        <td style="color: #198754;">✅ Good</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zBg-dark</code></td>
+                        <td style="color: #198754;">✅ Good</td>
+                        <td style="color: #dc3545;">❌ Poor</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <blockquote style="background: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>🔍 Pro Tip:</strong> Use browser DevTools Accessibility panel or online tools like 
+            <a href="https://webaim.org/resources/contrastchecker/" target="_blank">WebAIM Contrast Checker</a> to verify color contrast ratios!</p>
+        </blockquote>
+    </section>
+
+    <!-- CSS Reference -->
+    <section class="zmy-6">
+        <h2 class="zSecondary">CSS Reference</h2>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Background Color Classes</h3>
+        <table class="zTable zTable-striped">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>CSS Variable</th>
+                    <th>Default Color</th>
+                    <th>Usage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zBg-primary</code></td>
+                    <td><code>var(--color-primary)</code></td>
+                    <td><span style="display: inline-block; width: 20px; height: 20px; background: #A2D46E; border: 1px solid #999; vertical-align: middle;"></span> #A2D46E</td>
+                    <td>Brand primary</td>
+                </tr>
+                <tr>
+                    <td><code>.zBg-secondary</code></td>
+                    <td><code>var(--color-secondary)</code></td>
+                    <td><span style="display: inline-block; width: 20px; height: 20px; background: #9370DB; border: 1px solid #999; vertical-align: middle;"></span> #9370DB</td>
+                    <td>Brand secondary</td>
+                </tr>
+                <tr>
+                    <td><code>.zBg-success</code></td>
+                    <td><code>var(--color-success)</code></td>
+                    <td><span style="display: inline-block; width: 20px; height: 20px; background: #52B788; border: 1px solid #999; vertical-align: middle;"></span> #52B788</td>
+                    <td>Success states</td>
+                </tr>
+                <tr>
+                    <td><code>.zBg-info</code></td>
+                    <td><code>var(--color-info)</code></td>
+                    <td><span style="display: inline-block; width: 20px; height: 20px; background: #5CA9FF; border: 1px solid #999; vertical-align: middle;"></span> #5CA9FF</td>
+                    <td>Informational</td>
+                </tr>
+                <tr>
+                    <td><code>.zBg-warning</code></td>
+                    <td><code>var(--color-warning)</code></td>
+                    <td><span style="display: inline-block; width: 20px; height: 20px; background: #FFB347; border: 1px solid #999; vertical-align: middle;"></span> #FFB347</td>
+                    <td>Warnings</td>
+                </tr>
+                <tr>
+                    <td><code>.zBg-danger</code></td>
+                    <td><code>var(--color-error)</code></td>
+                    <td><span style="display: inline-block; width: 20px; height: 20px; background: #E63946; border: 1px solid #999; vertical-align: middle;"></span> #E63946</td>
+                    <td>Errors/danger</td>
+                </tr>
+                <tr>
+                    <td><code>.zBg-light</code></td>
+                    <td><code>var(--color-light)</code></td>
+                    <td><span style="display: inline-block; width: 20px; height: 20px; background: #f8f9fa; border: 1px solid #999; vertical-align: middle;"></span> #f8f9fa</td>
+                    <td>Light backgrounds</td>
+                </tr>
+                <tr>
+                    <td><code>.zBg-dark</code></td>
+                    <td><code>var(--color-dark)</code></td>
+                    <td><span style="display: inline-block; width: 20px; height: 20px; background: #212529; border: 1px solid #999; vertical-align: middle;"></span> #212529</td>
+                    <td>Dark backgrounds</td>
+                </tr>
+                <tr>
+                    <td><code>.zBg-white</code></td>
+                    <td><code>var(--color-white)</code></td>
+                    <td><span style="display: inline-block; width: 20px; height: 20px; background: #ffffff; border: 1px solid #999; vertical-align: middle;"></span> #ffffff</td>
+                    <td>Pure white</td>
+                </tr>
+                <tr>
+                    <td><code>.zBg-body</code></td>
+                    <td><code>var(--color-base)</code></td>
+                    <td><span style="display: inline-block; width: 20px; height: 20px; background: #FFFCDC; border: 1px solid #999; vertical-align: middle;"></span> #FFFCDC</td>
+                    <td>Body background</td>
+                </tr>
+                <tr>
+                    <td><code>.zBg-transparent</code></td>
+                    <td><code>transparent</code></td>
+                    <td>-</td>
+                    <td>Transparent</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Gradient Class</h3>
+        <table class="zTable">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>CSS</th>
+                    <th>Effect</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zBg-gradient</code></td>
+                    <td><code>background-image: linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0))</code></td>
+                    <td>Adds subtle white-to-transparent gradient overlay</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <blockquote style="background: #e8f5e9; padding: 1rem; border-left: 4px solid #4caf50; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Customization:</strong> All background colors use CSS variables defined in 
+            <code>css_vars.css</code>. Change the variable values there to customize the entire theme!</p>
+        </blockquote>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2 class="zInfo">Related Topics</h2>
+        <ul class="lh-lg">
+            <li><a href="ztheme-colors.html">Colors</a> - Text color utilities (.zText-*)</li>
+            <li><a href="ztheme-borders.html">Borders</a> - Border color utilities</li>
+            <li><a href="ztheme-shadows.html">Shadows</a> - Box shadow utilities</li>
+            <li><a href="ztheme-opacity.html">Opacity</a> - Opacity utilities</li>
+        </ul>
+    </section>
+
+</div>
+
+<script>
+// No JavaScript needed for background utilities - they're pure CSS!
+</script>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

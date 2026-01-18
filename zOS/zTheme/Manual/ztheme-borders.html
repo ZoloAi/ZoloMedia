@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Borders - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer zp-5">
+    <h1 class="zmb-2">📐 Border Utilities</h1>
+    <p class="zLead text-muted zmb-6">
+        Quickly style borders and rounded corners of elements for images, buttons, cards, and more.
+    </p>
+
+    <hr class="zmy-5 hr-visible">
+
+    <!-- Understanding Border Utilities -->
+    <section class="zmy-6">
+        <h2 class="zPrimary">Understanding Border Utilities</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Border utilities let you add, remove, color, and size borders on any element. They're perfect for creating 
+            visual separation, emphasizing elements, or adding polish to your UI. Border-radius utilities help you 
+            round corners for a modern, friendly aesthetic.
+        </p>
+
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Pro Tip:</strong> Border utilities can be <strong>combined</strong>! 
+            Use <code>.zBorder</code> with <code>.zBorder-primary</code> and <code>.zBorder-3</code> 
+            to create a 3px primary-colored border.</p>
+        </div>
+    </section>
+
+    <!-- Additive Borders -->
+    <section class="zmy-6">
+        <h2 class="zSecondary">Additive Borders</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Add borders to all sides or individual sides of an element:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0;">
+            <div style="text-align: center;">
+                <div class="zBorder zBorder-3 zBorder-dark" style="width: 100px; height: 100px; margin: 0 auto 0.5rem; background: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; color: #999;">All sides</div>
+                <code>.zBorder</code>
+            </div>
+
+            <div style="text-align: center;">
+                <div class="zBorder-top zBorder-3 zBorder-dark" style="width: 100px; height: 100px; margin: 0 auto 0.5rem; background: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; color: #999;">Top</div>
+                <code>.zBorder-top</code>
+            </div>
+
+            <div style="text-align: center;">
+                <div class="zBorder-end zBorder-3 zBorder-dark" style="width: 100px; height: 100px; margin: 0 auto 0.5rem; background: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; color: #999;">Right</div>
+                <code>.zBorder-end</code>
+            </div>
+
+            <div style="text-align: center;">
+                <div class="zBorder-bottom zBorder-3 zBorder-dark" style="width: 100px; height: 100px; margin: 0 auto 0.5rem; background: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; color: #999;">Bottom</div>
+                <code>.zBorder-bottom</code>
+            </div>
+
+            <div style="text-align: center;">
+                <div class="zBorder-start zBorder-3 zBorder-dark" style="width: 100px; height: 100px; margin: 0 auto 0.5rem; background: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; color: #999;">Left</div>
+                <code>.zBorder-start</code>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zBorder"&gt;All sides&lt;/div&gt;
+&lt;div class="zBorder-top"&gt;Top only&lt;/div&gt;
+&lt;div class="zBorder-end"&gt;Right only&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Subtractive Borders -->
+    <section class="zmy-6">
+        <h2 class="zInfo">Subtractive Borders</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Remove borders from elements (useful when you want all sides <em>except</em> one):
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0;">
+            <div style="text-align: center;">
+                <div class="zBorder zBorder-3 zBorder-dark zBorder-0" style="width: 100px; height: 100px; margin: 0 auto 0.5rem; background: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; color: #999;">No border</div>
+                <code>.zBorder-0</code>
+            </div>
+
+            <div style="text-align: center;">
+                <div class="zBorder zBorder-3 zBorder-dark zBorder-top-0" style="width: 100px; height: 100px; margin: 0 auto 0.5rem; background: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; color: #999;">No top</div>
+                <code>.zBorder-top-0</code>
+            </div>
+
+            <div style="text-align: center;">
+                <div class="zBorder zBorder-3 zBorder-dark zBorder-end-0" style="width: 100px; height: 100px; margin: 0 auto 0.5rem; background: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; color: #999;">No right</div>
+                <code>.zBorder-end-0</code>
+            </div>
+
+            <div style="text-align: center;">
+                <div class="zBorder zBorder-3 zBorder-dark zBorder-bottom-0" style="width: 100px; height: 100px; margin: 0 auto 0.5rem; background: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; color: #999;">No bottom</div>
+                <code>.zBorder-bottom-0</code>
+            </div>
+
+            <div style="text-align: center;">
+                <div class="zBorder zBorder-3 zBorder-dark zBorder-start-0" style="width: 100px; height: 100px; margin: 0 auto 0.5rem; background: white; display: flex; align-items: center; justify-content: center; font-size: 0.875rem; color: #999;">No left</div>
+                <code>.zBorder-start-0</code>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zBorder zBorder-bottom-0"&gt;
+  Top, left, right borders (no bottom)
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Border Colors -->
+    <section class="zmy-6">
+        <h2 class="zSuccess">Border Colors</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Use theme colors for borders. Must combine with <code>.zBorder</code> or its variants:
+        </p>
+
+        <div style="display: grid; gap: 1rem; margin: 2rem 0;">
+            <div class="zBorder zBorder-primary" style="padding: 1rem; background: #f5f5f5;">
+                <strong>.zBorder.zBorder-primary</strong>
+            </div>
+
+            <div class="zBorder zBorder-secondary" style="padding: 1rem; background: #f5f5f5;">
+                <strong>.zBorder.zBorder-secondary</strong>
+            </div>
+
+            <div class="zBorder zBorder-success" style="padding: 1rem; background: #f5f5f5;">
+                <strong>.zBorder.zBorder-success</strong>
+            </div>
+
+            <div class="zBorder zBorder-info" style="padding: 1rem; background: #f5f5f5;">
+                <strong>.zBorder.zBorder-info</strong>
+            </div>
+
+            <div class="zBorder zBorder-warning" style="padding: 1rem; background: #f5f5f5;">
+                <strong>.zBorder.zBorder-warning</strong>
+            </div>
+
+            <div class="zBorder zBorder-danger" style="padding: 1rem; background: #f5f5f5;">
+                <strong>.zBorder.zBorder-danger</strong>
+            </div>
+
+            <div class="zBorder zBorder-light" style="padding: 1rem; background: #fff;">
+                <strong>.zBorder.zBorder-light</strong>
+            </div>
+
+            <div class="zBorder zBorder-dark" style="padding: 1rem; background: #f5f5f5;">
+                <strong>.zBorder.zBorder-dark</strong>
+            </div>
+
+            <div class="zBorder zBorder-white" style="padding: 1rem; background: #666;">
+                <strong style="color: white;">.zBorder.zBorder-white</strong>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zBorder zBorder-primary"&gt;Primary border&lt;/div&gt;
+&lt;div class="zBorder-top zBorder-success"&gt;Success top border&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Border Widths -->
+    <section class="zmy-6">
+        <h2 class="zWarning">Border Widths</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Control border thickness from 1px to 5px:
+        </p>
+
+        <div style="display: grid; gap: 1rem; margin: 2rem 0;">
+            <div class="zBorder zBorder-1" style="padding: 1rem; background: #f5f5f5;">
+                <strong>.zBorder.zBorder-1</strong> (1px - default)
+            </div>
+
+            <div class="zBorder zBorder-2" style="padding: 1rem; background: #f5f5f5;">
+                <strong>.zBorder.zBorder-2</strong> (2px)
+            </div>
+
+            <div class="zBorder zBorder-3" style="padding: 1rem; background: #f5f5f5;">
+                <strong>.zBorder.zBorder-3</strong> (3px)
+            </div>
+
+            <div class="zBorder zBorder-4" style="padding: 1rem; background: #f5f5f5;">
+                <strong>.zBorder.zBorder-4</strong> (4px)
+            </div>
+
+            <div class="zBorder zBorder-5" style="padding: 1rem; background: #f5f5f5;">
+                <strong>.zBorder.zBorder-5</strong> (5px)
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zBorder zBorder-3 zBorder-primary"&gt;
+  3px primary border
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Border Radius -->
+    <section class="zmy-6">
+        <h2 class="zDanger">Border Radius (Rounded Corners)</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Round corners for a modern, friendly look. Great for images, avatars, buttons, and cards:
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 2rem; margin: 2rem 0;">
+            <div style="text-align: center;">
+                <img src="https://picsum.photos/75/75" class="zRounded" alt="Rounded">
+                <p style="margin-top: 0.5rem;"><code>.zRounded</code></p>
+            </div>
+
+            <div style="text-align: center;">
+                <img src="https://picsum.photos/75/75" class="zRounded-circle" alt="Circle">
+                <p style="margin-top: 0.5rem;"><code>.zRounded-circle</code></p>
+            </div>
+
+            <div style="text-align: center;">
+                <img src="https://picsum.photos/150/75" class="zRounded-pill" alt="Pill">
+                <p style="margin-top: 0.5rem;"><code>.zRounded-pill</code></p>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;img src="avatar.jpg" class="zRounded-circle" alt="Avatar"&gt;
+&lt;button class="zBtn zRounded-pill"&gt;Pill Button&lt;/button&gt;</code></pre>
+    </section>
+
+    <!-- Border Radius Sizes -->
+    <section class="zmy-6">
+        <h2 class="zSecondary">Border Radius Sizes</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Control how rounded corners are (0 = sharp, 3 = very rounded):
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 2rem; margin: 2rem 0;">
+            <div style="text-align: center;">
+                <img src="https://picsum.photos/75/75" class="zRounded-0" alt="No radius">
+                <p style="margin-top: 0.5rem;"><code>.zRounded-0</code></p>
+                <small>0px (sharp)</small>
+            </div>
+
+            <div style="text-align: center;">
+                <img src="https://picsum.photos/75/75" class="zRounded-1" alt="Small">
+                <p style="margin-top: 0.5rem;"><code>.zRounded-1</code></p>
+                <small>0.2rem (small)</small>
+            </div>
+
+            <div style="text-align: center;">
+                <img src="https://picsum.photos/75/75" class="zRounded-2" alt="Default">
+                <p style="margin-top: 0.5rem;"><code>.zRounded-2</code></p>
+                <small>0.25rem (default)</small>
+            </div>
+
+            <div style="text-align: center;">
+                <img src="https://picsum.photos/75/75" class="zRounded-3" alt="Large">
+                <p style="margin-top: 0.5rem;"><code>.zRounded-3</code></p>
+                <small>0.3rem (large)</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- Directional Rounded Corners -->
+    <section class="zmy-6">
+        <h2 class="zInfo">Directional Rounded Corners</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            Round only specific corners (perfect for card headers/footers):
+        </p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 2rem; margin: 2rem 0;">
+            <div style="text-align: center;">
+                <img src="https://picsum.photos/75/75" class="zRounded-top" alt="Top rounded">
+                <p style="margin-top: 0.5rem;"><code>.zRounded-top</code></p>
+            </div>
+
+            <div style="text-align: center;">
+                <img src="https://picsum.photos/75/75" class="zRounded-end" alt="End rounded">
+                <p style="margin-top: 0.5rem;"><code>.zRounded-end</code></p>
+            </div>
+
+            <div style="text-align: center;">
+                <img src="https://picsum.photos/75/75" class="zRounded-bottom" alt="Bottom rounded">
+                <p style="margin-top: 0.5rem;"><code>.zRounded-bottom</code></p>
+            </div>
+
+            <div style="text-align: center;">
+                <img src="https://picsum.photos/75/75" class="zRounded-start" alt="Start rounded">
+                <p style="margin-top: 0.5rem;"><code>.zRounded-start</code></p>
+            </div>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zCard"&gt;
+  &lt;div class="zCard-header zBg-primary zRounded-top"&gt;
+    Header with rounded top
+  &lt;/div&gt;
+  &lt;div class="zCard-body"&gt;
+    Content...
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Real-World Examples -->
+    <section class="zmy-6">
+        <h2 class="zSuccess">Real-World Examples</h2>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Avatar with Border</h3>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <img src="https://picsum.photos/60/60" class="zRounded-circle zBorder zBorder-3 zBorder-primary" alt="Avatar">
+            <div>
+                <strong>John Doe</strong><br>
+                <small class="text-muted">Online</small>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 3rem; color: #495057;">Feature Cards with Colored Borders</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
+            <div class="zBorder zBorder-3 zBorder-primary zRounded" style="padding: 1.5rem;">
+                <h4 style="color: var(--color-primary); margin-top: 0;">Fast</h4>
+                <p style="margin: 0;">Lightning-fast performance</p>
+            </div>
+
+            <div class="zBorder zBorder-3 zBorder-success zRounded" style="padding: 1.5rem;">
+                <h4 style="color: var(--color-success); margin-top: 0;">Secure</h4>
+                <p style="margin: 0;">Bank-level encryption</p>
+            </div>
+
+            <div class="zBorder zBorder-3 zBorder-info zRounded" style="padding: 1.5rem;">
+                <h4 style="color: var(--color-info); margin-top: 0;">Reliable</h4>
+                <p style="margin: 0;">99.9% uptime guarantee</p>
+            </div>
+        </div>
+
+        <h3 style="margin-top: 3rem; color: #495057;">Alert with Top Border Accent</h3>
+        <div class="zBorder-top zBorder-5 zBorder-warning" style="padding: 1rem; background: #fff8e1; border-radius: 4px;">
+            <strong>⚠️ Attention Required</strong><br>
+            Your subscription expires in 3 days. Renew now to avoid service interruption.
+        </div>
+
+        <h3 style="margin-top: 3rem; color: #495057;">Pill-Shaped Tags</h3>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <span class="zBorder zBorder-primary zRounded-pill" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">JavaScript</span>
+            <span class="zBorder zBorder-success zRounded-pill" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">Python</span>
+            <span class="zBorder zBorder-info zRounded-pill" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">TypeScript</span>
+            <span class="zBorder zBorder-secondary zRounded-pill" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">CSS</span>
+        </div>
+
+        <h3 style="margin-top: 3rem; color: #495057;">Card with Rounded Header</h3>
+        <div class="zBorder zRounded" style="max-width: 400px; overflow: hidden;">
+            <div class="zBg-primary zBg-gradient zText-white" style="padding: 1.5rem;">
+                <h4 style="margin: 0; color: white;">Premium Plan</h4>
+            </div>
+            <div style="padding: 1.5rem;">
+                <p style="margin: 0 0 1rem 0;">Get access to all features</p>
+                <button class="zBtn zBtn-primary zRounded-pill">Subscribe Now</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2 class="zWarning">Best Practices</h2>
+
+        <div style="display: grid; gap: 1.5rem; margin-top: 1.5rem;">
+            <div>
+                <h3 style="color: #198754; display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.5rem;">✅</span> DO
+                </h3>
+                <ul style="line-height: 1.8; margin-top: 0.5rem;">
+                    <li>Use <code>.zRounded-circle</code> for avatars and profile images</li>
+                    <li>Use <code>.zBorder-top</code> accents to add subtle visual hierarchy</li>
+                    <li>Combine border color with matching background for cohesive design</li>
+                    <li>Use <code>.zRounded-pill</code> for tags, badges, and modern buttons</li>
+                    <li>Round corners on cards, modals, and containers for modern feel</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 style="color: #dc3545; display: flex; align-items: center; gap: 0.5rem;">
+                    <span style="font-size: 1.5rem;">❌</span> DON'T
+                </h3>
+                <ul style="line-height: 1.8; margin-top: 0.5rem;">
+                    <li>Don't use <code>.zBorder-5</code> on small elements (looks too heavy)</li>
+                    <li>Don't mix different border radii on adjacent elements (inconsistent)</li>
+                    <li>Don't forget <code>.zBorder</code> when using color classes alone</li>
+                    <li>Don't over-round corners on rectangular content (looks odd)</li>
+                    <li>Don't use borders on every element (visual clutter)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- CSS Reference -->
+    <section class="zmy-6">
+        <h2 class="zSecondary">CSS Reference</h2>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Additive Border Classes</h3>
+        <table class="zTable zTable-striped">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>CSS</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zBorder</code></td>
+                    <td><code>border: 1px solid #dee2e6</code></td>
+                    <td>All sides</td>
+                </tr>
+                <tr>
+                    <td><code>.zBorder-top</code></td>
+                    <td><code>border-top: 1px solid #dee2e6</code></td>
+                    <td>Top only</td>
+                </tr>
+                <tr>
+                    <td><code>.zBorder-end</code></td>
+                    <td><code>border-right: 1px solid #dee2e6</code></td>
+                    <td>Right only</td>
+                </tr>
+                <tr>
+                    <td><code>.zBorder-bottom</code></td>
+                    <td><code>border-bottom: 1px solid #dee2e6</code></td>
+                    <td>Bottom only</td>
+                </tr>
+                <tr>
+                    <td><code>.zBorder-start</code></td>
+                    <td><code>border-left: 1px solid #dee2e6</code></td>
+                    <td>Left only</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Border Color Classes</h3>
+        <table class="zTable zTable-striped">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Color Variable</th>
+                    <th>Usage</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zBorder-primary</code></td>
+                    <td><code>var(--color-primary)</code></td>
+                    <td>Primary brand color</td>
+                </tr>
+                <tr>
+                    <td><code>.zBorder-secondary</code></td>
+                    <td><code>var(--color-secondary)</code></td>
+                    <td>Secondary brand color</td>
+                </tr>
+                <tr>
+                    <td><code>.zBorder-success</code></td>
+                    <td><code>var(--color-success)</code></td>
+                    <td>Success states</td>
+                </tr>
+                <tr>
+                    <td><code>.zBorder-info</code></td>
+                    <td><code>var(--color-info)</code></td>
+                    <td>Informational</td>
+                </tr>
+                <tr>
+                    <td><code>.zBorder-warning</code></td>
+                    <td><code>var(--color-warning)</code></td>
+                    <td>Warnings</td>
+                </tr>
+                <tr>
+                    <td><code>.zBorder-danger</code></td>
+                    <td><code>var(--color-error)</code></td>
+                    <td>Errors/danger</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Border Width Classes</h3>
+        <table class="zTable zTable-striped">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Width</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><code>.zBorder-1</code></td><td>1px (default)</td></tr>
+                <tr><td><code>.zBorder-2</code></td><td>2px</td></tr>
+                <tr><td><code>.zBorder-3</code></td><td>3px</td></tr>
+                <tr><td><code>.zBorder-4</code></td><td>4px</td></tr>
+                <tr><td><code>.zBorder-5</code></td><td>5px</td></tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem; color: #495057;">Border Radius Classes</h3>
+        <table class="zTable zTable-striped">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>CSS Variable</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zRounded</code></td>
+                    <td><code>var(--border-radius)</code></td>
+                    <td>0.25rem (default)</td>
+                </tr>
+                <tr>
+                    <td><code>.zRounded-0</code></td>
+                    <td>-</td>
+                    <td>0 (no rounding)</td>
+                </tr>
+                <tr>
+                    <td><code>.zRounded-1</code></td>
+                    <td><code>var(--border-radius-sm)</code></td>
+                    <td>0.2rem (small)</td>
+                </tr>
+                <tr>
+                    <td><code>.zRounded-2</code></td>
+                    <td><code>var(--border-radius)</code></td>
+                    <td>0.25rem (default)</td>
+                </tr>
+                <tr>
+                    <td><code>.zRounded-3</code></td>
+                    <td><code>var(--border-radius-lg)</code></td>
+                    <td>0.3rem (large)</td>
+                </tr>
+                <tr>
+                    <td><code>.zRounded-circle</code></td>
+                    <td>-</td>
+                    <td>50% (perfect circle)</td>
+                </tr>
+                <tr>
+                    <td><code>.zRounded-pill</code></td>
+                    <td><code>var(--border-radius-pill)</code></td>
+                    <td>50rem (fully rounded ends)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <blockquote style="background: #e8f5e9; padding: 1rem; border-left: 4px solid #4caf50; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Customization:</strong> All border values use CSS variables from 
+            <code>css_vars.css</code>. Customize <code>--border-radius</code>, <code>--border-width</code>, 
+            and <code>--color-border</code> to theme your entire application!</p>
+        </blockquote>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2 class="zInfo">Related Topics</h2>
+        <ul class="lh-lg">
+            <li><a href="ztheme-background.html">Background</a> - Background color utilities</li>
+            <li><a href="ztheme-shadows.html">Shadows</a> - Box shadow utilities</li>
+            <li><a href="ztheme-colors.html">Colors</a> - Text color utilities</li>
+            <li><a href="ztheme-sizing.html">Sizing</a> - Width/height utilities</li>
+        </ul>
+    </section>
+
+</div>
+
+<script>
+// No JavaScript needed for border utilities - they're pure CSS!
+</script>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

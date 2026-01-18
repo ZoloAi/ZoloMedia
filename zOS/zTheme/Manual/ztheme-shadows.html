@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadows - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem 0;">
+    <!-- Header -->
+    <div style="margin-bottom: 3rem;">
+        <h1 style="color: var(--color-primary); margin-bottom: 0.5rem;">Shadow Utilities</h1>
+        <p style="font-size: 1.2rem; color: var(--color-body); opacity: 0.8;">
+            Add depth and elevation to elements with box-shadow utilities.
+        </p>
+    </div>
+
+    <!-- Understanding Shadows -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">Understanding Shadows</h2>
+        <p style="line-height: 1.7;">
+            Shadows create <strong>depth</strong> and <strong>elevation</strong> in your UI. They help establish 
+            visual hierarchy by making elements appear to float above the page at different heights. Subtle shadows 
+            create gentle separation, while larger shadows suggest interactive elements or important content.
+        </p>
+        <blockquote style="background: #e3f2fd; padding: 1rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Material Design:</strong> Shadows communicate elevation. Higher 
+            elevations (larger shadows) typically indicate more important or interactive elements like buttons, 
+            cards, and modals.</p>
+        </blockquote>
+    </section>
+
+    <!-- All Shadow States -->
+    <section class="zmy-6">
+        <h2 class="zText-success">All Shadow States</h2>
+        <p style="margin-bottom: 1.5rem; line-height: 1.7;">
+            See all shadow depths side by side. Notice how larger shadows create more elevation!
+        </p>
+
+        <!-- Outward Shadows (Elevation) -->
+        <h3 style="margin: 2rem 0 1rem 0; color: var(--color-primary);">Outward Shadows (Float Above)</h3>
+        <div style="display: flex; justify-content: center; padding: 3rem 1rem; background: #e9ecef; border-radius: 8px; margin-bottom: 3rem;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 2rem; width: 100%; max-width: 1000px;">
+                <!-- None -->
+                <div class="zShadow-none" style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center; border: 1px solid var(--color-border);">
+                    <code style="font-weight: bold; font-size: 0.9rem;">.zShadow-none</code>
+                    <p style="margin: 0.75rem 0 0 0; font-size: 0.85rem; color: #666;">Flat</p>
+                </div>
+
+                <!-- Small -->
+                <div class="zShadow-sm" style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                    <code style="font-weight: bold; font-size: 0.9rem;">.zShadow-sm</code>
+                    <p style="margin: 0.75rem 0 0 0; font-size: 0.85rem; color: #666;">Subtle</p>
+                </div>
+
+                <!-- Regular -->
+                <div class="zShadow" style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                    <code style="font-weight: bold; font-size: 0.9rem;">.zShadow</code>
+                    <p style="margin: 0.75rem 0 0 0; font-size: 0.85rem; color: #666;">Standard</p>
+                </div>
+
+                <!-- Large -->
+                <div class="zShadow-lg" style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                    <code style="font-weight: bold; font-size: 0.9rem;">.zShadow-lg</code>
+                    <p style="margin: 0.75rem 0 0 0; font-size: 0.85rem; color: #666;">Prominent</p>
+                </div>
+
+                <!-- Extra Large -->
+                <div class="zShadow-xl" style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                    <code style="font-weight: bold; font-size: 0.9rem;">.zShadow-xl</code>
+                    <p style="margin: 0.75rem 0 0 0; font-size: 0.85rem; color: #666;">Maximum</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inset Shadows (Pressed/Recessed) -->
+        <h3 style="margin: 2rem 0 1rem 0; color: var(--color-danger);">Inset Shadows (Carved In)</h3>
+        <div style="display: flex; justify-content: center; padding: 3rem 1rem; background: #e9ecef; border-radius: 8px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; width: 100%; max-width: 700px;">
+                <!-- Inset Base -->
+                <div class="zShadow-inset" style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                    <code style="font-weight: bold; font-size: 0.9rem;">.zShadow-inset</code>
+                    <p style="margin: 0.75rem 0 0 0; font-size: 0.85rem; color: #666;">Pressed</p>
+                </div>
+
+                <!-- Inset Large -->
+                <div class="zShadow-inset-lg" style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                    <code style="font-weight: bold; font-size: 0.9rem;">.zShadow-inset-lg</code>
+                    <p style="margin: 0.75rem 0 0 0; font-size: 0.85rem; color: #666;">Deep well</p>
+                </div>
+
+                <!-- Inset Extra Large -->
+                <div class="zShadow-inset-xl" style="background: white; padding: 1.5rem; border-radius: 8px; text-align: center;">
+                    <code style="font-weight: bold; font-size: 0.9rem;">.zShadow-inset-xl</code>
+                    <p style="margin: 0.75rem 0 0 0; font-size: 0.85rem; color: #666;">Very deep</p>
+                </div>
+            </div>
+        </div>
+
+        <blockquote style="background: #e8f5e9; padding: 1rem; border-left: 4px solid #4caf50; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Notice the difference:</strong> Outward shadows make elements <strong>float above</strong> 
+            the surface. Inset shadows make elements look <strong>carved into</strong> the surface, like pressed buttons or input fields!</p>
+        </blockquote>
+    </section>
+
+    <!-- When to Use Shadows -->
+    <section class="zmy-6">
+        <h2 class="zText-warning">When to Use Each Shadow Type</h2>
+        
+        <!-- Outward Shadows -->
+        <div style="margin: 2rem 0;">
+            <h3 style="color: var(--color-primary);">Outward Shadows (Elevation)</h3>
+            <p style="line-height: 1.7; margin-bottom: 1rem;">Use when you want elements to appear to <strong>float above</strong> the page surface:</p>
+            <ul style="line-height: 2;">
+                <li><code>.zShadow-none</code> - Flat design, remove inherited shadows, minimalist interfaces</li>
+                <li><code>.zShadow-sm</code> - Subtle cards, list items, images, gentle separation</li>
+                <li><code>.zShadow</code> - Default cards, panels, content boxes, most common use</li>
+                <li><code>.zShadow-lg</code> - Featured content, dropdowns, popovers, important elements</li>
+                <li><code>.zShadow-xl</code> - Modals, overlays, dialogs, maximum prominence</li>
+            </ul>
+        </div>
+
+        <!-- Inset Shadows -->
+        <div style="margin: 3rem 0;">
+            <h3 style="color: var(--color-danger);">Inset Shadows (Depression)</h3>
+            <p style="line-height: 1.7; margin-bottom: 1rem;">Use when you want elements to appear <strong>carved into</strong> the page surface:</p>
+            <ul style="line-height: 2;">
+                <li><code>.zShadow-inset</code> - Pressed buttons, active states, input fields, subtle wells</li>
+                <li><code>.zShadow-inset-lg</code> - Content wells, recessed containers, embedded sections</li>
+                <li><code>.zShadow-inset-xl</code> - Deep depressions, dramatic recessed areas, sunken panels</li>
+            </ul>
+        </div>
+
+        <blockquote style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Rule of Thumb:</strong> Outward shadows = interactive/important content that should stand out. 
+            Inset shadows = pressed/inactive states or content areas that should recede. Don't mix them on the same element!</p>
+        </blockquote>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto; max-width: 100%;"><code>&lt;!-- Outward: Cards, buttons, dropdowns --&gt;
+&lt;div class="zCard zShadow"&gt;Floating card&lt;/div&gt;
+&lt;button class="zBtn zBtn-primary zShadow-sm"&gt;Click Me&lt;/button&gt;
+&lt;div class="zModal zShadow-xl"&gt;Important modal&lt;/div&gt;
+
+&lt;!-- Inset: Pressed states, input fields, wells --&gt;
+&lt;button class="zBtn zShadow-inset"&gt;Pressed&lt;/button&gt;
+&lt;input class="zForm-control zShadow-inset" /&gt;
+&lt;div class="zShadow-inset-lg"&gt;Content well&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Practical Examples -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Practical Examples</h2>
+
+        <!-- Card Grid -->
+        <div style="margin: 2rem 0;">
+            <h3>Card Grid with Different Elevations</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                <!-- Feature Card -->
+                <div class="zShadow-sm" style="background: white; border-radius: 8px; padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📱</div>
+                    <h4 style="margin: 0 0 0.5rem 0;">Mobile</h4>
+                    <p style="margin: 0; font-size: 0.9rem; color: #666;">Subtle shadow</p>
+                </div>
+
+                <!-- Active Card -->
+                <div class="zShadow" style="background: white; border-radius: 8px; padding: 1.5rem; text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">💻</div>
+                    <h4 style="margin: 0 0 0.5rem 0;">Desktop</h4>
+                    <p style="margin: 0; font-size: 0.9rem; color: #666;">Regular shadow</p>
+                </div>
+
+                <!-- Highlighted Card -->
+                <div class="zShadow-lg" style="background: white; border-radius: 8px; padding: 1.5rem; text-align: center; border: 2px solid var(--color-primary);">
+                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">⭐</div>
+                    <h4 style="margin: 0 0 0.5rem 0;">Premium</h4>
+                    <p style="margin: 0; font-size: 0.9rem; color: #666;">Large shadow</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pricing Cards -->
+        <div style="margin: 3rem 0;">
+            <h3>Pricing Tiers with Progressive Elevation</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem;">
+                <!-- Basic -->
+                <div class="zShadow-sm" style="background: white; border-radius: 8px; padding: 2rem; text-align: center;">
+                    <h4 style="margin: 0 0 1rem 0;">Basic</h4>
+                    <div style="font-size: 2.5rem; font-weight: bold; color: var(--color-primary); margin: 1rem 0;">
+                        $9
+                        <span style="font-size: 1rem; font-weight: normal; color: #666;">/mo</span>
+                    </div>
+                    <ul style="list-style: none; padding: 0; margin: 1.5rem 0; text-align: left; font-size: 0.9rem;">
+                        <li style="padding: 0.5rem 0;">✓ Feature A</li>
+                        <li style="padding: 0.5rem 0;">✓ Feature B</li>
+                    </ul>
+                    <button class="zBtn zBtn-secondary zBtn-sm" style="width: 100%;">Select</button>
+                </div>
+
+                <!-- Pro (highlighted) -->
+                <div class="zShadow-lg" style="background: white; border-radius: 8px; padding: 2rem; text-align: center; border: 3px solid var(--color-primary); transform: scale(1.05);">
+                    <div style="background: var(--color-primary); color: white; padding: 0.25rem 0.75rem; border-radius: 4px; display: inline-block; margin-bottom: 1rem; font-size: 0.85rem; font-weight: bold;">
+                        POPULAR
+                    </div>
+                    <h4 style="margin: 0 0 1rem 0;">Pro</h4>
+                    <div style="font-size: 2.5rem; font-weight: bold; color: var(--color-primary); margin: 1rem 0;">
+                        $29
+                        <span style="font-size: 1rem; font-weight: normal; color: #666;">/mo</span>
+                    </div>
+                    <ul style="list-style: none; padding: 0; margin: 1.5rem 0; text-align: left; font-size: 0.9rem;">
+                        <li style="padding: 0.5rem 0;">✓ Everything in Basic</li>
+                        <li style="padding: 0.5rem 0;">✓ Feature C</li>
+                        <li style="padding: 0.5rem 0;">✓ Feature D</li>
+                    </ul>
+                    <button class="zBtn zBtn-primary zBtn-sm" style="width: 100%;">Select</button>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="zShadow-sm" style="background: white; border-radius: 8px; padding: 2rem; text-align: center;">
+                    <h4 style="margin: 0 0 1rem 0;">Enterprise</h4>
+                    <div style="font-size: 2.5rem; font-weight: bold; color: var(--color-primary); margin: 1rem 0;">
+                        $99
+                        <span style="font-size: 1rem; font-weight: normal; color: #666;">/mo</span>
+                    </div>
+                    <ul style="list-style: none; padding: 0; margin: 1.5rem 0; text-align: left; font-size: 0.9rem;">
+                        <li style="padding: 0.5rem 0;">✓ Everything in Pro</li>
+                        <li style="padding: 0.5rem 0;">✓ Priority Support</li>
+                    </ul>
+                    <button class="zBtn zBtn-secondary zBtn-sm" style="width: 100%;">Contact</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons with Shadows -->
+        <div style="margin: 3rem 0;">
+            <h3>Button Variations</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 1rem; padding: 2rem; background: white; border-radius: 8px;">
+                <button class="zBtn zBtn-primary zShadow-none">No Shadow</button>
+                <button class="zBtn zBtn-primary zShadow-sm">Small Shadow</button>
+                <button class="zBtn zBtn-primary zShadow">Regular Shadow</button>
+                <button class="zBtn zBtn-primary zShadow-lg">Large Shadow</button>
+            </div>
+            <p style="margin: 1rem 0 0 0; font-size: 0.9rem; color: #666;">
+                Shadows make buttons feel more tactile and clickable
+            </p>
+        </div>
+
+        <!-- Image Gallery -->
+        <div style="margin: 3rem 0;">
+            <h3>Image Gallery</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1.5rem;">
+                <div class="zShadow-sm zCursor-pointer" style="border-radius: 8px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.classList.remove('zShadow-sm'); this.classList.add('zShadow-lg')" onmouseout="this.style.transform=''; this.classList.remove('zShadow-lg'); this.classList.add('zShadow-sm')">
+                    <img src="https://picsum.photos/200/150?random=10" alt="Gallery" style="width: 100%; display: block;">
+                </div>
+                <div class="zShadow-sm zCursor-pointer" style="border-radius: 8px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.classList.remove('zShadow-sm'); this.classList.add('zShadow-lg')" onmouseout="this.style.transform=''; this.classList.remove('zShadow-lg'); this.classList.add('zShadow-sm')">
+                    <img src="https://picsum.photos/200/150?random=11" alt="Gallery" style="width: 100%; display: block;">
+                </div>
+                <div class="zShadow-sm zCursor-pointer" style="border-radius: 8px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.classList.remove('zShadow-sm'); this.classList.add('zShadow-lg')" onmouseout="this.style.transform=''; this.classList.remove('zShadow-lg'); this.classList.add('zShadow-sm')">
+                    <img src="https://picsum.photos/200/150?random=12" alt="Gallery" style="width: 100%; display: block;">
+                </div>
+            </div>
+            <p style="margin: 1rem 0 0 0; font-size: 0.9rem; color: #666;">
+                Hover over images to see shadow + transform effect
+            </p>
+        </div>
+    </section>
+
+    <!-- Best Practices -->
+    <section class="zmy-6">
+        <h2 class="zText-secondary">Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Consistent elevation:</strong> Use shadow sizes to indicate element importance consistently</li>
+            <li><strong>Interactive elements:</strong> Buttons and clickable cards should have shadows (.zShadow or .zShadow-sm)</li>
+            <li><strong>Modals/overlays:</strong> Use .zShadow-xl for maximum elevation and visual separation</li>
+            <li><strong>Subtle by default:</strong> Start with .zShadow-sm and increase only when needed</li>
+            <li><strong>Hover effects:</strong> Increase shadow on hover to show interactivity</li>
+            <li><strong>Performance:</strong> Shadows are GPU-accelerated but many can impact performance</li>
+            <li><strong>Light backgrounds:</strong> Shadows work best on light backgrounds; adjust on dark themes</li>
+            <li><strong>Border alternative:</strong> Use shadows instead of borders for modern, clean designs</li>
+        </ul>
+
+        <blockquote style="background: #fff3cd; padding: 1rem; border-left: 4px solid #ffc107; margin: 2rem 0;">
+            <p style="margin: 0;"><strong>⚠️ Don't overuse:</strong> Too many shadows can make a design feel cluttered. 
+            Use them strategically to highlight important elements and establish clear hierarchy!</p>
+        </blockquote>
+    </section>
+
+    <!-- Accessibility -->
+    <section class="zmy-6">
+        <h2 class="zText-dark">Accessibility</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Don't rely on shadows alone:</strong> Ensure sufficient color contrast without shadows</li>
+            <li><strong>Focus indicators:</strong> Combine shadows with border/outline for keyboard focus</li>
+            <li><strong>Reduced motion:</strong> Shadow transitions should respect prefers-reduced-motion</li>
+            <li><strong>Low vision:</strong> Shadows may not be visible to all users - use multiple visual cues</li>
+            <li><strong>Print styles:</strong> Consider removing/reducing shadows in print media</li>
+        </ul>
+    </section>
+
+    <!-- CSS Reference -->
+    <section class="zmy-6">
+        <h2 class="zText-primary">CSS Reference</h2>
+        <table class="zTable zTable-bordered">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>CSS Value</th>
+                    <th>Use Case</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zShadow-none</code></td>
+                    <td><code>box-shadow: none</code></td>
+                    <td>Flat design, remove inherited shadows</td>
+                </tr>
+                <tr>
+                    <td><code>.zShadow-sm</code></td>
+                    <td><code>0 .125rem .25rem rgba(0,0,0,.075)</code></td>
+                    <td>Subtle cards, list items, images</td>
+                </tr>
+                <tr>
+                    <td><code>.zShadow</code></td>
+                    <td><code>0 .5rem 1rem rgba(0,0,0,.15)</code></td>
+                    <td>Cards, panels, dropdowns</td>
+                </tr>
+                <tr>
+                    <td><code>.zShadow-lg</code></td>
+                    <td><code>0 1rem 3rem rgba(0,0,0,.175)</code></td>
+                    <td>Featured cards, popovers, emphasized content</td>
+                </tr>
+                <tr>
+                    <td><code>.zShadow-xl</code></td>
+                    <td><code>0 2rem 4rem rgba(0,0,0,.2)</code></td>
+                    <td>Modals, overlays, maximum elevation</td>
+                </tr>
+                <tr>
+                    <td><code>.zShadow-inset</code></td>
+                    <td><code>inset 0 2px 4px rgba(0,0,0,.15)</code></td>
+                    <td>Pressed buttons, input fields, subtle wells</td>
+                </tr>
+                <tr>
+                    <td><code>.zShadow-inset-lg</code></td>
+                    <td><code>inset 0 3px 6px rgba(0,0,0,.2)</code></td>
+                    <td>Deep wells, recessed containers</td>
+                </tr>
+                <tr>
+                    <td><code>.zShadow-inset-xl</code></td>
+                    <td><code>inset 0 4px 8px rgba(0,0,0,.25)</code></td>
+                    <td>Very deep depressions</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin: 2rem 0 1rem;">Legacy Support</h3>
+        <p>Old naming from zEffects.css still works for backward compatibility:</p>
+        <ul>
+            <li><code>.zBoxShadow-none</code> → <code>.zShadow-none</code></li>
+            <li><code>.zBoxShadow-sm</code> → <code>.zShadow-sm</code></li>
+            <li><code>.zBoxShadow-md</code> → <code>.zShadow</code></li>
+            <li><code>.zBoxShadow-lg</code> → <code>.zShadow-lg</code></li>
+            <li><code>.zBoxShadow-xl</code> → <code>.zShadow-xl</code></li>
+        </ul>
+
+        <p style="margin-top: 1.5rem;"><strong>Total classes:</strong> 8 modern shadow utilities (5 outward + 3 inset) + 5 legacy = 13 total</p>
+    </section>
+
+    <!-- Related Topics -->
+    <section class="zmy-6">
+        <h2 class="zText-info">Related Topics</h2>
+        <ul class="lh-lg">
+            <li><a href="ztheme-borders.html">Borders</a> - Border utilities (alternative to shadows)</li>
+            <li><a href="ztheme-cards.html">Cards</a> - Card components that use shadows</li>
+            <li><a href="ztheme-buttons.html">Buttons</a> - Button shadows and hover effects</li>
+            <li><a href="ztheme-modal.html">Modal</a> - Modal overlays with large shadows</li>
+            <li><a href="ztheme-dropdown.html">Dropdown</a> - Dropdowns with shadow depth</li>
+        </ul>
+    </section>
+
+</div>
+
+<script>
+// No JavaScript needed for static shadow display
+</script>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

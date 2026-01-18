@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Group - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="../ztheme.html#forms">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Input Group</li>
+        </ol>
+    </nav>
+    
+    <h1>Input Group</h1>
+    <p class="zLead" style="margin-bottom: 2rem;">
+        Combine inputs with text labels, buttons, or dropdowns to create powerful form controls.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Input Groups -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Input Groups</h2>
+        <p>Input groups are <strong>compositional patterns</strong> that extend form controls by attaching contextual labels or actions. Built with <code>&lt;div&gt;</code> and <code>&lt;span&gt;</code> wrappers, they work WITH semantic form elements (<code>&lt;input&gt;</code>, <code>&lt;button&gt;</code>, <code>&lt;select&gt;</code>) to create accessible, meaningful interfaces.</p>
+        
+        <p>This pattern improves usability by:</p>
+        
+        <ul style="line-height: 2;">
+            <li><strong>Adding context:</strong> @ symbols for usernames, $ for prices, domain names for URLs</li>
+            <li><strong>Reducing fields:</strong> Combine related inputs (first/last name, price with currency)</li>
+            <li><strong>Quick actions:</strong> Attach buttons for search, submit, or clear</li>
+            <li><strong>Visual grouping:</strong> Show which elements work together</li>
+        </ul>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-success); background: #f8f9fa;">
+            <strong>Accessibility:</strong> Input groups rely on proper semantic markup. Use <code>&lt;label&gt;</code> outside the group (linked via <code>for</code>/<code>id</code>), <code>&lt;button&gt;</code> for actions (not <code>&lt;span&gt;</code>!), and <code>aria-describedby</code><sup><a href="#aria-footnote" style="color: var(--color-info); text-decoration: none;">*</a></sup> to connect inputs to prefix/suffix text. Screen readers will announce: <em>"Email Address, edit text, described by domain, @company.com"</em>—giving full context.
+        </blockquote>
+        
+        <p><strong>When to use:</strong> Email inputs (@example.com), price fields ($), search bars (with button), URL builders, phone numbers with country codes.</p>
+        
+        <div id="aria-footnote" style="margin-top: 2rem; padding: 1rem 1.5rem; background: #f8f9fa; border-left: 4px solid var(--color-info); font-size: 0.9rem;">
+            <p style="margin: 0 0 0.5rem 0;"><strong><sup>*</sup> What is ARIA?</strong></p>
+            <p style="margin: 0; line-height: 1.6;"><strong>ARIA</strong> stands for <strong>Accessible Rich Internet Applications</strong>. It's a set of HTML attributes (like <code>aria-describedby</code>, <code>aria-label</code>, <code>aria-hidden</code>) that help screen readers understand your web page better. Think of ARIA as "extra instructions for assistive technology." When semantic HTML alone isn't enough to convey meaning, ARIA attributes fill in the gaps—telling screen readers what elements do, how they relate to each other, and what state they're in. <em>Note: This guide teaches zTheme CSS styling; ARIA is separate from CSS but essential for accessible interfaces.</em></p>
+        </div>
+    </section>
+    
+    <!-- Basic Input Groups -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic Input Groups</h2>
+        <p>Wrap an <code>.zInput</code> with <code>.zInputGroup</code> and add <code>.zInputGroup-text</code> for labels or symbols.</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="email" class="zLabel">Email Address</label>
+            <div class="zInputGroup zmb-3">
+                <input type="text" class="zInput" id="email" placeholder="sarah.chen" aria-describedby="email-domain">
+                <span class="zInputGroup-text" id="email-domain">@company.com</span>
+            </div>
+            
+            <label for="website" class="zLabel">Website URL</label>
+            <div class="zInputGroup zmb-3">
+                <span class="zInputGroup-text" id="url-protocol">https://</span>
+                <input type="text" class="zInput" id="website" placeholder="yoursite.com" aria-describedby="url-protocol">
+            </div>
+            
+            <label for="price" class="zLabel">Product Price</label>
+            <div class="zInputGroup">
+                <span class="zInputGroup-text" id="price-currency">$</span>
+                <input type="text" class="zInput" id="price" placeholder="0.00" aria-describedby="price-currency">
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;label for="email"&gt;Email Address&lt;/label&gt;
+&lt;div class="zInputGroup"&gt;
+  &lt;input type="text" class="zInput" id="email" aria-describedby="email-domain"&gt;
+  &lt;span class="zInputGroup-text" id="email-domain"&gt;@company.com&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;label for="website"&gt;Website URL&lt;/label&gt;
+&lt;div class="zInputGroup"&gt;
+  &lt;span class="zInputGroup-text" id="url-protocol"&gt;https://&lt;/span&gt;
+  &lt;input type="text" class="zInput" id="website" aria-describedby="url-protocol"&gt;
+&lt;/div&gt;
+
+&lt;label for="price"&gt;Product Price&lt;/label&gt;
+&lt;div class="zInputGroup"&gt;
+  &lt;span class="zInputGroup-text" id="price-currency"&gt;$&lt;/span&gt;
+  &lt;input type="text" class="zInput" id="price" aria-describedby="price-currency"&gt;
+&lt;/div&gt;</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Key Accessibility Pattern:</strong>
+            <ol style="margin: 0.5rem 0 0 0; padding-left: 1.5rem;">
+                <li><code>&lt;label&gt;</code> outside the group (linked via <code>for</code>/<code>id</code>)</li>
+                <li><code>id</code> on the <code>.zInputGroup-text</code> element</li>
+                <li><code>aria-describedby</code> on the input (references the text's <code>id</code>)</li>
+            </ol>
+        </blockquote>
+    </section>
+    
+    <!-- Both Sides -->
+    <section style="margin: 3rem 0;">
+        <h2>Both Sides</h2>
+        <p>Add text or symbols on both sides of an input:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="amount" class="zLabel">Amount (USD)</label>
+            <div class="zInputGroup">
+                <span class="zInputGroup-text">$</span>
+                <input type="text" class="zInput" id="amount" placeholder="100">
+                <span class="zInputGroup-text">.00</span>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zInputGroup"&gt;
+  &lt;span class="zInputGroup-text"&gt;$&lt;/span&gt;
+  &lt;input type="text" class="zInput" placeholder="100"&gt;
+  &lt;span class="zInputGroup-text"&gt;.00&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Multiple Inputs -->
+    <section style="margin: 3rem 0;">
+        <h2>Multiple Inputs</h2>
+        <p>Combine multiple inputs with shared context:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label class="zLabel">Full Name</label>
+            <div class="zInputGroup">
+                <span class="zInputGroup-text">Name</span>
+                <input type="text" class="zInput" placeholder="First" aria-label="First name">
+                <input type="text" class="zInput" placeholder="Last" aria-label="Last name">
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zInputGroup"&gt;
+  &lt;span class="zInputGroup-text"&gt;Name&lt;/span&gt;
+  &lt;input type="text" class="zInput" placeholder="First" aria-label="First name"&gt;
+  &lt;input type="text" class="zInput" placeholder="Last" aria-label="Last name"&gt;
+&lt;/div&gt;</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: #f8f9fa;">
+            <strong>Accessibility:</strong> Add individual <code>aria-label</code> attributes to each input when using multiple inputs, since they don't have visible labels.
+        </blockquote>
+    </section>
+    
+    <!-- With Buttons -->
+    <section style="margin: 3rem 0;">
+        <h2>With Buttons</h2>
+        <p>Attach buttons for quick actions like search, submit, or clear:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="search" class="zLabel">Search Products</label>
+            <div class="zInputGroup zmb-3">
+                <input type="text" class="zInput" id="search" placeholder="Enter product name...">
+                <button class="zBtn zBtn-info" type="button">Search</button>
+            </div>
+            
+            <label for="newsletter" class="zLabel">Subscribe to Newsletter</label>
+            <div class="zInputGroup">
+                <input type="email" class="zInput" id="newsletter" placeholder="your@email.com">
+                <button class="zBtn zBtn-info" type="submit">Subscribe</button>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;label for="search"&gt;Search Products&lt;/label&gt;
+&lt;div class="zInputGroup"&gt;
+  &lt;input type="text" class="zInput" id="search" placeholder="Enter product name..."&gt;
+  &lt;button class="zBtn zBtn-info" type="button"&gt;Search&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;label for="newsletter"&gt;Subscribe to Newsletter&lt;/label&gt;
+&lt;div class="zInputGroup"&gt;
+  &lt;input type="email" class="zInput" id="newsletter" placeholder="your@email.com"&gt;
+  &lt;button class="zBtn zBtn-info" type="submit"&gt;Subscribe&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- With Checkboxes and Radios -->
+    <section style="margin: 3rem 0;">
+        <h2>With Checkboxes and Radios</h2>
+        <p>Add selection controls for bulk actions or filtering:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label class="zLabel">Select and Enter Task</label>
+            <div class="zInputGroup zmb-3">
+                <div class="zInputGroup-text">
+                    <input class="zCheck-input" type="checkbox" aria-label="Select task">
+                </div>
+                <input type="text" class="zInput" placeholder="Task description" aria-label="Task description">
+            </div>
+            
+            <label class="zLabel">Priority Level</label>
+            <div class="zInputGroup zmb-3">
+                <div class="zInputGroup-text">
+                    <input class="zCheck-input" type="radio" name="priority1" id="priorityLow1" aria-label="Low priority">
+                </div>
+                <input type="text" class="zInput" placeholder="Low priority note" aria-label="Low priority note">
+            </div>
+            
+            <div class="zInputGroup zmb-3">
+                <div class="zInputGroup-text">
+                    <input class="zCheck-input" type="radio" name="priority1" id="priorityMed1" checked aria-label="Medium priority">
+                </div>
+                <input type="text" class="zInput" placeholder="Medium priority note" aria-label="Medium priority note">
+            </div>
+            
+            <div class="zInputGroup">
+                <div class="zInputGroup-text">
+                    <input class="zCheck-input" type="radio" name="priority1" id="priorityHigh1" aria-label="High priority">
+                </div>
+                <input type="text" class="zInput" placeholder="High priority note" aria-label="High priority note">
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- Checkbox for selection --&gt;
+&lt;div class="zInputGroup"&gt;
+  &lt;div class="zInputGroup-text"&gt;
+    &lt;input class="zCheck-input" type="checkbox" aria-label="Select task"&gt;
+  &lt;/div&gt;
+  &lt;input type="text" class="zInput" placeholder="Task description"&gt;
+&lt;/div&gt;
+
+&lt;!-- Radio group (same name attribute creates group) --&gt;
+&lt;div class="zInputGroup"&gt;
+  &lt;div class="zInputGroup-text"&gt;
+    &lt;input class="zCheck-input" type="radio" name="priority" aria-label="Low"&gt;
+  &lt;/div&gt;
+  &lt;input type="text" class="zInput" placeholder="Low priority note"&gt;
+&lt;/div&gt;
+
+&lt;div class="zInputGroup"&gt;
+  &lt;div class="zInputGroup-text"&gt;
+    &lt;input class="zCheck-input" type="radio" name="priority" checked aria-label="Medium"&gt;
+  &lt;/div&gt;
+  &lt;input type="text" class="zInput" placeholder="Medium priority note"&gt;
+&lt;/div&gt;
+
+&lt;div class="zInputGroup"&gt;
+  &lt;div class="zInputGroup-text"&gt;
+    &lt;input class="zCheck-input" type="radio" name="priority" aria-label="High"&gt;
+  &lt;/div&gt;
+  &lt;input type="text" class="zInput" placeholder="High priority note"&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- With Select -->
+    <section style="margin: 3rem 0;">
+        <h2>With Select Dropdowns</h2>
+        <p>Combine dropdowns with inputs for contextual selections:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="country" class="zLabel">Phone Number</label>
+            <div class="zInputGroup">
+                <select class="zSelect" style="max-width: 120px;" aria-label="Country code">
+                    <option selected>🇺🇸 +1</option>
+                    <option>🇬🇧 +44</option>
+                    <option>🇮🇱 +972</option>
+                </select>
+                <input type="tel" class="zInput" id="country" placeholder="555-1234">
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zInputGroup"&gt;
+  &lt;select class="zSelect" aria-label="Country code"&gt;
+    &lt;option selected&gt;🇺🇸 +1&lt;/option&gt;
+    &lt;option&gt;🇬🇧 +44&lt;/option&gt;
+    &lt;option&gt;🇮🇱 +972&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;input type="tel" class="zInput" placeholder="555-1234"&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Sizing -->
+    <section style="margin: 3rem 0;">
+        <h2>Sizing</h2>
+        <p>Add <code>.zInputGroup-sm</code> or <code>.zInputGroup-lg</code> to resize the entire group:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <label for="smallSearch" class="zLabel zSmall">Small Search</label>
+            <div class="zInputGroup zInputGroup-sm zmb-3">
+                <span class="zInputGroup-text">🔍</span>
+                <input type="text" class="zInput" id="smallSearch" placeholder="Quick search...">
+            </div>
+            
+            <label for="defaultSearch" class="zLabel">Default Search</label>
+            <div class="zInputGroup zmb-3">
+                <span class="zInputGroup-text">🔍</span>
+                <input type="text" class="zInput" id="defaultSearch" placeholder="Standard search...">
+            </div>
+            
+            <label for="largeSearch" class="zLabel" style="font-size: 1.25rem;">Large Search</label>
+            <div class="zInputGroup zInputGroup-lg">
+                <span class="zInputGroup-text">🔍</span>
+                <input type="text" class="zInput" id="largeSearch" placeholder="Prominent search...">
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- Small --&gt;
+&lt;div class="zInputGroup zInputGroup-sm"&gt;
+  &lt;span class="zInputGroup-text"&gt;🔍&lt;/span&gt;
+  &lt;input type="text" class="zInput" placeholder="Quick search..."&gt;
+&lt;/div&gt;
+
+&lt;!-- Default --&gt;
+&lt;div class="zInputGroup"&gt;
+  &lt;span class="zInputGroup-text"&gt;🔍&lt;/span&gt;
+  &lt;input type="text" class="zInput" placeholder="Standard search..."&gt;
+&lt;/div&gt;
+
+&lt;!-- Large --&gt;
+&lt;div class="zInputGroup zInputGroup-lg"&gt;
+  &lt;span class="zInputGroup-text"&gt;🔍&lt;/span&gt;
+  &lt;input type="text" class="zInput" placeholder="Prominent search..."&gt;
+&lt;/div&gt;</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Note:</strong> Apply sizing classes to the <code>.zInputGroup</code> wrapper, not individual elements. All children resize automatically.
+        </blockquote>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <h3>Always Use Labels</h3>
+        <p>Place <code>&lt;label&gt;</code> elements outside the input group for screen readers:</p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- Good: Label outside --&gt;
+&lt;label for="email"&gt;Email&lt;/label&gt;
+&lt;div class="zInputGroup"&gt;
+  &lt;input type="text" class="zInput" id="email" aria-describedby="domain"&gt;
+  &lt;span class="zInputGroup-text" id="domain"&gt;@example.com&lt;/span&gt;
+&lt;/div&gt;
+
+&lt;!-- Bad: No label, no aria-describedby --&gt;
+&lt;div class="zInputGroup"&gt;
+  &lt;input type="text" class="zInput"&gt;
+  &lt;span class="zInputGroup-text"&gt;@example.com&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 style="margin-top: 1.5rem;">Connect Text with aria-describedby</h3>
+        <p>Give the <code>.zInputGroup-text</code> an <code>id</code> and reference it in the input's <code>aria-describedby</code>:</p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- Screen reader will announce: "Price, edit text, described by currency, dollar sign" --&gt;
+&lt;div class="zInputGroup"&gt;
+  &lt;span class="zInputGroup-text" id="currency"&gt;$&lt;/span&gt;
+  &lt;input type="text" class="zInput" aria-describedby="currency"&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 style="margin-top: 1.5rem;">Use Buttons for Actions, Spans for Text</h3>
+        <p>If it's clickable, use <code>&lt;button&gt;</code>. If it's just context, use <code>&lt;span class="zInputGroup-text"&gt;</code>:</p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- Good: Button for action --&gt;
+&lt;div class="zInputGroup"&gt;
+  &lt;input type="text" class="zInput"&gt;
+  &lt;button class="zBtn zBtn-info" type="submit"&gt;Search&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Good: Span for non-interactive text --&gt;
+&lt;div class="zInputGroup"&gt;
+  &lt;input type="text" class="zInput"&gt;
+  &lt;span class="zInputGroup-text"&gt;@example.com&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 style="margin-top: 1.5rem;">Use aria-label for Multiple Inputs</h3>
+        <p>When grouping multiple inputs, add individual <code>aria-label</code> attributes:</p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zInputGroup"&gt;
+  &lt;input type="text" class="zInput" aria-label="First name"&gt;
+  &lt;input type="text" class="zInput" aria-label="Last name"&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 style="margin-top: 1.5rem;">Keep Text Concise</h3>
+        <p>Use short, clear text in <code>.zInputGroup-text</code> - symbols often work better than words:</p>
+        <ul style="line-height: 2;">
+            <li>✅ <code>@</code>, <code>$</code>, <code>https://</code>, <code>.com</code></li>
+            <li>❌ "Username prefix:", "Currency symbol:"</li>
+        </ul>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: var(--color-base); border-left: 4px solid var(--color-info);">
+        <h2>CSS Reference</h2>
+        
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto; margin-top: 1rem;"><code>/* Input group classes */
+.zInputGroup          /* Wrapper container */
+.zInputGroup-text     /* Text label or symbol */
+.zInputGroup-sm       /* Small size */
+.zInputGroup-lg       /* Large size */
+
+/* Works with */
+.zInput               /* Text inputs */
+.zSelect              /* Dropdowns */
+.zBtn                 /* Buttons */
+.zCheck-input         /* Checkboxes and radios */</code></pre>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-form-control.html" class="zPrimary">Form Control</a> - Text inputs and textareas</li>
+            <li><a href="ztheme-select.html" class="zPrimary">Select</a> - Dropdown menus</li>
+            <li><a href="ztheme-checks-radios.html" class="zPrimary">Checks & Radios</a> - Selection controls</li>
+            <li><a href="ztheme-buttons.html" class="zPrimary">Buttons</a> - Button styles and variants</li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-range.html" class="zPrimary">← Previous: Range</a>
+        <a href="ztheme-floating-labels.html" class="zPrimary">Next: Floating Labels →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

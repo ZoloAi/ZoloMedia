@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table Renderer Test - zCLI BifrostClient</title>
+  
+  <!-- zTheme CSS (CDN with cache-busting) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css?v=20251218">
+  
+  <style>
+    /* ONLY body background - NO component styles! */
+    body {
+      background: #f8f9fa;
+      min-height: 100vh;
+    }
+    
+    /* Log styling (not for zTheme components) */
+    #log {
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.875rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .log-entry {
+      padding: 0.25rem 0.5rem;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .log-success { color: #198754; }
+    .log-error { color: #dc3545; }
+    .log-info { color: #0d6efd; }
+  </style>
+</head>
+<body>
+  <!-- Main Container (zTheme) -->
+  <div class="zContainer zMy-4">
+    
+    <!-- Header Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h1 class="zCard-title">Table Renderer Test</h1>
+        <p class="zCard-text zText-muted">
+          Micro-Step 5: Testing zTable rendering (data tables with pagination)
+        </p>
+      </div>
+    </div>
+
+    <!-- Test Controls Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Test Controls</h2>
+        <div class="zD-flex zFlex-wrap zGap-2">
+          <button class="zBtn zBtn-outline-primary" onclick="testArrayRows()">Test Array Rows</button>
+          <button class="zBtn zBtn-outline-success" onclick="testObjectRows()">Test Object Rows (SQL-style)</button>
+          <button class="zBtn zBtn-outline-info" onclick="testPaginationFirst()">Test Pagination (First Page)</button>
+          <button class="zBtn zBtn-outline-warning" onclick="testPaginationMiddle()">Test Pagination (Middle Page)</button>
+          <button class="zBtn zBtn-outline-secondary" onclick="testPaginationLast()">Test Pagination (Last Page)</button>
+          <button class="zBtn zBtn-primary" onclick="testInteractive()">Test Interactive Navigation</button>
+          <button class="zBtn zBtn-outline-dark" onclick="testDataTypes()">Test Data Types</button>
+          <button class="zBtn zBtn-danger" onclick="clearRenderZone()">Clear Zone</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Render Zone Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Render Zone</h2>
+        <div id="render-zone" class="zP-3 zBg-white">
+          <!-- Tables will render here -->
+          <p class="zText-muted"><em>Click a test button to render tables...</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log Card -->
+    <div class="zCard">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Console Log</h2>
+        <div id="log" class="zP-3 zBg-light zBorder zRounded">
+          <!-- Logs will appear here -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Import BifrostClient (UMD global) for Bootstrap Icons auto-load -->
+  <script src="../src/bifrost_client.js"></script>
+  
+  <!-- Scripts (ES6 Modules) -->
+  <script type="module">
+    import { TableRenderer } from '../src/rendering/table_renderer.js';
+    
+    // Initialize BifrostClient (minimal - just for Bootstrap Icons auto-load)
+    // This triggers _loadBootstrapIcons() automatically
+    const bifrostClient = new BifrostClient('ws://localhost:8765', { autoConnect: false });
+
+    // Mock logger that outputs to both console and on-page log
+    const mockLogger = {
+      log: (msg) => {
+        console.log(msg);
+        addLog(msg, 'info');
+      },
+      error: (msg) => {
+        console.error(msg);
+        addLog(msg, 'error');
+      },
+      warn: (msg) => {
+        console.warn(msg);
+        addLog(msg, 'error');
+      }
+    };
+
+    function addLog(message, type = 'info') {
+      const logDiv = document.getElementById('log');
+      const entry = document.createElement('div');
+      entry.className = `log-entry log-${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logDiv.appendChild(entry);
+      logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    // Initialize renderer
+    const renderer = new TableRenderer(mockLogger);
+    addLog('TableRenderer initialized', 'success');
+
+    // Test Functions (exposed to global scope)
+    
+    /**
+     * Test 1: Array Rows (simplest format)
+     */
+    window.testArrayRows = function() {
+      addLog('Running: Array Rows Test', 'info');
+      renderer.render({
+        columns: ['ID', 'Name', 'Email'],
+        rows: [
+          [1, 'Alice', 'alice@example.com'],
+          [2, 'Bob', 'bob@example.com'],
+          [3, 'Charlie', 'charlie@example.com']
+        ]
+      }, 'render-zone');
+    };
+
+    /**
+     * Test 2: Object Rows (SQL-style, typical from zData)
+     */
+    window.testObjectRows = function() {
+      addLog('Running: Object Rows Test (SQL-style)', 'info');
+      renderer.render({
+        title: 'User Query Results',
+        columns: ['id', 'username', 'email', 'role'],
+        rows: [
+          { id: 1, username: 'alice', email: 'alice@example.com', role: 'admin' },
+          { id: 2, username: 'bob', email: 'bob@example.com', role: 'user' },
+          { id: 3, username: 'charlie', email: 'charlie@example.com', role: 'user' },
+          { id: 4, username: 'diana', email: 'diana@example.com', role: 'moderator' }
+        ]
+      }, 'render-zone');
+    };
+
+    /**
+     * Test 3: Pagination - First Page
+     * Shows "showing 1-10 of 50" + "... 40 more rows" footer
+     */
+    window.testPaginationFirst = function() {
+      addLog('Running: Pagination First Page Test (1-10 of 50)', 'info');
+      
+      // Generate 50 rows of test data
+      const allRows = [];
+      for (let i = 1; i <= 50; i++) {
+        allRows.push([i, `User ${i}`, `user${i}@example.com`]);
+      }
+      
+      renderer.render({
+        title: 'Users',
+        columns: ['ID', 'Name', 'Email'],
+        rows: allRows,
+        limit: 10,
+        offset: 0
+      }, 'render-zone');
+    };
+
+    /**
+     * Test 4: Pagination - Middle Page
+     * Shows "showing 21-30 of 50" + "... 20 more rows" footer
+     */
+    window.testPaginationMiddle = function() {
+      addLog('Running: Pagination Middle Page Test (21-30 of 50)', 'info');
+      
+      // Generate 50 rows of test data
+      const allRows = [];
+      for (let i = 1; i <= 50; i++) {
+        allRows.push({
+          id: i,
+          name: `User ${i}`,
+          email: `user${i}@example.com`,
+          role: i % 3 === 0 ? 'admin' : 'user'
+        });
+      }
+      
+      renderer.render({
+        title: 'Users',
+        columns: ['id', 'name', 'email', 'role'],
+        rows: allRows,
+        limit: 10,
+        offset: 20
+      }, 'render-zone');
+    };
+
+    /**
+     * Test 5: Pagination - Last Page
+     * Shows "showing 41-50 of 50" + NO footer (no more rows)
+     */
+    window.testPaginationLast = function() {
+      addLog('Running: Pagination Last Page Test (41-50 of 50)', 'info');
+      
+      // Generate 50 rows of test data
+      const allRows = [];
+      for (let i = 1; i <= 50; i++) {
+        allRows.push([i, `User ${i}`, `user${i}@example.com`]);
+      }
+      
+      renderer.render({
+        title: 'Users',
+        columns: ['ID', 'Name', 'Email'],
+        rows: allRows,
+        limit: 10,
+        offset: 40
+      }, 'render-zone');
+    };
+
+    /**
+     * Test 6: Interactive Navigation (Terminal first!)
+     * Shows First/Previous/Next/Last buttons + Jump to page
+     * 
+     * DEMO MODE: Buttons actually update the table (in production, server would handle this)
+     */
+    let currentTableState = null; // Track current state for demo navigation
+    
+    window.testInteractive = function() {
+      addLog('Running: Interactive Navigation Test', 'info');
+      
+      // Generate 50 rows of test data
+      const allRows = [];
+      for (let i = 1; i <= 50; i++) {
+        allRows.push([i, `User ${i}`, `user${i}@example.com`]);
+      }
+      
+      // Store initial state
+      currentTableState = {
+        title: 'Users',
+        columns: ['ID', 'Name', 'Email'],
+        rows: allRows,
+        limit: 10,
+        offset: 0,
+        interactive: true
+      };
+      
+      // Render initial table
+      renderInteractiveTable();
+      
+      addLog('✅ Interactive mode enabled - try the navigation buttons!', 'success');
+    };
+    
+    /**
+     * Render interactive table with current state
+     * Hook into navigation to update offset and re-render
+     */
+    function renderInteractiveTable() {
+      // Clear zone first
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '';
+      
+      // Render table
+      renderer.render(currentTableState, 'render-zone');
+      
+      // DEMO: Hook into navigation buttons to make them actually work
+      setTimeout(() => {
+        const navButtons = zone.querySelectorAll('.zBtn-sm');
+        navButtons.forEach(btn => {
+          const label = btn.innerText.trim(); // Use innerText to get text without HTML tags
+          
+          // Override onclick for demo purposes
+          if (label.includes('First')) {
+            btn.onclick = () => {
+              currentTableState.offset = 0;
+              renderInteractiveTable();
+              addLog('📄 Navigated to First page', 'success');
+            };
+          } else if (label.includes('Previous')) {
+            btn.onclick = () => {
+              currentTableState.offset = Math.max(0, currentTableState.offset - currentTableState.limit);
+              renderInteractiveTable();
+              addLog('📄 Navigated to Previous page', 'success');
+            };
+          } else if (label.includes('Next')) {
+            btn.onclick = () => {
+              const maxOffset = currentTableState.rows.length - currentTableState.limit;
+              currentTableState.offset = Math.min(maxOffset, currentTableState.offset + currentTableState.limit);
+              renderInteractiveTable();
+              addLog('📄 Navigated to Next page', 'success');
+            };
+          } else if (label.includes('Last')) {
+            btn.onclick = () => {
+              const totalPages = Math.ceil(currentTableState.rows.length / currentTableState.limit);
+              currentTableState.offset = (totalPages - 1) * currentTableState.limit;
+              renderInteractiveTable();
+              addLog('📄 Navigated to Last page', 'success');
+            };
+          } else if (label === 'Go') {
+            const jumpInput = zone.querySelector('input[type="number"]');
+            btn.onclick = () => {
+              const pageNum = parseInt(jumpInput.value);
+              const totalPages = Math.ceil(currentTableState.rows.length / currentTableState.limit);
+              if (pageNum >= 1 && pageNum <= totalPages) {
+                currentTableState.offset = (pageNum - 1) * currentTableState.limit;
+                renderInteractiveTable();
+                addLog(`📄 Jumped to page ${pageNum}`, 'success');
+              } else {
+                addLog(`❌ Invalid page: ${pageNum} (must be 1-${totalPages})`, 'error');
+              }
+            };
+            
+            // Enter key support
+            if (jumpInput) {
+              jumpInput.onkeypress = (e) => {
+                if (e.key === 'Enter') {
+                  btn.click();
+                }
+              };
+            }
+          }
+        });
+      }, 50); // Small delay to ensure DOM is ready
+    }
+
+    /**
+     * Test 7: Various Data Types (dates, booleans, nulls, numbers)
+     */
+    window.testDataTypes = function() {
+      addLog('Running: Data Types Test', 'info');
+      renderer.render({
+        title: 'Data Type Formatting Test',
+        columns: ['Type', 'Value', 'Formatted'],
+        rows: [
+          { 
+            'Type': 'Date', 
+            'Value': '2025-01-15', 
+            'Formatted': new Date('2025-01-15') 
+          },
+          { 
+            'Type': 'Boolean (true)', 
+            'Value': 'true', 
+            'Formatted': true 
+          },
+          { 
+            'Type': 'Boolean (false)', 
+            'Value': 'false', 
+            'Formatted': false 
+          },
+          { 
+            'Type': 'Null', 
+            'Value': 'null', 
+            'Formatted': null 
+          },
+          { 
+            'Type': 'Large Number', 
+            'Value': '1234567', 
+            'Formatted': 1234567 
+          },
+          { 
+            'Type': 'Decimal', 
+            'Value': '3.14159', 
+            'Formatted': 3.14159 
+          },
+          { 
+            'Type': 'Long String', 
+            'Value': 'Lorem ipsum...', 
+            'Formatted': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.' 
+          },
+          { 
+            'Type': 'Object', 
+            'Value': '{key: val}', 
+            'Formatted': { key: 'value', nested: { data: 123 } } 
+          }
+        ]
+      }, 'render-zone');
+    };
+
+    /**
+     * Clear the render zone
+     */
+    window.clearRenderZone = function() {
+      addLog('Clearing render zone', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<p class="zText-muted"><em>Zone cleared. Click a test button...</em></p>';
+    };
+
+    // Auto-run basic test on load
+    addLog('Ready! Click a test button to start.', 'success');
+  </script>
+</body>
+</html>
+

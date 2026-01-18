@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popover - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav style="margin-bottom: 1rem; font-size: 0.9rem;">
+        <a href="ztheme.html" style="color: var(--color-primary);">zTheme</a>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Components</span>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Popover</span>
+    </nav>
+    
+    <h1>Popover</h1>
+    <p style="font-size: 1.25rem; color: var(--color-gray); margin-bottom: 2rem;">
+        Display rich content in floating overlays triggered by clicks, hovers, or focus events.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Popovers -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Popovers</h2>
+        <p>Popovers are contextual overlays that display rich content (text, images, buttons, etc.) when triggered. Unlike tooltips which show simple text, popovers can contain HTML, headers, and multiple paragraphs.</p>
+        
+        <div style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>When to use:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Additional context</strong> - Show supplementary information without cluttering the interface</li>
+                <li><strong>Help text</strong> - Provide detailed explanations for complex features</li>
+                <li><strong>User prompts</strong> - Guide users through multi-step processes</li>
+                <li><strong>Mini forms</strong> - Quick actions like adding tags or comments</li>
+            </ul>
+        </div>
+        
+        <div style="background: #fff8e1; padding: 1.5rem; border-left: 4px solid #ffa726; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>⚠️ When NOT to use popovers:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>Critical information</strong> - Don't hide essential content that users must see</li>
+                <li><strong>Mobile primary actions</strong> - Popovers can be hard to dismiss on touch devices</li>
+                <li><strong>Too much content</strong> - If it doesn't fit in ~250px, use a modal instead</li>
+                <li><strong>Simple tooltips</strong> - For single-line hints, use tooltips (lighter, faster)</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Basic Popover -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic Popover</h2>
+        <p>Click the button to reveal a popover. The popover appears on click and can be dismissed by clicking outside or the button again.</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px; text-align: center;">
+            <button class="zBtn zBtn-primary" 
+                    data-bs-toggle="popover" 
+                    data-bs-content="This is a basic popover with simple content.">
+                Click me
+            </button>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button class="zBtn zBtn-primary" 
+        data-bs-toggle="popover" 
+        data-bs-content="This is a basic popover with simple content."&gt;
+  Click me
+&lt;/button&gt;</code></pre>
+    </section>
+    
+    <!-- Popover with Title -->
+    <section style="margin: 3rem 0;">
+        <h2>Popover with Title</h2>
+        <p>Add a <code>data-bs-title</code> attribute to include a header section.</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px; text-align: center;">
+            <button class="zBtn zBtn-success" 
+                    data-bs-toggle="popover" 
+                    data-bs-title="Popover Title"
+                    data-bs-content="Popovers with titles help organize content and provide context for what the user is reading.">
+                Popover with Header
+            </button>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button class="zBtn zBtn-success" 
+        data-bs-toggle="popover" 
+        data-bs-title="Popover Title"
+        data-bs-content="Popovers with titles help organize content."&gt;
+  Popover with Header
+&lt;/button&gt;</code></pre>
+    </section>
+    
+    <!-- Placement Options -->
+    <section style="margin: 3rem 0;">
+        <h2>Placement Options</h2>
+        <p>Control where the popover appears relative to the trigger element using <code>data-bs-placement</code>.</p>
+        
+        <div style="margin: 2rem 0; padding: 3rem; background: #f9f9f9; border-radius: 4px; display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap;">
+            <button class="zBtn zBtn-secondary" 
+                    data-bs-toggle="popover" 
+                    data-bs-placement="top"
+                    data-bs-title="Top Popover"
+                    data-bs-content="This popover appears above the button.">
+                Top
+            </button>
+            
+            <button class="zBtn zBtn-secondary" 
+                    data-bs-toggle="popover" 
+                    data-bs-placement="end"
+                    data-bs-title="Right Popover"
+                    data-bs-content="This popover appears to the right of the button.">
+                Right
+            </button>
+            
+            <button class="zBtn zBtn-secondary" 
+                    data-bs-toggle="popover" 
+                    data-bs-placement="bottom"
+                    data-bs-title="Bottom Popover"
+                    data-bs-content="This popover appears below the button (default).">
+                Bottom
+            </button>
+            
+            <button class="zBtn zBtn-secondary" 
+                    data-bs-toggle="popover" 
+                    data-bs-placement="start"
+                    data-bs-title="Left Popover"
+                    data-bs-content="This popover appears to the left of the button.">
+                Left
+            </button>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button data-bs-toggle="popover" data-bs-placement="top"&gt;Top&lt;/button&gt;
+&lt;button data-bs-toggle="popover" data-bs-placement="end"&gt;Right&lt;/button&gt;
+&lt;button data-bs-toggle="popover" data-bs-placement="bottom"&gt;Bottom&lt;/button&gt;
+&lt;button data-bs-toggle="popover" data-bs-placement="start"&gt;Left&lt;/button&gt;</code></pre>
+    </section>
+    
+    <!-- Trigger Options -->
+    <section style="margin: 3rem 0;">
+        <h2>Trigger Options</h2>
+        <p>Choose how the popover is triggered: click (default), hover, or focus.</p>
+        
+        <h3 style="margin-top: 2rem;">Click Trigger (Default)</h3>
+        <p>Popover appears on click and stays open until dismissed.</p>
+        
+        <div style="margin: 1rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px; text-align: center;">
+            <button class="zBtn zBtn-primary" 
+                    data-bs-toggle="popover" 
+                    data-bs-trigger="click"
+                    data-bs-title="Click Trigger"
+                    data-bs-content="Click the button to show, click outside to hide.">
+                Click Trigger
+            </button>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button data-bs-toggle="popover" 
+        data-bs-trigger="click"
+        data-bs-content="..."&gt;
+  Click Trigger
+&lt;/button&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">Hover Trigger</h3>
+        <p>Popover appears on mouse hover and disappears when the mouse leaves.</p>
+        
+        <div style="margin: 1rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px; text-align: center;">
+            <button class="zBtn zBtn-info" 
+                    data-bs-toggle="popover" 
+                    data-bs-trigger="hover"
+                    data-bs-title="Hover Trigger"
+                    data-bs-content="Hover over the button to show this popover. Great for tooltips with more content.">
+                Hover Trigger
+            </button>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button data-bs-toggle="popover" 
+        data-bs-trigger="hover"
+        data-bs-content="..."&gt;
+  Hover Trigger
+&lt;/button&gt;</code></pre>
+        
+        <h3 style="margin-top: 2rem;">Focus Trigger</h3>
+        <p>Popover appears when the element receives focus (useful for form inputs).</p>
+        
+        <div style="margin: 1rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px; text-align: center;">
+            <button class="zBtn zBtn-warning" 
+                    data-bs-toggle="popover" 
+                    data-bs-trigger="focus"
+                    data-bs-title="Focus Trigger"
+                    data-bs-content="Tab to this button or click it to show the popover. Tab away to hide it.">
+                Focus Trigger
+            </button>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button data-bs-toggle="popover" 
+        data-bs-trigger="focus"
+        data-bs-content="..."&gt;
+  Focus Trigger
+&lt;/button&gt;</code></pre>
+    </section>
+    
+    <!-- Color Variants -->
+    <section style="margin: 3rem 0;">
+        <h2>Color Variants</h2>
+        <p>Use <code>data-bs-custom-class</code> to add contextual color themes to popovers.</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px; display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap;">
+            <button class="zBtn zBtn-primary" 
+                    data-bs-toggle="popover" 
+                    data-bs-custom-class="zPopover-primary"
+                    data-bs-title="Primary Alert"
+                    data-bs-content="Important information with primary styling.">
+                Primary
+            </button>
+            
+            <button class="zBtn zBtn-success" 
+                    data-bs-toggle="popover" 
+                    data-bs-custom-class="zPopover-success"
+                    data-bs-title="Success!"
+                    data-bs-content="Operation completed successfully.">
+                Success
+            </button>
+            
+            <button class="zBtn zBtn-danger" 
+                    data-bs-toggle="popover" 
+                    data-bs-custom-class="zPopover-danger"
+                    data-bs-title="Warning!"
+                    data-bs-content="This action requires your attention.">
+                Danger
+            </button>
+            
+            <button class="zBtn zBtn-warning" 
+                    data-bs-toggle="popover" 
+                    data-bs-custom-class="zPopover-warning"
+                    data-bs-title="Heads up!"
+                    data-bs-content="Please review before continuing.">
+                Warning
+            </button>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button data-bs-toggle="popover" 
+        data-bs-custom-class="zPopover-primary"
+        data-bs-content="..."&gt;Primary&lt;/button&gt;
+
+&lt;button data-bs-toggle="popover" 
+        data-bs-custom-class="zPopover-success"
+        data-bs-content="..."&gt;Success&lt;/button&gt;
+
+&lt;button data-bs-toggle="popover" 
+        data-bs-custom-class="zPopover-danger"
+        data-bs-content="..."&gt;Danger&lt;/button&gt;</code></pre>
+    </section>
+    
+    <!-- Rich Content -->
+    <section style="margin: 3rem 0;">
+        <h2>Rich Content</h2>
+        <p>Popovers support HTML content, allowing you to include formatted text, lists, links, and more.</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px; text-align: center;">
+            <button class="zBtn zBtn-primary" 
+                    data-bs-toggle="popover" 
+                    data-bs-title="🎨 Rich Content"
+                    data-bs-content="<p><strong>Popovers support HTML!</strong></p><ul style='margin: 0.5rem 0; padding-left: 1.5rem;'><li>Formatted text</li><li>Lists and links</li><li>Icons and emojis</li></ul><p style='margin-top: 0.5rem;'><a href='#' style='color: #0d6efd;'>Learn more →</a></p>">
+                Rich Content Example
+            </button>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;button data-bs-toggle="popover" 
+        data-bs-title="🎨 Rich Content"
+        data-bs-content="&lt;p&gt;&lt;strong&gt;HTML supported!&lt;/strong&gt;&lt;/p&gt;
+                        &lt;ul&gt;
+                          &lt;li&gt;Lists&lt;/li&gt;
+                          &lt;li&gt;Links&lt;/li&gt;
+                        &lt;/ul&gt;"&gt;
+  Rich Content
+&lt;/button&gt;</code></pre>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <div style="background: #e8f5e9; padding: 1.5rem; border-left: 4px solid #4caf50; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>✅ DO:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Keep content concise (under 250 words)</li>
+                <li>Use clear, actionable titles</li>
+                <li>Ensure popovers work on mobile (avoid hover-only triggers)</li>
+                <li>Provide clear ways to dismiss (outside click, ESC key)</li>
+                <li>Use appropriate placement to avoid covering important content</li>
+                <li>Test that popovers stay within viewport bounds</li>
+            </ul>
+        </div>
+        
+        <div style="background: #ffebee; padding: 1.5rem; border-left: 4px solid #ef5350; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>❌ DON'T:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Hide critical information in popovers</li>
+                <li>Use hover triggers on mobile-first designs</li>
+                <li>Stack multiple popovers on top of each other</li>
+                <li>Make popovers the only way to access features</li>
+                <li>Use popovers for long-form content (use modals instead)</li>
+                <li>Forget to handle keyboard navigation (ESC to close)</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Accessibility -->
+    <section style="margin: 3rem 0;">
+        <h2>Accessibility</h2>
+        <p>Popovers are accessible by default, but follow these guidelines for the best experience:</p>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Built-in Accessibility Features</h3>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><strong>ARIA Role:</strong> Popovers have <code>role="tooltip"</code> for screen readers</li>
+                <li><strong>Keyboard Support:</strong> ESC key closes popovers (click triggers)</li>
+                <li><strong>Focus Management:</strong> Focus returns to trigger when popover closes</li>
+                <li><strong>Outside Click:</strong> Clicking outside automatically dismisses</li>
+            </ul>
+        </div>
+        
+        <div style="background: #fff3e0; padding: 1.5rem; border-left: 4px solid #ff9800; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Additional Considerations</h3>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><strong>Descriptive Triggers:</strong> Button text should indicate what the popover contains</li>
+                <li><strong>Avoid Hover-Only on Mobile:</strong> Touch devices can't "hover" - use click instead</li>
+                <li><strong>Test with Screen Readers:</strong> Ensure popover content is announced properly</li>
+                <li><strong>Color Contrast:</strong> Maintain WCAG AA contrast ratios (4.5:1 for text)</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Data Attributes Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>Data Attributes Reference</h2>
+        <p>All popover options are configured via HTML data attributes:</p>
+        
+        <div style="overflow-x: auto; margin: 2rem 0;">
+            <table class="zTable zTable-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Attribute</th>
+                        <th scope="col">Values</th>
+                        <th scope="col">Default</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>data-bs-toggle</code></td>
+                        <td><code>popover</code></td>
+                        <td>-</td>
+                        <td>Required. Enables popover functionality.</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-bs-content</code></td>
+                        <td>String (HTML allowed)</td>
+                        <td><code>""</code></td>
+                        <td>Required. The main popover content.</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-bs-title</code></td>
+                        <td>String</td>
+                        <td><code>""</code></td>
+                        <td>Optional. Popover header text.</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-bs-placement</code></td>
+                        <td><code>top</code>, <code>bottom</code>, <code>start</code>, <code>end</code></td>
+                        <td><code>bottom</code></td>
+                        <td>Where the popover appears relative to trigger.</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-bs-trigger</code></td>
+                        <td><code>click</code>, <code>hover</code>, <code>focus</code></td>
+                        <td><code>click</code></td>
+                        <td>How the popover is triggered.</td>
+                    </tr>
+                    <tr>
+                        <td><code>data-bs-custom-class</code></td>
+                        <td>CSS class name</td>
+                        <td><code>""</code></td>
+                        <td>Add custom styling (e.g., <code>zPopover-primary</code>).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: #2d2d2d; color: #f8f8f2; border-radius: 4px;">
+        <h2 style="color: #f8f8f2;">CSS Classes</h2>
+        <p style="color: #a8a8a8;">All popover styles are defined in <code>zPopover.css</code>:</p>
+        
+        <table class="zTable" style="margin: 1rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col" style="color: #f8f8f2;">Class</th>
+                    <th scope="col" style="color: #f8f8f2;">Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zPopover</code></td>
+                    <td style="color: #a8a8a8;">Main popover container</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zPopover-arrow</code></td>
+                    <td style="color: #a8a8a8;">Arrow/pointer element</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zPopover-header</code></td>
+                    <td style="color: #a8a8a8;">Optional header section</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zPopover-body</code></td>
+                    <td style="color: #a8a8a8;">Main content area</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zPopover-top</code></td>
+                    <td style="color: #a8a8a8;">Placement above trigger</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zPopover-bottom</code></td>
+                    <td style="color: #a8a8a8;">Placement below trigger</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zPopover-start</code></td>
+                    <td style="color: #a8a8a8;">Placement to the left</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zPopover-end</code></td>
+                    <td style="color: #a8a8a8;">Placement to the right</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zPopover-primary</code></td>
+                    <td style="color: #a8a8a8;">Primary color variant</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zPopover-success</code></td>
+                    <td style="color: #a8a8a8;">Success color variant</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zPopover-danger</code></td>
+                    <td style="color: #a8a8a8;">Danger color variant</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zPopover-warning</code></td>
+                    <td style="color: #a8a8a8;">Warning color variant</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zShow</code></td>
+                    <td style="color: #a8a8a8;">Visible state (added by JS)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-modal.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Modals</strong> → For longer content that requires full user attention
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-dropdown.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Dropdowns</strong> → For action menus and navigation options
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-alerts.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Alerts</strong> → For persistent notification messages
+                </a>
+            </li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-pagination.html" style="color: var(--color-primary);">← Previous: Pagination</a>
+        <a href="ztheme.html" style="color: var(--color-primary);">Back to Components</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

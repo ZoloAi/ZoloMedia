@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<article style="max-width: 900px; margin: 0 auto; padding: 2rem;">
+    <!-- Header -->
+    <header style="margin-bottom: 3rem;">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+            <ol class="zBreadcrumb">
+                <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+                <li class="zBreadcrumb-item"><a href="ztheme.html">Components</a></li>
+                <li class="zBreadcrumb-item zActive" aria-current="page">Modal</li>
+            </ol>
+        </nav>
+
+        <h1>Modal</h1>
+        <p class="zLead">Dialog overlays for lightboxes, user notifications, and custom content that demand user attention.</p>
+    </header>
+
+    <!-- Understanding Modals -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Modals</h2>
+        <p>Modals are dialog boxes that overlay the page, perfect for:</p>
+        <ul style="line-height: 2;">
+            <li><strong>Confirmations:</strong> "Are you sure you want to delete?"</li>
+            <li><strong>Forms:</strong> Login, registration, or data entry without leaving the page</li>
+            <li><strong>Alerts & notifications:</strong> Important messages requiring acknowledgment</li>
+            <li><strong>Image lightboxes:</strong> Full-size image viewing</li>
+            <li><strong>Multi-step wizards:</strong> Guided processes in a focused context</li>
+        </ul>
+
+        <p style="margin-top: 1.5rem;">Modals lock the page scroll, dim the background (backdrop), and capture user focus until dismissed—making them perfect for content that requires immediate attention.</p>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: rgba(255, 193, 7, 0.1);">
+            <strong>Use sparingly:</strong> Modals interrupt user flow. Reserve them for important moments. For less critical content, consider <a href="ztheme-collapse.html">Collapse</a> or <a href="ztheme-dropdown.html">Dropdowns</a>.
+        </blockquote>
+    </section>
+
+    <!-- Basic Modal -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic Modal</h2>
+        <p>A modal has three main parts: <strong>header</strong> (title + close button), <strong>body</strong> (content), and <strong>footer</strong> (action buttons):</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#basicModal">
+                Launch demo modal
+            </button>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Button trigger --&gt;
+&lt;button type="button" class="zBtn zBtn-primary" 
+        data-bs-toggle="modal" 
+        data-bs-target="#basicModal"&gt;
+  Launch demo modal
+&lt;/button&gt;
+
+&lt;!-- Modal --&gt;
+&lt;div class="zModal zFade" id="basicModal" tabindex="-1" aria-hidden="true"&gt;
+  &lt;div class="zModal-dialog"&gt;
+    &lt;div class="zModal-content"&gt;
+      &lt;div class="zModal-header"&gt;
+        &lt;h5 class="zModal-title"&gt;Modal title&lt;/h5&gt;
+        &lt;button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"&gt;&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class="zModal-body"&gt;
+        &lt;p&gt;Woohoo, you're reading this text in a modal!&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="zModal-footer"&gt;
+        &lt;button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal"&gt;Close&lt;/button&gt;
+        &lt;button type="button" class="zBtn zBtn-primary"&gt;Save changes&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Auto-Initialization:</strong> Just add <code>data-bs-toggle="modal"</code> and <code>zTheme.js</code> handles everything: backdrop, animations, focus, keyboard navigation, and body scroll lock!
+        </blockquote>
+    </section>
+
+    <!-- Static Backdrop -->
+    <section style="margin: 3rem 0;">
+        <h2>Static Backdrop</h2>
+        <p>By default, clicking outside the modal closes it. Use <code>data-bs-backdrop="static"</code> to prevent this:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#staticModal">
+                Launch static backdrop modal
+            </button>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zModal zFade" id="staticModal" 
+     data-bs-backdrop="static" 
+     data-bs-keyboard="false" 
+     tabindex="-1"&gt;
+  &lt;div class="zModal-dialog"&gt;
+    &lt;div class="zModal-content"&gt;
+      &lt;div class="zModal-header"&gt;
+        &lt;h5 class="zModal-title"&gt;Modal title&lt;/h5&gt;
+        &lt;button type="button" class="zBtn-close" data-bs-dismiss="modal"&gt;&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class="zModal-body"&gt;
+        &lt;p&gt;I will not close if you click outside me. Don't even try ESC key.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="zModal-footer"&gt;
+        &lt;button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal"&gt;Close&lt;/button&gt;
+        &lt;button type="button" class="zBtn zBtn-primary"&gt;Understood&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <p><strong>Tip:</strong> Use static backdrop for critical confirmations (like "Delete account?") where you want to ensure the user consciously dismisses the modal.</p>
+    </section>
+
+    <!-- Vertical Positioning -->
+    <section style="margin: 3rem 0;">
+        <h2>Vertical Positioning</h2>
+        <p>Control where the modal appears vertically on the screen:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" style="margin: 0.5rem;">
+                Top (default)
+            </button>
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#centeredModal" style="margin: 0.5rem;">
+                Centered
+            </button>
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#bottomModal" style="margin: 0.5rem;">
+                Bottom
+            </button>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Default: Top aligned with margin --&gt;
+&lt;div class="zModal-dialog"&gt;...&lt;/div&gt;
+
+&lt;!-- Vertically centered --&gt;
+&lt;div class="zModal-dialog zModal-dialog-centered"&gt;...&lt;/div&gt;
+
+&lt;!-- Bottom aligned --&gt;
+&lt;div class="zModal-dialog zModal-dialog-bottom"&gt;...&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Animation Options -->
+    <section style="margin: 3rem 0;">
+        <h2>Animation Options</h2>
+        <p>Choose from different animation styles to control how your modal enters the screen:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#fadeModal" style="margin: 0.5rem;">
+                Slide Down (default)
+            </button>
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#slideUpModal" style="margin: 0.5rem;">
+                Slide Up
+            </button>
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#zoomInModal" style="margin: 0.5rem;">
+                Zoom In
+            </button>
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#slideLeftModal" style="margin: 0.5rem;">
+                Slide Left
+            </button>
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#slideRightModal" style="margin: 0.5rem;">
+                Slide Right
+            </button>
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#fadeOnlyModal" style="margin: 0.5rem;">
+                Fade Only
+            </button>
+        </div>
+
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Effect</th>
+                    <th scope="col">Best For</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zFade</code></td>
+                    <td>Slide down from top (+ fade)</td>
+                    <td>Default, general purpose</td>
+                </tr>
+                <tr>
+                    <td><code>.zSlideUp</code></td>
+                    <td>Slide up from bottom (+ fade)</td>
+                    <td>Mobile sheets, bottom actions</td>
+                </tr>
+                <tr>
+                    <td><code>.zZoomIn</code></td>
+                    <td>Zoom/scale from center (+ fade)</td>
+                    <td>Image lightboxes, focus attention</td>
+                </tr>
+                <tr>
+                    <td><code>.zSlideLeft</code></td>
+                    <td>Slide in from right (+ fade)</td>
+                    <td>Side panels, next/forward actions</td>
+                </tr>
+                <tr>
+                    <td><code>.zSlideRight</code></td>
+                    <td>Slide in from left (+ fade)</td>
+                    <td>Side panels, back/previous actions</td>
+                </tr>
+                <tr>
+                    <td><code>.zFadeOnly</code></td>
+                    <td>Pure opacity fade (no movement)</td>
+                    <td>Minimal, subtle transitions</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Slide down (default) --&gt;
+&lt;div class="zModal zFade" id="myModal"&gt;...&lt;/div&gt;
+
+&lt;!-- Slide up --&gt;
+&lt;div class="zModal zSlideUp" id="myModal"&gt;...&lt;/div&gt;
+
+&lt;!-- Zoom in --&gt;
+&lt;div class="zModal zZoomIn" id="myModal"&gt;...&lt;/div&gt;
+
+&lt;!-- Fade only (no movement) --&gt;
+&lt;div class="zModal zFadeOnly" id="myModal"&gt;...&lt;/div&gt;
+
+&lt;!-- No animation --&gt;
+&lt;div class="zModal" id="myModal"&gt;...&lt;/div&gt;</code></pre>
+
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Accessibility:</strong> All animations respect <code>prefers-reduced-motion</code> and will be disabled for users who request reduced motion in their system settings.
+        </blockquote>
+    </section>
+
+    <!-- Scrollable Content -->
+    <section style="margin: 3rem 0;">
+        <h2>Scrollable Content</h2>
+        <p>For long content, add <code>.zModal-dialog-scrollable</code> to make only the body scroll while keeping the header and footer fixed in view:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#scrollableModal" style="margin: 0.5rem;">
+                Full height scrollable
+            </button>
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#scrollableSmModal" style="margin: 0.5rem;">
+                Small height
+            </button>
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#scrollableMdModal" style="margin: 0.5rem;">
+                Medium height
+            </button>
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#scrollableLgModal" style="margin: 0.5rem;">
+                Large height
+            </button>
+        </div>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: rgba(54, 162, 235, 0.1);">
+            <strong>Scrollable vs Default:</strong> Without <code>.zModal-dialog-scrollable</code>, the entire modal scrolls behind the backdrop. With it, only the body scrolls while header and footer remain visible—better UX for forms and long content!
+        </blockquote>
+
+        <h3 style="margin-top: 2rem;">Height Control</h3>
+        <p>By default, scrollable modals take up most of the viewport. Control the height with size modifiers:</p>
+
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Height</th>
+                    <th scope="col">Best For</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zModal-scrollable-sm</code></td>
+                    <td>400px (300px body)</td>
+                    <td>Short lists, simple forms</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-scrollable-md</code></td>
+                    <td>550px (450px body)</td>
+                    <td>Standard forms, moderate content</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-scrollable-lg</code></td>
+                    <td>700px (600px body)</td>
+                    <td>Long forms, detailed content</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-scrollable-xl</code></td>
+                    <td>850px (750px body)</td>
+                    <td>Very long content, data tables</td>
+                </tr>
+                <tr>
+                    <td><em>(none)</em></td>
+                    <td>~Full viewport</td>
+                    <td>Maximum content visibility</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Full height scrollable (default) --&gt;
+&lt;div class="zModal-dialog zModal-dialog-scrollable"&gt;...&lt;/div&gt;
+
+&lt;!-- Fixed height scrollable --&gt;
+&lt;div class="zModal-dialog zModal-dialog-scrollable zModal-scrollable-md"&gt;...&lt;/div&gt;
+
+&lt;!-- Custom height with CSS variable --&gt;
+&lt;div class="zModal-dialog zModal-dialog-scrollable" style="--modal-height: 500px"&gt;...&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Modal Sizes -->
+    <section style="margin: 3rem 0;">
+        <h2>Modal Sizes</h2>
+        <p>Control modal width with size modifiers:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#smModal" style="margin: 0.5rem;">
+                Small modal
+            </button>
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#basicModal" style="margin: 0.5rem;">
+                Default modal
+            </button>
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#lgModal" style="margin: 0.5rem;">
+                Large modal
+            </button>
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#xlModal" style="margin: 0.5rem;">
+                XL modal
+            </button>
+        </div>
+
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Size</th>
+                    <th scope="col">Class</th>
+                    <th scope="col">Max Width</th>
+                    <th scope="col">Best For</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Small</td>
+                    <td><code>.zModal-sm</code></td>
+                    <td>300px</td>
+                    <td>Alerts, confirmations</td>
+                </tr>
+                <tr>
+                    <td>Default</td>
+                    <td><em>(none)</em></td>
+                    <td>500px</td>
+                    <td>Forms, general content</td>
+                </tr>
+                <tr>
+                    <td>Large</td>
+                    <td><code>.zModal-lg</code></td>
+                    <td>800px</td>
+                    <td>Multi-column forms, data tables</td>
+                </tr>
+                <tr>
+                    <td>Extra Large</td>
+                    <td><code>.zModal-xl</code></td>
+                    <td>1140px</td>
+                    <td>Image galleries, complex layouts</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Small modal --&gt;
+&lt;div class="zModal-dialog zModal-sm"&gt;...&lt;/div&gt;
+
+&lt;!-- Large modal --&gt;
+&lt;div class="zModal-dialog zModal-lg"&gt;...&lt;/div&gt;
+
+&lt;!-- Extra Large modal --&gt;
+&lt;div class="zModal-dialog zModal-xl"&gt;...&lt;/div&gt;</code></pre>
+    </section>
+
+    <!-- Fullscreen Modal -->
+    <section style="margin: 3rem 0;">
+        <h2>Fullscreen Modal</h2>
+        <p>Use <code>.zModal-fullscreen</code> for modals that take up the entire viewport:</p>
+
+        <div class="zDemo" style="padding: 2rem; background: #f8f9fa; border-radius: 0.5rem; margin: 1.5rem 0;">
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#fullscreenModal" style="margin: 0.5rem;">
+                Fullscreen modal
+            </button>
+            <button type="button" class="zBtn zBtn-primary" data-bs-toggle="modal" data-bs-target="#fullscreenMdModal" style="margin: 0.5rem;">
+                Fullscreen below md
+            </button>
+        </div>
+
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;!-- Always fullscreen --&gt;
+&lt;div class="zModal-dialog zModal-fullscreen"&gt;...&lt;/div&gt;
+
+&lt;!-- Fullscreen on small screens only --&gt;
+&lt;div class="zModal-dialog zModal-fullscreen-sm-down"&gt;...&lt;/div&gt;
+&lt;div class="zModal-dialog zModal-fullscreen-md-down"&gt;...&lt;/div&gt;
+&lt;div class="zModal-dialog zModal-fullscreen-lg-down"&gt;...&lt;/div&gt;</code></pre>
+
+        <p><strong>Mobile-first:</strong> Responsive fullscreen classes are perfect for mobile experiences—fullscreen on phones, centered dialog on tablets/desktops.</p>
+    </section>
+
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        <ul style="line-height: 2;">
+            <li><strong>Always include a close button:</strong> Give users a clear way out (<code>data-bs-dismiss="modal"</code>)</li>
+            <li><strong>One modal at a time:</strong> Avoid nesting or stacking modals—it's confusing</li>
+            <li><strong>Clear modal titles:</strong> Use descriptive <code>.zModal-title</code> for context</li>
+            <li><strong>Keep it focused:</strong> Modals should have a single purpose</li>
+            <li><strong>Mobile considerations:</strong> Test on small screens; consider <code>.zModal-fullscreen-sm-down</code></li>
+            <li><strong>Destructive actions:</strong> Use <code>data-bs-backdrop="static"</code> for confirmations</li>
+            <li><strong>Accessibility:</strong> Include <code>aria-labelledby</code>, <code>aria-hidden</code>, and <code>tabindex="-1"</code></li>
+            <li><strong>Keyboard navigation:</strong> ESC closes modals (unless <code>data-bs-keyboard="false"</code>)</li>
+            <li><strong>Don't overuse:</strong> Excessive modals frustrate users—consider alternatives first</li>
+        </ul>
+    </section>
+
+    <!-- Accessibility -->
+    <section style="margin: 3rem 0;">
+        <h2>Accessibility</h2>
+        <p>Modals are complex for screen readers. Follow these guidelines:</p>
+
+        <h3 style="margin-top: 2rem;">Required Attributes</h3>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 0.25rem; overflow-x: auto; margin: 1.5rem 0;"><code>&lt;div class="zModal zFade" 
+     id="myModal" 
+     tabindex="-1" 
+     aria-labelledby="myModalLabel" 
+     aria-hidden="true"&gt;
+  &lt;div class="zModal-dialog"&gt;
+    &lt;div class="zModal-content"&gt;
+      &lt;div class="zModal-header"&gt;
+        &lt;h5 class="zModal-title" id="myModalLabel"&gt;Modal Title&lt;/h5&gt;
+        &lt;button type="button" class="zBtn-close" 
+                data-bs-dismiss="modal" 
+                aria-label="Close"&gt;&lt;/button&gt;
+      &lt;/div&gt;
+      ...
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <ul style="line-height: 2; margin-top: 1.5rem;">
+            <li><code>tabindex="-1"</code> - Allows focus on the modal container</li>
+            <li><code>aria-labelledby</code> - Links to the modal title for screen readers</li>
+            <li><code>aria-hidden="true"</code> - Hides modal from screen readers when closed (auto-managed by JS)</li>
+            <li><code>aria-label="Close"</code> - Describes close button for screen readers</li>
+        </ul>
+
+        <p style="margin-top: 1.5rem;"><strong>Focus management:</strong> When opened, focus moves to the first focusable element. When closed, focus returns to the trigger button.</p>
+    </section>
+
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>CSS Reference</h2>
+
+        <h3 style="margin-top: 2rem;">Modal Structure</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zModal</code></td>
+                    <td>Outer modal container (fixed overlay)</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-dialog</code></td>
+                    <td>Centers and sizes the modal</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-content</code></td>
+                    <td>White box containing header/body/footer</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-header</code></td>
+                    <td>Header with title and close button</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-title</code></td>
+                    <td>Modal title text</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-body</code></td>
+                    <td>Main content area</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-footer</code></td>
+                    <td>Footer with action buttons</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-backdrop</code></td>
+                    <td>Dark background overlay (auto-generated by JS)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Size Modifiers</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zModal-sm</code></td>
+                    <td>Small modal (300px)</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-lg</code></td>
+                    <td>Large modal (800px)</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-xl</code></td>
+                    <td>Extra large modal (1140px)</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-fullscreen</code></td>
+                    <td>Full viewport width/height</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-fullscreen-sm-down</code></td>
+                    <td>Fullscreen on small screens</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-fullscreen-md-down</code></td>
+                    <td>Fullscreen on medium and below</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-fullscreen-lg-down</code></td>
+                    <td>Fullscreen on large and below</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Positioning Modifiers</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zModal-dialog-centered</code></td>
+                    <td>Vertically center the modal</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-dialog-bottom</code></td>
+                    <td>Align modal to bottom</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-dialog-scrollable</code></td>
+                    <td>Make modal body scrollable (header/footer fixed)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Scrollable Height Control</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zModal-scrollable-sm</code></td>
+                    <td>Small fixed height (400px / 300px on mobile)</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-scrollable-md</code></td>
+                    <td>Medium fixed height (550px / 400px on mobile)</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-scrollable-lg</code></td>
+                    <td>Large fixed height (700px / 500px on mobile)</td>
+                </tr>
+                <tr>
+                    <td><code>.zModal-scrollable-xl</code></td>
+                    <td>Extra large fixed height (850px / 600px on mobile)</td>
+                </tr>
+            </tbody>
+        </table>
+        <p style="margin-top: 1rem;"><em>Note: Height control classes only work with <code>.zModal-dialog-scrollable</code></em></p>
+
+        <h3 style="margin-top: 2rem;">Animation Classes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zFade</code></td>
+                    <td>Slide down from top + fade (default/recommended)</td>
+                </tr>
+                <tr>
+                    <td><code>.zSlideUp</code></td>
+                    <td>Slide up from bottom + fade</td>
+                </tr>
+                <tr>
+                    <td><code>.zZoomIn</code></td>
+                    <td>Zoom/scale from center + fade</td>
+                </tr>
+                <tr>
+                    <td><code>.zSlideLeft</code></td>
+                    <td>Slide in from right + fade</td>
+                </tr>
+                <tr>
+                    <td><code>.zSlideRight</code></td>
+                    <td>Slide in from left + fade</td>
+                </tr>
+                <tr>
+                    <td><code>.zFadeOnly</code></td>
+                    <td>Pure opacity fade (no movement)</td>
+                </tr>
+                <tr>
+                    <td><code>.zShow</code></td>
+                    <td>Show modal (auto-managed by JS)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 2rem;">Data Attributes</h3>
+        <table class="zTable" style="width: 100%; margin: 1.5rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col">Attribute</th>
+                    <th scope="col">Required</th>
+                    <th scope="col">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>data-bs-toggle="modal"</code></td>
+                    <td>Yes</td>
+                    <td>On trigger button to enable modal</td>
+                </tr>
+                <tr>
+                    <td><code>data-bs-target</code></td>
+                    <td>Yes</td>
+                    <td>ID of target modal (e.g., #myModal)</td>
+                </tr>
+                <tr>
+                    <td><code>data-bs-dismiss="modal"</code></td>
+                    <td>No</td>
+                    <td>On buttons to close modal</td>
+                </tr>
+                <tr>
+                    <td><code>data-bs-backdrop="static"</code></td>
+                    <td>No</td>
+                    <td>Prevent closing on backdrop click</td>
+                </tr>
+                <tr>
+                    <td><code>data-bs-keyboard="false"</code></td>
+                    <td>No</td>
+                    <td>Prevent closing with ESC key</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-alerts.html">Alerts</a> - For inline notifications</li>
+            <li><a href="ztheme-collapse.html">Collapse</a> - For expandable content without overlay</li>
+            <li><a href="ztheme-buttons.html">Buttons</a> - Modal trigger buttons</li>
+            <li><a href="ztheme-cards.html">Cards</a> - Alternative to modals for displaying content</li>
+        </ul>
+    </section>
+</article>
+
+<!-- Modal Examples (Hidden until triggered) -->
+<!-- Basic Modal -->
+<div class="zModal zFade" id="basicModal" tabindex="-1" aria-labelledby="basicModalLabel" aria-hidden="true">
+    <div class="zModal-dialog">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="basicModalLabel">Modal title</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>Woohoo, you're reading this text in a modal!</p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="zBtn zBtn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Static Backdrop Modal -->
+<div class="zModal zFade" id="staticModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticModalLabel" aria-hidden="true">
+    <div class="zModal-dialog">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="staticModalLabel">Modal title</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>I will not close if you click outside me. Don't even try to press escape key.</p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="zBtn zBtn-primary">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Centered Modal -->
+<div class="zModal zFade" id="centeredModal" tabindex="-1" aria-labelledby="centeredModalLabel" aria-hidden="true">
+    <div class="zModal-dialog zModal-dialog-centered">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="centeredModalLabel">Vertically centered modal</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>This modal is vertically centered on the page!</p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scrollable Modal (Full Height) -->
+<div class="zModal zFade" id="scrollableModal" tabindex="-1" aria-labelledby="scrollableModalLabel" aria-hidden="true">
+    <div class="zModal-dialog zModal-dialog-scrollable">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="scrollableModalLabel">Scrollable modal (full height)</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>This modal takes up most of the viewport height.</p>
+                <p>Notice how the header and footer stay fixed while you scroll through this content.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+                <p>Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+                <p>Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+                <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?</p>
+                <p><strong>This content should appear at the bottom after you scroll.</strong> ⬇️</p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="zBtn zBtn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scrollable Modal - Small Height -->
+<div class="zModal zFade" id="scrollableSmModal" tabindex="-1" aria-labelledby="scrollableSmModalLabel" aria-hidden="true">
+    <div class="zModal-dialog zModal-dialog-scrollable zModal-scrollable-sm">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="scrollableSmModalLabel">Small height scrollable</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p><strong>This modal has a fixed height of 400px.</strong></p>
+                <p>Perfect for short lists, simple forms, or when you want a compact modal that doesn't dominate the screen.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p><strong>End of content ⬇️</strong></p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="zBtn zBtn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scrollable Modal - Medium Height -->
+<div class="zModal zFade" id="scrollableMdModal" tabindex="-1" aria-labelledby="scrollableMdModalLabel" aria-hidden="true">
+    <div class="zModal-dialog zModal-dialog-scrollable zModal-scrollable-md">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="scrollableMdModalLabel">Medium height scrollable</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p><strong>This modal has a fixed height of 550px.</strong></p>
+                <p>Great for standard forms and moderate amounts of content. A good balance between visibility and page real estate.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+                <p>Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</p>
+                <p><strong>End of content ⬇️</strong></p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="zBtn zBtn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scrollable Modal - Large Height -->
+<div class="zModal zFade" id="scrollableLgModal" tabindex="-1" aria-labelledby="scrollableLgModalLabel" aria-hidden="true">
+    <div class="zModal-dialog zModal-dialog-scrollable zModal-scrollable-lg">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="scrollableLgModalLabel">Large height scrollable</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p><strong>This modal has a fixed height of 700px.</strong></p>
+                <p>Ideal for long forms, detailed content, or when you need more space while still maintaining a fixed, predictable height.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+                <p>Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
+                <p>Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
+                <p>Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.</p>
+                <p><strong>End of content ⬇️</strong></p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="zBtn zBtn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Small Modal -->
+<div class="zModal zFade" id="smModal" tabindex="-1" aria-labelledby="smModalLabel" aria-hidden="true">
+    <div class="zModal-dialog zModal-sm">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="smModalLabel">Small modal</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>This is a small modal.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Large Modal -->
+<div class="zModal zFade" id="lgModal" tabindex="-1" aria-labelledby="lgModalLabel" aria-hidden="true">
+    <div class="zModal-dialog zModal-lg">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="lgModalLabel">Large modal</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>This is a large modal with more space for content!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- XL Modal -->
+<div class="zModal zFade" id="xlModal" tabindex="-1" aria-labelledby="xlModalLabel" aria-hidden="true">
+    <div class="zModal-dialog zModal-xl">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="xlModalLabel">Extra large modal</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>This is an extra large modal—perfect for complex layouts or image galleries!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Fullscreen Modal -->
+<div class="zModal zFade" id="fullscreenModal" tabindex="-1" aria-labelledby="fullscreenModalLabel" aria-hidden="true">
+    <div class="zModal-dialog zModal-fullscreen">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="fullscreenModalLabel">Fullscreen modal</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>This modal takes up the entire viewport!</p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Fullscreen MD Down Modal -->
+<div class="zModal zFade" id="fullscreenMdModal" tabindex="-1" aria-labelledby="fullscreenMdModalLabel" aria-hidden="true">
+    <div class="zModal-dialog zModal-fullscreen-md-down">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="fullscreenMdModalLabel">Fullscreen below md</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>This modal is fullscreen on tablets and mobile, but a centered dialog on larger screens.</p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bottom Aligned Modal -->
+<div class="zModal zFade" id="bottomModal" tabindex="-1" aria-labelledby="bottomModalLabel" aria-hidden="true">
+    <div class="zModal-dialog zModal-dialog-bottom">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="bottomModalLabel">Bottom aligned modal</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>This modal appears at the bottom of the viewport—perfect for mobile-style sheets!</p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Animation Examples -->
+<!-- Slide Down Modal (default .zFade) -->
+<div class="zModal zFade" id="fadeModal" tabindex="-1" aria-labelledby="fadeModalLabel" aria-hidden="true">
+    <div class="zModal-dialog">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="fadeModalLabel">Slide Down Animation</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>Default animation (.zFade): slides down from the top with a fade effect.</p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide Up Modal -->
+<div class="zModal zSlideUp" id="slideUpModal" tabindex="-1" aria-labelledby="slideUpModalLabel" aria-hidden="true">
+    <div class="zModal-dialog">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="slideUpModalLabel">Slide Up Animation</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>Slides up from the bottom—great for mobile-style action sheets!</p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Zoom In Modal -->
+<div class="zModal zZoomIn" id="zoomInModal" tabindex="-1" aria-labelledby="zoomInModalLabel" aria-hidden="true">
+    <div class="zModal-dialog">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="zoomInModalLabel">Zoom In Animation</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>Scales up from the center—perfect for drawing attention!</p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide Left Modal -->
+<div class="zModal zSlideLeft" id="slideLeftModal" tabindex="-1" aria-labelledby="slideLeftModalLabel" aria-hidden="true">
+    <div class="zModal-dialog">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="slideLeftModalLabel">Slide Left Animation</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>Slides in from the right—great for side panels or next/forward actions!</p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Slide Right Modal -->
+<div class="zModal zSlideRight" id="slideRightModal" tabindex="-1" aria-labelledby="slideRightModalLabel" aria-hidden="true">
+    <div class="zModal-dialog">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="slideRightModalLabel">Slide Right Animation</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>Slides in from the left—great for back/previous actions or side navigation!</p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Fade Only Modal -->
+<div class="zModal zFadeOnly" id="fadeOnlyModal" tabindex="-1" aria-labelledby="fadeOnlyModalLabel" aria-hidden="true">
+    <div class="zModal-dialog">
+        <div class="zModal-content">
+            <div class="zModal-header">
+                <h5 class="zModal-title" id="fadeOnlyModalLabel">Fade Only Animation</h5>
+                <button type="button" class="zBtn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="zModal-body">
+                <p>Pure opacity fade with no movement—minimal and subtle!</p>
+            </div>
+            <div class="zModal-footer">
+                <button type="button" class="zBtn zBtn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

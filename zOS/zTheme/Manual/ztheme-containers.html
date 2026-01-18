@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Containers - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer zp-5">
+    <!-- Breadcrumb -->
+    <nav class="zSmall zmb-3">
+        <a href="ztheme.html" class="zPrimary">zTheme</a>
+        <span class="zMuted zmx-2">›</span>
+        <a href="ztheme.html" class="zPrimary">Components</a>
+        <span class="zMuted zmx-2">›</span>
+        <span>Containers</span>
+    </nav>
+    
+    <h1>Containers</h1>
+    <p class="zLead text-muted zmb-5">
+        Center and constrain your content at different screen sizes
+    </p>
+    
+    <hr class="zmy-5 hr-visible">
+
+    <section class="zmy-6">
+        <h2>Understanding Containers</h2>
+        
+        <p>Containers do three things:</p>
+        
+        <ul class="lh-lg zmy-4">
+            <li><strong>Constrain max-width</strong> - Prevent content from stretching too wide on large screens</li>
+            <li><strong>Add consistent padding</strong> - Internal gutters (0.75rem) so content doesn't touch edges</li>
+            <li><strong>Center themselves</strong> - Auto margins position the container horizontally in the viewport</li>
+        </ul>
+        
+        <div class="zp-4 zmt-4" style="background: #e8f5e9; border-left: 4px solid #4caf50;">
+            <strong>✅ Why constrain width?</strong> Professional websites limit content width because text lines wider than ~75 characters become hard to read. On a 1920px monitor, unconstrained text would stretch 150+ characters wide, causing eye strain and poor readability. Containers ensure optimal reading experience across all screen sizes.
+        </div>
+        
+        <div class="zp-4 zmt-4" style="background: #f5f5f5; border-left: 4px solid var(--color-gray);">
+            <strong>📝 Note:</strong> Rows and columns must be inside a container for <a href="ztheme-grid.html" class="zPrimary">grid layouts</a> to work correctly.
+        </div>
+    </section>
+
+    <!-- Container Types -->
+    <section class="zmy-6">
+        <h2>Three Container Types</h2>
+        
+        <div class="zmy-5" style="display: grid; gap: 1.5rem;">
+            <!-- Responsive Container -->
+            <div class="zp-4" style="background: #e3f2fd; border-left: 4px solid #2196f3;">
+                <strong>1. <code>.zContainer</code></strong> - Responsive (recommended)
+                <p class="zmt-2">Max-width changes at each breakpoint</p>
+                <!-- Visual progression -->
+                <div class="zmt-3" style="display: flex; gap: 0.75rem; align-items: flex-end;">
+                    <div style="width: 40%; height: 40px; background: #2196f3; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem;">540px</div>
+                    <div style="width: 55%; height: 50px; background: #2196f3; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem;">720px</div>
+                    <div style="width: 70%; height: 60px; background: #2196f3; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem;">960px</div>
+                    <div style="width: 85%; height: 70px; background: #2196f3; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.75rem;">1140px</div>
+                </div>
+                <p class="zmt-3 small text-muted">📱 sm → 💻 md → 🖥️ lg → 🖥️ xl (adapts to screen)</p>
+            </div>
+            
+            <!-- Fluid Container -->
+            <div class="zp-4" style="background: #e8f5e9; border-left: 4px solid #4caf50;">
+                <strong>2. <code>.zContainer-fluid</code></strong> - Always Full Width
+                <p class="zmt-2">Always stretches to 100% of screen</p>
+                <!-- Visual indicator -->
+                <div class="zmt-3">
+                    <div style="width: 100%; height: 70px; background: #4caf50; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.875rem;">100% width on all screens</div>
+                </div>
+                <p class="zmt-3 small text-muted">Never constrained (full-bleed)</p>
+            </div>
+            
+            <!-- Breakpoint Container -->
+            <div class="zp-4" style="background: #fff3e0; border-left: 4px solid #ff9800;">
+                <strong>3. <code>.zContainer-lg</code></strong> - Fluid Until Desktop
+                <p class="zmt-2">Fluid on mobile, fixed on desktop</p>
+                <!-- Visual indicator -->
+                <div class="zmt-3" style="display: flex; gap: 0.75rem; align-items: center;">
+                    <div style="width: 100%; height: 50px; background: #ff9800; opacity: 0.3; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #333; font-size: 0.75rem;">100% (mobile)</div>
+                    <div style="width: 70%; height: 70px; background: #ff9800; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.875rem;">960px (desktop)</div>
+                </div>
+                <p class="zmt-3 small text-muted">📱💻 Fluid → 🖥️ Fixed at lg breakpoint</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- All Container Variants -->
+    <section class="zmy-6">
+        <h2>All Container Variants</h2>
+        <p>Choose when your container becomes fixed-width:</p>
+        
+        <table class="table zmy-5">
+            <thead>
+                <tr>
+                    <th scope="col">Class</th>
+                    <th scope="col">xs<br>&lt;576px</th>
+                    <th scope="col">sm<br>≥576px</th>
+                    <th scope="col">md<br>≥768px</th>
+                    <th scope="col">lg<br>≥992px</th>
+                    <th scope="col">xl<br>≥1200px</th>
+                    <th scope="col">xxl<br>≥1400px</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>.zContainer</code></td>
+                    <td>100%</td>
+                    <td>540px</td>
+                    <td>720px</td>
+                    <td>960px</td>
+                    <td>1140px</td>
+                    <td>1320px</td>
+                </tr>
+                <tr>
+                    <td><code>.zContainer-sm</code></td>
+                    <td>100%</td>
+                    <td>540px</td>
+                    <td>720px</td>
+                    <td>960px</td>
+                    <td>1140px</td>
+                    <td>1320px</td>
+                </tr>
+                <tr>
+                    <td><code>.zContainer-md</code></td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>720px</td>
+                    <td>960px</td>
+                    <td>1140px</td>
+                    <td>1320px</td>
+                </tr>
+                <tr>
+                    <td><code>.zContainer-lg</code></td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>960px</td>
+                    <td>1140px</td>
+                    <td>1320px</td>
+                </tr>
+                <tr>
+                    <td><code>.zContainer-xl</code></td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>1140px</td>
+                    <td>1320px</td>
+                </tr>
+                <tr>
+                    <td><code>.zContainer-xxl</code></td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>1320px</td>
+                </tr>
+                <tr>
+                    <td><code>.zContainer-fluid</code></td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="zp-4 zmt-4" style="background: #e8f5e9; border-left: 4px solid #4caf50;">
+            <strong>📖 Reading the table:</strong> "100%" means fluid (full-width), pixel values mean fixed max-width. Each breakpoint container stays fluid until its specified size, then becomes fixed.
+        </div>
+    </section>
+    
+    <!-- The HTML -->
+    <section class="zmy-6">
+        <h2>The HTML</h2>
+        
+        <pre class="zp-3 zmy-4" style="background: #f5f5f5; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zContainer"&gt;Responsive (default)&lt;/div&gt;
+
+&lt;div class="zContainer-sm"&gt;Fluid until sm (576px)&lt;/div&gt;
+&lt;div class="zContainer-md"&gt;Fluid until md (768px)&lt;/div&gt;
+&lt;div class="zContainer-lg"&gt;Fluid until lg (992px)&lt;/div&gt;
+&lt;div class="zContainer-xl"&gt;Fluid until xl (1200px)&lt;/div&gt;
+&lt;div class="zContainer-xxl"&gt;Fluid until xxl (1400px)&lt;/div&gt;
+
+&lt;div class="zContainer-fluid"&gt;Always 100% width&lt;/div&gt;</code></pre>
+        
+        <div class="zp-4 zmt-4" style="background: #e3f2fd; border-left: 4px solid #2196f3;">
+            <strong>💡 Which one to use?</strong>
+            <ul class="lh-base zmt-2">
+                <li><strong>Most pages:</strong> <code>.zContainer</code> (responsive at all breakpoints)</li>
+                <li><strong>Mobile-first design:</strong> <code>.zContainer-md</code> or <code>.zContainer-lg</code> (fluid on mobile)</li>
+                <li><strong>Full-bleed:</strong> <code>.zContainer-fluid</code> (hero sections, backgrounds)</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Best Practices -->
+    <section class="zmy-6 zp-4" style="background: #fff8e1; border-left: 4px solid #ffc107;">
+        <h2 class="zmt-0">✅ Best Practices</h2>
+        <ul class="lh-lg zmy-3">
+            <li><strong>Don't nest containers</strong> - Use one container per page section</li>
+            <li><strong>Use with grid:</strong> Wrap <code>.zRow</code> and columns inside a container</li>
+            <li><strong>Default choice:</strong> Start with <code>.zContainer</code> unless you need full-width</li>
+        </ul>
+    </section>
+    
+    <!-- Customization -->
+    <section class="zmy-6 zp-4" style="background: var(--color-base); border-left: 4px solid var(--color-secondary);">
+        <h2 class="zmt-0">🔧 Customize Max-Widths</h2>
+        <p>Override container widths in your custom CSS (load after zTheme):</p>
+        
+        <pre class="zp-3 zmt-3" style="background: #2d2d2d; color: #f8f8f2; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>/* In your custom.css */
+@media (min-width: 768px) {
+  .zContainer {
+    max-width: 800px;
+  }
+}
+
+@media (min-width: 992px) {
+  .zContainer {
+    max-width: 1000px;
+  }
+}</code></pre>
+        
+        <p class="zmt-3"><strong>Tip:</strong> Keep max-widths between 720px-1200px for optimal readability.</p>
+    </section>
+    
+    <!-- Navigation -->
+    <nav class="zmt-6 zpt-5 zD-flex zFlex-between" style="border-top: 2px solid var(--borderColor, #dee2e6);">
+        <a href="ztheme-breakpoints.html" class="zPrimary">← Previous: Breakpoints</a>
+        <a href="ztheme-grid.html" class="zPrimary">Next: Grid →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

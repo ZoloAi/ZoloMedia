@@ -1,0 +1,318 @@
+/* ============================================================================
+   zDropdown.css - Dropdown Component
+   ============================================================================
+   
+   Bootstrap-inspired dropdown menus with click-based toggles.
+   
+   Base Class: .zDropdown
+   
+   NOTE: Full dropdown functionality requires JavaScript (zTheme.js).
+   This CSS provides the visual foundation and positioning.
+   ============================================================================ */
+
+/* Base Dropdown
+   ============= */
+.zDropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Toggle (Button/Link)
+   ============================== */
+.zDropdown-toggle {
+  position: relative;
+}
+
+/* Add caret indicator */
+.zDropdown-toggle::after {
+  display: inline-block;
+  margin-left: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
+}
+
+/* No caret for empty toggle */
+.zDropdown-toggle:empty::after {
+  margin-left: 0;
+}
+
+/* Dropdown Menu
+   ============= */
+.zDropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  min-width: 10rem;
+  padding: 0.5rem 0;
+  margin: 0.125rem 0 0;
+  font-size: 1rem;
+  color: var(--color-darkgray);
+  text-align: left;
+  list-style: none;
+  background-color: var(--color-white);
+  background-clip: padding-box;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+}
+
+.zDropdown-menu.zShow {
+  display: block;
+}
+
+/* Dropdown Item
+   ============= */
+.zDropdown-item {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1rem;
+  clear: both;
+  font-weight: 400;
+  color: var(--color-darkgray);
+  text-align: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zDropdown-item {
+    transition: none;
+  }
+}
+
+.zDropdown-item:hover,
+.zDropdown-item:focus {
+  color: var(--color-darkgray);
+  background-color: #f8f9fa;
+  cursor: pointer;
+}
+
+.zDropdown-item.zActive,
+.zDropdown-item:active {
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  text-decoration: none;
+}
+
+.zDropdown-item.zDisabled,
+.zDropdown-item:disabled {
+  color: var(--color-gray);
+  pointer-events: none;
+  background-color: transparent;
+  cursor: not-allowed;
+}
+
+/* Dropdown Header
+   =============== */
+.zDropdown-header {
+  display: block;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0;
+  font-size: 0.875rem;
+  color: var(--color-gray);
+  white-space: nowrap;
+}
+
+/* Dropdown Divider
+   ================ */
+.zDropdown-divider {
+  height: 0;
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* Dropdown Text
+   ============= */
+.zDropdown-item-text {
+  display: block;
+  padding: 0.25rem 1rem;
+  color: var(--color-darkgray);
+}
+
+/* Dark Dropdown
+   ============= */
+.zDropdown-menu-dark {
+  color: #dee2e6;
+  background-color: #343a40;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.zDropdown-menu-dark .zDropdown-item {
+  color: #dee2e6;
+}
+
+.zDropdown-menu-dark .zDropdown-item:hover,
+.zDropdown-menu-dark .zDropdown-item:focus {
+  color: var(--color-white);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.zDropdown-menu-dark .zDropdown-item.zActive,
+.zDropdown-menu-dark .zDropdown-item:active {
+  color: var(--color-white);
+  background-color: var(--color-primary);
+}
+
+.zDropdown-menu-dark .zDropdown-item.zDisabled,
+.zDropdown-menu-dark .zDropdown-item:disabled {
+  color: #adb5bd;
+}
+
+.zDropdown-menu-dark .zDropdown-divider {
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.zDropdown-menu-dark .zDropdown-header {
+  color: #adb5bd;
+}
+
+/* Menu Alignment
+   ============== */
+.zDropdown-menu-end {
+  right: 0;
+  left: auto;
+}
+
+.zDropdown-menu-start {
+  right: auto;
+  left: 0;
+}
+
+/* Responsive Alignment
+   ==================== */
+@media (min-width: 576px) {
+  .zDropdown-menu-sm-start {
+    right: auto;
+    left: 0;
+  }
+  .zDropdown-menu-sm-end {
+    right: 0;
+    left: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .zDropdown-menu-md-start {
+    right: auto;
+    left: 0;
+  }
+  .zDropdown-menu-md-end {
+    right: 0;
+    left: auto;
+  }
+}
+
+@media (min-width: 992px) {
+  .zDropdown-menu-lg-start {
+    right: auto;
+    left: 0;
+  }
+  .zDropdown-menu-lg-end {
+    right: 0;
+    left: auto;
+  }
+}
+
+@media (min-width: 1200px) {
+  .zDropdown-menu-xl-start {
+    right: auto;
+    left: 0;
+  }
+  .zDropdown-menu-xl-end {
+    right: 0;
+    left: auto;
+  }
+}
+
+/* Direction Variants
+   ================== */
+
+/* Dropup */
+.zDropup {
+  position: relative;
+  display: inline-block;
+}
+
+.zDropup .zDropdown-menu {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: 0.125rem;
+}
+
+.zDropup .zDropdown-toggle::after {
+  border-top: 0;
+  border-bottom: 0.3em solid;
+}
+
+/* Dropend (Right) */
+.zDropend {
+  position: relative;
+  display: inline-block;
+}
+
+.zDropend .zDropdown-menu {
+  top: 0;
+  right: auto;
+  left: 100%;
+  margin-top: 0;
+  margin-left: 0.125rem;
+}
+
+.zDropend .zDropdown-toggle::after {
+  border-top: 0.3em solid transparent;
+  border-right: 0;
+  border-bottom: 0.3em solid transparent;
+  border-left: 0.3em solid;
+  vertical-align: 0;
+}
+
+/* Dropstart (Left) */
+.zDropstart {
+  position: relative;
+  display: inline-block;
+}
+
+.zDropstart .zDropdown-menu {
+  top: 0;
+  right: 100%;
+  left: auto;
+  margin-top: 0;
+  margin-right: 0.125rem;
+}
+
+.zDropstart .zDropdown-toggle::after {
+  display: none;
+}
+
+.zDropstart .zDropdown-toggle::before {
+  display: inline-block;
+  margin-right: 0.255em;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 0.3em solid transparent;
+  border-right: 0.3em solid;
+  border-bottom: 0.3em solid transparent;
+}
+
+/* Split Button Dropdown
+   ===================== */
+.zDropdown-toggle-split {
+  padding-right: 0.5625rem;
+  padding-left: 0.5625rem;
+}
+
+.zDropdown-toggle-split::after {
+  margin-left: 0;
+}
+

@@ -1,0 +1,47 @@
+/* ============================================================================
+   zCollapse.css - Collapse/Toggle Utility
+   ============================================================================
+   
+   Bootstrap-inspired collapse utility for showing/hiding content with
+   smooth height animations.
+   
+   Base Class: .zCollapse
+   
+   NOTE: Full collapse functionality requires JavaScript (zTheme.js).
+   This CSS provides the visual foundation and transition effects.
+   ============================================================================ */
+
+/* Base Collapse
+   ============= */
+.zCollapse:not(.zShow) {
+  display: none;
+}
+
+/* Collapsing State (During Transition)
+   ===================================== */
+.zCollapsing {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zCollapsing {
+    transition: none;
+  }
+}
+
+/* Horizontal Collapse Variant
+   ============================ */
+.zCollapse-horizontal {
+  width: 0;
+  height: auto;
+  transition: width 0.35s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zCollapse-horizontal {
+    transition: none;
+  }
+}
+

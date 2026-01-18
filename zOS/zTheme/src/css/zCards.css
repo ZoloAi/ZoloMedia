@@ -1,0 +1,381 @@
+/* ============================================================================
+   zCards.css - Modern Card Component System
+   ============================================================================
+   
+   A flexible and extensible content container with multiple variants and
+   options. Follows Bootstrap 5 conventions with zTheme's design language.
+   
+   Base Class: .zCard
+   ============================================================================ */
+
+/* Base Card
+   ========= */
+.zCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: var(--card-bg, var(--color-white, #fff));
+  background-clip: border-box;
+  border: 1px solid var(--card-border-color, var(--color-border, rgba(0,0,0,0.125)));
+  border-radius: var(--card-border-radius, 0.25rem);
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+/* Card Body
+   ========= */
+.zCard-body {
+  flex: 1 1 auto;
+  padding: var(--card-spacer-y, 1rem) var(--card-spacer-x, 1rem);
+  color: var(--card-color, inherit);
+}
+
+/* Card Title
+   ========== */
+.zCard-title {
+  margin-bottom: var(--card-title-spacer-y, 0.5rem);
+  font-size: 1.25rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* Card Subtitle
+   ============= */
+.zCard-subtitle {
+  margin-top: calc(var(--card-title-spacer-y, 0.5rem) * -0.5);
+  margin-bottom: 0;
+  color: var(--color-gray, #6c757d);
+  font-size: 0.875rem;
+}
+
+/* Card Text
+   ========= */
+.zCard-text:last-child {
+  margin-bottom: 0;
+}
+
+/* Card Link
+   ========= */
+.zCard-link {
+  color: var(--color-info);
+  text-decoration: none;
+}
+
+.zCard-link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.zCard-link + .zCard-link {
+  margin-left: var(--card-spacer-x, 1rem);
+}
+
+/* ============================================================================
+   Card Images
+   ============================================================================ */
+
+/* Image Top
+   ========= */
+.zCard-img-top {
+  width: 100%;
+  border-top-left-radius: calc(var(--card-border-radius, 0.25rem) - 1px);
+  border-top-right-radius: calc(var(--card-border-radius, 0.25rem) - 1px);
+}
+
+/* Image Bottom
+   ============ */
+.zCard-img-bottom {
+  width: 100%;
+  border-bottom-left-radius: calc(var(--card-border-radius, 0.25rem) - 1px);
+  border-bottom-right-radius: calc(var(--card-border-radius, 0.25rem) - 1px);
+}
+
+/* Image Overlay
+   ============= */
+.zCard-img-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: var(--card-img-overlay-padding, 1rem);
+  border-radius: calc(var(--card-border-radius, 0.25rem) - 1px);
+}
+
+/* ============================================================================
+   Card Header & Footer
+   ============================================================================ */
+
+/* Card Header
+   =========== */
+.zCard-header {
+  padding: var(--card-cap-padding-y, 0.5rem) var(--card-cap-padding-x, 1rem);
+  margin-bottom: 0;
+  color: var(--card-cap-color, inherit);
+  background-color: var(--card-cap-bg, rgba(0, 0, 0, 0.03));
+  border-bottom: 1px solid var(--card-border-color, var(--color-border, rgba(0,0,0,0.125)));
+}
+
+.zCard-header:first-child {
+  border-radius: calc(var(--card-border-radius, 0.25rem) - 1px) 
+                 calc(var(--card-border-radius, 0.25rem) - 1px) 0 0;
+}
+
+/* Card Footer
+   =========== */
+.zCard-footer {
+  padding: var(--card-cap-padding-y, 0.5rem) var(--card-cap-padding-x, 1rem);
+  color: var(--card-cap-color, inherit);
+  background-color: var(--card-cap-bg, rgba(0, 0, 0, 0.03));
+  border-top: 1px solid var(--card-border-color, var(--color-border, rgba(0,0,0,0.125)));
+}
+
+.zCard-footer:last-child {
+  border-radius: 0 0 
+                 calc(var(--card-border-radius, 0.25rem) - 1px) 
+                 calc(var(--card-border-radius, 0.25rem) - 1px);
+}
+
+/* ============================================================================
+   Card Color Variants
+   ============================================================================ */
+
+/* Primary Card
+   ============ */
+.zCard-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-darkgray);
+}
+
+.zCard-primary .zCard-header,
+.zCard-primary .zCard-footer {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.125);
+}
+
+/* Secondary Card
+   ============== */
+.zCard-secondary {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: var(--color-white);
+}
+
+.zCard-secondary .zCard-header,
+.zCard-secondary .zCard-footer {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.125);
+}
+
+/* Success Card
+   ============ */
+.zCard-success {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  color: var(--color-white);
+}
+
+.zCard-success .zCard-header,
+.zCard-success .zCard-footer {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.125);
+}
+
+/* Info Card
+   ========= */
+.zCard-info {
+  background-color: var(--color-info);
+  border-color: var(--color-info);
+  color: var(--color-white);
+}
+
+.zCard-info .zCard-header,
+.zCard-info .zCard-footer {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.125);
+}
+
+/* Warning Card
+   ============ */
+.zCard-warning {
+  background-color: var(--color-warning);
+  border-color: var(--color-warning);
+  color: var(--color-white);
+}
+
+.zCard-warning .zCard-header,
+.zCard-warning .zCard-footer {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.125);
+}
+
+/* Danger Card
+   =========== */
+.zCard-danger {
+  background-color: var(--color-error);
+  border-color: var(--color-error);
+  color: var(--color-white);
+}
+
+.zCard-danger .zCard-header,
+.zCard-danger .zCard-footer {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-color: rgba(0, 0, 0, 0.125);
+}
+
+/* Light Card
+   ========== */
+.zCard-light {
+  background-color: var(--color-light);
+  border-color: var(--color-light);
+  color: var(--color-darkgray);
+}
+
+.zCard-light .zCard-header,
+.zCard-light .zCard-footer {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.125);
+}
+
+/* Dark Card
+   ========= */
+.zCard-dark {
+  background-color: var(--color-dark);
+  border-color: var(--color-dark);
+  color: var(--color-white);
+}
+
+.zCard-dark .zCard-header,
+.zCard-dark .zCard-footer {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.125);
+}
+
+/* ============================================================================
+   Card Border Variants
+   ============================================================================ */
+
+.zCard-border-primary {
+  border-color: var(--color-primary);
+}
+
+.zCard-border-secondary {
+  border-color: var(--color-secondary);
+}
+
+.zCard-border-success {
+  border-color: var(--color-success);
+}
+
+.zCard-border-info {
+  border-color: var(--color-info);
+}
+
+.zCard-border-warning {
+  border-color: var(--color-warning);
+}
+
+.zCard-border-danger {
+  border-color: var(--color-error);
+}
+
+.zCard-border-light {
+  border-color: var(--color-light);
+}
+
+.zCard-border-dark {
+  border-color: var(--color-dark);
+}
+
+/* ============================================================================
+   Card Layout Variants
+   ============================================================================ */
+
+/* Horizontal Card
+   =============== */
+.zCard-horizontal {
+  flex-direction: row;
+}
+
+.zCard-horizontal .zCard-img-top {
+  width: auto;
+  max-width: 40%;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: calc(var(--card-border-radius, 0.25rem) - 1px);
+}
+
+@media (max-width: 767.98px) {
+  .zCard-horizontal {
+    flex-direction: column;
+  }
+  
+  .zCard-horizontal .zCard-img-top {
+    width: 100%;
+    max-width: 100%;
+    border-top-right-radius: calc(var(--card-border-radius, 0.25rem) - 1px);
+    border-bottom-left-radius: 0;
+  }
+}
+
+/* ============================================================================
+   Card Groups (Deprecated - Use Grid Instead)
+   ============================================================================
+   
+   Note: Bootstrap 5 deprecated card groups in favor of grid system.
+   Use .zRow and .zCol-* classes instead for better control.
+   ============================================================================ */
+
+/* Legacy Card Group Support
+   ========================= */
+.zCard-group {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 576px) {
+  .zCard-group {
+    flex-flow: row wrap;
+  }
+  
+  .zCard-group > .zCard {
+    flex: 1 0 0%;
+    margin-bottom: 0;
+  }
+  
+  .zCard-group > .zCard + .zCard {
+    margin-left: 0;
+    border-left: 0;
+  }
+  
+  .zCard-group > .zCard:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  
+  .zCard-group > .zCard:not(:last-child) .zCard-img-top,
+  .zCard-group > .zCard:not(:last-child) .zCard-header {
+    border-top-right-radius: 0;
+  }
+  
+  .zCard-group > .zCard:not(:last-child) .zCard-img-bottom,
+  .zCard-group > .zCard:not(:last-child) .zCard-footer {
+    border-bottom-right-radius: 0;
+  }
+  
+  .zCard-group > .zCard:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  
+  .zCard-group > .zCard:not(:first-child) .zCard-img-top,
+  .zCard-group > .zCard:not(:first-child) .zCard-header {
+    border-top-left-radius: 0;
+  }
+  
+  .zCard-group > .zCard:not(:first-child) .zCard-img-bottom,
+  .zCard-group > .zCard:not(:first-child) .zCard-footer {
+    border-bottom-left-radius: 0;
+  }
+}

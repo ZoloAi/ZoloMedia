@@ -1,0 +1,72 @@
+# zCLI/subsystems/zComm/zComm_modules/__init__.py
+"""
+zComm internal modules.
+
+Provides specialized managers for HTTP client, service management, and network utilities.
+"""
+
+from .comm_services import ServiceManager
+from .comm_http import HTTPClient
+from .comm_websocket import WebSocketServer
+from .comm_websocket_auth import WebSocketAuth
+from .helpers.network_utils import NetworkUtils
+from .comm_storage import StorageClient
+
+# Export public constants
+from .comm_constants import (
+    # Service Identifiers
+    SERVICE_POSTGRESQL,
+    # Network Configuration
+    PORT_MIN,
+    PORT_MAX,
+    DEFAULT_HOST,
+    DEFAULT_TIMEOUT_SECONDS,
+    HTTP_DEFAULT_TIMEOUT,
+    # WebSocket Close Codes & Reasons
+    WS_CLOSE_CODE_POLICY_VIOLATION,
+    WS_CLOSE_CODE_INTERNAL_ERROR,
+    WS_REASON_INVALID_ORIGIN,
+    WS_REASON_AUTH_REQUIRED,
+    WS_REASON_INVALID_TOKEN,
+    WS_REASON_MAX_CONNECTIONS,
+    # Storage Configuration
+    STORAGE_DEFAULT_BACKEND,
+    STORAGE_SUPPORTED_BACKENDS,
+    STORAGE_CONFIG_KEY_BACKEND,
+    STORAGE_CONFIG_KEY_LOCAL_ROOT,
+    STORAGE_CONFIG_KEY_S3_BUCKET,
+    STORAGE_CONFIG_KEY_S3_REGION,
+    # PostgreSQL Defaults
+    POSTGRESQL_DEFAULT_PORT,
+    POSTGRESQL_DEFAULT_USER,
+    POSTGRESQL_DEFAULT_DATABASE,
+    POSTGRESQL_DEFAULT_HOST,
+    # Status & Connection Keys
+    STATUS_KEY_ERROR,
+    STATUS_KEY_SERVICE,
+    STATUS_KEY_RUNNING,
+    STATUS_KEY_PORT,
+    STATUS_KEY_OS,
+    STATUS_KEY_CONNECTION_INFO,
+    STATUS_KEY_MESSAGE,
+    CONN_KEY_HOST,
+    CONN_KEY_PORT,
+    CONN_KEY_USER,
+    CONN_KEY_DATABASE,
+    CONN_KEY_CONNECTION_STRING,
+)
+
+__all__ = [
+    'ServiceManager', 'HTTPClient', 'WebSocketServer', 'WebSocketAuth', 'NetworkUtils', 'StorageClient',
+    # Constants
+    'SERVICE_POSTGRESQL',
+    'PORT_MIN', 'PORT_MAX', 'DEFAULT_HOST', 'DEFAULT_TIMEOUT_SECONDS', 'HTTP_DEFAULT_TIMEOUT',
+    'WS_CLOSE_CODE_POLICY_VIOLATION', 'WS_CLOSE_CODE_INTERNAL_ERROR',
+    'WS_REASON_INVALID_ORIGIN', 'WS_REASON_AUTH_REQUIRED', 'WS_REASON_INVALID_TOKEN', 'WS_REASON_MAX_CONNECTIONS',
+    'STORAGE_DEFAULT_BACKEND', 'STORAGE_SUPPORTED_BACKENDS',
+    'STORAGE_CONFIG_KEY_BACKEND', 'STORAGE_CONFIG_KEY_LOCAL_ROOT', 'STORAGE_CONFIG_KEY_S3_BUCKET', 'STORAGE_CONFIG_KEY_S3_REGION',
+    'POSTGRESQL_DEFAULT_PORT', 'POSTGRESQL_DEFAULT_USER', 'POSTGRESQL_DEFAULT_DATABASE', 'POSTGRESQL_DEFAULT_HOST',
+    'STATUS_KEY_ERROR', 'STATUS_KEY_SERVICE', 'STATUS_KEY_RUNNING', 'STATUS_KEY_PORT', 'STATUS_KEY_OS',
+    'STATUS_KEY_CONNECTION_INFO', 'STATUS_KEY_MESSAGE',
+    'CONN_KEY_HOST', 'CONN_KEY_PORT', 'CONN_KEY_USER', 'CONN_KEY_DATABASE', 'CONN_KEY_CONNECTION_STRING',
+]

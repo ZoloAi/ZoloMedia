@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ratio - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav style="margin-bottom: 1rem; font-size: 0.9rem;">
+        <a href="ztheme.html" style="color: var(--color-primary);">zTheme</a>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Components</span>
+        <span style="margin: 0 0.5rem; color: var(--color-gray);">›</span>
+        <span style="color: var(--color-darkgray);">Ratio</span>
+    </nav>
+    
+    <h1>Ratio</h1>
+    <p style="font-size: 1.25rem; color: var(--color-gray); margin-bottom: 2rem;">
+        Maintain perfect aspect ratios for responsive videos, images, and embeds that scale beautifully on any screen size.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Aspect Ratios -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Aspect Ratios</h2>
+        <p>Aspect ratio is the proportional relationship between an element's width and height. A 16:9 ratio means for every 16 units of width, there are 9 units of height. Maintaining aspect ratios ensures media (videos, images) don't get squished or stretched when the screen size changes.</p>
+        
+        <div style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>Common Aspect Ratios:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li><strong>16:9</strong> - Modern video standard (YouTube, Netflix, TV)</li>
+                <li><strong>4:3</strong> - Classic TV and monitors</li>
+                <li><strong>1:1</strong> - Square (Instagram posts)</li>
+                <li><strong>21:9</strong> - Ultrawide cinema</li>
+                <li><strong>3:2</strong> - Classic photography</li>
+            </ul>
+        </div>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>💡 How It Works:</strong></p>
+            <p style="margin: 0;">
+                The <code>.zRatio</code> container uses a <code>::before</code> pseudo-element with <code>padding-top</code> 
+                to create a percentage-based height. The child element is absolutely positioned to fill this space, 
+                maintaining the aspect ratio regardless of width. This is the modern CSS technique for responsive embeds!
+            </p>
+        </div>
+    </section>
+    
+    <!-- Video Embed Example -->
+    <section style="margin: 3rem 0;">
+        <h2>Video Embed Example (16:9)</h2>
+        <p>Perfect for YouTube, Vimeo, and modern video embeds:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div class="zRatio zRatio-16x9" style="max-width: 800px; margin: 0 auto;">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; border-radius: 8px;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 3rem;">▶️</div>
+                        <div>16:9 Video Container</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9; margin-top: 0.5rem;">Resize your browser to see it scale!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zRatio zRatio-16x9"&gt;
+  &lt;iframe src="https://www.youtube.com/embed/..." 
+          title="Video title" 
+          allowfullscreen&gt;&lt;/iframe&gt;
+&lt;/div&gt;</code></pre>
+
+        <blockquote style="background: #f5f5f5; padding: 1rem; border-left: 4px solid var(--color-primary); margin: 2rem 0;">
+            <p style="margin: 0;"><strong>💡 Pro Tip:</strong> You don't need <code>frameborder="0"</code> on iframes—zTheme's Reboot removes it by default!</p>
+        </blockquote>
+    </section>
+    
+    <!-- All Aspect Ratios -->
+    <section style="margin: 3rem 0;">
+        <h2>All Aspect Ratios</h2>
+        <p>zTheme provides 6 predefined aspect ratios. Try resizing your browser to see them scale:</p>
+        
+        <div style="margin: 2rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+            <!-- 1x1 -->
+            <div>
+                <h3 style="margin-bottom: 1rem;">1:1 (Square)</h3>
+                <div class="zRatio zRatio-1x1">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 500; border-radius: 4px;">
+                        1:1<br><small style="opacity: 0.8;">Instagram</small>
+                    </div>
+                </div>
+                <code style="font-size: 0.9rem;">.zRatio-1x1</code>
+            </div>
+            
+            <!-- 4x3 -->
+            <div>
+                <h3 style="margin-bottom: 1rem;">4:3 (Classic TV)</h3>
+                <div class="zRatio zRatio-4x3">
+                    <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 500; border-radius: 4px;">
+                        4:3<br><small style="opacity: 0.8;">Classic Video</small>
+                    </div>
+                </div>
+                <code style="font-size: 0.9rem;">.zRatio-4x3</code>
+            </div>
+            
+            <!-- 16x9 -->
+            <div>
+                <h3 style="margin-bottom: 1rem;">16:9 (Widescreen)</h3>
+                <div class="zRatio zRatio-16x9">
+                    <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 500; border-radius: 4px;">
+                        16:9<br><small style="opacity: 0.8;">YouTube, TV</small>
+                    </div>
+                </div>
+                <code style="font-size: 0.9rem;">.zRatio-16x9</code>
+            </div>
+            
+            <!-- 21x9 -->
+            <div>
+                <h3 style="margin-bottom: 1rem;">21:9 (Ultrawide)</h3>
+                <div class="zRatio zRatio-21x9">
+                    <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 500; border-radius: 4px;">
+                        21:9<br><small style="opacity: 0.8;">Cinema</small>
+                    </div>
+                </div>
+                <code style="font-size: 0.9rem;">.zRatio-21x9</code>
+            </div>
+            
+            <!-- 3x2 -->
+            <div>
+                <h3 style="margin-bottom: 1rem;">3:2 (Photography)</h3>
+                <div class="zRatio zRatio-3x2">
+                    <div style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 500; border-radius: 4px;">
+                        3:2<br><small style="opacity: 0.8;">DSLR Photos</small>
+                    </div>
+                </div>
+                <code style="font-size: 0.9rem;">.zRatio-3x2</code>
+            </div>
+            
+            <!-- 2x1 -->
+            <div>
+                <h3 style="margin-bottom: 1rem;">2:1 (Wide Banner)</h3>
+                <div class="zRatio zRatio-2x1">
+                    <div style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 500; border-radius: 4px;">
+                        2:1<br><small style="opacity: 0.8;">Hero Banners</small>
+                    </div>
+                </div>
+                <code style="font-size: 0.9rem;">.zRatio-2x1</code>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Custom Ratios -->
+    <section style="margin: 3rem 0;">
+        <h2>Custom Ratios</h2>
+        <p>Create any aspect ratio using the CSS custom property <code>--z-aspect-ratio</code>:</p>
+        
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div style="max-width: 600px; margin: 0 auto;">
+                <h3 style="margin-bottom: 1rem; text-align: center;">Custom 5:1 Ratio</h3>
+                <div class="zRatio" style="--z-aspect-ratio: 20%;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 500; border-radius: 4px;">
+                        5:1 Ultra-wide Banner (20%)
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- 5:1 ratio: (1/5)*100% = 20% --&gt;
+&lt;div class="zRatio" style="--z-aspect-ratio: 20%;"&gt;
+  &lt;div&gt;5:1 Ultra-wide Banner&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- 2:1 ratio: (1/2)*100% = 50% --&gt;
+&lt;div class="zRatio" style="--z-aspect-ratio: 50%;"&gt;
+  &lt;div&gt;2:1 Wide Container&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 2rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>💡 Calculating Custom Ratios:</strong></p>
+            <p style="margin: 0;">Formula: <code>(height / width) × 100%</code></p>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li>2:1 → (1/2) × 100% = <strong>50%</strong></li>
+                <li>3:2 → (2/3) × 100% ≈ <strong>66.67%</strong></li>
+                <li>16:9 → (9/16) × 100% ≈ <strong>56.25%</strong></li>
+                <li>5:1 → (1/5) × 100% = <strong>20%</strong></li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Responsive Ratios -->
+    <section style="margin: 3rem 0;">
+        <h2>Responsive Aspect Ratios</h2>
+        <p>Change aspect ratios at different breakpoints using CSS custom properties:</p>
+
+<pre style="background: #2d2d2d; color: #f8f8f2; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code><span style="color: #75715e;">/* Start as 4:3, change to 16:9 on large screens */</span>
+<span style="color: #66d9ef;">.zRatio-4x3</span> {
+  <span style="color: #66d9ef;">--z-aspect-ratio</span>: <span style="color: #ae81ff;">calc(3 / 4 * 100%)</span>; <span style="color: #75715e;">/* 75% */</span>
+}
+
+<span style="color: #f92672;">@media</span> (<span style="color: #66d9ef;">min-width</span>: <span style="color: #ae81ff;">992px</span>) {
+  <span style="color: #66d9ef;">.zRatio-4x3</span> {
+    <span style="color: #66d9ef;">--z-aspect-ratio</span>: <span style="color: #ae81ff;">calc(9 / 16 * 100%)</span>; <span style="color: #75715e;">/* 56.25% */</span>
+  }
+}</code></pre>
+
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div style="max-width: 600px; margin: 0 auto;">
+                <h3 style="margin-bottom: 1rem; text-align: center;">Resize Browser to See Change</h3>
+                <div class="zRatio zRatio-4x3" id="responsiveDemo">
+                    <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 500; border-radius: 4px; flex-direction: column;">
+                        <div style="font-size: 1.5rem;">📱 → 💻</div>
+                        <div style="margin-top: 0.5rem;">4:3 on small screens</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9;">16:9 on large screens</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <style>
+            @media (min-width: 992px) {
+                #responsiveDemo {
+                    --z-aspect-ratio: calc(9 / 16 * 100%);
+                }
+            }
+        </style>
+    </section>
+    
+    <!-- Real-World Examples -->
+    <section style="margin: 3rem 0;">
+        <h2>Real-World Examples</h2>
+        
+        <!-- YouTube -->
+        <h3 style="margin-top: 2rem;">YouTube Embed</h3>
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div class="zRatio zRatio-16x9" style="max-width: 800px; margin: 0 auto;">
+                <div style="background: #282828; display: flex; align-items: center; justify-content: center; color: white; border-radius: 4px; flex-direction: column; padding: 2rem;">
+                    <div style="font-size: 4rem;">▶️</div>
+                    <div style="font-size: 1.2rem; margin-top: 1rem;">YouTube Video Player</div>
+                    <div style="font-size: 0.9rem; opacity: 0.7; margin-top: 0.5rem;">1920 × 1080 (16:9)</div>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zRatio zRatio-16x9"&gt;
+  &lt;iframe 
+    src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+    title="YouTube video"
+    allowfullscreen&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</code></pre>
+
+        <!-- Instagram -->
+        <h3 style="margin-top: 3rem;">Instagram Post</h3>
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div style="max-width: 400px; margin: 0 auto;">
+                <div class="zRatio zRatio-1x1">
+                    <div style="background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); display: flex; align-items: center; justify-content: center; color: white; border-radius: 8px; flex-direction: column;">
+                        <div style="font-size: 3rem;">📷</div>
+                        <div style="font-size: 1.2rem; margin-top: 1rem;">Instagram Post</div>
+                        <div style="font-size: 0.9rem; opacity: 0.9; margin-top: 0.5rem;">1080 × 1080 (1:1)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div class="zRatio zRatio-1x1"&gt;
+  &lt;img src="photo.jpg" alt="Instagram post"&gt;
+&lt;/div&gt;</code></pre>
+
+        <!-- Photo Gallery -->
+        <h3 style="margin-top: 3rem;">Photo Gallery (3:2)</h3>
+        <div style="margin: 2rem 0; padding: 2rem; background: #f9f9f9; border-radius: 4px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div class="zRatio zRatio-3x2">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; border-radius: 4px;">
+                        📸 Photo 1
+                    </div>
+                </div>
+                <div class="zRatio zRatio-3x2">
+                    <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white; border-radius: 4px;">
+                        📸 Photo 2
+                    </div>
+                </div>
+                <div class="zRatio zRatio-3x2">
+                    <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; color: white; border-radius: 4px;">
+                        📸 Photo 3
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;"&gt;
+  &lt;div class="zRatio zRatio-3x2"&gt;
+    &lt;img src="photo1.jpg" alt="Photo 1"&gt;
+  &lt;/div&gt;
+  &lt;div class="zRatio zRatio-3x2"&gt;
+    &lt;img src="photo2.jpg" alt="Photo 2"&gt;
+  &lt;/div&gt;
+  &lt;div class="zRatio zRatio-3x2"&gt;
+    &lt;img src="photo3.jpg" alt="Photo 3"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <div style="background: #e8f5e9; padding: 1.5rem; border-left: 4px solid #4caf50; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>✅ DO:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Use <strong>16:9</strong> for modern video content (YouTube, Vimeo)</li>
+                <li>Use <strong>1:1</strong> for square images (Instagram, avatars)</li>
+                <li>Use <strong>3:2</strong> or <strong>4:3</strong> for photo galleries</li>
+                <li>Add <code>title</code> attributes to iframes for accessibility</li>
+                <li>Provide <code>alt</code> text for images inside ratio containers</li>
+                <li>Test responsiveness by resizing your browser</li>
+                <li>Use custom ratios when standard ones don't fit</li>
+            </ul>
+        </div>
+        
+        <div style="background: #ffebee; padding: 1.5rem; border-left: 4px solid #ef5350; margin: 1rem 0;">
+            <p style="margin: 0 0 0.5rem 0;"><strong>❌ DON'T:</strong></p>
+            <ul style="margin: 0; padding-left: 1.5rem;">
+                <li>Don't use aspect ratios on elements with fixed heights (conflicts!)</li>
+                <li>Don't forget to test with actual content (not just placeholders)</li>
+                <li>Don't use overly extreme ratios (1:10) unless intentional</li>
+                <li>Don't nest ratio containers inside each other (unnecessary)</li>
+                <li>Don't forget <code>allowfullscreen</code> on video iframes</li>
+                <li>Don't use ratios where normal responsive images work fine</li>
+            </ul>
+        </div>
+    </section>
+    
+    <!-- Accessibility -->
+    <section style="margin: 3rem 0;">
+        <h2>Accessibility</h2>
+        
+        <div style="background: #e3f2fd; padding: 1.5rem; border-left: 4px solid #2196f3; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Embedded Media</h3>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><strong>Iframes:</strong> Always include <code>title</code> attribute describing content</li>
+                <li><strong>Videos:</strong> Provide captions/subtitles for accessibility</li>
+                <li><strong>Images:</strong> Use descriptive <code>alt</code> text</li>
+                <li><strong>Keyboard:</strong> Ensure embedded content is keyboard navigable</li>
+            </ul>
+        </div>
+        
+        <div style="background: #f3e5f5; padding: 1.5rem; border-left: 4px solid #9c27b0; margin: 1rem 0;">
+            <h3 style="margin-top: 0;">Screen Readers</h3>
+            <ul style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li>Screen readers announce iframe titles and image alt text</li>
+                <li>Ensure video players have accessible controls</li>
+                <li>Provide text alternatives for video-only content</li>
+                <li>Test with screen readers (NVDA, JAWS, VoiceOver)</li>
+            </ul>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: 4px; overflow-x: auto;"><code>&lt;!-- Good accessibility example --&gt;
+&lt;div class="zRatio zRatio-16x9"&gt;
+  &lt;iframe 
+    src="https://youtube.com/embed/..."
+    title="Tutorial: How to use zTheme"
+    allowfullscreen&gt;
+  &lt;/iframe&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Aspect Ratio Reference -->
+    <section style="margin: 3rem 0;">
+        <h2>Aspect Ratio Reference</h2>
+        <p>Quick reference for all predefined ratios:</p>
+        
+        <div style="overflow-x: auto; margin: 2rem 0;">
+            <table class="zTable zTable-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">Class</th>
+                        <th scope="col">Ratio</th>
+                        <th scope="col">Percentage</th>
+                        <th scope="col">Common Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>.zRatio-1x1</code></td>
+                        <td>1:1</td>
+                        <td>100%</td>
+                        <td>Instagram posts, avatars, square images</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zRatio-4x3</code></td>
+                        <td>4:3</td>
+                        <td>75%</td>
+                        <td>Classic TV, old monitors, presentations</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zRatio-16x9</code></td>
+                        <td>16:9</td>
+                        <td>56.25%</td>
+                        <td>YouTube, modern TV, HD video</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zRatio-21x9</code></td>
+                        <td>21:9</td>
+                        <td>42.86%</td>
+                        <td>Cinema, ultrawide monitors</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zRatio-3x2</code></td>
+                        <td>3:2</td>
+                        <td>66.67%</td>
+                        <td>DSLR photos, 35mm film</td>
+                    </tr>
+                    <tr>
+                        <td><code>.zRatio-2x1</code></td>
+                        <td>2:1</td>
+                        <td>50%</td>
+                        <td>Wide banners, hero sections</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: #2d2d2d; color: #f8f8f2; border-radius: 4px;">
+        <h2 style="color: #f8f8f2;">CSS Classes</h2>
+        <p style="color: #a8a8a8;">All ratio classes are defined in <code>zRatio.css</code>:</p>
+        
+        <table class="zTable" style="margin: 1rem 0;">
+            <thead>
+                <tr>
+                    <th scope="col" style="color: #f8f8f2;">Class</th>
+                    <th scope="col" style="color: #f8f8f2;">Purpose</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zRatio</code></td>
+                    <td style="color: #a8a8a8;">Base ratio container</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zRatio-1x1</code></td>
+                    <td style="color: #a8a8a8;">Square aspect ratio (1:1)</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zRatio-4x3</code></td>
+                    <td style="color: #a8a8a8;">Classic TV ratio (4:3)</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zRatio-16x9</code></td>
+                    <td style="color: #a8a8a8;">Widescreen ratio (16:9)</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zRatio-21x9</code></td>
+                    <td style="color: #a8a8a8;">Ultrawide ratio (21:9)</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zRatio-3x2</code></td>
+                    <td style="color: #a8a8a8;">Photography ratio (3:2)</td>
+                </tr>
+                <tr>
+                    <td style="color: #66d9ef;"><code>.zRatio-2x1</code></td>
+                    <td style="color: #a8a8a8;">Wide banner ratio (2:1)</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p style="color: #a8a8a8; margin-top: 1rem;"><strong>CSS Variable:</strong> <code>--z-aspect-ratio</code> for custom ratios</p>
+        <p style="color: #a8a8a8;"><strong>File location:</strong> <code>zRatio.css</code></p>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="list-style: none; padding: 0;">
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-images.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Images</strong> → Responsive image utilities
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-carousel.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Carousel</strong> → Image/video slideshows
+                </a>
+            </li>
+            <li style="margin: 0.5rem 0;">
+                <a href="ztheme-cards.html" style="color: var(--color-primary); text-decoration: none;">
+                    <strong>Cards</strong> → Content containers (great with ratio images)
+                </a>
+            </li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-colored-links.html" style="color: var(--color-primary);">← Previous: Colored Links</a>
+        <a href="ztheme.html" style="color: var(--color-primary);">Back to Helpers</a>
+    </nav>
+</div>
+
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

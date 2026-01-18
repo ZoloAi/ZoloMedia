@@ -1,0 +1,490 @@
+/* ============================================
+   zFlex.css - Flexbox Utilities
+   ============================================
+   
+   Bootstrap 5-inspired flex utilities with z prefix.
+   Control flexbox layout, alignment, direction, wrapping, and spacing.
+   
+   Classes:
+   - Direction: .zFlex-row, .zFlex-column, .zFlex-row-reverse, .zFlex-column-reverse
+   - Wrap: .zFlex-wrap, .zFlex-nowrap, .zFlex-wrap-reverse
+   - Justify (horizontal): .zFlex-start, .zFlex-center, .zFlex-end, .zFlex-between, .zFlex-around, .zFlex-evenly
+   - Align Items (vertical): .zFlex-items-start, .zFlex-items-center, .zFlex-items-end, .zFlex-items-baseline, .zFlex-items-stretch
+   - Align Self: .zFlex-self-start, .zFlex-self-center, .zFlex-self-end, .zFlex-self-baseline, .zFlex-self-stretch, .zFlex-self-auto
+   - Grow/Shrink: .zFlex-grow-0, .zFlex-grow-1, .zFlex-shrink-0, .zFlex-shrink-1
+   - Fill: .zFlex-fill
+   - Gap: .zGap-0 through .zGap-5
+   - All support responsive breakpoints: sm, md, lg, xl, xxl
+   
+   Note: Use .zD-flex from zDisplay.css to enable flexbox on a container.
+   
+   Example:
+   <div class="zD-flex zFlex-center zFlex-items-center zGap-3">
+     <div class="zFlex-grow-1">Grows to fill</div>
+     <div>Fixed width</div>
+   </div>
+   
+   ============================================ */
+
+/* ============================================
+   Flex Direction
+   ============================================
+   
+   Control the direction of flex items.
+   ============================================ */
+
+.zFlex-row {
+    flex-direction: row !important;
+}
+
+.zFlex-row-reverse {
+    flex-direction: row-reverse !important;
+}
+
+.zFlex-column {
+    flex-direction: column !important;
+}
+
+.zFlex-column-reverse {
+    flex-direction: column-reverse !important;
+}
+
+/* ============================================
+   Flex Wrap
+   ============================================
+   
+   Control whether flex items wrap to multiple lines.
+   ============================================ */
+
+.zFlex-wrap {
+    flex-wrap: wrap !important;
+}
+
+.zFlex-nowrap {
+    flex-wrap: nowrap !important;
+}
+
+.zFlex-wrap-reverse {
+    flex-wrap: wrap-reverse !important;
+}
+
+/* ============================================
+   Justify Content (Horizontal Alignment)
+   ============================================
+   
+   Align flex items along the main axis.
+   ============================================ */
+
+.zFlex-start {
+    justify-content: flex-start !important;
+}
+
+.zFlex-center {
+    justify-content: center !important;
+}
+
+.zFlex-end {
+    justify-content: flex-end !important;
+}
+
+.zFlex-between {
+    justify-content: space-between !important;
+}
+
+.zFlex-around {
+    justify-content: space-around !important;
+}
+
+.zFlex-evenly {
+    justify-content: space-evenly !important;
+}
+
+/* ============================================
+   Align Items (Vertical Alignment)
+   ============================================
+   
+   Align flex items along the cross axis.
+   ============================================ */
+
+.zFlex-items-start {
+    align-items: flex-start !important;
+}
+
+.zFlex-items-center {
+    align-items: center !important;
+}
+
+.zFlex-items-end {
+    align-items: flex-end !important;
+}
+
+.zFlex-items-baseline {
+    align-items: baseline !important;
+}
+
+.zFlex-items-stretch {
+    align-items: stretch !important;
+}
+
+/* ============================================
+   Align Self (Individual Item Alignment)
+   ============================================
+   
+   Override align-items for individual flex items.
+   ============================================ */
+
+.zFlex-self-auto {
+    align-self: auto !important;
+}
+
+.zFlex-self-start {
+    align-self: flex-start !important;
+}
+
+.zFlex-self-center {
+    align-self: center !important;
+}
+
+.zFlex-self-end {
+    align-self: flex-end !important;
+}
+
+.zFlex-self-baseline {
+    align-self: baseline !important;
+}
+
+.zFlex-self-stretch {
+    align-self: stretch !important;
+}
+
+/* ============================================
+   Flex Grow & Shrink
+   ============================================
+   
+   Control how flex items grow and shrink.
+   ============================================ */
+
+.zFlex-grow-0 {
+    flex-grow: 0 !important;
+}
+
+.zFlex-grow-1 {
+    flex-grow: 1 !important;
+}
+
+.zFlex-shrink-0 {
+    flex-shrink: 0 !important;
+}
+
+.zFlex-shrink-1 {
+    flex-shrink: 1 !important;
+}
+
+/* ============================================
+   Flex Fill
+   ============================================
+   
+   Make flex items fill available space equally.
+   ============================================ */
+
+.zFlex-fill {
+    flex: 1 1 auto !important;
+}
+
+/* ============================================
+   Gap Utilities
+   ============================================
+   
+   Modern way to add spacing between flex items.
+   Works with both flexbox and grid.
+   ============================================ */
+
+.zGap-0 {
+    gap: 0 !important;
+}
+
+.zGap-1 {
+    gap: 0.25rem !important;
+}
+
+.zGap-2 {
+    gap: 0.5rem !important;
+}
+
+.zGap-3 {
+    gap: 0.75rem !important;
+}
+
+.zGap-4 {
+    gap: 1rem !important;
+}
+
+.zGap-5 {
+    gap: 1.5rem !important;
+}
+
+/* ============================================
+   Responsive Flex Utilities - Small (sm) ≥576px
+   ============================================ */
+
+@media (min-width: 576px) {
+    .zFlex-sm-row { flex-direction: row !important; }
+    .zFlex-sm-row-reverse { flex-direction: row-reverse !important; }
+    .zFlex-sm-column { flex-direction: column !important; }
+    .zFlex-sm-column-reverse { flex-direction: column-reverse !important; }
+    
+    .zFlex-sm-wrap { flex-wrap: wrap !important; }
+    .zFlex-sm-nowrap { flex-wrap: nowrap !important; }
+    .zFlex-sm-wrap-reverse { flex-wrap: wrap-reverse !important; }
+    
+    .zFlex-sm-start { justify-content: flex-start !important; }
+    .zFlex-sm-center { justify-content: center !important; }
+    .zFlex-sm-end { justify-content: flex-end !important; }
+    .zFlex-sm-between { justify-content: space-between !important; }
+    .zFlex-sm-around { justify-content: space-around !important; }
+    .zFlex-sm-evenly { justify-content: space-evenly !important; }
+    
+    .zFlex-sm-items-start { align-items: flex-start !important; }
+    .zFlex-sm-items-center { align-items: center !important; }
+    .zFlex-sm-items-end { align-items: flex-end !important; }
+    .zFlex-sm-items-baseline { align-items: baseline !important; }
+    .zFlex-sm-items-stretch { align-items: stretch !important; }
+    
+    .zFlex-sm-self-auto { align-self: auto !important; }
+    .zFlex-sm-self-start { align-self: flex-start !important; }
+    .zFlex-sm-self-center { align-self: center !important; }
+    .zFlex-sm-self-end { align-self: flex-end !important; }
+    .zFlex-sm-self-baseline { align-self: baseline !important; }
+    .zFlex-sm-self-stretch { align-self: stretch !important; }
+    
+    .zFlex-sm-grow-0 { flex-grow: 0 !important; }
+    .zFlex-sm-grow-1 { flex-grow: 1 !important; }
+    .zFlex-sm-shrink-0 { flex-shrink: 0 !important; }
+    .zFlex-sm-shrink-1 { flex-shrink: 1 !important; }
+    
+    .zFlex-sm-fill { flex: 1 1 auto !important; }
+    
+    .zGap-sm-0 { gap: 0 !important; }
+    .zGap-sm-1 { gap: 0.25rem !important; }
+    .zGap-sm-2 { gap: 0.5rem !important; }
+    .zGap-sm-3 { gap: 0.75rem !important; }
+    .zGap-sm-4 { gap: 1rem !important; }
+    .zGap-sm-5 { gap: 1.5rem !important; }
+}
+
+/* ============================================
+   Responsive Flex Utilities - Medium (md) ≥768px
+   ============================================ */
+
+@media (min-width: 768px) {
+    .zFlex-md-row { flex-direction: row !important; }
+    .zFlex-md-row-reverse { flex-direction: row-reverse !important; }
+    .zFlex-md-column { flex-direction: column !important; }
+    .zFlex-md-column-reverse { flex-direction: column-reverse !important; }
+    
+    .zFlex-md-wrap { flex-wrap: wrap !important; }
+    .zFlex-md-nowrap { flex-wrap: nowrap !important; }
+    .zFlex-md-wrap-reverse { flex-wrap: wrap-reverse !important; }
+    
+    .zFlex-md-start { justify-content: flex-start !important; }
+    .zFlex-md-center { justify-content: center !important; }
+    .zFlex-md-end { justify-content: flex-end !important; }
+    .zFlex-md-between { justify-content: space-between !important; }
+    .zFlex-md-around { justify-content: space-around !important; }
+    .zFlex-md-evenly { justify-content: space-evenly !important; }
+    
+    .zFlex-md-items-start { align-items: flex-start !important; }
+    .zFlex-md-items-center { align-items: center !important; }
+    .zFlex-md-items-end { align-items: flex-end !important; }
+    .zFlex-md-items-baseline { align-items: baseline !important; }
+    .zFlex-md-items-stretch { align-items: stretch !important; }
+    
+    .zFlex-md-self-auto { align-self: auto !important; }
+    .zFlex-md-self-start { align-self: flex-start !important; }
+    .zFlex-md-self-center { align-self: center !important; }
+    .zFlex-md-self-end { align-self: flex-end !important; }
+    .zFlex-md-self-baseline { align-self: baseline !important; }
+    .zFlex-md-self-stretch { align-self: stretch !important; }
+    
+    .zFlex-md-grow-0 { flex-grow: 0 !important; }
+    .zFlex-md-grow-1 { flex-grow: 1 !important; }
+    .zFlex-md-shrink-0 { flex-shrink: 0 !important; }
+    .zFlex-md-shrink-1 { flex-shrink: 1 !important; }
+    
+    .zFlex-md-fill { flex: 1 1 auto !important; }
+    
+    .zGap-md-0 { gap: 0 !important; }
+    .zGap-md-1 { gap: 0.25rem !important; }
+    .zGap-md-2 { gap: 0.5rem !important; }
+    .zGap-md-3 { gap: 0.75rem !important; }
+    .zGap-md-4 { gap: 1rem !important; }
+    .zGap-md-5 { gap: 1.5rem !important; }
+}
+
+/* ============================================
+   Responsive Flex Utilities - Large (lg) ≥992px
+   ============================================ */
+
+@media (min-width: 992px) {
+    .zFlex-lg-row { flex-direction: row !important; }
+    .zFlex-lg-row-reverse { flex-direction: row-reverse !important; }
+    .zFlex-lg-column { flex-direction: column !important; }
+    .zFlex-lg-column-reverse { flex-direction: column-reverse !important; }
+    
+    .zFlex-lg-wrap { flex-wrap: wrap !important; }
+    .zFlex-lg-nowrap { flex-wrap: nowrap !important; }
+    .zFlex-lg-wrap-reverse { flex-wrap: wrap-reverse !important; }
+    
+    .zFlex-lg-start { justify-content: flex-start !important; }
+    .zFlex-lg-center { justify-content: center !important; }
+    .zFlex-lg-end { justify-content: flex-end !important; }
+    .zFlex-lg-between { justify-content: space-between !important; }
+    .zFlex-lg-around { justify-content: space-around !important; }
+    .zFlex-lg-evenly { justify-content: space-evenly !important; }
+    
+    .zFlex-lg-items-start { align-items: flex-start !important; }
+    .zFlex-lg-items-center { align-items: center !important; }
+    .zFlex-lg-items-end { align-items: flex-end !important; }
+    .zFlex-lg-items-baseline { align-items: baseline !important; }
+    .zFlex-lg-items-stretch { align-items: stretch !important; }
+    
+    .zFlex-lg-self-auto { align-self: auto !important; }
+    .zFlex-lg-self-start { align-self: flex-start !important; }
+    .zFlex-lg-self-center { align-self: center !important; }
+    .zFlex-lg-self-end { align-self: flex-end !important; }
+    .zFlex-lg-self-baseline { align-self: baseline !important; }
+    .zFlex-lg-self-stretch { align-self: stretch !important; }
+    
+    .zFlex-lg-grow-0 { flex-grow: 0 !important; }
+    .zFlex-lg-grow-1 { flex-grow: 1 !important; }
+    .zFlex-lg-shrink-0 { flex-shrink: 0 !important; }
+    .zFlex-lg-shrink-1 { flex-shrink: 1 !important; }
+    
+    .zFlex-lg-fill { flex: 1 1 auto !important; }
+    
+    .zGap-lg-0 { gap: 0 !important; }
+    .zGap-lg-1 { gap: 0.25rem !important; }
+    .zGap-lg-2 { gap: 0.5rem !important; }
+    .zGap-lg-3 { gap: 0.75rem !important; }
+    .zGap-lg-4 { gap: 1rem !important; }
+    .zGap-lg-5 { gap: 1.5rem !important; }
+}
+
+/* ============================================
+   Responsive Flex Utilities - Extra Large (xl) ≥1200px
+   ============================================ */
+
+@media (min-width: 1200px) {
+    .zFlex-xl-row { flex-direction: row !important; }
+    .zFlex-xl-row-reverse { flex-direction: row-reverse !important; }
+    .zFlex-xl-column { flex-direction: column !important; }
+    .zFlex-xl-column-reverse { flex-direction: column-reverse !important; }
+    
+    .zFlex-xl-wrap { flex-wrap: wrap !important; }
+    .zFlex-xl-nowrap { flex-wrap: nowrap !important; }
+    .zFlex-xl-wrap-reverse { flex-wrap: wrap-reverse !important; }
+    
+    .zFlex-xl-start { justify-content: flex-start !important; }
+    .zFlex-xl-center { justify-content: center !important; }
+    .zFlex-xl-end { justify-content: flex-end !important; }
+    .zFlex-xl-between { justify-content: space-between !important; }
+    .zFlex-xl-around { justify-content: space-around !important; }
+    .zFlex-xl-evenly { justify-content: space-evenly !important; }
+    
+    .zFlex-xl-items-start { align-items: flex-start !important; }
+    .zFlex-xl-items-center { align-items: center !important; }
+    .zFlex-xl-items-end { align-items: flex-end !important; }
+    .zFlex-xl-items-baseline { align-items: baseline !important; }
+    .zFlex-xl-items-stretch { align-items: stretch !important; }
+    
+    .zFlex-xl-self-auto { align-self: auto !important; }
+    .zFlex-xl-self-start { align-self: flex-start !important; }
+    .zFlex-xl-self-center { align-self: center !important; }
+    .zFlex-xl-self-end { align-self: flex-end !important; }
+    .zFlex-xl-self-baseline { align-self: baseline !important; }
+    .zFlex-xl-self-stretch { align-self: stretch !important; }
+    
+    .zFlex-xl-grow-0 { flex-grow: 0 !important; }
+    .zFlex-xl-grow-1 { flex-grow: 1 !important; }
+    .zFlex-xl-shrink-0 { flex-shrink: 0 !important; }
+    .zFlex-xl-shrink-1 { flex-shrink: 1 !important; }
+    
+    .zFlex-xl-fill { flex: 1 1 auto !important; }
+    
+    .zGap-xl-0 { gap: 0 !important; }
+    .zGap-xl-1 { gap: 0.25rem !important; }
+    .zGap-xl-2 { gap: 0.5rem !important; }
+    .zGap-xl-3 { gap: 0.75rem !important; }
+    .zGap-xl-4 { gap: 1rem !important; }
+    .zGap-xl-5 { gap: 1.5rem !important; }
+}
+
+/* ============================================
+   Responsive Flex Utilities - Extra Extra Large (xxl) ≥1400px
+   ============================================ */
+
+@media (min-width: 1400px) {
+    .zFlex-xxl-row { flex-direction: row !important; }
+    .zFlex-xxl-row-reverse { flex-direction: row-reverse !important; }
+    .zFlex-xxl-column { flex-direction: column !important; }
+    .zFlex-xxl-column-reverse { flex-direction: column-reverse !important; }
+    
+    .zFlex-xxl-wrap { flex-wrap: wrap !important; }
+    .zFlex-xxl-nowrap { flex-wrap: nowrap !important; }
+    .zFlex-xxl-wrap-reverse { flex-wrap: wrap-reverse !important; }
+    
+    .zFlex-xxl-start { justify-content: flex-start !important; }
+    .zFlex-xxl-center { justify-content: center !important; }
+    .zFlex-xxl-end { justify-content: flex-end !important; }
+    .zFlex-xxl-between { justify-content: space-between !important; }
+    .zFlex-xxl-around { justify-content: space-around !important; }
+    .zFlex-xxl-evenly { justify-content: space-evenly !important; }
+    
+    .zFlex-xxl-items-start { align-items: flex-start !important; }
+    .zFlex-xxl-items-center { align-items: center !important; }
+    .zFlex-xxl-items-end { align-items: flex-end !important; }
+    .zFlex-xxl-items-baseline { align-items: baseline !important; }
+    .zFlex-xxl-items-stretch { align-items: stretch !important; }
+    
+    .zFlex-xxl-self-auto { align-self: auto !important; }
+    .zFlex-xxl-self-start { align-self: flex-start !important; }
+    .zFlex-xxl-self-center { align-self: center !important; }
+    .zFlex-xxl-self-end { align-self: flex-end !important; }
+    .zFlex-xxl-self-baseline { align-self: baseline !important; }
+    .zFlex-xxl-self-stretch { align-self: stretch !important; }
+    
+    .zFlex-xxl-grow-0 { flex-grow: 0 !important; }
+    .zFlex-xxl-grow-1 { flex-grow: 1 !important; }
+    .zFlex-xxl-shrink-0 { flex-shrink: 0 !important; }
+    .zFlex-xxl-shrink-1 { flex-shrink: 1 !important; }
+    
+    .zFlex-xxl-fill { flex: 1 1 auto !important; }
+    
+    .zGap-xxl-0 { gap: 0 !important; }
+    .zGap-xxl-1 { gap: 0.25rem !important; }
+    .zGap-xxl-2 { gap: 0.5rem !important; }
+    .zGap-xxl-3 { gap: 0.75rem !important; }
+    .zGap-xxl-4 { gap: 1rem !important; }
+    .zGap-xxl-5 { gap: 1.5rem !important; }
+}
+
+/* ============================================
+   Legacy Grid Alignment Helpers
+   ============================================
+   
+   These classes are provided for backwards compatibility
+   with older projects. New projects should use the standard
+   .zFlex-* classes above.
+   
+   Will be deprecated in a future version.
+   ============================================ */
+
+.zRow-start { justify-content: flex-start !important; }
+.zRow-center { justify-content: center !important; }
+.zRow-end { justify-content: flex-end !important; }
+.zRow-between { justify-content: space-between !important; }
+.zRow-around { justify-content: space-around !important; }
+
+.zRow-top { align-items: flex-start !important; }
+.zRow-middle { align-items: center !important; }
+.zRow-bottom { align-items: flex-end !important; }

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floating Labels - zTheme</title>
+    
+    <!-- zTheme CSS from CDN (Production)
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css"> -->
+    
+    <!-- zTheme CSS Local (Development - Uncomment to use local files) -->
+    <link rel="stylesheet" href="../dist/ztheme.css">
+    
+    
+    <style>
+        body {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+<div class="zContainer" style="padding: 2rem;">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" style="margin-bottom: 1rem;">
+        <ol class="zBreadcrumb">
+            <li class="zBreadcrumb-item"><a href="ztheme.html">zTheme</a></li>
+            <li class="zBreadcrumb-item"><a href="../ztheme.html#forms">Components</a></li>
+            <li class="zBreadcrumb-item zActive" aria-current="page">Floating Labels</li>
+        </ol>
+    </nav>
+    
+    <h1>Floating Labels</h1>
+    <p class="zLead" style="margin-bottom: 2rem;">
+        Create modern, space-efficient forms where labels animate into placeholders.
+    </p>
+    
+    <hr style="margin: 2rem 0; border: 1px solid var(--color-border);">
+    
+    <!-- Understanding Floating Labels -->
+    <section style="margin: 3rem 0;">
+        <h2>Understanding Floating Labels</h2>
+        <p>Floating labels are a modern UX pattern where the label starts inside the input field (like a placeholder) and floats above when the user focuses or enters text. This creates a clean, minimal interface while maintaining accessibility.</p>
+        
+        <p><strong>Benefits:</strong></p>
+        <ul style="line-height: 2;">
+            <li><strong>Space-efficient:</strong> Label and input occupy the same vertical space initially</li>
+            <li><strong>Context retention:</strong> Unlike pure placeholders, the label remains visible after input</li>
+            <li><strong>Modern aesthetic:</strong> Clean, minimal appearance popular in material design</li>
+            <li><strong>CSS-only:</strong> No JavaScript required—uses <code>:placeholder-shown</code> pseudo-class</li>
+        </ul>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-success); background: #f8f9fa;">
+            <strong>Accessibility:</strong> Floating labels maintain proper <code>&lt;label&gt;</code> and <code>&lt;input&gt;</code> association via <code>for</code>/<code>id</code> attributes. Screen readers announce labels correctly, and keyboard navigation works as expected. The semantic HTML remains intact—the floating behavior is pure visual enhancement.
+        </blockquote>
+        
+        <p><strong>When to use:</strong> Login/signup forms, contact forms, checkout flows, profile editors—anywhere you want a modern, minimal aesthetic without sacrificing usability.</p>
+    </section>
+    
+    <!-- Basic Floating Labels -->
+    <section style="margin: 3rem 0;">
+        <h2>Basic Floating Labels</h2>
+        <p>Wrap an <code>.zInput</code> and <code>&lt;label&gt;</code> in <code>.zFloating</code>. The input must have a <code>placeholder</code> (required for CSS), and the input must come <strong>before</strong> the label in HTML (CSS uses sibling selector <code>~</code>).</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zFloating zmb-3">
+                <input type="email" class="zInput" id="emailFloat" placeholder="name@example.com">
+                <label for="emailFloat">Email Address</label>
+            </div>
+            <div class="zFloating">
+                <input type="password" class="zInput" id="passwordFloat" placeholder="Password">
+                <label for="passwordFloat">Password</label>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zFloating"&gt;
+  &lt;input type="email" class="zInput" id="emailFloat" placeholder="name@example.com"&gt;
+  &lt;label for="emailFloat"&gt;Email Address&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;div class="zFloating"&gt;
+  &lt;input type="password" class="zInput" id="passwordFloat" placeholder="Password"&gt;
+  &lt;label for="passwordFloat"&gt;Password&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-info); background: #f8f9fa;">
+            <strong>Important:</strong> The <code>placeholder</code> attribute is <strong>required</strong> for the CSS to work (<code>:placeholder-shown</code> pseudo-class). The actual placeholder text is hidden via CSS, so it doesn't matter what you write—but it must be present!
+        </blockquote>
+    </section>
+    
+    <!-- With Pre-filled Values -->
+    <section style="margin: 3rem 0;">
+        <h2>With Pre-filled Values</h2>
+        <p>When an input has a <code>value</code> attribute, the label automatically floats to its elevated position:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zFloating">
+                <input type="email" class="zInput" id="prefilled" placeholder="name@example.com" value="sarah.chen@company.com">
+                <label for="prefilled">Email Address</label>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zFloating"&gt;
+  &lt;input type="email" class="zInput" id="prefilled" 
+         placeholder="name@example.com" value="sarah.chen@company.com"&gt;
+  &lt;label for="prefilled"&gt;Email Address&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- With Textareas -->
+    <section style="margin: 3rem 0;">
+        <h2>With Textareas</h2>
+        <p>Floating labels work with <code>&lt;textarea&gt;</code> elements. Control height with inline styles or CSS (not the <code>rows</code> attribute):</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zFloating zmb-3">
+                <textarea class="zInput" id="messageDefault" placeholder="Leave a message"></textarea>
+                <label for="messageDefault">Message (Default Height)</label>
+            </div>
+            
+            <div class="zFloating">
+                <textarea class="zInput" id="messageCustom" placeholder="Leave a message" style="height: 120px"></textarea>
+                <label for="messageCustom">Message (Custom Height)</label>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- Default height --&gt;
+&lt;div class="zFloating"&gt;
+  &lt;textarea class="zInput" id="messageDefault" placeholder="Leave a message"&gt;&lt;/textarea&gt;
+  &lt;label for="messageDefault"&gt;Message&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Custom height --&gt;
+&lt;div class="zFloating"&gt;
+  &lt;textarea class="zInput" id="messageCustom" 
+            placeholder="Leave a message" style="height: 120px"&gt;&lt;/textarea&gt;
+  &lt;label for="messageCustom"&gt;Message&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- With Selects -->
+    <section style="margin: 3rem 0;">
+        <h2>With Select Dropdowns</h2>
+        <p>Floating labels work with <code>&lt;select&gt;</code> elements. The label always stays in the floated position (since selects always have a value).</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zFloating">
+                <select class="zSelect" id="countrySelect" aria-label="Country selection">
+                    <option selected>Choose your country...</option>
+                    <option value="us">🇺🇸 United States</option>
+                    <option value="uk">🇬🇧 United Kingdom</option>
+                    <option value="il">🇮🇱 Israel</option>
+                    <option value="ca">🇨🇦 Canada</option>
+                </select>
+                <label for="countrySelect">Country</label>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zFloating"&gt;
+  &lt;select class="zSelect" id="countrySelect"&gt;
+    &lt;option selected&gt;Choose your country...&lt;/option&gt;
+    &lt;option value="us"&gt;🇺🇸 United States&lt;/option&gt;
+    &lt;option value="uk"&gt;🇬🇧 United Kingdom&lt;/option&gt;
+  &lt;/select&gt;
+  &lt;label for="countrySelect"&gt;Country&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+        
+        <blockquote style="margin: 2rem 0; padding: 1rem 1.5rem; border-left: 4px solid var(--color-warning); background: #f8f9fa;">
+            <strong>Limitation:</strong> Selects with <code>size</code> or <code>multiple</code> attributes are not supported with floating labels.
+        </blockquote>
+    </section>
+    
+    <!-- In Grid Layouts -->
+    <section style="margin: 3rem 0;">
+        <h2>In Grid Layouts</h2>
+        <p>Floating labels work seamlessly with the <a href="ztheme-grid.html" class="zPrimary">zTheme grid system</a>:</p>
+        
+        <div style="background: #f5f5f5; padding: 2rem; border-radius: var(--border-radius, 4px); margin: 2rem 0;">
+            <div class="zRow zG-2">
+                <div class="zCol-md">
+                    <div class="zFloating">
+                        <input type="text" class="zInput" id="firstName" placeholder="First" value="Sarah">
+                        <label for="firstName">First Name</label>
+                    </div>
+                </div>
+                <div class="zCol-md">
+                    <div class="zFloating">
+                        <input type="text" class="zInput" id="lastName" placeholder="Last" value="Chen">
+                        <label for="lastName">Last Name</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;div class="zRow zG-2"&gt;
+  &lt;div class="zCol-md"&gt;
+    &lt;div class="zFloating"&gt;
+      &lt;input type="text" class="zInput" id="firstName" placeholder="First"&gt;
+      &lt;label for="firstName"&gt;First Name&lt;/label&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="zCol-md"&gt;
+    &lt;div class="zFloating"&gt;
+      &lt;input type="text" class="zInput" id="lastName" placeholder="Last"&gt;
+      &lt;label for="lastName"&gt;Last Name&lt;/label&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </section>
+    
+    <!-- Best Practices -->
+    <section style="margin: 3rem 0;">
+        <h2>Best Practices</h2>
+        
+        <h3>Always Provide Placeholders</h3>
+        <p>The <code>placeholder</code> attribute is required for the CSS to work:</p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- Good: Has placeholder --&gt;
+&lt;input type="email" class="zInput" placeholder="name@example.com"&gt;
+
+&lt;!-- Bad: Missing placeholder (floating won't work) --&gt;
+&lt;input type="email" class="zInput"&gt;</code></pre>
+        
+        <h3 style="margin-top: 1.5rem;">Input Before Label</h3>
+        <p>HTML order matters—input must come before label for the CSS sibling selector (<code>~</code>) to work:</p>
+        <pre style="background: #f5f5f5; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto;"><code>&lt;!-- Good: Input first --&gt;
+&lt;div class="zFloating"&gt;
+  &lt;input type="text" class="zInput" id="name" placeholder="Name"&gt;
+  &lt;label for="name"&gt;Your Name&lt;/label&gt;
+&lt;/div&gt;
+
+&lt;!-- Bad: Label first (won't float) --&gt;
+&lt;div class="zFloating"&gt;
+  &lt;label for="name"&gt;Your Name&lt;/label&gt;
+  &lt;input type="text" class="zInput" id="name" placeholder="Name"&gt;
+&lt;/div&gt;</code></pre>
+        
+        <h3 style="margin-top: 1.5rem;">Use Meaningful Labels</h3>
+        <p>The floating label is the primary way users understand the field:</p>
+        <ul style="line-height: 2;">
+            <li>✅ "Email Address", "Phone Number", "Street Address"</li>
+            <li>❌ "Input", "Field 1", "Data"</li>
+        </ul>
+        
+        <h3 style="margin-top: 1.5rem;">Consider Mobile Users</h3>
+        <p>Floating labels work well on mobile, but ensure touch targets are large enough. The default <code>--form-floating-height</code> (3.5rem) provides good mobile usability.</p>
+    </section>
+    
+    <!-- CSS Reference -->
+    <section style="margin: 3rem 0; padding: 2rem; background: var(--color-base); border-left: 4px solid var(--color-info);">
+        <h2>CSS Reference</h2>
+        
+        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 1rem; border-radius: var(--border-radius, 4px); overflow-x: auto; margin-top: 1rem;"><code>/* Floating label class */
+.zFloating
+
+/* Works with */
+.zInput       /* Text inputs and textareas */
+.zSelect      /* Dropdown menus */
+
+/* Key CSS variables */
+--form-floating-height: 3.5rem;
+--form-floating-padding-x: 0.75rem;
+--form-floating-padding-y: 1rem;
+--form-floating-label-opacity: 0.65;
+--form-floating-transition: opacity 0.1s ease-in-out, transform 0.1s ease-in-out;</code></pre>
+    </section>
+    
+    <!-- Related Topics -->
+    <section style="margin: 3rem 0;">
+        <h2>Related Topics</h2>
+        <ul style="line-height: 2;">
+            <li><a href="ztheme-form-control.html" class="zPrimary">Form Control</a> - Text inputs and textareas</li>
+            <li><a href="ztheme-select.html" class="zPrimary">Select</a> - Dropdown menus</li>
+            <li><a href="ztheme-input-group.html" class="zPrimary">Input Group</a> - Combining inputs with labels/buttons</li>
+            <li><a href="ztheme-grid.html" class="zPrimary">Grid</a> - Layout system for responsive forms</li>
+        </ul>
+    </section>
+    
+    <!-- Navigation -->
+    <nav style="margin-top: 4rem; padding-top: 2rem; border-top: 2px solid var(--color-border); display: flex; justify-content: space-between;">
+        <a href="ztheme-input-group.html" class="zPrimary">← Previous: Input Group</a>
+        <a href="ztheme-form-layout.html" class="zPrimary">Next: Layout →</a>
+    </nav>
+</div>
+
+<!-- Load zTheme JavaScript for interactive components (Production) 
+<script src="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.js"></script>-->
+
+<!-- zTheme JavaScript Local (Development - Uncomment to use local files) -->
+<script src="../dist/ztheme.js"></script>
+
+
+</body>
+</html>

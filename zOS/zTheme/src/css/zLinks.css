@@ -1,0 +1,149 @@
+/* ============================================
+   zLinks.css - Colored Link Helpers
+   ============================================
+   
+   Link color utilities with hover/focus states.
+   All colors use centralized CSS variables from css_vars.css.
+   
+   Classes:
+   - .zLink-primary    : Primary brand color links
+   - .zLink-secondary  : Secondary brand color links
+   - .zLink-success    : Success state links
+   - .zLink-info       : Info state links
+   - .zLink-warning    : Warning state links
+   - .zLink-danger     : Danger/error state links
+   - .zLink-dark       : Dark color links
+   - .zLink-light      : Light color links
+   
+   Usage:
+   <a href="#" class="zLink-primary">Primary link</a>
+   <a href="#" class="zLink-success">Success link</a>
+*/
+
+/* ============================================
+   Primary Link
+   ============================================ */
+.zLink-primary {
+    color: var(--color-primary) !important;
+    text-decoration-color: var(--color-primary);
+}
+
+.zLink-primary:hover,
+.zLink-primary:focus {
+    color: #8ab85e !important; /* Darker shade of primary */
+    text-decoration-color: #8ab85e;
+}
+
+/* ============================================
+   Secondary Link
+   ============================================ */
+.zLink-secondary {
+    color: var(--color-secondary) !important;
+    text-decoration-color: var(--color-secondary);
+}
+
+.zLink-secondary:hover,
+.zLink-secondary:focus {
+    color: #7952c4 !important; /* Darker shade of secondary */
+    text-decoration-color: #7952c4;
+}
+
+/* ============================================
+   Success Link
+   ============================================ */
+.zLink-success {
+    color: var(--color-success) !important;
+    text-decoration-color: var(--color-success);
+}
+
+.zLink-success:hover,
+.zLink-success:focus {
+    color: #429670 !important; /* Darker shade of success */
+    text-decoration-color: #429670;
+}
+
+/* ============================================
+   Info Link
+   ============================================ */
+.zLink-info {
+    color: var(--color-info) !important;
+    text-decoration-color: var(--color-info);
+}
+
+.zLink-info:hover,
+.zLink-info:focus {
+    color: #3d8cdb !important; /* Darker shade of info */
+    text-decoration-color: #3d8cdb;
+}
+
+/* ============================================
+   Warning Link
+   ============================================ */
+.zLink-warning {
+    color: var(--color-warning) !important;
+    text-decoration-color: var(--color-warning);
+}
+
+.zLink-warning:hover,
+.zLink-warning:focus {
+    color: #e89020 !important; /* Darker shade of warning */
+    text-decoration-color: #e89020;
+}
+
+/* ============================================
+   Danger Link (Error)
+   ============================================ */
+.zLink-danger {
+    color: var(--color-error) !important;
+    text-decoration-color: var(--color-error);
+}
+
+.zLink-danger:hover,
+.zLink-danger:focus {
+    color: #c62a36 !important; /* Darker shade of error */
+    text-decoration-color: #c62a36;
+}
+
+/* ============================================
+   Dark Link
+   ============================================ */
+.zLink-dark {
+    color: var(--color-dark) !important;
+    text-decoration-color: var(--color-dark);
+}
+
+.zLink-dark:hover,
+.zLink-dark:focus {
+    color: #000000 !important; /* Pure black */
+    text-decoration-color: #000000;
+}
+
+/* ============================================
+   Light Link
+   ============================================ */
+.zLink-light {
+    color: var(--color-light) !important;
+    text-decoration-color: var(--color-light);
+}
+
+.zLink-light:hover,
+.zLink-light:focus {
+    color: #e2e6ea !important; /* Slightly darker light */
+    text-decoration-color: #e2e6ea;
+}
+
+/* ============================================
+   Accessibility Notes
+   ============================================
+   
+   - All links maintain text-decoration for clarity
+   - Hover/focus states darken by ~20% for clear feedback
+   - Light links should only be used on dark backgrounds
+   - Warning links may need background contrast adjustment
+   - Always test color contrast ratios (WCAG AA: 4.5:1)
+   
+   Color contrast warnings:
+   ⚠️  .zLink-light requires dark background
+   ⚠️  .zLink-warning may need contrast testing on light backgrounds
+*/
+

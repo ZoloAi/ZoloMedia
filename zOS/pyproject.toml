@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "zOS"
-version = "1.0.0"
-description = "Operating System for the Zolo ecosystem"
+dynamic = ["version"]
+description = "Zolo Operating System - A full-stack application framework with declarative configuration, layered architecture, and rich subsystems"
 authors = [
     {name = "Gal Nachshon", email = "gal@zolo.media"}
 ]
@@ -23,36 +23,83 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: System :: Shells",
+    "Topic :: Software Development :: Frameworks",
+    "Environment :: Console",
 ]
-keywords = ["logging", "cli", "system", "utilities", "bootstrap"]
+keywords = ["cli", "framework", "yaml", "interactive", "shell", "declarative", "configuration", "menu-driven", "plugin-system", "session-management"]
 dependencies = [
-    "platformdirs>=3.0.0",
     "PyYAML>=6.0",
-    "zlsp>=1.0.0",
+    "websockets>=15.0",
+    "requests>=2.32",
+    "platformdirs>=4.0",
+    "python-dotenv>=1.0",
+    "bcrypt>=4.0",
+    "boto3>=1.28.0",
 ]
 
 [project.optional-dependencies]
-dev = [
-    "pytest>=7.0",
-    "pytest-cov>=4.0",
+csv = [
+    "pandas>=2.0",
+]
+postgresql = [
+    "psycopg2-binary>=2.9",
+]
+all = [
+    "pandas>=2.0",
+    "psycopg2-binary>=2.9",
 ]
 
 [project.scripts]
-zolo = "zOS.cli.main:main"
-# zTests = "zOS.cli.main:ztests_main"  # Removed: Framework command, not OS-level
+zolo = "zOS.main:main"
+
+[project.urls]
+Homepage = "https://github.com/ZoloAi/Zolo"
+Documentation = "https://github.com/ZoloAi/Zolo#readme"
+Repository = "https://github.com/ZoloAi/Zolo"
+"Bug Tracker" = "https://github.com/ZoloAi/Zolo/issues"
 
 [tool.setuptools]
-package-dir = {"zOS" = "."}
-packages = [
-    "zOS",
-    "zOS.cli",
-    "zOS.errors",
-    "zOS.formatting",
-    "zOS.install",
-    "zOS.logger",
-    "zOS.machine",
-    "zOS.machine.detectors",
-    "zOS.utils",
-    "zOS.utils.open",
+# Map core/ directory to be the zOS package  
+package-dir = {"zOS" = "core", "zSys" = "core/zSys"}
+packages = ["zOS", "zSys"]
+
+[tool.setuptools.package-data]
+# Include non-Python files in packages
+zTestSuite = [
+    "demos/*.yaml",
+    "demos/*.py",
+    "demos/*.md",
+    "*.md",
+]
+zTestRunner = [
+    "*.yaml",
+    "*.md",
+    "*.sh",
+]
+zOS = [
+    "subsystems/*/zOS_modules/*.yaml",
+    "utils/*.md",
+    "UI/*.yaml",
+]
+
+[tool.setuptools.dynamic]
+# Dynamically read the version string from the attribute
+# version module in core/ (mapped to zOS package)
+version = {attr = "zOS.version.__version__"}
+
+[tool.uv]
+# uv configuration for modern Python package management
+# See: https://docs.astral.sh/uv/
+
+# Prefer Python 3.11+ for best performance and features
+python-preference = "managed"  # Let uv manage Python installations
+
+[dependency-groups]
+# Development dependencies (new uv format)
+# Replaces deprecated [tool.uv.dev-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "pylint>=2.0",
 ]
 

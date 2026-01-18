@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Container Utilities Test - Micro-Step 0.1</title>
+  
+  <!-- zTheme CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css">
+  
+  <style>
+    body {
+      background: #f8f9fa;
+      min-height: 100vh;
+      padding: 2rem 0;
+    }
+    
+    /* Demo borders (to visualize containers) */
+    .demo-border {
+      border: 2px dashed #0d6efd !important;
+      min-height: 60px;
+    }
+    .demo-border-secondary {
+      border: 2px dashed #6c757d !important;
+      min-height: 40px;
+    }
+    
+    /* Log styling */
+    #log {
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.875rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .log-entry {
+      padding: 0.25rem 0.5rem;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .log-success { color: #198754; }
+    .log-error { color: #dc3545; }
+    .log-info { color: #0d6efd; }
+  </style>
+</head>
+<body>
+  <div class="zContainer">
+    <h1 class="zmb-4">Container Utilities Test</h1>
+    <p class="zText-muted zmb-4">Micro-Step 0.1: Testing foundational layout primitives (containers, sections, wrappers)</p>
+    
+    <!-- Test Controls Card -->
+    <div class="zCard zmb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Test Controls</h2>
+        <div class="zD-flex zFlex-wrap zGap-2">
+          <button class="zBtn zBtn-outline-primary" onclick="testCreateContainer()">Test createContainer()</button>
+          <button class="zBtn zBtn-outline-success" onclick="testCreateSection()">Test createSection()</button>
+          <button class="zBtn zBtn-outline-info" onclick="testCreateWrapper()">Test createWrapper()</button>
+          <button class="zBtn zBtn-outline-warning" onclick="testApplyContainerStyles()">Test applyContainerStyles()</button>
+          <button class="zBtn zBtn-outline-secondary" onclick="testNested()">Test Nested Containers</button>
+          <button class="zBtn zBtn-danger" onclick="clearRenderZone()">Clear Zone</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Render Zone Card -->
+    <div class="zCard zmb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Render Zone</h2>
+        <p class="zText-muted">Containers will render here (blue dashed borders added for visibility)</p>
+        <div id="render-zone" class="zp-3 zBg-white zBorder zRounded">
+          <p class="zText-muted"><em>Click a test button to render containers...</em></p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Log Card -->
+    <div class="zCard">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Console Log</h2>
+        <div id="log" class="zp-3 zBg-light zBorder zRounded">
+          <!-- Logs will appear here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts (ES6 Modules) -->
+  <script type="module">
+    import { 
+      createContainer, 
+      createSection, 
+      createWrapper, 
+      applyContainerStyles 
+    } from '../src/rendering/container_utils.js';
+
+    const log = document.getElementById('log');
+    
+    function addLog(message, type = 'info') {
+      const entry = document.createElement('div');
+      entry.className = `log-entry log-${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      log.appendChild(entry);
+      log.scrollTop = log.scrollHeight;
+      console.log(message);
+    }
+
+    // Initialize
+    addLog('✅ Container utilities loaded successfully', 'success');
+    addLog('Ready! Click a test button to start.', 'info');
+
+    /**
+     * Test 1: createContainer()
+     */
+    window.testCreateContainer = function() {
+      addLog('Running: createContainer() Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: createContainer()</h3>';
+      
+      // Test 1a: Basic container
+      const container1 = createContainer();
+      container1.classList.add('demo-border', 'zmb-3', 'zp-3');
+      container1.innerHTML = '<p><strong>Basic zContainer</strong><br>Max-width, centered, responsive padding</p>';
+      zone.appendChild(container1);
+      addLog('✅ Created basic zContainer', 'success');
+      
+      // Test 1b: Container with margin
+      const container2 = createContainer(['zmy-4']);
+      container2.classList.add('demo-border', 'zp-3');
+      container2.innerHTML = '<p><strong>zContainer with zmy-4</strong><br>Vertical margin applied</p>';
+      zone.appendChild(container2);
+      addLog('✅ Created zContainer with vertical margin', 'success');
+      
+      // Test 1c: Fluid container
+      const container3 = createContainer(['zContainer-fluid', 'zmt-3']);
+      container3.classList.add('demo-border', 'zp-3');
+      container3.innerHTML = '<p><strong>zContainer-fluid</strong><br>Full width, no max-width constraint</p>';
+      zone.appendChild(container3);
+      addLog('✅ Created fluid container', 'success');
+    };
+
+    /**
+     * Test 2: createSection()
+     */
+    window.testCreateSection = function() {
+      addLog('Running: createSection() Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: createSection()</h3>';
+      
+      // Test 2a: Hero section
+      const heroSection = createSection(['zBg-primary', 'zText-white', 'zpy-5', 'zmb-3']);
+      heroSection.innerHTML = '<div class="zContainer"><h2>Hero Section</h2><p>Semantic &lt;section&gt; with zBg-primary, zText-white, zpy-5</p></div>';
+      zone.appendChild(heroSection);
+      addLog('✅ Created hero section with background', 'success');
+      
+      // Test 2b: Feature section with ID
+      const featureSection = createSection(['zpy-4', 'zBg-light'], { id: 'features' });
+      featureSection.innerHTML = '<div class="zContainer"><h2>Feature Section</h2><p>Semantic &lt;section id="features"&gt; with zpy-4, zBg-light</p></div>';
+      zone.appendChild(featureSection);
+      addLog('✅ Created feature section with ID attribute', 'success');
+    };
+
+    /**
+     * Test 3: createWrapper()
+     */
+    window.testCreateWrapper = function() {
+      addLog('Running: createWrapper() Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: createWrapper()</h3>';
+      
+      // Test 3a: Flex row wrapper
+      const flexRow = createWrapper(['zD-flex', 'zGap-3', 'zFlex-items-center', 'zmb-3']);
+      flexRow.classList.add('demo-border', 'zp-3');
+      flexRow.innerHTML = '<div class="demo-border-secondary zp-2">Item 1</div><div class="demo-border-secondary zp-2">Item 2</div><div class="demo-border-secondary zp-2">Item 3</div>';
+      zone.appendChild(flexRow);
+      addLog('✅ Created flex row wrapper (zD-flex, zGap-3)', 'success');
+      
+      // Test 3b: Flex column wrapper
+      const flexCol = createWrapper(['zD-flex', 'zFlex-column', 'zGap-2', 'zmb-3']);
+      flexCol.classList.add('demo-border', 'zp-3');
+      flexCol.innerHTML = '<div class="demo-border-secondary zp-2">Row 1</div><div class="demo-border-secondary zp-2">Row 2</div><div class="demo-border-secondary zp-2">Row 3</div>';
+      zone.appendChild(flexCol);
+      addLog('✅ Created flex column wrapper', 'success');
+      
+      // Test 3c: Card body wrapper
+      const cardBody = createWrapper(['zCard-body', 'zp-3', 'zBg-white', 'zBorder', 'zRounded']);
+      cardBody.innerHTML = '<h4>Card Body Wrapper</h4><p>Generic wrapper with zCard-body classes</p>';
+      zone.appendChild(cardBody);
+      addLog('✅ Created card body wrapper', 'success');
+    };
+
+    /**
+     * Test 4: applyContainerStyles()
+     */
+    window.testApplyContainerStyles = function() {
+      addLog('Running: applyContainerStyles() Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: applyContainerStyles()</h3>';
+      
+      // Test 4a: Flex container with centering
+      const wrapper1 = createWrapper(['zmb-3', 'zp-3']);
+      wrapper1.classList.add('demo-border');
+      applyContainerStyles(wrapper1, {
+        display: 'flex',
+        direction: 'row',
+        align: 'center',
+        justify: 'between',
+        gap: 3
+      });
+      wrapper1.innerHTML = '<div class="demo-border-secondary zp-2">Left</div><div class="demo-border-secondary zp-2">Center</div><div class="demo-border-secondary zp-2">Right</div>';
+      zone.appendChild(wrapper1);
+      addLog('✅ Applied flex styles: justify-between, align-center, gap-3', 'success');
+      
+      // Test 4b: Grid container
+      const wrapper2 = createWrapper(['zmb-3', 'zp-3']);
+      wrapper2.classList.add('demo-border');
+      applyContainerStyles(wrapper2, {
+        display: 'grid',
+        gap: 4
+      });
+      wrapper2.style.gridTemplateColumns = 'repeat(3, 1fr)';
+      wrapper2.innerHTML = '<div class="demo-border-secondary zp-2">Cell 1</div><div class="demo-border-secondary zp-2">Cell 2</div><div class="demo-border-secondary zp-2">Cell 3</div>';
+      zone.appendChild(wrapper2);
+      addLog('✅ Applied grid styles: display-grid, gap-4', 'success');
+      
+      // Test 4c: Centered column
+      const wrapper3 = createWrapper(['zp-3']);
+      wrapper3.classList.add('demo-border');
+      applyContainerStyles(wrapper3, {
+        display: 'flex',
+        direction: 'column',
+        align: 'center',
+        gap: 2
+      });
+      wrapper3.innerHTML = '<div class="demo-border-secondary zp-2">Centered</div><div class="demo-border-secondary zp-2">Items</div>';
+      zone.appendChild(wrapper3);
+      addLog('✅ Applied flex column styles: centered, gap-2', 'success');
+    };
+
+    /**
+     * Test 5: Nested Containers (Real-world pattern)
+     */
+    window.testNested = function() {
+      addLog('Running: Nested Containers Test', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<h3 class="zmb-3">Test: Nested Containers (Real-world Pattern)</h3>';
+      
+      // Outer container
+      const outerContainer = createContainer(['zmy-4']);
+      
+      // Hero section
+      const heroSection = createSection(['zBg-primary', 'zText-white', 'zpy-5', 'zmb-4']);
+      const heroContainer = createContainer();
+      const heroWrapper = createWrapper(['zD-flex', 'zFlex-column', 'zFlex-items-center', 'zGap-3']);
+      heroWrapper.innerHTML = '<h2>Welcome to Our App</h2><p>This is a nested container structure</p>';
+      heroContainer.appendChild(heroWrapper);
+      heroSection.appendChild(heroContainer);
+      outerContainer.appendChild(heroSection);
+      
+      // Feature cards section
+      const featureSection = createSection(['zpy-4'], { id: 'features' });
+      const featureContainer = createContainer();
+      const cardGrid = createWrapper(['zD-flex', 'zGap-3', 'zFlex-center']);
+      
+      // Create 3 cards
+      for (let i = 1; i <= 3; i++) {
+        const card = createWrapper(['zBorder', 'zRounded', 'zp-3', 'zBg-white']);
+        card.style.minWidth = '200px';
+        card.innerHTML = `<h4>Feature ${i}</h4><p>Description of feature ${i}</p>`;
+        cardGrid.appendChild(card);
+      }
+      
+      featureContainer.appendChild(cardGrid);
+      featureSection.appendChild(featureContainer);
+      outerContainer.appendChild(featureSection);
+      
+      zone.appendChild(outerContainer);
+      addLog('✅ Created nested container structure: Section > Container > Wrapper > Cards', 'success');
+      addLog('   Structure: section[hero] + section[features] with 3 cards', 'info');
+    };
+
+    /**
+     * Clear the render zone
+     */
+    window.clearRenderZone = function() {
+      addLog('Clearing render zone', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<p class="zText-muted"><em>Zone cleared. Click a test button...</em></p>';
+    };
+  </script>
+</body>
+</html>
+

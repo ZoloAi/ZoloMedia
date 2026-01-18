@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alert Renderer Test - zCLI BifrostClient</title>
+  
+  <!-- zTheme CSS (CDN with cache-busting) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ZoloAi/zTheme@main/dist/ztheme.css?v=20251218">
+  
+  <style>
+    /* ONLY body background - NO component styles! */
+    body {
+      background: #f8f9fa;
+      min-height: 100vh;
+    }
+    
+    /* Log styling (not for zTheme components) */
+    #log {
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 0.875rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .log-entry {
+      padding: 0.25rem 0.5rem;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .log-success { color: #198754; }
+    .log-error { color: #dc3545; }
+    .log-info { color: #0d6efd; }
+  </style>
+</head>
+<body>
+  <!-- Main Container (zTheme) -->
+  <div class="zContainer zMy-4">
+    
+    <!-- Header Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h1 class="zCard-title">Alert Renderer Test</h1>
+        <p class="zCard-text zText-muted">
+          Micro-Step 3: Testing signal/alert rendering (zSignals: success, info, warning, error)
+        </p>
+      </div>
+    </div>
+
+    <!-- Test Controls Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Test Controls</h2>
+        <div class="zD-flex zFlex-wrap zGap-2">
+          <button class="zBtn zBtn-outline-success" onclick="testSuccess()">Test Success</button>
+          <button class="zBtn zBtn-outline-info" onclick="testInfo()">Test Info</button>
+          <button class="zBtn zBtn-outline-warning" onclick="testWarning()">Test Warning</button>
+          <button class="zBtn zBtn-outline-danger" onclick="testError()">Test Error</button>
+          <button class="zBtn zBtn-outline-primary" onclick="testAllTypes()">Test All Types</button>
+          <button class="zBtn zBtn-outline-secondary" onclick="testIndent()">Test Indent</button>
+          <button class="zBtn zBtn-outline-dark" onclick="clearRenderZone()">Clear Zone</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Render Zone Card -->
+    <div class="zCard zMb-4">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Render Zone</h2>
+        <div id="render-zone" class="zP-3 zBg-white zBorder zRounded">
+          <!-- Alerts will render here -->
+          <p class="zText-muted"><em>Click a test button to render alerts...</em></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log Card -->
+    <div class="zCard">
+      <div class="zCard-body">
+        <h2 class="zCard-title zH5">Console Log</h2>
+        <div id="log" class="zP-3 zBg-light zBorder zRounded">
+          <!-- Logs will appear here -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scripts (ES6 Modules) -->
+  <script type="module">
+    import { AlertRenderer } from '../src/rendering/alert_renderer.js';
+
+    // Mock logger that outputs to both console and on-page log
+    const mockLogger = {
+      log: (msg) => {
+        console.log(msg);
+        addLog(msg, 'info');
+      },
+      error: (msg) => {
+        console.error(msg);
+        addLog(msg, 'error');
+      },
+      warn: (msg) => {
+        console.warn(msg);
+        addLog(msg, 'error');
+      }
+    };
+
+    function addLog(message, type = 'info') {
+      const logDiv = document.getElementById('log');
+      const entry = document.createElement('div');
+      entry.className = `log-entry log-${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logDiv.appendChild(entry);
+      logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    // Initialize renderer
+    const renderer = new AlertRenderer(mockLogger);
+    addLog('AlertRenderer initialized', 'success');
+
+    // Test Functions (exposed to global scope)
+    window.testSuccess = function() {
+      addLog('Running: Success Alert Test', 'info');
+      renderer.render({
+        content: '✓ Operation completed successfully!',
+        eventType: 'success'
+      }, 'render-zone');
+    };
+
+    window.testInfo = function() {
+      addLog('Running: Info Alert Test', 'info');
+      renderer.render({
+        content: 'ℹ️ Here is some useful information.',
+        eventType: 'info'
+      }, 'render-zone');
+    };
+
+    window.testWarning = function() {
+      addLog('Running: Warning Alert Test', 'info');
+      renderer.render({
+        content: '⚠️ Warning: This action may have consequences.',
+        eventType: 'warning'
+      }, 'render-zone');
+    };
+
+    window.testError = function() {
+      addLog('Running: Error Alert Test', 'info');
+      renderer.render({
+        content: '❌ Error: Operation failed!',
+        eventType: 'error'
+      }, 'render-zone');
+    };
+
+    window.testAllTypes = function() {
+      addLog('Running: All Alert Types Test', 'info');
+      renderer.render({
+        content: 'Success: Everything is working perfectly!',
+        eventType: 'success'
+      }, 'render-zone');
+      renderer.render({
+        content: 'Info: Database connection established.',
+        eventType: 'info'
+      }, 'render-zone');
+      renderer.render({
+        content: 'Warning: Disk space is running low (20% remaining).',
+        eventType: 'warning'
+      }, 'render-zone');
+      renderer.render({
+        content: 'Error: Failed to connect to API server.',
+        eventType: 'error'
+      }, 'render-zone');
+    };
+
+    window.testIndent = function() {
+      addLog('Running: Indent Test', 'info');
+      renderer.render({
+        content: 'Success at indent 0 (flush left)',
+        eventType: 'success',
+        indent: 0
+      }, 'render-zone');
+      renderer.render({
+        content: 'Info at indent 1 (1rem)',
+        eventType: 'info',
+        indent: 1
+      }, 'render-zone');
+      renderer.render({
+        content: 'Warning at indent 2 (2rem)',
+        eventType: 'warning',
+        indent: 2
+      }, 'render-zone');
+      renderer.render({
+        content: 'Error at indent 3 (3rem)',
+        eventType: 'error',
+        indent: 3
+      }, 'render-zone');
+    };
+
+    window.clearRenderZone = function() {
+      addLog('Clearing render zone', 'info');
+      const zone = document.getElementById('render-zone');
+      zone.innerHTML = '<p class="zText-muted"><em>Zone cleared. Click a test button...</em></p>';
+    };
+
+    // Auto-run basic test on load
+    addLog('Ready! Click a test button to start.', 'success');
+  </script>
+</body>
+</html>
+

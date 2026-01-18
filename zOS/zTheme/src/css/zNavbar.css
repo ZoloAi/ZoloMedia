@@ -1,0 +1,349 @@
+/* ============================================
+   zNavbar.css - Bootstrap-inspired Navbar Component
+   Using zTheme CSS Variables
+   ============================================ */
+
+/* Navbar Container */
+.zNavbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-white, #ffffff);
+  border-bottom: 1px solid var(--color-border, #dee2e6);
+}
+
+/* Brand/Logo */
+.zNavbar-brand {
+  display: inline-block;
+  padding-top: 0.3125rem;
+  padding-bottom: 0.3125rem;
+  margin-right: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: inherit;
+  white-space: nowrap;
+  color: var(--color-body, #212529);
+  text-decoration: none;
+}
+
+.zNavbar-brand:hover,
+.zNavbar-brand:focus {
+  color: var(--color-primary, #0d6efd);
+  text-decoration: none;
+}
+
+/* Navigation Container */
+.zNavbar-nav {
+  display: flex;
+  flex-direction: row;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+  gap: 0;
+  align-items: center;
+}
+
+/* Navigation Items */
+.zNav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Navigation Links */
+.zNav-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  color: var(--color-gray, #6c757d);
+  text-decoration: none;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.zNav-link:hover,
+.zNav-link:focus {
+  color: var(--color-primary, #0d6efd);
+  background-color: var(--color-light, #f8f9fa);
+}
+
+/* Active State */
+.zNav-link.active {
+  color: var(--color-primary, #0d6efd);
+  font-weight: 600;
+  background-color: var(--color-light, #e7f1ff);
+}
+
+/* Disabled State */
+.zNav-link.disabled {
+  color: var(--color-gray, #adb5bd);
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Navbar Toggle (Mobile) */
+.zNavbar-toggler {
+  padding: 0.5rem 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  background-color: transparent;
+  border: 1px solid var(--color-border, #dee2e6);
+  border-radius: var(--border-radius, 0.25rem);
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.zNavbar-toggler:hover {
+  background-color: var(--color-light, #f8f9fa);
+}
+
+/* SVG icon directly in toggler button */
+.zNavbar-toggler .zIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.zNavbar-toggler-icon .zIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Navbar Collapse */
+.zNavbar-collapse {
+  flex-basis: 100%;
+  flex-grow: 1;
+  align-items: center;
+}
+
+/* Dropdown Menu */
+.zNav-dropdown {
+  position: relative;
+}
+
+.zNav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  min-width: 12rem;
+  padding: 0.5rem 0;
+  margin: 0.25rem 0 0;
+  font-size: 1rem;
+  color: var(--color-body, #212529);
+  text-align: left;
+  list-style: none;
+  background-color: var(--color-white, #ffffff);
+  background-clip: padding-box;
+  border: 1px solid var(--color-border, #dee2e6);
+  border-radius: 0.375rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+}
+
+.zNav-dropdown-menu li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Desktop: Hover to open dropdown */
+@media (min-width: 641px) {
+  .zNav-dropdown:hover .zNav-dropdown-menu {
+    display: block;
+  }
+}
+
+/* Mobile: Click to toggle (handled by JS) */
+.zNav-dropdown.show .zNav-dropdown-menu {
+  display: block;
+}
+
+.zNav-dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1.5rem;
+  clear: both;
+  font-weight: 400;
+  color: var(--color-body, #212529);
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.zNav-dropdown-item:hover,
+.zNav-dropdown-item:focus {
+  color: var(--color-body, #212529);
+  background-color: var(--color-light, #f8f9fa);
+}
+
+.zNav-dropdown-item.active {
+  color: var(--color-white, #ffffff);
+  background-color: var(--color-primary, #0d6efd);
+}
+
+/* Utilities */
+.zNavbar-text {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  color: var(--color-gray, #6c757d);
+}
+
+/* Light Theme */
+.zNavbar-light {
+  background-color: var(--color-light, #f8f9fa);
+  border-bottom: 1px solid var(--color-border, #dee2e6);
+}
+
+.zNavbar-light .zNavbar-brand {
+  color: var(--color-body, #212529);
+}
+
+.zNavbar-light .zNav-link {
+  color: var(--color-gray, #6c757d);
+}
+
+.zNavbar-light .zNav-link:hover {
+  color: var(--color-primary, #0d6efd);
+}
+
+.zNavbar-light .zNav-link.active {
+  color: var(--color-primary, #0d6efd);
+}
+
+/* Dark Theme */
+.zNavbar-dark {
+  background-color: var(--color-dark, #212529);
+  border-bottom: 1px solid var(--color-darkgray, #373b3e);
+}
+
+.zNavbar-dark .zNavbar-brand {
+  color: var(--color-white, #ffffff);
+}
+
+.zNavbar-dark .zNav-link {
+  color: var(--color-white, rgba(255, 255, 255, 0.7));
+}
+
+.zNavbar-dark .zNav-link:hover {
+  color: var(--color-white, #ffffff);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.zNavbar-dark .zNav-link.active {
+  color: var(--color-dark, #212529) !important;
+  background-color: var(--color-white, rgba(255, 255, 255, 0.95)) !important;
+  font-weight: 600;
+}
+
+.zNavbar-dark .zNavbar-toggler {
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.zNavbar-dark .zNavbar-toggler:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 1);
+}
+
+/* Toggle variant for dark backgrounds (standalone) */
+.zNavbar-toggler-dark {
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.zNavbar-toggler-dark:hover,
+.zNavbar-toggler-dark:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 1);
+}
+
+/* Responsive Breakpoints */
+@media (max-width: 768px) {
+  .zNavbar-toggler {
+    display: flex;
+  }
+  
+  .zNavbar-collapse {
+    display: none;
+    width: 100%;
+    flex-basis: 100%;
+  }
+  
+  .zNavbar-collapse.show {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .zNavbar-nav {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .zNav-link {
+    padding: 0.75rem 1rem;
+  }
+  
+  /* Mobile dropdown styling */
+  .zNav-dropdown-menu {
+    position: static;
+    float: none;
+    width: 100%;
+    margin-top: 0;
+    margin-left: 0;
+    border: 0;
+    box-shadow: none;
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 0;
+    padding-left: 1rem;
+  }
+  
+  .zNav-dropdown-item {
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .zNavbar-collapse {
+    display: flex !important;
+    flex-basis: auto;
+    flex-grow: 1;
+  }
+  
+  .zNavbar-toggler {
+    display: none !important;
+  }
+}
+
+/* Fixed Top/Bottom */
+.zNavbar-fixed-top {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+.zNavbar-fixed-bottom {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
+}
+
+/* Sticky Top */
+.zNavbar-sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}

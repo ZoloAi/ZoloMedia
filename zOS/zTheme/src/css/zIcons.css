@@ -1,0 +1,190 @@
+/* ============================================
+   zIcons.css - SVG Icon Utilities
+   ============================================
+   
+   Utilities for styling SVG icons from the sprite system.
+   Icons inherit color from parent using fill="currentColor".
+   
+   Usage:
+   <svg class="zIcon" width="24" height="24">
+     <use xlink:href="#icon-house"></use>
+   </svg>
+   
+   ============================================ */
+
+/* ============================================
+   Base Icon Class
+   ============================================ */
+
+.zIcon {
+  display: inline-block;
+  vertical-align: middle;
+  fill: currentColor;
+  width: 1em;
+  height: 1em;
+}
+
+/* ============================================
+   Icon Sizes
+   ============================================ */
+
+.zIcon-sm {
+  width: 0.875rem;  /* 14px */
+  height: 0.875rem;
+}
+
+.zIcon-md {
+  width: 1rem;      /* 16px - default */
+  height: 1rem;
+}
+
+.zIcon-lg {
+  width: 1.5rem;    /* 24px */
+  height: 1.5rem;
+}
+
+.zIcon-xl {
+  width: 2rem;      /* 32px */
+  height: 2rem;
+}
+
+.zIcon-2xl {
+  width: 3rem;      /* 48px */
+  height: 3rem;
+}
+
+/* ============================================
+   Button Icons
+   ============================================ */
+
+/* Icon inside button - proper spacing */
+.zBtn .zIcon {
+  margin-right: 0.25rem;
+  vertical-align: -0.125em; /* Slight adjustment for better alignment */
+}
+
+.zBtn .zIcon:last-child {
+  margin-right: 0;
+  margin-left: 0.25rem;
+}
+
+.zBtn .zIcon:only-child {
+  margin: 0;
+}
+
+/* ============================================
+   Link Icons
+   ============================================ */
+
+a .zIcon {
+  transition: transform 0.2s ease;
+}
+
+a:hover .zIcon {
+  transform: scale(1.1);
+}
+
+/* ============================================
+   Inline Icons
+   ============================================ */
+
+/* Icon next to text in paragraphs */
+p .zIcon,
+span .zIcon,
+.zText-inline .zIcon {
+  vertical-align: -0.125em;
+  margin: 0 0.125rem;
+}
+
+/* ============================================
+   Avatar/Profile Icons
+   ============================================ */
+
+.zIcon-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  background: var(--color-light);
+}
+
+/* ============================================
+   Icon Colors
+   ============================================ */
+
+/* Icons inherit text color by default via fill="currentColor" */
+/* Use text color utilities to change icon colors */
+
+.zIcon-primary {
+  color: var(--color-primary);
+}
+
+.zIcon-secondary {
+  color: var(--color-secondary);
+}
+
+.zIcon-success {
+  color: var(--color-success);
+}
+
+.zIcon-danger {
+  color: var(--color-danger);
+}
+
+.zIcon-warning {
+  color: var(--color-warning);
+}
+
+.zIcon-info {
+  color: var(--color-info);
+}
+
+.zIcon-muted {
+  color: var(--color-muted);
+}
+
+/* ============================================
+   Icon States
+   ============================================ */
+
+.zIcon-spin {
+  animation: zIcon-spin 2s linear infinite;
+}
+
+@keyframes zIcon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.zIcon-pulse {
+  animation: zIcon-pulse 2s ease-in-out infinite;
+}
+
+@keyframes zIcon-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+
+/* Hide decorative icons from screen readers */
+.zIcon[aria-hidden="true"] {
+  pointer-events: none;
+}
+
+/* Ensure interactive icons are accessible */
+button .zIcon,
+a .zIcon {
+  pointer-events: none; /* Let parent handle clicks */
+}
+

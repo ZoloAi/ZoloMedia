@@ -1,0 +1,284 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# zSchema.zMigration.yaml - Declarative Schema Migration System (v1.6.0+)
+# ═══════════════════════════════════════════════════════════════════════════
+#
+# This is the TEMPLATE schema for all __zmigration_{table_name} tracking tables.
+# Each data schema with zMigration: true gets its own migration history table.
+#
+# LOCATION:
+#   - System: zOS/Schemas/zSchema.zMigration.yaml (this file)
+#   - User: ~/Library/Application Support/zolo-zcli/zSchemas/zSchema.zMigration.yaml
+#   - Copied on first zOS initialization (like zUI.zcli_sys.yaml)
+#
+# PURPOSE:
+#   - Track schema evolution over time
+#   - Enable version-based migrations
+#   - Provide audit trail of schema changes
+#   - Support rollback and recovery
+#   - Detect schema drift between environments
+#
+# USAGE:
+#   - Applied automatically by `zolo --zMigrate` command
+#   - Creates __zmigration_{table_name} for each tracked schema
+#   - Records every migration with full context
+#   - Works across CSV, SQLite, PostgreSQL backends
+#
+# EXAMPLES:
+#   For zSchema.users.yaml → creates __zmigration_users
+#   For zSchema.posts.yaml → creates __zmigration_posts
+#
+# STORAGE LOCATIONS:
+#   CSV:        zCloud/Data/__zmigration_users.csv
+#   SQLite:     myapp.db (table: __zmigration_users)
+#   PostgreSQL: production_db (table: __zmigration_users)
+#
+# MIGRATION WORKFLOW:
+#   1. Developer edits zSchema.users.yaml (adds cover_url field)
+#   2. Developer bumps zMigrationVersion: "v1.3.0" → "v1.4.0"
+#   3. Run: zolo --zMigrate zCloud/zTest.py
+#   4. System detects changes (compares hash + version)
+#   5. Generates DDL (ALTER TABLE users ADD COLUMN cover_url)
+#   6. Applies migration
+#   7. Records in __zmigration_users table:
+#      - from_version: v1.3.0
+#      - to_version: v1.4.0
+#      - changes_summary: "added:cover_url"
+#      - schema_hash: abc123...
+#
+# SEMANTIC VERSIONING:
+#   Format: vX.Y.Z
+#   X (Major): Manual bump - Breaking architectural changes
+#   Y (Minor): Auto-suggest - Breaking schema changes (DROP COLUMN, ALTER TYPE)
+#   Z (Patch): Auto-suggest - Non-breaking additions (ADD COLUMN nullable)
+#
+# SECURITY:
+#   ✅ SAFE in Git:
+#      - This schema template (structure only)
+#      - Migration logic and algorithms
+#   
+#   ❌ EXCLUDED from Git (.gitignore):
+#      - __zmigration_*.csv (actual migration records)
+#      - *.db files containing migration tables
+#   
+#   Rationale: Schema = code (versioned), Migration history = state (not versioned)
+#
+# INTEGRATION:
+#   - zConfig: Copies this file to user's zSchemas directory on init
+#   - zData: Uses this schema to create migration tracking tables
+#   - zShell: `zolo --zMigrate` command discovers and applies migrations
+#   - zLoader: Loads this schema when creating migration tables
+#
+# FIRST MIGRATION:
+#   When a schema enables zMigration for the first time:
+#   - Creates __zmigration table from this template
+#   - Records baseline migration (from_version: null)
+#   - Establishes version tracking going forward
+#
+# ═══════════════════════════════════════════════════════════════════════════
+
+Meta:
+  Data_Type: csv  # Inherits from parent schema (overridden at runtime)
+  Data_Label: "zMigration History"
+  Data_Source: "@"  # Same location as parent data
+  Data_Paradigm: classical
+  Schema_Name: "zSchema.zMigration"
+  
+  # Self-referential: Migration history doesn't need migration tracking!
+  zMigration: false
+
+# ═══════════════════════════════════════════════════════════════════════════
+# __zmigration_{table_name} - Schema Evolution History
+# ═══════════════════════════════════════════════════════════════════════════
+__zmigration:
+  id:
+    type: int
+    pk: true
+    auto_increment: true
+    comment: "Migration record ID (sequential)"
+  
+  from_version:
+    type: str
+    required: false
+    rules:
+      max_length: 50
+    comment: "Previous version (null for initial/baseline migration)"
+  
+  to_version:
+    type: str
+    required: true
+    rules:
+      max_length: 50
+    comment: "New version applied (e.g., 'v1.4.0', 'v2.0.0')"
+  
+  applied_at:
+    type: datetime
+    default: now
+    comment: "Timestamp when migration was executed"
+  
+  applied_by:
+    type: str
+    required: false
+    default: "system"
+    rules:
+      max_length: 255
+    comment: "Username or 'system' for automated migrations"
+  
+  duration_ms:
+    type: int
+    default: 0
+    rules:
+      min: 0
+    comment: "Migration execution time in milliseconds"
+  
+  schema_hash:
+    type: str
+    required: true
+    rules:
+      min_length: 64
+      max_length: 64
+    comment: "SHA256 hash of schema YAML for change detection"
+  
+  changes_summary:
+    type: str
+    required: false
+    rules:
+      max_length: 1000
+    comment: "Human-readable summary (e.g., 'added:cover_url,avatar_updated_at | dropped:old_field')"
+  
+  changes_detail:
+    type: text
+    required: false
+    comment: "JSON with full diff: {added:[{name,type,nullable}], dropped:[...], modified:[...]}"
+  
+  status:
+    type: str
+    default: "success"
+    rules:
+      pattern: '^(success|failed|rolled_back|partial)$'
+    comment: "Migration execution status"
+  
+  error_message:
+    type: text
+    required: false
+    comment: "Error details if status != success"
+  
+  rollback_possible:
+    type: bool
+    default: false
+    comment: "Whether this migration can be safely rolled back"
+  
+  backup_location:
+    type: str
+    required: false
+    rules:
+      max_length: 500
+    comment: "Path to data backup before migration (if created)"
+  
+  rows_affected:
+    type: int
+    default: 0
+    rules:
+      min: 0
+    comment: "Number of data rows in table when migration ran"
+  
+  columns_added:
+    type: int
+    default: 0
+    rules:
+      min: 0
+    comment: "Count of columns added in this migration"
+  
+  columns_dropped:
+    type: int
+    default: 0
+    rules:
+      min: 0
+    comment: "Count of columns dropped in this migration"
+  
+  columns_modified:
+    type: int
+    default: 0
+    rules:
+      min: 0
+    comment: "Count of columns modified in this migration"
+  
+  is_breaking:
+    type: bool
+    default: false
+    comment: "Whether this migration contains breaking changes"
+  
+  migration_hook:
+    type: str
+    required: false
+    rules:
+      max_length: 255
+    comment: "Name of data migration hook executed (if any)"
+  
+  hook_result:
+    type: text
+    required: false
+    comment: "JSON result from migration hook execution"
+
+# ═══════════════════════════════════════════════════════════════════════════
+# Example Migration Records:
+# ═══════════════════════════════════════════════════════════════════════════
+# Initial/Baseline Migration:
+#   id: 1
+#   from_version: null
+#   to_version: "v1.0.0"
+#   applied_at: "2024-12-20T15:20:10Z"
+#   schema_hash: "abc123def456..."
+#   changes_summary: "baseline"
+#   status: "success"
+#
+# Standard Migration:
+#   id: 2
+#   from_version: "v1.3.0"
+#   to_version: "v1.4.0"
+#   applied_at: "2024-12-24T10:45:32Z"
+#   schema_hash: "ghi789jkl012..."
+#   changes_summary: "added:cover_url,avatar_updated_at,cover_updated_at"
+#   changes_detail: '{"added":[{"name":"cover_url","type":"str","nullable":true}]}'
+#   columns_added: 3
+#   is_breaking: false
+#   status: "success"
+#
+# Failed Migration:
+#   id: 3
+#   from_version: "v1.4.0"
+#   to_version: "v1.5.0"
+#   applied_at: "2024-12-25T09:15:00Z"
+#   schema_hash: "mno345pqr678..."
+#   status: "failed"
+#   error_message: "Column 'status' cannot be dropped: referenced by foreign key"
+#
+# ═══════════════════════════════════════════════════════════════════════════
+# Querying Migration History (via zData):
+# ═══════════════════════════════════════════════════════════════════════════
+# Get all migrations for a schema:
+#   z.data.select(
+#       table="__zmigration_users",
+#       order_by="applied_at DESC"
+#   )
+#
+# Get last applied version:
+#   z.data.select(
+#       table="__zmigration_users",
+#       fields=["to_version", "applied_at"],
+#       order_by="applied_at DESC",
+#       limit=1
+#   )
+#
+# Check if specific version applied:
+#   z.data.select(
+#       table="__zmigration_users",
+#       where={"to_version": "v1.4.0"}
+#   )
+#
+# Get failed migrations:
+#   z.data.select(
+#       table="__zmigration_users",
+#       where={"status": "failed"}
+#   )
+# ═══════════════════════════════════════════════════════════════════════════
+

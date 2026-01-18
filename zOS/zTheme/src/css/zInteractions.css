@@ -1,0 +1,113 @@
+/* ============================================
+   zInteractions.css - User Interaction Utilities
+   ============================================
+   
+   Bootstrap-inspired interaction utilities with z prefix.
+   Control how users interact with content through selection, pointer events, and cursor.
+   
+   Classes:
+   - Text Selection: .zUser-select-all, .zUser-select-auto, .zUser-select-none
+   - Pointer Events: .zPe-none, .zPe-auto
+   - Cursor: .zCursor-auto, .zCursor-pointer, .zCursor-wait, .zCursor-not-allowed, 
+             .zCursor-help, .zCursor-move, .zCursor-grab, .zCursor-grabbing, .zCursor-text
+   
+   Example:
+   <p class="zUser-select-none">This text cannot be selected</p>
+   <a href="#" class="zPe-none zCursor-not-allowed">This link cannot be clicked</a>
+   <div class="zCursor-pointer">Clickable area</div>
+   
+   ============================================ */
+
+/* ============================================
+   Text Selection
+   ============================================
+   
+   Control how content is selected when users interact with it.
+   ============================================ */
+
+.zUser-select-all {
+  user-select: all !important;
+}
+
+.zUser-select-auto {
+  user-select: auto !important;
+}
+
+.zUser-select-none {
+  user-select: none !important;
+}
+
+/* ============================================
+   Pointer Events
+   ============================================
+   
+   Control whether elements respond to pointer interactions.
+   .zPe-none prevents all click/hover interactions.
+   .zPe-auto restores default pointer behavior.
+   ============================================ */
+
+.zPe-none {
+  pointer-events: none !important;
+}
+
+.zPe-auto {
+  pointer-events: auto !important;
+}
+
+/* ============================================
+   Cursor Styles
+   ============================================
+   
+   Control the mouse cursor appearance on hover.
+   Provides visual feedback for interactive elements.
+   ============================================ */
+
+.zCursor-auto {
+  cursor: auto !important;
+}
+
+.zCursor-pointer {
+  cursor: pointer !important;
+}
+
+.zCursor-wait {
+  cursor: wait !important;
+}
+
+.zCursor-not-allowed {
+  cursor: not-allowed !important;
+}
+
+.zCursor-help {
+  cursor: help !important;
+}
+
+.zCursor-move {
+  cursor: move !important;
+}
+
+.zCursor-grab {
+  cursor: grab !important;
+}
+
+.zCursor-grabbing {
+  cursor: grabbing !important;
+}
+
+.zCursor-text {
+  cursor: text !important;
+}
+
+.zCursor-zoom-in {
+  cursor: zoom-in !important;
+}
+
+.zCursor-zoom-out {
+  cursor: zoom-out !important;
+}
+
+.zCursor-crosshair {
+  cursor: crosshair !important;
+}
+
+
