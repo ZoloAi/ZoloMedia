@@ -132,7 +132,7 @@ class TokenEmitter:
     
     def enter_zimage_block(self, indent: int, line: int):
         """Legacy: Enter zImage block."""
-        self.enter_block('zImage', indent, line)
+        self.enter_block('zimage', indent, line)
     
     def update_zimage_blocks(self, current_indent: int, current_line: int):
         """Legacy: Update zImage blocks."""
@@ -144,7 +144,7 @@ class TokenEmitter:
     
     def enter_ztext_block(self, indent: int, line: int):
         """Legacy: Enter zText block."""
-        self.enter_block('zText', indent, line)
+        self.enter_block('ztext', indent, line)
     
     def update_ztext_blocks(self, current_indent: int, current_line: int):
         """Legacy: Update zText blocks."""
@@ -156,7 +156,7 @@ class TokenEmitter:
     
     def enter_zmd_block(self, indent: int, line: int):
         """Legacy: Enter zMD block."""
-        self.enter_block('zMD', indent, line)
+        self.enter_block('zmd', indent, line)
     
     def update_zmd_blocks(self, current_indent: int, current_line: int):
         """Legacy: Update zMD blocks."""
@@ -168,7 +168,7 @@ class TokenEmitter:
     
     def enter_zurl_block(self, indent: int, line: int):
         """Legacy: Enter zURL block."""
-        self.enter_block('zURL', indent, line)
+        self.enter_block('zurl', indent, line)
     
     def update_zurl_blocks(self, current_indent: int, current_line: int):
         """Legacy: Update zURL blocks."""
@@ -189,6 +189,30 @@ class TokenEmitter:
     def is_in_header_block(self, current_indent: int) -> bool:
         """Legacy: Check if in header block."""
         return self.is_inside_block('header', current_indent)
+    
+    def enter_zul_block(self, indent: int, line: int):
+        """Legacy: Enter zUL block."""
+        self.enter_block('zul', indent, line)
+    
+    def update_zul_blocks(self, current_indent: int, current_line: int):
+        """Legacy: Update zUL blocks."""
+        self.update_blocks(current_indent, current_line)
+    
+    def is_in_zul_block(self, current_indent: int) -> bool:
+        """Legacy: Check if in zUL block."""
+        return self.is_inside_block('zUL', current_indent)
+    
+    def enter_ztable_block(self, indent: int, line: int):
+        """Legacy: Enter zTable block."""
+        self.enter_block('ztable', indent, line)
+    
+    def update_ztable_blocks(self, current_indent: int, current_line: int):
+        """Legacy: Update zTable blocks."""
+        self.update_blocks(current_indent, current_line)
+    
+    def is_in_ztable_block(self, current_indent: int) -> bool:
+        """Legacy: Check if in zTable block."""
+        return self.is_inside_block('ztable', current_indent)
     
     def enter_plural_shorthand_block(self, indent: int, line: int, shorthand_name: str):
         """Legacy: Enter plural shorthand block (zURLs, zTexts, etc.)."""

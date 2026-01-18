@@ -40,13 +40,46 @@ class KeyDetector:
     }
     
     UI_ELEMENT_KEYS = {
-        'zImage', 'zText', 'zMD', 'zURL', 'zNavBar', 'zUL', 'zOL',
+        'zImage', 'zText', 'zMD', 'zURL', 'zNavBar', 'zUL', 'zOL', 'zTable',
         'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'
     }
     
-    PLURAL_SHORTHAND_KEYS = {
-        'zURLs', 'zTexts', 'zH1s', 'zH2s', 'zH3s', 
-        'zH4s', 'zH5s', 'zH6s', 'zImages', 'zMDs'
+    UI_ELEMENT_PROPERTY_KEYS = {
+        'src', 'alt_text', 'caption', 'color', 'open_prompt', 'indent',
+        'label', 'style', 'semantic',
+        'href', 'target', 'rel', 'window',
+        'content', 'pause', 'break_message',
+        'items',
+        'title', 'columns', 'rows', 'limit', 'offset', 'show_header', 'interactive'
+    }
+    
+    # UI Element Schemas - Define valid properties per element type
+    UI_ELEMENT_SCHEMAS = {
+        'zimage': {
+            'required': ['src'],
+            'optional': ['alt_text', 'caption', '_zClass', '_id', 'color', 'open_prompt', 'indent'],
+        },
+        'header': {  # Covers zH1-zH6
+            'required': [],
+            'optional': ['label', 'color', 'style', 'indent', 'semantic', '_zClass', '_id'],
+        },
+        'zurl': {
+            'required': ['label', 'href'],
+            'optional': ['target', 'rel', 'window', 'color', '_zClass', '_id'],
+        },
+        'ztext': {
+            'required': ['content'],
+            'optional': ['indent', 'pause', 'break_message', 'semantic', '_zClass', '_id'],
+        },
+        'zul': {
+            'required': ['items'],
+            'optional': ['style', 'indent', '_zClass', '_id'],
+        },
+        'ztable': {
+            'required': ['title', 'columns', 'rows'],
+            'optional': ['limit', 'offset', 'show_header', 'interactive', 'indent', '_zClass', '_id'],
+        },
+        # More elements to be added as needed
     }
     
     ZENV_CONFIG_ROOT_KEYS = {'DEPLOYMENT', 'DEBUG', 'LOG_LEVEL'}
@@ -194,9 +227,6 @@ class KeyDetector:
         if key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'} and emitter.is_zui_file:
             return TokenType.UI_ELEMENT_KEY
         
-        # Plural shorthand keys (always UI_ELEMENT_KEY in zUI files)
-        if key in KeyDetector.PLURAL_SHORTHAND_KEYS and emitter.is_zui_file:
-            return TokenType.UI_ELEMENT_KEY
         
         # zSub key (purple 98 when grandchild+ in zEnv/zUI files)
         if key == 'zSub':
@@ -212,6 +242,14 @@ class KeyDetector:
         # Specific UI element keys
         if emitter.is_zui_file and key in KeyDetector.UI_ELEMENT_KEYS:
             return TokenType.UI_ELEMENT_KEY
+        
+        # UI element property keys (src, etc.) inside UI elements
+        if emitter.is_zui_file and key in KeyDetector.UI_ELEMENT_PROPERTY_KEYS:
+            # Check if we're inside any UI element block
+            ui_block_types = ['zimage', 'ztext', 'zmd', 'zurl', 'zul', 'ztable', 'header']
+            for block_type in ui_block_types:
+                if emitter.is_inside_block(block_type, indent):
+                    return TokenType.UI_ELEMENT_PROPERTY_KEY
         
         # Default nested key
         return TokenType.NESTED_KEY
@@ -285,10 +323,12 @@ class KeyDetector:
                 return 'zmd'
             elif key == 'zURL':
                 return 'zurl'
+            elif key == 'zUL':
+                return 'zul'
+            elif key == 'zTable':
+                return 'ztable'
             elif key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'}:
                 return 'header'
-            elif key in KeyDetector.PLURAL_SHORTHAND_KEYS:
-                return 'plural_shorthand'
         
         return None
 

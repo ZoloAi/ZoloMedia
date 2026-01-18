@@ -22,9 +22,9 @@ export class TypographyRenderer {
     if (classes) {
       attrs.class = classes;
     }
-    // Support both zId (universal) and _id (legacy Bifrost-only)
-    if (eventData.zId || eventData._id) {
-      attrs.id = eventData.zId || eventData._id;
+    // Support zId (universal), _zId (from zUI files), and _id (legacy)
+    if (eventData.zId || eventData._zId || eventData._id) {
+      attrs.id = eventData.zId || eventData._zId || eventData._id;
     }
     const p = createParagraph(attrs);
     p.textContent = eventData.content || '';
@@ -43,9 +43,9 @@ export class TypographyRenderer {
     if (classes) {
       attrs.class = classes;
     }
-    // Support both zId (universal) and _id (legacy Bifrost-only)
-    if (eventData.zId || eventData._id) {
-      attrs.id = eventData.zId || eventData._id;
+    // Support zId (universal), _zId (from zUI files), and _id (legacy)
+    if (eventData.zId || eventData._zId || eventData._id) {
+      attrs.id = eventData.zId || eventData._zId || eventData._id;
     }
     const h = createHeading(level, attrs);
     h.textContent = eventData.label || eventData.content || '';
@@ -64,9 +64,9 @@ export class TypographyRenderer {
       classes.push(`zBorder-${eventData.color}`);
     }
     hr.className = classes.join(' ');
-    // Support both zId (universal) and _id (legacy Bifrost-only)
-    if (eventData.zId || eventData._id) {
-      hr.setAttribute('id', eventData.zId || eventData._id);
+    // Support zId (universal), _zId (from zUI files), and _id (legacy)
+    if (eventData.zId || eventData._zId || eventData._id) {
+      hr.setAttribute('id', eventData.zId || eventData._zId || eventData._id);
     }
     return hr;
   }

@@ -16,6 +16,22 @@ from .documentation_registry import DocumentationRegistry, DocumentationType
 from ...parser.parser_modules.file_type_detector import FileType, detect_file_type
 
 
+# Block-level keys that should NOT offer value completions
+# These keys expect nested properties, not inline values
+BLOCK_KEYS = {
+    # UI Elements
+    'zImage', 'zText', 'zMD', 'zURL', 'zUL', 'zOL', 'zTable',
+    'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6',
+    'zRBAC', 'zNavBar', 'zMeta',
+    # Organizational blocks
+    'zSpark', 'zMachine', 'zServer', 'zCLI',
+    'zData', 'zRead', 'zCreate', 'zUpdate', 'zDelete', 'zSelect',
+    'zSchema', 'zFields',
+    # UI Element child blocks
+    'items', 'window', 'columns', 'rows',
+}
+
+
 class CompletionContext:
     """
     Detected context for intelligent completions.
@@ -150,6 +166,11 @@ class CompletionRegistry:
         
         # Context 2: File-type-specific value completions (after colon)
         if context.after_colon and context.current_key:
+            # Skip completions for block-level keys (they expect nested properties, not values)
+            if context.current_key in BLOCK_KEYS:
+                logger.info(f"➡️  Skipping value completions for block key '{context.current_key}'")
+                return []
+            
             logger.info(f"➡️  Using file-specific value completions for key '{context.current_key}'")
             file_completions = CompletionRegistry._file_specific_completions(
                 context.file_type,
@@ -160,6 +181,11 @@ class CompletionRegistry:
         
         # Context 3: General value completions (after colon)
         if context.after_colon:
+            # Skip completions if current key is a block key
+            if context.current_key and context.current_key in BLOCK_KEYS:
+                logger.info(f"➡️  Skipping general value completions for block key '{context.current_key}'")
+                return []
+            
             logger.info("➡️  Using general value completions")
             return CompletionRegistry._value_completions()
         

@@ -1,35 +1,145 @@
 zMeta:
-  zNavBar: true
+    zNavBar: true
 
 zVaF:
-  _zClass: zHero zHero-full
-  zImage:
-    src: @.static.brand.zLogo_MainAlpha.png
-    alt_text: Zolo
-
-  zUL:
-    _zClass: zList-inline zmt-3
-    zURLs:
-      github_cli:
-        _zClass: zBtn zBtn-lg zBtn-block zmb-2
-        label: zCLI
-        href: https://github.com/ZoloAi/zolo-zcli
-        target: _blank
+    _zClass: zHero zHero-full
+    zImage:
+        # Required
+        src: @.static.brand.zLogo_MainAlpha.png
+        # Optional - Accessibility & Content
+        alt_text: Zolo Logo - Modern framework for building amazing apps
+        caption: The future of declarative development
+        # Optional - Bifrost Styling
+        _zClass: zImg-fluid zRounded-circle zmb-3 zmx-auto zd-block
+        _id: hero-logo
+        # Optional - Display Control
         color: PRIMARY
-      ztheme:
-        _zClass: zBtn zBtn-lg zBtn-block zmb-2
-        label: zTheme
-        href: @.UI.zProducts.zUI.zTheme.zTheme_Details
+        open_prompt: true
+        indent: 0
+
+    # Headers (zH1-zH6)
+    # Auto-set indent based on level (1-6), but all properties are optional
+
+    zH1:
+        label: Main Page Title
+        color: PRIMARY
+        style: full
+        semantic: strong
+        _zClass: zHeading-hero ztext-center zmb-4
+        _id: page-title
+
+    zH2:
+        label: Section Heading
         color: SECONDARY
-      zbrain:
-        _zClass: zBtn zBtn-lg zBtn-block zmb-2
-        label: zBrain
-        href: "#"
-        target: _self
+        style: single
+        _zClass: zmt-4 zmb-3
+        _id: section-1
+
+    zH3:
+        label: Subsection Title
         color: INFO
-      zphilosophy:
-        _zClass: zBtn zBtn-lg zBtn-block zmb-2
-        label: zPhilosophy
-        href: "#"
-        target: _self
+        style: wave
+        semantic: em
+        _zClass: zmb-2
+
+    zH4:
+        label: Minor Heading
         color: WARNING
+        style: full
+
+    zH5:
+        label: Small Heading
+        color: SUCCESS
+        style: single
+
+    zH6:
+        label: Tiny Heading
+        color: DANGER
+        style: wave
+
+    zText:
+        content: This is a sample text paragraph that demonstrates the zText display event with various styling options.
+        indent: 1
+        pause: true
+        break_message: Press Enter to continue reading...
+        semantic: strong
+        _zClass: ztext-primary zmb-3
+        _id: intro-text
+
+    zTable:
+        # Required - Metadata
+        title: User Database Query Results
+        # Required - Column definitions
+        columns:
+            - id
+            - username
+            - email
+            - created_at
+            - is_active
+        # Required - Row data (array format, values match column order)
+        rows:
+            - [1, alice, alice@example.com, 2025-01-15, true]
+            - [2, bob, bob@example.com, 2025-01-16, false]
+            - [3, charlie, charlie@example.com, 2025-01-17, true]
+        # Optional - Pagination (positive limit for standard pagination)
+        limit: 20
+        offset: 0
+        # Optional - Display options
+        show_header: true
+        interactive: true
+        indent: 0
+
+        # Optional - Bifrost styling
+        _zClass: zTable-sm custom-query-table
+        _id: users-query-table
+
+    zUL:
+        items:
+            - First bullet point item
+            - Second bullet point item
+            - Third bullet point item
+        style: bullet
+        indent: 0
+        _zClass: custom-ul-class
+        _id: example-ul
+
+    zOL:
+    
+    zURL:
+        label: Visit Documentation
+        href: https://docs.example.com
+        target: _blank
+        rel: noopener noreferrer
+        window:
+            width: 1024
+            height: 768
+        color: ACCENT
+        _zClass: zLink-external ztext-underline
+        _id: docs-link
+
+    zUL:
+        _zClass: zList-inline zmt-3
+        zURLs:
+            github_cli:
+                _zClass: zBtn zBtn-lg zBtn-block zmb-2
+                label: zCLI
+                href: https://github.com/ZoloAi/zolo-zcli
+                target: _blank
+                color: PRIMARY
+            ztheme:
+                _zClass: zBtn zBtn-lg zBtn-block zmb-2
+                label: zTheme
+                href: @.UI.zProducts.zUI.zTheme.zTheme_Details
+                color: SECONDARY
+            zbrain:
+                _zClass: zBtn zBtn-lg zBtn-block zmb-2
+                label: zBrain
+                href: "#"
+                target: _self
+                color: INFO
+            zphilosophy:
+                _zClass: zBtn zBtn-lg zBtn-block zmb-2
+                label: zPhilosophy
+                href: "#"
+                target: _self
+                color: WARNING

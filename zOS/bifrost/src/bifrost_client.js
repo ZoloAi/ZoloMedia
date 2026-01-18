@@ -247,8 +247,9 @@
       // Bootstrap Icons are ALWAYS loaded (unchangeable default for zBifrost)
       this._loadBootstrapIcons();
 
-      // Load _zScripts from YAML metadata (plugin scripts)
-      this._loadZScripts();
+      // _zScripts are now loaded AFTER first chunk renders (see widget_hook_manager.js)
+      // This ensures DOM elements exist before plugins run
+      this._zScriptsLoaded = false;
 
       // v1.6.0: Initialize zVaF elements (now synchronous - elements exist in HTML)
       // Just populate content, don't create structure
@@ -655,8 +656,8 @@
         return;
       }
 
-      // Extract _zScripts from zuiConfig.meta (v1.5.13: Server passes meta section from YAML)
-      const zScripts = this.zuiConfig?.meta?._zScripts || [];
+      // Extract _zScripts from zuiConfig.zMeta (v1.5.13: Server passes zMeta section from YAML)
+      const zScripts = this.zuiConfig?.zMeta?._zScripts || [];
       
       if (!Array.isArray(zScripts) || zScripts.length === 0) {
         this.logger.log('[BifrostClient] No _zScripts found in YAML metadata');

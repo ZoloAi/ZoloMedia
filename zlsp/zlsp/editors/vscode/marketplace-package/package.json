@@ -92,6 +92,10 @@
         "description": "Zolo uiElementKey"
       },
       {
+        "id": "uiElementPropertyKey",
+        "description": "Zolo uiElementPropertyKey"
+      },
+      {
         "id": "zconfigKey",
         "description": "Zolo zconfigKey"
       },

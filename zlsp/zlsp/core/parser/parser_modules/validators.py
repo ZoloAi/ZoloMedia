@@ -128,7 +128,7 @@ def is_env_config_value(value: str) -> bool:
     
     # Check mixed-case deployment/environment terms first (case-insensitive)
     DEPLOYMENT_TERMS = {
-        'development', 'production', 'staging', 'testing',
+        'development', 'production', 'staging', 'testing', 'debug',
         'local', 'remote', 'beta', 'alpha', 'release'
     }
     

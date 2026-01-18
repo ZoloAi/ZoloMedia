@@ -6,6 +6,9 @@ include README.md
 include LICENSE
 recursive-include Documentation *.md
 
+# Assets (icons, images)
+recursive-include assets *.png *.svg
+
 # Theme system
 include themes/zolo_default.yaml
 recursive-include themes/generators *.py

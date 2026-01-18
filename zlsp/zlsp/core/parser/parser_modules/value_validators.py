@@ -25,7 +25,7 @@ class ValueValidator:
     # Valid values for each special key
     VALID_VALUES = {
         'zMode': {'Terminal', 'zBifrost'},
-        'deployment': {'Production', 'Development'},
+        'deployment': {'Production', 'Development', 'Debug'},
         'logger': {'DEBUG', 'SESSION', 'INFO', 'WARNING', 'ERROR', 'CRITICAL', 'PROD'},
     }
     

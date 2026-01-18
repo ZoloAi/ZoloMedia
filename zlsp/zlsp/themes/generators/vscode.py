@@ -366,39 +366,40 @@ class VSCodeGenerator(BaseGenerator):
             "zschemaPropertyKey",   # 5
             "bifrostKey",           # 6
             "uiElementKey",         # 7
-            "zconfigKey",           # 8
-            "zsparkKey",            # 9
-            "zenvConfigKey",        # 10
-            "znavbarNestedKey",     # 11
-            "zsubKey",              # 12
-            "zsparkNestedKey",      # 13
-            "zconfigNestedKey",     # 14
-            "zsparkModeValue",      # 15
-            "zsparkVaFileValue",    # 16
-            "zsparkSpecialValue",   # 17
-            "envConfigValue",       # 18
-            "zrbacKey",             # 19
-            "zrbacOptionKey",       # 20
-            "typeHint",             # 21
-            "number",               # 22
-            "string",               # 23
-            "boolean",              # 24
-            "null",                 # 25
-            "bracketStructural",    # 26
-            "braceStructural",      # 27
-            "stringBracket",        # 28
-            "stringBrace",          # 29
-            "colon",                # 30
-            "comma",                # 31
-            "escapeSequence",       # 32
-            "versionString",        # 33
-            "timestampString",      # 34
-            "timeString",           # 35
-            "ratioString",          # 36
-            "zpathValue",           # 37
-            "zmachineEditableKey",  # 38
-            "zmachineLockedKey",    # 39
-            "typeHintParen",        # 40
+            "uiElementPropertyKey", # 8
+            "zconfigKey",           # 9
+            "zsparkKey",            # 10
+            "zenvConfigKey",        # 11
+            "znavbarNestedKey",     # 12
+            "zsubKey",              # 13
+            "zsparkNestedKey",      # 14
+            "zconfigNestedKey",     # 15
+            "zsparkModeValue",      # 16
+            "zsparkVaFileValue",    # 17
+            "zsparkSpecialValue",   # 18
+            "envConfigValue",       # 19
+            "zrbacKey",             # 20
+            "zrbacOptionKey",       # 21
+            "typeHint",             # 22
+            "number",               # 23
+            "string",               # 24
+            "boolean",              # 25
+            "null",                 # 26
+            "bracketStructural",    # 27
+            "braceStructural",      # 28
+            "stringBracket",        # 29
+            "stringBrace",          # 30
+            "colon",                # 31
+            "comma",                # 32
+            "escapeSequence",       # 33
+            "versionString",        # 34
+            "timestampString",      # 35
+            "timeString",           # 36
+            "ratioString",          # 37
+            "zpathValue",           # 38
+            "zmachineEditableKey",  # 39
+            "zmachineLockedKey",    # 40
+            "typeHintParen",        # 41
         ]
         
         # Token modifiers (currently not used, but can be added later)
@@ -434,6 +435,7 @@ class VSCodeGenerator(BaseGenerator):
             'zschemaPropertyKey': 'zschemaPropertyKey',
             'bifrostKey': 'bifrostKey',
             'uiElementKey': 'uiElementKey',
+            'uiElementPropertyKey': 'uiElementPropertyKey',
             'zconfigKey': 'zconfigKey',
             'zsparkKey': 'zsparkKey',
             'zenvConfigKey': 'zenvConfigKey',
@@ -502,11 +504,11 @@ class VSCodeGenerator(BaseGenerator):
         """
         rules = {}
         
-        # Map all 41 token types from theme (indices 0-40)
+        # Map all 42 token types from theme (indices 0-41)
         token_types_to_map = [
             'comment', 'rootKey', 'nestedKey', 'zmetaKey', 'zkernelDataKey',
-            'zschemaPropertyKey', 'bifrostKey', 'uiElementKey', 'zconfigKey',
-            'zsparkKey', 'zenvConfigKey', 'znavbarNestedKey', 'zsubKey',
+            'zschemaPropertyKey', 'bifrostKey', 'uiElementKey', 'uiElementPropertyKey',
+            'zconfigKey', 'zsparkKey', 'zenvConfigKey', 'znavbarNestedKey', 'zsubKey',
             'zsparkNestedKey', 'zconfigNestedKey', 'zsparkModeValue', 'zsparkVaFileValue',
             'zsparkSpecialValue', 'envConfigValue', 'zrbacKey', 'zrbacOptionKey',
             'typeHint', 'number', 'string', 'boolean', 'null',

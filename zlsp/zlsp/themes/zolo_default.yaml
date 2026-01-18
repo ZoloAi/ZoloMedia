@@ -216,6 +216,11 @@ tokens:
     style: none
     description: "UI element keys in zUI files (zImage, zText, zURL, zH1-zH6, zNavBar, zUL, zOL)"
   
+  uiElementPropertyKey:
+    color: lavender
+    style: none
+    description: "Property keys inside UI elements (src, label, color)"
+  
   zsubKey:
     color: lavender
     style: none

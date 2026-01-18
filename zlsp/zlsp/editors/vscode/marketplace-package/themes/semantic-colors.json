@@ -16,16 +16,19 @@
       "foreground": "#87d787"
     },
     "zkernelDataKey": {
-      "foreground": "#875fd7"
+      "foreground": "#af87ff"
     },
     "zschemaPropertyKey": {
-      "foreground": "#875fd7"
+      "foreground": "#af87ff"
     },
     "bifrostKey": {
       "foreground": "#00ffff"
     },
     "uiElementKey": {
       "foreground": "#ff5f00"
+    },
+    "uiElementPropertyKey": {
+      "foreground": "#af87ff"
     },
     "zconfigKey": {
       "foreground": "#87d787"
@@ -34,22 +37,25 @@
       "foreground": "#87d787"
     },
     "zenvConfigKey": {
-      "foreground": "#875fd7"
+      "foreground": "#af87ff"
     },
     "znavbarNestedKey": {
-      "foreground": "#ff8700"
+      "foreground": "#ffaf87"
     },
     "zsubKey": {
-      "foreground": "#875fd7"
+      "foreground": "#af87ff"
     },
     "zsparkNestedKey": {
-      "foreground": "#875fd7"
+      "foreground": "#af87ff"
+    },
+    "zconfigNestedKey": {
+      "foreground": "#af87ff"
     },
     "zsparkModeValue": {
-      "foreground": "#ff0000"
+      "foreground": "#87d787"
     },
     "zsparkVaFileValue": {
-      "foreground": "#00d700"
+      "foreground": "#87d787"
     },
     "zsparkSpecialValue": {
       "foreground": "#ffaf87"
@@ -61,7 +67,7 @@
       "foreground": "#ff0000"
     },
     "zrbacOptionKey": {
-      "foreground": "#875fd7"
+      "foreground": "#af87ff"
     },
     "typeHint": {
       "foreground": "#af87ff"
@@ -95,9 +101,6 @@
     },
     "comma": {
       "foreground": "#ffff5f"
-    },
-    "escapeSequence": {
-      "foreground": "#ff0000"
     },
     "versionString": {
       "foreground": "#fffbcb"

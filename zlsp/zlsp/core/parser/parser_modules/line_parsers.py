@@ -184,6 +184,22 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             emitter.enter_zmeta_block(indent, original_line_num)
                         elif block_type == 'znavbar':
                             emitter.enter_znavbar_block(indent, original_line_num)
+                        elif block_type == 'zrbac':
+                            emitter.enter_zrbac_block(indent, original_line_num)
+                        elif block_type == 'zimage':
+                            emitter.enter_zimage_block(indent, original_line_num)
+                        elif block_type == 'ztext':
+                            emitter.enter_ztext_block(indent, original_line_num)
+                        elif block_type == 'zmd':
+                            emitter.enter_zmd_block(indent, original_line_num)
+                        elif block_type == 'zurl':
+                            emitter.enter_zurl_block(indent, original_line_num)
+                        elif block_type == 'zul':
+                            emitter.enter_zul_block(indent, original_line_num)
+                        elif block_type == 'ztable':
+                            emitter.enter_ztable_block(indent, original_line_num)
+                        elif block_type == 'header':
+                            emitter.enter_header_block(indent, original_line_num)
                         elif core_key == 'zMachine':
                             emitter.enter_zmachine_block(indent, original_line_num)
                         elif core_key == 'zSpark':
@@ -235,10 +251,12 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                         emitter.enter_zmd_block(indent, original_line_num)
                     elif core_key == 'zURL' and emitter.is_zui_file:
                         emitter.enter_zurl_block(indent, original_line_num)
+                    elif core_key == 'zUL' and emitter.is_zui_file:
+                        emitter.enter_zul_block(indent, original_line_num)
+                    elif core_key == 'zTable' and emitter.is_zui_file:
+                        emitter.enter_ztable_block(indent, original_line_num)
                     elif core_key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'} and emitter.is_zui_file:
                         emitter.enter_header_block(indent, original_line_num)
-                    elif core_key in {'zURLs', 'zTexts', 'zH1s', 'zH2s', 'zH3s', 'zH4s', 'zH5s', 'zH6s', 'zImages', 'zMDs'} and emitter.is_zui_file:
-                        emitter.enter_plural_shorthand_block(indent, original_line_num, core_key)
                     
                     current_pos += len(core_key)
                     
@@ -307,6 +325,22 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             emitter.enter_zmeta_block(indent, original_line_num)
                         elif block_type == 'znavbar':
                             emitter.enter_znavbar_block(indent, original_line_num)
+                        elif block_type == 'zrbac':
+                            emitter.enter_zrbac_block(indent, original_line_num)
+                        elif block_type == 'zimage':
+                            emitter.enter_zimage_block(indent, original_line_num)
+                        elif block_type == 'ztext':
+                            emitter.enter_ztext_block(indent, original_line_num)
+                        elif block_type == 'zmd':
+                            emitter.enter_zmd_block(indent, original_line_num)
+                        elif block_type == 'zurl':
+                            emitter.enter_zurl_block(indent, original_line_num)
+                        elif block_type == 'zul':
+                            emitter.enter_zul_block(indent, original_line_num)
+                        elif block_type == 'ztable':
+                            emitter.enter_ztable_block(indent, original_line_num)
+                        elif block_type == 'header':
+                            emitter.enter_header_block(indent, original_line_num)
                         elif core_key == 'zMachine':
                             emitter.enter_zmachine_block(indent, original_line_num)
                         elif core_key == 'zSpark':
@@ -331,7 +365,6 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                     emitter.update_zspark_blocks(indent, original_line_num)
                     emitter.update_znavbar_blocks(indent, original_line_num)
                     emitter.update_zmeta_blocks(indent, original_line_num)
-                    emitter.update_plural_shorthand_blocks(indent, original_line_num)
                     
                     # Split modifiers from key name
                     prefix_mods, core_key, suffix_mods = emitter.split_modifiers(key)
@@ -359,10 +392,12 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                         emitter.enter_zmd_block(indent, original_line_num)
                     elif core_key == 'zURL' and emitter.is_zui_file:
                         emitter.enter_zurl_block(indent, original_line_num)
+                    elif core_key == 'zUL' and emitter.is_zui_file:
+                        emitter.enter_zul_block(indent, original_line_num)
+                    elif core_key == 'zTable' and emitter.is_zui_file:
+                        emitter.enter_ztable_block(indent, original_line_num)
                     elif core_key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'} and emitter.is_zui_file:
                         emitter.enter_header_block(indent, original_line_num)
-                    elif core_key in {'zURLs', 'zTexts', 'zH1s', 'zH2s', 'zH3s', 'zH4s', 'zH5s', 'zH6s', 'zImages', 'zMDs'} and emitter.is_zui_file:
-                        emitter.enter_plural_shorthand_block(indent, original_line_num, core_key)
                     
                     current_pos += len(core_key)
                     # Emit suffix modifiers (purple in zEnv/zUI only)

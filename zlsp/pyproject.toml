@@ -98,6 +98,7 @@ include = ["zlsp*"]
 exclude = ["tests*", "docs*", "scripts*", "examples*"]
 
 [tool.setuptools.package-data]
+zlsp = ["assets/*.png", "assets/*.svg"]
 core = ["**/*"]
 editors = ["**/*"]
 themes = ["*.yaml", "generators/*.py"]

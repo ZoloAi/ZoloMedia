@@ -8,9 +8,9 @@ import sys
 
 def install_all():
     """Install zlsp for all supported editors."""
-    from editors.vim.install import main as vim_install
-    from editors.vscode.install import main as vscode_install
-    from editors.cursor.install import main as cursor_install
+    from zlsp.editors.vim.install import main as vim_install
+    from zlsp.editors.vscode.install import main as vscode_install
+    from zlsp.editors.cursor.install import main as cursor_install
     
     print("Installing zlsp for all supported editors...\n")
     
@@ -49,9 +49,9 @@ def install_all():
 
 def uninstall_all():
     """Uninstall zlsp from all supported editors."""
-    from editors.vim.uninstall import main as vim_uninstall
-    from editors.vscode.uninstall import main as vscode_uninstall
-    from editors.cursor.uninstall import main as cursor_uninstall
+    from zlsp.editors.vim.uninstall import main as vim_uninstall
+    from zlsp.editors.vscode.uninstall import main as vscode_uninstall
+    from zlsp.editors.cursor.uninstall import main as cursor_uninstall
     
     print("Uninstalling zlsp from all supported editors...\n")
     

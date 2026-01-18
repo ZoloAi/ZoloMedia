@@ -79,6 +79,13 @@ export class WidgetHookManager {
 
         await this.client._renderChunkProgressive(message);
 
+        // Load _zScripts after first chunk renders (ensures DOM elements exist)
+        if (!this.client._zScriptsLoaded && message.chunk_num === 1) {
+          this.logger.log('[WidgetHookManager] 📦 First chunk rendered - loading _zScripts now');
+          this.client._loadZScripts();
+          this.client._zScriptsLoaded = true;
+        }
+
         // Cache page after render (debounced)
         if (this.client._cachePageTimeout) {
           clearTimeout(this.client._cachePageTimeout);
