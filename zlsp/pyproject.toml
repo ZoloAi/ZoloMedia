@@ -58,18 +58,18 @@ dependencies = [
 ]
 
 [project.scripts]
-zlsp = "core.cli:main"
-zolo-lsp = "core.server.lsp_server:main"
+zlsp = "zlsp.core.cli:main"
+zolo-lsp = "zlsp.core.server.lsp_server:main"
 # Editor installation commands (new naming convention)
-zlsp-install-vim = "editors.vim.install:main"
-zlsp-install-vscode = "editors.vscode.install:main"
-zlsp-install-cursor = "editors.cursor.install:main"
-zlsp-install-all = "editors:install_all"
+zlsp-install-vim = "zlsp.editors.vim.install:main"
+zlsp-install-vscode = "zlsp.editors.vscode.install:main"
+zlsp-install-cursor = "zlsp.editors.cursor.install:main"
+zlsp-install-all = "zlsp.editors:install_all"
 # Editor uninstallation commands
-zlsp-uninstall-vim = "editors.vim.uninstall:main"
-zlsp-uninstall-vscode = "editors.vscode.uninstall:main"
-zlsp-uninstall-cursor = "editors.cursor.uninstall:main"
-zlsp-uninstall-all = "editors:uninstall_all"
+zlsp-uninstall-vim = "zlsp.editors.vim.uninstall:main"
+zlsp-uninstall-vscode = "zlsp.editors.vscode.uninstall:main"
+zlsp-uninstall-cursor = "zlsp.editors.cursor.uninstall:main"
+zlsp-uninstall-all = "zlsp.editors:uninstall_all"
 
 [project.optional-dependencies]
 dev = [
@@ -94,8 +94,8 @@ Repository = "https://github.com/ZoloAi/ZoloMedia"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["core*", "editors*", "themes*"]
-exclude = ["tests*", "docs*", "scripts*"]
+include = ["zlsp*"]
+exclude = ["tests*", "docs*", "scripts*", "examples*"]
 
 [tool.setuptools.package-data]
 core = ["**/*"]
@@ -130,4 +130,4 @@ line-length = 100
 target-version = "py38"
 
 [tool.setuptools.dynamic]
-version = {attr = "core.version.__version__"}
+version = {attr = "zlsp.core.version.__version__"}

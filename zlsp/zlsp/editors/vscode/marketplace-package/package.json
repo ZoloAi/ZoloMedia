@@ -1,0 +1,323 @@
+{
+  "name": "zolo-lsp",
+  "displayName": "Zolo LSP",
+  "description": "Language Server Protocol support for .zolo files with semantic highlighting",
+  "version": "1.0.3",
+  "publisher": "ZoloAi",
+  "icon": "icons/zolo_filetype.png",
+  "license": "MIT",
+  "homepage": "https://zolo.media",
+  "author": {
+    "name": "Zolo Media"
+  },
+  "bugs": {
+    "url": "https://zolo.media/support"
+  },
+  "qna": "marketplace",
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Formatters",
+    "Linters"
+  ],
+  "keywords": [
+    "zolo",
+    "zlsp",
+    "language-server",
+    "lsp",
+    "semantic-highlighting"
+  ],
+  "activationEvents": [
+    "onLanguage:zolo"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "zolo",
+        "aliases": [
+          "Zolo",
+          "zolo"
+        ],
+        "extensions": [
+          ".zolo"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/zolo_filetype.png",
+          "dark": "./icons/zolo_filetype.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "zolo",
+        "scopeName": "source.zolo",
+        "path": "./syntaxes/zolo.tmLanguage.json"
+      }
+    ],
+    "semanticTokenTypes": [
+      {
+        "id": "comment",
+        "description": "Zolo comment"
+      },
+      {
+        "id": "rootKey",
+        "description": "Zolo rootKey"
+      },
+      {
+        "id": "nestedKey",
+        "description": "Zolo nestedKey"
+      },
+      {
+        "id": "zmetaKey",
+        "description": "Zolo zmetaKey"
+      },
+      {
+        "id": "zkernelDataKey",
+        "description": "Zolo zkernelDataKey"
+      },
+      {
+        "id": "zschemaPropertyKey",
+        "description": "Zolo zschemaPropertyKey"
+      },
+      {
+        "id": "bifrostKey",
+        "description": "Zolo bifrostKey"
+      },
+      {
+        "id": "uiElementKey",
+        "description": "Zolo uiElementKey"
+      },
+      {
+        "id": "zconfigKey",
+        "description": "Zolo zconfigKey"
+      },
+      {
+        "id": "zsparkKey",
+        "description": "Zolo zsparkKey"
+      },
+      {
+        "id": "zenvConfigKey",
+        "description": "Zolo zenvConfigKey"
+      },
+      {
+        "id": "znavbarNestedKey",
+        "description": "Zolo znavbarNestedKey"
+      },
+      {
+        "id": "zsubKey",
+        "description": "Zolo zsubKey"
+      },
+      {
+        "id": "zsparkNestedKey",
+        "description": "Zolo zsparkNestedKey"
+      },
+      {
+        "id": "zconfigNestedKey",
+        "description": "Zolo zconfigNestedKey"
+      },
+      {
+        "id": "zsparkModeValue",
+        "description": "Zolo zsparkModeValue"
+      },
+      {
+        "id": "zsparkVaFileValue",
+        "description": "Zolo zsparkVaFileValue"
+      },
+      {
+        "id": "zsparkSpecialValue",
+        "description": "Zolo zsparkSpecialValue"
+      },
+      {
+        "id": "envConfigValue",
+        "description": "Zolo envConfigValue"
+      },
+      {
+        "id": "zrbacKey",
+        "description": "Zolo zrbacKey"
+      },
+      {
+        "id": "zrbacOptionKey",
+        "description": "Zolo zrbacOptionKey"
+      },
+      {
+        "id": "typeHint",
+        "description": "Zolo typeHint"
+      },
+      {
+        "id": "number",
+        "description": "Zolo number"
+      },
+      {
+        "id": "string",
+        "description": "Zolo string"
+      },
+      {
+        "id": "boolean",
+        "description": "Zolo boolean"
+      },
+      {
+        "id": "null",
+        "description": "Zolo null"
+      },
+      {
+        "id": "bracketStructural",
+        "description": "Zolo bracketStructural"
+      },
+      {
+        "id": "braceStructural",
+        "description": "Zolo braceStructural"
+      },
+      {
+        "id": "stringBracket",
+        "description": "Zolo stringBracket"
+      },
+      {
+        "id": "stringBrace",
+        "description": "Zolo stringBrace"
+      },
+      {
+        "id": "colon",
+        "description": "Zolo colon"
+      },
+      {
+        "id": "comma",
+        "description": "Zolo comma"
+      },
+      {
+        "id": "escapeSequence",
+        "description": "Zolo escapeSequence"
+      },
+      {
+        "id": "versionString",
+        "description": "Zolo versionString"
+      },
+      {
+        "id": "timestampString",
+        "description": "Zolo timestampString"
+      },
+      {
+        "id": "timeString",
+        "description": "Zolo timeString"
+      },
+      {
+        "id": "ratioString",
+        "description": "Zolo ratioString"
+      },
+      {
+        "id": "zpathValue",
+        "description": "Zolo zpathValue"
+      },
+      {
+        "id": "zmachineEditableKey",
+        "description": "Zolo zmachineEditableKey"
+      },
+      {
+        "id": "zmachineLockedKey",
+        "description": "Zolo zmachineLockedKey"
+      },
+      {
+        "id": "typeHintParen",
+        "description": "Zolo typeHintParen"
+      }
+    ],
+    "semanticTokenModifiers": [
+      {
+        "id": "declaration",
+        "description": "Zolo declaration"
+      },
+      {
+        "id": "definition",
+        "description": "Zolo definition"
+      },
+      {
+        "id": "readonly",
+        "description": "Zolo readonly"
+      },
+      {
+        "id": "deprecated",
+        "description": "Zolo deprecated"
+      }
+    ],
+    "configuration": {
+      "title": "Zolo",
+      "properties": {
+        "zolo.trace.server": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "messages",
+          "description": "Traces the communication between VS Code and the Zolo language server"
+        },
+        "zolo.lsp.debug": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable debug logging in the output channel"
+        }
+      }
+    },
+    "configurationDefaults": {
+      "[zolo]": {
+        "editor.bracketPairColorization.enabled": false,
+        "editor.guides.bracketPairs": false,
+        "editor.semanticHighlighting.enabled": true
+      },
+      "editor.semanticTokenColorCustomizations": {
+        "[Default Dark+]": {
+          "enabled": true,
+          "rules": {
+            "comment": { "foreground": "#6F6F62", "fontStyle": "italic" },
+            "rootKey": { "foreground": "#ffaf87" },
+            "nestedKey": { "foreground": "#ffd787" },
+            "zmetaKey": { "foreground": "#87d787" },
+            "zkernelDataKey": { "foreground": "#875fd7" },
+            "zschemaPropertyKey": { "foreground": "#875fd7" },
+            "bifrostKey": { "foreground": "#00ffff" },
+            "uiElementKey": { "foreground": "#ff5f00" },
+            "zconfigKey": { "foreground": "#87d787" },
+            "zsparkKey": { "foreground": "#87d787" },
+            "zenvConfigKey": { "foreground": "#875fd7" },
+            "znavbarNestedKey": { "foreground": "#ff8700" },
+            "zsubKey": { "foreground": "#875fd7" },
+            "zsparkNestedKey": { "foreground": "#875fd7" },
+            "zconfigNestedKey": { "foreground": "#875fd7" },
+            "zsparkModeValue": { "foreground": "#ff0000" },
+            "zsparkVaFileValue": { "foreground": "#00d700" },
+            "zsparkSpecialValue": { "foreground": "#ffaf87" },
+            "envConfigValue": { "foreground": "#ffff00" },
+            "zrbacKey": { "foreground": "#ff0000" },
+            "zrbacOptionKey": { "foreground": "#875fd7" },
+            "typeHint": { "foreground": "#af87ff" },
+            "number": { "foreground": "#FF8C00" },
+            "string": { "foreground": "#fffbcb" },
+            "boolean": { "foreground": "#0087ff" },
+            "null": { "foreground": "#0087ff" },
+            "bracketStructural": { "foreground": "#afffff" },
+            "braceStructural": { "foreground": "#d700ff" },
+            "stringBracket": { "foreground": "#afffff" },
+            "stringBrace": { "foreground": "#d700ff" },
+            "colon": { "foreground": "#ffff5f" },
+            "comma": { "foreground": "#ffff5f" },
+            "escapeSequence": { "foreground": "#ff0000" },
+            "versionString": { "foreground": "#fffbcb" },
+            "timestampString": { "foreground": "#fffbcb" },
+            "timeString": { "foreground": "#fffbcb" },
+            "ratioString": { "foreground": "#fffbcb" },
+            "zpathValue": { "foreground": "#00ffff" },
+            "zmachineEditableKey": { "foreground": "#0087ff" },
+            "zmachineLockedKey": { "foreground": "#d70000" },
+            "typeHintParen": { "foreground": "#ffff5f" }
+          }
+        }
+      }
+    }
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

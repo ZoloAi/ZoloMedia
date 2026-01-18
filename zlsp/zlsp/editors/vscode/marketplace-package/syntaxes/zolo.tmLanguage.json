@@ -1,0 +1,251 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Zolo",
+  "scopeName": "source.zolo",
+  "fileTypes": [
+    "zolo"
+  ],
+  "patterns": [
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#type-hints"
+    },
+    {
+      "include": "#special-root-keys"
+    },
+    {
+      "include": "#keys"
+    },
+    {
+      "include": "#triple-quoted-strings"
+    },
+    {
+      "include": "#pipe-multiline"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#booleans"
+    },
+    {
+      "include": "#null"
+    },
+    {
+      "include": "#arrays"
+    },
+    {
+      "include": "#objects"
+    },
+    {
+      "include": "#dash-lists"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.number-sign.zolo",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "type-hints": {
+      "patterns": [
+        {
+          "name": "storage.type.zolo",
+          "match": "@(str|int|float|bool|list|dict|null)\\b"
+        }
+      ]
+    },
+    "special-root-keys": {
+      "comment": "Special Zolo root keys (zSpark, ZNAVBAR, zMeta, etc.)",
+      "patterns": [
+        {
+          "name": "entity.name.tag.zolo",
+          "match": "^\\s*(zSpark|ZNAVBAR|zMeta|zVaF|zRBAC|zSub|BIFROST)(?=:)"
+        }
+      ]
+    },
+    "keys": {
+      "patterns": [
+        {
+          "name": "entity.name.function.zolo",
+          "match": "^\\s*[^#:\\s][^:]*(?=:)"
+        },
+        {
+          "name": "variable.other.property.zolo",
+          "match": "(?<=\\s)[^#:\\s][^:]*(?=:)"
+        }
+      ]
+    },
+    "triple-quoted-strings": {
+      "comment": "Triple-quoted multiline strings",
+      "patterns": [
+        {
+          "name": "string.quoted.triple.zolo",
+          "begin": "\"\"\"",
+          "end": "\"\"\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.zolo",
+              "match": "\\\\."
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.triple.zolo",
+          "begin": "'''",
+          "end": "'''",
+          "patterns": [
+            {
+              "name": "constant.character.escape.zolo",
+              "match": "\\\\."
+            }
+          ]
+        }
+      ]
+    },
+    "pipe-multiline": {
+      "comment": "Pipe multiline strings (|)",
+      "patterns": [
+        {
+          "name": "string.unquoted.pipe.zolo",
+          "match": "^\\s*\\|.*$"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.zolo",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "name": "constant.character.escape.zolo",
+              "match": "\\\\([\"\\\\/bfnrt]|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{2})"
+            }
+          ]
+        },
+        {
+          "name": "string.quoted.single.zolo",
+          "begin": "'",
+          "end": "'",
+          "patterns": [
+            {
+              "name": "constant.character.escape.zolo",
+              "match": "\\\\(['\\\\/bfnrt]|u[0-9a-fA-F]{4}|x[0-9a-fA-F]{2})"
+            }
+          ]
+        },
+        {
+          "comment": "Unquoted strings (Zolo's string-first philosophy)",
+          "name": "string.unquoted.zolo",
+          "match": "(?<=:\\s)[^#\\[\\{\\n][^\\n]*"
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.zolo",
+          "match": "(?<=:\\s)-?[0-9]+(\\.[0-9]+)?([eE][+-]?[0-9]+)?\\b"
+        }
+      ]
+    },
+    "booleans": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.zolo",
+          "match": "(?<=:\\s)(true|false|True|False)\\b"
+        }
+      ]
+    },
+    "null": {
+      "patterns": [
+        {
+          "name": "constant.language.null.zolo",
+          "match": "(?<=:\\s)(null|None)\\b"
+        }
+      ]
+    },
+    "arrays": {
+      "patterns": [
+        {
+          "name": "meta.structure.array.zolo",
+          "begin": "\\[",
+          "end": "\\]",
+          "patterns": [
+            {
+              "include": "#comments"
+            },
+            {
+              "include": "#strings"
+            },
+            {
+              "include": "#numbers"
+            },
+            {
+              "include": "#booleans"
+            },
+            {
+              "include": "#null"
+            },
+            {
+              "name": "punctuation.separator.array.zolo",
+              "match": ","
+            }
+          ]
+        }
+      ]
+    },
+    "objects": {
+      "patterns": [
+        {
+          "name": "meta.structure.dictionary.zolo",
+          "begin": "\\{",
+          "end": "\\}",
+          "patterns": [
+            {
+              "include": "#comments"
+            },
+            {
+              "include": "#keys"
+            },
+            {
+              "include": "#strings"
+            },
+            {
+              "include": "#numbers"
+            },
+            {
+              "include": "#booleans"
+            },
+            {
+              "include": "#null"
+            },
+            {
+              "name": "punctuation.separator.dictionary.zolo",
+              "match": ","
+            }
+          ]
+        }
+      ]
+    },
+    "dash-lists": {
+      "comment": "Dash list items (- item)",
+      "patterns": [
+        {
+          "name": "markup.list.unnumbered.zolo",
+          "match": "^\\s*-\\s+.*$"
+        }
+      ]
+    }
+  }
+}

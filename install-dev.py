@@ -2,13 +2,23 @@
 """
 Development Installation Script for Zolo Monorepo
 
-This script provides industry-standard monorepo editable installs.
-Run this once to set up your development environment.
+This script handles editable (-e) installations of all ZoloMedia packages
+in the correct dependency order.
+
+WHY THIS EXISTS:
+Python's pip cannot automatically install local monorepo dependencies in
+editable mode. This script ensures proper installation order and uses
+--no-cache-dir to avoid stale cached wheels.
+
+DEPENDENCY ORDER (critical!):
+1. zlsp    (no dependencies)
+2. zOS     (depends on zlsp)
+3. (future packages will be added here)
 
 Usage:
-    python install-dev.py           # Install both zOS and zlsp in editable mode
-    python install-dev.py --zos-only    # Install only zOS
-    python install-dev.py --zlsp-only   # Install only zlsp
+    python install-dev.py              # Install all packages (recommended)
+    python install-dev.py --zlsp-only  # Install only zlsp
+    python install-dev.py --zos-only   # Install only zOS
 """
 
 import subprocess
@@ -40,11 +50,11 @@ def print_info(msg):
     print(f"{Colors.BLUE}ℹ️  {msg}{Colors.END}")
 
 def install_package(name, path):
-    """Install a package in editable mode."""
+    """Install a package in editable mode with --no-cache-dir."""
     print_info(f"Installing {name} in editable mode from {path}")
     try:
         subprocess.check_call(
-            [sys.executable, "-m", "pip", "install", "-e", str(path)],
+            [sys.executable, "-m", "pip", "install", "-e", str(path), "--no-cache-dir"],
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT
         )
@@ -85,13 +95,14 @@ def main():
     elif args.zos_only:
         success = install_package("zOS", zos_path)
     else:
-        # Install both (default)
-        print_info("Installing both zOS and zlsp in editable mode...")
+        # Install both (default) - ORDER MATTERS!
+        print_info("Installing both packages in dependency order...")
         print()
         
-        # Install zlsp first (zOS might depend on it in the future)
+        # Install zlsp FIRST (zOS depends on it for .zolo file parsing)
         if install_package("zlsp", zlsp_path):
             print()
+            # Then install zOS (will use the local editable zlsp we just installed)
             success = install_package("zOS", zos_path)
         else:
             success = False

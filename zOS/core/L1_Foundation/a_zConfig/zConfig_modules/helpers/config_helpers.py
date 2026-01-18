@@ -106,7 +106,7 @@ def initialize_system_ui(paths: Any) -> None:
         
     Notes:
         - Only copies if file doesn't exist (preserves user customizations)
-        - Source: zCLI/UI/zUI.zcli_sys.yaml (from installed package)
+        - Source: zOS/UI/zUI.zcli_sys.yaml (from installed package)
         - Target: user_zuis_dir/zUI.zcli_sys.yaml
         - Non-critical operation (silently handles errors)
     """
@@ -117,10 +117,10 @@ def initialize_system_ui(paths: Any) -> None:
         if target_file.exists():
             return
         
-        # Get source file from package (zCLI/UI/)
-        import zCLI
-        zcli_package_dir = Path(zCLI.__file__).parent
-        source_file = zcli_package_dir / "UI" / ZUI_CLI_SYS_FILENAME
+        # Get source file from package (zOS/UI/)
+        import zOS
+        zos_package_dir = Path(zOS.__path__[0])
+        source_file = zos_package_dir / "UI" / ZUI_CLI_SYS_FILENAME
         
         # Copy file if source exists
         if source_file.exists():
@@ -146,7 +146,7 @@ def initialize_system_migration_schema(paths: Any) -> None:
         
     Notes:
         - Only copies if file doesn't exist (preserves user customizations)
-        - Source: zCLI/Schemas/zSchema.zMigration.yaml (from installed package)
+        - Source: zOS/Schemas/zSchema.zMigration.yaml (from installed package)
         - Target: user_zschemas_dir/zSchema.zMigration.yaml
         - Used by: `zolo --zMigrate` command to create migration tracking tables
         - Non-critical operation (silently handles errors)
@@ -158,10 +158,10 @@ def initialize_system_migration_schema(paths: Any) -> None:
         if target_file.exists():
             return
         
-        # Get source file from package (zCLI/Schemas/)
-        import zCLI
-        zcli_package_dir = Path(zCLI.__file__).parent
-        source_file = zcli_package_dir / "Schemas" / ZMIGRATION_SCHEMA_FILENAME
+        # Get source file from package (zOS/Schemas/)
+        import zOS
+        zos_package_dir = Path(zOS.__path__[0])
+        source_file = zos_package_dir / "Schemas" / ZMIGRATION_SCHEMA_FILENAME
         
         # Copy file if source exists
         if source_file.exists():

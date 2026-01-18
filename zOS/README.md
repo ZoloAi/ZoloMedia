@@ -23,6 +23,8 @@ zolo shell
 
 **That's it!** You're ready to build declarative applications.
 
+> **⚠️ Import Warning:** In Python, use `from zOS import zOS`, NOT `import zolo`. The package name is `zOS`. A public `zolo` package exists on PyPI that is unrelated and will cause conflicts.
+
 ---
 
 ## 📚 New to **Zolo**?

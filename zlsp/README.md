@@ -167,6 +167,8 @@ Editor Clients (vim-lsp, VSCode LSP)
 
 ## Usage as Parser
 
+> **⚠️ Import Warning:** Use `from zlsp.core import parser` or `from zlsp.core.parser import ...`. Do NOT use `import zolo` - that's a different public package on PyPI unrelated to this project.
+
 ```python
 from zlsp.core.parser import load, loads, dump, dumps
 

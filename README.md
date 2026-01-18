@@ -9,6 +9,8 @@
 **Zolo Media** is the official **open-source monorepo** for the **zEcosystem**, housing **zLSP**, **zOS**, and **zKernel**.  
 Following the *"Linux From Scratch"* philosophy of building primitives into complex compounds.
 
+> **⚠️ Important:** There is NO package called `zolo` - use `zlsp` and `zOS` as the correct package names. A public `zolo` package exists on PyPI that is unrelated to this project and will cause import conflicts.
+
 ## Monorepo's Structure
 ```
 ZoloMedia/
