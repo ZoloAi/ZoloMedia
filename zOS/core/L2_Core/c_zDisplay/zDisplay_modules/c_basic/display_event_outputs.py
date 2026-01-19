@@ -678,22 +678,25 @@ class BasicOutputs:
         if self.zPrimitives.send_gui_event("rich_text", event_data):
             return  # GUI event sent successfully
         
-        # Terminal mode - parse markdown and display
-        # Parse markdown using semantic primitives (DRY - same logic as semantic argument)
-        content = self._parse_markdown(content)
+        # Terminal mode - parse markdown to ANSI and display
+        # Phase 1-3: Use markdown parser (inline + lists + HTML)
+        from .markdown_terminal_parser import MarkdownTerminalParser
         
-        # Decode Unicode escapes for terminal display (preserves ASCII-safe storage in .zolo files)
+        # Decode Unicode escapes BEFORE parsing (preserves ASCII-safe storage in .zolo files)
         if '\\u' in content or '\\U' in content:
             from zlsp.core.parser.parser_modules.escape_processors import decode_unicode_escapes
             content = decode_unicode_escapes(content)
         
-        # Apply indentation
-        if indent > 0:
-            indent_str = self._build_indent(indent)
-            content = f"{indent_str}{content}"
+        # Parse markdown (will emit list events if content is a list, otherwise prints)
+        # Phase 3: Parser can now detect lists and call display.list() automatically
+        # Phase 5: Pass indentation and color parameters
+        parser = MarkdownTerminalParser()
+        # Extract color from kwargs if present
+        color = kwargs.get('color', None)
+        parser.parse(content, display=self.display, indent=indent, color=color)
         
-        # Display text using primitive
-        self.zPrimitives.line(content)
+        # Note: Parser handles output (either via display.list() or print())
+        # Indentation is handled by the display events themselves
         
         # Auto-break if enabled
         if pause:
