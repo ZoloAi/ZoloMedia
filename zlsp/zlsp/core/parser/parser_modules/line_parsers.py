@@ -641,7 +641,8 @@ def parse_lines(lines: list[str], line_mapping: dict = None) -> dict:
             value = value.strip()
             
             # Validate key is ASCII-only (RFC 8259 compliance)
-            validate_ascii_only(key, original_line_number)
+            # NEW: Set strict=False to allow emojis in keys (LSP provides INFO hints)
+            validate_ascii_only(key, original_line_number, strict=False)
             
             # Check if key has (str) type hint for multi-line collection
             match = TYPE_HINT_PATTERN.match(key)

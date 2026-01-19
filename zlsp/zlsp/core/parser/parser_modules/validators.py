@@ -7,7 +7,7 @@ No dependencies, just validation logic.
 from ...exceptions import ZoloParseError
 
 
-def validate_ascii_only(value: str, line_num: int = None) -> None:
+def validate_ascii_only(value: str, line_num: int = None, strict: bool = True) -> None:
     """
     Validate that value contains only ASCII characters (RFC 8259 compliance).
     
@@ -23,14 +23,20 @@ def validate_ascii_only(value: str, line_num: int = None) -> None:
     Args:
         value: String value to validate
         line_num: Optional line number for error messages
+        strict: If False, skip validation (allow emojis for LSP-level hints)
     
     Raises:
-        ZoloParseError: If non-ASCII characters are detected
+        ZoloParseError: If non-ASCII characters are detected and strict=True
     
     Examples:
         >>> validate_ascii_only("hello")  # OK
-        >>> validate_ascii_only("♥️")  # Raises error with suggestion
+        >>> validate_ascii_only("♥️")  # Raises error with suggestion (if strict=True)
+        >>> validate_ascii_only("♥️", strict=False)  # OK (LSP will hint instead)
     """
+    # Allow emojis if not in strict mode (LSP provides INFO hints instead)
+    if not strict:
+        return
+    
     for i, char in enumerate(value):
         if ord(char) > 127:  # Non-ASCII detected
             # Convert character to Unicode escape sequence

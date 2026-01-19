@@ -64,8 +64,8 @@ def detect_value_type(value: str) -> Any:
         ''
     """
     # Validate ASCII-only BEFORE any processing (RFC 8259 compliance)
-    # This catches emojis/non-ASCII and provides helpful error with \uXXXX suggestion
-    validate_ascii_only(value)
+    # NEW: Set strict=False to allow emojis (LSP will provide INFO hints instead of errors)
+    validate_ascii_only(value, strict=False)
     
     # Empty value (key: with nothing after) → empty string
     if not value:

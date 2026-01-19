@@ -133,7 +133,10 @@ class DiagnosticFormatter:
         Checks for:
         - Trailing whitespace
         - Inconsistent indentation
+        - Emoji usage (INFO - suggests Unicode escapes for professionalism)
         - Mixed quote styles (TODO)
+        
+        Skips validation inside markdown code blocks (```...```).
         
         Args:
             content: Full file content
@@ -144,8 +147,15 @@ class DiagnosticFormatter:
         diagnostics = []
         lines = content.splitlines()
         
+        # First, identify code block ranges to skip validation
+        code_block_lines = DiagnosticFormatter._get_code_block_lines(lines)
+        
         # Check for trailing whitespace (informational)
         for line_num, line in enumerate(lines):
+            # Skip lines inside code blocks
+            if line_num in code_block_lines:
+                continue
+            
             if line != line.rstrip():
                 diagnostics.append(
                     lsp_types.Diagnostic(
@@ -165,13 +175,158 @@ class DiagnosticFormatter:
                     )
                 )
         
-        # Check for inconsistent indentation
-        diagnostics.extend(DiagnosticFormatter._validate_indentation(lines))
+        # Check for inconsistent indentation (also skips code blocks)
+        diagnostics.extend(DiagnosticFormatter._validate_indentation(lines, code_block_lines))
+        
+        # Check for emoji usage - suggest Unicode escapes (NEW!)
+        diagnostics.extend(DiagnosticFormatter._validate_emoji_usage(lines, code_block_lines))
         
         return diagnostics
     
     @staticmethod
-    def _validate_indentation(lines: List[str]) -> List[lsp_types.Diagnostic]:
+    def _get_code_block_lines(lines: List[str]) -> set:
+        """
+        Get line numbers that are inside markdown code blocks.
+        
+        Code blocks are delimited by triple backticks (```).
+        
+        Args:
+            lines: List of file lines
+        
+        Returns:
+            Set of line numbers inside code blocks
+        """
+        code_block_lines = set()
+        in_code_block = False
+        
+        for line_num, line in enumerate(lines):
+            stripped = line.strip()
+            
+            # Check for code block delimiter
+            if stripped.startswith('```'):
+                in_code_block = not in_code_block
+                # Include the delimiter line itself
+                code_block_lines.add(line_num)
+                continue
+            
+            # If inside code block, mark this line
+            if in_code_block:
+                code_block_lines.add(line_num)
+        
+        return code_block_lines
+    
+    @staticmethod
+    def _validate_emoji_usage(lines: List[str], code_block_lines: set) -> List[lsp_types.Diagnostic]:
+        r"""
+        Validate emoji usage and suggest Unicode escapes for professionalism.
+        
+        Provides INFO-level hints when emojis are used directly in values.
+        Suggests the Unicode escape format (\uXXXX or \UXXXXXXXX) as a more
+        professional, portable, and RFC 8259 compliant alternative.
+        
+        Skips validation inside markdown code blocks.
+        
+        Args:
+            lines: List of file lines
+            code_block_lines: Set of line numbers inside code blocks
+        
+        Returns:
+            List of emoji usage diagnostics (INFO severity)
+        """
+        import unicodedata
+        import re
+        
+        diagnostics = []
+        
+        # Regex to find string values (after the colon)
+        # Matches: key: value or key(type): value
+        value_pattern = re.compile(r'^(\s*)([^:]+?)(?:\([^)]+\))?\s*:\s*(.*)$')
+        
+        for line_num, line in enumerate(lines):
+            # Skip code blocks
+            if line_num in code_block_lines:
+                continue
+            
+            # Skip comments and empty lines
+            stripped = line.strip()
+            if not stripped or stripped.startswith('#'):
+                continue
+            
+            # Parse the line to get the value portion
+            match = value_pattern.match(line)
+            if not match:
+                continue
+            
+            indent, key, value = match.groups()
+            
+            # Skip if no value
+            if not value:
+                continue
+            
+            # Find the value's position in the line
+            value_start = line.index(value)
+            
+            # Check each character in the value for emojis
+            for i, char in enumerate(value):
+                codepoint = ord(char)
+                
+                # Only check non-ASCII characters
+                if codepoint <= 127:
+                    continue
+                
+                # Check if it's in emoji ranges
+                is_emoji = (
+                    (0x1F600 <= codepoint <= 0x1F64F) or  # emoticons
+                    (0x1F300 <= codepoint <= 0x1F5FF) or  # symbols & pictographs
+                    (0x1F680 <= codepoint <= 0x1F6FF) or  # transport & map
+                    (0x1F1E0 <= codepoint <= 0x1F1FF) or  # flags
+                    (0x2600 <= codepoint <= 0x26FF) or   # Miscellaneous Symbols
+                    (0x2700 <= codepoint <= 0x27BF) or   # Dingbats
+                    (0x1F900 <= codepoint <= 0x1F9FF) or  # Supplemental Symbols
+                    (0x1FA70 <= codepoint <= 0x1FAFF)     # Symbols Extended-A
+                )
+                
+                if not is_emoji:
+                    continue
+                
+                # Generate appropriate escape sequence
+                if codepoint <= 0xFFFF:
+                    escape = f"\\u{codepoint:04X}"
+                else:
+                    escape = f"\\U{codepoint:08X}"
+                
+                # Get character name
+                try:
+                    char_name = unicodedata.name(char, f"U+{codepoint:04X}")
+                except:
+                    char_name = f"U+{codepoint:04X}"
+                
+                diagnostics.append(
+                    lsp_types.Diagnostic(
+                        range=lsp_types.Range(
+                            start=lsp_types.Position(
+                                line=line_num,
+                                character=value_start + i
+                            ),
+                            end=lsp_types.Position(
+                                line=line_num,
+                                character=value_start + i + 1
+                            )
+                        ),
+                        message=f"Emoji '{char}' ({char_name}). Pro tip: Use Unicode escape {escape} for portability and professionalism",
+                        severity=lsp_types.DiagnosticSeverity.Information,
+                        source="zolo-linter",
+                        code="emoji-to-escape"
+                    )
+                )
+                
+                # Only report first emoji per line to avoid spam
+                break
+        
+        return diagnostics
+    
+    @staticmethod
+    def _validate_indentation(lines: List[str], code_block_lines: set = None) -> List[lsp_types.Diagnostic]:
         """
         Validate indentation consistency (like Python 3).
         
@@ -180,14 +335,20 @@ class DiagnosticFormatter:
         - Tabs: Consistent tab-only indentation allowed
         - Mixed: Fatal error (like Python 3's TabError)
         
+        Skips validation inside markdown code blocks.
+        
         Args:
             lines: List of file lines
+            code_block_lines: Set of line numbers inside code blocks (optional)
         
         Returns:
             List of indentation diagnostics
         """
         diagnostics = []
         expected_space_unit = 4  # When using spaces, must be multiples of 4
+        
+        if code_block_lines is None:
+            code_block_lines = set()
         
         # First pass: detect what type of indentation is used
         uses_tabs = False
@@ -196,6 +357,10 @@ class DiagnosticFormatter:
         first_space_line = None
         
         for line_num, line in enumerate(lines):
+            # Skip code block lines
+            if line_num in code_block_lines:
+                continue
+            
             # Skip empty lines and comments
             if not line.strip() or line.strip().startswith('#'):
                 continue
@@ -241,6 +406,10 @@ class DiagnosticFormatter:
         prev_indent = 0
         
         for line_num, line in enumerate(lines):
+            # Skip code block lines
+            if line_num in code_block_lines:
+                continue
+            
             # Skip empty lines and comments
             if not line.strip() or line.strip().startswith('#'):
                 continue
