@@ -44,19 +44,27 @@ def decode_unicode_escapes(value: str) -> str:
     
     value = re.sub(r'\\U([0-9A-Fa-f]{4,8})', replace_extended_unicode, value)
     
-    # Then handle standard \uXXXX format and surrogate pairs
-    # Use Python's unicode_escape codec to decode
-    # This handles both basic Unicode and surrogate pairs correctly
-    try:
-        # Encode as bytes, then decode using unicode_escape codec
-        # This properly handles surrogate pairs for emoji
-        result = value.encode('utf-8').decode('unicode_escape')
-        # Re-encode and decode to handle any remaining issues
-        result = result.encode('utf-16', 'surrogatepass').decode('utf-16')
-        return result
-    except Exception:
-        # If decoding fails, return original value
-        return value
+    # Then handle standard \uXXXX format (4 hex digits, BMP characters only)
+    def replace_basic_unicode(match):
+        hex_code = match.group(1)
+        codepoint = int(hex_code, 16)
+        try:
+            return chr(codepoint)
+        except (ValueError, OverflowError):
+            return match.group(0)  # Return original if invalid
+    
+    value = re.sub(r'\\u([0-9A-Fa-f]{4})', replace_basic_unicode, value)
+    
+    # Handle remaining escape sequences (quotes, backslashes)
+    # AFTER Unicode escapes to avoid breaking already-decoded characters
+    value = value.replace('\\n', '\n')
+    value = value.replace('\\t', '\t')
+    value = value.replace('\\r', '\r')
+    value = value.replace('\\\\', '\\')
+    value = value.replace('\\"', '"')
+    value = value.replace("\\'", "'")
+    
+    return value
 
 
 def process_escape_sequences(value: str) -> str:
@@ -82,16 +90,11 @@ def process_escape_sequences(value: str) -> str:
         String with escape sequences processed
     
     Note:
-        \uXXXX Unicode escapes are handled by decode_unicode_escapes()
-        before this function is called.
+        \uXXXX and \UXXXXXXXX Unicode escapes are handled by decode_unicode_escapes()
+        before this function is called. This function is now only used for
+        non-Unicode escape sequences that weren't handled by decode_unicode_escapes.
     """
-    # Replace escape sequences (order matters - \\ must be after others)
-    value = value.replace('\\n', '\n')
-    value = value.replace('\\t', '\t')
-    value = value.replace('\\r', '\r')
-    value = value.replace('\\\\', '\\')
-    value = value.replace('\\"', '"')
-    value = value.replace("\\'", "'")
-    
+    # Note: Basic escapes (\n, \t, etc.) are now handled in decode_unicode_escapes()
+    # This function is kept for backward compatibility and potential future use
     # Unknown escapes already preserved as-is (string-first!)
     return value

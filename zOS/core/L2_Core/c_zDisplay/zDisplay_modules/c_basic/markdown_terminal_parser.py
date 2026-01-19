@@ -48,12 +48,14 @@ class MarkdownTerminalParser:
         
         Phase 1: Markdown conversion (bold, italic, code)
         Phase 2: HTML stripping with class → ANSI mapping
+        Phase 4 (Emoji): Emoji → [description] conversion for Terminal accessibility
         
         Handles:
         - **bold** → ANSI bold
         - *italic* → ANSI italic (or dim if not supported)
         - `code` → ANSI cyan
         - <span class="zText-error">text</span> → red ANSI text (no HTML)
+        - 📱 → [mobile phone] (Terminal mode accessibility)
         
         Args:
             text: Raw markdown text
@@ -72,6 +74,10 @@ class MarkdownTerminalParser:
         # Phase 2: Strip HTML tags and map classes to ANSI (FIRST - before markdown)
         # This prevents markdown patterns inside HTML from being double-processed
         text = self._strip_html_with_color_mapping(text)
+        
+        # Phase 4 (Emoji): Convert emojis to [description] for Terminal accessibility
+        # Do this BEFORE markdown parsing to avoid interference with markdown patterns
+        text = self._convert_emojis_to_descriptions(text)
         
         # Phase 1: Process markdown in order: code first (to protect backticks), then bold, then italic
         # This prevents interference between patterns
@@ -144,6 +150,91 @@ class MarkdownTerminalParser:
             return f"{self.ANSI_DIM}{italic_text}{self.ANSI_RESET}"
         
         return re.sub(pattern, replacer, text)
+    
+    def _convert_emojis_to_descriptions(self, text: str) -> str:
+        """
+        Convert emojis to [description] for Terminal accessibility.
+        
+        Phase 4 (Emoji Accessibility): Terminal mode conversion
+        
+        Handles:
+        - Direct emojis: 📱 → [mobile phone]
+        - Unicode escapes: \\u2665 → [heart] (already decoded by Python)
+        - Unknown emojis: 🤷 → [emoji] (fallback)
+        - Preserves ASCII punctuation: : * ` (not converted)
+        
+        Args:
+            text: Text potentially containing emojis
+            
+        Returns:
+            Text with emojis replaced by [descriptions]
+            
+        Example:
+            >>> parser._convert_emojis_to_descriptions("Mobile: 📱 and Laptop: 💻")
+            "Mobile: [mobile phone] and Laptop: [laptop]"
+        """
+        if not text:
+            return text
+        
+        # Lazy load emoji descriptions
+        try:
+            from .....zSys.accessibility import get_emoji_descriptions
+            emoji_desc = get_emoji_descriptions()
+        except ImportError:
+            # If module not available, return text unchanged
+            return text
+        
+        # Define emoji Unicode ranges (exclude ASCII 0x00-0x7F)
+        # Common emoji ranges:
+        # - U+1F300–U+1F9FF: Miscellaneous Symbols and Pictographs, Emoticons, Transport, etc.
+        # - U+2600–U+26FF: Miscellaneous Symbols (sun, stars, weather)
+        # - U+2700–U+27BF: Dingbats (scissors, checkmarks)
+        # - U+FE00–U+FE0F: Variation selectors (emoji presentation)
+        # - U+1F000–U+1F0FF: Mahjong/Domino tiles
+        
+        def is_emoji(char: str) -> bool:
+            """Check if character is in emoji Unicode ranges."""
+            if not char or len(char) != 1:
+                return False
+            
+            code_point = ord(char)
+            
+            # Exclude ASCII range (0x00-0x7F)
+            if code_point < 0x80:
+                return False
+            
+            # Emoji ranges
+            return (
+                (0x1F300 <= code_point <= 0x1F9FF) or  # Main emoji block
+                (0x2600 <= code_point <= 0x26FF) or   # Misc symbols
+                (0x2700 <= code_point <= 0x27BF) or   # Dingbats
+                (0xFE00 <= code_point <= 0xFE0F) or   # Variation selectors
+                (0x1F000 <= code_point <= 0x1F0FF) or # Tiles
+                (0x1F200 <= code_point <= 0x1F2FF) or # Enclosed ideographic supplement
+                (0x1F600 <= code_point <= 0x1F64F) or # Emoticons
+                (0x1F680 <= code_point <= 0x1F6FF) or # Transport & map symbols
+                (0x1F900 <= code_point <= 0x1F9FF) or # Supplemental symbols
+                (0x2300 <= code_point <= 0x23FF) or   # Misc technical
+                (0x2B00 <= code_point <= 0x2BFF) or   # Misc symbols and arrows
+                (code_point >= 0x10000)               # Supplementary planes
+            )
+        
+        # Convert only emoji characters to [description]
+        result = []
+        for char in text:
+            if is_emoji(char):
+                desc = emoji_desc.format_for_terminal(char)
+                if desc and desc != char:
+                    # Emoji was converted to [description]
+                    result.append(desc)
+                else:
+                    # Emoji but no description - keep original
+                    result.append(char)
+            else:
+                # Not an emoji - keep original (ASCII, punctuation, etc.)
+                result.append(char)
+        
+        return ''.join(result)
     
     def _strip_html_with_color_mapping(self, text: str) -> str:
         """

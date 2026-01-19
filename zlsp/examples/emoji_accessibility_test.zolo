@@ -1,0 +1,39 @@
+# Emoji Accessibility Test
+# Phase 3: zlsp hover integration test
+# Hover over the Unicode escapes below to see emoji descriptions
+
+zBlock: Emoji_Test
+    zUI:
+        Mobile_Example:
+            zH2:
+                # Hover over \U0001F4F1 to see "mobile phone"
+                label: \U0001F4F1 Mobile Features
+        
+        Desktop_Example:
+            zH2:
+                # Hover over \U0001F4BB to see "laptop"  
+                label: \U0001F4BB Desktop Features
+                
+        Celebration_Example:
+            zH2:
+                # Hover over \U0001F389 to see "party popper"
+                label: \U0001F389 Celebrate!
+        
+        Multi_Emoji:
+            zText:
+                # Multiple emojis - hover over each one
+                content: Use \U0001F4F1 for mobile, \U0001F4BB for laptop, \U0001F5A5 for desktop
+        
+        Standard_Unicode:
+            zText:
+                # Standard \uXXXX format (BMP characters)
+                content: Heart \u2665 and greater-than-or-equal \u2265
+        
+        Description_Text:
+            zMD:
+                content: When you hover over the Unicode escapes above, you should see:
+                    * The escape sequence
+                    * The codepoint (U+XXXX)
+                    * The emoji character itself
+                    * A human-readable description
+                    * Format information

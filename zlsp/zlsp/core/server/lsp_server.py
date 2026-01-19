@@ -385,8 +385,11 @@ def hover(params: lsp_types.HoverParams):
         document = zolo_server.workspace.get_text_document(uri)
         content = document.source
         
-        # Get hover info
-        hover_text = get_hover_info(content, line, character)
+        # Use cached parse result (don't re-tokenize!)
+        parse_result = zolo_server.get_parse_result(uri, content)
+        
+        # Get hover info using cached tokens
+        hover_text = get_hover_info(content, line, character, parse_result.tokens)
         
         if hover_text:
             return lsp_types.Hover(

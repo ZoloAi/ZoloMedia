@@ -64,6 +64,7 @@
 import { createElement, setAttributes } from '../utils/dom_utils.js';
 import { getTextColorClass } from '../utils/ztheme_utils.js';
 import { withErrorBoundary } from '../utils/error_boundary.js';
+import emojiAccessibility from '../utils/emoji_accessibility.js';
 
 // ─────────────────────────────────────────────────────────────────
 // Text Renderer Class
@@ -227,9 +228,11 @@ export class TextRenderer {
     // Create paragraph element (using Layer 2 utility)
     const p = createElement('p', classes);
 
-    // Decode Unicode escapes first, then parse markdown
+    // Decode Unicode escapes first, then parse markdown, then enhance emojis for accessibility
     const decodedContent = this._decodeUnicodeEscapes(content);
-    p.innerHTML = this._parseMarkdown(decodedContent);
+    const parsedMarkdown = this._parseMarkdown(decodedContent);
+    const accessibleHTML = emojiAccessibility.enhanceText(parsedMarkdown);
+    p.innerHTML = accessibleHTML;
 
     // Apply attributes
     const attributes = {};

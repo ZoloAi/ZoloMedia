@@ -12,11 +12,10 @@ All logic is in provider_modules/hover_renderer.py for modularity.
 """
 
 from typing import Optional
-from ..parser.parser import tokenize
 from .provider_modules.hover_renderer import HoverRenderer
 
 
-def get_hover_info(content: str, line: int, character: int) -> Optional[str]:
+def get_hover_info(content: str, line: int, character: int, tokens: list) -> Optional[str]:
     """
     Get hover information at a specific position (thin wrapper).
     
@@ -24,19 +23,21 @@ def get_hover_info(content: str, line: int, character: int) -> Optional[str]:
         content: Full .zolo file content
         line: Line number (0-based)
         character: Character position (0-based)
+        tokens: Cached tokens from LSP server (no re-parsing!)
     
     Returns:
         Markdown string with hover information, or None
     
     Examples:
         >>> content = "port(int): 8080"
-        >>> info = get_hover_info(content, 0, 5)  # Hovering over "int"
+        >>> tokens = tokenize(content).tokens
+        >>> info = get_hover_info(content, 0, 5, tokens)  # Hovering over "int"
         >>> "Integer" in info
         True
     
     Implementation:
         This function is a thin wrapper that:
-        1. Tokenizes the content using the parser
+        1. Uses pre-tokenized tokens from LSP cache (FAST!)
         2. Delegates to HoverRenderer for formatting
         3. Returns formatted markdown
     
@@ -44,12 +45,5 @@ def get_hover_info(content: str, line: int, character: int) -> Optional[str]:
     All documentation is in provider_modules/documentation_registry.py.
     Zero duplication!
     """
-    # Parse content and get tokens
-    try:
-        result = tokenize(content)
-        tokens = result.tokens
-    except Exception:
-        return None
-    
-    # Delegate to HoverRenderer
+    # Delegate to HoverRenderer with cached tokens
     return HoverRenderer.render(content, line, character, tokens)

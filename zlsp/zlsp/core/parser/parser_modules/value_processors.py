@@ -96,13 +96,13 @@ def detect_value_type(value: str) -> Any:
     # String (DEFAULT - everything else!)
     # This includes: 'YES', 'NO', 'yes', 'no', 'true value', 'false alarm', etc.
     
-    # Step 1: Preserve Unicode escapes for Bifrost to decode at render time
-    # ASCII-safe storage: Keep \uXXXX and \UXXXXXXXX as-is, don't decode in backend
-    # Bifrost will handle decoding via _decodeUnicodeEscapes() in renderers
-    # if '\\u' in value or '\\U' in value:
-    #     value = decode_unicode_escapes(value)
+    # Step 1: Decode Unicode escapes to proper Unicode characters
+    # This gives zOS proper emojis for Terminal ([description]) and Bifrost (aria-label)
+    if '\\u' in value or '\\U' in value:
+        value = decode_unicode_escapes(value)
     
     # Step 2: Process other escape sequences (\n, \t, etc.)
+    # Note: This is now handled inside decode_unicode_escapes()
     value = process_escape_sequences(value)
     
     return value

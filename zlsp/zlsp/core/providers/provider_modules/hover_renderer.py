@@ -23,6 +23,9 @@ class HoverRenderer:
     Uses DocumentationRegistry for all documentation - zero duplication!
     """
     
+    # Cache emoji descriptions instance (lazy loaded)
+    _emoji_descriptions = None
+    
     @staticmethod
     def render(content: str, line: int, character: int, tokens: list[SemanticToken]) -> Optional[str]:
         """
@@ -37,9 +40,16 @@ class HoverRenderer:
         Returns:
             Markdown string with hover information, or None
         """
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.info(f"🔍 HoverRenderer.render: line={line}, char={character}")
+        logger.info(f"   Total tokens received: {len(tokens)}")
+        
         # Find token at position
         target_pos = Position(line=line, character=character)
         token = HoverRenderer._find_token_at_position(tokens, target_pos)
+        
+        logger.info(f"   Token: {token.token_type if token else 'None'}")
         
         if not token:
             return None
@@ -68,6 +78,15 @@ class HoverRenderer:
     @staticmethod
     def _find_token_at_position(tokens: list[SemanticToken], pos: Position) -> Optional[SemanticToken]:
         """Find the token containing the given position."""
+        import logging
+        logger = logging.getLogger(__name__)
+        
+        # Debug: Look for tokens near this line
+        nearby = [t for t in tokens if t.line == pos.line]
+        logger.info(f"   Found {len(nearby)} tokens on line {pos.line}")
+        for t in nearby:
+            logger.info(f"     Token: type={t.token_type}, char={t.start_char}-{t.start_char+t.length}, contains={t.range.contains(pos)}")
+        
         for token in tokens:
             if token.range.contains(pos):
                 return token
@@ -213,17 +232,37 @@ class HoverRenderer:
         
         # Check if it's a Unicode escape
         if escape_text.startswith('\\u') or escape_text.startswith('\\U'):
+            # Extract codepoint
+            codepoint_str = escape_text[2:]  # Remove \u or \U prefix
+            
+            # Get emoji description (Phase 3: Emoji Accessibility)
+            emoji_info = HoverRenderer._get_emoji_info(codepoint_str)
+            
+            # Format description
             if escape_text.startswith('\\U'):
                 format_desc = "Extended Unicode (4-8 hex digits, for emojis & supplementary planes)"
             else:
                 format_desc = "Standard Unicode (4 hex digits, BMP characters)"
-            return (
+            
+            # Build hover text
+            hover_text = (
                 f"## Unicode Escape Sequence\n\n"
                 f"**Sequence:** `{escape_text}`\n\n"
+                f"**Codepoint:** U+{codepoint_str.upper()}\n\n"
                 f"**Format:** {format_desc}\n\n"
-                f"**Type:** RFC 8259 compliant\n\n"
-                f"Will be decoded to the corresponding Unicode character"
             )
+            
+            # Add emoji info if available
+            if emoji_info:
+                hover_text += (
+                    f"**Character:** {emoji_info['emoji']}\n\n"
+                    f"**Description:** {emoji_info['description']}\n\n"
+                )
+            
+            hover_text += "**Type:** RFC 8259 compliant\n\n"
+            hover_text += "Will be decoded to the corresponding Unicode character"
+            
+            return hover_text
         elif escape_text in escape_map:
             description = escape_map[escape_text]
             return (
@@ -237,6 +276,66 @@ class HoverRenderer:
                 f"**Sequence:** `{escape_text}`\n\n"
                 f"*Unknown escape sequence*"
             )
+    
+    @staticmethod
+    def _get_emoji_info(codepoint_str: str) -> Optional[dict]:
+        """
+        Get emoji character and description from codepoint.
+        
+        Phase 3: Emoji Accessibility Integration
+        
+        Args:
+            codepoint_str: Hex codepoint string (e.g., "1F4F1", "0001F4F1")
+            
+        Returns:
+            Dict with 'emoji' and 'description' keys, or None if not available
+        """
+        try:
+            # Lazy load emoji descriptions (only once)
+            if HoverRenderer._emoji_descriptions is None:
+                # Try to import from zOS (if available in PYTHONPATH)
+                try:
+                    import sys
+                    from pathlib import Path
+                    
+                    # Add zOS to path if not already there
+                    zlsp_root = Path(__file__).parent.parent.parent.parent.parent
+                    zos_path = zlsp_root.parent / "zOS" / "core"
+                    if zos_path.exists() and str(zos_path) not in sys.path:
+                        sys.path.insert(0, str(zos_path))
+                    
+                    from zSys.accessibility import get_emoji_descriptions
+                    HoverRenderer._emoji_descriptions = get_emoji_descriptions()
+                except ImportError:
+                    # zOS not available - set to False to avoid retrying
+                    HoverRenderer._emoji_descriptions = False
+                    return None
+            
+            # If emoji descriptions failed to load, return None
+            if HoverRenderer._emoji_descriptions is False:
+                return None
+            
+            # Get description using the API
+            description = HoverRenderer._emoji_descriptions.codepoint_to_description(codepoint_str)
+            
+            # Convert codepoint to emoji character
+            try:
+                emoji_char = chr(int(codepoint_str, 16))
+            except (ValueError, OverflowError):
+                return None
+            
+            # Return info if we got a valid description
+            if description and description != codepoint_str:
+                return {
+                    'emoji': emoji_char,
+                    'description': description
+                }
+            
+            return None
+            
+        except Exception:
+            # Graceful fallback - don't break hover on errors
+            return None
     
     @staticmethod
     def _detect_value_type_name(value: str) -> str:
