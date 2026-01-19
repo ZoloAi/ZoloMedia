@@ -599,7 +599,8 @@ class zWizard:
         dispatch_fn = self._get_dispatch_fn(dispatch_fn, context)
         
         # Filter out metadata keys (underscore prefix) - they don't execute, only configure
-        keys_list = self._filter_keys(items_dict)
+        # Terminal mode: Also filters _ prefixed content (terminal suppression)
+        keys_list = self._filter_keys(items_dict, mode="Terminal")
         idx = keys_list.index(start_key) if start_key and start_key in keys_list else 0
 
         # Main loop
@@ -824,9 +825,10 @@ class zWizard:
             return rbac_signal
         
         dispatch_fn = self._get_dispatch_fn(dispatch_fn, context)
-        # Filter out metadata keys (_)
+        # Filter out metadata keys (_data, _transaction, etc.)
+        # Bifrost mode: Keep terminal-suppressed content (_Live_Demo_Section) - it renders in GUI
         # Note: Navbar keys (~zNavBar*) are now processed normally (not filtered)
-        keys_list = self._filter_keys(items_dict)
+        keys_list = self._filter_keys(items_dict, mode="zBifrost")
         idx = keys_list.index(start_key) if start_key and start_key in keys_list else 0
         
         # Chunk accumulator
@@ -1046,22 +1048,37 @@ class zWizard:
         
         return None
 
-    def _filter_keys(self, items_dict: Dict[str, Any]) -> list:
+    def _filter_keys(self, items_dict: Dict[str, Any], mode: Optional[str] = None) -> list:
         """
-        Filter metadata keys (underscore prefix) from items dictionary.
+        Filter metadata keys from items dictionary (mode-aware for terminal suppression).
         
         Args:
             items_dict: Dictionary of wizard steps/items
+            mode: Execution mode ('Terminal' or 'zBifrost'). If None, detects from session.
         
         Returns:
-            List of keys excluding metadata keys (those starting with '_')
+            List of keys excluding metadata keys and terminal-suppressed content (Terminal mode only)
         
         Notes:
-            - Metadata keys like _data, zRBAC, _transaction configure behavior
-            - They don't execute as steps, only configure the workflow
-            - This ensures only actionable keys are processed in the loop
+            - Metadata keys (_data, _transaction, _zClass, etc.) ALWAYS filtered (both modes)
+            - Terminal-suppressed content (_Live_Demo_Section) filtered in Terminal, visible in Bifrost
+            - Terminal mode: Filters ALL _ prefixed keys (metadata + terminal suppression)
+            - Bifrost mode: Filters ONLY metadata keys, keeps terminal-suppressed content
         """
-        return [k for k in items_dict.keys() if not k.startswith('_')]
+        # Detect mode if not provided
+        if mode is None:
+            from zOS.L1_Foundation.a_zConfig.zConfig_modules import ZMODE_ZBIFROST
+            mode = self.zcli.session.get("zMode", "Terminal")
+        
+        # Known metadata keys that configure workflow (not content)
+        METADATA_KEYS = ['_data', '_transaction', '_zClass', '_zStyle', '_zId', 'zRBAC']
+        
+        # Terminal mode: Filter out ALL _ prefixed keys (metadata + terminal-suppressed content)
+        if mode != 'zBifrost':
+            return [k for k in items_dict.keys() if not k.startswith('_')]
+        
+        # Bifrost mode: Only filter out metadata keys, keep terminal-suppressed content
+        return [k for k in items_dict.keys() if k not in METADATA_KEYS]
 
     def _execute_step(self, step_key: str, step_value: Any, step_context: Dict[str, Any]) -> Any:
         """Execute a single wizard step."""

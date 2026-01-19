@@ -684,12 +684,15 @@ class MessageHandler:
                         # Filter out internal keys like ~zNavBar* (already rendered separately)
                         chunk_data = {}
                         
-                        # FIRST: Always include block-level metadata (_zClass, _zStyle, etc.)
-                        for key, value in block_dict.items():
-                            if key.startswith('_'):
-                                chunk_data[key] = value
+                        # FIRST: Always include block-level metadata (_zClass, _zStyle, _zId)
+                        # These are attributes that apply to the parent container (not content blocks)
+                        METADATA_KEYS = ['_zClass', '_zStyle', '_zId']
+                        for key in METADATA_KEYS:
+                            if key in block_dict:
+                                chunk_data[key] = block_dict[key]
                         
-                        # THEN: Add the specific content keys for this chunk
+                        # THEN: Add the specific content keys for this chunk (maintains document order)
+                        # NOTE: Terminal-suppressed content (_Live_Demo_Section) is already filtered by wizard
                         for key in chunk_keys:
                             # Skip internal/meta keys (start with ~)
                             if key.startswith('~'):
@@ -1166,12 +1169,15 @@ class MessageHandler:
                 # Filter out internal keys like ~zNavBar* (already rendered separately)
                 chunk_data = {}
                 
-                # FIRST: Always include block-level metadata (_zClass, _zStyle, etc.)
-                for key, value in block_dict.items():
-                    if key.startswith('_'):
-                        chunk_data[key] = value
+                # FIRST: Always include block-level metadata (_zClass, _zStyle, _zId)
+                # These are attributes that apply to the parent container (not content blocks)
+                METADATA_KEYS = ['_zClass', '_zStyle', '_zId']
+                for key in METADATA_KEYS:
+                    if key in block_dict:
+                        chunk_data[key] = block_dict[key]
                 
-                # THEN: Add the specific content keys for this chunk
+                # THEN: Add the specific content keys for this chunk (maintains document order)
+                # NOTE: Terminal-suppressed content (_Live_Demo_Section) is already filtered by wizard
                 for key in chunk_keys:
                     if key.startswith('~'):  # Skip internal/meta keys
                         continue
