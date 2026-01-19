@@ -118,7 +118,7 @@ Auto-Initialization:
 from zOS import Colors, Any, Dict, Optional, Callable
 from zOS.utils import validate_zcli_instance
 from zOS.L1_Foundation.a_zConfig.zConfig_modules import SESSION_KEY_ZMODE
-from .zDisplay_modules.display_primitives import zPrimitives
+from .zDisplay_modules.b_primitives.display_primitives import zPrimitives
 from .zDisplay_modules.display_events import zEvents
 from .zDisplay_modules.display_delegates import zDisplayDelegates
 from .zDisplay_modules.display_constants import (

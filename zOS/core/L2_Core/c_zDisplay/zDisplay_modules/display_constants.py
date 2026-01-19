@@ -160,6 +160,9 @@ _KEY_RETURN_SELECTION = "return_selection"
 _KEY_CONTEXT = "context"
 _KEY_MODEL = "model"
 _KEY_FIELDS = "fields"
+_KEY_FOLDER = "folder"
+_KEY_SIDEBAR = "sidebar"
+_KEY_PANELS = "panels"
 _KEY_OPTIONS = "options"
 _KEY_MULTI = "multi"
 _KEY_DEFAULT = "default"
@@ -271,6 +274,7 @@ DEFAULT_LOOP = True
 DEFAULT_SWIPER_DELAY = 3
 DEFAULT_SWIPER_WIDTH = 60
 DEFAULT_BREAK_MESSAGE = "Press Enter to continue..."
+DEFAULT_MENU_PROMPT = "Select an option:"
 DEFAULT_COLOR_ENABLED = True
 
 # Internal Default Values (private - module-specific)
@@ -324,6 +328,9 @@ _MSG_ZAUTH_SECTION = "Authentication"
 _MSG_ACTIVE_CONTEXT = "Active Context"
 _MSG_DUAL_MODE_INDICATOR = "Dual Mode"
 _MSG_AUTHENTICATED_APPS = "Authenticated Apps"
+_MSG_DASHBOARD_MENU_PROMPT = "\nDashboard Menu:"
+_MSG_INVALID_PANEL_CHOICE = "Invalid choice. Please enter 1-{max} or 'done'"
+_MSG_INVALID_INPUT_FORMAT = "Invalid input. Please enter 1-{max} or 'done'"
 
 # Prompts (Internal)
 _PROMPT_INPUT = "Input: "
