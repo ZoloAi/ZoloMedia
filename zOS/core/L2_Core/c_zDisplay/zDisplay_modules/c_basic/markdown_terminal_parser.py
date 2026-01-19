@@ -609,6 +609,77 @@ class MarkdownTerminalParser:
         # Print with indentation
         print(f"{indent_str}{content}")
     
+    def _apply_zolo_colors(self, code: str) -> str:
+        """
+        Apply fast ANSI coloring to .zolo syntax without Pygments.
+        
+        Performance-focused: Uses simple regex replacements instead of full lexing.
+        
+        Color scheme (monokai-inspired):
+        - Root keys (capitalized): Pink/Magenta (\033[95m)
+        - Display events (z*): Cyan (\033[96m)
+        - Metadata (_z*): Yellow (\033[93m)
+        - Properties (lowercase keys): Green (\033[92m)
+        - Values: White/Default
+        - Comments: Dim gray (\033[2m\033[37m)
+        """
+        import re
+        
+        ANSI_RESET = '\033[0m'
+        ANSI_PINK = '\033[95m'      # Root keys
+        ANSI_CYAN = '\033[96m'      # Display events  
+        ANSI_YELLOW = '\033[93m'    # Metadata
+        ANSI_GREEN = '\033[92m'     # Properties
+        ANSI_DIM_GRAY = '\033[2m\033[37m'  # Comments
+        
+        lines = code.split('\n')
+        colored_lines = []
+        
+        for line in lines:
+            # Skip empty lines
+            if not line.strip():
+                colored_lines.append(line)
+                continue
+            
+            # Comments
+            if line.strip().startswith('#'):
+                colored_lines.append(f"{ANSI_DIM_GRAY}{line}{ANSI_RESET}")
+                continue
+            
+            # Try to match key: value pattern
+            match = re.match(r'^(\s*)([_~^]?[a-zA-Z][a-zA-Z0-9_]*)(\([^)]+\))?([\*!]?)\s*:\s*(.*)', line)
+            if match:
+                indent, key, type_hint, modifier, value = match.groups()
+                
+                # Determine key color based on pattern
+                if key[0].isupper():
+                    # Root key (capitalized)
+                    key_color = ANSI_PINK
+                elif key.startswith('z') and len(key) > 1 and key[1].isupper():
+                    # Display event (zH1, zMD, etc.)
+                    key_color = ANSI_CYAN
+                elif key.startswith('_z'):
+                    # Metadata (_zClass, _zStyle)
+                    key_color = ANSI_YELLOW
+                else:
+                    # Regular property
+                    key_color = ANSI_GREEN
+                
+                # Rebuild line with colors
+                colored_line = f"{indent}{key_color}{key}{ANSI_RESET}"
+                if type_hint:
+                    colored_line += f"{ANSI_DIM_GRAY}{type_hint}{ANSI_RESET}"
+                if modifier:
+                    colored_line += f"{ANSI_YELLOW}{modifier}{ANSI_RESET}"
+                colored_line += f": {value}"
+                
+                colored_lines.append(colored_line)
+            else:
+                # No pattern match, keep as-is
+                colored_lines.append(line)
+        
+        return '\n'.join(colored_lines)
+    
     def _emit_code_block(self, block_data: tuple, display: 'zDisplay', indent: int = 0) -> None:
         """
         Emit a code block for Terminal display with syntax highlighting.
@@ -634,6 +705,10 @@ class MarkdownTerminalParser:
         
         language, code_content = block_data
         
+        # Debug: Log language detection
+        if hasattr(display, 'zcli') and hasattr(display.zcli, 'logger'):
+            display.zcli.logger.debug(f"[MarkdownParser] Code block detected - language='{language}', length={len(code_content)}")
+        
         # ANSI codes for border/UI elements
         ANSI_DIM = '\033[2m'
         ANSI_RESET = '\033[0m'
@@ -648,27 +723,52 @@ class MarkdownTerminalParser:
         
         # Try Pygments syntax highlighting first
         highlighted_code = None
+        
         try:
-            from pygments import highlight
-            from pygments.lexers import get_lexer_by_name, TextLexer
-            from pygments.formatters import TerminalFormatter
-            from pygments.util import ClassNotFound
-            
-            # Get lexer for language, fallback to text if unknown
-            try:
-                lexer = get_lexer_by_name(language or 'text', stripall=True)
-            except ClassNotFound:
-                lexer = TextLexer()
-            
-            # Highlight with Pygments (256-color terminal support)
-            highlighted_code = highlight(code_content, lexer, TerminalFormatter())
+            # TEMPORARY: Skip Pygments for .zolo due to performance issues
+            # Use fast manual ANSI coloring instead
+            if language and language.lower() == 'zolo':
+                if hasattr(display, 'zcli') and hasattr(display.zcli, 'logger'):
+                    display.zcli.logger.debug(f"[MarkdownParser] Using fast manual coloring for .zolo")
+                
+                # Simple ANSI coloring for .zolo syntax
+                highlighted_code = self._apply_zolo_colors(code_content)
+                
+                if hasattr(display, 'zcli') and hasattr(display.zcli, 'logger'):
+                    has_ansi = '\033[' in highlighted_code
+                    display.zcli.logger.debug(f"[MarkdownParser] Manual coloring complete - has_ansi={has_ansi}")
+            else:
+                from pygments import highlight
+                from pygments.lexers import get_lexer_by_name, TextLexer
+                from pygments.formatters import Terminal256Formatter
+                from pygments.util import ClassNotFound
+                
+                # Get lexer for language, fallback to text if unknown
+                try:
+                    lexer = get_lexer_by_name(language or 'text', stripall=True)
+                except (ClassNotFound, ImportError) as e:
+                    if hasattr(display, 'zcli') and hasattr(display.zcli, 'logger'):
+                        display.zcli.logger.debug(f"[MarkdownParser] Lexer load failed: {e}, using TextLexer")
+                    lexer = TextLexer()
+                
+                # Highlight with Pygments (256-color terminal support)
+                formatter = Terminal256Formatter(style='monokai')
+                highlighted_code = highlight(code_content, lexer, formatter)
+                
+                if hasattr(display, 'zcli') and hasattr(display.zcli, 'logger'):
+                    has_ansi = '\033[' in highlighted_code or '\x1b[' in highlighted_code
+                    display.zcli.logger.debug(f"[MarkdownParser] Pygments highlighting complete - has_ansi={has_ansi}, length={len(highlighted_code)}")
             
         except (ImportError, Exception) as e:
             # Pygments not available or failed - use fallback
+            if hasattr(display, 'zcli') and hasattr(display.zcli, 'logger'):
+                display.zcli.logger.debug(f"[MarkdownParser] Highlighting failed: {e}")
             highlighted_code = None
         
         # If Pygments failed, use mono-color fallback
         if highlighted_code is None:
+            if hasattr(display, 'zcli') and hasattr(display.zcli, 'logger'):
+                display.zcli.logger.debug(f"[MarkdownParser] Using fallback cyan coloring")
             highlighted_code = f"{ANSI_CYAN}{code_content}{ANSI_RESET}"
         
         # Split into lines for border rendering

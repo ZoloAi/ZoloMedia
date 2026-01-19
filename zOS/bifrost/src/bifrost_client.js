@@ -726,6 +726,8 @@
         return;
       }
 
+      console.log('[BifrostClient] 🎨 Starting Prism.js load...');
+
       const prismCDN = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0';
       const prismTheme = `${prismCDN}/themes/prism-tomorrow.min.css`;
 
@@ -735,7 +737,9 @@
         link.rel = 'stylesheet';
         link.href = prismTheme;
         document.head.appendChild(link);
-        this.logger.log('✅ Prism.js CSS loaded (prism-tomorrow theme)');
+        console.log('[BifrostClient] ✅ Prism.js CSS loaded (prism-tomorrow theme)');
+      } else {
+        console.log('[BifrostClient] ℹ️  Prism.js CSS already loaded');
       }
 
       // Load Prism core + common languages
@@ -753,10 +757,12 @@
         // Check if script already loaded
         if (document.querySelector(`script[src="${scriptInfo.src}"]`)) {
           // Already loaded, continue to next
+          console.log(`[BifrostClient] ℹ️  Prism ${scriptInfo.name} already loaded`);
           if (index < scripts.length - 1) {
             loadScript(scripts[index + 1], index + 1);
           } else {
-            this.logger.log('✅ Prism.js scripts loaded (6 languages)');
+            console.log('[BifrostClient] ℹ️  All Prism.js scripts already loaded');
+            this._loadPrismZolo();
           }
           return;
         }
@@ -764,21 +770,57 @@
         const script = document.createElement('script');
         script.src = scriptInfo.src;
         script.onload = () => {
+          console.log(`[BifrostClient] ✅ Loaded Prism ${scriptInfo.name}`);
           // Load next script in sequence
           if (index < scripts.length - 1) {
             loadScript(scripts[index + 1], index + 1);
           } else {
-            this.logger.log('✅ Prism.js scripts loaded (6 languages)');
+            console.log('[BifrostClient] ✅ Prism.js scripts loaded (6 languages)');
+            // Load custom .zolo language definition
+            this._loadPrismZolo();
           }
         };
         script.onerror = () => {
-          this.logger.warn(`⚠️  Failed to load Prism ${scriptInfo.name}`);
+          console.warn(`[BifrostClient] ⚠️  Failed to load Prism ${scriptInfo.name}`);
         };
         document.head.appendChild(script);
       };
 
       // Start loading chain
       loadScript(scripts[0], 0);
+    }
+
+    /**
+     * Load custom .zolo language definition for Prism.js
+     * @private
+     */
+    _loadPrismZolo() {
+      if (typeof document === 'undefined') {
+        return;
+      }
+
+      console.log('[BifrostClient] 🔧 Loading custom .zolo language...');
+
+      // Load from static JS directory
+      const zoloLangPath = '/static/js/prism-zolo.js';
+
+      // Check if already loaded
+      if (document.querySelector(`script[src="${zoloLangPath}"]`)) {
+        console.log('[BifrostClient] ℹ️  Prism .zolo language already loaded');
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = zoloLangPath;
+      script.onload = () => {
+        console.log('[BifrostClient] ✅ Prism .zolo language loaded (generated from zlsp patterns)');
+        console.log('[BifrostClient] 🎨 Available Prism languages:', Object.keys(window.Prism?.languages || {}));
+      };
+      script.onerror = (e) => {
+        console.error('[BifrostClient] ❌ Failed to load Prism .zolo language:', e);
+        console.warn('[BifrostClient] ⚠️  Syntax highlighting disabled for .zolo blocks');
+      };
+      document.head.appendChild(script);
     }
 
     /**

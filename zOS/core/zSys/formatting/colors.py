@@ -80,7 +80,7 @@ class Colors:
     secondary  = SECONDARY
     DEFAULT    = RESET
     default    = DEFAULT
-
+    SUCCESS    = zSuccess
     @classmethod
     def get_semantic_color(cls, color_name: str) -> str:
         """

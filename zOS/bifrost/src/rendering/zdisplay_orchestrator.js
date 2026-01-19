@@ -459,8 +459,11 @@ export class ZDisplayOrchestrator {
         continue;
       }
 
-      // Skip internal metadata keys (underscore prefix)
-      if (key.startsWith('_')) {
+      // Skip ONLY metadata attributes (not terminal-suppressed elements)
+      // _zClass, _zStyle, _zId are metadata attributes applied to parent
+      // But _Demo_Stack, _Live_Demo_Section are terminal-suppressed elements that SHOULD render in Bifrost
+      const METADATA_KEYS = ['_zClass', '_zStyle', '_zId', 'zId'];
+      if (METADATA_KEYS.includes(key)) {
         continue;
       }
 

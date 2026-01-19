@@ -249,6 +249,61 @@ class BasicOutputs:
         # Unknown semantic type - return content as-is
         return content
     
+    def _convert_emojis_for_terminal(self, text: str) -> str:
+        """
+        DRY helper: Convert emojis to [description] for terminal accessibility.
+        
+        Used by ALL output events (header, text, rich_text) to ensure consistent
+        emoji handling across the display system. This is the single source of truth
+        for emoji conversion in Terminal mode.
+        
+        Only converts in Terminal mode; Bifrost uses emojis with aria-label.
+        
+        Args:
+            text: Content that may contain emojis
+        
+        Returns:
+            Text with emojis converted to [description] format for Terminal
+        
+        Example:
+            "📱 Mobile" → "[mobile phone] Mobile" (Terminal)
+            "📱 Mobile" → "📱 Mobile" (Bifrost, unchanged)
+        """
+        # Only convert in Terminal mode
+        if self.display.mode not in ["Terminal", "Walker", ""]:
+            return text
+        
+        try:
+            from .....zSys.accessibility import get_emoji_descriptions
+            emoji_desc = get_emoji_descriptions()
+            
+            # Regex to find emojis (Unicode emoji ranges)
+            import re
+            emoji_pattern = re.compile(
+                "["
+                "\U0001F600-\U0001F64F"  # emoticons
+                "\U0001F300-\U0001F5FF"  # symbols & pictographs
+                "\U0001F680-\U0001F6FF"  # transport & map
+                "\U0001F1E0-\U0001F1FF"  # flags
+                "\U00002600-\U000026FF"  # Miscellaneous Symbols
+                "\U00002700-\U000027BF"  # Dingbats
+                "\U0001F900-\U0001F9FF"  # Supplemental Symbols
+                "\U0001FA70-\U0001FAFF"  # Symbols Extended-A
+                "\U0000200D"            # Zero Width Joiner
+                "]+",
+                flags=re.UNICODE
+            )
+            
+            def replacer(match):
+                emoji = match.group(0)
+                return emoji_desc.format_for_terminal(emoji)
+            
+            return emoji_pattern.sub(replacer, text)
+        except Exception as e:
+            # Fallback: return text unchanged if emoji system fails
+            self.display.zcli.logger.warning(f"Emoji conversion failed: {e}")
+            return text
+    
     def _parse_markdown(self, content: str) -> str:
         """Parse markdown syntax using semantic primitives (DRY helper).
         
@@ -364,7 +419,7 @@ class BasicOutputs:
         self._render_header_terminal(label, color, indent, style)
 
     def _resolve_header_label(self, label: str, semantic: Optional[str], kwargs: dict) -> str:
-        """Resolve %variables, &functions, and semantic formatting in label."""
+        """Resolve %variables, &functions, semantic formatting, and emoji conversion in label."""
         # Resolve %variable references
         if "%" in label:
             from zOS.L2_Core.g_zParser.parser_modules.parser_functions import resolve_variables
@@ -379,6 +434,9 @@ class BasicOutputs:
         # Apply semantic rendering for terminal mode
         if semantic and self.display.mode in ["Terminal", "Walker", ""]:
             label = self._apply_semantic(label, semantic)
+        
+        # Convert emojis to [description] for terminal accessibility (DRY helper)
+        label = self._convert_emojis_for_terminal(label)
         
         return label
 
@@ -557,6 +615,9 @@ class BasicOutputs:
         if semantic and self.display.mode in ["Terminal", "Walker", ""]:
             content = self._apply_semantic(content, semantic)
         
+        # Convert emojis to [description] for terminal accessibility (DRY helper)
+        content = self._convert_emojis_for_terminal(content)
+        
         # Build event dict with all parameters (AFTER variable resolution)
         # Keep escape sequences as-is for Bifrost to decode client-side
         event_data = {
@@ -682,12 +743,15 @@ class BasicOutputs:
         # Phase 1-3: Use markdown parser (inline + lists + HTML)
         from .markdown_terminal_parser import MarkdownTerminalParser
         
-        # Decode Unicode escapes BEFORE parsing (preserves ASCII-safe storage in .zolo files)
+        # Step 1: Decode Unicode escapes BEFORE parsing (preserves ASCII-safe storage in .zolo files)
         if '\\u' in content or '\\U' in content:
             from zlsp.core.parser.parser_modules.escape_processors import decode_unicode_escapes
             content = decode_unicode_escapes(content)
         
-        # Parse markdown (will emit list events if content is a list, otherwise prints)
+        # Step 2: Convert emojis to [description] for terminal accessibility (DRY helper)
+        content = self._convert_emojis_for_terminal(content)
+        
+        # Step 3: Parse markdown (will emit list events if content is a list, otherwise prints)
         # Phase 3: Parser can now detect lists and call display.list() automatically
         # Phase 5: Pass indentation and color parameters
         parser = MarkdownTerminalParser()
