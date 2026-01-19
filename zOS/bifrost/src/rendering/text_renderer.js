@@ -178,7 +178,21 @@ export class TextRenderer {
     html = html.replace(/ {2}\n/g, '<br>');
 
     // Remove remaining single newlines (for text wrapping, but NOT within <pre> tags)
-    html = html.replace(/\n(?![^<]*<\/pre>)/g, ' ');
+    // Strategy: Extract code blocks, remove newlines from text, then restore code blocks
+    const codeBlocks = [];
+    html = html.replace(/(<pre[\s\S]*?<\/pre>)/g, (match) => {
+      const placeholder = `___CODE_BLOCK_${codeBlocks.length}___`;
+      codeBlocks.push(match);
+      return placeholder;
+    });
+    
+    // Now remove newlines from non-code content
+    html = html.replace(/\n/g, ' ');
+    
+    // Restore code blocks with preserved newlines
+    codeBlocks.forEach((block, index) => {
+      html = html.replace(`___CODE_BLOCK_${index}___`, block);
+    });
 
     return html;
   }
@@ -233,6 +247,13 @@ export class TextRenderer {
     const parsedMarkdown = this._parseMarkdown(decodedContent);
     const accessibleHTML = emojiAccessibility.enhanceText(parsedMarkdown);
     p.innerHTML = accessibleHTML;
+    
+    // Apply syntax highlighting to code blocks (Prism.js)
+    if (window.Prism) {
+      p.querySelectorAll('pre code[class*="language-"]').forEach((codeBlock) => {
+        Prism.highlightElement(codeBlock);
+      });
+    }
 
     // Apply attributes
     const attributes = {};

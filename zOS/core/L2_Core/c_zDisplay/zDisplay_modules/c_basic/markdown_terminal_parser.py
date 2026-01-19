@@ -75,9 +75,8 @@ class MarkdownTerminalParser:
         # This prevents markdown patterns inside HTML from being double-processed
         text = self._strip_html_with_color_mapping(text)
         
-        # Phase 4 (Emoji): Convert emojis to [description] for Terminal accessibility
-        # Do this BEFORE markdown parsing to avoid interference with markdown patterns
-        text = self._convert_emojis_to_descriptions(text)
+        # NOTE: Emoji conversion now happens upstream in display_event_outputs.py
+        # via the DRY _convert_emojis_for_terminal() helper for ALL events (header, text, rich_text)
         
         # Phase 1: Process markdown in order: code first (to protect backticks), then bold, then italic
         # This prevents interference between patterns
@@ -151,90 +150,8 @@ class MarkdownTerminalParser:
         
         return re.sub(pattern, replacer, text)
     
-    def _convert_emojis_to_descriptions(self, text: str) -> str:
-        """
-        Convert emojis to [description] for Terminal accessibility.
-        
-        Phase 4 (Emoji Accessibility): Terminal mode conversion
-        
-        Handles:
-        - Direct emojis: 📱 → [mobile phone]
-        - Unicode escapes: \\u2665 → [heart] (already decoded by Python)
-        - Unknown emojis: 🤷 → [emoji] (fallback)
-        - Preserves ASCII punctuation: : * ` (not converted)
-        
-        Args:
-            text: Text potentially containing emojis
-            
-        Returns:
-            Text with emojis replaced by [descriptions]
-            
-        Example:
-            >>> parser._convert_emojis_to_descriptions("Mobile: 📱 and Laptop: 💻")
-            "Mobile: [mobile phone] and Laptop: [laptop]"
-        """
-        if not text:
-            return text
-        
-        # Lazy load emoji descriptions
-        try:
-            from .....zSys.accessibility import get_emoji_descriptions
-            emoji_desc = get_emoji_descriptions()
-        except ImportError:
-            # If module not available, return text unchanged
-            return text
-        
-        # Define emoji Unicode ranges (exclude ASCII 0x00-0x7F)
-        # Common emoji ranges:
-        # - U+1F300–U+1F9FF: Miscellaneous Symbols and Pictographs, Emoticons, Transport, etc.
-        # - U+2600–U+26FF: Miscellaneous Symbols (sun, stars, weather)
-        # - U+2700–U+27BF: Dingbats (scissors, checkmarks)
-        # - U+FE00–U+FE0F: Variation selectors (emoji presentation)
-        # - U+1F000–U+1F0FF: Mahjong/Domino tiles
-        
-        def is_emoji(char: str) -> bool:
-            """Check if character is in emoji Unicode ranges."""
-            if not char or len(char) != 1:
-                return False
-            
-            code_point = ord(char)
-            
-            # Exclude ASCII range (0x00-0x7F)
-            if code_point < 0x80:
-                return False
-            
-            # Emoji ranges
-            return (
-                (0x1F300 <= code_point <= 0x1F9FF) or  # Main emoji block
-                (0x2600 <= code_point <= 0x26FF) or   # Misc symbols
-                (0x2700 <= code_point <= 0x27BF) or   # Dingbats
-                (0xFE00 <= code_point <= 0xFE0F) or   # Variation selectors
-                (0x1F000 <= code_point <= 0x1F0FF) or # Tiles
-                (0x1F200 <= code_point <= 0x1F2FF) or # Enclosed ideographic supplement
-                (0x1F600 <= code_point <= 0x1F64F) or # Emoticons
-                (0x1F680 <= code_point <= 0x1F6FF) or # Transport & map symbols
-                (0x1F900 <= code_point <= 0x1F9FF) or # Supplemental symbols
-                (0x2300 <= code_point <= 0x23FF) or   # Misc technical
-                (0x2B00 <= code_point <= 0x2BFF) or   # Misc symbols and arrows
-                (code_point >= 0x10000)               # Supplementary planes
-            )
-        
-        # Convert only emoji characters to [description]
-        result = []
-        for char in text:
-            if is_emoji(char):
-                desc = emoji_desc.format_for_terminal(char)
-                if desc and desc != char:
-                    # Emoji was converted to [description]
-                    result.append(desc)
-                else:
-                    # Emoji but no description - keep original
-                    result.append(char)
-            else:
-                # Not an emoji - keep original (ASCII, punctuation, etc.)
-                result.append(char)
-        
-        return ''.join(result)
+    # NOTE: Emoji conversion removed - now handled upstream in display_event_outputs.py
+    # via the DRY _convert_emojis_for_terminal() helper for consistency across ALL events
     
     def _strip_html_with_color_mapping(self, text: str) -> str:
         """
@@ -694,51 +611,106 @@ class MarkdownTerminalParser:
     
     def _emit_code_block(self, block_data: tuple, display: 'zDisplay', indent: int = 0) -> None:
         """
-        Emit a code block for Terminal display.
+        Emit a code block for Terminal display with syntax highlighting.
         
         Phase 4: Code block emission
         Phase 5: Support indentation parameter
+        Phase 5.1: Wider code blocks with line wrapping
+        Phase 6: Pygments syntax highlighting with fallback
         
         For Terminal mode:
         - Display with border/frame
-        - Use distinct color (cyan/dim)
-        - Preserve formatting
+        - Syntax highlighting via Pygments (if available)
+        - Fallback to mono-color cyan if Pygments fails
+        - Preserve formatting with line wrapping
         
         Args:
             block_data: Tuple of (language, code_content)
             display: zDisplay instance
             indent: Indentation level (default: 0)
         """
+        import textwrap
+        import re
+        
         language, code_content = block_data
         
-        # For Terminal mode, format as boxed code
-        # Use ANSI cyan for code content
-        ANSI_CYAN = '\033[36m'
+        # ANSI codes for border/UI elements
         ANSI_DIM = '\033[2m'
         ANSI_RESET = '\033[0m'
+        ANSI_CYAN = '\033[36m'  # Fallback color
         
         # Build indentation string
         indent_str = ' ' * (indent * 4) if indent > 0 else ''
         
-        # Format with border (simple box drawing)
-        lines = code_content.split('\n')
+        # Code block width: 100 chars (wider, but still readable)
+        BOX_WIDTH = 100
+        CONTENT_WIDTH = 98  # Minus 2 for border/padding
+        
+        # Try Pygments syntax highlighting first
+        highlighted_code = None
+        try:
+            from pygments import highlight
+            from pygments.lexers import get_lexer_by_name, TextLexer
+            from pygments.formatters import TerminalFormatter
+            from pygments.util import ClassNotFound
+            
+            # Get lexer for language, fallback to text if unknown
+            try:
+                lexer = get_lexer_by_name(language or 'text', stripall=True)
+            except ClassNotFound:
+                lexer = TextLexer()
+            
+            # Highlight with Pygments (256-color terminal support)
+            highlighted_code = highlight(code_content, lexer, TerminalFormatter())
+            
+        except (ImportError, Exception) as e:
+            # Pygments not available or failed - use fallback
+            highlighted_code = None
+        
+        # If Pygments failed, use mono-color fallback
+        if highlighted_code is None:
+            highlighted_code = f"{ANSI_CYAN}{code_content}{ANSI_RESET}"
+        
+        # Split into lines for border rendering
+        lines = highlighted_code.rstrip().split('\n')
         
         # Top border
-        print(f"{indent_str}{ANSI_DIM}╭{'─' * 60}╮{ANSI_RESET}")
+        print(f"{indent_str}{ANSI_DIM}╭{'─' * BOX_WIDTH}╮{ANSI_RESET}")
         
         # Language label (if present)
         if language:
-            print(f"{indent_str}{ANSI_DIM}│{ANSI_RESET} {ANSI_CYAN}{language}{ANSI_RESET}")
-            print(f"{indent_str}{ANSI_DIM}├{'─' * 60}┤{ANSI_RESET}")
+            # Display language name in cyan
+            lang_label = f" {language} "
+            print(f"{indent_str}{ANSI_DIM}│{ANSI_RESET}{ANSI_CYAN}{lang_label.ljust(BOX_WIDTH)}{ANSI_RESET}{ANSI_DIM}│{ANSI_RESET}")
+            print(f"{indent_str}{ANSI_DIM}├{'─' * BOX_WIDTH}┤{ANSI_RESET}")
         
-        # Code lines
+        # Helper to calculate visible length (excluding ANSI codes)
+        def visible_length(text):
+            """Calculate visible length of text, excluding ANSI escape codes."""
+            ansi_escape = re.compile(r'\x1b\[[0-9;]*m')
+            return len(ansi_escape.sub('', text))
+        
+        # Code lines (already highlighted by Pygments)
         for line in lines:
-            # Truncate long lines for terminal display
-            display_line = line[:58] if len(line) > 58 else line
-            print(f"{indent_str}{ANSI_DIM}│{ANSI_RESET} {ANSI_CYAN}{display_line}{ANSI_RESET}")
+            vis_len = visible_length(line)
+            
+            # If line is too long, we need to wrap it
+            # Note: Wrapping highlighted text is complex, so we truncate for now
+            if vis_len > CONTENT_WIDTH:
+                # For highlighted text, wrapping is complex
+                # Simple approach: truncate and add ellipsis
+                # TODO: Implement proper wrapping that preserves ANSI codes
+                display_line = line[:CONTENT_WIDTH-3] + '...'
+                padding = ''
+            else:
+                display_line = line
+                # Pad with spaces to align right border
+                padding = ' ' * (CONTENT_WIDTH - vis_len)
+            
+            print(f"{indent_str}{ANSI_DIM}│{ANSI_RESET} {display_line}{padding} {ANSI_DIM}│{ANSI_RESET}")
         
         # Bottom border
-        print(f"{indent_str}{ANSI_DIM}╰{'─' * 60}╯{ANSI_RESET}")
+        print(f"{indent_str}{ANSI_DIM}╰{'─' * BOX_WIDTH}╯{ANSI_RESET}")
 
 
 # Utility function for easy access

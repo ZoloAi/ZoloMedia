@@ -96,7 +96,7 @@
      * @param {boolean} options.autoConnect - Auto-connect on instantiation (default: false)
      * @param {boolean} options.zTheme - Load zTheme CSS + JS from CDN (default: false)
      * @param {string} options.zThemeCDN - CDN base URL for zTheme (default: jsdelivr ZoloAi/zTheme)
-     * Note: Bootstrap Icons are ALWAYS loaded automatically (unchangeable default)
+     * Note: Bootstrap Icons and Prism.js are ALWAYS loaded automatically (unchangeable defaults)
      * @param {string} options.targetElement - Target DOM selector for rendering (default: 'zVaF')
      * @param {string|Object} options.autoRequest - Auto-send request on connect (event name or full request object)
      * @param {boolean} options.autoReconnect - Auto-reconnect on disconnect (default: true)
@@ -246,6 +246,9 @@
 
       // Bootstrap Icons are ALWAYS loaded (unchangeable default for zBifrost)
       this._loadBootstrapIcons();
+
+      // Prism.js for syntax highlighting is ALWAYS loaded (unchangeable default for zBifrost)
+      this._loadPrismJS();
 
       // _zScripts are now loaded AFTER first chunk renders (see widget_hook_manager.js)
       // This ensures DOM elements exist before plugins run
@@ -712,6 +715,70 @@
         document.head.appendChild(link);
         this.logger.log('✅ Bootstrap Icons loaded from CDN (v1.11.3)');
       }
+    }
+
+    /**
+     * Load Prism.js from CDN for syntax highlighting (ALWAYS loaded, unchangeable default)
+     * @private
+     */
+    _loadPrismJS() {
+      if (typeof document === 'undefined') {
+        return;
+      }
+
+      const prismCDN = 'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0';
+      const prismTheme = `${prismCDN}/themes/prism-tomorrow.min.css`;
+
+      // Check if Prism CSS already loaded
+      if (!document.querySelector(`link[href="${prismTheme}"]`)) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = prismTheme;
+        document.head.appendChild(link);
+        this.logger.log('✅ Prism.js CSS loaded (prism-tomorrow theme)');
+      }
+
+      // Load Prism core + common languages
+      const scripts = [
+        { src: `${prismCDN}/prism.min.js`, name: 'core' },
+        { src: `${prismCDN}/components/prism-markup.min.js`, name: 'markup' },
+        { src: `${prismCDN}/components/prism-css.min.js`, name: 'css' },
+        { src: `${prismCDN}/components/prism-javascript.min.js`, name: 'javascript' },
+        { src: `${prismCDN}/components/prism-python.min.js`, name: 'python' },
+        { src: `${prismCDN}/components/prism-yaml.min.js`, name: 'yaml' }
+      ];
+
+      // Load scripts sequentially (Prism components depend on core)
+      const loadScript = (scriptInfo, index) => {
+        // Check if script already loaded
+        if (document.querySelector(`script[src="${scriptInfo.src}"]`)) {
+          // Already loaded, continue to next
+          if (index < scripts.length - 1) {
+            loadScript(scripts[index + 1], index + 1);
+          } else {
+            this.logger.log('✅ Prism.js scripts loaded (6 languages)');
+          }
+          return;
+        }
+
+        const script = document.createElement('script');
+        script.src = scriptInfo.src;
+        script.onload = () => {
+          // Load next script in sequence
+          if (index < scripts.length - 1) {
+            loadScript(scripts[index + 1], index + 1);
+          } else {
+            this.logger.log('✅ Prism.js scripts loaded (6 languages)');
+          }
+        };
+        script.onerror = () => {
+          this.logger.warn(`⚠️  Failed to load Prism ${scriptInfo.name}`);
+        };
+        document.head.appendChild(script);
+      };
+
+      // Start loading chain
+      loadScript(scripts[0], 0);
     }
 
     /**
