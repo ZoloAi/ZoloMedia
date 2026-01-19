@@ -615,7 +615,8 @@ class zWizard:
             # SHORTHAND SYNTAX EXPANSION (zH1-zH6, zText, zImage, etc.)
             # ════════════════════════════════════════════════════════════
             # Expand shorthand display events BEFORE dispatch
-            if isinstance(value, dict):
+            # IMPORTANT: Skip if already wrapped (has 'zDisplay' key) to prevent double-wrapping
+            if isinstance(value, dict) and 'zDisplay' not in value:
                 if key == 'zImage':
                     value = {'zDisplay': {'event': 'image', **value}}
                 elif key == 'zURL':

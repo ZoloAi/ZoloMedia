@@ -401,7 +401,7 @@ class BasicOutputs:
     def _render_header_terminal(self, label: str, color: str, indent: int, style: str) -> None:
         """Render header for terminal mode with width-safe formatting."""
         # Decode Unicode escapes for terminal display (preserves ASCII-safe storage)
-        from .....L2_Core.g_zParser.parser_modules.escape_processors import decode_unicode_escapes
+        from zlsp.core.parser.parser_modules.escape_processors import decode_unicode_escapes
         if '\\u' in label or '\\U' in label:
             label = decode_unicode_escapes(label)
         
@@ -578,7 +578,7 @@ class BasicOutputs:
         # Terminal mode - output text and optionally pause
         # Decode Unicode escapes for terminal display (preserves ASCII-safe storage in .zolo files)
         if '\\u' in content or '\\U' in content:
-            from .....L2_Core.g_zParser.parser_modules.escape_processors import decode_unicode_escapes
+            from zlsp.core.parser.parser_modules.escape_processors import decode_unicode_escapes
             content = decode_unicode_escapes(content)
         
         # Apply indentation
@@ -684,7 +684,7 @@ class BasicOutputs:
         
         # Decode Unicode escapes for terminal display (preserves ASCII-safe storage in .zolo files)
         if '\\u' in content or '\\U' in content:
-            from .....L2_Core.g_zParser.parser_modules.escape_processors import decode_unicode_escapes
+            from zlsp.core.parser.parser_modules.escape_processors import decode_unicode_escapes
             content = decode_unicode_escapes(content)
         
         # Apply indentation

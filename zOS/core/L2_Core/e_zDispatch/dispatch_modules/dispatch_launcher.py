@@ -1634,17 +1634,17 @@ class CommandLauncher:
                     zHorizontal[key] = {KEY_ZDISPLAY: {'event': 'zURL', **value}}
                 elif key.startswith('zH') and len(key) == 3 and key[2].isdigit():
                     indent_level = int(key[2])
-                    if 1 <= indent_level <= 6:
+                    if 1 <= indent_level <= 6 and KEY_ZDISPLAY not in value:
                         zHorizontal[key] = {KEY_ZDISPLAY: {'event': 'header', 'indent': indent_level, **value}}
-                elif key == 'zText':
+                elif key == 'zText' and KEY_ZDISPLAY not in value:
                     zHorizontal[key] = {KEY_ZDISPLAY: {'event': 'text', **value}}
-                elif key == 'zUL':
+                elif key == 'zUL' and KEY_ZDISPLAY not in value:
                     zHorizontal[key] = {KEY_ZDISPLAY: {'event': 'list', 'style': 'bullet', **value}}
-                elif key == 'zOL':
+                elif key == 'zOL' and KEY_ZDISPLAY not in value:
                     zHorizontal[key] = {KEY_ZDISPLAY: {'event': 'list', 'style': 'number', **value}}
-                elif key == 'zTable':
+                elif key == 'zTable' and KEY_ZDISPLAY not in value:
                     zHorizontal[key] = {KEY_ZDISPLAY: {'event': 'zTable', **value}}
-                elif key == 'zMD':
+                elif key == 'zMD' and KEY_ZDISPLAY not in value:
                     zHorizontal[key] = {KEY_ZDISPLAY: {'event': 'rich_text', **value}}
                 # Case 2: VALUE contains a single shorthand key (e.g., Link_zCLI: {zURL: {label: ...}} or zURL: [{...}, {...}])
                 elif len(value) == 1:
@@ -1773,17 +1773,17 @@ class CommandLauncher:
                     value = {KEY_ZDISPLAY: {'event': 'zURL', **value}}
                 elif key.startswith('zH') and len(key) == 3 and key[2].isdigit() and isinstance(value, dict):
                     indent_level = int(key[2])
-                    if 1 <= indent_level <= 6:
+                    if 1 <= indent_level <= 6 and KEY_ZDISPLAY not in value:
                         value = {KEY_ZDISPLAY: {'event': 'header', 'indent': indent_level, **value}}
-                elif key == 'zText' and isinstance(value, dict):
+                elif key == 'zText' and isinstance(value, dict) and KEY_ZDISPLAY not in value:
                     value = {KEY_ZDISPLAY: {'event': 'text', **value}}
-                elif key == 'zUL' and isinstance(value, dict):
+                elif key == 'zUL' and isinstance(value, dict) and KEY_ZDISPLAY not in value:
                     value = {KEY_ZDISPLAY: {'event': 'list', 'style': 'bullet', **value}}
-                elif key == 'zOL' and isinstance(value, dict):
+                elif key == 'zOL' and isinstance(value, dict) and KEY_ZDISPLAY not in value:
                     value = {KEY_ZDISPLAY: {'event': 'list', 'style': 'number', **value}}
-                elif key == 'zTable' and isinstance(value, dict):
+                elif key == 'zTable' and isinstance(value, dict) and KEY_ZDISPLAY not in value:
                     value = {KEY_ZDISPLAY: {'event': 'zTable', **value}}
-                elif key == 'zMD' and isinstance(value, dict):
+                elif key == 'zMD' and isinstance(value, dict) and KEY_ZDISPLAY not in value:
                     value = {KEY_ZDISPLAY: {'event': 'rich_text', **value}}
                 # Case 2: VALUE contains a single shorthand key (e.g., Link_zCLI: {zURL: {label: ...}} or zURL: [{...}, {...}])
                 elif isinstance(value, dict) and len(value) == 1:
@@ -1906,8 +1906,6 @@ class CommandLauncher:
         display_data = zHorizontal[KEY_ZDISPLAY]
         
         if isinstance(display_data, dict):
-            self.logger.framework.debug(f"[_route_zdisplay] display_data keys: {list(display_data.keys())}")
-            self.logger.framework.debug(f"[_route_zdisplay] event: {display_data.get('event', 'MISSING')}")
             # Pass context for %data.* variable resolution
             if context and "_resolved_data" in context:
                 display_data["_context"] = context
