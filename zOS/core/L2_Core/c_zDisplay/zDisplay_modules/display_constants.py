@@ -392,7 +392,7 @@ _ZMACHINE_SYSTEM_FIELDS = ["cpu_cores", "memory_gb", "python_version"]
 
 # Format Templates (Internal)
 _FORMAT_BREADCRUMB_SEPARATOR = " → "
-_FORMAT_CRUMB_SCOPE = "[{scope}]"
+_FORMAT_CRUMB_SCOPE = "{scope}[{path}]"
 _FORMAT_MENU_ITEM = "{index}. {label}"
 _FORMAT_FIELD_PROMPT = "{label}: "
 _FORMAT_FIELD_NEWLINE = "\n"

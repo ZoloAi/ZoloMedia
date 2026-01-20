@@ -406,7 +406,7 @@ class MenuSystem:
         # ════════════════════════════════════════════════════════════
         # TERMINAL MODE: Render and block for user input
         # ════════════════════════════════════════════════════════════
-        # Render menu
+        # Render menu (breadcrumbs displayed internally by renderer)
         self.renderer.render(menu_obj, display)
         
         # Get user interaction

@@ -797,7 +797,79 @@ class Breadcrumbs:
         6. Append key to trail
         7. Log updated trail
         """
-        # Get active block path from session (handles Delta links!)        zBlock = self._get_active_block_path(self.zcli.session)                # Get appropriate display adapter        display = self._get_display(walker)                # Display operation banner        display.zDeclare(            _MSG_HANDLE_ZCRUMBS,            color=COLOR_ZCRUMB,            indent=_INDENT_ZCRUMBS,            style=_STYLE_FULL        )        # Log incoming parameters        self.logger.debug(_LOG_INCOMING_BLOCK_KEY, zBlock, zKey)        self.logger.debug(_LOG_CURRENT_ZCRUMBS, self.zcli.session[SESSION_KEY_ZCRUMBS])        # CHECK NAVBAR FLAG: Auto-detect navbar navigation        zCrumbs = self.zcli.session.get(SESSION_KEY_ZCRUMBS, {})        if zCrumbs.get("_navbar_navigation", False):            self.logger.info(f"[Breadcrumbs] Navbar navigation detected → auto-switching to OP_RESET")            operation = OP_RESET            zCrumbs["_navbar_navigation"] = False            self.logger.debug("[Breadcrumbs] Navbar flag cleared after detection")        # Get crumbs dict from session        crumbs_dict = self._get_crumbs_dict(self.zcli.session)        # Create scope if it doesn't exist        if zBlock not in crumbs_dict:            crumbs_dict[zBlock] = []            self.logger.debug(_LOG_CURRENT_ZCRUMBS, crumbs_dict)        # Get trail for this block        zBlock_crumbs = crumbs_dict[zBlock]        self.logger.debug(_LOG_CURRENT_TRAIL, zBlock_crumbs)        # Skip navbar keys from breadcrumb trail        if "zNavBar" in zKey:            self.logger.debug(f"[Breadcrumbs] Skipping navbar key from trail: {zKey}")            return        # ====================================================================        # ORCHESTRATOR: Handle operation types using extracted helpers        # ====================================================================                # Handle operation: RESET, POP_TO, REPLACE, or APPEND        if operation == OP_RESET:            crumbs_dict, zBlock_crumbs, nav_type, block_type = self._handle_reset_operation(                self.zcli.session, zBlock, zKey            )        elif operation == "POP_TO":            nav_type, block_type = self._handle_pop_to_operation(zBlock_crumbs, zKey)        elif operation == OP_REPLACE:            nav_type, block_type = self._handle_replace_operation(zBlock_crumbs, zKey)        else:  # APPEND (default)            nav_type, block_type, should_skip = self._handle_append_operation(                zBlock_crumbs, zKey, zBlock            )            if should_skip:                return  # Duplicate key, skip                self.logger.debug(_LOG_CURRENT_TRAIL, zBlock_crumbs)                # Update context tracking and depth map        self._update_context_and_depth(            self.zcli.session, operation, nav_type, block_type,            zBlock, zKey, zBlock_crumbs        )                # Log complete state        self.logger.debug(_LOG_CURRENT_ZCRUMBS, self.zcli.session[SESSION_KEY_ZCRUMBS])
+        # Get active block path from session (handles Delta links!)
+        zBlock = self._get_active_block_path(self.zcli.session)
+        
+        # Get appropriate display adapter
+        display = self._get_display(walker)
+        
+        # Display operation banner
+        display.zDeclare(
+            _MSG_HANDLE_ZCRUMBS,
+            color=COLOR_ZCRUMB,
+            indent=_INDENT_ZCRUMBS,
+            style=_STYLE_FULL
+        )
+        
+        # Log incoming parameters
+        self.logger.debug(_LOG_INCOMING_BLOCK_KEY, zBlock, zKey)
+        self.logger.debug(_LOG_CURRENT_ZCRUMBS, self.zcli.session[SESSION_KEY_ZCRUMBS])
+        
+        # CHECK NAVBAR FLAG: Auto-detect navbar navigation
+        zCrumbs = self.zcli.session.get(SESSION_KEY_ZCRUMBS, {})
+        if zCrumbs.get("_navbar_navigation", False):
+            self.logger.info(f"[Breadcrumbs] Navbar navigation detected → auto-switching to OP_RESET")
+            operation = OP_RESET
+            zCrumbs["_navbar_navigation"] = False
+            self.logger.debug("[Breadcrumbs] Navbar flag cleared after detection")
+        
+        # Get crumbs dict from session
+        crumbs_dict = self._get_crumbs_dict(self.zcli.session)
+        
+        # Create scope if it doesn't exist
+        if zBlock not in crumbs_dict:
+            crumbs_dict[zBlock] = []
+            self.logger.debug(_LOG_CURRENT_ZCRUMBS, crumbs_dict)
+        
+        # Get trail for this block
+        zBlock_crumbs = crumbs_dict[zBlock]
+        self.logger.debug(_LOG_CURRENT_TRAIL, zBlock_crumbs)
+        
+        # Skip navbar keys from breadcrumb trail
+        if "zNavBar" in zKey:
+            self.logger.debug(f"[Breadcrumbs] Skipping navbar key from trail: {zKey}")
+            return
+        
+        # ====================================================================
+        # ORCHESTRATOR: Handle operation types using extracted helpers
+        # ====================================================================
+        
+        # Handle operation: RESET, POP_TO, REPLACE, or APPEND
+        if operation == OP_RESET:
+            crumbs_dict, zBlock_crumbs, nav_type, block_type = self._handle_reset_operation(
+                self.zcli.session, zBlock, zKey
+            )
+        elif operation == "POP_TO":
+            nav_type, block_type = self._handle_pop_to_operation(zBlock_crumbs, zKey)
+        elif operation == OP_REPLACE:
+            nav_type, block_type = self._handle_replace_operation(zBlock_crumbs, zKey)
+        else:  # APPEND (default)
+            nav_type, block_type, should_skip = self._handle_append_operation(
+                zBlock_crumbs, zKey, zBlock
+            )
+            if should_skip:
+                return  # Duplicate key, skip
+        
+        self.logger.debug(_LOG_CURRENT_TRAIL, zBlock_crumbs)
+        
+        # Update context tracking and depth map
+        self._update_context_and_depth(
+            self.zcli.session, operation, nav_type, block_type,
+            zBlock, zKey, zBlock_crumbs
+        )
+        
+        # Log complete state
+        self.logger.debug(_LOG_CURRENT_ZCRUMBS, self.zcli.session[SESSION_KEY_ZCRUMBS])
 
     def _handle_trail_pop_and_scope_transition(
         self,
