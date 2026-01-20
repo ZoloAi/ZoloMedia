@@ -211,7 +211,7 @@ class zSystem:
         """
         return self.DeclareEvents.zDeclare(label, color, indent, style)
     
-    def zCrumbs(self, session_data: Optional[Dict[str, Any]] = None, _parent: Optional[str] = None) -> None:
+    def zCrumbs(self, session_data: Optional[Dict[str, Any]] = None, parent: Optional[str] = None, show: str = 'session') -> None:
         """
         Display breadcrumb navigation trail.
         
@@ -219,14 +219,15 @@ class zSystem:
         
         Args:
             session_data: Session dict (defaults to self.display.zcli.session if None)
-            _parent: Declarative parent path for stateless breadcrumbs (e.g., "zProducts.zTheme")
+            parent: Declarative parent path (works in both Terminal and Bifrost, e.g., "zProducts.zTheme")
+            show: Display mode - 'session' (default, session-based) or 'static' (declarative from parent)
         
         Note: session_data defaults to self.display.zcli.session if None
         """
         if session_data is None and hasattr(self.display, 'zcli'):
             session_data = self.display.zcli.session
         
-        return self.NavigationEvents.zCrumbs(session_data, _parent=_parent)
+        return self.NavigationEvents.zCrumbs(session_data, parent=parent, show=show)
     
     def zMenu(
         self,

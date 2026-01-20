@@ -652,6 +652,38 @@ class zWizard:
                     value = {'zDisplay': {'event': 'zTable', **value}}
                 elif key == 'zMD':
                     value = {'zDisplay': {'event': 'rich_text', **value}}
+                elif key == 'zCrumbs':
+                    # Breadcrumb navigation shorthand
+                    self.logger.debug(f"[zWizard] zCrumbs shorthand detected with value: {value}")
+                    if isinstance(value, dict):
+                        # Check for 'show' parameter
+                        if 'show' in value:
+                            show_value = value.get('show', False)
+                            # Supported values: 'session', 'static', true (backward compat for 'session')
+                            # 'session' = session-based breadcrumbs (Terminal default)
+                            # 'static' = declarative breadcrumbs from _parent (GUI cold-start)
+                            if show_value in ('session', 'static', True) or (isinstance(show_value, str) and show_value.lower() in ('true', 'session', 'static')):
+                                # Normalize show_value to lowercase string
+                                if show_value is True or (isinstance(show_value, str) and show_value.lower() == 'true'):
+                                    show_value = 'session'  # Default to session-based
+                                elif isinstance(show_value, str):
+                                    show_value = show_value.lower()
+                                
+                                # Pass through all params except 'show', but add normalized 'show' back
+                                params_without_show = {k: v for k, v in value.items() if k != 'show'}
+                                params_without_show['show'] = show_value
+                                value = {'zDisplay': {'event': 'zCrumbs', **params_without_show}}
+                                self.logger.debug(f"[zWizard] zCrumbs expanded to: {value}")
+                            else:
+                                # show: false or invalid value - skip this item
+                                self.logger.debug(f"[zWizard] zCrumbs show={show_value}, skipping")
+                                idx += 1
+                                continue
+                        else:
+                            # Missing 'show' parameter - skip this item
+                            self.logger.debug("[zWizard] zCrumbs missing 'show' parameter, skipping")
+                            idx += 1
+                            continue
 
             # ════════════════════════════════════════════════════════════
             # RBAC Enforcement (v1.5.4 Week 3.3)
@@ -847,6 +879,37 @@ class zWizard:
             if rbac_check_result == RBAC_ACCESS_DENIED:
                 idx += 1
                 continue
+            
+            # ════════════════════════════════════════════════════════════════
+            # SHORTHAND SYNTAX EXPANSION (zH1-zH6, zText, zCrumbs, etc.)
+            # ════════════════════════════════════════════════════════════════
+            # Expand shorthand display events BEFORE dispatch
+            # IMPORTANT: Skip if already wrapped (has 'zDisplay' key) to prevent double-wrapping
+            if isinstance(value, dict) and 'zDisplay' not in value:
+                if key == 'zCrumbs':
+                    # zCrumbs shorthand - handle 'show' parameter
+                    show_value = value.get('show', 'session')  # Default to 'session'
+                    
+                    zdisplay_params = {'event': 'zCrumbs'}
+                    if 'parent' in value:
+                        zdisplay_params['parent'] = value['parent']
+                    
+                    if show_value is True or (isinstance(show_value, str) and show_value.lower() == 'true') or show_value.lower() == 'session':
+                        zdisplay_params['show'] = 'session'
+                        value = {'zDisplay': zdisplay_params}
+                        self.logger.framework.debug(f"[zWizard.chunked] zCrumbs expanded to: {value}")
+                    elif show_value.lower() == 'static':
+                        zdisplay_params['show'] = 'static'
+                        value = {'zDisplay': zdisplay_params}
+                        self.logger.framework.debug(f"[zWizard.chunked] zCrumbs expanded to: {value}")
+                    else:
+                        # show: false or unrecognized value - skip this key (don't display)
+                        self.logger.framework.debug(f"[zWizard.chunked] zCrumbs show={show_value}, skipping")
+                        idx += 1
+                        continue
+                    
+                    # Update the dict with expanded value
+                    items_dict[key] = value
             
             # ════════════════════════════════════════════════════════════════
             # EXECUTE BLOCK LOGIC (v1.5.13 - Menu Support for Bifrost)

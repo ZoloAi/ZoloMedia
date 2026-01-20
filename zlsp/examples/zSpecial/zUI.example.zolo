@@ -3,6 +3,10 @@ zMeta:
 
 zVaF:
     _zClass: zHero zHero-full
+    zCrumbs:
+        show: session
+        parent: zProducts.zTheme
+
     zImage:
         # Required
         src: @.static.brand.zLogo_MainAlpha.png

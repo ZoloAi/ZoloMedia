@@ -456,8 +456,9 @@ export class NavigationRenderer {
     
     // Render each trail (file, vafile, block) using zTheme structure
     visibleTrails.forEach(([scope, trail]) => {
-      if (!Array.isArray(trail) || trail.length === 0) return;
+      if (!Array.isArray(trail)) return;  // Only skip non-array trails
       
+      // Show scope even with empty trail (like Terminal: "scope[]")
       // Add scope label for multi-trail displays (optional)
       if (visibleTrails.length > 1) {
         const scopeLabel = createSpan({ class: 'zText-muted zSmall zFw-bold zD-block' });
@@ -473,30 +474,40 @@ export class NavigationRenderer {
       
       const ol = createList(true, { class: 'zBreadcrumb' });
       
-      // Render trail items
-      trail.forEach((item, index) => {
-        const isLast = (index === trail.length - 1);
+      // Render trail items (or just the scope if trail is empty)
+      if (trail.length === 0) {
+        // Empty trail: show just the scope name (like Terminal: "scope[]")
         const li = createListItem({ 
-          class: isLast ? 'zBreadcrumb-item zActive' : 'zBreadcrumb-item'
+          class: 'zBreadcrumb-item zActive'
         });
-        
-        if (isLast) {
-          // Last item (current page) - plain text with aria-current
-          li.setAttribute('aria-current', 'page');
-          li.textContent = item;
-        } else {
-          // Parent pages - clickable links (Phase 2: add real routing)
-          const a = createLink('#', {});
-          a.textContent = item;
-          a.onclick = (e) => {
-            e.preventDefault();
-            this.logger.log(`[Breadcrumbs] Clicked: ${item} (navigation TBD)`);
-          };
-          li.appendChild(a);
-        }
-        
+        li.setAttribute('aria-current', 'page');
+        li.textContent = `${scope}[]`;  // Display format: "scope[]"
         ol.appendChild(li);
-      });
+      } else {
+        trail.forEach((item, index) => {
+          const isLast = (index === trail.length - 1);
+          const li = createListItem({ 
+            class: isLast ? 'zBreadcrumb-item zActive' : 'zBreadcrumb-item'
+          });
+          
+          if (isLast) {
+            // Last item (current page) - plain text with aria-current
+            li.setAttribute('aria-current', 'page');
+            li.textContent = item;
+          } else {
+            // Parent pages - clickable links (Phase 2: add real routing)
+            const a = createLink('#', {});
+            a.textContent = item;
+            a.onclick = (e) => {
+              e.preventDefault();
+              this.logger.log(`[Breadcrumbs] Clicked: ${item} (navigation TBD)`);
+            };
+            li.appendChild(a);
+          }
+          
+          ol.appendChild(li);
+        });
+      }
       
       nav.appendChild(ol);
       container.appendChild(nav);

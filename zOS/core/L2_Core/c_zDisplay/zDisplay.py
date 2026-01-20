@@ -359,8 +359,8 @@ class zDisplay(zDisplayDelegates):
         # Metadata keys like _zClass, _zStyle, _id, zRBAC are Bifrost-only and should not be passed to Terminal event methods
         # EXCEPTIONS:
         #   - _context is needed for %data.* variable resolution (v1.5.12)
-        #   - _parent is needed for declarative breadcrumbs (Phase 1)
-        params = {k: v for k, v in display_obj.items() if k != _KEY_EVENT and (not k.startswith('_') or k in ('_context', '_parent'))}
+        #   - parent is needed for declarative breadcrumbs (Phase 1)
+        params = {k: v for k, v in display_obj.items() if k != _KEY_EVENT and (not k.startswith('_') or k == '_context')}
 
         try:
             return handler(**params)

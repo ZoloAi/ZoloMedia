@@ -655,13 +655,17 @@ class CommandLauncher:
         # SECOND & THIRD: Shorthand expansion (Terminal mode only)
         # In Bifrost mode, skip shorthand expansion - let raw structure pass through to client
         if not is_bifrost_mode(self.zcli.session):
+            # DEBUG: Log start of shorthand expansion
+            self.logger.debug(f"[Shorthand] Starting expansion for zHorizontal keys: {list(zHorizontal.keys())}")
+            
             # SECOND: Pre-check - Skip shorthand loop if multiple UI event keys (implicit sequence)
+            # Note: zCrumbs is NOT counted as a UI event for implicit sequences - it's a standalone directive
             non_meta_keys = [k for k in zHorizontal.keys() if not k.startswith('_')]
             ui_event_count = 0
             for key in non_meta_keys:
                 if key.startswith('zH') and len(key) == 3 and key[2].isdigit():
                     ui_event_count += 1
-                elif key in ['zText', 'zMD', 'zImage', 'zURL', 'zCrumbs']:
+                elif key in ['zText', 'zMD', 'zImage', 'zURL']:
                     ui_event_count += 1
         
             # Skip shorthand loop if ALL keys are UI events (let organizational handler process as sequence)
@@ -669,13 +673,17 @@ class CommandLauncher:
         
             # THIRD: Check for regular shorthand keys (zUL, zOL, zImage, zText, etc.)
             for key in list(zHorizontal.keys()):
+                # DEBUG: Log which key we're checking
+                self.logger.debug(f"[Shorthand] Checking key: {key}, skip_shorthand_loop={skip_shorthand_loop}")
+                
                 # Skip UI event keys if implicit sequence detected (let it fall through to organizational handler)
+                # EXCEPT for zCrumbs, which is always processed (standalone directive)
                 if skip_shorthand_loop:
                     # Strip __dup{N} suffix when checking (LSP duplicate key handling)
                     clean_key_check = key.split('__dup')[0] if '__dup' in key else key
                     is_ui_event = (
                         (clean_key_check.startswith('zH') and len(clean_key_check) == 3 and clean_key_check[2].isdigit()) or
-                        clean_key_check in ['zText', 'zMD', 'zImage', 'zURL', 'zCrumbs']
+                        clean_key_check in ['zText', 'zMD', 'zImage', 'zURL']
                     )
                     if is_ui_event:
                         continue
@@ -683,6 +691,7 @@ class CommandLauncher:
                 # Check if there are non-UI-event siblings (organizational containers)
                 # If yes, expand in-place to preserve them
                 # ALSO check if ALL keys are UI events (pure implicit sequence)
+                # Note: zCrumbs is NOT counted as a UI event - it's a standalone directive
                 has_organizational_siblings = False
                 all_siblings_are_ui_events = True
                 for sibling_key in non_meta_keys:
@@ -690,7 +699,7 @@ class CommandLauncher:
                     clean_sibling_key = sibling_key.split('__dup')[0] if '__dup' in sibling_key else sibling_key
                     is_sibling_ui_event = (
                         (clean_sibling_key.startswith('zH') and len(clean_sibling_key) == 3 and clean_sibling_key[2].isdigit()) or
-                        clean_sibling_key in ['zText', 'zMD', 'zImage', 'zURL', 'zUL', 'zOL', 'zTable', 'zCrumbs']
+                        clean_sibling_key in ['zText', 'zMD', 'zImage', 'zURL', 'zUL', 'zOL', 'zTable']
                     )
                     if not is_sibling_ui_event:
                         has_organizational_siblings = True
@@ -1010,6 +1019,47 @@ class CommandLauncher:
                             # Mark as subsystem call to skip other detection
                             is_subsystem_call = True
                             break
+                elif clean_key == 'zCrumbs':
+                    # Breadcrumb navigation shorthand
+                    crumbs_params = zHorizontal[key]
+                    self.logger.framework.debug(f"[zCrumbs Shorthand MAIN] Detected zCrumbs key with value: {crumbs_params}")
+                    if isinstance(crumbs_params, dict):
+                        # Check for 'show' parameter
+                        if 'show' in crumbs_params:
+                            show_value = crumbs_params.get('show', False)
+                            if show_value is True or (isinstance(show_value, str) and show_value.lower() == 'true'):
+                                # Pass through all params except 'show'
+                                params_without_show = {k: v for k, v in crumbs_params.items() if k != 'show'}
+                                if has_organizational_siblings:
+                                    # Expand in-place to preserve organizational siblings
+                                    zHorizontal[key] = {
+                                        KEY_ZDISPLAY: {
+                                            'event': 'zCrumbs',
+                                            **params_without_show
+                                        }
+                                    }
+                                    self.logger.framework.debug(f"[zCrumbs Shorthand MAIN] Expanded (in-place) to: {zHorizontal[key]}")
+                                    # Continue to next key
+                                else:
+                                    # Replace entire dict (single directive, no siblings)
+                                    zHorizontal = {
+                                        KEY_ZDISPLAY: {
+                                            'event': 'zCrumbs',
+                                            **params_without_show
+                                        }
+                                    }
+                                    self.logger.framework.debug(f"[zCrumbs Shorthand MAIN] Expanded (replace) to: {zHorizontal}")
+                                    # Mark as subsystem call to skip other detection
+                                    is_subsystem_call = True
+                                    break
+                            else:
+                                # show: false - skip this key
+                                self.logger.framework.debug(f"[zCrumbs Shorthand MAIN] show=false, skipping")
+                                continue
+                        else:
+                            # Missing 'show' parameter - skip this key
+                            self.logger.framework.debug(f"[zCrumbs Shorthand MAIN] Missing 'show' parameter, skipping")
+                            continue
                 elif clean_key == 'zImage':
                     # Image display
                     image_params = zHorizontal[key]
@@ -1078,32 +1128,44 @@ class CommandLauncher:
                                 is_subsystem_call = False
                                 break
                 elif clean_key == 'zCrumbs':
-                    # Breadcrumb display (boolean flag or dict)
-                    # When zCrumbs: true, trigger the zCrumbs event to display breadcrumbs
+                    # Breadcrumb display shorthand with explicit show property
+                    # Supports:
+                    #   zCrumbs: {show: true}                             → Session-based breadcrumbs
+                    #   zCrumbs: {show: true, parent: "zProducts.zTheme"} → Declarative breadcrumbs (Phase 1)
+                    #   zCrumbs: {show: false}                            → Suppressed (no display)
                     crumbs_value = zHorizontal[key]
-                    if crumbs_value is True or (isinstance(crumbs_value, str) and crumbs_value.lower() == 'true'):
-                        # Expand to zDisplay event with session_data parameter
-                        # The zCrumbs event handler expects session_data with breadcrumb trails
+                    
+                    # Only expand if show is explicitly true
+                    should_expand = False
+                    zdisplay_params = {'event': 'zCrumbs'}
+                    
+                    if isinstance(crumbs_value, dict):
+                        show_value = crumbs_value.get('show', False)
+                        if show_value is True or (isinstance(show_value, str) and show_value.lower() == 'true'):
+                            should_expand = True
+                            # Pass through all params except 'show' (e.g., parent, session_data)
+                            # This enables: zCrumbs: {show: true, parent: "zProducts.zTheme"}
+                            params_without_show = {k: v for k, v in crumbs_value.items() if k != 'show'}
+                            zdisplay_params.update(params_without_show)
+                    
+                    # NOTE: We don't explicitly pass session_data
+                    # The zCrumbs display event auto-injects session if None (Phase 1 enhancement)
+                    
+                    if should_expand:
+                        # Expand to zDisplay event
                         if has_organizational_siblings:
                             # Expand in-place to preserve organizational siblings
-                            zHorizontal[key] = {
-                                KEY_ZDISPLAY: {
-                                    'event': 'zCrumbs',
-                                    'session_data': self.zcli.session
-                                }
-                            }
+                            zHorizontal[key] = {KEY_ZDISPLAY: zdisplay_params}
                             # Continue to next key
                         else:
                             # Replace entire dict (single UI event, no siblings)
-                            zHorizontal = {
-                                KEY_ZDISPLAY: {
-                                    'event': 'zCrumbs',
-                                    'session_data': self.zcli.session
-                                }
-                            }
+                            zHorizontal = {KEY_ZDISPLAY: zdisplay_params}
                             # Mark as subsystem call to skip other detection
                             is_subsystem_call = True
                             break
+                    else:
+                        # show: false or missing show property → skip this key (don't display)
+                        continue
         
             # Recalculate content_keys and subsystem check after shorthand expansion (Terminal mode)
             content_keys = [k for k in zHorizontal.keys() if not k.startswith('_')]
@@ -1646,6 +1708,24 @@ class CommandLauncher:
                     zHorizontal[key] = {KEY_ZDISPLAY: {'event': 'zTable', **value}}
                 elif key == 'zMD' and KEY_ZDISPLAY not in value:
                     zHorizontal[key] = {KEY_ZDISPLAY: {'event': 'rich_text', **value}}
+                elif key == 'zCrumbs' and KEY_ZDISPLAY not in value:
+                    # zCrumbs shorthand - handle 'show' parameter
+                    self.logger.framework.debug(f"[zCrumbs Shorthand MAIN] Detected zCrumbs key with value: {value}")
+                    if 'show' in value:
+                        show_value = value.get('show', False)
+                        if show_value is True or (isinstance(show_value, str) and show_value.lower() == 'true'):
+                            # Pass through all params except 'show'
+                            params_without_show = {k: v for k, v in value.items() if k != 'show'}
+                            zHorizontal[key] = {KEY_ZDISPLAY: {'event': 'zCrumbs', **params_without_show}}
+                            self.logger.framework.debug(f"[zCrumbs Shorthand MAIN] Expanded to: {zHorizontal[key]}")
+                        else:
+                            # show: false - remove key from processing
+                            self.logger.framework.debug(f"[zCrumbs Shorthand MAIN] show=false, skipping")
+                            continue
+                    else:
+                        # Missing 'show' parameter - skip
+                        self.logger.framework.debug(f"[zCrumbs Shorthand MAIN] Missing 'show' parameter, skipping")
+                        continue
                 # Case 2: VALUE contains a single shorthand key (e.g., Link_zCLI: {zURL: {label: ...}} or zURL: [{...}, {...}])
                 elif len(value) == 1:
                     inner_key = list(value.keys())[0]
@@ -1785,6 +1865,25 @@ class CommandLauncher:
                     value = {KEY_ZDISPLAY: {'event': 'zTable', **value}}
                 elif key == 'zMD' and isinstance(value, dict) and KEY_ZDISPLAY not in value:
                     value = {KEY_ZDISPLAY: {'event': 'rich_text', **value}}
+                elif key == 'zCrumbs' and isinstance(value, dict) and KEY_ZDISPLAY not in value:
+                    # zCrumbs shorthand - handle 'show' parameter
+                    self.logger.framework.debug(f"[zCrumbs Shorthand] Detected zCrumbs key with value: {value}")
+                    if 'show' in value:
+                        show_value = value.get('show', False)
+                        self.logger.framework.debug(f"[zCrumbs Shorthand] show value: {show_value}")
+                        if show_value is True or (isinstance(show_value, str) and show_value.lower() == 'true'):
+                            # Pass through all params except 'show'
+                            params_without_show = {k: v for k, v in value.items() if k != 'show'}
+                            value = {KEY_ZDISPLAY: {'event': 'zCrumbs', **params_without_show}}
+                            self.logger.framework.debug(f"[zCrumbs Shorthand] Expanded to: {value}")
+                        else:
+                            # show: false - skip to next key
+                            self.logger.framework.debug(f"[zCrumbs Shorthand] show=false, skipping")
+                            continue
+                    else:
+                        # Missing 'show' parameter - skip to next key  
+                        self.logger.framework.debug(f"[zCrumbs Shorthand] Missing 'show' parameter, skipping")
+                        continue
                 # Case 2: VALUE contains a single shorthand key (e.g., Link_zCLI: {zURL: {label: ...}} or zURL: [{...}, {...}])
                 elif isinstance(value, dict) and len(value) == 1:
                     inner_key = list(value.keys())[0]
