@@ -50,7 +50,7 @@ class DelegateData:
         items: List[str], 
         style: str = DEFAULT_STYLE_BULLET, 
         indent: int = DEFAULT_INDENT
-    ) -> Any:
+    ) -> Optional[Any]:
         """Display bulleted, numbered, or plain list.
         
         Args:
@@ -62,7 +62,7 @@ class DelegateData:
             indent: Indentation level (default: 0)
             
         Returns:
-            Any: Result from handle() method
+            Optional[Any]: Navigation signal (zLink dict) if user clicked a link, None otherwise
             
         Example:
             display.list(["Apple", "Banana"], style="numbered")

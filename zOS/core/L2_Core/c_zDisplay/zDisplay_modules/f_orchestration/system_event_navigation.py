@@ -36,6 +36,9 @@ from typing import Any, Optional, Dict, List, Tuple, Union
 # Import SESSION_KEY_* constants
 from zOS.L1_Foundation.a_zConfig.zConfig_modules.config_session import SESSION_KEY_ZCRUMBS
 
+# Import colors
+from zOS.zSys.formatting.colors import Colors
+
 # Import Tier 0 infrastructure helpers
 from ..a_infrastructure.display_event_helpers import try_gui_event
 from ..a_infrastructure.display_rendering_utilities import output_text_via_basics
@@ -255,10 +258,18 @@ class NavigationEvents:
         
         # Display breadcrumbs using BasicOutputs.text()
         output_text_via_basics("", 0, False, self.display)
-        output_text_via_basics(_MSG_ZCRUMBS_HEADER, 0, False, self.display)
+        # Header with PRIMARY color
+        header_colored = f"{Colors.PRIMARY}{_MSG_ZCRUMBS_HEADER}{Colors.RESET}"
+        output_text_via_basics(header_colored, 0, False, self.display)
         for scope, path in crumbs_display.items():
-            content = _FORMAT_CRUMB_SCOPE.format(scope=scope, path=path)
+            # For declarative breadcrumbs, skip the scope prefix and just show [path]
+            if scope == 'declarative':
+                content = f"[{path}]"
+            else:
+                content = _FORMAT_CRUMB_SCOPE.format(scope=scope, path=path)
             output_text_via_basics(content, 0, False, self.display)
+        # Add blank line after breadcrumbs
+        output_text_via_basics("", 0, False, self.display)
     
     def zMenu(
         self, 

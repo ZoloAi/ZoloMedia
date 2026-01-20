@@ -518,7 +518,7 @@ class BasicData:
 
     # Public Methods - List & JSON Display
 
-    def list(self, items: Optional[List[Any]], style: str = DEFAULT_STYLE, indent: int = DEFAULT_INDENT, **kwargs) -> None:
+    def list(self, items: Optional[List[Any]], style: str = DEFAULT_STYLE, indent: int = DEFAULT_INDENT, **kwargs) -> Optional[Any]:
         """Display list with bullets or numbers in Terminal/GUI modes.
         
         Foundation method for list display. Implements dual-mode I/O pattern
@@ -584,6 +584,16 @@ class BasicData:
         if not items:
             return
 
+        # NEW: In Bifrost mode, process nested zDisplay events in list items BEFORE buffering
+        # This ensures nested events (like zURL inside zUL) get individually buffered
+        mode = self.display.zcli.session.get('zMode', 'Terminal')
+        if mode == 'zBifrost':
+            for item in items:
+                if isinstance(item, dict) and 'zDisplay' in item:
+                    # Process nested zDisplay event to trigger its buffering
+                    # Don't need the result, just need the side effect of buffering
+                    self.display.handle(item['zDisplay'])
+
         # Try GUI mode first - send clean event
         if self._send_gui_event(_EVENT_NAME_LIST, {
             _KEY_ITEMS: items,
@@ -599,15 +609,32 @@ class BasicData:
         
         for i, item in enumerate(items, 1):
             prefix = self._generate_prefix(style, i)
-            content = f"{prefix}{item}"
             
-            # NEW v1.5.12: Resolve %variable references in list items
-            if "%" in content and _context:
-                from zOS.L2_Core.g_zParser.parser_modules.parser_functions import resolve_variables
-                content = resolve_variables(content, self.display.zcli, _context)
-            
-            # Compose: use helper instead of direct BasicOutputs call
-            self._output_text(content, indent=indent, break_after=False)
+            # Check if item is a zDisplay event (recursive rendering support)
+            if isinstance(item, dict) and 'zDisplay' in item:
+                # Recursively render the zDisplay event
+                # Print prefix first
+                self._output_text(prefix.rstrip(), indent=indent, break_after=False)
+                # Then render the item's zDisplay event and capture result
+                result = self.display.handle(item['zDisplay'])
+                
+                # If result is a navigation signal, propagate it immediately
+                if isinstance(result, dict) and 'zLink' in result:
+                    return result
+            else:
+                # Simple item - convert to string
+                content = f"{prefix}{item}"
+                
+                # NEW v1.5.12: Resolve %variable references in list items
+                if "%" in content and _context:
+                    from zOS.L2_Core.g_zParser.parser_modules.parser_functions import resolve_variables
+                    content = resolve_variables(content, self.display.zcli, _context)
+                
+                # Compose: use helper instead of direct BasicOutputs call
+                self._output_text(content, indent=indent, break_after=False)
+        
+        # Return None if no navigation occurred
+        return None
 
     def json_data(self, data: Optional[Union[Dict[str, Any], List[Any], Any]], 
                   indent_size: int = DEFAULT_INDENT_SIZE, 

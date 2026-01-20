@@ -489,7 +489,7 @@ class zEvents:
 
     # Convenience Delegates - BasicData
 
-    def list(self, items: List[Any], style: str = DEFAULT_STYLE_BULLET, indent: int = 0, **kwargs) -> Any:
+    def list(self, items: List[Any], style: str = DEFAULT_STYLE_BULLET, indent: int = 0, **kwargs) -> Optional[Any]:
         """Display list of items with formatting.
         
         Convenience delegate to BasicData.list for backward compatibility.
@@ -501,7 +501,7 @@ class zEvents:
             **kwargs: Additional parameters (e.g., _context)
             
         Returns:
-            Any: Result from BasicData.list method
+            Optional[Any]: Navigation signal (zLink dict) if user clicked a link, None otherwise
         """
         return self.BasicData.list(items, style, indent, **kwargs)
 
