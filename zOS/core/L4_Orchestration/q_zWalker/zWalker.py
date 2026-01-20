@@ -618,6 +618,11 @@ class zWalker(zWizard):
             # ❌ NO validation - zNavigation is self-aware
             # ❌ NO path construction - zNavigation handles it
             # ✅ ONLY delegation - pure orchestration wrapper
+            
+            # Skip breadcrumb tracking for display directives (zCrumbs is a display event, not a navigation key)
+            if key.lstrip('_') == 'zCrumbs':
+                return
+            
             self.navigation.handle_zCrumbs(key, walker=self)
         
         def on_back(result: Any) -> Any:  # pylint: disable=unused-argument

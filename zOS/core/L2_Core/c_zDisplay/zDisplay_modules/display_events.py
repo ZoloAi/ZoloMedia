@@ -605,18 +605,19 @@ class zEvents:
         """
         return self.zSystem.zConfig(config_data, break_after, break_message)
 
-    def zCrumbs(self, session_data: Dict[str, Any]) -> Any:
+    def zCrumbs(self, session_data: Optional[Dict[str, Any]] = None, _parent: Optional[str] = None) -> Any:
         """Display breadcrumb navigation from session.
         
         Convenience delegate to zSystem.zCrumbs for backward compatibility.
         
         Args:
             session_data: Session dictionary containing navigation
+            _parent: Declarative parent path for stateless breadcrumbs (e.g., "zProducts.zTheme")
             
         Returns:
             Any: Result from zSystem.zCrumbs method
         """
-        return self.zSystem.zCrumbs(session_data)
+        return self.zSystem.zCrumbs(session_data, _parent=_parent)
 
     def zMenu(self, menu_items: List[Any], prompt: str = DEFAULT_MENU_PROMPT, return_selection: bool = False) -> Any:
         """Display interactive menu for user selection.

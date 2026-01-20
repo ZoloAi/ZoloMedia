@@ -424,6 +424,88 @@ export class NavigationRenderer {
   }
 
   /**
+   * Render breadcrumbs from zCrumbs display event (handles multiple trails)
+   * Uses zTheme breadcrumb structure: nav > ol.zBreadcrumb > li.zBreadcrumb-item
+   * @param {Object} eventData - Event data from backend zCrumbs event
+   * @returns {HTMLElement|null} - Container with all breadcrumb trails
+   * @see zOS/zTheme/Manual/ztheme-breadcrumb.html
+   */
+  renderBreadcrumbs(eventData) {
+    // Extract crumbs data from event (backend sends in _KEY_CRUMBS or crumbs)
+    this.logger.log('[NavigationRenderer] renderBreadcrumbs called with eventData:', eventData);
+    
+    const crumbsData = eventData.crumbs || eventData._KEY_CRUMBS || {};
+    this.logger.log('[NavigationRenderer] Extracted crumbsData:', crumbsData);
+    
+    const trails = crumbsData.trails || {};
+    this.logger.log('[NavigationRenderer] Extracted trails:', trails);
+    
+    // Filter out internal metadata (_context, _depth_map)
+    const visibleTrails = Object.entries(trails).filter(([key]) => !key.startsWith('_'));
+    this.logger.log('[NavigationRenderer] Visible trails:', visibleTrails);
+    
+    if (visibleTrails.length === 0) {
+      this.logger.log('[NavigationRenderer] No visible breadcrumb trails - returning null');
+      return null; // No breadcrumbs to display
+    }
+    
+    this.logger.log(`[NavigationRenderer] Rendering ${visibleTrails.length} breadcrumb trails`);
+    
+    // Create container for all trails (using primitive)
+    const container = createDiv({ class: 'zBreadcrumbs-container zmb-3' });
+    
+    // Render each trail (file, vafile, block) using zTheme structure
+    visibleTrails.forEach(([scope, trail]) => {
+      if (!Array.isArray(trail) || trail.length === 0) return;
+      
+      // Add scope label for multi-trail displays (optional)
+      if (visibleTrails.length > 1) {
+        const scopeLabel = createSpan({ class: 'zText-muted zSmall zFw-bold zD-block' });
+        scopeLabel.textContent = `${scope}:`;
+        scopeLabel.style.marginBottom = '0.25rem';
+        container.appendChild(scopeLabel);
+      }
+      
+      // Create nav > ol.zBreadcrumb structure (zTheme standard)
+      const nav = createNav({
+        'aria-label': `${scope} breadcrumb`
+      });
+      
+      const ol = createList(true, { class: 'zBreadcrumb' });
+      
+      // Render trail items
+      trail.forEach((item, index) => {
+        const isLast = (index === trail.length - 1);
+        const li = createListItem({ 
+          class: isLast ? 'zBreadcrumb-item zActive' : 'zBreadcrumb-item'
+        });
+        
+        if (isLast) {
+          // Last item (current page) - plain text with aria-current
+          li.setAttribute('aria-current', 'page');
+          li.textContent = item;
+        } else {
+          // Parent pages - clickable links (Phase 2: add real routing)
+          const a = createLink('#', {});
+          a.textContent = item;
+          a.onclick = (e) => {
+            e.preventDefault();
+            this.logger.log(`[Breadcrumbs] Clicked: ${item} (navigation TBD)`);
+          };
+          li.appendChild(a);
+        }
+        
+        ol.appendChild(li);
+      });
+      
+      nav.appendChild(ol);
+      container.appendChild(nav);
+    });
+    
+    return container;
+  }
+
+  /**
    * Render vertical sidebar navigation (zTheme-styled)
    * @param {Array<string>} items - Navigation item labels
    * @param {Object} options - Rendering options

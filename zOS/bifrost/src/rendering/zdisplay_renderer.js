@@ -88,6 +88,11 @@ export class ZDisplayRenderer {
         case 'info':
           element = this._renderAlert(eventData, 'info');
           break;
+        case 'zCrumbs':
+          // Breadcrumb navigation (async - needs navigation renderer)
+          this.logger.log(`[ZDisplayRenderer] 🍞 zCrumbs event detected, rendering breadcrumbs`);
+          this._renderBreadcrumbs(eventData, container);
+          return null; // Async rendering, handled separately
         default:
           this.logger.warn(`[ZDisplayRenderer] Unknown event type: ${eventType}`);
           element = this._renderText(eventData); // Fallback to text
@@ -969,6 +974,32 @@ export class ZDisplayRenderer {
     }, 5000);
 
     return signal;
+  }
+
+  /**
+   * Render breadcrumbs using NavigationRenderer
+   * @private
+   */
+  async _renderBreadcrumbs(eventData, container) {
+    try {
+      this.logger.log('[ZDisplayRenderer] 🍞 Loading navigation renderer for breadcrumbs...');
+      
+      // Dynamically import NavigationRenderer
+      const { NavigationRenderer } = await import('./navigation_renderer.js');
+      const navRenderer = new NavigationRenderer(this.logger);
+      
+      this.logger.log('[ZDisplayRenderer] 🍞 Calling renderBreadcrumbs with eventData:', eventData);
+      const breadcrumbElement = navRenderer.renderBreadcrumbs(eventData);
+      
+      if (breadcrumbElement) {
+        container.appendChild(breadcrumbElement);
+        this.logger.log('[ZDisplayRenderer] ✅ Breadcrumbs rendered and appended');
+      } else {
+        this.logger.log('[ZDisplayRenderer] ℹ️  No breadcrumbs to display (empty trails)');
+      }
+    } catch (error) {
+      this.logger.error('[ZDisplayRenderer] ❌ Error rendering breadcrumbs:', error);
+    }
   }
 
   /**

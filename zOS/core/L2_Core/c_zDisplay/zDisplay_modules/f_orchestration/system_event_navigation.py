@@ -102,7 +102,7 @@ class NavigationEvents:
         self.BasicOutputs = None  # Will be set after zEvents initialization
         self.BasicInputs = None   # Will be set after zEvents initialization
     
-    def zCrumbs(self, session_data: Optional[Dict[str, Any]]) -> None:
+    def zCrumbs(self, session_data: Optional[Dict[str, Any]] = None, _parent: Optional[str] = None) -> None:
         """
         Display breadcrumb navigation trail showing scope paths (Terminal or Bifrost mode).
         
@@ -111,6 +111,8 @@ class NavigationEvents:
         
         Args:
             session_data: zCLI session dictionary containing zCrumbs
+            _parent: Declarative parent path for stateless breadcrumbs (GUI cold-start support)
+                     Format: "zProducts.zTheme" or "zProducts.zTheme.Containers"
         
         Returns:
             None
@@ -127,7 +129,7 @@ class NavigationEvents:
                 vafile[App > Database > Users]
                 block[^Root* > User Management]
         
-        Structure:
+        Structure (Session-based):
             session[SESSION_KEY_ZCRUMBS] = {
                 "trails": {
                     "file": ["Main", "Setup", "Config"],
@@ -138,18 +140,61 @@ class NavigationEvents:
                 "_depth_map": {...}  # Internal metadata (filtered out)
             }
         
+        Structure (Declarative with _parent):
+            {
+                "trails": {
+                    "declarative": ["zProducts", "zTheme", "Containers"]
+                },
+                "_source": "declarative"
+            }
+        
         Usage:
-            # Display navigation breadcrumbs
+            # Session-based (Terminal or warm GUI)
             zcli.display.zEvents.zSystem.zCrumbs(zcli.session)
+            
+            # Declarative (GUI cold-start)
+            zcli.display.zEvents.zSystem.zCrumbs(_parent="zProducts.zTheme")
         
         Notes:
             - Uses SESSION_KEY_ZCRUMBS constant for session access
             - Joins trail items with " > " separator
             - Displays in "scope[path]" format
             - Filters out internal metadata keys (_context, _depth_map)
+            - _parent parameter enables stateless breadcrumbs for GUI cold-start
         """
-        # Try Bifrost (GUI) mode first - send clean event
-        z_crumbs = session_data.get(SESSION_KEY_ZCRUMBS, {}) if session_data else {}
+        # Auto-inject session if not provided (declarative .zolo support)
+        if session_data is None and hasattr(self.display, 'zcli'):
+            session_data = self.display.zcli.session
+        
+        # Phase 1: Build declarative trail from _parent if provided
+        if _parent:
+            # Split parent path (e.g., "zProducts.zTheme" → ["zProducts", "zTheme"])
+            parent_parts = _parent.split('.')
+            
+            # Get current page name from session if available
+            current_page = None
+            if session_data and hasattr(self.display, 'zcli'):
+                # Try to extract current page from zVaFile
+                zvafile = session_data.get('zVaFile', '')
+                if zvafile:
+                    # Extract display name (e.g., "zUI.zContainers" → "Containers")
+                    current_page = zvafile.split('.')[-1].replace('z', '')
+            
+            # Build declarative trail: parent parts + current page
+            trail = parent_parts.copy()
+            if current_page:
+                trail.append(current_page)
+            
+            # Create declarative crumbs structure
+            z_crumbs = {
+                'trails': {
+                    'declarative': trail
+                },
+                '_source': 'declarative'
+            }
+        else:
+            # Use session-based breadcrumbs (existing behavior)
+            z_crumbs = session_data.get(SESSION_KEY_ZCRUMBS, {}) if session_data else {}
         
         if try_gui_event(self.display, _EVENT_ZCRUMBS, {_KEY_CRUMBS: z_crumbs}):
             return  # GUI event sent successfully

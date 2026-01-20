@@ -211,18 +211,22 @@ class zSystem:
         """
         return self.DeclareEvents.zDeclare(label, color, indent, style)
     
-    def zCrumbs(self, session_data: Optional[Dict[str, Any]] = None) -> None:
+    def zCrumbs(self, session_data: Optional[Dict[str, Any]] = None, _parent: Optional[str] = None) -> None:
         """
         Display breadcrumb navigation trail.
         
         Delegates to: NavigationEvents.zCrumbs()
+        
+        Args:
+            session_data: Session dict (defaults to self.display.zcli.session if None)
+            _parent: Declarative parent path for stateless breadcrumbs (e.g., "zProducts.zTheme")
         
         Note: session_data defaults to self.display.zcli.session if None
         """
         if session_data is None and hasattr(self.display, 'zcli'):
             session_data = self.display.zcli.session
         
-        return self.NavigationEvents.zCrumbs(session_data)
+        return self.NavigationEvents.zCrumbs(session_data, _parent=_parent)
     
     def zMenu(
         self,

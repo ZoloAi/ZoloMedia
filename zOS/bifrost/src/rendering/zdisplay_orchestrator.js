@@ -714,7 +714,7 @@ export class ZDisplayOrchestrator {
    */
   async renderZDisplayEvent(eventData) {
     const event = eventData.event;
-    this.logger.log(`[renderZDisplayEvent] Rendering event: ${event}`, eventData);
+    this.logger.log(`[renderZDisplayEvent] 🎯 Rendering event: ${event}`, eventData);
     let element;
 
     switch (event) {
@@ -796,6 +796,16 @@ export class ZDisplayOrchestrator {
         const cardRenderer = await this.client._ensureCardRenderer();
         element = cardRenderer.renderCard(eventData);
         this.logger.log('[renderZDisplayEvent] Rendered card element');
+        break;
+      }
+
+      case 'zCrumbs': {
+        // Breadcrumb navigation (multi-trail support)
+        this.logger.log('[renderZDisplayEvent] 🍞 zCrumbs case hit! eventData:', eventData);
+        const navRenderer = await this.client._ensureNavigationRenderer();
+        this.logger.log('[renderZDisplayEvent] 🍞 NavRenderer ready, calling renderBreadcrumbs...');
+        element = navRenderer.renderBreadcrumbs(eventData);
+        this.logger.log('[renderZDisplayEvent] 🍞 Rendered breadcrumbs element:', element);
         break;
       }
 
