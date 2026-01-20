@@ -178,6 +178,18 @@ class TokenEmitter:
         """Legacy: Check if in zURL block."""
         return self.is_inside_block('zURL', current_indent)
     
+    def enter_zcrumbs_block(self, indent: int, line: int):
+        """Legacy: Enter zCrumbs block."""
+        self.enter_block('zcrumbs', indent, line)
+    
+    def update_zcrumbs_blocks(self, current_indent: int, current_line: int):
+        """Legacy: Update zCrumbs blocks."""
+        self.update_blocks(current_indent, current_line)
+    
+    def is_in_zcrumbs_block(self, current_indent: int) -> bool:
+        """Legacy: Check if in zCrumbs block."""
+        return self.is_inside_block('zcrumbs', current_indent)
+    
     def enter_header_block(self, indent: int, line: int):
         """Legacy: Enter header block (zH1-zH6)."""
         self.enter_block('header', indent, line)

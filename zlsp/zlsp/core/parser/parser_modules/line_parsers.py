@@ -198,6 +198,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             emitter.enter_zul_block(indent, original_line_num)
                         elif block_type == 'ztable':
                             emitter.enter_ztable_block(indent, original_line_num)
+                        elif block_type == 'zcrumbs':
+                            emitter.enter_zcrumbs_block(indent, original_line_num)
                         elif block_type == 'header':
                             emitter.enter_header_block(indent, original_line_num)
                         elif core_key == 'zMachine':
@@ -255,6 +257,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                         emitter.enter_zul_block(indent, original_line_num)
                     elif core_key == 'zTable' and emitter.is_zui_file:
                         emitter.enter_ztable_block(indent, original_line_num)
+                    elif core_key == 'zCrumbs' and emitter.is_zui_file:
+                        emitter.enter_zcrumbs_block(indent, original_line_num)
                     elif core_key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'} and emitter.is_zui_file:
                         emitter.enter_header_block(indent, original_line_num)
                     
@@ -339,6 +343,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             emitter.enter_zul_block(indent, original_line_num)
                         elif block_type == 'ztable':
                             emitter.enter_ztable_block(indent, original_line_num)
+                        elif block_type == 'zcrumbs':
+                            emitter.enter_zcrumbs_block(indent, original_line_num)
                         elif block_type == 'header':
                             emitter.enter_header_block(indent, original_line_num)
                         elif core_key == 'zMachine':
@@ -396,6 +402,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                         emitter.enter_zul_block(indent, original_line_num)
                     elif core_key == 'zTable' and emitter.is_zui_file:
                         emitter.enter_ztable_block(indent, original_line_num)
+                    elif core_key == 'zCrumbs' and emitter.is_zui_file:
+                        emitter.enter_zcrumbs_block(indent, original_line_num)
                     elif core_key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'} and emitter.is_zui_file:
                         emitter.enter_header_block(indent, original_line_num)
                     

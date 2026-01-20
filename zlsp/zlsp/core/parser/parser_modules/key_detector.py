@@ -41,7 +41,7 @@ class KeyDetector:
     
     UI_ELEMENT_KEYS = {
         'zImage', 'zText', 'zMD', 'zURL', 'zNavBar', 'zUL', 'zOL', 'zTable',
-        'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'
+        'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zCrumbs'
     }
     
     UI_ELEMENT_PROPERTY_KEYS = {
@@ -50,7 +50,8 @@ class KeyDetector:
         'href', 'target', 'rel', 'window',
         'content', 'pause', 'break_message', 'format',
         'items',
-        'title', 'columns', 'rows', 'limit', 'offset', 'show_header', 'interactive'
+        'title', 'columns', 'rows', 'limit', 'offset', 'show_header', 'interactive',
+        'show', 'parent'
     }
     
     # UI Element Schemas - Define valid properties per element type
@@ -82,6 +83,10 @@ class KeyDetector:
         'ztable': {
             'required': ['title', 'columns', 'rows'],
             'optional': ['limit', 'offset', 'show_header', 'interactive', 'indent', '_zClass', '_id'],
+        },
+        'zcrumbs': {
+            'required': [],
+            'optional': ['show', 'parent', '_zClass', '_id'],
         },
         # More elements to be added as needed
     }
@@ -241,6 +246,9 @@ class KeyDetector:
         if key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'} and emitter.is_zui_file:
             return TokenType.UI_ELEMENT_KEY
         
+        # zCrumbs key
+        if key == 'zCrumbs' and emitter.is_zui_file:
+            return TokenType.UI_ELEMENT_KEY
         
         # zSub key (purple 98 when grandchild+ in zEnv/zUI files)
         if key == 'zSub':
@@ -260,7 +268,7 @@ class KeyDetector:
         # UI element property keys (src, etc.) inside UI elements
         if emitter.is_zui_file and key in KeyDetector.UI_ELEMENT_PROPERTY_KEYS:
             # Check if we're inside any UI element block
-            ui_block_types = ['zimage', 'ztext', 'zmd', 'zurl', 'zul', 'ztable', 'header']
+            ui_block_types = ['zimage', 'ztext', 'zmd', 'zurl', 'zul', 'ztable', 'header', 'zcrumbs']
             for block_type in ui_block_types:
                 if emitter.is_inside_block(block_type, indent):
                     return TokenType.UI_ELEMENT_PROPERTY_KEY
@@ -343,6 +351,8 @@ class KeyDetector:
                 return 'ztable'
             elif key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'}:
                 return 'header'
+            elif key == 'zCrumbs':
+                return 'zcrumbs'
         
         return None
 
