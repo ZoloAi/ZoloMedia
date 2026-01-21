@@ -377,11 +377,34 @@ class ShorthandExpander:
             # Apply expansion
             if expanded is not None:
                 expansion_occurred = True
+                # Check if dict has metadata keys (_zStyle, _zClass, _zId, zId) that need preservation
+                metadata_keys = {k for k in zHorizontal.keys() if k.startswith('_') and k not in ['_zScripts']}
+                metadata_keys.update(k for k in zHorizontal.keys() if k == 'zId')
+                has_metadata = bool(metadata_keys)
+                
                 if has_siblings:
                     # Expand in-place to preserve siblings
                     zHorizontal[key] = expanded
+                elif has_metadata and ui_event_count == 1:
+                    # SPECIAL CASE: Container with metadata + single UI element
+                    # Merge the UI element's zDisplay directly into the container
+                    # Example: _Box_540 with _zStyle + zText → _Box_540 with _zStyle + zDisplay
+                    if KEY_ZDISPLAY in expanded:
+                        # Copy metadata keys to the result
+                        result = {}
+                        for meta_key in metadata_keys:
+                            result[meta_key] = zHorizontal[meta_key]
+                        # Add the zDisplay event
+                        result[KEY_ZDISPLAY] = expanded[KEY_ZDISPLAY]
+                        return result, True
+                    else:
+                        # Fallback: expand in-place
+                        zHorizontal[key] = expanded
+                elif has_metadata:
+                    # Multiple UI events with metadata - expand in-place
+                    zHorizontal[key] = expanded
                 else:
-                    # Replace entire dict (single UI event, no siblings)
+                    # Replace entire dict (single UI event, no siblings, no metadata)
                     return expanded, True  # Early return for single-element case
             # RECURSIVE EXPANSION: If this is a non-shorthand dict, recursively expand nested shorthands
             elif isinstance(value, dict) and not self._is_ui_event_key(clean_key):

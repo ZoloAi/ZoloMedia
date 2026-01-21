@@ -129,26 +129,74 @@ class OrganizationalHandler:
             - Recursively processes nested structures
             - Integrates with ShorthandExpander for nested expansion
         """
-        content_keys = [k for k in zHorizontal.keys() if not k.startswith('_')]
+        # Get ALL content keys, excluding only metadata (_zClass, _zStyle, etc.)
+        metadata_keys = {'_zClass', '_zStyle', '_zId', '_zScripts', 'zId'}
+        content_keys = [k for k in zHorizontal.keys() if k not in metadata_keys]
         
         # Check if organizational (all nested)
         if not self._is_all_nested(zHorizontal, content_keys):
             return None
         
-        # Check for implicit sequence (all UI events)
-        if self.detect_implicit_sequence(zHorizontal, content_keys):
+        # Separate into UI events and organizational containers
+        # CRITICAL: Check for _ prefix FIRST before checking zDisplay
+        # Organizational containers like _Visual_Caption may contain expanded zDisplay,
+        # but they should still be treated as organizational, not UI events
+        ui_events = []
+        org_keys = []
+        
+        for key in content_keys:
+            val = zHorizontal[key]
+            # Check for organizational container FIRST (before zDisplay check)
+            if key.startswith('_'):
+                # Organizational container (not metadata)
+                org_keys.append(key)
+                self.logger.framework.debug(
+                    f"[OrganizationalHandler] Identified '{key}' as organizational container"
+                )
+            elif isinstance(val, dict) and 'zDisplay' in val:
+                # UI event with explicit zDisplay wrapper
+                ui_events.append(val)
+                self.logger.framework.debug(
+                    f"[OrganizationalHandler] Identified '{key}' as UI event"
+                )
+            else:
+                # Non-UI, non-organizational key - treat as organizational
+                org_keys.append(key)
+                self.logger.framework.debug(
+                    f"[OrganizationalHandler] Identified '{key}' as organizational (non-UI)"
+                )
+        
+        # If we have UI events, process them as implicit sequence
+        if ui_events and command_router:
             self.logger.framework.debug(
-                f"[OrganizationalHandler] Detected implicit sequence ({len(content_keys)} UI events)"
+                f"[OrganizationalHandler] Detected implicit sequence ({len(ui_events)} UI events)"
             )
-            # Process as sequential list
-            implicit_sequence = []
-            for key in content_keys:
-                val = zHorizontal[key]
-                if isinstance(val, dict) and 'zDisplay' in val:
-                    implicit_sequence.append(val)
+            result = command_router._launch_list(ui_events, context, walker)
             
-            if implicit_sequence and command_router:
-                return command_router._launch_list(implicit_sequence, context, walker)
+            # Check for navigation signals
+            if result in ('zBack', 'exit', 'stop', 'error'):
+                return result
+            if isinstance(result, dict) and 'zLink' in result:
+                return result
+        
+        # If we have organizational keys, process them too
+        if org_keys:
+            self.logger.framework.debug(
+                f"[OrganizationalHandler] Processing {len(org_keys)} organizational containers alongside UI events"
+            )
+            for key in org_keys:
+                value = zHorizontal[key]
+                result = self._process_nested_key(key, value, context, walker, command_router)
+                
+                # Check for navigation signals
+                if result in ('zBack', 'exit', 'stop', 'error'):
+                    return result
+                if isinstance(result, dict) and 'zLink' in result:
+                    return result
+        
+        # If we processed an implicit sequence or organizational keys, return None (success)
+        if ui_events or org_keys:
+            return None
         
         # Recurse into organizational structure
         self.logger.framework.debug(
@@ -182,7 +230,9 @@ class OrganizationalHandler:
             )
             # Returns: True
         """
-        content_keys = [k for k in zHorizontal.keys() if not k.startswith('_')]
+        # Get ALL content keys, excluding only metadata (_zClass, _zStyle, etc.)
+        metadata_keys = {'_zClass', '_zStyle', '_zId', '_zScripts', 'zId'}
+        content_keys = [k for k in zHorizontal.keys() if k not in metadata_keys]
         
         # Not organizational if subsystem or CRUD call
         if is_subsystem_call or is_crud_call:
@@ -331,8 +381,22 @@ class OrganizationalHandler:
         """
         # Apply shorthand expansion if dict
         if isinstance(value, dict) and self.expander:
+            # DEBUG: Log metadata before expansion
+            if key.startswith('_Box_') or key.startswith('_Visual_'):
+                has_style_before = '_zStyle' in value
+                self.logger.framework.debug(
+                    f"[OrganizationalHandler] 🎨 BEFORE expansion of {key}: _zStyle present = {has_style_before}, keys = {list(value.keys())}"
+                )
+            
             # Expand nested shorthands (returns tuple: expanded_value, is_subsystem_call)
             value, _ = self.expander.expand(value, walker.session if walker else {}, False)
+            
+            # DEBUG: Log metadata after expansion
+            if key.startswith('_Box_') or key.startswith('_Visual_'):
+                has_style_after = '_zStyle' in value
+                self.logger.framework.debug(
+                    f"[OrganizationalHandler] 🎨 AFTER expansion of {key}: _zStyle present = {has_style_after}, keys = {list(value.keys())}"
+                )
         
         # Recursively process
         if isinstance(value, dict) and command_router:

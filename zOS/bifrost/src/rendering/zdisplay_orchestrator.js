@@ -391,8 +391,9 @@ export class ZDisplayOrchestrator {
 
       // Iterate through all non-metadata children and render into group
       for (const [key, value] of Object.entries(data)) {
-        // Skip metadata keys
-        if (key.startsWith('_') || key.startsWith('~')) {
+        // Skip ONLY metadata keys (not organizational containers like _Visual_Progression)
+        const METADATA_KEYS = ['_zClass', '_zStyle', '_zId', '_zScripts', '_zGroup', 'zId'];
+        if (METADATA_KEYS.includes(key) || key.startsWith('~')) {
           continue;
         }
 
@@ -422,11 +423,18 @@ export class ZDisplayOrchestrator {
           }
         } else if (value && typeof value === 'object') {
           // Handle nested objects (recurse)
+          // DEBUG: Log organizational containers
+          if (key.startsWith('_')) {
+            this.logger.log(`🏗️  [GROUP] Processing organizational container: ${key}`);
+          }
           const itemDiv = document.createElement('div');
           itemDiv.setAttribute('data-zkey', key);
           await this.renderItems(value, itemDiv);
           if (itemDiv.children.length > 0) {
             groupContainer.appendChild(itemDiv);
+            if (key.startsWith('_')) {
+              this.logger.log(`✅ [GROUP] Rendered organizational container ${key} with ${itemDiv.children.length} children`);
+            }
           }
         }
       }
@@ -460,9 +468,9 @@ export class ZDisplayOrchestrator {
       }
 
       // Skip ONLY metadata attributes (not terminal-suppressed elements)
-      // _zClass, _zStyle, _zId are metadata attributes applied to parent
+      // _zClass, _zStyle, _zId, _zScripts are metadata attributes applied to parent
       // But _Demo_Stack, _Live_Demo_Section are terminal-suppressed elements that SHOULD render in Bifrost
-      const METADATA_KEYS = ['_zClass', '_zStyle', '_zId', 'zId'];
+      const METADATA_KEYS = ['_zClass', '_zStyle', '_zId', '_zScripts', 'zId'];
       if (METADATA_KEYS.includes(key)) {
         continue;
       }
@@ -475,13 +483,22 @@ export class ZDisplayOrchestrator {
       // Each zKey container should ONLY use its OWN _zClass/_zStyle/zId, never inherit from parent
       // This ensures ProfilePicture doesn't get ProfileHeader's classes
       if (value && typeof value === 'object' && !Array.isArray(value)) {
-        if (value._zClass || value._zStyle || value.zId) {
+        if (value._zClass !== undefined || value._zStyle !== undefined || value.zId !== undefined) {
           itemMetadata = {
             _zClass: value._zClass,
             _zStyle: value._zStyle,
             zId: value.zId
           };
           this.logger.log(`  Found nested metadata for ${key}:`, itemMetadata);
+          // DEBUG: Log organizational container metadata
+          if (key.startsWith('_Box_') || key.startsWith('_Visual_')) {
+            console.log(`🎨 [METADATA] ${key}:`, {
+              _zClass: value._zClass,
+              _zStyle: value._zStyle,
+              hasZDisplay: !!value.zDisplay,
+              allKeys: Object.keys(value)
+            });
+          }
         }
       }
 
@@ -573,9 +590,17 @@ export class ZDisplayOrchestrator {
         }
       } else if (value && typeof value === 'object') {
         // If it's an object with nested keys (implicit wizard), recurse
-        this.logger.log(`[ZDisplayOrchestrator] 🔄 Recursing into nested object for key: ${key}, nested keys:`, Object.keys(value));
+        // DEBUG: Log organizational containers
+        if (key.startsWith('_')) {
+          this.logger.log(`🏗️  [NON-GROUP] Processing organizational container: ${key}, nested keys:`, Object.keys(value));
+        } else {
+          this.logger.log(`[ZDisplayOrchestrator] 🔄 Recursing into nested object for key: ${key}, nested keys:`, Object.keys(value));
+        }
         // Nested structure - render children recursively
         await this.renderItems(value, containerDiv);
+        if (key.startsWith('_') && containerDiv.children.length > 0) {
+          this.logger.log(`✅ [NON-GROUP] Rendered organizational container ${key} with ${containerDiv.children.length} children`);
+        }
       }
 
       // Enhance zCard containers with proper zTheme structure

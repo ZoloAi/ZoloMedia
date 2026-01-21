@@ -743,10 +743,14 @@ class MessageHandler:
                             # Group buffered events by type into queues (preserves processing order)
                             from collections import defaultdict, deque
                             event_queues = defaultdict(deque)
-                            for event in buffered_events:
+                            for idx, event in enumerate(buffered_events):
                                 if isinstance(event, dict) and 'display_event' in event:
                                     event_name = event['display_event']
                                     event_data = event.get('data', {})
+                                    
+                                    # DEBUG: Log what's being buffered
+                                    content_preview = str(event_data.get('content', event_data.get('label', event_data.get('href', ''))))[:50]
+                                    self.logger.debug(f"[MessageHandler] 📦 Buffered event {idx+1}/{len(buffered_events)}: {event_name} → {content_preview}")
                                     
                                     # NEW v1.5.20: Resolve zPath references in buffered event data
                                     # This ensures @ paths in href/src become web URLs before injection
@@ -757,6 +761,13 @@ class MessageHandler:
                                         self.logger.info(f"[MessageHandler] 🔗 Resolved link: {original_href} → {resolved_href}")
                                     
                                     event_queues[event_name].append(event_data)
+                            
+                            # DEBUG: Log queue contents
+                            for event_type, queue in event_queues.items():
+                                self.logger.debug(f"[MessageHandler] 📊 Queue '{event_type}': {len(queue)} events")
+                                for idx, data in enumerate(queue):
+                                    content_preview = str(data.get('content', data.get('label', data.get('href', ''))))[:50]
+                                    self.logger.debug(f"[MessageHandler]   [{idx}] {content_preview}")
                             
                             # Inject buffered events into matching zDisplay directives in traversal order
                             injected = self._inject_buffered_events_in_order(chunk_data, event_queues)
@@ -1294,7 +1305,7 @@ class MessageHandler:
                 del self._paused_generators[ws_id]
                 self.logger.debug(f"[GeneratorResume] Cleaned up generator state for ws={ws_id}")
     
-    def _unwrap_zdisplay_directives(self, data: Any) -> Any:
+    def _unwrap_zdisplay_directives(self, data: Any, path: str = "root") -> Any:
         """
         Recursively unwraps zDisplay directives in chunk_data for frontend consumption.
         
@@ -1308,16 +1319,19 @@ class MessageHandler:
             for key, value in data.items():
                 if key.startswith('_'):  # Preserve metadata keys
                     unwrapped[key] = value
+                    # DEBUG: Log preserved metadata
+                    if key == '_zStyle' and (path.endswith('_Box_540') or path.endswith('_Box_720') or path.endswith('_Visual_Progression')):
+                        self.logger.debug(f"[_unwrap] 🎨 Preserved {path}.{key} = {str(value)[:80]}")
                     continue
                 
                 # If value is a dict with a single 'zDisplay' key, unwrap it
                 if isinstance(value, dict) and 'zDisplay' in value and len(value) == 1:
-                    unwrapped[key] = self._unwrap_zdisplay_directives(value['zDisplay'])
+                    unwrapped[key] = self._unwrap_zdisplay_directives(value['zDisplay'], f"{path}.{key}")
                 else:
-                    unwrapped[key] = self._unwrap_zdisplay_directives(value)
+                    unwrapped[key] = self._unwrap_zdisplay_directives(value, f"{path}.{key}")
             return unwrapped
         elif isinstance(data, list):
-            return [self._unwrap_zdisplay_directives(item) for item in data]
+            return [self._unwrap_zdisplay_directives(item, f"{path}[{i}]") for i, item in enumerate(data)]
         else:
             return data
     

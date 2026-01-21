@@ -574,7 +574,10 @@ class CommandLauncher:
         # PRELIMINARY CHECKS
         # ========================================================================
         subsystem_keys = {KEY_ZDISPLAY, KEY_ZFUNC, KEY_ZDIALOG, KEY_ZLINK, KEY_ZWIZARD, KEY_ZREAD, KEY_ZDATA}
-        content_keys = [k for k in zHorizontal.keys() if not k.startswith('_')]
+        # Get ALL content keys, excluding only metadata (_zClass, _zStyle, etc.)
+        # This matches the organizational_handler logic to include organizational containers like _Visual_Progression
+        metadata_keys = {'_zClass', '_zStyle', '_zId', '_zScripts', 'zId'}
+        content_keys = [k for k in zHorizontal.keys() if k not in metadata_keys]
         is_subsystem_call = any(k in zHorizontal for k in subsystem_keys)
         crud_keys = {'action', 'model', 'table', 'collection'}
         is_crud_call = any(k in zHorizontal for k in crud_keys)
@@ -660,7 +663,8 @@ class CommandLauncher:
         )
         
         # Recalculate content_keys and subsystem check after shorthand expansion
-        content_keys = [k for k in zHorizontal.keys() if not k.startswith('_')]
+        # Use same metadata filtering as initial check to include organizational containers
+        content_keys = [k for k in zHorizontal.keys() if k not in metadata_keys]
         
         # Check for explicit subsystem keys at top level (zDisplay, zFunc, etc.)
         has_explicit_subsystem_keys = any(k in zHorizontal for k in subsystem_keys)
