@@ -186,8 +186,10 @@ export class TextRenderer {
       return placeholder;
     });
     
-    // Now remove newlines from non-code content
-    html = html.replace(/\n/g, ' ');
+    // NEW: Convert standalone newlines from zolo multi-line content to <br> tags
+    // This preserves the natural line breaks from YAML/zolo files (e.g., multi-line content:)
+    // Must happen BEFORE removing newlines
+    html = html.replace(/\n/g, '<br>');
     
     // Restore code blocks with preserved newlines
     codeBlocks.forEach((block, index) => {
