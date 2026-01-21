@@ -815,6 +815,15 @@
       script.onload = () => {
         console.log('[BifrostClient] ✅ Prism .zolo language loaded (generated from zlsp patterns)');
         console.log('[BifrostClient] 🎨 Available Prism languages:', Object.keys(window.Prism?.languages || {}));
+        
+        // Rehighlight any .zolo code blocks that were rendered before the language loaded
+        if (window.Prism) {
+          const zoloBlocks = document.querySelectorAll('pre code.language-zolo');
+          console.log('[BifrostClient] 🔄 Rehighlighting', zoloBlocks.length, '.zolo code blocks');
+          zoloBlocks.forEach(block => {
+            Prism.highlightElement(block);
+          });
+        }
       };
       script.onerror = (e) => {
         console.error('[BifrostClient] ❌ Failed to load Prism .zolo language:', e);

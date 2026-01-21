@@ -252,9 +252,14 @@ export class TextRenderer {
     
     // Apply syntax highlighting to code blocks (Prism.js)
     if (window.Prism) {
-      p.querySelectorAll('pre code[class*="language-"]').forEach((codeBlock) => {
+      const codeBlocks = p.querySelectorAll('pre code[class*="language-"]');
+      console.log('[TextRenderer] 🎨 Found code blocks for highlighting:', codeBlocks.length, codeBlocks);
+      codeBlocks.forEach((codeBlock) => {
+        console.log('[TextRenderer] 🎨 Highlighting code block with classes:', codeBlock.className);
         Prism.highlightElement(codeBlock);
       });
+    } else {
+      console.warn('[TextRenderer] ⚠️  Prism not available for syntax highlighting');
     }
 
     // Apply attributes

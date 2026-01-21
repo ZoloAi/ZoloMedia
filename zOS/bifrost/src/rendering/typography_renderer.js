@@ -88,11 +88,6 @@ export class TypographyRenderer {
       classes.push(`zText-${color}`);
     }
 
-    // Indent: use margin-start (zms) for text indentation
-    if (eventData.indent) {
-      classes.push(`zms-${eventData.indent}`);
-    }
-
     // Custom classes from YAML (_zClass parameter - ignored by terminal)
     if (eventData._zClass) {
       classes.push(eventData._zClass);
