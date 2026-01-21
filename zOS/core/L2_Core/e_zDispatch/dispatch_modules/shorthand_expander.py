@@ -328,7 +328,8 @@ class ShorthandExpander:
         non_meta_keys = [k for k in zHorizontal.keys() if not k.startswith('_')]
         
         # Check for organizational siblings
-        ui_event_count = sum(1 for k in non_meta_keys if self._is_ui_event_key(k))
+        # BUG FIX: Strip __dup suffix before checking if key is UI event
+        ui_event_count = sum(1 for k in non_meta_keys if self._is_ui_event_key(self._get_clean_key(k)))
         
         # BUG FIX: If there are multiple UI elements, they are siblings even without organizational keys
         has_multiple_ui_elements = ui_event_count >= 2
@@ -336,9 +337,10 @@ class ShorthandExpander:
         # BUG FIX: Detect ALREADY-EXPANDED zDisplay events (from zWizard chunked mode)
         # If we find nested {zDisplay: ...}, we need to mark expansion_occurred=True
         # so that is_subsystem_call gets set correctly for organizational handler
+        # BUG FIX: Strip __dup suffix before checking if key is UI event
         has_pre_expanded_zdisplay = any(
             isinstance(zHorizontal.get(k), dict) and KEY_ZDISPLAY in zHorizontal[k]
-            for k in non_meta_keys if self._is_ui_event_key(k)
+            for k in non_meta_keys if self._is_ui_event_key(self._get_clean_key(k))
         )
         
         for key in list(zHorizontal.keys()):

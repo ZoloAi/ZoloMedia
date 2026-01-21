@@ -213,6 +213,11 @@ small,
   font-weight: 400;
 }
 
+.zExtraSmall {
+  font-size: 0.75em;
+  font-weight: 400;
+}
+
 /* Text Color Utilities
    ==================== */
    

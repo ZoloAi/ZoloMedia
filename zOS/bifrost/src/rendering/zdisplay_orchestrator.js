@@ -258,102 +258,142 @@ export class ZDisplayOrchestrator {
       if (cleanKey.startsWith('zH') && cleanKey.length === 3 && /^[1-6]$/.test(cleanKey[2])) {
         const indent = parseInt(cleanKey[2], 10);
         if (value && typeof value === 'object' && !Array.isArray(value)) {
-          // Transform shorthand to full zDisplay format
-          data[key] = {
-            zDisplay: {
-              event: 'header',
-              indent: indent,
-              ...value
-            }
-          };
-          this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded ${key} shorthand to zDisplay header (indent: ${indent})`);
+          // Skip expansion if already expanded by backend (has zDisplay key)
+          if (!value.zDisplay) {
+            // Transform shorthand to full zDisplay format
+            data[key] = {
+              zDisplay: {
+                event: 'header',
+                indent: indent,
+                ...value
+              }
+            };
+            this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded ${key} shorthand to zDisplay header (indent: ${indent})`);
+          } else {
+            this.logger.log(`[ZDisplayOrchestrator] ⏭️  Skipped ${key} expansion (already expanded by backend)`);
+          }
         }
       } else if (cleanKey === 'zText') {
         if (value && typeof value === 'object' && !Array.isArray(value)) {
-          // Transform shorthand to full zDisplay format
-          data[key] = {
-            zDisplay: {
-              event: 'text',
-              ...value
-            }
-          };
-          this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded ${key} (${cleanKey}) shorthand to zDisplay text`);
+          // Skip expansion if already expanded by backend (has zDisplay key)
+          if (!value.zDisplay) {
+            // Transform shorthand to full zDisplay format
+            data[key] = {
+              zDisplay: {
+                event: 'text',
+                ...value
+              }
+            };
+            this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded ${key} (${cleanKey}) shorthand to zDisplay text`);
+          } else {
+            this.logger.log(`[ZDisplayOrchestrator] ⏭️  Skipped ${key} expansion (already expanded by backend)`);
+          }
         }
       } else if (cleanKey === 'zUL') {
         if (value && typeof value === 'object' && !Array.isArray(value)) {
-          // Check for plural shorthands and transform them
-          const { items, otherProps } = this._extractPluralShorthands(value, 'bullet');
-          
-          // Transform shorthand to full zDisplay format (unordered/bullet list)
-          data[key] = {
-            zDisplay: {
-              event: 'list',
-              style: 'bullet',
-              ...otherProps,
-              ...(items.length > 0 && { items })  // Only add items if plural shorthand found
-            }
-          };
-          this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded zUL shorthand to zDisplay list (bullet)${items.length > 0 ? ` with ${items.length} items from plural shorthand` : ''}`);
+          // Skip expansion if already expanded by backend (has zDisplay key)
+          if (!value.zDisplay) {
+            // Check for plural shorthands and transform them
+            const { items, otherProps } = this._extractPluralShorthands(value, 'bullet');
+            
+            // Transform shorthand to full zDisplay format (unordered/bullet list)
+            data[key] = {
+              zDisplay: {
+                event: 'list',
+                style: 'bullet',
+                ...otherProps,
+                ...(items.length > 0 && { items })  // Only add items if plural shorthand found
+              }
+            };
+            this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded zUL shorthand to zDisplay list (bullet)${items.length > 0 ? ` with ${items.length} items from plural shorthand` : ''}`);
+          } else {
+            this.logger.log(`[ZDisplayOrchestrator] ⏭️  Skipped zUL expansion (already expanded by backend)`);
+          }
         }
       } else if (cleanKey === 'zOL') {
         if (value && typeof value === 'object' && !Array.isArray(value)) {
-          // Check for plural shorthands and transform them
-          const { items, otherProps } = this._extractPluralShorthands(value, 'number');
-          
-          // Transform shorthand to full zDisplay format (ordered/numbered list)
-          data[key] = {
-            zDisplay: {
-              event: 'list',
-              style: 'number',
-              ...otherProps,
-              ...(items.length > 0 && { items })  // Only add items if plural shorthand found
-            }
-          };
-          this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded zOL shorthand to zDisplay list (number)${items.length > 0 ? ` with ${items.length} items from plural shorthand` : ''}`);
+          // Skip expansion if already expanded by backend (has zDisplay key)
+          if (!value.zDisplay) {
+            // Check for plural shorthands and transform them
+            const { items, otherProps } = this._extractPluralShorthands(value, 'number');
+            
+            // Transform shorthand to full zDisplay format (ordered/numbered list)
+            data[key] = {
+              zDisplay: {
+                event: 'list',
+                style: 'number',
+                ...otherProps,
+                ...(items.length > 0 && { items })  // Only add items if plural shorthand found
+              }
+            };
+            this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded zOL shorthand to zDisplay list (number)${items.length > 0 ? ` with ${items.length} items from plural shorthand` : ''}`);
+          } else {
+            this.logger.log(`[ZDisplayOrchestrator] ⏭️  Skipped zOL expansion (already expanded by backend)`);
+          }
         }
       } else if (cleanKey === 'zTable') {
         if (value && typeof value === 'object' && !Array.isArray(value)) {
-          // Transform shorthand to full zDisplay format (table)
-          data[key] = {
-            zDisplay: {
-              event: 'zTable',
-              ...value
-            }
-          };
-          this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded zTable shorthand to zDisplay zTable`);
+          // Skip expansion if already expanded by backend (has zDisplay key)
+          if (!value.zDisplay) {
+            // Transform shorthand to full zDisplay format (table)
+            data[key] = {
+              zDisplay: {
+                event: 'zTable',
+                ...value
+              }
+            };
+            this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded zTable shorthand to zDisplay zTable`);
+          } else {
+            this.logger.log(`[ZDisplayOrchestrator] ⏭️  Skipped zTable expansion (already expanded by backend)`);
+          }
         }
       } else if (cleanKey === 'zMD') {
         if (value && typeof value === 'object' && !Array.isArray(value)) {
-          // Transform shorthand to full zDisplay format (rich_text/markdown)
-          data[key] = {
-            zDisplay: {
-              event: 'rich_text',
-              ...value
-            }
-          };
-          this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded zMD shorthand to zDisplay rich_text`);
+          // Skip expansion if already expanded by backend (has zDisplay key)
+          if (!value.zDisplay) {
+            // Transform shorthand to full zDisplay format (rich_text/markdown)
+            data[key] = {
+              zDisplay: {
+                event: 'rich_text',
+                ...value
+              }
+            };
+            this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded zMD shorthand to zDisplay rich_text`);
+          } else {
+            this.logger.log(`[ZDisplayOrchestrator] ⏭️  Skipped zMD expansion (already expanded by backend)`);
+          }
         }
       } else if (cleanKey === 'zImage') {
         if (value && typeof value === 'object' && !Array.isArray(value)) {
-          // Transform shorthand to full zDisplay format (image)
-          data[key] = {
-            zDisplay: {
-              event: 'image',
-              ...value
-            }
-          };
-          this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded ${key} (${cleanKey}) shorthand to zDisplay image`);
+          // Skip expansion if already expanded by backend (has zDisplay key)
+          if (!value.zDisplay) {
+            // Transform shorthand to full zDisplay format (image)
+            data[key] = {
+              zDisplay: {
+                event: 'image',
+                ...value
+              }
+            };
+            this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded ${key} (${cleanKey}) shorthand to zDisplay image`);
+          } else {
+            this.logger.log(`[ZDisplayOrchestrator] ⏭️  Skipped zImage expansion (already expanded by backend)`);
+          }
         }
       } else if (cleanKey === 'zURL') {
         if (value && typeof value === 'object' && !Array.isArray(value)) {
-          // Transform shorthand to full zDisplay format (link/URL)
-          data[key] = {
-            zDisplay: {
-              event: 'zURL',
-              ...value
-            }
-          };
-          this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded ${key} (${cleanKey}) shorthand to zDisplay zURL`);
+          // Skip expansion if already expanded by backend (has zDisplay key)
+          if (!value.zDisplay) {
+            // Transform shorthand to full zDisplay format (link/URL)
+            data[key] = {
+              zDisplay: {
+                event: 'zURL',
+                ...value
+              }
+            };
+            this.logger.log(`[ZDisplayOrchestrator] ✨ Expanded ${key} (${cleanKey}) shorthand to zDisplay zURL`);
+          } else {
+            this.logger.log(`[ZDisplayOrchestrator] ⏭️  Skipped zURL expansion (already expanded by backend)`);
+          }
         }
       }
     }
@@ -430,8 +470,22 @@ export class ZDisplayOrchestrator {
           const itemDiv = document.createElement('div');
           itemDiv.setAttribute('data-zkey', key);
           await this.renderItems(value, itemDiv);
+          
           if (itemDiv.children.length > 0) {
-            groupContainer.appendChild(itemDiv);
+            // BUG FIX: If wrapper has only 1 child and no classes, unwrap it
+            // This handles zText with semantic:div where the div itself has styling
+            if (itemDiv.children.length === 1 && !itemDiv.className) {
+              const child = itemDiv.children[0];
+              // Transfer data-zkey and id to the child
+              child.setAttribute('data-zkey', key);
+              if (!child.id) {
+                child.setAttribute('id', key);
+              }
+              groupContainer.appendChild(child);
+            } else {
+              groupContainer.appendChild(itemDiv);
+            }
+            
             if (key.startsWith('_')) {
               this.logger.log(`✅ [GROUP] Rendered organizational container ${key} with ${itemDiv.children.length} children`);
             }
@@ -568,17 +622,47 @@ export class ZDisplayOrchestrator {
         }
       } else if (value && value.zDisplay) {
         // Check if this has a direct zDisplay event
+        this.logger.log(`[renderItems] 🎯 Direct zDisplay for ${key}, containerDiv classes: "${containerDiv.className}"`);
         const element = await this.renderZDisplayEvent(value.zDisplay);
         if (element) {
-          containerDiv.appendChild(element);
+          // BUG FIX: If containerDiv has no classes, unwrap and append element directly to parent
+          // This fixes zText with semantic:div where the div itself has styling
+          if (!containerDiv.className || containerDiv.className === '') {
+            this.logger.log(`[renderItems] 🔓 Unwrapping ${key}: no container classes, appending element directly to parent`);
+            // Transfer data-zkey and id to the element
+            element.setAttribute('data-zkey', key);
+            if (!element.id) {
+              element.setAttribute('id', key);
+            }
+            // Append element directly to parent (skip containerDiv)
+            parentElement.appendChild(element);
+            continue; // Skip the rest of the loop (don't append containerDiv)
+          } else {
+            this.logger.log(`[renderItems] 🔒 Keeping wrapper for ${key}: container has classes "${containerDiv.className}"`);
+            containerDiv.appendChild(element);
+          }
         }
       } else if (value && value.event && typeof value.event === 'string') {
         // 🆕 Backend now sends unwrapped zDisplay events (direct event key, no zDisplay wrapper)
         // Example: {event: 'zCrumbs', show: 'static', ...}
-        this.logger.log(`[renderItems] 🎯 Found direct event key: ${value.event} for ${key}`);
+        this.logger.log(`[renderItems] 🎯 Found direct event key: ${value.event} for ${key}, containerDiv classes: "${containerDiv.className}"`);
         const element = await this.renderZDisplayEvent(value);
         if (element) {
-          containerDiv.appendChild(element);
+          // BUG FIX: If containerDiv has no classes, unwrap and append element directly to parent
+          if (!containerDiv.className || containerDiv.className === '') {
+            this.logger.log(`[renderItems] 🔓 Unwrapping ${key}: no container classes, appending element directly to parent`);
+            // Transfer data-zkey and id to the element
+            element.setAttribute('data-zkey', key);
+            if (!element.id) {
+              element.setAttribute('id', key);
+            }
+            // Append element directly to parent (skip containerDiv)
+            parentElement.appendChild(element);
+            continue; // Skip the rest of the loop (don't append containerDiv)
+          } else {
+            this.logger.log(`[renderItems] 🔒 Keeping wrapper for ${key}: container has classes "${containerDiv.className}"`);
+            containerDiv.appendChild(element);
+          }
         }
       } else if (value && value.zDialog) {
         // Check if this has a direct zDialog form

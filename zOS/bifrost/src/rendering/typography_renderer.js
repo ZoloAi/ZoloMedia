@@ -13,7 +13,7 @@ export class TypographyRenderer {
 
   /**
    * Render text element
-   * @param {Object} eventData - Event data with content, color, indent, zId, etc.
+   * @param {Object} eventData - Event data with content, color, indent, zId, semantic, etc.
    * @returns {HTMLElement}
    */
   renderText(eventData) {
@@ -22,14 +22,45 @@ export class TypographyRenderer {
     if (classes) {
       attrs.class = classes;
     }
+    
     // Support zId (universal), _zId (from zUI files), and _id (legacy)
     if (eventData.zId || eventData._zId || eventData._id) {
       attrs.id = eventData.zId || eventData._zId || eventData._id;
     }
-    const p = createParagraph(attrs);
-    // Decode Unicode escapes from ASCII-safe storage
-    p.textContent = this._decodeUnicodeEscapes(eventData.content || '');
-    return p;
+    
+    // Check semantic parameter to determine container type
+    const semantic = eventData.semantic;
+    let element;
+    
+    if (semantic === 'div') {
+      // Use <div> instead of <p> (for grid demos, badges, etc.)
+      element = document.createElement('div');
+      if (attrs.class) element.className = attrs.class;
+      if (attrs.id) element.id = attrs.id;
+      element.textContent = this._decodeUnicodeEscapes(eventData.content || '');
+    } else if (semantic === 'span') {
+      // Use <span> for inline content
+      element = document.createElement('span');
+      if (attrs.class) element.className = attrs.class;
+      if (attrs.id) element.id = attrs.id;
+      element.textContent = this._decodeUnicodeEscapes(eventData.content || '');
+    } else {
+      // Default: <p> with optional semantic wrapper
+      const p = createParagraph(attrs);
+      const content = this._decodeUnicodeEscapes(eventData.content || '');
+      
+      if (semantic && semantic !== 'p') {
+        // Wrap content in semantic element (<code>, <strong>, etc.)
+        const wrapper = document.createElement(semantic);
+        wrapper.textContent = content;
+        p.appendChild(wrapper);
+      } else {
+        p.textContent = content;
+      }
+      element = p;
+    }
+    
+    return element;
   }
 
   /**
