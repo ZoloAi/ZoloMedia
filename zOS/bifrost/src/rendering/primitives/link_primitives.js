@@ -260,6 +260,8 @@ export function renderLink(linkData, container, client) {
   switch (detectedLinkType) {
     case LINK_TYPE_INTERNAL_DELTA:
     case LINK_TYPE_INTERNAL_ZPATH:
+    case 'internal_delta':  // Backend sends with underscore prefix
+    case 'internal_zpath':  // Backend sends with underscore prefix
       _setupInternalLink(link, href, target, windowFeatures, client);
       break;
 

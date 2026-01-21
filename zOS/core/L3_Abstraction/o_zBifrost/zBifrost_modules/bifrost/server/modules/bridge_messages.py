@@ -747,6 +747,15 @@ class MessageHandler:
                                 if isinstance(event, dict) and 'display_event' in event:
                                     event_name = event['display_event']
                                     event_data = event.get('data', {})
+                                    
+                                    # NEW v1.5.20: Resolve zPath references in buffered event data
+                                    # This ensures @ paths in href/src become web URLs before injection
+                                    original_href = event_data.get('href', None) if event_name == 'link' else None
+                                    event_data = self._resolve_zpath_references(event_data, self.zcli)
+                                    if original_href and original_href.startswith('@'):
+                                        resolved_href = event_data.get('href', original_href)
+                                        self.logger.info(f"[MessageHandler] 🔗 Resolved link: {original_href} → {resolved_href}")
+                                    
                                     event_queues[event_name].append(event_data)
                             
                             # Inject buffered events into matching zDisplay directives in traversal order
@@ -759,8 +768,19 @@ class MessageHandler:
                             
                             # NEW v1.5.19: Unwrap zDisplay directives AFTER injection
                             # Frontend expects {event: '...', params} not {zDisplay: {event: '...', params}}
-                            chunk_data = self._unwrap_zdisplay_directives(chunk_data)
-                            self.logger.info(f"[MessageHandler] ✅ Unwrapped zDisplay directives for frontend")
+                        chunk_data = self._unwrap_zdisplay_directives(chunk_data)
+                        self.logger.info(f"[MessageHandler] ✅ Unwrapped zDisplay directives for frontend")
+                        
+                        # DEBUG: Check if zCrumbs was unwrapped correctly
+                        if 'Page_Header' in chunk_data and 'zCrumbs' in chunk_data['Page_Header']:
+                            zcrumbs_data = chunk_data['Page_Header']['zCrumbs']
+                            self.logger.debug(f"[MessageHandler] 🔍 zCrumbs after unwrap: {zcrumbs_data}")
+                            if isinstance(zcrumbs_data, dict):
+                                self.logger.debug(f"[MessageHandler] 🔍 zCrumbs keys: {list(zcrumbs_data.keys())}")
+                                if 'event' in zcrumbs_data:
+                                    self.logger.debug(f"[MessageHandler] ✅ zCrumbs has 'event' key: {zcrumbs_data['event']}")
+                                else:
+                                    self.logger.error(f"[MessageHandler] ❌ zCrumbs missing 'event' key! Has zDisplay wrapper: {'zDisplay' in zcrumbs_data}")
                         
                         # Send chunk to frontend with YAML data (not HTML)
                         # Frontend will render using its existing _renderItems() pipeline

@@ -555,6 +555,14 @@ export class ZDisplayOrchestrator {
         if (element) {
           containerDiv.appendChild(element);
         }
+      } else if (value && value.event && typeof value.event === 'string') {
+        // 🆕 Backend now sends unwrapped zDisplay events (direct event key, no zDisplay wrapper)
+        // Example: {event: 'zCrumbs', show: 'static', ...}
+        this.logger.log(`[renderItems] 🎯 Found direct event key: ${value.event} for ${key}`);
+        const element = await this.renderZDisplayEvent(value);
+        if (element) {
+          containerDiv.appendChild(element);
+        }
       } else if (value && value.zDialog) {
         // Check if this has a direct zDialog form
         this.logger.log('  ✅ Rendering zDialog from direct value:', value.zDialog);
