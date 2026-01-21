@@ -137,79 +137,63 @@ class OrganizationalHandler:
         if not self._is_all_nested(zHorizontal, content_keys):
             return None
         
-        # Separate into UI events and organizational containers
+        # Process keys in their original order to maintain correct buffering sequence
+        # This ensures injection order matches processing order
         # CRITICAL: Check for _ prefix FIRST before checking zDisplay
         # Organizational containers like _Visual_Caption may contain expanded zDisplay,
         # but they should still be treated as organizational, not UI events
-        ui_events = []
-        org_keys = []
+        
+        # Track what we find for logging
+        ui_event_count = 0
+        org_key_count = 0
+        processed_any = False
         
         for key in content_keys:
             val = zHorizontal[key]
+            
             # Check for organizational container FIRST (before zDisplay check)
             if key.startswith('_'):
                 # Organizational container (not metadata)
-                org_keys.append(key)
+                org_key_count += 1
                 self.logger.framework.debug(
-                    f"[OrganizationalHandler] Identified '{key}' as organizational container"
+                    f"[OrganizationalHandler] Processing organizational container '{key}' in order"
                 )
+                if command_router:
+                    result = self._process_nested_key(key, val, context, walker, command_router)
+                    processed_any = True
+                    
+                    # Check for navigation signals
+                    if result in ('zBack', 'exit', 'stop', 'error'):
+                        return result
+                    if isinstance(result, dict) and 'zLink' in result:
+                        return result
+                        
             elif isinstance(val, dict) and 'zDisplay' in val:
                 # UI event with explicit zDisplay wrapper
-                ui_events.append(val)
+                ui_event_count += 1
                 self.logger.framework.debug(
-                    f"[OrganizationalHandler] Identified '{key}' as UI event"
+                    f"[OrganizationalHandler] Processing UI event '{key}' in order"
                 )
+                if command_router:
+                    # Process single UI event (not as a list)
+                    result = command_router._launch_dict(val, context, walker)
+                    processed_any = True
+                    
+                    # Check for navigation signals
+                    if result in ('zBack', 'exit', 'stop', 'error'):
+                        return result
+                    if isinstance(result, dict) and 'zLink' in result:
+                        return result
+                        
             else:
                 # Non-UI, non-organizational key - treat as organizational
-                org_keys.append(key)
+                org_key_count += 1
                 self.logger.framework.debug(
-                    f"[OrganizationalHandler] Identified '{key}' as organizational (non-UI)"
+                    f"[OrganizationalHandler] Processing non-UI organizational key '{key}' in order"
                 )
-        
-        # If we have UI events, process them as implicit sequence
-        if ui_events and command_router:
-            self.logger.framework.debug(
-                f"[OrganizationalHandler] Detected implicit sequence ({len(ui_events)} UI events)"
-            )
-            result = command_router._launch_list(ui_events, context, walker)
-            
-            # Check for navigation signals
-            if result in ('zBack', 'exit', 'stop', 'error'):
-                return result
-            if isinstance(result, dict) and 'zLink' in result:
-                return result
-        
-        # If we have organizational keys, process them (with mode filtering)
-        if org_keys:
-            # Terminal mode: Suppress _ prefixed keys (visual containers for Bifrost only)
-            # Bifrost mode: Process all organizational keys (including _ prefixed)
-            from .dispatch_helpers import is_bifrost_mode
-            # Check walker.session for mode (if walker exists), otherwise check context
-            is_bifrost = is_bifrost_mode(walker.session) if walker else (is_bifrost_mode(context) if context else False)
-            
-            # Filter out _ prefixed keys in Terminal mode
-            keys_to_process = []
-            keys_suppressed = []
-            for key in org_keys:
-                if key.startswith('_') and not is_bifrost:
-                    # Suppress _ prefixed keys in Terminal mode
-                    keys_suppressed.append(key)
-                else:
-                    # Process in Bifrost mode, or non-_ keys in all modes
-                    keys_to_process.append(key)
-            
-            if keys_suppressed:
-                self.logger.framework.debug(
-                    f"[OrganizationalHandler] Terminal mode: Suppressed {len(keys_suppressed)} visual containers: {keys_suppressed}"
-                )
-            
-            if keys_to_process:
-                self.logger.framework.debug(
-                    f"[OrganizationalHandler] Processing {len(keys_to_process)} organizational containers alongside UI events"
-                )
-                for key in keys_to_process:
-                    value = zHorizontal[key]
-                    result = self._process_nested_key(key, value, context, walker, command_router)
+                if command_router:
+                    result = self._process_nested_key(key, val, context, walker, command_router)
+                    processed_any = True
                     
                     # Check for navigation signals
                     if result in ('zBack', 'exit', 'stop', 'error'):
@@ -217,8 +201,12 @@ class OrganizationalHandler:
                     if isinstance(result, dict) and 'zLink' in result:
                         return result
         
-        # If we processed an implicit sequence or organizational keys, return None (success)
-        if ui_events or org_keys:
+        self.logger.framework.debug(
+            f"[OrganizationalHandler] Processed {ui_event_count} UI events and {org_key_count} organizational containers in original order"
+        )
+        
+        # If we processed anything, return None (success)
+        if processed_any:
             return None
         
         # Recurse into organizational structure
