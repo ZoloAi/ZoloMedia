@@ -458,10 +458,9 @@ class BasicOutputs:
 
     def _render_header_terminal(self, label: str, color: str, indent: int, style: str) -> None:
         """Render header for terminal mode with width-safe formatting."""
-        # Decode Unicode escapes for terminal display (preserves ASCII-safe storage)
+        # ALWAYS decode escape sequences for terminal (Unicode + basic escapes like \n, \t)
         from zlsp.core.parser.parser_modules.escape_processors import decode_unicode_escapes
-        if '\\u' in label or '\\U' in label:
-            label = decode_unicode_escapes(label)
+        label = decode_unicode_escapes(label)
         
         term_width = self.zPrimitives.get_terminal_columns()
         indent_str, inner_width = self._calculate_header_dimensions(indent, term_width)
@@ -637,10 +636,13 @@ class BasicOutputs:
             return  # GUI event sent successfully
 
         # Terminal mode - output text and optionally pause
-        # Decode Unicode escapes for terminal display (preserves ASCII-safe storage in .zolo files)
-        if '\\u' in content or '\\U' in content:
-            from zlsp.core.parser.parser_modules.escape_processors import decode_unicode_escapes
-            content = decode_unicode_escapes(content)
+        # ALWAYS decode escape sequences for terminal (Unicode + basic escapes like \n, \t)
+        # decode_unicode_escapes() handles ALL escape sequences:
+        # - \uXXXX, \UXXXXXXXX (Unicode/emoji)
+        # - \n (newline), \t (tab), \r (carriage return)
+        # - \\, \", \' (quotes and backslashes)
+        from zlsp.core.parser.parser_modules.escape_processors import decode_unicode_escapes
+        content = decode_unicode_escapes(content)
         
         # Apply indentation
         if indent > 0:
@@ -743,10 +745,10 @@ class BasicOutputs:
         # Phase 1-3: Use markdown parser (inline + lists + HTML)
         from .markdown_terminal_parser import MarkdownTerminalParser
         
-        # Step 1: Decode Unicode escapes BEFORE parsing (preserves ASCII-safe storage in .zolo files)
-        if '\\u' in content or '\\U' in content:
-            from zlsp.core.parser.parser_modules.escape_processors import decode_unicode_escapes
-            content = decode_unicode_escapes(content)
+        # Step 1: ALWAYS decode escape sequences (Unicode + basic escapes like \n, \t)
+        # decode_unicode_escapes() handles all escapes: \uXXXX, \UXXXXXXXX, \n, \t, \r, \\, \", \'
+        from zlsp.core.parser.parser_modules.escape_processors import decode_unicode_escapes
+        content = decode_unicode_escapes(content)
         
         # Step 2: Convert emojis to [description] for terminal accessibility (DRY helper)
         content = self._convert_emojis_for_terminal(content)

@@ -291,7 +291,12 @@ export class ZDisplayRenderer {
 
   /**
    * Decode Unicode escape sequences to actual characters
-   * Supports: \uXXXX (standard) and \UXXXXXX (extended) formats
+   * Supports: \uXXXX (standard) and \UXXXXXXXX (extended) formats
+   * 
+   * Note: Basic escape sequences (\n, \t, etc.) are handled by JSON.parse()
+   * automatically when receiving data from backend. We only need to decode
+   * custom Unicode formats that JSON doesn't handle.
+   * 
    * @param {string} text - Text containing Unicode escapes
    * @returns {string} - Decoded text
    * @private

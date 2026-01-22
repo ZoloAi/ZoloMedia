@@ -96,14 +96,12 @@ def detect_value_type(value: str) -> Any:
     # String (DEFAULT - everything else!)
     # This includes: 'YES', 'NO', 'yes', 'no', 'true value', 'false alarm', etc.
     
-    # Step 1: Decode Unicode escapes to proper Unicode characters
-    # This gives zOS proper emojis for Terminal ([description]) and Bifrost (aria-label)
-    if '\\u' in value or '\\U' in value:
-        value = decode_unicode_escapes(value)
-    
-    # Step 2: Process other escape sequences (\n, \t, etc.)
-    # Note: This is now handled inside decode_unicode_escapes()
-    value = process_escape_sequences(value)
+    # Process ALL escape sequences (Unicode AND basic like \n, \t)
+    # decode_unicode_escapes() handles:
+    # - \uXXXX, \UXXXXXXXX (Unicode/emoji)
+    # - \n, \t, \r (basic escapes)
+    # - \\, \", \' (quotes and backslashes)
+    value = decode_unicode_escapes(value)
     
     return value
 

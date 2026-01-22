@@ -12,6 +12,26 @@ export class TypographyRenderer {
   }
 
   /**
+   * Convert newlines to <br> tags for Bifrost GUI
+   * Handles BOTH literal \n strings (from YAML without quotes) AND actual newlines (from YAML with quotes)
+   * @param {string} text - Text with potential newlines
+   * @returns {string} HTML-safe text with <br> tags
+   * @private
+   */
+  _convertNewlinesToBr(text) {
+    // Escape HTML entities first for XSS safety
+    const escaped = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+    // Convert BOTH literal \n escape sequences AND actual newlines to <br> tags
+    // Order: literal \n first (from YAML without quotes), then actual newlines (from YAML with quotes)
+    return escaped.replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
+  }
+
+  /**
    * Render text element
    * @param {Object} eventData - Event data with content, color, indent, zId, semantic, etc.
    * @returns {HTMLElement}
@@ -37,13 +57,15 @@ export class TypographyRenderer {
       element = document.createElement('div');
       if (attrs.class) element.className = attrs.class;
       if (attrs.id) element.id = attrs.id;
-      element.textContent = this._decodeUnicodeEscapes(eventData.content || '');
+      const content = this._decodeUnicodeEscapes(eventData.content || '');
+      element.innerHTML = this._convertNewlinesToBr(content);
     } else if (semantic === 'span') {
       // Use <span> for inline content
       element = document.createElement('span');
       if (attrs.class) element.className = attrs.class;
       if (attrs.id) element.id = attrs.id;
-      element.textContent = this._decodeUnicodeEscapes(eventData.content || '');
+      const content = this._decodeUnicodeEscapes(eventData.content || '');
+      element.innerHTML = this._convertNewlinesToBr(content);
     } else {
       // Default: <p> with optional semantic wrapper
       const p = createParagraph(attrs);
@@ -52,10 +74,10 @@ export class TypographyRenderer {
       if (semantic && semantic !== 'p') {
         // Wrap content in semantic element (<code>, <strong>, etc.)
         const wrapper = document.createElement(semantic);
-        wrapper.textContent = content;
+        wrapper.innerHTML = this._convertNewlinesToBr(content);
         p.appendChild(wrapper);
       } else {
-        p.textContent = content;
+        p.innerHTML = this._convertNewlinesToBr(content);
       }
       element = p;
     }
@@ -81,9 +103,10 @@ export class TypographyRenderer {
       attrs.id = eventData.zId || eventData._zId || eventData._id;
     }
     const h = createHeading(level, attrs);
-    // Decode Unicode escapes from ASCII-safe storage
+    // Decode Unicode escapes and convert newlines to <br> for Bifrost
     const content = eventData.label || eventData.content || '';
-    h.textContent = this._decodeUnicodeEscapes(content);
+    const decoded = this._decodeUnicodeEscapes(content);
+    h.innerHTML = this._convertNewlinesToBr(decoded);
     return h;
   }
 
@@ -129,7 +152,12 @@ export class TypographyRenderer {
 
   /**
    * Decode Unicode escape sequences to actual characters
-   * Supports: \uXXXX (standard) and \UXXXXXX (extended) formats
+   * Supports: \uXXXX (standard) and \UXXXXXXXX (extended) formats
+   * 
+   * Note: Basic escape sequences (\n, \t, etc.) are handled by JSON.parse()
+   * automatically when receiving data from backend. We only need to decode
+   * custom Unicode formats that JSON doesn't handle.
+   * 
    * @param {string} text - Text containing Unicode escapes
    * @returns {string} - Decoded text
    * @private
