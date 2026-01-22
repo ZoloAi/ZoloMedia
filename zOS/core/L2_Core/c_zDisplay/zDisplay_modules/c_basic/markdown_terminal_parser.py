@@ -5,15 +5,16 @@ Parses markdown/HTML content and converts it to ANSI-formatted text for Terminal
 Acts as a mini-orchestrator within the zMD event, intelligently routing content to
 appropriate zDisplay events (text, list, code blocks).
 
-Features (Phases 1-5):
+Features (Phases 1-6):
 - Phase 1: Parse inline markdown: **bold**, *italic*, `code` → ANSI
 - Phase 2: Strip HTML tags and map zTheme classes → ANSI colors
 - Phase 3: Extract markdown lists → display.list() events
 - Phase 4: Block-level parsing (paragraphs, lists, code blocks)
 - Phase 5: Indentation/color parameters + robust error handling
+- Phase 6: Strip markdown links (Bifrost-only feature) → plain text for Terminal
 
 Author: zOS Framework
-Version: 2.0.0 (Phase 5 Complete)
+Version: 2.1.0 (Phase 6 Complete - Terminal/Bifrost Alignment)
 """
 
 import re
@@ -268,6 +269,11 @@ class MarkdownTerminalParser:
                     elif block_type == 'list':
                         self._emit_list(block_content, display, indent)
                     elif block_type == 'paragraph':
+                        # Phase 6: Strip markdown links first (Bifrost-only feature)
+                        # [text](url) → text
+                        link_pattern = r'\[([^\]]+)\]\([^)]+\)'
+                        block_content = re.sub(link_pattern, r'\1', block_content)
+                        
                         # Parse inline markdown and output
                         parsed_content = self.parse_inline(block_content)
                         self._emit_paragraph(parsed_content, indent, color)
@@ -583,7 +589,7 @@ class MarkdownTerminalParser:
         Phase 5: Paragraph emission with indentation and color support
         
         Args:
-            content: Parsed paragraph content (already has ANSI codes)
+            content: Parsed paragraph content (already has ANSI codes, links already stripped)
             indent: Indentation level (default: 0)
             color: Optional color override (ANSI code or None)
         """

@@ -290,6 +290,54 @@ export function renderLink(linkData, container, client) {
 }
 
 // ─────────────────────────────────────────────────────────────────
+// zPath to URL Conversion
+// ─────────────────────────────────────────────────────────────────
+
+/**
+ * Convert zPath to URL path for client-side routing.
+ * 
+ * Example conversions:
+ * - @.UI.zProducts.zTheme.zUI.zGrid.zGrid_Details → /zProducts/zTheme/zGrid
+ * - @.UI.zAbout.zAbout_Details → /zAbout
+ * - $zBlock → $zBlock (delta links pass through)
+ * - /regular/path → /regular/path (web paths pass through)
+ * 
+ * @private
+ * @param {string} href - zPath or regular path
+ * @returns {string} URL path for navigation
+ */
+function _convertZPathToURL(href) {
+  // Pass through delta links ($) and web paths (/)
+  if (!href.startsWith('@')) {
+    return href;
+  }
+  
+  // Parse zPath: @.UI.zProducts.zTheme.zUI.zGrid.zGrid_Details
+  // 1. Remove @.UI. prefix
+  // 2. Split remaining path by dots
+  // 3. Remove zUI (file prefix marker)
+  // 4. Remove final block name (ends with _Details or _Section)
+  // 5. Convert to /path/format
+  
+  let path = href.replace(/^@\.UI\./, ''); // Remove @.UI.
+  const parts = path.split('.');
+  
+  // Filter out zUI markers and block names (typically last segment with _)
+  const pathParts = parts.filter((part, index) => {
+    // Keep non-zUI parts
+    if (part === 'zUI') return false;
+    // Remove last segment if it looks like a block name (has underscore or ends in Details/Section)
+    if (index === parts.length - 1 && (part.includes('_') || part.endsWith('Details') || part.endsWith('Section'))) {
+      return false;
+    }
+    return true;
+  });
+  
+  // Convert to /path format
+  return '/' + pathParts.join('/');
+}
+
+// ─────────────────────────────────────────────────────────────────
 // Internal Link Setup (Client-Side Routing)
 // ─────────────────────────────────────────────────────────────────
 
@@ -309,25 +357,33 @@ export function renderLink(linkData, container, client) {
 function _setupInternalLink(link, href, target, windowFeatures, client) {
   link.href = '#'; // Prevent default navigation
 
+  // Convert zPath to URL path if needed
+  const navigationPath = _convertZPathToURL(href);
+
   // Debug: Verify click handler setup
-  console.log('[LinkPrimitives] 🔗 Setting up internal link:', { href, target, hasClient: !!client });
+  console.log('[LinkPrimitives] 🔗 Setting up internal link:', { 
+    original: href, 
+    converted: navigationPath,
+    target, 
+    hasClient: !!client 
+  });
 
   link.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log('[LinkPrimitives] 👆 Link clicked:', href);
+    console.log('[LinkPrimitives] 👆 Link clicked:', navigationPath);
 
     if (target === TARGET_BLANK) {
       // Open in new tab/window using window.open()
-      const newWindow = _openInNewWindow(href, windowFeatures, client);
+      const newWindow = _openInNewWindow(navigationPath, windowFeatures, client);
       if (newWindow) {
-        console.log(`[LinkPrimitives] Opened ${href} in new tab`);
+        console.log(`[LinkPrimitives] Opened ${navigationPath} in new tab`);
       }
     } else {
       // Navigate in current tab via client-side routing
       // FIX: Use _navigateToRoute() instead of navigate() (actual method name)
       if (client && typeof client._navigateToRoute === 'function') {
-        console.log('[LinkPrimitives] ✅ Navigating to:', href);
-        client._navigateToRoute(href);
+        console.log('[LinkPrimitives] ✅ Navigating to:', navigationPath);
+        client._navigateToRoute(navigationPath);
       } else {
         console.error('[LinkPrimitives] ❌ BifrostClient._navigateToRoute() not available:', {
           hasClient: !!client,
@@ -471,8 +527,15 @@ function _openInNewWindow(url, features = {}, client = null) {
   // For internal URLs with client, construct full URL
   let fullUrl = url;
   if (client && (url.startsWith('$') || url.startsWith('@'))) {
-    // Convert internal path to full URL (same origin)
-    fullUrl = `${window.location.origin  }/${  url.substring(1)}`;
+    // Convert zPath to URL path first
+    const navigationPath = _convertZPathToURL(url);
+    // Then construct full URL (same origin)
+    fullUrl = `${window.location.origin}${navigationPath}`;
+    console.log('[LinkPrimitives] 🪟 Opening internal link in new window:', { 
+      original: url, 
+      converted: navigationPath,
+      fullUrl 
+    });
   }
 
   // Open new window

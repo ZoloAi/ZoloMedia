@@ -469,6 +469,11 @@ export class ZDisplayOrchestrator {
           }
           const itemDiv = document.createElement('div');
           itemDiv.setAttribute('data-zkey', key);
+          
+          // CRITICAL FIX: Extract and apply metadata to the organizational container BEFORE recursing
+          const itemMetadata = this._extractMetadata(value);
+          this._applyMetadataToElement(itemDiv, itemMetadata);
+          
           await this.renderItems(value, itemDiv);
           
           if (itemDiv.children.length > 0) {

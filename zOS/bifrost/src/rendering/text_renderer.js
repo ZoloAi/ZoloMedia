@@ -140,7 +140,16 @@ export class TextRenderer {
     });
 
     // Links: [text](url) -> <a href="url">text</a>
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+    // Convert zPaths to URLs for proper navigation
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+      // Convert zPath (@.UI...) to URL path (/path/to/page)
+      const href = this._convertZPathToURL(url);
+      // Determine if link is internal or external
+      const isInternal = url.startsWith('@') || url.startsWith('$') || url.startsWith('/') || url.startsWith('#');
+      const target = isInternal ? '_self' : '_blank';
+      const rel = target === '_blank' ? ' rel="noopener noreferrer"' : '';
+      return `<a href="${href}" target="${target}"${rel}>${text}</a>`;
+    });
 
     // Inline Code: `code` -> <code>code</code> (after code blocks to avoid conflicts)
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
@@ -392,6 +401,42 @@ export class TextRenderer {
     });
     
     return text;
+  }
+
+  /**
+   * Convert zPath to URL path for markdown links.
+   * 
+   * Example conversions:
+   * - @.UI.zProducts.zTheme.zUI.zGrid.zGrid_Details → /zProducts/zTheme/zGrid
+   * - @.UI.zAbout.zAbout_Details → /zAbout
+   * - $zBlock → $zBlock (delta links pass through)
+   * - /regular/path → /regular/path (web paths pass through)
+   * 
+   * @param {string} href - zPath or regular path
+   * @returns {string} URL path for navigation
+   * @private
+   */
+  _convertZPathToURL(href) {
+    // Pass through delta links ($), web paths (/), and anchor links (#)
+    if (!href.startsWith('@')) {
+      return href;
+    }
+    
+    // Parse zPath: @.UI.zProducts.zTheme.zUI.zGrid.zGrid_Details
+    let path = href.replace(/^@\.UI\./, ''); // Remove @.UI.
+    const parts = path.split('.');
+    
+    // Filter out zUI markers and block names
+    const pathParts = parts.filter((part, index) => {
+      if (part === 'zUI') return false;
+      if (index === parts.length - 1 && (part.includes('_') || part.endsWith('Details') || part.endsWith('Section'))) {
+        return false;
+      }
+      return true;
+    });
+    
+    // Convert to /path format
+    return '/' + pathParts.join('/');
   }
 }
 
