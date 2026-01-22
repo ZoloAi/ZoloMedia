@@ -120,7 +120,8 @@ export class TextRenderer {
    * - <br> literal tag -> <br> (passes through)
    */
   _parseMarkdown(text) {
-    let html = text;
+    // Trim trailing newlines to avoid extra <br> at the end
+    let html = text.replace(/\n+$/, '');
 
     // Code blocks: ```language\ncode\n``` -> <pre><code>code</code></pre>
     // Must be processed BEFORE inline code to avoid conflicts
@@ -195,6 +196,10 @@ export class TextRenderer {
     codeBlocks.forEach((block, index) => {
       html = html.replace(`___CODE_BLOCK_${index}___`, block);
     });
+
+    // Remove leading and trailing <br> tags (caused by newlines around lists/blocks)
+    html = html.replace(/^(<br>)+/, '');  // Remove leading <br>
+    html = html.replace(/(<br>)+$/, '');  // Remove trailing <br>
 
     return html;
   }
