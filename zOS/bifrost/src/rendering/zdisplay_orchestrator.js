@@ -630,9 +630,20 @@ export class ZDisplayOrchestrator {
         this.logger.log(`[renderItems] 🎯 Direct zDisplay for ${key}, containerDiv classes: "${containerDiv.className}"`);
         const element = await this.renderZDisplayEvent(value.zDisplay);
         if (element) {
-          // BUG FIX: If containerDiv has no classes, unwrap and append element directly to parent
-          // This fixes zText with semantic:div where the div itself has styling
-          if (!containerDiv.className || containerDiv.className === '') {
+          // BUG FIX: For direct UI events (zText, zH*, zMD, etc.), apply classes ONLY to the element
+          // This prevents double-wrapping and ensures grid classes work correctly
+          // Check if element has the same classes as containerDiv (indicating double-application)
+          if (containerDiv.className && element.className && containerDiv.className === element.className) {
+            this.logger.log(`[renderItems] 🔓 Unwrapping ${key}: element already has classes "${element.className}", skipping wrapper`);
+            // Transfer data-zkey and id to the element
+            element.setAttribute('data-zkey', key);
+            if (!element.id) {
+              element.setAttribute('id', key);
+            }
+            // Append element directly to parent (skip containerDiv)
+            parentElement.appendChild(element);
+            continue; // Skip the rest of the loop (don't append containerDiv)
+          } else if (!containerDiv.className || containerDiv.className === '') {
             this.logger.log(`[renderItems] 🔓 Unwrapping ${key}: no container classes, appending element directly to parent`);
             // Transfer data-zkey and id to the element
             element.setAttribute('data-zkey', key);
@@ -643,7 +654,7 @@ export class ZDisplayOrchestrator {
             parentElement.appendChild(element);
             continue; // Skip the rest of the loop (don't append containerDiv)
           } else {
-            this.logger.log(`[renderItems] 🔒 Keeping wrapper for ${key}: container has classes "${containerDiv.className}"`);
+            this.logger.log(`[renderItems] 🔒 Keeping wrapper for ${key}: container has classes "${containerDiv.className}", element has "${element.className}"`);
             containerDiv.appendChild(element);
           }
         }
@@ -653,8 +664,19 @@ export class ZDisplayOrchestrator {
         this.logger.log(`[renderItems] 🎯 Found direct event key: ${value.event} for ${key}, containerDiv classes: "${containerDiv.className}"`);
         const element = await this.renderZDisplayEvent(value);
         if (element) {
-          // BUG FIX: If containerDiv has no classes, unwrap and append element directly to parent
-          if (!containerDiv.className || containerDiv.className === '') {
+          // BUG FIX: For direct UI events, apply classes ONLY to the element
+          // Check if element has the same classes as containerDiv (indicating double-application)
+          if (containerDiv.className && element.className && containerDiv.className === element.className) {
+            this.logger.log(`[renderItems] 🔓 Unwrapping ${key}: element already has classes "${element.className}", skipping wrapper`);
+            // Transfer data-zkey and id to the element
+            element.setAttribute('data-zkey', key);
+            if (!element.id) {
+              element.setAttribute('id', key);
+            }
+            // Append element directly to parent (skip containerDiv)
+            parentElement.appendChild(element);
+            continue; // Skip the rest of the loop (don't append containerDiv)
+          } else if (!containerDiv.className || containerDiv.className === '') {
             this.logger.log(`[renderItems] 🔓 Unwrapping ${key}: no container classes, appending element directly to parent`);
             // Transfer data-zkey and id to the element
             element.setAttribute('data-zkey', key);
@@ -665,7 +687,7 @@ export class ZDisplayOrchestrator {
             parentElement.appendChild(element);
             continue; // Skip the rest of the loop (don't append containerDiv)
           } else {
-            this.logger.log(`[renderItems] 🔒 Keeping wrapper for ${key}: container has classes "${containerDiv.className}"`);
+            this.logger.log(`[renderItems] 🔒 Keeping wrapper for ${key}: container has classes "${containerDiv.className}", element has "${element.className}"`);
             containerDiv.appendChild(element);
           }
         }

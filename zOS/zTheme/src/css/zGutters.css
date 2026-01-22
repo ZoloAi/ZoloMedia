@@ -5,112 +5,112 @@
 
 /* Horizontal Gutters (Default)
    ============================= */
-.zG-0 { 
-  margin-right: 0; 
-  margin-left: 0; 
+.zRow.zG-0 { 
+  margin-right: 0 !important; 
+  margin-left: 0 !important; 
 }
-.zG-0 > [class*="zCol"] { 
+.zRow.zG-0 > [class*="zCol"] { 
   padding-right: 0; 
   padding-left: 0; 
 }
 
-.zG-1 { 
-  margin-right: -0.25rem; 
-  margin-left: -0.25rem; 
+.zRow.zG-1 { 
+  margin-right: -0.25rem !important; 
+  margin-left: -0.25rem !important; 
 }
-.zG-1 > [class*="zCol"] { 
+.zRow.zG-1 > [class*="zCol"] { 
   padding-right: 0.25rem; 
   padding-left: 0.25rem; 
 }
 
-.zG-2 { 
-  margin-right: -0.5rem; 
-  margin-left: -0.5rem; 
+.zRow.zG-2 { 
+  margin-right: -0.5rem !important; 
+  margin-left: -0.5rem !important; 
 }
-.zG-2 > [class*="zCol"] { 
+.zRow.zG-2 > [class*="zCol"] { 
   padding-right: 0.5rem; 
   padding-left: 0.5rem; 
 }
 
-.zG-3 { 
-  margin-right: -0.75rem; 
-  margin-left: -0.75rem; 
+.zRow.zG-3 { 
+  margin-right: -0.75rem !important; 
+  margin-left: -0.75rem !important; 
 }
-.zG-3 > [class*="zCol"] { 
+.zRow.zG-3 > [class*="zCol"] { 
   padding-right: 0.75rem; 
   padding-left: 0.75rem; 
 }
 
-.zG-4 { 
-  margin-right: -1rem; 
-  margin-left: -1rem; 
+.zRow.zG-4 { 
+  margin-right: -1rem !important; 
+  margin-left: -1rem !important; 
 }
-.zG-4 > [class*="zCol"] { 
+.zRow.zG-4 > [class*="zCol"] { 
   padding-right: 1rem; 
   padding-left: 1rem; 
 }
 
-.zG-5 { 
-  margin-right: -1.5rem; 
-  margin-left: -1.5rem; 
+.zRow.zG-5 { 
+  margin-right: -1.5rem !important; 
+  margin-left: -1.5rem !important; 
 }
-.zG-5 > [class*="zCol"] { 
+.zRow.zG-5 > [class*="zCol"] { 
   padding-right: 1.5rem; 
   padding-left: 1.5rem; 
 }
 
 /* Horizontal-Only Gutters
    ======================== */
-.zGx-0 { 
-  margin-right: 0; 
-  margin-left: 0; 
+.zRow.zGx-0 { 
+  margin-right: 0 !important; 
+  margin-left: 0 !important; 
 }
-.zGx-0 > [class*="zCol"] { 
+.zRow.zGx-0 > [class*="zCol"] { 
   padding-right: 0; 
   padding-left: 0; 
 }
 
-.zGx-1 { 
-  margin-right: -0.25rem; 
-  margin-left: -0.25rem; 
+.zRow.zGx-1 { 
+  margin-right: -0.25rem !important; 
+  margin-left: -0.25rem !important; 
 }
-.zGx-1 > [class*="zCol"] { 
+.zRow.zGx-1 > [class*="zCol"] { 
   padding-right: 0.25rem; 
   padding-left: 0.25rem; 
 }
 
-.zGx-2 { 
-  margin-right: -0.5rem; 
-  margin-left: -0.5rem; 
+.zRow.zGx-2 { 
+  margin-right: -0.5rem !important; 
+  margin-left: -0.5rem !important; 
 }
-.zGx-2 > [class*="zCol"] { 
+.zRow.zGx-2 > [class*="zCol"] { 
   padding-right: 0.5rem; 
   padding-left: 0.5rem; 
 }
 
-.zGx-3 { 
-  margin-right: -0.75rem; 
-  margin-left: -0.75rem; 
+.zRow.zGx-3 { 
+  margin-right: -0.75rem !important; 
+  margin-left: -0.75rem !important; 
 }
-.zGx-3 > [class*="zCol"] { 
+.zRow.zGx-3 > [class*="zCol"] { 
   padding-right: 0.75rem; 
   padding-left: 0.75rem; 
 }
 
-.zGx-4 { 
-  margin-right: -1rem; 
-  margin-left: -1rem; 
+.zRow.zGx-4 { 
+  margin-right: -1rem !important; 
+  margin-left: -1rem !important; 
 }
-.zGx-4 > [class*="zCol"] { 
+.zRow.zGx-4 > [class*="zCol"] { 
   padding-right: 1rem; 
   padding-left: 1rem; 
 }
 
-.zGx-5 { 
-  margin-right: -1.5rem; 
-  margin-left: -1.5rem; 
+.zRow.zGx-5 { 
+  margin-right: -1.5rem !important; 
+  margin-left: -1.5rem !important; 
 }
-.zGx-5 > [class*="zCol"] { 
+.zRow.zGx-5 > [class*="zCol"] { 
   padding-right: 1.5rem; 
   padding-left: 1.5rem; 
 }
@@ -150,66 +150,66 @@
 /* Responsive Gutters - Small (sm) ≥576px
    ======================================= */
 @media (min-width: 576px) {
-  .zG-sm-0 { margin-right: 0; margin-left: 0; }
-  .zG-sm-0 > [class*="zCol"] { padding-right: 0; padding-left: 0; }
+  .zRow.zG-sm-0 { margin-right: 0 !important; margin-left: 0 !important; }
+  .zRow.zG-sm-0 > [class*="zCol"] { padding-right: 0; padding-left: 0; }
   
-  .zG-sm-1 { margin-right: -0.25rem; margin-left: -0.25rem; }
-  .zG-sm-1 > [class*="zCol"] { padding-right: 0.25rem; padding-left: 0.25rem; }
+  .zRow.zG-sm-1 { margin-right: -0.25rem !important; margin-left: -0.25rem !important; }
+  .zRow.zG-sm-1 > [class*="zCol"] { padding-right: 0.25rem; padding-left: 0.25rem; }
   
-  .zG-sm-2 { margin-right: -0.5rem; margin-left: -0.5rem; }
-  .zG-sm-2 > [class*="zCol"] { padding-right: 0.5rem; padding-left: 0.5rem; }
+  .zRow.zG-sm-2 { margin-right: -0.5rem !important; margin-left: -0.5rem !important; }
+  .zRow.zG-sm-2 > [class*="zCol"] { padding-right: 0.5rem; padding-left: 0.5rem; }
   
-  .zG-sm-3 { margin-right: -0.75rem; margin-left: -0.75rem; }
-  .zG-sm-3 > [class*="zCol"] { padding-right: 0.75rem; padding-left: 0.75rem; }
+  .zRow.zG-sm-3 { margin-right: -0.75rem !important; margin-left: -0.75rem !important; }
+  .zRow.zG-sm-3 > [class*="zCol"] { padding-right: 0.75rem; padding-left: 0.75rem; }
   
-  .zG-sm-4 { margin-right: -1rem; margin-left: -1rem; }
-  .zG-sm-4 > [class*="zCol"] { padding-right: 1rem; padding-left: 1rem; }
+  .zRow.zG-sm-4 { margin-right: -1rem !important; margin-left: -1rem !important; }
+  .zRow.zG-sm-4 > [class*="zCol"] { padding-right: 1rem; padding-left: 1rem; }
   
-  .zG-sm-5 { margin-right: -1.5rem; margin-left: -1.5rem; }
-  .zG-sm-5 > [class*="zCol"] { padding-right: 1.5rem; padding-left: 1.5rem; }
+  .zRow.zG-sm-5 { margin-right: -1.5rem !important; margin-left: -1.5rem !important; }
+  .zRow.zG-sm-5 > [class*="zCol"] { padding-right: 1.5rem; padding-left: 1.5rem; }
 }
 
 /* Responsive Gutters - Medium (md) ≥768px
    ======================================== */
 @media (min-width: 768px) {
-  .zG-md-0 { margin-right: 0; margin-left: 0; }
-  .zG-md-0 > [class*="zCol"] { padding-right: 0; padding-left: 0; }
+  .zRow.zG-md-0 { margin-right: 0 !important; margin-left: 0 !important; }
+  .zRow.zG-md-0 > [class*="zCol"] { padding-right: 0; padding-left: 0; }
   
-  .zG-md-1 { margin-right: -0.25rem; margin-left: -0.25rem; }
-  .zG-md-1 > [class*="zCol"] { padding-right: 0.25rem; padding-left: 0.25rem; }
+  .zRow.zG-md-1 { margin-right: -0.25rem !important; margin-left: -0.25rem !important; }
+  .zRow.zG-md-1 > [class*="zCol"] { padding-right: 0.25rem; padding-left: 0.25rem; }
   
-  .zG-md-2 { margin-right: -0.5rem; margin-left: -0.5rem; }
-  .zG-md-2 > [class*="zCol"] { padding-right: 0.5rem; padding-left: 0.5rem; }
+  .zRow.zG-md-2 { margin-right: -0.5rem !important; margin-left: -0.5rem !important; }
+  .zRow.zG-md-2 > [class*="zCol"] { padding-right: 0.5rem; padding-left: 0.5rem; }
   
-  .zG-md-3 { margin-right: -0.75rem; margin-left: -0.75rem; }
-  .zG-md-3 > [class*="zCol"] { padding-right: 0.75rem; padding-left: 0.75rem; }
+  .zRow.zG-md-3 { margin-right: -0.75rem !important; margin-left: -0.75rem !important; }
+  .zRow.zG-md-3 > [class*="zCol"] { padding-right: 0.75rem; padding-left: 0.75rem; }
   
-  .zG-md-4 { margin-right: -1rem; margin-left: -1rem; }
-  .zG-md-4 > [class*="zCol"] { padding-right: 1rem; padding-left: 1rem; }
+  .zRow.zG-md-4 { margin-right: -1rem !important; margin-left: -1rem !important; }
+  .zRow.zG-md-4 > [class*="zCol"] { padding-right: 1rem; padding-left: 1rem; }
   
-  .zG-md-5 { margin-right: -1.5rem; margin-left: -1.5rem; }
-  .zG-md-5 > [class*="zCol"] { padding-right: 1.5rem; padding-left: 1.5rem; }
+  .zRow.zG-md-5 { margin-right: -1.5rem !important; margin-left: -1.5rem !important; }
+  .zRow.zG-md-5 > [class*="zCol"] { padding-right: 1.5rem; padding-left: 1.5rem; }
 }
 
 /* Responsive Gutters - Large (lg) ≥992px
    ======================================= */
 @media (min-width: 992px) {
-  .zG-lg-0 { margin-right: 0; margin-left: 0; }
-  .zG-lg-0 > [class*="zCol"] { padding-right: 0; padding-left: 0; }
+  .zRow.zG-lg-0 { margin-right: 0 !important; margin-left: 0 !important; }
+  .zRow.zG-lg-0 > [class*="zCol"] { padding-right: 0; padding-left: 0; }
   
-  .zG-lg-1 { margin-right: -0.25rem; margin-left: -0.25rem; }
-  .zG-lg-1 > [class*="zCol"] { padding-right: 0.25rem; padding-left: 0.25rem; }
+  .zRow.zG-lg-1 { margin-right: -0.25rem !important; margin-left: -0.25rem !important; }
+  .zRow.zG-lg-1 > [class*="zCol"] { padding-right: 0.25rem; padding-left: 0.25rem; }
   
-  .zG-lg-2 { margin-right: -0.5rem; margin-left: -0.5rem; }
-  .zG-lg-2 > [class*="zCol"] { padding-right: 0.5rem; padding-left: 0.5rem; }
+  .zRow.zG-lg-2 { margin-right: -0.5rem !important; margin-left: -0.5rem !important; }
+  .zRow.zG-lg-2 > [class*="zCol"] { padding-right: 0.5rem; padding-left: 0.5rem; }
   
-  .zG-lg-3 { margin-right: -0.75rem; margin-left: -0.75rem; }
-  .zG-lg-3 > [class*="zCol"] { padding-right: 0.75rem; padding-left: 0.75rem; }
+  .zRow.zG-lg-3 { margin-right: -0.75rem !important; margin-left: -0.75rem !important; }
+  .zRow.zG-lg-3 > [class*="zCol"] { padding-right: 0.75rem; padding-left: 0.75rem; }
   
-  .zG-lg-4 { margin-right: -1rem; margin-left: -1rem; }
-  .zG-lg-4 > [class*="zCol"] { padding-right: 1rem; padding-left: 1rem; }
+  .zRow.zG-lg-4 { margin-right: -1rem !important; margin-left: -1rem !important; }
+  .zRow.zG-lg-4 > [class*="zCol"] { padding-right: 1rem; padding-left: 1rem; }
   
-  .zG-lg-5 { margin-right: -1.5rem; margin-left: -1.5rem; }
-  .zG-lg-5 > [class*="zCol"] { padding-right: 1.5rem; padding-left: 1.5rem; }
+  .zRow.zG-lg-5 { margin-right: -1.5rem !important; margin-left: -1.5rem !important; }
+  .zRow.zG-lg-5 > [class*="zCol"] { padding-right: 1.5rem; padding-left: 1.5rem; }
 }
 

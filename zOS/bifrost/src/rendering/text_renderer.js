@@ -152,7 +152,13 @@ export class TextRenderer {
     });
 
     // Inline Code: `code` -> <code>code</code> (after code blocks to avoid conflicts)
-    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+    // Use placeholders to protect code content from further markdown processing
+    const inlineCodeBlocks = [];
+    html = html.replace(/`([^`]+)`/g, (match, code) => {
+      const placeholder = `___INLINE_CODE_${inlineCodeBlocks.length}___`;
+      inlineCodeBlocks.push(`<code>${code}</code>`);
+      return placeholder;
+    });
 
     // Unordered Lists: * item or - item -> <ul><li>item</li></ul>
     // Process lists before bold/italic to avoid conflicts with * markers
@@ -169,11 +175,17 @@ export class TextRenderer {
     // Bold: **text** -> <strong>text</strong>
     html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
 
-    // Underline: __text__ -> <u>text</u> (before italic to avoid conflicts)
-    html = html.replace(/__([^_]+)__/g, '<u>$1</u>');
-
     // Italic: *text* -> <em>text</em> (but not ** from bold)
     html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+
+    // Restore inline code blocks from placeholders BEFORE underline processing
+    // (underline uses __ which would corrupt ___ placeholders)
+    html = html.replace(/___INLINE_CODE_(\d+)___/g, (match, index) => {
+      return inlineCodeBlocks[parseInt(index)];
+    });
+
+    // Underline: __text__ -> <u>text</u> (after inline code restoration)
+    html = html.replace(/__([^_]+)__/g, '<u>$1</u>');
 
     // Strikethrough: ~~text~~ -> <del>text</del>
     html = html.replace(/~~([^~]+)~~/g, '<del>$1</del>');
