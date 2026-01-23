@@ -232,38 +232,84 @@ class TableEvents:
         # Column headers
         if show_header:
             header_row = _CHAR_SPACE.join([col[:DEFAULT_COL_WIDTH].ljust(DEFAULT_COL_WIDTH) for col in columns])
-            self._output_text(header_row)
+            self._output_text(header_row, break_after=False)
             
             # Separator
             separator = CHAR_SEPARATOR * min(DEFAULT_SEPARATOR_WIDTH, len(header_row))
-            self._output_text(separator)
+            self._output_text(separator, break_after=False)
         
         # Data rows
         for row in rows:
             formatted_row = self._format_row(row, columns)
-            self._output_text(formatted_row)
+            self._output_text(formatted_row, break_after=False)
+    
+    def _parse_inline_markdown(self, text: str) -> str:
+        """
+        Parse inline markdown syntax in table cells.
+        Reuses logic from rich_text markdown parsing (DRY principle).
+        
+        Supported:
+            - `code` -> ANSI inline code
+            - **bold** -> ANSI bold  
+            - *italic* -> ANSI italic
+            - HTML tags -> extract text content only (for terminal)
+            - Strips outer quotes from YAML strings
+        
+        Args:
+            text: Cell value with potential markdown or HTML
+        
+        Returns:
+            str: Text with markdown converted to ANSI codes, HTML stripped to content
+        """
+        import re
+        
+        # Strip outer quotes if present (from YAML string parsing)
+        text = text.strip('"').strip("'")
+        
+        # Extract text from HTML tags (terminal doesn't render HTML)
+        # <h1 class='...'>content</h1> -> content
+        text = re.sub(r'<[^>]+>([^<]*)</[^>]+>', r'\1', text)
+        
+        # Parse inline markdown using regex (same order as rich_text)
+        # Process in specific order to avoid conflicts
+        
+        # 1. Inline code: `code` -> ANSI cyan
+        text = re.sub(r'`([^`]+)`', r'\033[36m\1\033[0m', text)
+        
+        # 2. Bold: **text** -> ANSI bold
+        text = re.sub(r'\*\*([^*]+)\*\*', r'\033[1m\1\033[0m', text)
+        
+        # 3. Italic: *text* -> ANSI italic
+        text = re.sub(r'\*([^*]+)\*', r'\033[3m\1\033[0m', text)
+        
+        return text
     
     def _format_row(
         self,
         row: Union[Dict[str, Any], List[Any]],
         columns: List[str]
     ) -> str:
-        """Format a single row for terminal display."""
+        """Format a single row for terminal display with markdown support."""
         values = []
         
         # Convert row to list of values
         if isinstance(row, dict):
             for col in columns:
                 value = row.get(col, "")
-                values.append(str(value) if value is not None else "")
+                value_str = str(value) if value is not None else ""
+                # Parse inline markdown in cell value
+                values.append(self._parse_inline_markdown(value_str))
         elif isinstance(row, list):
-            values = [str(v) if v is not None else "" for v in row]
+            # Parse inline markdown in each cell
+            values = [self._parse_inline_markdown(str(v) if v is not None else "") for v in row]
         else:
-            values = [str(row)]
+            values = [self._parse_inline_markdown(str(row))]
         
         # Truncate and pad values to fixed width
         formatted_values = []
         for value in values:
+            # Note: We need to consider ANSI codes don't add to visible length
+            # For now, use simple length calculation (ANSI handling can be added later)
             if len(value) > DEFAULT_COL_WIDTH:
                 # Truncate with "..."
                 truncated = value[:DEFAULT_COL_WIDTH - len(DEFAULT_TRUNCATE_SUFFIX)] + DEFAULT_TRUNCATE_SUFFIX
@@ -274,7 +320,7 @@ class TableEvents:
         
         return _CHAR_SPACE.join(formatted_values)
     
-    def _output_text(self, content: str, indent: int = 0, break_after: bool = True) -> None:
+    def _output_text(self, content: str, indent: int = 0, break_after: bool = False) -> None:
         """Output text using BasicOutputs or zPrimitives fallback."""
         if self.BasicOutputs:
             self.BasicOutputs.text(content, indent=indent, break_after=break_after)
