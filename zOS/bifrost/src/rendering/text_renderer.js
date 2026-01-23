@@ -339,9 +339,9 @@ export class TextRenderer {
         const parsedMarkdown = this._parseMarkdown(paragraphContent);
         const accessibleHTML = emojiAccessibility.enhanceText(parsedMarkdown);
         
-        // Check if parsed content contains block-level elements (ul, ol, pre, etc.)
+        // Check if parsed content contains block-level elements (headings, ul, ol, pre, etc.)
         // Block elements should NOT be wrapped in <p> tags
-        const hasBlockElements = /<(ul|ol|pre|blockquote|div|table)[\s>]/.test(accessibleHTML);
+        const hasBlockElements = /<(h[1-6]|ul|ol|pre|blockquote|div|table)[\s>]/.test(accessibleHTML);
         
         if (hasBlockElements) {
           // Create a temporary container to parse the HTML
@@ -384,8 +384,8 @@ export class TextRenderer {
       const parsedMarkdown = this._parseMarkdown(restoredContent);
       const accessibleHTML = emojiAccessibility.enhanceText(parsedMarkdown);
       
-      // Check if parsed content contains block-level elements
-      const hasBlockElements = /<(ul|ol|pre|blockquote|div|table)[\s>]/.test(accessibleHTML);
+      // Check if parsed content contains block-level elements (headings, lists, etc.)
+      const hasBlockElements = /<(h[1-6]|ul|ol|pre|blockquote|div|table)[\s>]/.test(accessibleHTML);
       
       let element;
       if (hasBlockElements) {
