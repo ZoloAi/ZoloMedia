@@ -27,6 +27,7 @@ def strip_comments_and_prepare_lines(content: str) -> Tuple[list[str], dict]:
     - Multi-line comments supported with #> ... <#
     - Unpaired #> or <# are treated as literal text
     - # without > is a literal character (hex colors, hashtags, etc.)
+    - EXCEPTION: Lines inside zMD.content/zText.content are NOT treated as comments (markdown syntax!)
     - Skip empty lines after comment removal
     - Preserve indentation
     
@@ -40,9 +41,66 @@ def strip_comments_and_prepare_lines(content: str) -> Tuple[list[str], dict]:
     """
     lines = content.splitlines()
     
-    # Phase 1: Identify full-line comments
+    # Phase 0: Identify multiline string contexts (zMD.content, zText.content, etc.)
+    # Lines inside these contexts should NOT have # stripped (it's markdown syntax!)
+    multiline_string_lines = set()
+    
+    for line_num, line in enumerate(lines):
+        indent = len(line) - len(line.lstrip())
+        stripped = line.lstrip()
+        
+        # Check if this line starts a multiline string context
+        # Pattern: "content:" under zMD/zText, or other auto-multiline properties
+        if stripped.startswith('content:') or stripped.startswith('label:'):
+            # Look back to see if parent is zMD or zText
+            parent_indent = None
+            parent_key = None
+            for prev_line_num in range(line_num - 1, -1, -1):
+                prev_line = lines[prev_line_num]
+                prev_indent = len(prev_line) - len(prev_line.lstrip())
+                prev_stripped = prev_line.lstrip()
+                
+                if prev_indent < indent and prev_stripped and ':' in prev_stripped:
+                    parent_indent = prev_indent
+                    parent_key = prev_stripped.split(':')[0].strip().lower()
+                    break
+            
+            # If parent is zMD or zText, mark subsequent indented lines as multiline string
+            if parent_key in ('zmd', 'ztext'):
+                # Mark all subsequent lines with greater indentation as multiline string content
+                for next_line_num in range(line_num + 1, len(lines)):
+                    next_line = lines[next_line_num]
+                    next_indent = len(next_line) - len(next_line.lstrip())
+                    next_stripped = next_line.lstrip()
+                    
+                    # Stop if we hit a line with equal/less indentation that has a key
+                    if next_indent <= indent and next_stripped and ':' in next_stripped:
+                        break
+                    
+                    # Stop if we hit an empty line followed by a key at same/less indent
+                    if not next_stripped:
+                        # Check next non-empty line
+                        for check_num in range(next_line_num + 1, len(lines)):
+                            check_line = lines[check_num]
+                            check_indent = len(check_line) - len(check_line.lstrip())
+                            check_stripped = check_line.lstrip()
+                            if check_stripped:
+                                if check_indent <= indent and ':' in check_stripped:
+                                    # Stop here, this is the end of multiline
+                                    break
+                                break
+                    
+                    # This line is inside multiline string context
+                    if next_indent > indent or not next_stripped:
+                        multiline_string_lines.add(next_line_num)
+    
+    # Phase 1: Identify full-line comments (EXCEPT lines inside multiline string contexts)
     full_line_comment_lines = set()
     for line_num, line in enumerate(lines):
+        # Skip if this line is inside a multiline string context
+        if line_num in multiline_string_lines:
+            continue
+        
         stripped = line.lstrip()
         if stripped.startswith('#') and not stripped.startswith('#>'):
             full_line_comment_lines.add(line_num)
@@ -121,17 +179,76 @@ def strip_comments_and_prepare_lines_with_tokens(content: str, emitter: 'TokenEm
     Strip comments and prepare lines while emitting comment tokens.
     Handles both full-line comments and multi-line #> ... <# comments.
     
+    EXCEPTION: Lines inside zMD.content/zText.content are NOT treated as comments (markdown syntax!)
+    
     Returns:
         Tuple of (cleaned_lines, line_mapping)
         line_mapping maps cleaned line index to original line number
     """
     lines = content.splitlines()
     
-    # Phase 1: Identify full-line comments (these should be ignored for inline comment processing)
+    # Phase 0: Identify multiline string contexts (zMD.content, zText.content, etc.)
+    # Lines inside these contexts should NOT have # stripped (it's markdown syntax!)
+    multiline_string_lines = set()
+    
+    for line_num, line in enumerate(lines):
+        indent = len(line) - len(line.lstrip())
+        stripped = line.lstrip()
+        
+        # Check if this line starts a multiline string context
+        # Pattern: "content:" under zMD/zText, or other auto-multiline properties
+        if stripped.startswith('content:') or stripped.startswith('label:'):
+            # Look back to see if parent is zMD or zText
+            parent_indent = None
+            parent_key = None
+            for prev_line_num in range(line_num - 1, -1, -1):
+                prev_line = lines[prev_line_num]
+                prev_indent = len(prev_line) - len(prev_line.lstrip())
+                prev_stripped = prev_line.lstrip()
+                
+                if prev_indent < indent and prev_stripped and ':' in prev_stripped:
+                    parent_indent = prev_indent
+                    parent_key = prev_stripped.split(':')[0].strip().lower()
+                    break
+            
+            # If parent is zMD or zText, mark subsequent indented lines as multiline string
+            if parent_key in ('zmd', 'ztext'):
+                # Mark all subsequent lines with greater indentation as multiline string content
+                for next_line_num in range(line_num + 1, len(lines)):
+                    next_line = lines[next_line_num]
+                    next_indent = len(next_line) - len(next_line.lstrip())
+                    next_stripped = next_line.lstrip()
+                    
+                    # Stop if we hit a line with equal/less indentation that has a key
+                    if next_indent <= indent and next_stripped and ':' in next_stripped:
+                        break
+                    
+                    # Stop if we hit an empty line followed by a key at same/less indent
+                    if not next_stripped:
+                        # Check next non-empty line
+                        for check_num in range(next_line_num + 1, len(lines)):
+                            check_line = lines[check_num]
+                            check_indent = len(check_line) - len(check_line.lstrip())
+                            check_stripped = check_line.lstrip()
+                            if check_stripped:
+                                if check_indent <= indent and ':' in check_stripped:
+                                    # Stop here, this is the end of multiline
+                                    break
+                                break
+                    
+                    # This line is inside multiline string context
+                    if next_indent > indent or not next_stripped:
+                        multiline_string_lines.add(next_line_num)
+    
+    # Phase 1: Identify full-line comments (EXCEPT lines inside multiline string contexts)
     # Full-line comments can appear at any indentation level
     # A line is a full-line comment if it starts with # (after optional whitespace) but not #>
     full_line_comment_lines = set()
     for line_num, line in enumerate(lines):
+        # Skip if this line is inside a multiline string context
+        if line_num in multiline_string_lines:
+            continue
+        
         stripped = line.lstrip()
         indent = len(line) - len(stripped)
         # A line is a full-line comment if it starts with # (but not #>)
