@@ -266,6 +266,12 @@ class MarkdownTerminalParser:
                 try:
                     if block_type == 'code':
                         self._emit_code_block(block_content, display, indent)
+                    elif block_type == 'heading':
+                        # block_content is (level, text) tuple
+                        level, text = block_content
+                        # Parse inline markdown in heading text
+                        parsed_text = self.parse_inline(text)
+                        display.header(parsed_text, indent=level)
                     elif block_type == 'list':
                         self._emit_list(block_content, display, indent)
                     elif block_type == 'paragraph':
@@ -351,6 +357,16 @@ class MarkdownTerminalParser:
                     blocks.append(('code', code_block))
                     i += lines_consumed
                     continue
+            
+            # Check for heading: # through ######
+            # Accept both "# Title" (standard) and "#Title" (lenient)
+            heading_match = re.match(r'^(#{1,6})\s*(.+)$', stripped)
+            if heading_match:
+                level = len(heading_match.group(1))
+                text = heading_match.group(2).strip()
+                blocks.append(('heading', (level, text)))
+                i += 1
+                continue
             
             # Check for list item
             if re.match(r'^[\*\-]\s+', stripped) or re.match(r'^\d+\.\s+', stripped):

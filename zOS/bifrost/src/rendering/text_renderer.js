@@ -121,8 +121,9 @@ export class TextRenderer {
    */
   _parseMarkdown(text) {
     // STEP 1: Process semantic distinction for zMD
-    // Convert \x1F (YAML multilines) to <br> for line breaks
-    let html = text.replace(/\x1F/g, '<br>');
+    // Convert \x1F (YAML multilines) to \n temporarily (for list processing)
+    // We'll convert remaining \n to <br> after lists are processed
+    let html = text.replace(/\x1F/g, '\n');
     
     // NOTE: Explicit \n will be handled in renderRichText (split into multiple <p> tags)
     
@@ -143,6 +144,15 @@ export class TextRenderer {
       // Apply language class if specified
       const langClass = language ? ` language-${language}` : '';
       return `<pre class="zBg-dark zText-light zp-3 zRounded zOverflow-auto"><code class="zFont-mono${langClass}">${escapedCode}</code></pre>`;
+    });
+
+    // Headings: # H1 through ###### H6
+    // Process at line start or after newline, must be before bold/italic to avoid conflicts
+    // Accept both "# Title" (standard) and "#Title" (lenient)
+    html = html.replace(/(?:^|\n)(#{1,6})\s*(.+?)(?=\n|$)/g, (match, hashes, text) => {
+      const level = hashes.length;
+      const trimmedText = text.trim();
+      return `\n<h${level}>${trimmedText}</h${level}>\n`;
     });
 
     // Links: [text](url) -> <a href="url">text</a>
@@ -214,21 +224,22 @@ export class TextRenderer {
     // Line breaks: double-space + newline -> <br> (markdown standard, but YAML may strip)
     html = html.replace(/ {2}\n/g, '<br>');
 
-    // Remove remaining single newlines (for text wrapping, but NOT within <pre> tags)
-    // Strategy: Extract code blocks, remove newlines from text, then restore code blocks
-    const codeBlocks = [];
-    html = html.replace(/(<pre[\s\S]*?<\/pre>)/g, (match) => {
-      const placeholder = `___CODE_BLOCK_${codeBlocks.length}___`;
-      codeBlocks.push(match);
+    // Convert remaining newlines to <br> (but NOT within <pre> tags or <ul>/<ol>)
+    // These are from \x1F markers (YAML multilines), not explicit \n (which are handled by renderRichText)
+    // Strategy: Extract code blocks and lists, convert newlines, then restore
+    const preservedBlocks = [];
+    html = html.replace(/(<pre[\s\S]*?<\/pre>|<ul[\s\S]*?<\/ul>|<ol[\s\S]*?<\/ol>)/g, (match) => {
+      const placeholder = `___PRESERVED_BLOCK_${preservedBlocks.length}___`;
+      preservedBlocks.push(match);
       return placeholder;
     });
     
-    // NOTE: Explicit \n characters are NOT converted to <br> here
-    // They will be handled in renderRichText() to create separate <p> tags
+    // Convert remaining newlines to <br> (from \x1F markers for line breaks)
+    html = html.replace(/\n/g, '<br>');
     
-    // Restore code blocks with preserved newlines
-    codeBlocks.forEach((block, index) => {
-      html = html.replace(`___CODE_BLOCK_${index}___`, block);
+    // Restore preserved blocks
+    preservedBlocks.forEach((block, index) => {
+      html = html.replace(`___PRESERVED_BLOCK_${index}___`, block);
     });
 
     // Remove leading and trailing <br> tags (caused by newlines around lists/blocks)
@@ -323,18 +334,34 @@ export class TextRenderer {
         setAttributes(container, attributes);
       }
       
-      // Parse each paragraph and create a <p> element
+      // Parse each paragraph and create appropriate elements
       paragraphs.forEach((paragraphContent, index) => {
         const parsedMarkdown = this._parseMarkdown(paragraphContent);
         const accessibleHTML = emojiAccessibility.enhanceText(parsedMarkdown);
         
-        const p = createElement('p', []);
-        p.innerHTML = accessibleHTML;
-        container.appendChild(p);
+        // Check if parsed content contains block-level elements (ul, ol, pre, etc.)
+        // Block elements should NOT be wrapped in <p> tags
+        const hasBlockElements = /<(ul|ol|pre|blockquote|div|table)[\s>]/.test(accessibleHTML);
         
-        // Apply syntax highlighting to code blocks within this paragraph
+        if (hasBlockElements) {
+          // Create a temporary container to parse the HTML
+          const temp = document.createElement('div');
+          temp.innerHTML = accessibleHTML;
+          
+          // Append all children directly (unwrap from paragraph)
+          Array.from(temp.childNodes).forEach(child => {
+            container.appendChild(child);
+          });
+        } else {
+          // Regular text content - wrap in <p>
+          const p = createElement('p', []);
+          p.innerHTML = accessibleHTML;
+          container.appendChild(p);
+        }
+        
+        // Apply syntax highlighting to code blocks
         if (window.Prism) {
-          const codeBlocks = p.querySelectorAll('pre code[class*="language-"]');
+          const codeBlocks = container.querySelectorAll('pre code[class*="language-"]');
           codeBlocks.forEach((codeBlock) => {
             Prism.highlightElement(codeBlock);
           });
@@ -346,7 +373,6 @@ export class TextRenderer {
       
     } else {
       // SINGLE-PARAGRAPH MODE: No explicit \n
-      const p = createElement('p', classes);
       
       // Restore inline code before parsing markdown (keep literal, no decoding)
       let restoredContent = decodedContent;
@@ -357,11 +383,24 @@ export class TextRenderer {
       
       const parsedMarkdown = this._parseMarkdown(restoredContent);
       const accessibleHTML = emojiAccessibility.enhanceText(parsedMarkdown);
-      p.innerHTML = accessibleHTML;
+      
+      // Check if parsed content contains block-level elements
+      const hasBlockElements = /<(ul|ol|pre|blockquote|div|table)[\s>]/.test(accessibleHTML);
+      
+      let element;
+      if (hasBlockElements) {
+        // Create a container div for block elements (don't wrap in <p>)
+        element = createElement('div', classes);
+        element.innerHTML = accessibleHTML;
+      } else {
+        // Regular text content - wrap in <p>
+        element = createElement('p', classes);
+        element.innerHTML = accessibleHTML;
+      }
       
       // Apply syntax highlighting to code blocks (Prism.js)
       if (window.Prism) {
-        const codeBlocks = p.querySelectorAll('pre code[class*="language-"]');
+        const codeBlocks = element.querySelectorAll('pre code[class*="language-"]');
         codeBlocks.forEach((codeBlock) => {
           Prism.highlightElement(codeBlock);
         });
@@ -376,11 +415,11 @@ export class TextRenderer {
         attributes.style = `margin-left: ${indent}rem;`;
       }
       if (Object.keys(attributes).length > 0) {
-        setAttributes(p, attributes);
+        setAttributes(element, attributes);
       }
       
-      this.logger.log(`[TextRenderer] ✅ Rendered rich_text (single paragraph)`);
-      return p;
+      this.logger.log(`[TextRenderer] ✅ Rendered rich_text (single ${hasBlockElements ? 'block' : 'paragraph'})`);
+      return element;
     }
   }
 

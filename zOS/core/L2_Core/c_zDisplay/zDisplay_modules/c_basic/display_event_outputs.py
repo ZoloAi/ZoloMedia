@@ -237,7 +237,7 @@ class BasicOutputs:
             Terminal mode: Applies markdown-style formatting
             Bifrost mode: Returns raw content (frontend wraps in HTML)
         """
-        from ..display_semantic_primitives import SemanticPrimitives
+        from ..b_primitives.display_semantic_primitives import SemanticPrimitives
         
         # Get the renderer for this semantic type
         renderer = getattr(SemanticPrimitives, f"render_{semantic}", None)
