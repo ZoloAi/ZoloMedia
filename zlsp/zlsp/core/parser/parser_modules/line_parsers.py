@@ -490,11 +490,26 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                     item_original_line = line_mapping.get(item_line_idx, item_line_idx)
                     item_line = lines[item_line_idx]
                     item_indent = len(item_line) - len(item_line.lstrip())
+                    stripped_line = item_line.strip()
+                    
+                    # Check if the actual source line is just an opening bracket (nested array start)
+                    if stripped_line == '[':
+                        # This is a nested array opening - emit bracket token
+                        bracket_pos = item_line.find('[')
+                        emitter.emit(item_original_line, bracket_pos, 1, TokenType.BRACKET_STRUCTURAL)
+                        # The nested array's items and closing bracket will be handled by subsequent iterations
+                        # or have already been processed recursively
+                        continue
+                    elif stripped_line == ']' or stripped_line.startswith(']'):
+                        # This is a closing bracket for nested array
+                        bracket_pos = item_line.find(']')
+                        emitter.emit(item_original_line, bracket_pos, 1, TokenType.BRACKET_STRUCTURAL)
+                        continue
                     
                     # Find where item content starts
                     content_start = item_indent
                     
-                    # Emit token for the item content
+                    # Regular item - emit token for the item content
                     emit_value_tokens(item_content, item_original_line, content_start, emitter)
                     
                     # Emit comma if present

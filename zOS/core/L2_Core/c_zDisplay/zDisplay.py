@@ -136,7 +136,6 @@ from .zDisplay_modules.display_constants import (
     _EVENT_INFO,
     _EVENT_ZMARKER,
     _EVENT_LIST,
-    _EVENT_OUTLINE,
     _EVENT_JSON,
     _EVENT_JSON_DATA,
     _EVENT_ZTABLE,
@@ -264,7 +263,6 @@ class zDisplay(zDisplayDelegates):
 
             # Data events
             _EVENT_LIST: self.zEvents.list,
-            _EVENT_OUTLINE: self.zEvents.outline,
             _EVENT_JSON: self.zEvents.json_data,
             _EVENT_JSON_DATA: self.zEvents.json_data,
             _EVENT_ZTABLE: self.zEvents.zTable,

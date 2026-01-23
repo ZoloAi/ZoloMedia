@@ -1,0 +1,46 @@
+Lists_block:
+    zH1:
+        label: List Display Testing Suite
+        color: WARNING
+        _zClass: zmb-4
+
+    # Test 1: Basic zUL (flat bullet list)
+    Test_1_Basic_zUL:
+        zH2:
+            label: "Test 1: Basic zUL - Flat Bullet List"
+            color: SECONDARY
+        zUL:
+            style: [bullet, dash, circle]
+            items: [
+                First bullet point item,
+                Second bullet point item,
+                Third bullet point item,
+                Fourth bullet point item,
+                [
+                    one,
+                    two,
+                    three,
+                    [
+                        four,
+                        five
+                    ]
+                ]
+                ]
+            _zClass: zp-3 zBg-light zRounded zmb-3
+
+    # Test 2: Basic zOL (numbered list with cascading styles)
+    Test_2_Basic_zOL:
+        zH2:
+            label: "Test 2: Basic zOL - Numbered List with Cascading Styles"
+            color: SECONDARY
+        zOL:
+            style: [number, letter, roman]
+            items: [
+                First numbered item,
+                Second numbered item,
+                Third numbered item,
+                Fourth numbered item,
+                [Nested letter item one, Nested letter item two, [Nested roman item i, Nested roman item ii]]
+            ]
+            _zClass: zp-3 zBg-light zRounded zmb-3
+

@@ -26,7 +26,6 @@ from ..display_constants import (
     _EVENT_LIST,
     _EVENT_JSON,
     _EVENT_JSON_DATA,
-    _EVENT_OUTLINE,
     _EVENT_ZTABLE,
 )
 
@@ -75,40 +74,6 @@ class DelegateData:
             "indent": indent,
         })
 
-    def outline(
-        self, 
-        items: List[Any], 
-        styles: Optional[List[str]] = None, 
-        indent: int = DEFAULT_INDENT
-    ) -> Any:
-        """Display hierarchical outline with multi-level numbering.
-        
-        Args:
-            items: List of items (strings or dicts with 'content' and 'children')
-                   - String: "Item text"
-                   - Dict: {"content": "Item text", "children": [nested items]}
-            styles: List of styles per indentation level (default: number→letter→roman→bullet)
-                    - Options: "number", "letter", "roman", "bullet"
-            indent: Base indentation level (default: 0)
-            
-        Returns:
-            Any: Result from handle() method
-            
-        Example:
-            display.outline([
-                {
-                    "content": "Backend",
-                    "children": ["Python", "Database"]
-                },
-                "Frontend"
-            ])
-        """
-        return self.handle({
-            _KEY_EVENT: _EVENT_OUTLINE,
-            "items": items,
-            "styles": styles,
-            "indent": indent,
-        })
 
     def json_data(
         self, 

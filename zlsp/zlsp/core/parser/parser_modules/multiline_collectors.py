@@ -200,60 +200,117 @@ def collect_bracket_array(lines: list[str], start_idx: int, parent_indent: int, 
     """
     Collect multi-line array content from opening [ to closing ].
     
+    SUPPORTS NESTED ARRAYS:
+    - Recursively handles nested [nested_items] within arrays
+    - Properly tracks bracket depth to find matching closing ]
+    
     Rules:
     - Opening [ is on the key line (first_value = '[')
     - Collect lines indented MORE than parent
-    - Stop when we find ] at same or less indent than parent
+    - Stop when we find ] that closes THIS array level
     - Track each item's line number for token emission
     
     Args:
         lines: All lines
         start_idx: Index to start collecting from (line after opening [)
-        parent_indent: Indentation level of the parent key
+        parent_indent: Indentation level of the parent key with opening [
         first_value: The value on the same line as the key (should be '[')
     
     Returns:
         Tuple of (reconstructed_array_string, lines_consumed, item_line_info)
-        - reconstructed_array_string: "[item1, item2, item3]"
-        - lines_consumed: Number of lines consumed
+        - reconstructed_array_string: "[item1, item2, [nested1, nested2]]"
+        - lines_consumed: Number of lines consumed (NOT including opening [)
         - item_line_info: List of (line_idx, item_content, has_comma) for token emission
     
     Examples:
         >>> lines = ["  item1,", "  item2,", "  item3", "]"]
         >>> collect_bracket_array(lines, 0, 0, "[")
         ("[item1, item2, item3]", 4, [(0, "item1", True), (1, "item2", True), (2, "item3", False)])
+        
+        >>> lines = ["  item1,", "  [", "    nested1,", "    nested2", "  ]", "  item3", "]"]
+        >>> collect_bracket_array(lines, 0, 0, "[")
+        ("[item1, [nested1, nested2], item3]", 7, [...])
     """
     collected_items = []
     item_line_info = []  # Track (line_idx, content, has_comma) for each item
     lines_consumed = 0
-    closing_bracket_line = None
     
-    for i in range(start_idx, len(lines)):
+    # Determine the content indent level (first non-empty line's indent)
+    content_indent = None
+    for j in range(start_idx, len(lines)):
+        test_line = lines[j].strip()
+        if test_line and test_line != ']':
+            content_indent = len(lines[j]) - len(lines[j].lstrip())
+            break
+    
+    if content_indent is None:
+        content_indent = parent_indent + 4  # Default fallback
+    
+    i = start_idx
+    while i < len(lines):
         line = lines[i]
         line_indent = len(line) - len(line.lstrip())
         stripped = line.strip()
         
-        # Check if this is the closing bracket
-        if stripped == ']' or (stripped.startswith(']') and line_indent <= parent_indent):
-            closing_bracket_line = i
+        # Check if this is the closing bracket for THIS level
+        # It should be at an indent <= content_indent (back-dedented from content)
+        if stripped == ']':
+            # Add closing bracket to item_line_info for token emission
+            item_line_info.append((i, ']', False))
+            lines_consumed += 1
+            break
+        
+        if stripped.startswith(']'):
+            # Add closing bracket to item_line_info for token emission
+            item_line_info.append((i, ']', False))
             lines_consumed += 1
             break
         
         # Skip empty lines
         if not stripped:
             lines_consumed += 1
+            i += 1
             continue
         
-        # Collect array item
+        # If line is dedented back to or past parent level, we might be done
+        # (but ] should have been caught above)
+        if line_indent < content_indent and stripped != '[':
+            # This line is back-dedented - check if it's a closing bracket
+            if ']' in stripped:
+                break
+        
+        # Check if this is a nested array opening
+        if stripped == '[':
+            # Add the opening bracket to item_line_info for token emission
+            item_line_info.append((i, '[', False))
+            
+            # Recursively collect the nested array starting from NEXT line
+            nested_reconstructed, nested_consumed, nested_info = collect_bracket_array(
+                lines, i + 1, line_indent, '['
+            )
+            
+            # Add the nested array as a single item for reconstruction
+            collected_items.append(nested_reconstructed)
+            
+            # Add all nested items to item_line_info for token emission
+            item_line_info.extend(nested_info)
+            
+            # Skip past the nested array content (nested_consumed already counted)
+            lines_consumed += nested_consumed + 1  # +1 for the [ line itself
+            i += nested_consumed + 1
+            continue
+        
+        # Regular array item
         # Remove trailing comma if present
         has_comma = stripped.endswith(',')
         item_content = stripped.rstrip(',').strip()
         
-        if item_content:
+        if item_content and item_content != ']':
             collected_items.append(item_content)
             item_line_info.append((i, item_content, has_comma))
         
         lines_consumed += 1
+        i += 1
     
     # Reconstruct as single-line array format
     if collected_items:

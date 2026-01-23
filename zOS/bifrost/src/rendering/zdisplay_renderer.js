@@ -62,9 +62,6 @@ export class ZDisplayRenderer {
         case 'list':
           element = this._renderList(eventData);
           break;
-        case 'outline':
-          element = this._renderOutline(eventData);
-          break;
         case 'table':
         case 'zTable':  // Backend sends 'zTable' (camelCase)
           element = this._renderTable(eventData);
@@ -251,19 +248,59 @@ export class ZDisplayRenderer {
    * Supports both bulleted (ul) and numbered (ol) lists
    * @private
    */
-  _renderList(event) {
-    // Check style: "number" → <ol>, "bullet" → <ul> (default)
-    const style = event.style || 'bullet';
-    const listElement = style === 'number'
-      ? document.createElement('ol')
-      : document.createElement('ul');
+  _renderList(event, level = 0) {
+    // NEW v1.7: Support cascading styles and nested arrays
+    
+    // Determine current style based on cascading
+    let currentStyle;
+    let cascadeStyles = null;
+    
+    if (Array.isArray(event.style)) {
+      // Cascading styles: cycle through array based on nesting level
+      cascadeStyles = event.style;
+      currentStyle = event.style[level % event.style.length];
+    } else {
+      // Single style: use for all levels
+      currentStyle = event.style || 'bullet';
+    }
+
+    // Determine list element type and CSS list-style-type
+    let listElement;
+    let listStyleType = null;
+    
+    if (currentStyle === 'number') {
+      listElement = document.createElement('ol');
+    } else if (currentStyle === 'letter') {
+      listElement = document.createElement('ol');
+      listStyleType = 'lower-alpha';  // a, b, c
+    } else if (currentStyle === 'roman') {
+      listElement = document.createElement('ol');
+      listStyleType = 'lower-roman';  // i, ii, iii
+    } else if (currentStyle === 'circle') {
+      listElement = document.createElement('ul');
+      listStyleType = 'circle';  // ○
+    } else if (currentStyle === 'square') {
+      listElement = document.createElement('ul');
+      listStyleType = 'square';  // ▪
+    } else {
+      // bullet (default) or any other style
+      listElement = document.createElement('ul');
+    }
 
     listElement.className = 'zList';
 
+    // Apply list-style-type if specified
+    if (listStyleType) {
+      listElement.style.listStyleType = listStyleType;
+    }
+
     // Apply custom classes if provided (from YAML `class` parameter)
-    const customClass = event.class || null;
-    if (customClass) {
-      listElement.className += ` ${customClass}`;
+    // Only apply at top level
+    if (level === 0) {
+      const customClass = event.class || null;
+      if (customClass) {
+        listElement.className += ` ${customClass}`;
+      }
     }
 
     // Apply indent as left margin (minimal inline style for dynamic indentation)
@@ -276,12 +313,25 @@ export class ZDisplayRenderer {
     items.forEach(item => {
       const li = document.createElement('li');
 
+      // NEW v1.7: Handle nested arrays naturally!
+      if (Array.isArray(item)) {
+        // Recursively render nested array with cascading style
+        const nestedEvent = {
+          items: item,
+          style: cascadeStyles || currentStyle,
+          indent: 0  // Nested lists use native HTML indentation
+        };
+        const nestedList = this._renderList(nestedEvent, level + 1);
+        li.appendChild(nestedList);
+      }
       // Support both string items and object items with content field
-      const content = typeof item === 'string' ? item : (item.content || '');
-      
-      // Decode Unicode escapes (U+XXXX format) from ASCII-safe storage
-      const decodedContent = this._decodeUnicodeEscapes(content);
-      li.innerHTML = this._sanitizeHTML(decodedContent);
+      else {
+        const content = typeof item === 'string' ? item : (item.content || '');
+        
+        // Decode Unicode escapes (U+XXXX format) from ASCII-safe storage
+        const decodedContent = this._decodeUnicodeEscapes(content);
+        li.innerHTML = this._sanitizeHTML(decodedContent);
+      }
 
       listElement.appendChild(li);
     });
@@ -317,105 +367,6 @@ export class ZDisplayRenderer {
     return text;
   }
 
-  /**
-   * Render hierarchical outline with multi-level numbering (Word-style)
-   * Supports: number (1,2,3) → letter (a,b,c) → roman (i,ii,iii) → bullet
-   * @private
-   */
-  _renderOutline(event) {
-    const items = event.items || [];
-    const styles = event.styles || ['number', 'letter', 'roman', 'bullet'];
-    const baseIndent = event.indent || 0;
-
-    // Create container for the outline
-    const container = document.createElement('div');
-    container.className = 'zOutline';
-
-    // Apply custom classes if provided (from YAML `class` parameter)
-    const customClass = event.class || null;
-    if (customClass) {
-      container.className += ` ${customClass}`;
-    }
-
-    // Apply base indent
-    if (baseIndent > 0) {
-      container.style.marginLeft = `${baseIndent}rem`;
-    }
-
-    // Render items recursively
-    const listElement = this._renderOutlineItems(items, styles, 0);
-    if (listElement) {
-      container.appendChild(listElement);
-    }
-
-    return container;
-  }
-
-  /**
-   * Recursively render outline items with proper nesting
-   * @private
-   */
-  _renderOutlineItems(items, styles, level) {
-    if (!items || items.length === 0) {
-      return null;
-    }
-
-    // Determine style for this level
-    const style = level < styles.length ? styles[level] : 'bullet';
-
-    // Create list element based on style
-    let listElement;
-    if (style === 'bullet') {
-      listElement = document.createElement('ul');
-      listElement.className = 'zList';
-    } else {
-      listElement = document.createElement('ol');
-      listElement.className = 'zList';
-
-      // Set list-style-type for different numbering styles
-      if (style === 'letter') {
-        listElement.style.listStyleType = 'lower-alpha';  // a, b, c
-      } else if (style === 'roman') {
-        listElement.style.listStyleType = 'lower-roman';  // i, ii, iii
-      }
-      // 'number' uses default decimal (1, 2, 3)
-    }
-
-    // Render each item
-    items.forEach(item => {
-      const li = document.createElement('li');
-
-      // Extract content and children
-      let content, children;
-      if (typeof item === 'string') {
-        content = item;
-        children = null;
-      } else if (typeof item === 'object') {
-        content = item.content || '';
-        children = item.children || null;
-      } else {
-        content = String(item);
-        children = null;
-      }
-
-      // Create text node for this item's content
-      const contentSpan = document.createElement('span');
-      contentSpan.innerHTML = this._sanitizeHTML(content);
-      li.appendChild(contentSpan);
-
-      // Recursively render children if they exist
-      if (children && children.length > 0) {
-        const childList = this._renderOutlineItems(children, styles, level + 1);
-        if (childList) {
-          li.appendChild(childList);
-        }
-      }
-
-      listElement.appendChild(li);
-    });
-
-    return listElement;
-  }
 
   /**
    * Render a table element (pure zTheme - NO Bootstrap!)

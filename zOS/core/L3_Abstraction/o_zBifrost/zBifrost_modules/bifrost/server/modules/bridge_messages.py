@@ -504,6 +504,15 @@ class MessageHandler:
             else:
                 self.logger.debug(f"[MessageHandler] No session ID provided (user not logged in)")
             
+            # CRITICAL: Set display mode to Bifrost AFTER HTTP session load
+            # This prevents HTTP session from overwriting the mode with terminal mode
+            # Bug: Terminal rendering creates buffered events that get injected into wrong sections
+            from zOS.L1_Foundation.a_zConfig.zConfig_modules import SESSION_KEY_ZMODE
+            self.zcli.session[SESSION_KEY_ZMODE] = "zBifrost"  # Force Bifrost mode
+            self.zcli.display.mode = "zBifrost"  # Also set on display object
+            self.zcli.display.clear_event_buffer()  # Clear any stale events
+            self.logger.info(f"[MessageHandler] 🌈 Set display mode to zBifrost (prevents terminal rendering)")
+            
             self.logger.info(f"[MessageHandler] Executing walker: {zVaFolder}/{zVaFile}.{zBlock}")
             
             # Check if this is a dashboard panel load (has _renderTarget)

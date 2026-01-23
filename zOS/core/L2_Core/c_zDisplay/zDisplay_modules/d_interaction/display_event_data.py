@@ -320,7 +320,6 @@ from ..b_primitives.display_rendering_helpers import apply_indent_to_lines
 from ..display_constants import (
     _EVENT_NAME_LIST,
     _EVENT_NAME_JSON,
-    _EVENT_NAME_OUTLINE,
     STYLE_BULLET,
     STYLE_NUMBER,
     STYLE_LETTER,
@@ -461,12 +460,14 @@ class BasicData:
         Extracted from list() method for reuse in outline(). This implements
         the DRY principle - single source of truth for prefix generation.
         
+        NEW v1.7: Added support for circle, square, dash styles
+        
         Args:
-            style: List style (bullet, number, letter, roman, none)
+            style: List style (bullet, number, letter, roman, circle, square, dash, none)
             number: Item number (1-indexed)
             
         Returns:
-            str: Formatted prefix (e.g., "1. ", "a. ", "i. ", "- ", or "")
+            str: Formatted prefix (e.g., "1. ", "a. ", "i. ", "• ", "○ ", "▪ ", "- ", or "")
         """
         if style == STYLE_NUMBER:
             return f"{number}. "
@@ -477,8 +478,14 @@ class BasicData:
             # i, ii, iii, iv...
             return self._number_to_roman(number) + ". "
         elif style == STYLE_BULLET:
-            return MARKER_BULLET
-        else:  # "none" style
+            return MARKER_BULLET  # •
+        elif style == 'circle':
+            return "○ "  # White circle
+        elif style == 'square':
+            return "▪ "  # Black small square
+        elif style == 'dash':
+            return "- "  # Dash/hyphen
+        else:  # "none" style or unknown
             return ""
 
     def _number_to_letter(self, num: int) -> str:
@@ -518,27 +525,31 @@ class BasicData:
 
     # Public Methods - List & JSON Display
 
-    def list(self, items: Optional[List[Any]], style: str = DEFAULT_STYLE, indent: int = DEFAULT_INDENT, **kwargs) -> Optional[Any]:
+    def list(self, items: Optional[List[Any]], style: Union[str, List[str]] = DEFAULT_STYLE, indent: int = DEFAULT_INDENT, **kwargs) -> Optional[Any]:
         """Display list with bullets or numbers in Terminal/GUI modes.
         
         Foundation method for list display. Implements dual-mode I/O pattern
         and composes with BasicOutputs for terminal display.
         
-        Supports three display styles:
-        - numbered: "1. item", "2. item", "3. item"
-        - bullet: "- item", "- item", "- item"
-        - none: "item", "item", "item" (no prefix)
+        NEW v1.7: Supports nested arrays and cascading styles!
+        
+        Supports display styles:
+        - Single style: "bullet", "number", "letter", "roman", "none"
+        - Cascading styles: ["bullet", "circle", "square"] for nested lists
         
         Args:
-            items: List of items to display (can be any type, will be converted to string)
+            items: List of items to display
+                   - String: "Item text"
+                   - List: [nested, items] - automatically indented with cascading style
+                   - Dict with zDisplay: {zDisplay: {...}} - recursive event rendering
             style: Display style (default: "bullet")
-                   - "number": Numbered list (1., 2., 3., ...)
-                   - "bullet": Bullet list (- for each item)
-                   - "none": Plain list (no prefix, clean output)
+                   - String: "number", "bullet", "letter", "roman", "none"
+                   - List: ["bullet", "circle", "square"] - cascades through nesting levels
             indent: Base indentation level (default: 0)
+            level: Internal - current nesting level for cascading (default: 0)
         
         Returns:
-            None
+            None or navigation signal dict
             
         Example:
             # Numbered list (for form options, menu items)
@@ -584,6 +595,19 @@ class BasicData:
         if not items:
             return
 
+        # Extract internal level parameter for cascading styles
+        level = kwargs.get('_level', 0)
+        
+        # Determine current style based on cascading
+        if isinstance(style, list):
+            # Cascading styles: cycle through list based on nesting level
+            cascade_styles = style
+            current_style = style[level % len(style)]
+        else:
+            # Single style: use for all levels
+            cascade_styles = None
+            current_style = style
+
         # NEW: In Bifrost mode, process nested zDisplay events in list items BEFORE buffering
         # This ensures nested events (like zURL inside zUL) get individually buffered
         mode = self.display.zcli.session.get('zMode', 'Terminal')
@@ -597,7 +621,7 @@ class BasicData:
         # Try GUI mode first - send clean event
         if self._send_gui_event(_EVENT_NAME_LIST, {
             _KEY_ITEMS: items,
-            _KEY_STYLE: style,
+            _KEY_STYLE: style,  # Send original style (string or list)
             _KEY_INDENT: indent
         }):
             return  # GUI event sent successfully
@@ -608,10 +632,25 @@ class BasicData:
         _context = kwargs.get('_context')
         
         for i, item in enumerate(items, 1):
-            prefix = self._generate_prefix(style, i)
+            prefix = self._generate_prefix(current_style, i)
+            
+            # NEW v1.7: Handle nested arrays naturally!
+            if isinstance(item, list):
+                # Nested array detected - render recursively with cascading style
+                # Don't render prefix for nested list (it's a container)
+                # Recursively render with incremented level and indent
+                result = self.list(
+                    item, 
+                    style=cascade_styles if cascade_styles else current_style,
+                    indent=indent + 1,
+                    _level=level + 1,
+                    _context=_context
+                )
+                if isinstance(result, dict) and 'zLink' in result:
+                    return result
             
             # Check if item is a zDisplay event (recursive rendering support)
-            if isinstance(item, dict) and 'zDisplay' in item:
+            elif isinstance(item, dict) and 'zDisplay' in item:
                 # Recursively render the zDisplay event
                 # Print prefix first
                 self._output_text(prefix.rstrip(), indent=indent, break_after=False)
@@ -689,162 +728,6 @@ class BasicData:
         """Apply base indentation to each line of JSON string."""
         return apply_indent_to_lines(json_str, indent)
 
-    def outline(
-        self, 
-        items: List[Union[str, Dict[str, Any]]], 
-        styles: Optional[List[str]] = None, 
-        indent: int = DEFAULT_INDENT
-    ) -> None:
-        """Display hierarchical outline with multi-level numbering (Word-style).
-        
-        Foundation method for outline display. Supports nested structures with
-        automatic multi-level numbering (1→a→i→bullet pattern).
-        
-        Reuses existing list() abstractions:
-        - _output_text() for terminal output (composition with BasicOutputs)
-        - _send_gui_event() for GUI mode (dual-mode I/O pattern)
-        - _generate_prefix() for numbering (extracted from list())
-        
-        Args:
-            items: List of items (strings or dicts with 'content' and 'children')
-                   - String: "Item text"
-                   - Dict: {"content": "Item text", "children": [nested items]}
-            styles: List of styles per indentation level (default: number→letter→roman→bullet)
-                    - Level 0: numbers (1, 2, 3)
-                    - Level 1: letters (a, b, c)
-                    - Level 2: roman (i, ii, iii)
-                    - Level 3+: bullets (•)
-            indent: Base indentation level (default: 0)
-        
-        Returns:
-            None
-            
-        Example:
-            # Simple flat outline (numbers at top level)
-            z.display.outline([
-                "Backend Architecture",
-                "Frontend Architecture",
-                "Communication Layer"
-            ], styles=["number"])
-            # Output:
-            #   1. Backend Architecture
-            #   2. Frontend Architecture
-            #   3. Communication Layer
-            
-            # Hierarchical outline (Word-style multi-level)
-            z.display.outline([
-                {
-                    "content": "Backend Architecture",
-                    "children": [
-                        {
-                            "content": "Python Runtime Environment",
-                            "children": [
-                                "zCLI framework initialization",
-                                "zDisplay subsystem loading"
-                            ]
-                        },
-                        "Data Processing Layer"
-                    ]
-                },
-                {
-                    "content": "Frontend Architecture",
-                    "children": ["Rendering Engine", "User Interaction"]
-                }
-            ])
-            # Output (default styles: number→letter→roman):
-            #   1. Backend Architecture
-            #      a. Python Runtime Environment
-            #         i. zCLI framework initialization
-            #         ii. zDisplay subsystem loading
-            #      b. Data Processing Layer
-            #   2. Frontend Architecture
-            #      a. Rendering Engine
-            #      b. User Interaction
-        
-        Note:
-            Composes with: _generate_prefix(), _output_text(), _send_gui_event()
-            Pattern: Same dual-mode I/O as list() and json_data()
-        """
-        # Handle None or empty list
-        if not items:
-            return
-        
-        # Default outline styles (Word-like multi-level numbering)
-        if styles is None:
-            styles = [STYLE_NUMBER, STYLE_LETTER, STYLE_ROMAN, STYLE_BULLET]
-        
-        # Try GUI mode first - send clean event (dual-mode pattern)
-        if self._send_gui_event(_EVENT_NAME_OUTLINE, {
-            _KEY_ITEMS: items,
-            _KEY_STYLES: styles,
-            _KEY_INDENT: indent
-        }):
-            return  # GUI event sent successfully
-        
-        # Terminal mode - recursive rendering using existing abstractions
-        self._render_outline_items(items, styles, indent, level=0)
-
-    def _render_outline_items(
-        self, 
-        items: List[Union[str, Dict[str, Any]]], 
-        styles: List[str], 
-        base_indent: int, 
-        level: int,
-        counters: Optional[Dict[str, int]] = None
-    ) -> None:
-        """Recursively render outline items using existing list() logic.
-        
-        Reuses:
-        - _generate_prefix() for numbering (extracted from list())
-        - _output_text() for terminal output (composition with BasicOutputs)
-        
-        Args:
-            items: List of items (strings or dicts)
-            styles: List of styles per level
-            base_indent: Base indentation level
-            level: Current nesting level (0-indexed)
-            counters: Counter dict for tracking item numbers per level
-        """
-        if counters is None:
-            counters = {}
-        
-        # Initialize counter for this level
-        counter_key = f"level_{level}"
-        if counter_key not in counters:
-            counters[counter_key] = 0
-        
-        for item in items:
-            # Increment counter for this level
-            counters[counter_key] += 1
-            
-            # Determine style for this level (fallback to bullet for deep nesting)
-            style = styles[level] if level < len(styles) else STYLE_BULLET
-            
-            # Extract content and children
-            if isinstance(item, dict):
-                content = item.get("content", "")
-                children = item.get("children", [])
-            else:
-                content = str(item)
-                children = []
-            
-            # Generate prefix using extracted helper (reuse from list()!)
-            prefix = self._generate_prefix(style, counters[counter_key])
-            
-            # Render this item using existing abstraction
-            full_content = f"{prefix}{content}"
-            current_indent = base_indent + level
-            self._output_text(full_content, indent=current_indent, break_after=False)
-            
-            # Recursively render children (reuse this same logic)
-            if children:
-                self._render_outline_items(children, styles, base_indent, level + 1, counters)
-            
-            # Reset child counters when moving to next sibling
-            # This ensures each sibling's children start from 1/a/i again
-            child_keys = [k for k in counters.keys() if k.startswith(f"level_{level + 1}")]
-            for k in child_keys:
-                del counters[k]
 
     # Helper Methods - JSON Syntax Coloring
 

@@ -65,13 +65,11 @@ _EVENT_NAME_ZMARKER = "zMarker"
 
 # Event Names - Data Events (Internal)
 _EVENT_LIST = "list"
-_EVENT_OUTLINE = "outline"
 _EVENT_JSON = "json"
 _EVENT_JSON_DATA = "json_data"
 _EVENT_ZTABLE = "zTable"
 _EVENT_NAME_LIST = "list"
 _EVENT_NAME_JSON = "json"
-_EVENT_NAME_OUTLINE = "outline"
 
 # Event Names - Media Events (Internal)
 _EVENT_IMAGE = "image"
