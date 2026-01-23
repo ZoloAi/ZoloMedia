@@ -58,6 +58,7 @@ import { createButton } from './primitives/interactive_primitives.js';
 import { createInput } from './primitives/form_primitives.js';
 import { getBackgroundClass, getTextColorClass } from '../utils/color_utils.js';
 import { getPaddingClass, getMarginClass, getGapClass } from '../utils/spacing_utils.js';
+import { TextRenderer } from './text_renderer.js';
 
 // ─────────────────────────────────────────────────────────────────
 // Table Renderer Class
@@ -80,6 +81,9 @@ export class TableRenderer {
   constructor(logger) {
     this.logger = logger || console;
     this.logger.log('[TableRenderer] ✅ Initialized');
+
+    // Initialize TextRenderer for markdown parsing in cells (DRY - reuse zMD logic)
+    this.textRenderer = new TextRenderer(this.logger);
 
     // Wrap render method with error boundary
     const originalRender = this.render.bind(this);
@@ -322,7 +326,9 @@ export class TableRenderer {
         // Array row: [val1, val2, val3]
         row.forEach(value => {
           const td = createTd();
-          td.textContent = this._formatCellValue(value); // XSS safe
+          // Parse markdown and HTML in cell value (reuse zMD logic)
+          const cellContent = this._formatCellValue(value);
+          td.innerHTML = this._parseCellMarkdown(cellContent);
           tr.appendChild(td);
         });
       } else {
@@ -331,7 +337,9 @@ export class TableRenderer {
         columns.forEach(column => {
           const td = createTd();
           const value = row[column];
-          td.textContent = this._formatCellValue(value); // XSS safe
+          // Parse markdown and HTML in cell value (reuse zMD logic)
+          const cellContent = this._formatCellValue(value);
+          td.innerHTML = this._parseCellMarkdown(cellContent);
           tr.appendChild(td);
         });
       }
@@ -627,6 +635,28 @@ export class TableRenderer {
     });
     
     return text;
+  }
+
+  /**
+   * Parse markdown and HTML in table cells
+   * Reuses TextRenderer._parseMarkdown() logic (DRY - same as zMD)
+   * 
+   * Supports:
+   * - `code` -> <code>code</code>
+   * - **bold** -> <strong>bold</strong>
+   * - *italic* -> <em>italic</em>
+   * - HTML tags pass through (e.g., <h1>text</h1>)
+   * 
+   * @param {string} text - Cell content with potential markdown or HTML
+   * @returns {string} - HTML string with markdown parsed and HTML preserved
+   * @private
+   */
+  _parseCellMarkdown(text) {
+    if (!text || typeof text !== 'string') return text;
+    
+    // Reuse TextRenderer's markdown parser (DRY principle)
+    // This handles: `code`, **bold**, *italic*, [links](url), etc.
+    return this.textRenderer._parseMarkdown(text);
   }
 }
 

@@ -167,6 +167,47 @@ export class TextRenderer {
       return `<a href="${href}" target="${target}"${rel}>${text}</a>`;
     });
 
+    // Tables: | Col1 | Col2 | -> <table>...</table>
+    // Must be processed BEFORE inline code to preserve code in table cells
+    // Pattern: header row, separator row (|---|---|), data rows
+    html = html.replace(/(?:^|\n)(\|.+\|\n\|[-:|]+\|\n(?:\|.+\|\n?)+)/g, (match, tableBlock) => {
+      const lines = tableBlock.trim().split('\n');
+      if (lines.length < 3) return match; // Need at least header, separator, and 1 data row
+      
+      // Extract header
+      const headerCells = lines[0].split('|').map(cell => cell.trim()).filter(cell => cell);
+      
+      // Skip separator line (lines[1])
+      
+      // Extract data rows
+      const dataRows = lines.slice(2).map(line => 
+        line.split('|').map(cell => cell.trim()).filter(cell => cell)
+      );
+      
+      // Build HTML table
+      let tableHTML = '\n<table class="table zmy-4">\n';
+      
+      // Header
+      tableHTML += '  <thead>\n    <tr>\n';
+      headerCells.forEach(cell => {
+        tableHTML += `      <th>${cell}</th>\n`;
+      });
+      tableHTML += '    </tr>\n  </thead>\n';
+      
+      // Body
+      tableHTML += '  <tbody>\n';
+      dataRows.forEach(row => {
+        tableHTML += '    <tr>\n';
+        row.forEach(cell => {
+          tableHTML += `      <td>${cell}</td>\n`;
+        });
+        tableHTML += '    </tr>\n';
+      });
+      tableHTML += '  </tbody>\n</table>\n';
+      
+      return tableHTML;
+    });
+
     // Inline Code: `code` -> <code>code</code> (after code blocks to avoid conflicts)
     // Use placeholders to protect code content from further markdown processing
     const inlineCodeBlocks = [];
