@@ -644,10 +644,18 @@ class BasicOutputs:
         from zlsp.core.parser.parser_modules.escape_processors import decode_unicode_escapes
         content = decode_unicode_escapes(content)
         
+        # NEW: zText semantic multiline handling
+        # Content from zlsp parser may contain:
+        # - Space-joined multilines (zText natural YAML multilines for readability)
+        # - Explicit \n escapes (converted to actual newlines by decode_unicode_escapes)
+        # Terminal behavior: \n → <br> equivalent (single line break in Terminal)
+        # (zText doesn't create paragraphs, just line breaks)
+        
         # Apply indentation
         if indent > 0:
             indent_str = self._build_indent(indent)
-            content = f"{indent_str}{content}"
+            # Apply indent to each line
+            content = '\n'.join(indent_str + line if line else line for line in content.split('\n'))
 
         # Display text using primitive
         self.zPrimitives.line(content)
@@ -744,11 +752,28 @@ class BasicOutputs:
         # Terminal mode - parse markdown to ANSI and display
         # Phase 1-3: Use markdown parser (inline + lists + HTML)
         from .markdown_terminal_parser import MarkdownTerminalParser
+        import re
+        
+        # Step 0: Protect inline code (backticks) from escape sequence decoding
+        # This prevents `\n` inside backticks from being converted to actual newlines
+        inline_code_blocks = []
+        
+        def protect_inline_code(match):
+            code = match.group(1)
+            placeholder = f'___INLINE_CODE_{len(inline_code_blocks)}___'
+            inline_code_blocks.append(code)
+            return placeholder
+        
+        content = re.sub(r'`([^`]+)`', protect_inline_code, content)
         
         # Step 1: ALWAYS decode escape sequences (Unicode + basic escapes like \n, \t)
         # decode_unicode_escapes() handles all escapes: \uXXXX, \UXXXXXXXX, \n, \t, \r, \\, \", \'
         from zlsp.core.parser.parser_modules.escape_processors import decode_unicode_escapes
         content = decode_unicode_escapes(content)
+        
+        # Step 1.5: Restore inline code blocks (they stay literal)
+        for i, code in enumerate(inline_code_blocks):
+            content = content.replace(f'___INLINE_CODE_{i}___', f'`{code}`')
         
         # Step 2: Convert emojis to [description] for terminal accessibility (DRY helper)
         content = self._convert_emojis_for_terminal(content)

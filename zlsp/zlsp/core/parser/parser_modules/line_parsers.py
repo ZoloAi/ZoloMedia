@@ -658,6 +658,7 @@ def parse_lines(lines: list[str], line_mapping: dict = None) -> dict:
             
             # If no explicit (str) hint, check if this property should auto-enable multiline
             # This matches the behavior in parse_lines_with_tokens for LSP consistency
+            parent_block_key = None  # Track parent block for semantic joining
             if not has_str_hint:
                 # For auto-multiline check, we need a minimal emitter-like object
                 # that can track block context. Since parse_lines doesn't have emitter,
@@ -677,13 +678,15 @@ def parse_lines(lines: list[str], line_mapping: dict = None) -> dict:
                                 multiline_props = KeyDetector.AUTO_MULTILINE_PROPERTIES[parent_key]
                                 if clean_key.lower() in multiline_props:
                                     has_str_hint = True
+                                    parent_block_key = parent_key  # Save for semantic joining
                                     break
                             break  # Stop at first parent found
             
             # Multi-line enabled with (str) hint OR auto-multiline property
             if has_str_hint:
                 # (str) type hint: collect YAML-style indented multi-line
-                multiline_value, lines_consumed = collect_str_hint_multiline(lines, i + 1, indent, value)
+                # Pass the parent block key for semantic joining (zText vs zMD)
+                multiline_value, lines_consumed = collect_str_hint_multiline(lines, i + 1, indent, value, parent_key=parent_block_key or key)
                 structured_lines.append({
                     'indent': indent,
                     'key': key,

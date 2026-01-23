@@ -19,16 +19,21 @@ export class TypographyRenderer {
    * @private
    */
   _convertNewlinesToBr(text) {
-    // Escape HTML entities first for XSS safety
-    const escaped = text
+    // STEP 1: Process zText semantic distinction
+    // \x1E (YAML multilines) → space (for readability)
+    // \n (explicit escapes) → <br> (line break)
+    const processedText = text.replace(/\x1E/g, ' ');
+    
+    // STEP 2: Escape HTML entities for XSS safety
+    const escaped = processedText
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
-    // Convert BOTH literal \n escape sequences AND actual newlines to <br> tags
-    // Order: literal \n first (from YAML without quotes), then actual newlines (from YAML with quotes)
-    return escaped.replace(/\\n/g, '<br>').replace(/\n/g, '<br>');
+    
+    // STEP 3: Convert explicit \n to <br> tags
+    return escaped.replace(/\n/g, '<br>');
   }
 
   /**
@@ -174,6 +179,16 @@ export class TypographyRenderer {
     text = text.replace(/\\U([0-9A-Fa-f]{4,8})/g, (match, hexCode) => {
       return String.fromCodePoint(parseInt(hexCode, 16));
     });
+    
+    // Replace basic escape sequences (literal strings like \\n, \\t, etc.)
+    // These come from JSON where Python sends "\n" which becomes "\\n" in JSON
+    text = text
+      .replace(/\\n/g, '\n')   // Newline
+      .replace(/\\t/g, '\t')   // Tab
+      .replace(/\\r/g, '\r')   // Carriage return
+      .replace(/\\'/g, "'")    // Single quote
+      .replace(/\\"/g, '"')    // Double quote
+      .replace(/\\\\/g, '\\'); // Backslash (must be last!)
     
     return text;
   }

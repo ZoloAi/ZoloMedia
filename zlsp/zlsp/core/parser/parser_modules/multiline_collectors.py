@@ -3,36 +3,57 @@ Multiline Collectors - Collect multi-line values
 
 Pure string processing, no dependencies.
 Handles: (str) hints, dash lists, bracket arrays, pipes, triple quotes.
+
+SEMANTIC MULTILINE JOINING:
+- zText properties → Join with ' ' (space) for .zolo readability
+- zMD properties → Join with '\x1F' (Unit Separator) for <br> rendering
+- Other properties → Join with '\n' (default/backward compatible)
 """
 
-from typing import Tuple, List
+from typing import Tuple, List, Optional
+
+# Special character to mark zMD natural multilines (Unit Separator)
+# This allows renderers to distinguish from explicit \n escapes
+YAML_LINE_BREAK = '\x1F'
 
 
-def collect_str_hint_multiline(lines: list[str], start_idx: int, parent_indent: int, first_value: str) -> Tuple[str, int]:
+def collect_str_hint_multiline(
+    lines: list[str], 
+    start_idx: int, 
+    parent_indent: int, 
+    first_value: str,
+    parent_key: Optional[str] = None
+) -> Tuple[str, int]:
     """
     Collect multi-line string content when (str) type hint is used (YAML-style).
     
     Rule: Collect lines indented MORE than parent, strip base indent, preserve relative.
+    
+    SEMANTIC JOINING based on parent_key:
+    - 'ztext' or 'content' under ztext → Join with ' ' (space) for readability
+    - 'zmd' or 'content' under zmd → Join with '\x1F' (Unit Separator) for <br>
+    - Other keys → Join with '\n' (backward compatible)
     
     Args:
         lines: All lines
         start_idx: Index to start collecting from (line after the key)
         parent_indent: Indentation level of the parent key
         first_value: The value on the same line as the key (if any)
+        parent_key: The key name (used for semantic joining)
     
     Returns:
         Tuple of (multiline_string, lines_consumed)
     
     Examples:
-        >>> # Key with inline value
+        >>> # zText: space-joined
         >>> lines = ["  continues", "  here"]
-        >>> collect_str_hint_multiline(lines, 0, 0, "First")
-        ("First\\ncontinues\\nhere", 2)
+        >>> collect_str_hint_multiline(lines, 0, 0, "First", "zText")
+        ("First continues here", 2)
         
-        >>> # Key without inline value
-        >>> lines = ["  First", "  Second"]
-        >>> collect_str_hint_multiline(lines, 0, 0, "")
-        ("First\\nSecond", 2)
+        >>> # zMD: line-break-joined
+        >>> lines = ["  continues", "  here"]
+        >>> collect_str_hint_multiline(lines, 0, 0, "First", "zMD")
+        ("First\\x1Fcontinues\\x1Fhere", 2)
     """
     collected = []
     
@@ -56,7 +77,7 @@ def collect_str_hint_multiline(lines: list[str], start_idx: int, parent_indent: 
         if stripped and ':' in stripped and line_indent <= parent_indent:
             break
         
-        # Empty line - preserve it
+        # Empty line - preserve it (will be joined with separator)
         if not stripped:
             collected.append('')
             lines_consumed += 1
@@ -78,7 +99,20 @@ def collect_str_hint_multiline(lines: list[str], start_idx: int, parent_indent: 
         
         lines_consumed += 1
     
-    return '\n'.join(collected), lines_consumed
+    # Determine join character based on parent key
+    clean_key = parent_key.split('__dup')[0].lower() if parent_key else None
+    
+    if clean_key == 'ztext':
+        # zText: Join with space for .zolo readability
+        join_char = ' '
+    elif clean_key == 'zmd':
+        # zMD: Join with Unit Separator for <br> rendering
+        join_char = YAML_LINE_BREAK
+    else:
+        # Default: backward compatible newline joining
+        join_char = '\n'
+    
+    return join_char.join(collected), lines_consumed
 
 
 def collect_dash_list(lines: list[str], start_idx: int, parent_indent: int) -> Tuple[str, int, list]:
@@ -230,7 +264,12 @@ def collect_bracket_array(lines: list[str], start_idx: int, parent_indent: int, 
     return reconstructed, lines_consumed, item_line_info
 
 
-def collect_pipe_multiline(lines: list[str], start_idx: int, parent_indent: int) -> Tuple[str, int]:
+def collect_pipe_multiline(
+    lines: list[str], 
+    start_idx: int, 
+    parent_indent: int,
+    parent_key: Optional[str] = None
+) -> Tuple[str, int]:
     """
     Collect multi-line string content after pipe | marker.
     
@@ -238,6 +277,7 @@ def collect_pipe_multiline(lines: list[str], start_idx: int, parent_indent: int)
         lines: All lines
         start_idx: Index to start collecting from
         parent_indent: Indentation level of the parent key
+        parent_key: The key name (used for semantic joining)
     
     Returns:
         Tuple of (multiline_string, lines_consumed)
@@ -271,10 +311,25 @@ def collect_pipe_multiline(lines: list[str], start_idx: int, parent_indent: int)
         
         lines_consumed += 1
     
-    return '\n'.join(collected), lines_consumed
+    # Determine join character based on parent key
+    clean_key = parent_key.split('__dup')[0].lower() if parent_key else None
+    
+    if clean_key == 'ztext':
+        join_char = ' '
+    elif clean_key == 'zmd':
+        join_char = YAML_LINE_BREAK
+    else:
+        join_char = '\n'
+    
+    return join_char.join(collected), lines_consumed
 
 
-def collect_triple_quote_multiline(lines: list[str], start_idx: int, initial_value: str) -> Tuple[str, int]:
+def collect_triple_quote_multiline(
+    lines: list[str], 
+    start_idx: int, 
+    initial_value: str,
+    parent_key: Optional[str] = None
+) -> Tuple[str, int]:
     '''
     Collect multi-line string content between triple quotes.
     
@@ -282,6 +337,7 @@ def collect_triple_quote_multiline(lines: list[str], start_idx: int, initial_val
         lines: All lines
         start_idx: Index of the line with opening triple-quotes
         initial_value: The value part (might contain opening and/or closing triple-quotes)
+        parent_key: The key name (used for semantic joining)
     
     Returns:
         Tuple of (multiline_string, lines_consumed)
@@ -336,4 +392,14 @@ def collect_triple_quote_multiline(lines: list[str], start_idx: int, initial_val
         else:
             collected.append(line.rstrip())
     
-    return '\n'.join(collected), lines_consumed
+    # Determine join character based on parent key
+    clean_key = parent_key.split('__dup')[0].lower() if parent_key else None
+    
+    if clean_key == 'ztext':
+        join_char = ' '
+    elif clean_key == 'zmd':
+        join_char = YAML_LINE_BREAK
+    else:
+        join_char = '\n'
+    
+    return join_char.join(collected), lines_consumed

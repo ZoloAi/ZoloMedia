@@ -120,8 +120,14 @@ export class TextRenderer {
    * - <br> literal tag -> <br> (passes through)
    */
   _parseMarkdown(text) {
+    // STEP 1: Process semantic distinction for zMD
+    // Convert \x1F (YAML multilines) to <br> for line breaks
+    let html = text.replace(/\x1F/g, '<br>');
+    
+    // NOTE: Explicit \n will be handled in renderRichText (split into multiple <p> tags)
+    
     // Trim trailing newlines to avoid extra <br> at the end
-    let html = text.replace(/\n+$/, '');
+    html = html.replace(/\n+$/, '');
 
     // Code blocks: ```language\ncode\n``` -> <pre><code>code</code></pre>
     // Must be processed BEFORE inline code to avoid conflicts
@@ -155,8 +161,17 @@ export class TextRenderer {
     // Use placeholders to protect code content from further markdown processing
     const inlineCodeBlocks = [];
     html = html.replace(/`([^`]+)`/g, (match, code) => {
+      // Escape HTML entities AND convert special chars to display literally
+      const escaped = code
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;')
+        .replace(/\n/g, '\\n')   // Convert actual newlines to literal \n for display
+        .replace(/\t/g, '\\t');  // Convert actual tabs to literal \t for display
       const placeholder = `___INLINE_CODE_${inlineCodeBlocks.length}___`;
-      inlineCodeBlocks.push(`<code>${code}</code>`);
+      inlineCodeBlocks.push(`<code>${escaped}</code>`);
       return placeholder;
     });
 
@@ -208,10 +223,8 @@ export class TextRenderer {
       return placeholder;
     });
     
-    // NEW: Convert standalone newlines from zolo multi-line content to <br> tags
-    // This preserves the natural line breaks from YAML/zolo files (e.g., multi-line content:)
-    // Must happen BEFORE removing newlines
-    html = html.replace(/\n/g, '<br>');
+    // NOTE: Explicit \n characters are NOT converted to <br> here
+    // They will be handled in renderRichText() to create separate <p> tags
     
     // Restore code blocks with preserved newlines
     codeBlocks.forEach((block, index) => {
@@ -267,48 +280,108 @@ export class TextRenderer {
       }
     }
 
-    // Create paragraph element (using Layer 2 utility)
-    const p = createElement('p', classes);
-
-    // Decode Unicode escapes first, then parse markdown, then enhance emojis for accessibility
-    const decodedContent = this._decodeUnicodeEscapes(content);
-    const parsedMarkdown = this._parseMarkdown(decodedContent);
-    const accessibleHTML = emojiAccessibility.enhanceText(parsedMarkdown);
-    p.innerHTML = accessibleHTML;
+    // Protect inline code from escape decoding (keep literal \n, \t, etc.)
+    // Extract backtick content BEFORE decoding
+    const inlineCodeBlocks = [];
+    const protectedContent = content.replace(/`([^`]+)`/g, (match, code) => {
+      const placeholder = `___INLINE_CODE_${inlineCodeBlocks.length}___`;
+      inlineCodeBlocks.push(code); // Store BEFORE decoding (keeps literal \n)
+      return placeholder;
+    });
     
-    // Apply syntax highlighting to code blocks (Prism.js)
-    if (window.Prism) {
-      const codeBlocks = p.querySelectorAll('pre code[class*="language-"]');
-      console.log('[TextRenderer] 🎨 Found code blocks for highlighting:', codeBlocks.length, codeBlocks);
-      codeBlocks.forEach((codeBlock) => {
-        console.log('[TextRenderer] 🎨 Highlighting code block with classes:', codeBlock.className);
-        Prism.highlightElement(codeBlock);
+    // Now decode escapes in the text OUTSIDE of inline code
+    const decodedContent = this._decodeUnicodeEscapes(protectedContent);
+    
+    // Check if decoded content contains explicit \n (paragraph breaks)
+    // If so, split into multiple paragraphs; otherwise, render as single paragraph
+    if (decodedContent.includes('\n')) {
+      // MULTI-PARAGRAPH MODE: Split by explicit \n
+      let paragraphs = decodedContent.split('\n').filter(p => p.trim() !== '');
+      
+      // Restore inline code in each paragraph (keep literal, no decoding)
+      paragraphs = paragraphs.map(para => {
+        let restored = para;
+        inlineCodeBlocks.forEach((code, i) => {
+          // Restore with backticks - markdown parser will handle escaping
+          restored = restored.replace(`___INLINE_CODE_${i}___`, `\`${code}\``);
+        });
+        return restored;
       });
+      
+      // Create a container div for multiple paragraphs
+      const container = createElement('div', classes);
+      
+      // Apply attributes to container
+      const attributes = {};
+      if (_id) {
+        attributes.id = _id;
+      }
+      if (indent > 0) {
+        attributes.style = `margin-left: ${indent}rem;`;
+      }
+      if (Object.keys(attributes).length > 0) {
+        setAttributes(container, attributes);
+      }
+      
+      // Parse each paragraph and create a <p> element
+      paragraphs.forEach((paragraphContent, index) => {
+        const parsedMarkdown = this._parseMarkdown(paragraphContent);
+        const accessibleHTML = emojiAccessibility.enhanceText(parsedMarkdown);
+        
+        const p = createElement('p', []);
+        p.innerHTML = accessibleHTML;
+        container.appendChild(p);
+        
+        // Apply syntax highlighting to code blocks within this paragraph
+        if (window.Prism) {
+          const codeBlocks = p.querySelectorAll('pre code[class*="language-"]');
+          codeBlocks.forEach((codeBlock) => {
+            Prism.highlightElement(codeBlock);
+          });
+        }
+      });
+      
+      this.logger.log(`[TextRenderer] ✅ Rendered rich_text with ${paragraphs.length} paragraphs (explicit \\n)`);
+      return container;
+      
     } else {
-      console.warn('[TextRenderer] ⚠️  Prism not available for syntax highlighting');
+      // SINGLE-PARAGRAPH MODE: No explicit \n
+      const p = createElement('p', classes);
+      
+      // Restore inline code before parsing markdown (keep literal, no decoding)
+      let restoredContent = decodedContent;
+      inlineCodeBlocks.forEach((code, i) => {
+        // Restore with backticks - markdown parser will handle escaping
+        restoredContent = restoredContent.replace(`___INLINE_CODE_${i}___`, `\`${code}\``);
+      });
+      
+      const parsedMarkdown = this._parseMarkdown(restoredContent);
+      const accessibleHTML = emojiAccessibility.enhanceText(parsedMarkdown);
+      p.innerHTML = accessibleHTML;
+      
+      // Apply syntax highlighting to code blocks (Prism.js)
+      if (window.Prism) {
+        const codeBlocks = p.querySelectorAll('pre code[class*="language-"]');
+        codeBlocks.forEach((codeBlock) => {
+          Prism.highlightElement(codeBlock);
+        });
+      }
+      
+      // Apply attributes
+      const attributes = {};
+      if (_id) {
+        attributes.id = _id;
+      }
+      if (indent > 0) {
+        attributes.style = `margin-left: ${indent}rem;`;
+      }
+      if (Object.keys(attributes).length > 0) {
+        setAttributes(p, attributes);
+      }
+      
+      this.logger.log(`[TextRenderer] ✅ Rendered rich_text (single paragraph)`);
+      return p;
     }
-
-    // Apply attributes
-    const attributes = {};
-
-    // Apply ID if provided
-    if (_id) {
-      attributes.id = _id;
-    }
-
-    // Apply indent as inline style
-    if (indent > 0) {
-      attributes.style = `margin-left: ${indent}rem;`;
-    }
-
-    if (Object.keys(attributes).length > 0) {
-      setAttributes(p, attributes);
-    }
-
-    // Log success
-    this.logger.log(`[TextRenderer] ✅ Rendered rich_text (${content.length} chars, indent: ${indent})`);
-
-    return p;
   }
 
   /**
@@ -411,6 +484,16 @@ export class TextRenderer {
     text = text.replace(/\\U([0-9A-Fa-f]{4,8})/g, (match, hexCode) => {
       return String.fromCodePoint(parseInt(hexCode, 16));
     });
+    
+    // Replace basic escape sequences (literal strings like \\n, \\t, etc.)
+    // These come from JSON where Python sends "\n" which becomes "\\n" in JSON
+    text = text
+      .replace(/\\n/g, '\n')   // Newline
+      .replace(/\\t/g, '\t')   // Tab
+      .replace(/\\r/g, '\r')   // Carriage return
+      .replace(/\\'/g, "'")    // Single quote
+      .replace(/\\"/g, '"')    // Double quote
+      .replace(/\\\\/g, '\\'); // Backslash (must be last!)
     
     return text;
   }

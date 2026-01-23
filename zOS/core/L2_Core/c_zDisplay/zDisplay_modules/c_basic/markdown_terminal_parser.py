@@ -298,6 +298,10 @@ class MarkdownTerminalParser:
         
         Phase 4: Full block-level parsing
         
+        NEW: zMD semantic multiline handling
+        - \x1F (Unit Separator) = Natural YAML multiline → line break (same paragraph)
+        - \n = Explicit escape sequence → paragraph break (double \n\n in Terminal)
+        
         Block types:
         - Code blocks: ```language\\ncode\\n```
         - Lists: consecutive lines starting with * - or 1.
@@ -316,6 +320,16 @@ class MarkdownTerminalParser:
         """
         if not content or not content.strip():
             return []
+        
+        # NOTE: Inline code protection happens earlier in display_event_outputs.py
+        # before decode_unicode_escapes() is called, so backticks content is already literal here
+        
+        # STEP 1: Process semantic distinction BEFORE splitting
+        # Convert explicit \n to double newlines for paragraph breaks
+        content = content.replace('\n', '\n\n')
+        
+        # STEP 2: Convert \x1F (YAML multilines) to single newline (line breaks within paragraph)
+        content = content.replace('\x1F', '\n')
         
         blocks = []
         lines = content.split('\n')

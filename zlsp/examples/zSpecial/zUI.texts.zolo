@@ -1,0 +1,96 @@
+Texts_block:
+    zH1:
+        label: Newline Testing Suite
+        color: WARNING
+        _zClass: zmb-4
+
+    # Test 1: zText with YAML natural multilines (no escape sequences)
+    Test_1_zText_Natural:
+        zH2:
+            label: Test 1: zText - YAML Natural Multilines
+            color: SECONDARY
+        zText:
+            content: Line 1 is here
+                Line 2 continues naturally
+                Line 3 also continues
+            _zClass: zp-3 zBg-light zRounded zmb-3
+
+    # Test 2: zText with explicit \n escapes
+    Test_2_zText_Escape:
+        zH6:
+            label: Test 2: zText - Explicit Escapes
+            color: SECONDARY
+        zText:
+            content: Paragraph 1 with explicit newline\nParagraph 2 after newline\nParagraph 3 after another newline
+            _zClass: zp-3 zBg-light zRounded zmb-3
+
+    # Test 3: zText with mixed (natural + escape)
+    Test_3_zText_Mixed:
+        zH6:
+            label: Test 3: zText - Mixed (Natural + Escape)
+            color: SECONDARY
+        zText:
+            content: Line 1 natural continuation
+                Line 2 natural continuation\nBUT THIS is after explicit newline\nAnd this is another explicit paragraph
+            _zClass: zp-3 zBg-light zRounded zmb-3
+
+    # Test 4: zMD with YAML natural multilines
+    Test_4_zMD_Natural:
+        zH6:
+            label: Test 4: zMD - YAML Natural Multilines
+            color: SECONDARY
+        zMD:
+            content: **Bold line 1** continues here
+                *Italic line 2* continues here
+                `Code line 3` continues here
+            _zClass: zp-3 zBg-light zRounded zmb-3
+
+    # Test 5: zMD with explicit \n escapes
+    Test_5_zMD_Escape:
+        zH6:
+            label: Test 5: zMD - Explicit Escapes
+            color: SECONDARY
+        zMD:
+            content: **Paragraph 1** with bold\n*Paragraph 2* with italic\n`Paragraph 3` with code
+            _zClass: zp-3 zBg-light zRounded zmb-3
+    # Test 6: zMD with mixed (natural + escape)
+    Test_6_zMD_Mixed:
+        zH6:
+            label: Test 6: zMD - Mixed (Natural + Escape)
+            color: SECONDARY
+        zMD:
+            content: **Bold line 1** natural continuation
+                *Italic line 2* natural continuation\n`Code paragraph` after explicit newline\nAnother explicit paragraph here
+            _zClass: zp-3 zBg-light zRounded zmb-3
+
+    # Test 7: zMD with lists (natural multilines)
+    Test_7_zMD_Lists:
+        zH6:
+            label: Test 7: zMD - Lists (Natural Multilines)
+            color: SECONDARY
+        zMD:
+            content: Here is a list of items:
+                - Item 1 with natural continuation
+                - Item 2 with natural continuation
+                - Item 3 with natural continuation
+            _zClass: zp-3 zBg-light zRounded zmb-3
+    # Test 8: Edge case - Empty lines in natural multilines
+    Test_8_Empty_Lines:
+        zH6:
+            label: Test 8: zText - Empty Lines in Natural Multilines
+            color: SECONDARY
+        zText:
+            content: Line 1
+
+                Line 3 after empty line
+                Line 4 continues
+            _zClass: zp-3 zBg-light zRounded zmb-3
+
+    Expected_Behavior:
+        _zClass: zCallout zCallout-info zmt-4
+        zMD:
+            content: **Expected Behavior (Goal):**
+
+                **Natural YAML Multilines** → Line breaks (`<br>` in Bifrost, single `\\n` in Terminal)
+
+                **Explicit `\\n` Escapes** → Paragraph breaks (new `<p>` in Bifrost, double `\\n\\n` in Terminal)
