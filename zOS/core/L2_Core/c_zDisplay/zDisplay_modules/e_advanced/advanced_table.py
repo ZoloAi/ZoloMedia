@@ -164,8 +164,14 @@ class TableEvents:
                 limit=20
             )
         """
+        # DEBUG: Log when zTable is called
+        import logging
+        logger = logging.getLogger('Framework')
+        logger.info(f"[zTable] 📊 Called with title='{title}', display.mode={getattr(self.display, 'mode', 'NO MODE')}")
+        
         # Bifrost mode - send clean JSON event
         if is_bifrost_mode(self.display):
+            logger.info(f"[zTable] ✅ Bifrost mode detected - sending WebSocket event")
             event_data = {
                 "event": "zTable",
                 KEY_TITLE: title,
@@ -177,6 +183,8 @@ class TableEvents:
             }
             emit_websocket_event(self.display, event_data)
             return
+        
+        logger.info(f"[zTable] 🖥️  Terminal mode detected - rendering ASCII table")
         
         # Terminal mode - render ASCII table
         # Validate columns

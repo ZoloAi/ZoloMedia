@@ -134,10 +134,17 @@ def is_bifrost_mode(display: Any) -> bool:
         - display_event_timebased._is_bifrost_mode() (6 occurrences)
     """
     if not display or not hasattr(display, 'mode'):
+        import logging
+        logger = logging.getLogger('Framework')
+        logger.info(f"[is_bifrost_mode] 🚨 NO DISPLAY OR NO MODE ATTRIBUTE! display={display}, hasattr={hasattr(display, 'mode') if display else 'N/A'}")
         return False
     
     # Non-interactive modes: anything that's not Terminal, Walker, or Empty
-    return display.mode not in (MODE_TERMINAL, MODE_WALKER, MODE_EMPTY)
+    result = display.mode not in (MODE_TERMINAL, MODE_WALKER, MODE_EMPTY)
+    import logging
+    logger = logging.getLogger('Framework')
+    logger.info(f"[is_bifrost_mode] 🔍 display.mode={display.mode}, result={result}")
+    return result
 
 
 def try_gui_event(display: Any, event_name: str, data: Dict[str, Any]) -> bool:

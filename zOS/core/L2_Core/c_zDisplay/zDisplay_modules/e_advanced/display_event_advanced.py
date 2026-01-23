@@ -155,7 +155,9 @@ class AdvancedData:
         self.Signals = None       # Will be set after zEvents initialization
         
         # Instantiate specialized event module (Phase 5)
-        self.TableEvents = TableEvents(self)
+        # CRITICAL FIX: Pass display_instance (zDisplay) not self (AdvancedData)
+        # Bug: TableEvents needs zDisplay.mode for is_bifrost_mode() to work
+        self.TableEvents = TableEvents(display_instance)
         
         # Cross-wire dependencies (will be updated after zEvents init)
         self._update_cross_references()
