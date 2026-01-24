@@ -65,6 +65,7 @@ _EVENT_NAME_ZMARKER = "zMarker"
 
 # Event Names - Data Events (Internal)
 _EVENT_LIST = "list"
+_EVENT_DL = "dl"
 _EVENT_JSON = "json"
 _EVENT_JSON_DATA = "json_data"
 _EVENT_ZTABLE = "zTable"
