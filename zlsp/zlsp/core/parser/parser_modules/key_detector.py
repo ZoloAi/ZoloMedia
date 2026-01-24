@@ -40,7 +40,7 @@ class KeyDetector:
     }
     
     UI_ELEMENT_KEYS = {
-        'zImage', 'zText', 'zMD', 'zURL', 'zNavBar', 'zUL', 'zOL', 'zTable',
+        'zImage', 'zText', 'zMD', 'zURL', 'zNavBar', 'zUL', 'zOL', 'zDL', 'zTable',
         'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zCrumbs'
     }
     

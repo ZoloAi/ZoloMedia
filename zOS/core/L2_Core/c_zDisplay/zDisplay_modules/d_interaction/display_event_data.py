@@ -595,6 +595,10 @@ class BasicData:
         if not items:
             return
 
+        # Handle description list style (dl/details)
+        if style == 'details':
+            return self._render_description_list(items, indent, **kwargs)
+
         # Extract internal level parameter for cascading styles
         level = kwargs.get('_level', 0)
         
@@ -673,6 +677,57 @@ class BasicData:
                 self._output_text(content, indent=indent, break_after=False)
         
         # Return None if no navigation occurred
+        return None
+
+    def _render_description_list(self, items: List[Dict[str, Any]], indent: int = DEFAULT_INDENT, **kwargs) -> Optional[Any]:
+        """Render description list (HTML <dl>, <dt>, <dd> style).
+        
+        Args:
+            items: List of dicts with 'term' and 'desc' keys
+                   - term: The term being defined (rendered as <dt>)
+                   - desc: Definition - string or list of strings (rendered as <dd>)
+            indent: Base indentation level (default: 0)
+        
+        Returns:
+            None or navigation signal dict
+        """
+        if not items:
+            return None
+        
+        # Try GUI mode first - send clean event
+        if self._send_gui_event(_EVENT_NAME_LIST, {
+            _KEY_ITEMS: items,
+            _KEY_STYLE: 'details',
+            _KEY_INDENT: indent
+        }):
+            return  # GUI event sent successfully
+        
+        # Terminal mode rendering
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            
+            term = item.get('term', '')
+            descriptions = item.get('desc', [])
+            
+            # Normalize descriptions to list
+            if not isinstance(descriptions, list):
+                descriptions = [descriptions]
+            
+            # Display term in bold
+            term_indent = self._build_indent(indent)
+            term_text = f"{term_indent}\033[1m{term}\033[0m"
+            print(term_text)
+            
+            # Display each description indented under term
+            desc_indent = indent + 1  # Indent descriptions 1 level more than term
+            for desc in descriptions:
+                if desc:  # Skip empty descriptions
+                    self._output_text(str(desc), indent=desc_indent, break_after=False)
+            
+            # Add blank line after each term-description group for readability
+            print()
+        
         return None
 
     def json_data(self, data: Optional[Union[Dict[str, Any], List[Any], Any]], 

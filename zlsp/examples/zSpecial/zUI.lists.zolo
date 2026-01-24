@@ -33,6 +33,8 @@ Lists_block:
         zH2:
             label: "Test 2: Basic zOL - Numbered List with Cascading Styles"
             color: SECONDARY
+        
+        # Shorthand syntax
         zOL:
             style: [number, letter, roman]
             items: [
@@ -43,4 +45,33 @@ Lists_block:
                 [Nested letter item one, Nested letter item two, [Nested roman item i, Nested roman item ii]]
             ]
             _zClass: zp-3 zBg-light zRounded zmb-3
+        
+    # Test 3: zDL (description list) - longhand syntax
+    Test_3_Longhand_zDL:
+        zH2:
+            label: "Test 3: zDL - Description List (Longhand)"
+            color: SECONDARY
+        zDisplay:
+            event: list
+            style: details
+            items: [
+                {term: HTML, desc: HyperText Markup Language},
+                {term: CSS, desc: Cascading Style Sheets},
+                {term: JavaScript, desc: [A programming language for web development, Runs in the browser and on servers]},
+                {term: Python, desc: A high-level programming language}
+            ]
+            _zClass: zp-3 zBg-light zRounded zmb-3
 
+    # Test 4: zDL (description list) - shorthand syntax
+    Test_4_Shorthand_zDL:
+        zH2:
+            label: "Test 4: zDL - Description List (Shorthand)"
+            color: SECONDARY
+        zDL:
+            items: [
+                {term: API, desc: Application Programming Interface},
+                {term: SDK, desc: Software Development Kit},
+                {term: CLI, desc: [Command Line Interface, A text-based user interface]},
+                {term: GUI, desc: Graphical User Interface}
+            ]
+            _zClass: zp-3 zBg-light zRounded zmb-3

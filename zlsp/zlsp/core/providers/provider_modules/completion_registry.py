@@ -20,7 +20,7 @@ from ...parser.parser_modules.file_type_detector import FileType, detect_file_ty
 # These keys expect nested properties, not inline values
 BLOCK_KEYS = {
     # UI Elements
-    'zImage', 'zText', 'zMD', 'zURL', 'zUL', 'zOL', 'zTable',
+    'zImage', 'zText', 'zMD', 'zURL', 'zUL', 'zOL', 'zDL', 'zTable',
     'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6',
     'zRBAC', 'zNavBar', 'zMeta',
     # Organizational blocks
@@ -512,6 +512,7 @@ class CompletionRegistry:
             ("zH6", "Heading 6", "Tiny heading", "zH6: "),
             ("zUL", "Unordered list", "Bullet list", "zUL: "),
             ("zOL", "Ordered list", "Numbered list", "zOL: "),
+            ("zDL", "Description list", "Term-definition list", "zDL: "),
             ("zMD", "Markdown", "Markdown content", "zMD: "),
             ("zTable", "Table", "Data table", "zTable: "),
             ("zNavBar", "Navigation bar", "Enable/disable navbar", "zNavBar: "),

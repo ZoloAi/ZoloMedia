@@ -927,6 +927,14 @@ export class ZDisplayOrchestrator {
         break;
       }
 
+      case 'dl': {
+        // Use ZDisplayRenderer for description lists
+        const zdisplayRenderer = await this.client._ensureZDisplayRenderer();
+        element = zdisplayRenderer._renderDL(eventData);
+        this.logger.log(`[renderZDisplayEvent] Rendered description list with ${eventData.items?.length || 0} items`);
+        break;
+      }
+
       case 'image': {
         // Use modular ImageRenderer for images
         const imageRenderer = await this.client._ensureImageRenderer();

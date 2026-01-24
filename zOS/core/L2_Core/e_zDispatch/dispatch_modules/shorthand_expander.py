@@ -118,7 +118,7 @@ class ShorthandExpander:
     """
     
     # UI element keys (for detection) - ALL shorthands that should NOT be recursively expanded
-    UI_ELEMENT_KEYS = ['zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zText', 'zMD', 'zImage', 'zURL', 'zUL', 'zOL', 'zTable', 'zCrumbs']
+    UI_ELEMENT_KEYS = ['zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zText', 'zMD', 'zImage', 'zURL', 'zUL', 'zOL', 'zDL', 'zTable', 'zCrumbs']
     
     # Plural shorthand keys
     PLURAL_SHORTHANDS = ['zURLs', 'zTexts', 'zH1s', 'zH2s', 'zH3s', 'zH4s', 'zH5s', 'zH6s', 'zImages', 'zMDs']
@@ -371,6 +371,8 @@ class ShorthandExpander:
                 expanded = self._expand_zul(value)
             elif clean_key == 'zOL':
                 expanded = self._expand_zol(value)
+            elif clean_key == 'zDL':
+                expanded = self._expand_zdl(value)
             elif clean_key == 'zTable':
                 expanded = self._expand_ztable(value)
             elif clean_key == 'zCrumbs':
@@ -487,6 +489,14 @@ class ShorthandExpander:
             return {KEY_ZDISPLAY: {'event': 'list', 'style': 'number', 'items': items, **new_value}}
         # Direct parameters (including items if provided)
         return {KEY_ZDISPLAY: {'event': 'list', 'style': 'number', **value}}
+    
+    def _expand_zdl(self, value: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Expand zDL to description list event.
+        
+        Description lists are used for term-definition pairs (HTML <dl>, <dt>, <dd>).
+        """
+        return {KEY_ZDISPLAY: {'event': 'dl', **value}}
     
     def _expand_ztable(self, value: Dict[str, Any]) -> Dict[str, Any]:
         """Expand zTable to zTable event."""

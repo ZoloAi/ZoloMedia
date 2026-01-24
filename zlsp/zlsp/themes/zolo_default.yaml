@@ -214,7 +214,7 @@ tokens:
   uiElementKey:
     color: orange_red
     style: none
-    description: "UI element keys in zUI files (zImage, zText, zURL, zH1-zH6, zNavBar, zUL, zOL)"
+    description: "UI element keys in zUI files (zImage, zText, zURL, zH1-zH6, zNavBar, zUL, zOL, zDL)"
   
   uiElementPropertyKey:
     color: lavender

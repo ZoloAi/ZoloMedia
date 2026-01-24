@@ -62,6 +62,9 @@ export class ZDisplayRenderer {
         case 'list':
           element = this._renderList(eventData);
           break;
+        case 'dl':
+          element = this._renderDL(eventData);
+          break;
         case 'table':
         case 'zTable':  // Backend sends 'zTable' (camelCase)
           element = this._renderTable(eventData);
@@ -337,6 +340,46 @@ export class ZDisplayRenderer {
     });
 
     return listElement;
+  }
+
+  /**
+   * Render a description list (<dl>) with terms and definitions
+   * @private
+   */
+  _renderDL(event) {
+    const dl = document.createElement('dl');
+
+    // Apply custom _zClass if provided
+    if (event._zClass) {
+      dl.className = event._zClass;
+    }
+
+    // Apply indent as left margin
+    if (event.indent && event.indent > 0) {
+      dl.style.marginLeft = `${event.indent}rem`;
+    }
+
+    // Render description list items
+    const items = event.items || [];
+    items.forEach(item => {
+      // Create <dt> for the term
+      const dt = document.createElement('dt');
+      const termContent = item.term || '';
+      dt.innerHTML = this._sanitizeHTML(this._decodeUnicodeEscapes(termContent));
+      dl.appendChild(dt);
+
+      // Create <dd> for description(s)
+      // desc can be a string or an array of strings
+      const descriptions = Array.isArray(item.desc) ? item.desc : [item.desc];
+      descriptions.forEach(desc => {
+        const dd = document.createElement('dd');
+        const descContent = desc || '';
+        dd.innerHTML = this._sanitizeHTML(this._decodeUnicodeEscapes(descContent));
+        dl.appendChild(dd);
+      });
+    });
+
+    return dl;
   }
 
   /**
