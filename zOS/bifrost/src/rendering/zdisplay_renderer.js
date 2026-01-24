@@ -205,23 +205,27 @@ export class ZDisplayRenderer {
    * @private
    */
   _renderText(event) {
-    const p = document.createElement('p');
+    // Support semantic HTML elements (pre, div, code, etc.)
+    // Default to <p> for backwards compatibility
+    const elementType = event.semantic || 'p';
+    const element = document.createElement(elementType);
+    
     // Decode Unicode escapes (U+XXXX format) from ASCII-safe storage
     const decodedContent = this._decodeUnicodeEscapes(event.content);
-    p.innerHTML = this._sanitizeHTML(decodedContent);
+    element.innerHTML = this._sanitizeHTML(decodedContent);
 
-    // Apply custom classes if provided (from YAML `class` parameter)
-    const customClass = event.class || null;
+    // Apply custom classes if provided (support both _zClass and class for consistency)
+    const customClass = event._zClass || event.class || null;
     if (customClass) {
-      p.className = customClass;
+      element.className = customClass;
     }
 
     // Minimal inline styling (margin-bottom for spacing)
-    p.style.marginBottom = '0.5rem';
+    element.style.marginBottom = '0.5rem';
 
     // Apply indent as left margin (1rem per indent level)
     if (event.indent && event.indent > 0) {
-      p.style.marginLeft = `${event.indent}rem`;
+      element.style.marginLeft = `${event.indent}rem`;
     }
 
     // Apply color classes (case-insensitive)
@@ -229,21 +233,21 @@ export class ZDisplayRenderer {
     if (color) {
       const colorLower = color.toLowerCase();
       if (colorLower === 'primary') {
-        p.classList.add('zText-primary');
+        element.classList.add('zText-primary');
       } else if (colorLower === 'secondary') {
-        p.classList.add('zText-secondary');
+        element.classList.add('zText-secondary');
       } else if (colorLower === 'zinfo') {
-        p.classList.add('zText-info');
+        element.classList.add('zText-info');
       } else if (colorLower === 'zsuccess') {
-        p.classList.add('zText-success');
+        element.classList.add('zText-success');
       } else if (colorLower === 'zwarning') {
-        p.classList.add('zText-warning');
+        element.classList.add('zText-warning');
       } else if (colorLower === 'zerror') {
-        p.classList.add('zText-error');
+        element.classList.add('zText-error');
       }
     }
 
-    return p;
+    return element;
   }
 
   /**
