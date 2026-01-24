@@ -57,27 +57,30 @@ export class TypographyRenderer {
     const semantic = eventData.semantic;
     let element;
     
-    if (semantic === 'div') {
-      // Use <div> instead of <p> (for grid demos, badges, etc.)
-      element = document.createElement('div');
+    // Block-level semantic elements (render as top-level container)
+    const blockSemantics = ['div', 'span', 'pre', 'code', 'blockquote'];
+    
+    if (blockSemantics.includes(semantic)) {
+      // Use semantic element directly instead of <p>
+      element = document.createElement(semantic);
       if (attrs.class) element.className = attrs.class;
       if (attrs.id) element.id = attrs.id;
       const content = this._decodeUnicodeEscapes(eventData.content || '');
-      element.innerHTML = this._convertNewlinesToBr(content);
-    } else if (semantic === 'span') {
-      // Use <span> for inline content
-      element = document.createElement('span');
-      if (attrs.class) element.className = attrs.class;
-      if (attrs.id) element.id = attrs.id;
-      const content = this._decodeUnicodeEscapes(eventData.content || '');
-      element.innerHTML = this._convertNewlinesToBr(content);
+      
+      // For pre/code elements, preserve HTML as-is (no newline conversion)
+      // This allows HTML entities and tags to render correctly
+      if (semantic === 'pre' || semantic === 'code') {
+        element.innerHTML = content;
+      } else {
+        element.innerHTML = this._convertNewlinesToBr(content);
+      }
     } else {
-      // Default: <p> with optional semantic wrapper
+      // Default: <p> with optional semantic wrapper for inline elements
       const p = createParagraph(attrs);
       const content = this._decodeUnicodeEscapes(eventData.content || '');
       
-      if (semantic && semantic !== 'p') {
-        // Wrap content in semantic element (<code>, <strong>, etc.)
+      if (semantic && semantic !== 'p' && !blockSemantics.includes(semantic)) {
+        // Wrap content in inline semantic element (<strong>, <em>, etc.)
         const wrapper = document.createElement(semantic);
         wrapper.innerHTML = this._convertNewlinesToBr(content);
         p.appendChild(wrapper);
