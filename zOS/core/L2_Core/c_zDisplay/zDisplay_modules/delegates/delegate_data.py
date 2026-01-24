@@ -141,7 +141,8 @@ class DelegateData:
         limit: Optional[int] = None, 
         offset: int = 0, 
         show_header: bool = True,
-        interactive: bool = False
+        interactive: bool = False,
+        caption: Optional[str] = None
     ) -> Any:
         """Display tabular data with optional pagination.
         
@@ -153,6 +154,7 @@ class DelegateData:
             offset: Starting row offset (default: 0)
             show_header: Show column headers (default: True)
             interactive: Enable interactive navigation in Terminal mode (default: False)
+            caption: Optional table caption describing the table contents
             
         Returns:
             Any: Result from handle() method
@@ -165,10 +167,11 @@ class DelegateData:
                     ["Alice", 30, "Admin"],
                     ["Bob", 25, "User"]
                 ],
+                caption="List of all users",
                 interactive=True
             )
         """
-        return self.handle({
+        event_dict = {
             _KEY_EVENT: _EVENT_ZTABLE,
             "title": title,
             "columns": columns,
@@ -177,5 +180,8 @@ class DelegateData:
             "offset": offset,
             "show_header": show_header,
             "interactive": interactive,
-        })
+        }
+        if caption:
+            event_dict["caption"] = caption
+        return self.handle(event_dict)
 

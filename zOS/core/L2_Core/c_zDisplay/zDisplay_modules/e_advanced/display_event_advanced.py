@@ -184,7 +184,8 @@ class AdvancedData:
         limit: Optional[int] = None,
         offset: int = DEFAULT_OFFSET,
         show_header: bool = True,
-        interactive: bool = False
+        interactive: bool = False,
+        caption: Optional[str] = None
     ) -> None:
         """
         Display data table with optional pagination and formatting.
@@ -199,6 +200,7 @@ class AdvancedData:
             offset: Starting row index (0-based)
             show_header: Show column headers (default: True)
             interactive: Enable keyboard navigation (Terminal-only, default: False)
+            caption: Optional table caption describing the table contents
         
         Returns:
             None
@@ -206,6 +208,7 @@ class AdvancedData:
         Usage:
             display.zTable(
                 title="Users",
+                caption="A list of all registered users",
                 columns=["id", "name", "email"],
                 rows=[{"id": 1, "name": "Alice"}],
                 limit=20
@@ -215,5 +218,5 @@ class AdvancedData:
         self._update_cross_references()
         
         return self.TableEvents.zTable(
-            title, columns, rows, limit, offset, show_header, interactive
+            title, columns, rows, limit, offset, show_header, interactive, caption
         )

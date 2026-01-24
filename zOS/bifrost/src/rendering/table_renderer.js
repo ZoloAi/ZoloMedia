@@ -132,6 +132,7 @@ export class TableRenderer {
   render(data, zone) {
     const {
       title,
+      caption,
       columns = [],
       rows: allRows = [],  // Backend sends ALL rows (we slice them)
       limit,
@@ -193,14 +194,25 @@ export class TableRenderer {
     // Create responsive table wrapper (zTheme class)
     const tableWrapper = createElement('div', ['zTable-responsive']);
 
-    // Build zTheme table classes
-    const tableClasses = ['zTable', 'zTable-striped', 'zTable-hover', 'zTable-bordered'];
+    // Build zTheme table classes - only base zReboot class
+    // Additional styling (striped, hover, bordered) should come from _zClass parameter
+    const tableClasses = ['zTable'];
     if (customClass) {
       tableClasses.push(customClass);
     }
 
     // Create table element (using Layer 0 primitive)
     const table = createTable({ class: tableClasses.join(' ') });
+
+    // Render caption (if provided) - must come before thead per HTML spec
+    if (caption) {
+      const captionElement = document.createElement('caption');
+      captionElement.className = 'zMuted';
+      captionElement.style.padding = '0.5rem';
+      captionElement.style.textAlign = 'left';
+      captionElement.textContent = caption;
+      table.appendChild(captionElement);
+    }
 
     // Render table head (if show_header is true)
     if (show_header && columns.length > 0) {

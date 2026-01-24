@@ -447,6 +447,7 @@ export class ZDisplayRenderer {
 
     // Create container wrapper
     const container = document.createElement('div');
+    container.className = 'zTable-container';
     container.style.marginBottom = '1.5rem';
 
     // For interactive tables, add a data attribute for replacement logic
@@ -466,6 +467,8 @@ export class ZDisplayRenderer {
     // Add title with pagination info if provided
     if (title) {
       const titleElement = document.createElement('h4');
+      titleElement.className = 'zMb-3 zText-dark';
+      titleElement.style.fontWeight = '500';
 
       // Show pagination range in title if limited
       if (limit !== null && limit !== undefined && limit > 0 && allRows.length > 0) {
@@ -476,8 +479,6 @@ export class ZDisplayRenderer {
         titleElement.textContent = title;
       }
 
-      titleElement.style.marginBottom = '0.75rem';
-      titleElement.style.color = 'var(--color-darkgray)';
       container.appendChild(titleElement);
     }
 
@@ -485,9 +486,16 @@ export class ZDisplayRenderer {
     const tableWrapper = document.createElement('div');
     tableWrapper.className = 'zTable-responsive';
 
-    // Create table
+    // Create table with base zReboot class only
+    // Additional styling (striped, hover, bordered) should come from _zClass parameter
     const table = document.createElement('table');
-    table.className = 'zTable zTable-striped zTable-hover zTable-bordered';
+    table.className = 'zTable';
+    
+    // Apply custom classes if provided (support both _zClass and class for consistency)
+    const customClass = event._zClass || event.class || null;
+    if (customClass) {
+      table.className += ' ' + customClass;
+    }
 
     // Create thead with columns
     if (columns.length > 0) {
@@ -496,6 +504,7 @@ export class ZDisplayRenderer {
 
       columns.forEach(column => {
         const th = document.createElement('th');
+        th.setAttribute('scope', 'col');
         th.textContent = column;
         headerRow.appendChild(th);
       });

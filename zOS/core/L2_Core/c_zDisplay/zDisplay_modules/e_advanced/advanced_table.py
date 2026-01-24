@@ -46,6 +46,7 @@ from ..a_infrastructure.display_event_helpers import (
 
 # zTable event dictionary keys
 KEY_TITLE: str = "title"
+KEY_CAPTION: str = "caption"
 KEY_COLUMNS: str = "columns"
 KEY_ROWS: str = "rows"
 KEY_LIMIT: str = "limit"
@@ -130,7 +131,8 @@ class TableEvents:
         limit: Optional[int] = None,
         offset: int = DEFAULT_OFFSET,
         show_header: bool = True,
-        interactive: bool = False
+        interactive: bool = False,
+        caption: Optional[str] = None
     ) -> None:
         """
         Display data table with optional pagination and formatting for Terminal/Bifrost modes.
@@ -143,6 +145,7 @@ class TableEvents:
             offset: Starting row index (0-based)
             show_header: Show column headers (default: True)
             interactive: Enable keyboard navigation (Terminal-only, default: False)
+            caption: Optional table caption describing the table contents
         
         Returns:
             None
@@ -156,6 +159,7 @@ class TableEvents:
         Usage:
             display.zTable(
                 title="Users",
+                caption="A list of all registered users",
                 columns=["id", "name", "email"],
                 rows=[
                     {"id": 1, "name": "Alice", "email": "alice@example.com"},
@@ -175,6 +179,8 @@ class TableEvents:
                 KEY_OFFSET: offset,
                 KEY_SHOW_HEADER: show_header
             }
+            if caption:
+                event_data[KEY_CAPTION] = caption
             emit_websocket_event(self.display, event_data)
             return
         
@@ -208,7 +214,7 @@ class TableEvents:
             title_with_range = title
         
         # Render table
-        self._render_table_page(title_with_range, columns, paginated_rows, show_header)
+        self._render_table_page(title_with_range, columns, paginated_rows, show_header, caption)
         
         # Show "more rows" footer if paginated
         if page_info[KEY_HAS_MORE]:
@@ -222,12 +228,17 @@ class TableEvents:
         title: str,
         columns: List[str],
         rows: List[Union[Dict[str, Any], List[Any]]],
-        show_header: bool
+        show_header: bool,
+        caption: Optional[str] = None
     ) -> None:
         """Render a single page of table data in Terminal mode."""
         # Table header
         if self.BasicOutputs:
             self.BasicOutputs.header(title, color=DEFAULT_HEADER_COLOR, style=DEFAULT_TABLE_STYLE)
+        
+        # Caption (if provided) - display after title, styled as muted text
+        if caption and self.BasicOutputs:
+            self.BasicOutputs.text(caption, color="MUTE", indent=0)
         
         # Column headers
         if show_header:
