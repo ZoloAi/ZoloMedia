@@ -693,9 +693,9 @@ class MessageHandler:
                         # Filter out internal keys like ~zNavBar* (already rendered separately)
                         chunk_data = {}
                         
-                        # FIRST: Always include block-level metadata (_zClass, _zStyle, _zId)
+                        # FIRST: Always include block-level metadata (_zClass, _zStyle, _zHTML, _zId)
                         # These are attributes that apply to the parent container (not content blocks)
-                        METADATA_KEYS = ['_zClass', '_zStyle', '_zId']
+                        METADATA_KEYS = ['_zClass', '_zStyle', '_zHTML', '_zId']
                         for key in METADATA_KEYS:
                             if key in block_dict:
                                 chunk_data[key] = block_dict[key]

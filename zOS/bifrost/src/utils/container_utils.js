@@ -318,12 +318,19 @@ export function getFlexDirectionClass(direction = 'row') {
 /**
  * Create a container element for a zKey with metadata support
  * @param {string} zKey - The zKey identifier
- * @param {Object} metadata - Metadata object (may contain _zClass)
- * @returns {Promise<HTMLElement>} Container div
+ * @param {Object} metadata - Metadata object (may contain _zClass, _zHTML)
+ * @returns {Promise<HTMLElement>} Container element (div by default, or semantic element if _zHTML is specified)
  */
 export async function createZKeyContainer(zKey, metadata = {}) {
-  const { createDiv } = await import('../rendering/primitives/generic_containers.js');
-  const container = createDiv();
+  // Check for custom HTML element type (_zHTML parameter)
+  const elementType = metadata._zHTML || 'div';
+  
+  // Validate element type (security: only allow specific semantic elements)
+  const validElements = ['div', 'section', 'article', 'aside', 'nav', 'header', 'footer', 'main'];
+  const tagName = validElements.includes(elementType) ? elementType : 'div';
+  
+  // Create the container with the specified element type
+  const container = document.createElement(tagName);
 
   // Check for custom classes in metadata
   if (metadata._zClass !== undefined) {

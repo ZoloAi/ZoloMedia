@@ -102,13 +102,18 @@ export class ZDisplayOrchestrator {
       }
 
       if (hasBlockMetadata && chunk_num === 1) {
-        // First chunk with block metadata: create a wrapper for the entire block (using primitive)
-        const { createDiv } = await import('./primitives/generic_containers.js');
+        // First chunk with block metadata: create a wrapper for the entire block
         const blockName = message.zBlock || 'progressive';  // Use block name from backend
-        const blockWrapper = createDiv({
-          'data-zblock': 'progressive',
-          'id': blockName  // Set id to block name (e.g., "zAccount")
-        });
+        
+        // Check for _zHTML parameter to determine element type
+        const elementType = data._zHTML || 'div';
+        const validElements = ['div', 'section', 'article', 'aside', 'nav', 'header', 'footer', 'main'];
+        const tagName = validElements.includes(elementType) ? elementType : 'div';
+        
+        // Create the container with the specified element type
+        const blockWrapper = document.createElement(tagName);
+        blockWrapper.setAttribute('data-zblock', 'progressive');
+        blockWrapper.setAttribute('id', blockName);
 
         // Apply block-level metadata to wrapper
         for (const [key, value] of Object.entries(data)) {
@@ -117,6 +122,7 @@ export class ZDisplayOrchestrator {
           } else if (key === '_zStyle' && value) {
             blockWrapper.setAttribute('style', value);
           }
+          // _zHTML is already handled above (element creation)
         }
 
         contentDiv.appendChild(blockWrapper);
@@ -432,7 +438,7 @@ export class ZDisplayOrchestrator {
       // Iterate through all non-metadata children and render into group
       for (const [key, value] of Object.entries(data)) {
         // Skip ONLY metadata keys (not organizational containers like _Visual_Progression)
-        const METADATA_KEYS = ['_zClass', '_zStyle', '_zId', '_zScripts', '_zGroup', 'zId'];
+        const METADATA_KEYS = ['_zClass', '_zStyle', '_zHTML', '_zId', '_zScripts', '_zGroup', 'zId'];
         if (METADATA_KEYS.includes(key) || key.startsWith('~')) {
           continue;
         }
@@ -467,12 +473,21 @@ export class ZDisplayOrchestrator {
           if (key.startsWith('_')) {
             this.logger.log(`🏗️  [GROUP] Processing organizational container: ${key}`);
           }
-          const itemDiv = document.createElement('div');
+          
+          // Check for _zHTML parameter to determine element type
+          const elementType = value._zHTML || 'div';
+          const validElements = ['div', 'section', 'article', 'aside', 'nav', 'header', 'footer', 'main'];
+          const tagName = validElements.includes(elementType) ? elementType : 'div';
+          const itemDiv = document.createElement(tagName);
           itemDiv.setAttribute('data-zkey', key);
           
-          // CRITICAL FIX: Extract and apply metadata to the organizational container BEFORE recursing
-          const itemMetadata = this._extractMetadata(value);
-          this._applyMetadataToElement(itemDiv, itemMetadata);
+          // Apply metadata to the organizational container
+          if (value._zClass) {
+            itemDiv.className = value._zClass;
+          }
+          if (value._zStyle) {
+            itemDiv.setAttribute('style', value._zStyle);
+          }
           
           await this.renderItems(value, itemDiv);
           
@@ -527,9 +542,9 @@ export class ZDisplayOrchestrator {
       }
 
       // Skip ONLY metadata attributes (not terminal-suppressed elements)
-      // _zClass, _zStyle, _zId, _zScripts are metadata attributes applied to parent
+      // _zClass, _zStyle, _zHTML, _zId, _zScripts are metadata attributes applied to parent
       // But _Demo_Stack, _Live_Demo_Section are terminal-suppressed elements that SHOULD render in Bifrost
-      const METADATA_KEYS = ['_zClass', '_zStyle', '_zId', '_zScripts', 'zId'];
+      const METADATA_KEYS = ['_zClass', '_zStyle', '_zHTML', '_zId', '_zScripts', 'zId'];
       if (METADATA_KEYS.includes(key)) {
         continue;
       }
@@ -539,13 +554,14 @@ export class ZDisplayOrchestrator {
       // Check if this value has its own metadata (for nested _zClass support)
       let itemMetadata = {};
 
-      // Each zKey container should ONLY use its OWN _zClass/_zStyle/zId, never inherit from parent
+      // Each zKey container should ONLY use its OWN _zClass/_zStyle/_zHTML/zId, never inherit from parent
       // This ensures ProfilePicture doesn't get ProfileHeader's classes
       if (value && typeof value === 'object' && !Array.isArray(value)) {
-        if (value._zClass !== undefined || value._zStyle !== undefined || value.zId !== undefined) {
+        if (value._zClass !== undefined || value._zStyle !== undefined || value._zHTML !== undefined || value.zId !== undefined) {
           itemMetadata = {
             _zClass: value._zClass,
             _zStyle: value._zStyle,
+            _zHTML: value._zHTML,
             zId: value.zId
           };
           this.logger.log(`  Found nested metadata for ${key}:`, itemMetadata);
@@ -735,8 +751,13 @@ export class ZDisplayOrchestrator {
    * @returns {HTMLElement}
    */
   async createContainer(zKey, metadata) {
-    const { createDiv } = await import('./primitives/generic_containers.js');
-    const container = createDiv();
+    // Check for _zHTML parameter to determine element type
+    const elementType = metadata._zHTML || 'div';
+    const validElements = ['div', 'section', 'article', 'aside', 'nav', 'header', 'footer', 'main'];
+    const tagName = validElements.includes(elementType) ? elementType : 'div';
+    
+    // Create the container with the specified element type
+    const container = document.createElement(tagName);
 
     // Check for custom classes in metadata
     if (metadata._zClass !== undefined) {

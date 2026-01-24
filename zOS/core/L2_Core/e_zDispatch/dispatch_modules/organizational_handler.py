@@ -129,8 +129,8 @@ class OrganizationalHandler:
             - Recursively processes nested structures
             - Integrates with ShorthandExpander for nested expansion
         """
-        # Get ALL content keys, excluding only metadata (_zClass, _zStyle, etc.)
-        metadata_keys = {'_zClass', '_zStyle', '_zId', '_zScripts', 'zId'}
+        # Get ALL content keys, excluding only metadata (_zClass, _zStyle, _zHTML, etc.)
+        metadata_keys = {'_zClass', '_zStyle', '_zHTML', '_zId', '_zScripts', 'zId'}
         content_keys = [k for k in zHorizontal.keys() if k not in metadata_keys]
         
         # Check if organizational (all nested)
@@ -241,8 +241,8 @@ class OrganizationalHandler:
             )
             # Returns: True
         """
-        # Get ALL content keys, excluding only metadata (_zClass, _zStyle, etc.)
-        metadata_keys = {'_zClass', '_zStyle', '_zId', '_zScripts', 'zId'}
+        # Get ALL content keys, excluding only metadata (_zClass, _zStyle, _zHTML, etc.)
+        metadata_keys = {'_zClass', '_zStyle', '_zHTML', '_zId', '_zScripts', 'zId'}
         content_keys = [k for k in zHorizontal.keys() if k not in metadata_keys]
         
         # Not organizational if subsystem or CRUD call
