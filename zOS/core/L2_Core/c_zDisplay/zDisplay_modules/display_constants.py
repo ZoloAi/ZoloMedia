@@ -334,7 +334,7 @@ _MSG_INVALID_INPUT_FORMAT = "Invalid input. Please enter 1-{max} or 'done'"
 # Prompts (Internal)
 _PROMPT_INPUT = "Input: "
 _PROMPT_SINGLE_SELECT_TEMPLATE = "Select (1-{max_num}){default_hint}: "
-_PROMPT_BUTTON_TEMPLATE = "[{label}] "
+_PROMPT_BUTTON_TEMPLATE = "Click [{label}]? (y/n): "
 _PROMPT_LINK_INTERNAL = "Navigate to: {label}? (y/n): "
 _PROMPT_LINK_EXTERNAL = "Open {label} in browser? (y/n): "
 _PROMPT_LINK_PLACEHOLDER = "Click {label}? (y/n): "

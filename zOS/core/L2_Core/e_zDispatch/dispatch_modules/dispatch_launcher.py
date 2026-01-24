@@ -596,7 +596,7 @@ class CommandLauncher:
             self._resolve_data_block_if_present(zHorizontal, is_subsystem_call, context)
         
         # ========================================================================
-        # SHORTHAND SYNTAX EXPANSION (zH1-zH6, zText, zUL, zOL, zTable, zMD, zImage, zURL)
+        # SHORTHAND SYNTAX EXPANSION (zH1-zH6, zText, zUL, zOL, zDL, zTable, zBtn, zMD, zImage, zURL)
         # ========================================================================
         # Check if this is a shorthand display event BEFORE wizard/organizational detection
         # This ensures zImage/zText/zUL/etc don't get misinterpreted as wizards or organizational structures

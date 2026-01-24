@@ -19,8 +19,9 @@ Supported Shorthands:
     - Rich text: zMD → zDisplay rich_text events
     - Images: zImage → zDisplay image events
     - Links: zURL → zDisplay zURL events
-    - Lists: zUL, zOL → zDisplay list events
+    - Lists: zUL, zOL, zDL → zDisplay list events
     - Tables: zTable → zDisplay zTable events
+    - Buttons: zBtn → zDisplay button events (default: color=primary, action=#)
     - Breadcrumbs: zCrumbs → zDisplay zCrumbs events ← BUG FIX
     - Plurals: zURLs, zTexts, zH1s-zH6s, zImages, zMDs → Implicit wizards
 
@@ -99,7 +100,9 @@ class ShorthandExpander:
         _expand_zurl(): zURL → zURL event
         _expand_zul(): zUL → list event (bullet)
         _expand_zol(): zOL → list event (number)
+        _expand_zdl(): zDL → description list event
         _expand_ztable(): zTable → zTable event
+        _expand_zbtn(): zBtn → button event (default: color=primary, action=#)
         _expand_zcrumbs(): zCrumbs → zCrumbs event ← BUG FIX
     
     Example:
@@ -118,7 +121,7 @@ class ShorthandExpander:
     """
     
     # UI element keys (for detection) - ALL shorthands that should NOT be recursively expanded
-    UI_ELEMENT_KEYS = ['zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zText', 'zMD', 'zImage', 'zURL', 'zUL', 'zOL', 'zDL', 'zTable', 'zCrumbs']
+    UI_ELEMENT_KEYS = ['zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zText', 'zMD', 'zImage', 'zURL', 'zUL', 'zOL', 'zDL', 'zTable', 'zBtn', 'zCrumbs']
     
     # Plural shorthand keys
     PLURAL_SHORTHANDS = ['zURLs', 'zTexts', 'zH1s', 'zH2s', 'zH3s', 'zH4s', 'zH5s', 'zH6s', 'zImages', 'zMDs']
@@ -375,6 +378,8 @@ class ShorthandExpander:
                 expanded = self._expand_zdl(value)
             elif clean_key == 'zTable':
                 expanded = self._expand_ztable(value)
+            elif clean_key == 'zBtn':
+                expanded = self._expand_zbtn(value)
             elif clean_key == 'zCrumbs':
                 expanded = self._expand_zcrumbs(value)  # ← FIX zCrumbs BUG
             
@@ -501,6 +506,22 @@ class ShorthandExpander:
     def _expand_ztable(self, value: Dict[str, Any]) -> Dict[str, Any]:
         """Expand zTable to zTable event."""
         return {KEY_ZDISPLAY: {'event': 'zTable', **value}}
+    
+    def _expand_zbtn(self, value: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Expand zBtn to button event with defaults.
+        
+        Defaults:
+            color: 'primary' (unless specified)
+            action: '#' (unless specified)
+        """
+        # Apply defaults if not provided
+        if 'color' not in value:
+            value['color'] = 'primary'
+        if 'action' not in value:
+            value['action'] = '#'
+        
+        return {KEY_ZDISPLAY: {'event': 'button', **value}}
     
     def _expand_zcrumbs(self, value: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """

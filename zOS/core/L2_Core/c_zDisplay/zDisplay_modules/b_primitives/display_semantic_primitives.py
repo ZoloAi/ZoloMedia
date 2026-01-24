@@ -183,7 +183,7 @@ class SemanticPrimitives:
         Render blockquote semantic.
         
         Terminal: > content (prefix each line with "> ")
-        Bifrost: content (wrapped in <blockquote> by frontend)
+        Bifrost: <blockquote> HTML element with zTheme styling
         
         Args:
             content: Text content to render
@@ -196,7 +196,10 @@ class SemanticPrimitives:
             # Prefix each line with "> "
             lines = content.split('\n')
             return '\n'.join(f"> {line}" for line in lines)
-        return content
+        
+        # Bifrost mode: Generate styled <blockquote> HTML
+        # Apply zReboot styling: left border, light background, padding
+        return f'<blockquote class="zp-3 zmy-3" style="border-left: 4px solid var(--color-primary); background: #f5f5f5;"><p class="zmt-0 zmb-0">{content}</p></blockquote>'
     
     @staticmethod
     def render_pre(content: str, mode: str = "terminal") -> str:

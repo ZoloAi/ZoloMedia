@@ -238,6 +238,25 @@ export class TextRenderer {
       return `\n<ul style="margin-top: 0.5rem; margin-bottom: 0.5rem;">${items}</ul>\n`;
     });
 
+    // Blockquotes: > text -> <blockquote>text</blockquote>
+    // Process before bold/italic to avoid conflicts
+    // Updated: Keep empty > lines as line breaks within the same blockquote
+    html = html.replace(/(?:^|\n)((?:>.*?(?:\n|$))+)/g, (match, quoteBlock) => {
+      const lines = quoteBlock
+        .trim()
+        .split(/\n/)
+        .map(line => {
+          // Remove > prefix (and optional space after it)
+          const content = line.replace(/^>\s?/, '');
+          // If line had just >, it becomes empty string which will become <br>
+          return content;
+        });
+      
+      // Join lines with <br>, treating empty strings as visual line breaks
+      const quoteContent = lines.join('<br>');
+      return `\n<blockquote class="zp-3 zmy-3" style="border-left: 4px solid var(--color-primary); background: #f5f5f5;"><p class="zmt-0 zmb-0">${quoteContent}</p></blockquote>\n`;
+    });
+
     // Bold: **text** -> <strong>text</strong>
     html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
 

@@ -318,6 +318,7 @@ class BasicOutputs:
             - *em* → italic/emphasis
             - ==mark== → highlighted text
             - ~~del~~ → strikethrough/deleted text
+            - > blockquote → blockquote elements
         
         Args:
             content: Text with markdown syntax
@@ -333,11 +334,12 @@ class BasicOutputs:
         Note:
             Parsing order matters to prevent conflicts:
             1. Code blocks (highest priority - multi-line before inline)
-            2. Inline code (don't parse markers inside code)
-            3. Strong (before em to handle ** before *)
-            4. Em
-            5. Mark
-            6. Del
+            2. Blockquotes (block-level, before inline code)
+            3. Inline code (don't parse markers inside code)
+            4. Strong (before em to handle ** before *)
+            5. Em
+            6. Mark
+            7. Del
         """
         import re
         from ..b_primitives.display_semantic_primitives import SemanticPrimitives
@@ -345,7 +347,7 @@ class BasicOutputs:
         # Determine mode
         mode = "terminal" if self.display.mode in ["Terminal", "Walker", ""] else "bifrost"
         
-        # Parse in order: code blocks, inline code, strong, em, mark, del (prevent conflicts)
+        # Parse in order: code blocks, blockquotes, inline code, strong, em, mark, del (prevent conflicts)
         
         # 1. Code blocks: ```language\ncode\n``` (highest priority - must be before inline code)
         content = re.sub(
@@ -355,35 +357,44 @@ class BasicOutputs:
             flags=re.DOTALL
         )
         
-        # 2. Inline code: `text`
+        # 2. Blockquotes: > text (multi-line support)
+        # Must be after code blocks but before inline code
+        content = re.sub(
+            r'(?:^|\n)((?:> .+(?:\n|$))+)',
+            lambda m: self._parse_blockquote(m.group(1), mode),
+            content,
+            flags=re.MULTILINE
+        )
+        
+        # 3. Inline code: `text`
         content = re.sub(
             r'`([^`]+)`',
             lambda m: SemanticPrimitives.render_code(m.group(1), mode),
             content
         )
         
-        # 3. Bold: **text** (before * to prevent conflict)
+        # 4. Bold: **text** (before * to prevent conflict)
         content = re.sub(
             r'\*\*([^*]+)\*\*',
             lambda m: SemanticPrimitives.render_strong(m.group(1), mode),
             content
         )
         
-        # 4. Italic: *text*
+        # 5. Italic: *text*
         content = re.sub(
             r'\*([^*]+)\*',
             lambda m: SemanticPrimitives.render_em(m.group(1), mode),
             content
         )
         
-        # 5. Highlight: ==text==
+        # 6. Highlight: ==text==
         content = re.sub(
             r'==([^=]+)==',
             lambda m: SemanticPrimitives.render_mark(m.group(1), mode),
             content
         )
         
-        # 6. Strikethrough: ~~text~~
+        # 7. Strikethrough: ~~text~~
         content = re.sub(
             r'~~([^~]+)~~',
             lambda m: SemanticPrimitives.render_del(m.group(1), mode),
@@ -391,6 +402,25 @@ class BasicOutputs:
         )
         
         return content
+    
+    def _parse_blockquote(self, quote_block: str, mode: str) -> str:
+        """Parse blockquote block and render appropriately.
+        
+        Args:
+            quote_block: Multi-line block starting with >
+            mode: "terminal" or "bifrost"
+            
+        Returns:
+            Formatted blockquote
+        """
+        from ..b_primitives.display_semantic_primitives import SemanticPrimitives
+        
+        # Extract lines and remove > prefix
+        lines = quote_block.strip().split('\n')
+        quote_lines = [line.replace('> ', '').replace('>', '').strip() for line in lines if line.strip()]
+        quote_content = '\n'.join(quote_lines)
+        
+        return '\n' + SemanticPrimitives.render_blockquote(quote_content, mode) + '\n'
 
     # Output Methods
 

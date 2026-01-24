@@ -272,6 +272,8 @@ class MarkdownTerminalParser:
                         # Parse inline markdown in heading text
                         parsed_text = self.parse_inline(text)
                         display.header(parsed_text, indent=level)
+                    elif block_type == 'blockquote':
+                        self._emit_blockquote(block_content, display, indent)
                     elif block_type == 'list':
                         self._emit_list(block_content, display, indent)
                     elif block_type == 'paragraph':
@@ -368,6 +370,13 @@ class MarkdownTerminalParser:
                 i += 1
                 continue
             
+            # Check for blockquote: > text
+            if stripped.startswith('>'):
+                quote_block, lines_consumed = self._extract_blockquote_block(lines, i)
+                blocks.append(('blockquote', quote_block))
+                i += lines_consumed
+                continue
+            
             # Check for list item
             if re.match(r'^[\*\-]\s+', stripped) or re.match(r'^\d+\.\s+', stripped):
                 list_block, lines_consumed = self._extract_list_block(lines, i)
@@ -453,6 +462,44 @@ class MarkdownTerminalParser:
                 break
         
         return '\n'.join(list_lines), i - start_idx
+    
+    def _extract_blockquote_block(self, lines: list, start_idx: int) -> tuple:
+        """
+        Extract consecutive blockquote lines starting with >.
+        
+        Args:
+            lines: All lines
+            start_idx: Index of first blockquote line
+            
+        Returns:
+            (quote_content, lines_consumed)
+        """
+        quote_lines = []
+        i = start_idx
+        
+        while i < len(lines):
+            stripped = lines[i].strip()
+            
+            # Empty line within quote - keep it if next line is still a quote
+            if not stripped:
+                # Look ahead to see if quote continues
+                if i + 1 < len(lines) and lines[i + 1].strip().startswith('>'):
+                    quote_lines.append(lines[i])
+                    i += 1
+                    continue
+                else:
+                    # Quote block ends
+                    break
+            
+            # Blockquote line: starts with >
+            if stripped.startswith('>'):
+                quote_lines.append(lines[i])
+                i += 1
+            else:
+                # Not a blockquote line - end of block
+                break
+        
+        return '\n'.join(quote_lines), i - start_idx
     
     def _extract_paragraph_block(self, lines: list, start_idx: int) -> tuple:
         """
@@ -582,6 +629,43 @@ class MarkdownTerminalParser:
                 continue
         
         return items
+    
+    def _emit_blockquote(self, content: str, display: 'zDisplay', indent: int = 0) -> None:
+        """
+        Extract blockquote content and emit with visual quote styling.
+        
+        Terminal rendering uses:
+        - Left border (│) for visual distinction
+        - Indentation
+        - Dim color for the border
+        
+        Args:
+            content: Markdown blockquote content (lines starting with >)
+            display: zDisplay instance
+            indent: Indentation level (default: 0)
+        """
+        # Extract lines and remove > prefix
+        lines = content.strip().split('\n')
+        quote_lines = []
+        
+        for line in lines:
+            stripped = line.strip()
+            if stripped.startswith('>'):
+                # Remove > and optional space
+                quote_text = stripped[1:].strip()
+                # Parse inline markdown in quote line
+                parsed_line = self.parse_inline(quote_text) if quote_text else ''
+                quote_lines.append(parsed_line)
+            elif not stripped:
+                # Empty line within quote
+                quote_lines.append('')
+        
+        # Render with styled border
+        indent_str = ' ' * (indent * 4) if indent > 0 else ''
+        border = f"{self.ANSI_DIM}│{self.ANSI_RESET}"
+        
+        for line in quote_lines:
+            print(f"{indent_str}{border} {line}")
     
     def _emit_list(self, content: str, display: 'zDisplay', indent: int = 0) -> None:
         """
