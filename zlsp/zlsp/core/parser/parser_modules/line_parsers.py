@@ -418,7 +418,7 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                 _, clean_key_for_check, _ = emitter.split_modifiers(key)
                 has_str_hint = KeyDetector.should_enable_auto_multiline(clean_key_for_check, emitter, indent)
             
-            # Handle (str) multi-line values
+            # Handle (str) multi-line values OR check for YAML natural continuation
             if has_str_hint:
                 # Emit value token for first line if present
                 if value:
@@ -469,6 +469,48 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                 })
                 i += lines_consumed + 1
                 line_number += lines_consumed + 1
+            # Check for YAML natural continuation (even without (str) hint)
+            elif value and not value.startswith('[') and not value.startswith('{'):
+                # Emit token for the first line value
+                value_start = colon_pos + 1
+                while value_start < len(line) and line[value_start] == ' ':
+                    value_start += 1
+                emit_value_tokens(value, original_line_num, value_start, emitter)
+                
+                # Check if next lines are continuation lines (indented more than current)
+                lines_consumed = 0
+                for j in range(i + 1, len(lines)):
+                    cont_line = lines[j]
+                    cont_original_line = line_mapping.get(j, j)
+                    cont_indent = len(cont_line) - len(cont_line.lstrip())
+                    cont_stripped = cont_line.strip()
+                    
+                    # Stop if line is at same or less indent than parent (unless empty)
+                    if cont_stripped and cont_indent <= indent:
+                        break
+                    
+                    # Stop if this looks like a new key (has colon)
+                    if cont_stripped and ':' in cont_stripped:
+                        break
+                    
+                    # Emit STRING token for this continuation line
+                    if cont_stripped:
+                        content_start = len(cont_line) - len(cont_line.lstrip())
+                        emit_string_with_escapes(cont_stripped, cont_original_line, content_start, emitter)
+                    
+                    lines_consumed += 1
+                
+                # Store structured line info (mark as multiline if we found continuations)
+                structured_lines.append({
+                    'indent': indent,
+                    'key': key,
+                    'value': value,
+                    'line': line,
+                    'line_number': original_line_num,
+                    'is_multiline': lines_consumed > 0
+                })
+                i += lines_consumed + 1
+                line_number += lines_consumed + 1
             # Handle multi-line arrays (value == '[')
             elif value == '[':
                 # Find opening bracket position
@@ -492,22 +534,73 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                     item_indent = len(item_line) - len(item_line.lstrip())
                     stripped_line = item_line.strip()
                     
-                    # Check if the actual source line is just an opening bracket (nested array start)
+                    # Check if the actual source line is just structural characters
                     if stripped_line == '[':
-                        # This is a nested array opening - emit bracket token
+                        # Nested array opening - emit bracket token
                         bracket_pos = item_line.find('[')
                         emitter.emit(item_original_line, bracket_pos, 1, TokenType.BRACKET_STRUCTURAL)
-                        # The nested array's items and closing bracket will be handled by subsequent iterations
-                        # or have already been processed recursively
                         continue
                     elif stripped_line == ']' or stripped_line.startswith(']'):
-                        # This is a closing bracket for nested array
+                        # Closing bracket for nested array
                         bracket_pos = item_line.find(']')
                         emitter.emit(item_original_line, bracket_pos, 1, TokenType.BRACKET_STRUCTURAL)
+                        continue
+                    elif stripped_line == '{':
+                        # Inline object opening - emit brace token
+                        brace_pos = item_line.find('{')
+                        emitter.emit(item_original_line, brace_pos, 1, TokenType.BRACE_STRUCTURAL)
+                        continue
+                    elif stripped_line == '}' or stripped_line == '},':
+                        # Inline object closing - emit brace token
+                        brace_pos = item_line.find('}')
+                        emitter.emit(item_original_line, brace_pos, 1, TokenType.BRACE_STRUCTURAL)
+                        # Emit comma if present
+                        if stripped_line.endswith(','):
+                            comma_pos = item_line.rfind(',')
+                            emitter.emit(item_original_line, comma_pos, 1, TokenType.COMMA)
                         continue
                     
                     # Find where item content starts
                     content_start = item_indent
+                    
+                    # Check if this is a key-value pair inside inline object (e.g., "term: value")
+                    if ':' in stripped_line and not stripped_line.startswith(('- ', '[', ']', '{', '}')):
+                        colon_pos = stripped_line.find(':')
+                        if colon_pos > 0:
+                            item_key = stripped_line[:colon_pos].strip()
+                            item_value = stripped_line[colon_pos+1:].rstrip(',').strip()
+                            
+                            # Emit key token
+                            emitter.emit(item_original_line, item_indent, len(item_key), TokenType.NESTED_KEY)
+                            
+                            # Emit colon
+                            colon_col = item_indent + len(stripped_line[:colon_pos].rstrip())
+                            emitter.emit(item_original_line, colon_col, 1, TokenType.COLON)
+                            
+                            # Check if value is structural character
+                            if item_value == '[':
+                                # Emit bracket structural token
+                                bracket_pos = item_line.find('[', colon_col + 1)
+                                if bracket_pos >= 0:
+                                    emitter.emit(item_original_line, bracket_pos, 1, TokenType.BRACKET_STRUCTURAL)
+                            elif item_value == '{':
+                                # Emit brace structural token
+                                brace_pos = item_line.find('{', colon_col + 1)
+                                if brace_pos >= 0:
+                                    emitter.emit(item_original_line, brace_pos, 1, TokenType.BRACE_STRUCTURAL)
+                            else:
+                                # Emit value tokens for regular content
+                                value_start = stripped_line.find(item_value, colon_pos)
+                                if value_start >= 0:
+                                    value_col = item_indent + value_start
+                                    emit_value_tokens(item_value, item_original_line, value_col, emitter)
+                            
+                            # Emit comma if present
+                            if has_comma:
+                                comma_pos = item_line.rfind(',')
+                                if comma_pos >= 0:
+                                    emitter.emit(item_original_line, comma_pos, 1, TokenType.COMMA)
+                            continue
                     
                     # Regular item - emit token for the item content
                     emit_value_tokens(item_content, item_original_line, content_start, emitter)
@@ -550,7 +643,15 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                     reconstructed, lines_consumed, item_line_info = collect_dash_list(lines, i + 1, indent)
                     
                     # Emit tokens for each dash list item line
-                    for item_line_idx, dash_pos, item_content in item_line_info:
+                    for item_info in item_line_info:
+                        # Unpack item info (may or may not have continuation_lines)
+                        if len(item_info) == 4:
+                            item_line_idx, dash_pos, item_content, continuation_lines = item_info
+                        else:
+                            # Legacy format without continuation_lines
+                            item_line_idx, dash_pos, item_content = item_info
+                            continuation_lines = []
+                        
                         item_original_line = line_mapping.get(item_line_idx, item_line_idx)
                         
                         # Emit dash as BRACKET_STRUCTURAL (same color as [ ])
@@ -559,6 +660,37 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                         # Emit token for the item content (after "- ")
                         content_start = dash_pos + 2  # After "- "
                         emit_value_tokens(item_content, item_original_line, content_start, emitter)
+                        
+                        # Parse and tokenize continuation lines (multiline content within inline objects/arrays)
+                        for cont_line_idx, cont_content in continuation_lines:
+                            cont_original_line = line_mapping.get(cont_line_idx, cont_line_idx)
+                            cont_line_text = lines[cont_line_idx]
+                            cont_indent = len(cont_line_text) - len(cont_line_text.lstrip())
+                            cont_stripped = cont_line_text.strip()
+                            
+                            if cont_stripped:
+                                # Check if this line contains a key-value pair (has ':' not in quotes)
+                                if ':' in cont_stripped and not cont_stripped.startswith(('- ', '[', ']', '{', '}')):
+                                    # Parse as key-value pair (e.g., "term: value,")
+                                    colon_pos = cont_stripped.find(':')
+                                    if colon_pos > 0:
+                                        cont_key = cont_stripped[:colon_pos].strip()
+                                        cont_value = cont_stripped[colon_pos+1:].strip()
+                                        
+                                        # Emit key token
+                                        emitter.emit(cont_original_line, cont_indent, len(cont_key), TokenType.NESTED_KEY)
+                                        
+                                        # Emit colon
+                                        colon_col = cont_indent + len(cont_stripped[:colon_pos].rstrip())
+                                        emitter.emit(cont_original_line, colon_col, 1, TokenType.COLON)
+                                        
+                                        # Emit value tokens (handles comma, brackets, etc.)
+                                        value_col = cont_indent + colon_pos + 1 + (len(cont_stripped[colon_pos+1:]) - len(cont_value))
+                                        emit_value_tokens(cont_value, cont_original_line, value_col, emitter)
+                                        continue
+                                
+                                # Otherwise, parse as structured value (brackets, braces, strings, etc.)
+                                emit_value_tokens(cont_stripped, cont_original_line, cont_indent, emitter)
                     
                     # Store structured line info with reconstructed value
                     structured_lines.append({

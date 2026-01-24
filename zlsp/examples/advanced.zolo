@@ -102,9 +102,9 @@ deep_nested: [[[1, 2]], [[3, 4]]]
 
 # Multi-line arrays (still bracketed)
 long_list: [
-  item1,
-  item2,
-  item3
+    item1,
+    item2,
+    item3
 ]
 
 #>═══════════════════════════════════════════════════════════════<#
@@ -113,11 +113,11 @@ long_list: [
 
 # Nested objects (indentation-based)
 database:
-  host: db.example.com
-  port: 5432
-  credentials:
-    username: admin
-    password: secret123
+    host: db.example.com
+    port: 5432
+    credentials:
+        username: admin
+        password: secret123
 
 # Flow-style objects (Phase 4.2) - IMPLEMENTED ✅
 coords: {x: 10, y: 20}
@@ -143,10 +143,10 @@ nested_deep: {level1: {level2: {level3: {level4: value}}}}
 
 # Mixed structures
 config:
-  servers:
-    - prod_server
-    - staging_server
-  timeout: 30
+    servers:
+        - prod_server
+        - staging_server
+    timeout: 30
 
 #>═══════════════════════════════════════════════════════════════<#
 #> MULTI-LINE STRINGS - Type Hint Required (Phase 4.6e)
@@ -154,9 +154,9 @@ config:
 
 # Multi-line with (str) hint (YAML-style indentation)
 sql_query(str): SELECT name, email
-  FROM users
-  WHERE active = true
-  ORDER BY created_at DESC
+    FROM users
+    WHERE active = true
+    ORDER BY created_at DESC
 
 # Code block with preserved indentation
 python_code(str): def hello():
@@ -167,16 +167,16 @@ python_code(str): def hello():
 # Documentation with blank lines
 readme(str): # Project Title
 
-  This is documentation.
+    This is documentation.
 
-  ## Features
-  - Feature 1
-  - Feature 2
+    ## Features
+    - Feature 1
+    - Feature 2
 
 # Inline continuation
 description(str): First line
-  Second line
-  Third line
+    Second line
+    Third line
 
 # WITHOUT (str) - pipe and quotes are LITERAL (Phase 4.6e)
 literal_pipe: Use | for OR logic
@@ -308,8 +308,8 @@ anchor_link: section#intro #> URL anchors safe <#
 
 # Multi-line arrow comments
 value: 42 #> This is a
-  multi-line comment
-  spanning several lines <# after
+    multi-line comment
+    spanning several lines <# after
 
 # Unpaired markers stay literal
 literal_hash: #tag1 and #tag2 are literal
@@ -337,41 +337,41 @@ normal_value: content
 #>═══════════════════════════════════════════════════════════════<#
 
 application:
-  name: ZoloApp
-  version: 2.1.0
+    name: ZoloApp
+    version: 2.1.0
 
-  server:
-    host: localhost
-    port(int): 8080
-    ssl(bool): true
-    timeout(int): 30
+    server:
+        host: localhost
+        port(int): 8080
+        ssl(bool): true
+        timeout(int): 30
 
-  database:
-    primary:
-      host: db1.example.com
-      port(int): 5432
-      credentials:
-        username: admin
-        password: secure_pass_123
-    replica:
-      host: db2.example.com
-      port(int): 5432
+    database:
+        primary:
+            host: db1.example.com
+            port(int): 5432
+            credentials:
+                username: admin
+                password: secure_pass_123
+        replica:
+            host: db2.example.com
+            port(int): 5432
 
-  features:
-    analytics(bool): true
-    caching(bool): true
-    debug(bool): false
+    features:
+        analytics(bool): true
+        caching(bool): true
+        debug(bool): false
 
-  api_endpoints:
-    - /users GET
-    - /posts POST
-    - /comments GET
+    api_endpoints:
+        - /users GET
+        - /posts POST
+        - /comments GET
 
-  logging:
-    level: INFO
-    format(str): %(asctime)s - %(name)s - %(levelname)s
-      %(message)s
-    outputs: [console, file, syslog]
+    logging:
+        level: INFO
+        format(str): %(asctime)s - %(name)s - %(levelname)s
+            %(message)s
+        outputs: [console, file, syslog]
 
 #>═══════════════════════════════════════════════════════════════<#
 #> ANTI-QUIRKS - String-First Safety (Phase 5)
@@ -397,12 +397,321 @@ feature_disabled(bool): false
 
 # Consistent indentation (spaces used throughout this file)
 level_one:
-  level_two:
-    level_three:
-      deep_value: nested content
-      deep_array: [a, b, c]
-    back_to_three: value
-  back_to_two: value
+    level_two:
+        level_three:
+            deep_value: nested content
+            deep_array: [a, b, c]
+        back_to_three: value
+    back_to_two: value
+
+#>═══════════════════════════════════════════════════════════════<#
+#> COMPLEX NESTED MIXING - Edge Cases for Parser Testing
+#>═══════════════════════════════════════════════════════════════<#
+
+# Test 1: Nested arrays inside dash lists (CRITICAL - used in zUL/zOL)
+list_with_nested_arrays:
+    items:
+        - First item
+        - [nested_a, nested_b, nested_c]
+        - Third item
+        - [another, nested, array]
+        - Back to simple
+
+# Test 2: Multi-level nested arrays in dash lists
+deep_nested_list:
+    items:
+        - Level 1 item
+        - [Level 2 item, [Level 3 nested]]
+        - Another L1
+        - [[Fully nested], [Another nested]]
+
+# Test 3: Objects with array properties in dash lists (CRITICAL - used in zDL)
+description_list_pattern:
+    items:
+        - {term: Simple term, desc: Single description}
+        - {term: Complex term, desc: [First description, Second description, Third description]}
+        - {term: Another simple, desc: Single again}
+
+# Test 4: Mixed dash list with objects, arrays, and strings
+mixed_dash_list:
+    data:
+        - simple_string
+        - {name: Alice, age: 30}
+        - [array, of, items]
+        - another_string
+        - {nested: {deep: value}}
+        - [[nested, array], [another, nested]]
+
+# Test 5: Flow-style objects containing arrays in dash lists
+flow_objects_in_list:
+    items:
+        - {id: 1, tags: [python, yaml], active: true}
+        - {id: 2, tags: [javascript, json], active: false}
+        - {id: 3, nested: {level: 2, items: [a, b, c]}}
+
+# Test 6: Multiline bracket arrays with nested structures
+multiline_bracket_array: [
+    {key: value1, nested: [a, b]},
+    [nested, array, here],
+    simple_item,
+    {another: object}
+]
+
+# Test 7: Deeply nested mixed syntax (block + flow + dash)
+complex_hierarchy:
+    users:
+        - {name: Alice, roles: [admin, [read, write, execute]], config: {theme: dark, lang: en}}
+        - {name: Bob, roles: [user, [read]], config: {theme: light, lang: fr}}
+
+# Test 8: Cascading styles pattern (like zUL/zOL)
+styled_list:
+    style: [bullet, dash, circle]
+    items:
+        - Root item 1
+        - Root item 2
+        - [Nested level 2 item 1, Nested level 2 item 2, [Deep level 3]]
+        - Root item 3
+
+# Test 9: Triple-nested arrays
+triple_nested_arrays:
+    matrix: [[[1, 2]], [[3, 4]], [[5, 6]]]
+    mixed: [a, [b, [c, d]], e]
+
+# Test 10: Empty collections in dash lists
+empty_collections_dash:
+    items:
+        - []
+        - {}
+        - normal_item
+        - [with, items]
+        - {with: props}
+
+# Test 11: Dash lists with inline comments
+commented_dash_list:
+    items:
+        - First item  #> This is item 1 <#
+        - [nested, items]  #> Nested array <#
+        - {key: value}  #> Inline object <#
+
+# Test 12: Flow-style arrays containing flow-style objects
+flow_in_flow: [{id: 1, data: [a, b]}, {id: 2, data: [c, d]}]
+
+# Test 13: Dash list with type hints
+typed_dash_list:
+    items(list):
+        - item1
+        - item2
+        - [nested, array]
+
+# Test 14: Mixed indentation with dash and nested objects
+mixed_indentation:
+    config:
+        servers:
+            - {name: prod, specs: {cpu: 4, ram: 16}, zones: [us-east, us-west]}
+            - {name: staging, specs: {cpu: 2, ram: 8}, zones: [eu-central]}
+
+# Test 15: Edge case - single item dash list with nested array
+single_dash_nested:
+    items:
+        - [only, nested, array]
+
+# Test 16: Edge case - alternating nesting
+alternating:
+    data:
+        - string
+        - [array]
+        - {object: value}
+        - string
+        - [array]
+        - {object: value}
+
+# Test 17: READABLE UX - Long paragraph content in lists (zOS/zUI use case)
+# When list items contain paragraph-length content, use block dash syntax instead of inline brackets
+readable_long_content:
+    style: [bullet, circle, square]
+    items:
+        - The first principle of effective user interface design is clarity. Users should immediately understand what they can do and how to do it. This means using familiar patterns, clear labels, and intuitive navigation structures that guide users naturally through their tasks.
+        - The second principle focuses on consistency across the entire application. When similar actions produce similar results and similar elements behave in similar ways, users can transfer their knowledge from one part of the system to another, reducing cognitive load and learning time.
+        -
+            - Nested content often requires even more explanation and context. For example, when discussing implementation details, you might need to provide code examples, explain edge cases, and describe the rationale behind certain design decisions.
+            - Another nested item with substantial content. This could be a detailed explanation of an algorithm, a step-by-step tutorial, or documentation for a complex feature that requires multiple paragraphs to properly explain.
+            -
+                - Deeply nested items can also contain long-form content. This is particularly useful for hierarchical documentation, tutorial sequences, or breaking down complex concepts into digestible chunks while maintaining their logical relationships.
+                - Additional deep content. The block dash syntax remains readable even at this level of nesting because each item starts on its own line with clear visual hierarchy through indentation.
+        - Back at the root level, we continue with more substantial content. This demonstrates how the syntax gracefully handles transitions between different nesting levels while keeping everything readable and maintainable.
+
+# Test 18: COMPARISON - Same content with inline brackets (UNREADABLE)
+unreadable_inline_version:
+    style: [bullet, circle, square]
+    items: [The first principle of effective user interface design is clarity. Users should immediately understand what they can do and how to do it. This means using familiar patterns and clear labels and intuitive navigation structures that guide users naturally through their tasks., The second principle focuses on consistency across the entire application. When similar actions produce similar results and similar elements behave in similar ways users can transfer their knowledge from one part of the system to another reducing cognitive load and learning time., [Nested content often requires even more explanation and context. For example when discussing implementation details you might need to provide code examples explain edge cases and describe the rationale behind certain design decisions., Another nested item with substantial content. This could be a detailed explanation of an algorithm a step-by-step tutorial or documentation for a complex feature that requires multiple paragraphs to properly explain., [Deeply nested items can also contain long-form content. This is particularly useful for hierarchical documentation tutorial sequences or breaking down complex concepts into digestible chunks while maintaining their logical relationships., Additional deep content. The block dash syntax remains readable even at this level of nesting because each item starts on its own line with clear visual hierarchy through indentation.]], Back at the root level we continue with more substantial content. This demonstrates how the syntax gracefully handles transitions between different nesting levels while keeping everything readable and maintainable.]
+
+# Test 19: HYBRID APPROACH - Short nested items use brackets, long items use dashes
+hybrid_readable:
+    style: [bullet, circle, square]
+    items:
+        - Short root item
+        - Another brief item
+        - This is a longer item that provides substantial information about a particular topic, explaining concepts in detail and providing context that users need to understand the full picture.
+        - [Short nested 1, Short nested 2, Short nested 3]
+        -
+            - Long nested item that requires multiple lines of explanation to properly convey the necessary information and context for users.
+            - [Brief sub-item A, Brief sub-item B]
+            - Another detailed nested explanation with sufficient length to warrant the block dash format rather than cramming it into an inline bracket array.
+
+# Test 20: READABLE zDL with paragraph-length descriptions using block arrays
+readable_zdl_long_content:
+    zDL:
+        items: [
+            {
+                term: "User Interface Consistency",
+                desc: [
+                    "Consistency in user interface design means maintaining uniformity in visual elements, interaction patterns, and terminology across the entire application. When users encounter similar elements in different contexts, they should behave predictably, reducing cognitive load and improving usability.",
+                    "This principle extends beyond just visual consistency to include behavioral consistency, where similar actions produce similar results, and conceptual consistency, where the application's underlying model remains coherent throughout the user experience."
+                ]
+            },
+            {
+                term: "Progressive Disclosure",
+                desc: "Progressive disclosure is a design technique that sequences information and actions across multiple screens or steps, revealing complexity gradually as users need it. This prevents overwhelming users with too many options at once while still providing access to advanced features for power users who require them."
+            }
+        ]
+
+# Test 21: UNREADABLE zDL with inline syntax (DO NOT USE THIS FOR LONG CONTENT)
+unreadable_zdl_inline:
+    zDL:
+        items: [{term: User Interface Consistency, desc: [Consistency in user interface design means maintaining uniformity in visual elements, interaction patterns, and terminology across the entire application. When users encounter similar elements in different contexts, they should behave predictably, reducing cognitive load and improving usability., This principle extends beyond just visual consistency to include behavioral consistency, where similar actions produce similar results, and conceptual consistency, where the application's underlying model remains coherent throughout the user experience.]}, {term: Progressive Disclosure, desc: Progressive disclosure is a design technique that sequences information and actions across multiple screens or steps, revealing complexity gradually as users need it. This prevents overwhelming users with too many options at once while still providing access to advanced features for power users who require them.}]
+
+# Test 22: HYBRID zDL - Short terms inline, long descriptions in multiline format
+hybrid_zdl_readable:
+    zDL:
+        items: [
+            {term: "API", desc: "Application Programming Interface"},
+            {term: "REST", desc: "Representational State Transfer"},
+            {
+                term: "Microservices Architecture",
+                desc: "Microservices architecture is an approach to building applications as a collection of loosely coupled, independently deployable services. Each service focuses on a specific business capability and can be developed, deployed, and scaled independently, promoting organizational agility and technical flexibility."
+            },
+            {term: "HTTP", desc: "Hypertext Transfer Protocol"}
+        ]
+
+# Test 23: REAL APP CONTENT - About page with readable paragraphs
+about_mission:
+    zH2:
+        label: Our Mission
+        color: PRIMARY
+
+    zText:
+        content: We believe that building applications should be as natural as writing
+            documentation. Traditional programming paradigms force developers to think in
+            terms of imperative instructions, managing state, and wrestling with complex
+            frameworks.
+
+    zText:
+        content: Our platform takes a different approach by embracing declarative syntax
+            that focuses on what you want to achieve, not how to achieve it. By combining
+            the simplicity of YAML with the power of modern web technologies, we enable
+            teams to build enterprise-grade applications faster and with fewer bugs.
+
+# Test 24: REAL APP CONTENT - Feature list with paragraph explanations
+about_features:
+    zH2:
+        label: Core Features
+        color: INFO
+
+    zUL:
+        style: [circle, disc]
+        items:
+            - Declarative syntax that reads like natural language, making it easy for
+                both developers and non-technical team members to understand application
+                structure and behavior. No more cryptic variable names or complex control
+                flow - just clear, intentional declarations.
+
+            - Type-safe data modeling with automatic validation ensures that your data
+                integrity is maintained at every layer of the application. Define your
+                schema once, and the system handles validation, migrations, and
+                referential integrity automatically.
+
+            - Real-time collaboration features built into the core framework enable
+                multiple team members to work on the same codebase simultaneously without
+                conflicts. The system intelligently merges changes and provides visual
+                feedback when potential conflicts arise.
+
+            -
+                - Advanced rendering engine supports both terminal and web interfaces
+                    from the same source files, providing unprecedented flexibility in
+                    deployment options.
+
+                - Comprehensive theming system with handwritten typography and organic
+                    design principles creates beautiful user interfaces without requiring
+                    extensive CSS knowledge.
+
+                - Built-in accessibility features ensure your applications are usable
+                    by everyone, including automatic ARIA label generation, keyboard
+                    navigation support, and screen reader compatibility.
+
+# Test 25: REAL APP CONTENT - Blog post with multi-paragraph sections
+blog_declarative:
+    zH1:
+        label: Building Declarative Applications
+        color: PRIMARY
+
+    introduction:
+        zText:
+            content: The software development landscape has undergone radical
+                transformations over the past decade. We have witnessed the rise of
+                microservices, the adoption of containerization, and the emergence of
+                serverless architectures.
+
+        zText:
+            content: Yet despite these advances, building applications remains
+                unnecessarily complex. Modern frameworks promise to solve this
+                complexity, but often they simply shift it elsewhere. Developers spend
+                more time configuring build tools, managing dependencies, and debugging
+                framework internals than actually building features that matter to users.
+
+        zText:
+            content: This article explores a different approach - declarative application
+                development. Instead of describing how your application should work
+                through imperative code, you simply declare what you want, and the
+                system figures out the rest.
+
+
+# Test 26: REAL APP CONTENT - Description list with detailed explanations
+blog_benefits:
+    zH2:
+        label: Benefits in Practice
+        color: SUCCESS
+
+    zDL:
+        items: [
+            {
+                term: Reduced Cognitive Load,
+                desc: Developers can focus on business logic rather than implementation
+                    details. When you eliminate boilerplate and framework ceremony, the
+                    code that remains is the code that actually matters. This dramatically
+                    reduces the cognitive load required to understand and modify the system.
+            },
+            {
+                term: Faster Development Cycles,
+                desc: [
+                    Declarative approaches significantly accelerate development. Features
+                    that might take days to implement imperatively can often be declared
+                    in hours. This speed comes from eliminating ceremony and letting the
+                    framework handle the tedious details.,
+
+                    Moreover, because declarative code has fewer moving parts, testing
+                    becomes simpler. You test your specifications rather than your
+                    implementations, which means tests are more focused and less brittle.
+                ]
+            },
+            {
+                term: Better Collaboration,
+                desc: Declarative code bridges the gap between technical and non-technical
+                    team members. Product managers can read declarations and understand what
+                    the system does. Designers can modify UI specifications without fear of
+                    breaking logic. QA engineers can verify behavior against explicit
+                    specifications.
+            }
+        ]
 
 #>═══════════════════════════════════════════════════════════════<#
 #> END OF ADVANCED SYNTAX TEST
