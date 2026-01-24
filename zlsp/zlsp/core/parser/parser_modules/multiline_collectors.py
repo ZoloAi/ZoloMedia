@@ -439,7 +439,14 @@ def collect_bracket_array(lines: list[str], start_idx: int, parent_indent: int, 
                 i += 1
             
             # Reconstruct as single inline object
-            reconstructed_obj = '{' + ' '.join(obj_lines[1:]) + '}'
+            # Strip trailing comma ONLY from the closing brace line (last line)
+            obj_content_lines = obj_lines[1:]  # All lines after opening {
+            if obj_content_lines and obj_content_lines[-1].endswith(','):
+                # Remove comma from closing brace: '},' -> '}'
+                obj_content_lines[-1] = obj_content_lines[-1].rstrip(',').strip()
+            
+            # DON'T add closing } - it's already in obj_content_lines!
+            reconstructed_obj = '{' + ' '.join(obj_content_lines)
             collected_items.append(reconstructed_obj)
             
             # Add all lines from this object to item_line_info for tokenization
