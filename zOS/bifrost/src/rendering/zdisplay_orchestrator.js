@@ -991,6 +991,46 @@ export class ZDisplayOrchestrator {
         break;
       }
 
+      case 'read_string':
+      case 'read_password': {
+        // Input fields (inline form inputs)
+        const { createDiv } = await import('./primitives/generic_containers.js');
+        const { createLabel, createInput } = await import('./primitives/form_primitives.js');
+        
+        const inputType = event === 'read_password' ? 'password' : (eventData.type || 'text');
+        const prompt = eventData.prompt || '';
+        const placeholder = eventData.placeholder || '';
+        const required = eventData.required || false;
+        const defaultValue = eventData.default || '';
+        
+        // Build input classes from _zClass (defaults to zForm-control if not specified)
+        const inputClasses = eventData._zClass || 'zForm-control';
+        
+        // Create form group container (always zmb-3 for consistent spacing)
+        const formGroup = createDiv({ class: 'zmb-3' });
+        
+        // Create label if prompt exists
+        if (prompt) {
+          const label = createLabel('', { class: 'zForm-label' });
+          label.textContent = prompt;
+          formGroup.appendChild(label);
+        }
+        
+        // Create input element (type as first param, attributes as second)
+        const input = createInput(inputType, {
+          placeholder: placeholder,
+          required: required,
+          value: defaultValue,
+          class: inputClasses
+        });
+        
+        formGroup.appendChild(input);
+        element = formGroup;
+        
+        this.logger.log(`[renderZDisplayEvent] Rendered ${event} input (inline) with classes: ${inputClasses}`);
+        break;
+      }
+
       default: {
         this.logger.warn(`Unknown zDisplay event: ${event}`);
         const { createDiv } = await import('./primitives/generic_containers.js');

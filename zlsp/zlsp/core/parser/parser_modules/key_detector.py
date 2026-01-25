@@ -41,7 +41,7 @@ class KeyDetector:
     
     UI_ELEMENT_KEYS = {
         'zImage', 'zText', 'zMD', 'zURL', 'zNavBar', 'zUL', 'zOL', 'zDL', 'zTable',
-        'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zCrumbs'
+        'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zCrumbs', 'zInput'
     }
     
     UI_ELEMENT_PROPERTY_KEYS = {
@@ -51,7 +51,11 @@ class KeyDetector:
         'content', 'pause', 'break_message', 'format',
         'items',
         'title', 'columns', 'rows', 'limit', 'offset', 'show_header', 'interactive',
-        'show', 'parent'
+        'show', 'parent',
+        # Form-specific properties (zInput, zTextarea, zSelect, etc.)
+        'prompt', 'type', 'placeholder', 'required', 'disabled', 'readonly',
+        'min', 'max', 'step', 'pattern', 'autocomplete', 'value', 'checked',
+        'name', 'id', 'maxlength', 'minlength', 'multiple', 'size'
     }
     
     # UI Element Schemas - Define valid properties per element type
@@ -87,6 +91,15 @@ class KeyDetector:
         'zcrumbs': {
             'required': [],
             'optional': ['show', 'parent', '_zClass', '_id'],
+        },
+        'zinput': {
+            'required': [],  # All properties are optional for flexibility
+            'optional': [
+                'prompt', 'type', 'placeholder', 'required', 'disabled', 'readonly',
+                'min', 'max', 'step', 'pattern', 'autocomplete', 'value', 'checked',
+                'name', 'id', 'maxlength', 'minlength', 'multiple', 'size',
+                '_zClass', '_id', 'color', 'indent'
+            ],
         },
         # More elements to be added as needed
     }
@@ -268,7 +281,7 @@ class KeyDetector:
         # UI element property keys (src, etc.) inside UI elements
         if emitter.is_zui_file and key in KeyDetector.UI_ELEMENT_PROPERTY_KEYS:
             # Check if we're inside any UI element block
-            ui_block_types = ['zimage', 'ztext', 'zmd', 'zurl', 'zul', 'ztable', 'header', 'zcrumbs']
+            ui_block_types = ['zimage', 'ztext', 'zmd', 'zurl', 'zul', 'ztable', 'header', 'zcrumbs', 'zinput']
             for block_type in ui_block_types:
                 if emitter.is_inside_block(block_type, indent):
                     return TokenType.UI_ELEMENT_PROPERTY_KEY
@@ -353,6 +366,8 @@ class KeyDetector:
                 return 'header'
             elif key == 'zCrumbs':
                 return 'zcrumbs'
+            elif key == 'zInput':
+                return 'zinput'
         
         return None
 

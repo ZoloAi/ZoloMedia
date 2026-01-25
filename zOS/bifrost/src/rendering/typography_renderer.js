@@ -67,10 +67,10 @@ export class TypographyRenderer {
       if (attrs.id) element.id = attrs.id;
       const content = this._decodeUnicodeEscapes(eventData.content || '');
       
-      // For pre/code elements, preserve HTML as-is (no newline conversion)
-      // This allows HTML entities and tags to render correctly
+      // For pre/code elements, use textContent to display HTML as literal text
+      // This escapes angle brackets automatically (<, >, etc.)
       if (semantic === 'pre' || semantic === 'code') {
-        element.innerHTML = content;
+        element.textContent = content;
       } else {
         element.innerHTML = this._convertNewlinesToBr(content);
       }

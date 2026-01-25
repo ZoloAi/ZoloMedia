@@ -194,7 +194,8 @@ class NavigationEvents:
                 'trails': {
                     'declarative': trail
                 },
-                '_source': 'declarative'
+                '_source': 'declarative',
+                '_parent': parent  # Pass parent path for navigation reconstruction
             }
         else:
             # Use session-based breadcrumbs (default behavior for show='session' or missing parent)

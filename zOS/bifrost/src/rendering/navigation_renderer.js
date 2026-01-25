@@ -495,12 +495,31 @@ export class NavigationRenderer {
             li.setAttribute('aria-current', 'page');
             li.textContent = item;
           } else {
-            // Parent pages - clickable links (Phase 2: add real routing)
+            // Parent pages - clickable links with proper navigation
+            // Build cumulative path up to this item (e.g., zProducts → zProducts.zTheme)
+            const cumulativePath = trail.slice(0, index + 1).join('.');
+            
+            // Convert to web route format for NavigationManager
+            // zProducts → /zProducts
+            // zProducts.zTheme → /zProducts/zTheme
+            const routePath = '/' + cumulativePath.replace(/\./g, '/');
+            
             const a = createLink('#', {});
             a.textContent = item;
-            a.onclick = (e) => {
+            a.onclick = async (e) => {
               e.preventDefault();
-              this.logger.log(`[Breadcrumbs] Clicked: ${item} (navigation TBD)`);
+              this.logger.log(`[Breadcrumbs] Navigating to: ${routePath}`);
+              
+              // Use navigationManager if available (internal navigation)
+              if (this.client && this.client.navigationManager) {
+                try {
+                  await this.client.navigationManager.navigateToRoute(routePath);
+                } catch (error) {
+                  this.logger.error('[Breadcrumbs] Navigation failed:', error);
+                }
+              } else {
+                this.logger.warn('[Breadcrumbs] No navigationManager available');
+              }
             };
             li.appendChild(a);
           }

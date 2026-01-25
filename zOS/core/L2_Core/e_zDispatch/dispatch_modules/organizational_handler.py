@@ -171,6 +171,18 @@ class OrganizationalHandler:
             elif isinstance(val, dict) and 'zDisplay' in val:
                 # UI event with explicit zDisplay wrapper
                 ui_event_count += 1
+                
+                # Check if this is an input event - skip execution if so (let wizard handle)
+                event_type = val.get('zDisplay', {}).get('event', '')
+                is_input_event = event_type in ('read_string', 'read_password', 'selection', 'button')
+                
+                if is_input_event:
+                    self.logger.framework.debug(
+                        f"[OrganizationalHandler] Skipping input event '{key}' (event: {event_type}) - will be handled by wizard"
+                    )
+                    # Don't execute, let wizard handle it
+                    continue
+                
                 self.logger.framework.debug(
                     f"[OrganizationalHandler] Processing UI event '{key}' in order"
                 )

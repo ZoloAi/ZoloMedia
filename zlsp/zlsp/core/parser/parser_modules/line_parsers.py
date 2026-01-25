@@ -200,6 +200,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             emitter.enter_ztable_block(indent, original_line_num)
                         elif block_type == 'zcrumbs':
                             emitter.enter_zcrumbs_block(indent, original_line_num)
+                        elif block_type == 'zinput':
+                            emitter.enter_zinput_block(indent, original_line_num)
                         elif block_type == 'header':
                             emitter.enter_header_block(indent, original_line_num)
                         elif core_key == 'zMachine':
@@ -259,6 +261,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                         emitter.enter_ztable_block(indent, original_line_num)
                     elif core_key == 'zCrumbs' and emitter.is_zui_file:
                         emitter.enter_zcrumbs_block(indent, original_line_num)
+                    elif core_key == 'zInput' and emitter.is_zui_file:
+                        emitter.enter_zinput_block(indent, original_line_num)
                     elif core_key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'} and emitter.is_zui_file:
                         emitter.enter_header_block(indent, original_line_num)
                     
@@ -345,6 +349,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             emitter.enter_ztable_block(indent, original_line_num)
                         elif block_type == 'zcrumbs':
                             emitter.enter_zcrumbs_block(indent, original_line_num)
+                        elif block_type == 'zinput':
+                            emitter.enter_zinput_block(indent, original_line_num)
                         elif block_type == 'header':
                             emitter.enter_header_block(indent, original_line_num)
                         elif core_key == 'zMachine':
@@ -404,6 +410,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                         emitter.enter_ztable_block(indent, original_line_num)
                     elif core_key == 'zCrumbs' and emitter.is_zui_file:
                         emitter.enter_zcrumbs_block(indent, original_line_num)
+                    elif core_key == 'zInput' and emitter.is_zui_file:
+                        emitter.enter_zinput_block(indent, original_line_num)
                     elif core_key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'} and emitter.is_zui_file:
                         emitter.enter_header_block(indent, original_line_num)
                     
@@ -944,7 +952,7 @@ def build_nested_dict(structured_lines: list[dict], start_idx: int, current_inde
         # UI event shorthands are exempt from duplicate key checks
         # These represent sequential UI elements, not dictionary keys
         is_ui_event_shorthand = (
-            clean_key in ['zText', 'zImage', 'zMD', 'zURL', 'zUL', 'zOL', 'zTable'] or
+            clean_key in ['zText', 'zImage', 'zMD', 'zURL', 'zUL', 'zOL', 'zTable', 'zInput'] or
             (clean_key.startswith('zH') and len(clean_key) == 3 and clean_key[2].isdigit())
         )
         

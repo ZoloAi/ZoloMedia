@@ -157,6 +157,8 @@ from ..display_constants import (
     _EVENT_TYPE_OUTPUT,
     _EVENT_TYPE_INPUT_REQUEST,
     _EVENT_TYPE_ZDISPLAY,
+    _EVENT_READ_STRING,
+    _EVENT_READ_PASSWORD,
     _WRITE_TYPE_RAW,
     _WRITE_TYPE_LINE,
     _WRITE_TYPE_BLOCK,
@@ -463,11 +465,13 @@ class zPrimitives:
             if hasattr(zcli.comm, 'broadcast_websocket'):
                 try:
                     loop = asyncio.get_running_loop()
-                    asyncio.create_task(
-                        zcli.bifrost.orchestrator.broadcast(json.dumps(request_event))
+                    asyncio.run_coroutine_threadsafe(
+                        zcli.bifrost.orchestrator.broadcast(json.dumps(request_event)),
+                        loop
                     )
                 except RuntimeError:
-                    # No running event loop - for tests, just log the request
+                    # No running event loop - likely in worker thread, send via broadcast
+                    # This happens during Walker execution from Bifrost
                     pass
 
             return future
@@ -575,77 +579,89 @@ class zPrimitives:
 
     # Input Primitives - Terminal OR GUI (Dual Return Types)
 
-    def read_string(self, prompt: str = _DEFAULT_PROMPT) -> Union[str, 'asyncio.Future']:
-        """Read string input - terminal (synchronous) or GUI (async future).
+    def read_string(self, prompt: str = _DEFAULT_PROMPT, **kwargs) -> Union[str, 'asyncio.Future']:
+        """Read string input - terminal (synchronous) or GUI (buffered event).
         
         Critical dual-mode method with different return types based on mode:
             - Terminal mode: Returns str directly (synchronous)
-            - Bifrost mode: Returns asyncio.Future (asynchronous)
+            - Bifrost mode: Buffers input_request event, returns empty string (non-blocking)
         
         Args:
             prompt: Prompt text to display (default: empty string)
+            **kwargs: Additional parameters for Bifrost mode (ignored in Terminal):
+                - type: Input type (text, email, number, tel, url)
+                - placeholder: Placeholder text
+                - required: Whether input is required
+                - default: Default value
         
         Returns:
             Union[str, asyncio.Future]: 
-                - str if in Terminal mode
-                - asyncio.Future if in Bifrost mode (await to get str)
+                - str if in Terminal mode (actual user input)
+                - str if in Bifrost mode (empty string, actual input handled by frontend)
         
         Notes:
+            - Bifrost: Buffers input_request event for frontend rendering
+            - Terminal: Synchronous input() with auto-spaced prompt
             - Always has terminal fallback if GUI request fails
-            - Strips whitespace from input
-            - Use isinstance(result, asyncio.Future) to detect async return
+            - Strips whitespace from Terminal input
         
         Example:
-            result = primitives.read_string("Enter name: ")
-            if isinstance(result, asyncio.Future):
-                name = await result  # Bifrost mode
-            else:
-                name = result  # Terminal mode
+            result = primitives.read_string("Enter name:", type="text")
+            # Terminal: Returns actual user input string
+            # Bifrost: Returns "" (input rendered on frontend)
         """
         # Terminal input (always available as fallback)
+        # Note: Terminal mode ignores kwargs (type, placeholder, etc.)
         if not self._is_gui_mode():
             if prompt:
-                return input(prompt).strip()
+                # Ensure space after prompt for better UX in Terminal
+                terminal_prompt = prompt if prompt.endswith(' ') else prompt + ' '
+                return input(terminal_prompt).strip()
             return input().strip()
 
-        # GUI input - return future that will be resolved by GUI response
-        gui_future = self._send_input_request(_INPUT_TYPE_STRING, prompt)
+        # Bifrost mode - buffer read_string event and return empty string
+        # The frontend will render the input and handle user interaction
+        request_id = self._generate_request_id()
+        request_event = {
+            _KEY_EVENT: _EVENT_READ_STRING,  # Use read_string, not input_request
+            _KEY_REQUEST_ID: request_id,
+            _KEY_PROMPT: prompt,
+            _KEY_TIMESTAMP: time.time(),
+            **kwargs  # type, placeholder, required, default
+        }
+        
+        # Buffer the input request (like zDialog does)
+        if self.display and hasattr(self.display, 'buffer_event'):
+            self.display.buffer_event(request_event)
+        
+        # Return empty string (wizard continues, frontend handles input)
+        return ""
 
-        # Fallback to terminal if GUI request fails
-        if gui_future is None:
-            if prompt:
-                return input(prompt).strip()
-            return input().strip()
-
-        return gui_future
-
-    def read_password(self, prompt: str = _DEFAULT_PROMPT) -> Union[str, 'asyncio.Future']:
-        """Read password input - terminal (synchronous) or GUI (async future).
+    def read_password(self, prompt: str = _DEFAULT_PROMPT) -> str:
+        """Read password input - terminal (synchronous) or GUI (buffered event).
         
         Critical dual-mode method with different return types based on mode:
             - Terminal mode: Returns str directly (synchronous, masked with getpass)
-            - Bifrost mode: Returns asyncio.Future (asynchronous, GUI handles masking)
+            - Bifrost mode: Buffers input_request event, returns empty string (non-blocking)
         
         Args:
             prompt: Prompt text to display (default: empty string)
         
         Returns:
-            Union[str, asyncio.Future]: 
-                - str if in Terminal mode (via getpass.getpass)
-                - asyncio.Future if in Bifrost mode (await to get str)
+            str: 
+                - Terminal mode: Actual masked password input
+                - Bifrost mode: Empty string (input handled by frontend)
         
         Notes:
             - Terminal: Uses getpass.getpass() for masked input
-            - GUI: Sends masked=True flag, GUI client handles masking
+            - Bifrost: Buffers input_request with masked=True flag
             - Always has terminal fallback if GUI request fails
-            - Strips whitespace from input
+            - Strips whitespace from Terminal input
         
         Example:
-            result = primitives.read_password("Password: ")
-            if isinstance(result, asyncio.Future):
-                password = await result  # Bifrost mode
-            else:
-                password = result  # Terminal mode (getpass)
+            result = primitives.read_password("Password:")
+            # Terminal: Returns actual password string
+            # Bifrost: Returns "" (input rendered on frontend)
         """
         # Terminal input (always available as fallback)
         if not self._is_gui_mode():
@@ -653,16 +669,22 @@ class zPrimitives:
                 return getpass.getpass(prompt).strip()
             return getpass.getpass().strip()
 
-        # GUI input - return future that will be resolved by GUI response
-        gui_future = self._send_input_request(_INPUT_TYPE_PASSWORD, prompt, masked=True)
-
-        # Fallback to terminal if GUI request fails
-        if gui_future is None:
-            if prompt:
-                return getpass.getpass(prompt).strip()
-            return getpass.getpass().strip()
-
-        return gui_future
+        # Bifrost mode - buffer read_password event and return empty string
+        request_id = self._generate_request_id()
+        request_event = {
+            _KEY_EVENT: _EVENT_READ_PASSWORD,  # Use read_password, not input_request
+            _KEY_REQUEST_ID: request_id,
+            _KEY_PROMPT: prompt,
+            _KEY_TIMESTAMP: time.time(),
+            'masked': True
+        }
+        
+        # Buffer the input request (like zDialog does)
+        if self.display and hasattr(self.display, 'buffer_event'):
+            self.display.buffer_event(request_event)
+        
+        # Return empty string (wizard continues, frontend handles input)
+        return ""
 
     # Backward-Compatible Aliases (Legacy Support)
 

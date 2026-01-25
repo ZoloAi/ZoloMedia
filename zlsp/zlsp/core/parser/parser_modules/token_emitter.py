@@ -226,6 +226,18 @@ class TokenEmitter:
         """Legacy: Check if in zTable block."""
         return self.is_inside_block('ztable', current_indent)
     
+    def enter_zinput_block(self, indent: int, line: int):
+        """Legacy: Enter zInput block."""
+        self.enter_block('zinput', indent, line)
+    
+    def update_zinput_blocks(self, current_indent: int, current_line: int):
+        """Legacy: Update zInput blocks."""
+        self.update_blocks(current_indent, current_line)
+    
+    def is_in_zinput_block(self, current_indent: int) -> bool:
+        """Legacy: Check if in zInput block."""
+        return self.is_inside_block('zinput', current_indent)
+    
     def enter_plural_shorthand_block(self, indent: int, line: int, shorthand_name: str):
         """Legacy: Enter plural shorthand block (zURLs, zTexts, etc.)."""
         self.enter_block('plural_shorthand', indent, line, data=shorthand_name)
@@ -264,18 +276,6 @@ class TokenEmitter:
     def is_in_zspark_block(self, current_indent: int) -> bool:
         """Check if in zSpark block."""
         return self.is_inside_block('zSpark', current_indent)
-    
-    def enter_zmachine_block(self, indent: int, line: int):
-        """Enter zMachine block (single instance in zConfig files)."""
-        self.enter_block_single('zMachine', indent, line)
-    
-    def update_zmachine_blocks(self, current_indent: int, current_line: int):
-        """Update zMachine blocks."""
-        self.update_blocks(current_indent, current_line)
-    
-    def is_in_zmachine_block(self, current_indent: int) -> bool:
-        """Check if in zMachine block."""
-        return self.is_inside_block('zMachine', current_indent)
     
     def enter_znavbar_block(self, indent: int, line: int):
         """Enter ZNAVBAR block (single instance)."""
