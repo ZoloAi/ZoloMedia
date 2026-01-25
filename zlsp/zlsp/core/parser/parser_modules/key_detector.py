@@ -41,7 +41,7 @@ class KeyDetector:
     
     UI_ELEMENT_KEYS = {
         'zImage', 'zText', 'zMD', 'zURL', 'zNavBar', 'zUL', 'zOL', 'zDL', 'zTable',
-        'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zCrumbs', 'zInput', 'zCheckbox'
+        'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zCrumbs', 'zInput', 'zCheckbox', 'zBtn'
     }
     
     UI_ELEMENT_PROPERTY_KEYS = {
@@ -55,7 +55,9 @@ class KeyDetector:
         # Form-specific properties (zInput, zTextarea, zSelect, etc.)
         'prompt', 'type', 'placeholder', 'required', 'disabled', 'readonly',
         'min', 'max', 'step', 'pattern', 'autocomplete', 'value', 'checked',
-        'name', 'id', 'maxlength', 'minlength', 'multiple', 'size'
+        'name', 'id', 'maxlength', 'minlength', 'multiple', 'size',
+        # Button-specific properties (zBtn)
+        'action'
     }
     
     # UI Element Schemas - Define valid properties per element type
@@ -107,6 +109,14 @@ class KeyDetector:
                 'prompt', 'checked', 'required', 'label', 'disabled',
                 'name', 'id', 'value',
                 '_zClass', '_id', 'color', 'indent'
+            ],
+        },
+        'zbtn': {
+            'required': [],  # All properties are optional for flexibility
+            'optional': [
+                'label', 'color', 'type', 'action', 'disabled',
+                'name', 'id', 'value',
+                '_zClass', '_id', 'indent'
             ],
         },
         # More elements to be added as needed
@@ -289,7 +299,7 @@ class KeyDetector:
         # UI element property keys (src, etc.) inside UI elements
         if emitter.is_zui_file and key in KeyDetector.UI_ELEMENT_PROPERTY_KEYS:
             # Check if we're inside any UI element block
-            ui_block_types = ['zimage', 'ztext', 'zmd', 'zurl', 'zul', 'ztable', 'header', 'zcrumbs', 'zinput', 'zcheckbox']
+            ui_block_types = ['zimage', 'ztext', 'zmd', 'zurl', 'zul', 'ztable', 'header', 'zcrumbs', 'zinput', 'zcheckbox', 'zbtn']
             for block_type in ui_block_types:
                 if emitter.is_inside_block(block_type, indent):
                     return TokenType.UI_ELEMENT_PROPERTY_KEY
@@ -378,6 +388,8 @@ class KeyDetector:
                 return 'zinput'
             elif key == 'zCheckbox':
                 return 'zcheckbox'
+            elif key == 'zBtn':
+                return 'zbtn'
         
         return None
 

@@ -250,6 +250,18 @@ class TokenEmitter:
         """Legacy: Check if in zCheckbox block."""
         return self.is_inside_block('zcheckbox', current_indent)
     
+    def enter_zbtn_block(self, indent: int, line: int):
+        """Legacy: Enter zBtn block."""
+        self.enter_block('zbtn', indent, line)
+    
+    def update_zbtn_blocks(self, current_indent: int, current_line: int):
+        """Legacy: Update zBtn blocks."""
+        self.update_blocks(current_indent, current_line)
+    
+    def is_in_zbtn_block(self, current_indent: int) -> bool:
+        """Legacy: Check if in zBtn block."""
+        return self.is_inside_block('zbtn', current_indent)
+    
     def enter_plural_shorthand_block(self, indent: int, line: int, shorthand_name: str):
         """Legacy: Enter plural shorthand block (zURLs, zTexts, etc.)."""
         self.enter_block('plural_shorthand', indent, line, data=shorthand_name)
