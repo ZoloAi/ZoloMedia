@@ -399,6 +399,11 @@ tokens:
     style: none
     description: "Comma separator (,)"
   
+  escapeSequence:
+    color: bright_orange
+    style: none
+    description: "Escape sequences in strings (\\n, \\t, \\uXXXX)"
+  
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   # 10. Comments
   # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

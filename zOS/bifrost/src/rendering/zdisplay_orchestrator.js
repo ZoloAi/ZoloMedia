@@ -1085,7 +1085,7 @@ export class ZDisplayOrchestrator {
       case 'read_password': {
         // Input fields (inline form inputs)
         const { createDiv } = await import('./primitives/generic_containers.js');
-        const { createLabel, createInput } = await import('./primitives/form_primitives.js');
+        const { createLabel, createInput, createTextarea } = await import('./primitives/form_primitives.js');
         
         const inputType = event === 'read_password' ? 'password' : (eventData.type || 'text');
         const prompt = eventData.prompt || '';
@@ -1112,26 +1112,46 @@ export class ZDisplayOrchestrator {
           formGroup.appendChild(label);
         }
         
-        // Create input element (type as first param, attributes as second)
-        const inputAttrs = {
-          id: inputId,
-          placeholder: placeholder,
-          required: required,
-          value: defaultValue,
-          class: inputClasses
-        };
-        
-        // Add aria-describedby if provided (for help text association)
-        if (ariaDescribedBy) {
-          inputAttrs['aria-describedby'] = ariaDescribedBy;
+        // Handle textarea vs input
+        let inputElement;
+        if (inputType === 'textarea') {
+          // Multi-line textarea
+          const rows = eventData.rows || 3;
+          const textareaAttrs = {
+            id: inputId,
+            placeholder: placeholder,
+            required: required,
+            rows: rows,
+            class: inputClasses
+          };
+          
+          if (ariaDescribedBy) {
+            textareaAttrs['aria-describedby'] = ariaDescribedBy;
+          }
+          
+          inputElement = createTextarea(textareaAttrs);
+          inputElement.textContent = defaultValue; // Use textContent for textarea, not value
+        } else {
+          // Single-line input
+          const inputAttrs = {
+            id: inputId,
+            placeholder: placeholder,
+            required: required,
+            value: defaultValue,
+            class: inputClasses
+          };
+          
+          if (ariaDescribedBy) {
+            inputAttrs['aria-describedby'] = ariaDescribedBy;
+          }
+          
+          inputElement = createInput(inputType, inputAttrs);
         }
         
-        const input = createInput(inputType, inputAttrs);
-        
-        formGroup.appendChild(input);
+        formGroup.appendChild(inputElement);
         element = formGroup;
         
-        this.logger.log(`[renderZDisplayEvent] Rendered ${event} input (id=${inputId}, aria-describedby=${ariaDescribedBy || 'none'})`);
+        this.logger.log(`[renderZDisplayEvent] Rendered ${event} ${inputType} (id=${inputId}, aria-describedby=${ariaDescribedBy || 'none'})`);
         break;
       }
 

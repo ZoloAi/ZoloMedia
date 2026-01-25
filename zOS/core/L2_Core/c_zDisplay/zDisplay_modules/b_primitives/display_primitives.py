@@ -612,8 +612,26 @@ class zPrimitives:
             # Bifrost: Returns "" (input rendered on frontend)
         """
         # Terminal input (always available as fallback)
-        # Note: Terminal mode ignores kwargs (type, placeholder, etc.)
+        # Handle multi-line textarea with Ctrl+D (EOF)
         if not self._is_gui_mode():
+            input_type = kwargs.get('type', 'text')
+            
+            # Multi-line textarea input (Ctrl+D to finish)
+            if input_type == 'textarea':
+                if prompt:
+                    print(prompt)
+                    print("  (Press Ctrl+D on empty line to finish)")
+                lines = []
+                try:
+                    while True:
+                        line = input()
+                        lines.append(line)
+                except EOFError:
+                    # Ctrl+D pressed - user is done
+                    pass
+                return '\n'.join(lines)
+            
+            # Single-line input (all other types)
             if prompt:
                 # Ensure space after prompt for better UX in Terminal
                 terminal_prompt = prompt if prompt.endswith(' ') else prompt + ' '
