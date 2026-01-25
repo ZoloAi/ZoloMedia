@@ -106,12 +106,13 @@ export default class ButtonRenderer {
     const action = data.action || data.data?.action || null;
     const rawColor = data.color || data.data?.color || 'primary';
     const color = rawColor.toLowerCase(); // Normalize to lowercase for consistency
+    const type = data.type || data.data?.type || 'button'; // Default to 'button' for safety
 
-    this.logger.log('[ButtonRenderer] Rendering button:', { requestId, label, action, color });
+    this.logger.log('[ButtonRenderer] Rendering button:', { requestId, label, action, color, type });
 
     // Create button primitive (just the button, no container)
-    const button = this._createButton(label, color, data._zClass, data._id);
-    this._attachClickHandler(button, requestId, label, true);
+    const button = this._createButton(label, color, data._zClass, data._id, type);
+    this._attachClickHandler(button, requestId, label, true, type);
 
     // ✅ NO cancel button in Bifrost! (Terminal-first: y/n, GUI: click or ignore)
     // In terminal, button is y/n prompt. In GUI, button is click or don't click.
@@ -153,17 +154,19 @@ export default class ButtonRenderer {
    * @param {string} color - Button semantic color (primary, danger, success, warning, info, secondary)
    * @param {string} [customClass] - Optional custom classes for layout (_zClass from YAML)
    * @param {string} [customId] - Optional custom id for targeting (_id from YAML)
+   * @param {string} [type='button'] - Button type (button, submit, reset)
    * @returns {HTMLElement} Button element
    */
-  _createButton(label, color, customClass, customId) {
-    this.logger.log(`[ButtonRenderer] Creating button "${label}" with color: ${color}`);
+  _createButton(label, color, customClass, customId, type = 'button') {
+    console.log(`[ButtonRenderer] 🎨 Creating button "${label}" | color: ${color} | type: ${type} | id: ${customId || 'auto'}`);
+    this.logger.log(`[ButtonRenderer] Creating button "${label}" with color: ${color}, type: ${type}`);
 
     // ✅ Layer 0.0: Create raw button primitive with attributes
     const attrs = { class: 'zBtn' }; // Base button styling only (padding, border, etc.)
     if (customId) {
       attrs.id = customId;
     }  // Pass _id to primitive
-    const button = createButton('button', attrs);
+    const button = createButton(type, attrs);
 
     button.textContent = label;
 
@@ -205,11 +208,25 @@ export default class ButtonRenderer {
    * @param {string} requestId - Request ID for response
    * @param {string} originalLabel - Original button label
    * @param {boolean} value - Response value (true for primary, false for cancel)
+   * @param {string} type - Button type (button, submit, reset)
    */
-  _attachClickHandler(button, requestId, originalLabel, value) {
-    button.addEventListener('click', () => {
-      this.logger.log(`[ButtonRenderer] Button clicked: ${button.textContent} (value: ${value})`);
+  _attachClickHandler(button, requestId, originalLabel, value, type = 'button') {
+    button.addEventListener('click', (event) => {
+      console.log(`[ButtonRenderer] 🔘 Button clicked: "${button.textContent}" (type: ${type}, value: ${value})`);
+      this.logger.log(`[ButtonRenderer] Button clicked: ${button.textContent} (type: ${type}, value: ${value})`);
 
+      // For submit/reset buttons, let the form handle it naturally
+      if (type === 'submit' || type === 'reset') {
+        console.log(`[ButtonRenderer] ✅ ${type} button - letting form handle submission`);
+        this.logger.log(`[ButtonRenderer] ${type} button - letting form handle submission`);
+        // Don't preventDefault, don't send WebSocket response
+        // The form's submit event will fire and can be handled separately
+        return;
+      }
+
+      // For regular buttons (type="button"), send WebSocket response
+      this.logger.log(`[ButtonRenderer] Regular button - sending WebSocket response`);
+      
       // Send response to backend via WebSocket
       this._sendResponse(requestId, value);
 

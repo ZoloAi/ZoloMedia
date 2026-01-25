@@ -24,6 +24,7 @@ Supported Shorthands:
     - Buttons: zBtn → zDisplay button events (default: color=primary, action=#)
     - Breadcrumbs: zCrumbs → zDisplay zCrumbs events ← BUG FIX
     - Inputs: zInput → zDisplay read_string events (default: type=text, required=false)
+    - Checkboxes: zCheckbox → zDisplay read_bool events (default: checked=false, required=false)
     - Plurals: zURLs, zTexts, zH1s-zH6s, zImages, zMDs → Implicit wizards
 
 Features:
@@ -122,7 +123,7 @@ class ShorthandExpander:
     """
     
     # UI element keys (for detection) - ALL shorthands that should NOT be recursively expanded
-    UI_ELEMENT_KEYS = ['zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zText', 'zMD', 'zImage', 'zURL', 'zUL', 'zOL', 'zDL', 'zTable', 'zBtn', 'zCrumbs', 'zInput']
+    UI_ELEMENT_KEYS = ['zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zText', 'zMD', 'zImage', 'zURL', 'zUL', 'zOL', 'zDL', 'zTable', 'zBtn', 'zCrumbs', 'zInput', 'zCheckbox']
     
     # Plural shorthand keys
     PLURAL_SHORTHANDS = ['zURLs', 'zTexts', 'zH1s', 'zH2s', 'zH3s', 'zH4s', 'zH5s', 'zH6s', 'zImages', 'zMDs']
@@ -385,6 +386,8 @@ class ShorthandExpander:
                 expanded = self._expand_zcrumbs(value)  # ← FIX zCrumbs BUG
             elif clean_key == 'zInput':
                 expanded = self._expand_zinput(value)
+            elif clean_key == 'zCheckbox':
+                expanded = self._expand_zcheckbox(value)
             
             # Apply expansion
             if expanded is not None:
@@ -547,6 +550,25 @@ class ShorthandExpander:
             value['required'] = False
         
         return {KEY_ZDISPLAY: {'event': 'read_string', **value}}
+    
+    def _expand_zcheckbox(self, value: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Expand zCheckbox to read_bool event with defaults.
+        
+        Defaults:
+            checked: False (unchecked by default)
+            required: False (not required by default)
+            prompt: '' (empty prompt)
+        """
+        # Apply defaults if not provided
+        if 'checked' not in value:
+            value['checked'] = False
+        if 'required' not in value:
+            value['required'] = False
+        if 'prompt' not in value:
+            value['prompt'] = ''
+        
+        return {KEY_ZDISPLAY: {'event': 'read_bool', **value}}
     
     def _expand_zcrumbs(self, value: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """

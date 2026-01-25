@@ -202,6 +202,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             emitter.enter_zcrumbs_block(indent, original_line_num)
                         elif block_type == 'zinput':
                             emitter.enter_zinput_block(indent, original_line_num)
+                        elif block_type == 'zcheckbox':
+                            emitter.enter_zcheckbox_block(indent, original_line_num)
                         elif block_type == 'header':
                             emitter.enter_header_block(indent, original_line_num)
                         elif core_key == 'zMachine':
@@ -263,6 +265,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                         emitter.enter_zcrumbs_block(indent, original_line_num)
                     elif core_key == 'zInput' and emitter.is_zui_file:
                         emitter.enter_zinput_block(indent, original_line_num)
+                    elif core_key == 'zCheckbox' and emitter.is_zui_file:
+                        emitter.enter_zcheckbox_block(indent, original_line_num)
                     elif core_key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'} and emitter.is_zui_file:
                         emitter.enter_header_block(indent, original_line_num)
                     
@@ -351,6 +355,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                             emitter.enter_zcrumbs_block(indent, original_line_num)
                         elif block_type == 'zinput':
                             emitter.enter_zinput_block(indent, original_line_num)
+                        elif block_type == 'zcheckbox':
+                            emitter.enter_zcheckbox_block(indent, original_line_num)
                         elif block_type == 'header':
                             emitter.enter_header_block(indent, original_line_num)
                         elif core_key == 'zMachine':
@@ -412,6 +418,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                         emitter.enter_zcrumbs_block(indent, original_line_num)
                     elif core_key == 'zInput' and emitter.is_zui_file:
                         emitter.enter_zinput_block(indent, original_line_num)
+                    elif core_key == 'zCheckbox' and emitter.is_zui_file:
+                        emitter.enter_zcheckbox_block(indent, original_line_num)
                     elif core_key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'} and emitter.is_zui_file:
                         emitter.enter_header_block(indent, original_line_num)
                     

@@ -159,6 +159,7 @@ from ..display_constants import (
     _EVENT_TYPE_ZDISPLAY,
     _EVENT_READ_STRING,
     _EVENT_READ_PASSWORD,
+    _EVENT_READ_BOOL,
     _WRITE_TYPE_RAW,
     _WRITE_TYPE_LINE,
     _WRITE_TYPE_BLOCK,
@@ -684,6 +685,75 @@ class zPrimitives:
             self.display.buffer_event(request_event)
         
         # Return empty string (wizard continues, frontend handles input)
+        return ""
+
+    def read_bool(self, prompt: str = _DEFAULT_PROMPT, **kwargs) -> Union[bool, str]:
+        """Read boolean checkbox - terminal (synchronous) or GUI (buffered event).
+        
+        Critical dual-mode method for checkbox/toggle inputs:
+            - Terminal mode: Returns bool directly (synchronous y/n prompt)
+            - Bifrost mode: Buffers read_bool event, returns empty string (non-blocking)
+        
+        Args:
+            prompt: Prompt text to display (default: empty string)
+            **kwargs: Additional parameters for Bifrost mode (ignored in Terminal):
+                - checked: Default checked state (True/False, default: False)
+                - required: Whether checkbox is required (default: False)
+                - label: Alternative to prompt for consistency
+        
+        Returns:
+            Union[bool, str]: 
+                - bool if in Terminal mode (actual user choice)
+                - str if in Bifrost mode (empty string, checkbox rendered on frontend)
+        
+        Notes:
+            - Terminal: Displays checkbox icon (☐/☑) + y/n prompt
+            - Bifrost: Buffers read_bool event for frontend checkbox rendering
+            - Terminal mode ignores 'checked' default (always starts unchecked in prompt)
+            - Strips whitespace and accepts y/yes for True, everything else False
+        
+        Example:
+            result = primitives.read_bool("Subscribe to newsletter?", checked=False)
+            # Terminal: ☐ Subscribe to newsletter? (y/n): y → Returns True
+            # Bifrost: Returns "" (checkbox rendered on frontend)
+        """
+        # Terminal input (always available as fallback)
+        if not self._is_gui_mode():
+            # Get checkbox state from kwargs (default False)
+            checked = kwargs.get('checked', False)
+            checkbox_icon = "☑" if checked else "☐"
+            
+            # Build terminal prompt
+            if prompt:
+                terminal_prompt = f"{checkbox_icon} {prompt} (y/n): "
+            else:
+                terminal_prompt = f"{checkbox_icon} (y/n): "
+            
+            # Read input and convert to boolean
+            response = input(terminal_prompt).strip().lower()
+            return response in ['y', 'yes']
+
+        # Bifrost mode - buffer read_bool event and return empty string
+        # The frontend will render the checkbox and handle user interaction
+        request_id = self._generate_request_id()
+        
+        # Support both 'prompt' and 'label' (label takes precedence for consistency)
+        display_label = kwargs.get('label', prompt)
+        
+        request_event = {
+            _KEY_EVENT: _EVENT_READ_BOOL,
+            _KEY_REQUEST_ID: request_id,
+            _KEY_PROMPT: display_label,
+            _KEY_TIMESTAMP: time.time(),
+            'checked': kwargs.get('checked', False),
+            'required': kwargs.get('required', False)
+        }
+        
+        # Buffer the checkbox request
+        if self.display and hasattr(self.display, 'buffer_event'):
+            self.display.buffer_event(request_event)
+        
+        # Return empty string (wizard continues, frontend handles checkbox)
         return ""
 
     # Backward-Compatible Aliases (Legacy Support)

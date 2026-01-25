@@ -158,6 +158,7 @@ from .zDisplay_modules.display_constants import (
     _EVENT_SELECTION,
     _EVENT_READ_STRING,
     _EVENT_READ_PASSWORD,
+    _EVENT_READ_BOOL,
     _EVENT_BUTTON,
     _EVENT_LINK,
     _EVENT_WRITE_RAW,
@@ -294,6 +295,7 @@ class zDisplay(zDisplayDelegates):
             _EVENT_SELECTION: self.zEvents.selection,
             _EVENT_READ_STRING: self.zPrimitives.read_string,
             _EVENT_READ_PASSWORD: self.zPrimitives.read_password,
+            _EVENT_READ_BOOL: self.zPrimitives.read_bool,
             _EVENT_BUTTON: self.zEvents.button,
             _EVENT_LINK: self.zEvents.link,
 

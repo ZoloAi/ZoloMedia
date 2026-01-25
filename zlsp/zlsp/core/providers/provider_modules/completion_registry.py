@@ -22,7 +22,7 @@ BLOCK_KEYS = {
     # UI Elements
     'zImage', 'zText', 'zMD', 'zURL', 'zUL', 'zOL', 'zDL', 'zTable',
     'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6',
-    'zRBAC', 'zNavBar', 'zMeta', 'zInput',
+    'zRBAC', 'zNavBar', 'zMeta', 'zInput', 'zCheckbox',
     # Organizational blocks
     'zSpark', 'zMachine', 'zServer', 'zCLI',
     'zData', 'zRead', 'zCreate', 'zUpdate', 'zDelete', 'zSelect',

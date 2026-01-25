@@ -715,18 +715,80 @@ export class ZDisplayOrchestrator {
         if (formElement) {
           containerDiv.appendChild(formElement);
         }
-      } else if (value && typeof value === 'object') {
-        // If it's an object with nested keys (implicit wizard), recurse
-        // DEBUG: Log organizational containers
-        if (key.startsWith('_')) {
-          this.logger.log(`🏗️  [NON-GROUP] Processing organizational container: ${key}, nested keys:`, Object.keys(value));
+      } else if (value && typeof value === 'object' && Object.keys(value).length > 0) {
+        // Check if this is a shorthand UI element (zCheckbox, zText, zImage, etc.)
+        // A shorthand has exactly ONE non-metadata key that's a recognized UI element
+        const allKeys = Object.keys(value);
+        const nonMetadataKeys = allKeys.filter(k => !k.startsWith('_'));
+        const isShorthand = nonMetadataKeys.length === 1 && 
+                           nonMetadataKeys[0].startsWith('z') && 
+                           nonMetadataKeys[0].length > 1 && 
+                           nonMetadataKeys[0][1] === nonMetadataKeys[0][1].toUpperCase();
+        
+        if (isShorthand) {
+          const shorthandKey = nonMetadataKeys[0];
+          // This is a shorthand UI element (zCheckbox, zText, zImage, etc.)
+          this.logger.log(`[renderItems] 🎯 Found shorthand UI element: ${shorthandKey} for ${key}`);
+          
+          // Map shorthand keys to event types
+          const shorthandToEvent = {
+            'zCheckbox': 'read_bool',
+            'zText': 'text',
+            'zH1': 'header', 'zH2': 'header', 'zH3': 'header', 
+            'zH4': 'header', 'zH5': 'header', 'zH6': 'header',
+            'zMD': 'rich_text',
+            'zImage': 'image',
+            'zURL': 'zURL',
+            'zUL': 'list',
+            'zOL': 'list',
+            'zTable': 'zTable',
+            'zInput': 'read_string',
+            'zBtn': 'button',
+            'zCrumbs': 'zCrumbs'
+          };
+          
+          const eventType = shorthandToEvent[shorthandKey];
+          if (eventType) {
+            // Expand shorthand to event data inline
+            const eventData = { event: eventType, ...value[shorthandKey] };
+            
+            // For headers, add indent from key name
+            if (eventType === 'header') {
+              eventData.indent = parseInt(shorthandKey.substring(2)); // Extract number from zH1, zH2, etc.
+            }
+            
+            this.logger.log(`[renderItems] 🔄 Expanding ${shorthandKey} to event ${eventType}:`, eventData);
+            const element = await this.renderZDisplayEvent(eventData);
+            if (element) {
+              // Unwrap if no container classes
+              if (!containerDiv.className || containerDiv.className === '') {
+                element.setAttribute('data-zkey', key);
+                if (!element.id) {
+                  element.setAttribute('id', key);
+                }
+                parentElement.appendChild(element);
+                continue;
+              } else {
+                containerDiv.appendChild(element);
+              }
+            }
+          } else {
+            // Unknown shorthand, recurse normally
+            await this.renderItems(value, containerDiv);
+          }
         } else {
-          this.logger.log(`[ZDisplayOrchestrator] 🔄 Recursing into nested object for key: ${key}, nested keys:`, Object.keys(value));
-        }
-        // Nested structure - render children recursively
-        await this.renderItems(value, containerDiv);
-        if (key.startsWith('_') && containerDiv.children.length > 0) {
-          this.logger.log(`✅ [NON-GROUP] Rendered organizational container ${key} with ${containerDiv.children.length} children`);
+          // If it's an object with nested keys (implicit wizard), recurse
+          // DEBUG: Log organizational containers
+          if (key.startsWith('_')) {
+            this.logger.log(`🏗️  [NON-GROUP] Processing organizational container: ${key}, nested keys:`, Object.keys(value));
+          } else {
+            this.logger.log(`[ZDisplayOrchestrator] 🔄 Recursing into nested object for key: ${key}, nested keys:`, Object.keys(value));
+          }
+          // Nested structure - render children recursively
+          await this.renderItems(value, containerDiv);
+          if (key.startsWith('_') && containerDiv.children.length > 0) {
+            this.logger.log(`✅ [NON-GROUP] Rendered organizational container ${key} with ${containerDiv.children.length} children`);
+          }
         }
       }
 
@@ -753,7 +815,7 @@ export class ZDisplayOrchestrator {
   async createContainer(zKey, metadata) {
     // Check for _zHTML parameter to determine element type
     const elementType = metadata._zHTML || 'div';
-    const validElements = ['div', 'section', 'article', 'aside', 'nav', 'header', 'footer', 'main'];
+    const validElements = ['div', 'section', 'article', 'aside', 'nav', 'header', 'footer', 'main', 'form', 'fieldset'];
     const tagName = validElements.includes(elementType) ? elementType : 'div';
     
     // Create the container with the specified element type
@@ -792,6 +854,34 @@ export class ZDisplayOrchestrator {
 
     // Add data attribute for debugging/testing
     container.setAttribute('data-zkey', zKey);
+
+    // Add form submit logging for debugging
+    if (tagName === 'form') {
+      container.addEventListener('submit', (event) => {
+        console.log(`[ZDisplayOrchestrator] 📋 Form submitted: ${zKey}`);
+        console.log('[ZDisplayOrchestrator] Form data:', new FormData(container));
+        console.log('[ZDisplayOrchestrator] Form validity:', container.checkValidity());
+        
+        // Log individual field values
+        const formData = new FormData(container);
+        const formValues = {};
+        for (const [key, value] of formData.entries()) {
+          formValues[key] = value;
+        }
+        console.log('[ZDisplayOrchestrator] Field values:', formValues);
+        
+        this.logger.log(`[ZDisplayOrchestrator] Form "${zKey}" submitted with data:`, formValues);
+        
+        // For now, prevent actual submission (would normally POST to server)
+        // In a real app, you'd either allow the POST or handle via WebSocket
+        event.preventDefault();
+        console.log('[ZDisplayOrchestrator] ⚠️  Form submission prevented (demo mode)');
+        alert(`Form "${zKey}" submitted!\n\nCheck console for form data.`);
+      });
+      
+      console.log(`[ZDisplayOrchestrator] ✅ Added submit listener to form: ${zKey}`);
+      this.logger.log(`[ZDisplayOrchestrator] Added submit listener to form: ${zKey}`);
+    }
 
     return container;
   }
@@ -1006,28 +1096,87 @@ export class ZDisplayOrchestrator {
         // Build input classes from _zClass (defaults to zForm-control if not specified)
         const inputClasses = eventData._zClass || 'zForm-control';
         
+        // Support zId (universal), _zId (Bifrost-only), and _id (legacy)
+        const inputId = eventData.zId || eventData._zId || eventData._id || `input_${Math.random().toString(36).substr(2, 9)}`;
+        
+        // Support aria-describedby for accessibility (link to help text)
+        const ariaDescribedBy = eventData.aria_described_by || eventData.ariaDescribedBy || eventData['aria-describedby'];
+        
         // Create form group container (always zmb-3 for consistent spacing)
         const formGroup = createDiv({ class: 'zmb-3' });
         
-        // Create label if prompt exists
+        // Create label if prompt exists (connected to input via for/id)
         if (prompt) {
-          const label = createLabel('', { class: 'zForm-label' });
+          const label = createLabel(inputId, { class: 'zForm-label' });
           label.textContent = prompt;
           formGroup.appendChild(label);
         }
         
         // Create input element (type as first param, attributes as second)
-        const input = createInput(inputType, {
+        const inputAttrs = {
+          id: inputId,
           placeholder: placeholder,
           required: required,
           value: defaultValue,
           class: inputClasses
-        });
+        };
+        
+        // Add aria-describedby if provided (for help text association)
+        if (ariaDescribedBy) {
+          inputAttrs['aria-describedby'] = ariaDescribedBy;
+        }
+        
+        const input = createInput(inputType, inputAttrs);
         
         formGroup.appendChild(input);
         element = formGroup;
         
-        this.logger.log(`[renderZDisplayEvent] Rendered ${event} input (inline) with classes: ${inputClasses}`);
+        this.logger.log(`[renderZDisplayEvent] Rendered ${event} input (id=${inputId}, aria-describedby=${ariaDescribedBy || 'none'})`);
+        break;
+      }
+
+      case 'read_bool': {
+        // Checkbox input (inline form checkbox)
+        const { createDiv } = await import('./primitives/generic_containers.js');
+        const { createLabel, createInput } = await import('./primitives/form_primitives.js');
+        
+        const prompt = eventData.prompt || eventData.label || '';
+        const checked = eventData.checked || false;
+        const required = eventData.required || false;
+        
+        // Build checkbox classes from _zClass (defaults to zForm-check-input)
+        const checkboxClasses = eventData._zClass || 'zForm-check-input';
+        
+        // Support zId (universal), _zId (Bifrost-only), and _id (legacy)
+        const checkboxId = eventData.zId || eventData._zId || eventData._id || `checkbox_${Math.random().toString(36).substr(2, 9)}`;
+        
+        // Create form check container (Bootstrap-style checkbox)
+        const formCheck = createDiv({ class: 'zForm-check zmb-3' });
+        
+        // Create checkbox input (type='checkbox')
+        const checkbox = createInput('checkbox', {
+          checked: checked,
+          required: required,
+          class: checkboxClasses,
+          id: checkboxId
+        });
+        
+        // Create label for checkbox (wraps around or uses 'for' attribute)
+        if (prompt) {
+          const label = createLabel(checkboxId, { class: 'zForm-check-label' });
+          label.textContent = prompt;
+          
+          // Add checkbox first, then label (Bootstrap convention)
+          formCheck.appendChild(checkbox);
+          formCheck.appendChild(label);
+        } else {
+          // No label, just the checkbox
+          formCheck.appendChild(checkbox);
+        }
+        
+        element = formCheck;
+        
+        this.logger.log(`[renderZDisplayEvent] Rendered ${event} checkbox: ${prompt} (id=${checkboxId}, checked=${checked})`);
         break;
       }
 
