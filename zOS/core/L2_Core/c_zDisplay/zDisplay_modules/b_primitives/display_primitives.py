@@ -615,6 +615,27 @@ class zPrimitives:
         # Handle multi-line textarea with Ctrl+D (EOF)
         if not self._is_gui_mode():
             input_type = kwargs.get('type', 'text')
+            disabled = kwargs.get('disabled', False)
+            readonly = kwargs.get('readonly', False)
+            placeholder = kwargs.get('placeholder', '')
+            default_value = kwargs.get('default', '')
+            
+            # Handle disabled inputs (display only, no interaction)
+            if disabled:
+                display_value = default_value or placeholder
+                if prompt:
+                    print(f"{prompt} [disabled]: {display_value}")
+                else:
+                    print(f"[disabled] {display_value}")
+                return display_value  # Return placeholder/default, not empty string
+            
+            # Handle readonly inputs (display value, no editing)
+            if readonly:
+                if prompt:
+                    print(f"{prompt} [readonly]: {default_value}")
+                else:
+                    print(f"[readonly] {default_value}")
+                return default_value
             
             # Multi-line textarea input (Ctrl+D to finish)
             if input_type == 'textarea':

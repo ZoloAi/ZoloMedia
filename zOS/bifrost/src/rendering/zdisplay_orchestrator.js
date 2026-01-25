@@ -1083,8 +1083,7 @@ export class ZDisplayOrchestrator {
 
       case 'read_string':
       case 'read_password': {
-        // Input fields (inline form inputs)
-        const { createDiv } = await import('./primitives/generic_containers.js');
+        // Input fields - render as bare semantic HTML (reboot style)
         const { createLabel, createInput, createTextarea } = await import('./primitives/form_primitives.js');
         
         const inputType = event === 'read_password' ? 'password' : (eventData.type || 'text');
@@ -1092,6 +1091,8 @@ export class ZDisplayOrchestrator {
         const placeholder = eventData.placeholder || '';
         const required = eventData.required || false;
         const defaultValue = eventData.default || '';
+        const disabled = eventData.disabled || false;
+        const readonly = eventData.readonly || false;
         
         // Build input classes from _zClass (defaults to zForm-control if not specified)
         const inputClasses = eventData._zClass || 'zForm-control';
@@ -1102,14 +1103,19 @@ export class ZDisplayOrchestrator {
         // Support aria-describedby for accessibility (link to help text)
         const ariaDescribedBy = eventData.aria_described_by || eventData.ariaDescribedBy || eventData['aria-describedby'];
         
-        // Create form group container (always zmb-3 for consistent spacing)
-        const formGroup = createDiv({ class: 'zmb-3' });
+        // Create minimal wrapper div (no classes - for setAttribute support only)
+        const wrapper = document.createElement('div');
         
         // Create label if prompt exists (connected to input via for/id)
         if (prompt) {
-          const label = createLabel(inputId, { class: 'zForm-label' });
+          // Use zLabel class for styled inputs, no class for basic semantic HTML
+          const labelClass = inputClasses.includes('zInput') ? 'zLabel' : '';
+          const labelAttrs = labelClass ? { class: labelClass } : {};
+          const label = createLabel(inputId, labelAttrs);
           label.textContent = prompt;
-          formGroup.appendChild(label);
+          wrapper.appendChild(label);
+          // Add line break after label (semantic HTML pattern)
+          wrapper.appendChild(document.createElement('br'));
         }
         
         // Handle textarea vs input
@@ -1129,6 +1135,14 @@ export class ZDisplayOrchestrator {
             textareaAttrs['aria-describedby'] = ariaDescribedBy;
           }
           
+          if (disabled) {
+            textareaAttrs.disabled = true;
+          }
+          
+          if (readonly) {
+            textareaAttrs.readonly = true;
+          }
+          
           inputElement = createTextarea(textareaAttrs);
           inputElement.textContent = defaultValue; // Use textContent for textarea, not value
         } else {
@@ -1145,11 +1159,19 @@ export class ZDisplayOrchestrator {
             inputAttrs['aria-describedby'] = ariaDescribedBy;
           }
           
+          if (disabled) {
+            inputAttrs.disabled = true;
+          }
+          
+          if (readonly) {
+            inputAttrs.readonly = true;
+          }
+          
           inputElement = createInput(inputType, inputAttrs);
         }
         
-        formGroup.appendChild(inputElement);
-        element = formGroup;
+        wrapper.appendChild(inputElement);
+        element = wrapper;
         
         this.logger.log(`[renderZDisplayEvent] Rendered ${event} ${inputType} (id=${inputId}, aria-describedby=${ariaDescribedBy || 'none'})`);
         break;
