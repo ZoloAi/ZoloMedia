@@ -1293,8 +1293,8 @@ export class ZDisplayOrchestrator {
       }
 
       case 'selection': {
-        // Select dropdown - render as bare semantic HTML (reboot style)
-        const { createLabel } = await import('./primitives/form_primitives.js');
+        // Selection control - render based on type (dropdown, radio, checkbox)
+        const { createLabel, createInput } = await import('./primitives/form_primitives.js');
         
         const prompt = eventData.prompt || '';
         const options = eventData.options || [];
@@ -1302,114 +1302,189 @@ export class ZDisplayOrchestrator {
         const defaultValue = eventData.default || null;
         const disabled = eventData.disabled || false;
         const required = eventData.required || false;
+        const type = eventData.type || 'dropdown'; // Default to dropdown
         
-        // Build select classes from _zClass
-        const selectClasses = eventData._zClass || '';
+        // Build classes from _zClass
+        const elementClasses = eventData._zClass || '';
         
         // Support zId (universal), _zId (Bifrost-only), and _id (legacy)
-        const selectId = eventData.zId || eventData._zId || eventData._id || `select_${Math.random().toString(36).substr(2, 9)}`;
+        const baseId = eventData.zId || eventData._zId || eventData._id || `select_${Math.random().toString(36).substr(2, 9)}`;
         
         // Support aria-label for accessibility
         const ariaLabel = eventData['_aria-label'] || eventData.ariaLabel || eventData['aria-label'];
         
-        // Create wrapper div only if prompt exists
-        let wrapper = null;
-        
-        // Create label if prompt exists
-        if (prompt) {
-          wrapper = document.createElement('div');
-          // Use zLabel class for styled selects
-          const labelClass = selectClasses.includes('zSelect') ? 'zLabel' : '';
-          const labelAttrs = labelClass ? { class: labelClass } : {};
-          const label = createLabel(selectId, labelAttrs);
-          label.textContent = prompt;
-          wrapper.appendChild(label);
-          // Add line break after label (semantic HTML pattern)
-          wrapper.appendChild(document.createElement('br'));
-        }
-        
-        // Create select element
-        const selectElement = document.createElement('select');
-        selectElement.id = selectId;
-        
-        if (selectClasses) {
-          selectElement.className = selectClasses;
-        }
-        
-        if (disabled) {
-          selectElement.disabled = true;
-        }
-        
-        if (required) {
-          selectElement.required = true;
-        }
-        
-        if (multi) {
-          selectElement.multiple = true;
-        }
-        
-        // Support size attribute (number of visible options)
-        const size = eventData.size || null;
-        if (size !== null) {
-          selectElement.size = size;
-        }
-        
-        if (ariaLabel) {
-          selectElement.setAttribute('aria-label', ariaLabel);
-        }
-        
-        // Add autocomplete="off" to prevent browser from remembering selections
-        selectElement.setAttribute('autocomplete', 'off');
-        
-        // Apply inline styles if no wrapper (to avoid nesting issues)
-        if (!wrapper && eventData._zStyle) {
-          selectElement.setAttribute('style', eventData._zStyle);
-        }
-        
-        // Create option elements
-        options.forEach((optionValue, index) => {
-          const optionElement = document.createElement('option');
+        // Render based on type
+        if (type === 'radio' || (type === 'checkbox' && multi)) {
+          // Radio button group or checkbox group
+          const inputType = type === 'radio' ? 'radio' : 'checkbox';
+          const groupName = baseId; // Use baseId as group name for radio buttons
           
-          // Handle both string options and object options {label: '', value: ''}
-          if (typeof optionValue === 'string') {
-            optionElement.textContent = optionValue;
-            optionElement.value = optionValue;
-          } else {
-            optionElement.textContent = optionValue.label || optionValue.value || '';
-            optionElement.value = optionValue.value || optionValue.label || '';
+          // Create container
+          const container = document.createElement('div');
+          if (elementClasses) {
+            container.className = elementClasses;
+          }
+          if (eventData._zStyle) {
+            container.setAttribute('style', eventData._zStyle);
           }
           
-          // Set selected state based on default value
-          if (defaultValue !== null) {
-            if (multi && Array.isArray(defaultValue)) {
-              // Multi-select: check if option is in default array
-              if (defaultValue.includes(optionElement.value)) {
-                optionElement.selected = true;
-              }
-            } else {
-              // Single-select: check if option matches default
-              if (optionElement.value === defaultValue || optionElement.textContent === defaultValue) {
-                optionElement.selected = true;
+          // Create prompt label if exists (fieldset legend style)
+          if (prompt) {
+            const promptLabel = document.createElement('div');
+            promptLabel.textContent = prompt;
+            promptLabel.style.marginBottom = '0.5rem';
+            promptLabel.style.fontWeight = '500';
+            container.appendChild(promptLabel);
+          }
+          
+          // Create radio/checkbox inputs for each option
+          options.forEach((optionValue, index) => {
+            const optionId = `${baseId}_${index}`;
+            const optionLabel = typeof optionValue === 'string' ? optionValue : (optionValue.label || optionValue.value || '');
+            const optionVal = typeof optionValue === 'string' ? optionValue : (optionValue.value || optionValue.label || '');
+            
+            // Create wrapper div for input + label
+            const optionWrapper = document.createElement('div');
+            optionWrapper.style.marginBottom = '0.5rem';
+            
+            // Create input
+            const input = createInput(inputType, {
+              id: optionId,
+              name: groupName,
+              value: optionVal,
+              disabled: disabled,
+              required: required && index === 0 // Only first input has required
+            });
+            
+            // Set checked state based on default value
+            if (defaultValue !== null) {
+              if (multi && Array.isArray(defaultValue)) {
+                // Multi-select (checkbox): check if option is in default array
+                if (defaultValue.includes(optionVal) || defaultValue.includes(optionLabel)) {
+                  input.checked = true;
+                }
+              } else {
+                // Single-select (radio): check if option matches default
+                if (optionVal === defaultValue || optionLabel === defaultValue) {
+                  input.checked = true;
+                }
               }
             }
+            
+            // Create label
+            const label = createLabel(optionId, {});
+            label.textContent = optionLabel;
+            label.style.marginLeft = '0.5rem';
+            
+            // Assemble option
+            optionWrapper.appendChild(input);
+            optionWrapper.appendChild(label);
+            container.appendChild(optionWrapper);
+          });
+          
+          element = container;
+          this.logger.log(`[renderZDisplayEvent] Rendered ${event} ${inputType} group (id=${baseId}, options=${options.length})`);
+        } else {
+          // Dropdown select (default behavior)
+          let wrapper = null;
+          
+          // Create label if prompt exists
+          if (prompt) {
+            wrapper = document.createElement('div');
+            // Use zLabel class for styled selects
+            const labelClass = elementClasses.includes('zSelect') ? 'zLabel' : '';
+            const labelAttrs = labelClass ? { class: labelClass } : {};
+            const label = createLabel(baseId, labelAttrs);
+            label.textContent = prompt;
+            wrapper.appendChild(label);
+            // Add line break after label (semantic HTML pattern)
+            wrapper.appendChild(document.createElement('br'));
           }
           
-          selectElement.appendChild(optionElement);
-        });
-        
-        // Assemble final element
-        if (wrapper) {
-          wrapper.appendChild(selectElement);
-          // Apply wrapper styles if specified
-          if (eventData._zStyle) {
-            wrapper.setAttribute('style', eventData._zStyle);
+          // Create select element
+          const selectElement = document.createElement('select');
+          selectElement.id = baseId;
+          
+          if (elementClasses) {
+            selectElement.className = elementClasses;
           }
-          element = wrapper;
-        } else {
-          element = selectElement;
+          
+          if (disabled) {
+            selectElement.disabled = true;
+          }
+          
+          if (required) {
+            selectElement.required = true;
+          }
+          
+          if (multi) {
+            selectElement.multiple = true;
+          }
+          
+          // Support size attribute (number of visible options)
+          const size = eventData.size || null;
+          if (size !== null) {
+            selectElement.size = size;
+          }
+          
+          if (ariaLabel) {
+            selectElement.setAttribute('aria-label', ariaLabel);
+          }
+          
+          // Add autocomplete="off" to prevent browser from remembering selections
+          selectElement.setAttribute('autocomplete', 'off');
+          
+          // Apply inline styles if no wrapper (to avoid nesting issues)
+          if (!wrapper && eventData._zStyle) {
+            selectElement.setAttribute('style', eventData._zStyle);
+          }
+          
+          // Create option elements
+          options.forEach((optionValue, index) => {
+            const optionElement = document.createElement('option');
+            
+            // Handle both string options and object options {label: '', value: ''}
+            if (typeof optionValue === 'string') {
+              optionElement.textContent = optionValue;
+              optionElement.value = optionValue;
+            } else {
+              optionElement.textContent = optionValue.label || optionValue.value || '';
+              optionElement.value = optionValue.value || optionValue.label || '';
+            }
+            
+            // Set selected state based on default value
+            if (defaultValue !== null) {
+              if (multi && Array.isArray(defaultValue)) {
+                // Multi-select: check if option is in default array
+                if (defaultValue.includes(optionElement.value)) {
+                  optionElement.selected = true;
+                }
+              } else {
+                // Single-select: check if option matches default
+                if (optionElement.value === defaultValue || optionElement.textContent === defaultValue) {
+                  optionElement.selected = true;
+                }
+              }
+            }
+            
+            selectElement.appendChild(optionElement);
+          });
+          
+          // Assemble final element
+          if (wrapper) {
+            wrapper.appendChild(selectElement);
+            // Apply wrapper styles if specified
+            if (eventData._zStyle) {
+              wrapper.setAttribute('style', eventData._zStyle);
+            }
+            element = wrapper;
+          } else {
+            element = selectElement;
+          }
+          
+          this.logger.log(`[renderZDisplayEvent] Rendered ${event} select (id=${baseId}, options=${options.length}, multi=${multi})`);
         }
         
-        this.logger.log(`[renderZDisplayEvent] Rendered ${event} select (id=${selectId}, options=${options.length}, multi=${multi})`);
         break;
       }
 

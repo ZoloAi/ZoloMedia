@@ -25,7 +25,7 @@ Supported Shorthands:
     - Breadcrumbs: zCrumbs → zDisplay zCrumbs events ← BUG FIX
     - Inputs: zInput → zDisplay read_string events (default: type=text, required=false)
     - Checkboxes: zCheckbox → zDisplay read_bool events (default: checked=false, required=false)
-    - Selects: zSelect → zDisplay selection events (default: multi=false, default=none)
+    - Selects: zSelect → zDisplay selection events (default: multi=false, type=dropdown)
     - Plurals: zURLs, zTexts, zH1s-zH6s, zImages, zMDs → Implicit wizards
 
 Features:
@@ -582,6 +582,12 @@ class ShorthandExpander:
             multi: False (single-select by default)
             default: None (no default selection)
             prompt: '' (empty prompt)
+            type: 'dropdown' (can be 'dropdown', 'radio', or 'checkbox')
+        
+        Type Property:
+            - dropdown: Renders as <select> element (default)
+            - radio: Renders as radio button group (single-select only)
+            - checkbox: Renders as checkbox group (multi-select only)
         """
         # Apply defaults if not provided
         if 'options' not in value:
@@ -592,6 +598,7 @@ class ShorthandExpander:
             value['default'] = None
         if 'prompt' not in value:
             value['prompt'] = ''
+        # Note: 'type' defaults to 'dropdown' in Bifrost renderer (not set here)
         
         return {KEY_ZDISPLAY: {'event': 'selection', **value}}
     
