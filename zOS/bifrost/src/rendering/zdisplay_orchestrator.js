@@ -1103,11 +1103,13 @@ export class ZDisplayOrchestrator {
         // Support aria-describedby for accessibility (link to help text)
         const ariaDescribedBy = eventData.aria_described_by || eventData.ariaDescribedBy || eventData['aria-describedby'];
         
-        // Create minimal wrapper div (no classes - for setAttribute support only)
-        const wrapper = document.createElement('div');
+        // Create wrapper div only if prompt exists (for label + input grouping)
+        // Otherwise return input directly to avoid double-nesting in grid layouts
+        let wrapper = null;
         
         // Create label if prompt exists (connected to input via for/id)
         if (prompt) {
+          wrapper = document.createElement('div');
           // Use zLabel class for styled inputs, no class for basic semantic HTML
           const labelClass = inputClasses.includes('zInput') ? 'zLabel' : '';
           const labelAttrs = labelClass ? { class: labelClass } : {};
@@ -1170,8 +1172,19 @@ export class ZDisplayOrchestrator {
           inputElement = createInput(inputType, inputAttrs);
         }
         
-        wrapper.appendChild(inputElement);
-        element = wrapper;
+        // If wrapper exists (has prompt), append input to wrapper and return wrapper
+        // Otherwise return input/textarea directly to avoid double-nesting in grid layouts
+        if (wrapper) {
+          wrapper.appendChild(inputElement);
+          element = wrapper;
+        } else {
+          // When returning input/textarea directly, apply _zStyle if present
+          // This allows inline styles for grid layout adjustments (e.g., padding-top)
+          if (eventData._zStyle) {
+            inputElement.setAttribute('style', eventData._zStyle);
+          }
+          element = inputElement;
+        }
         
         this.logger.log(`[renderZDisplayEvent] Rendered ${event} ${inputType} (id=${inputId}, aria-describedby=${ariaDescribedBy || 'none'})`);
         break;

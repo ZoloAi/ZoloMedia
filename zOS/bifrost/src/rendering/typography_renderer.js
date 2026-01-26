@@ -53,18 +53,24 @@ export class TypographyRenderer {
       attrs.id = eventData.zId || eventData._zId || eventData._id;
     }
     
+    // Support _for attribute for labels (maps to 'for' HTML attribute)
+    if (eventData._for) {
+      attrs.for = eventData._for;
+    }
+    
     // Check semantic parameter to determine container type
     const semantic = eventData.semantic;
     let element;
     
     // Block-level semantic elements (render as top-level container)
-    const blockSemantics = ['div', 'span', 'pre', 'code', 'blockquote'];
+    const blockSemantics = ['div', 'span', 'pre', 'code', 'blockquote', 'label'];
     
     if (blockSemantics.includes(semantic)) {
       // Use semantic element directly instead of <p>
       element = document.createElement(semantic);
       if (attrs.class) element.className = attrs.class;
       if (attrs.id) element.id = attrs.id;
+      if (attrs.for) element.setAttribute('for', attrs.for);
       const content = this._decodeUnicodeEscapes(eventData.content || '');
       
       // For pre/code elements, use textContent to display HTML as literal text
