@@ -149,6 +149,12 @@ export class ZDisplayOrchestrator {
         }
         await this.renderItems(data, targetContainer);
         this.logger.log(`[ZDisplayOrchestrator] ✅ Chunk #${chunk_num} rendered from YAML (${keys.length} keys)`);
+        
+        // Re-initialize zTheme components after rendering new content
+        if (window.zTheme && typeof window.zTheme.initRangeSliders === 'function') {
+          window.zTheme.initRangeSliders();
+          this.logger.log('[ZDisplayOrchestrator] 🎨 Re-initialized range sliders');
+        }
       } else {
         this.logger.warn(`[ZDisplayOrchestrator] ⚠️ Chunk #${chunk_num} has no YAML data to render`);
       }

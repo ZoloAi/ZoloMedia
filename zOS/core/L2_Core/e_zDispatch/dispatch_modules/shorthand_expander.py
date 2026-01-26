@@ -26,6 +26,7 @@ Supported Shorthands:
     - Inputs: zInput → zDisplay read_string events (default: type=text, required=false)
     - Checkboxes: zCheckbox → zDisplay read_bool events (default: checked=false, required=false)
     - Selects: zSelect → zDisplay selection events (default: multi=false, type=dropdown)
+    - Range Sliders: zRange → zDisplay read_range events (default: min=0, max=100, step=1)
     - Plurals: zURLs, zTexts, zH1s-zH6s, zImages, zMDs → Implicit wizards
 
 Features:
@@ -391,6 +392,8 @@ class ShorthandExpander:
                 expanded = self._expand_zcheckbox(value)
             elif clean_key == 'zSelect':
                 expanded = self._expand_zselect(value)
+            elif clean_key == 'zRange':
+                expanded = self._expand_zrange(value)
             
             # Apply expansion
             if expanded is not None:
@@ -601,6 +604,50 @@ class ShorthandExpander:
         # Note: 'type' defaults to 'dropdown' in Bifrost renderer (not set here)
         
         return {KEY_ZDISPLAY: {'event': 'selection', **value}}
+    
+    def _expand_zrange(self, value: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Expand zRange to read_range event with defaults.
+        
+        Defaults:
+            min: 0 (minimum value)
+            max: 100 (maximum value)
+            step: 1 (increment step)
+            value: (min + max) / 2 (midpoint, calculated at runtime)
+            prompt: '' (empty prompt)
+            disabled: False (interactive by default)
+        
+        Terminal Behavior:
+            - Interactive slider with arrow key controls
+            - Real-time visual feedback
+            - Enter to confirm, ESC to cancel
+        
+        Bifrost Behavior:
+            - Renders as <input type="range" class="zRange">
+            - Native HTML5 range slider
+        
+        Example:
+            zRange:
+                prompt: Volume
+                min: 0
+                max: 100
+                step: 5
+                value: 50
+        """
+        # Apply defaults if not provided
+        if 'min' not in value:
+            value['min'] = 0
+        if 'max' not in value:
+            value['max'] = 100
+        if 'step' not in value:
+            value['step'] = 1
+        if 'prompt' not in value:
+            value['prompt'] = ''
+        if 'disabled' not in value:
+            value['disabled'] = False
+        # Note: 'value' defaults to midpoint in read_range if not provided
+        
+        return {KEY_ZDISPLAY: {'event': 'read_range', **value}}
     
     def _expand_zcrumbs(self, value: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """

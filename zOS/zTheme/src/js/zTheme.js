@@ -2132,6 +2132,76 @@
 
     /**
      * ═══════════════════════════════════════════════════════════
+     * Range Slider Handler
+     * ═══════════════════════════════════════════════════════════
+     * 
+     * Auto-initializes range sliders with live value display updates.
+     * 
+     * Usage:
+     *   <label for="volume">Volume: <span id="volumeValue">50</span></label>
+     *   <input type="range" class="zRange" id="volume" 
+     *          data-value-display="volumeValue" 
+     *          min="0" max="100" value="50">
+     * 
+     * Options (data attributes):
+     *   data-value-display="elementId" - ID of element to update with current value
+     * 
+     * How it works:
+     * 1. Finds all <input type="range"> elements
+     * 2. Looks for data-value-display attribute
+     * 3. Updates display element in real-time as slider moves
+     * 4. Also checks for <span> inside previous <label> sibling (fallback pattern)
+     */
+    function initRangeSliders() {
+        const ranges = document.querySelectorAll('input[type="range"]');
+        
+        if (ranges.length === 0) {
+            return;
+        }
+        
+        let initializedCount = 0;
+        
+        ranges.forEach((range, index) => {
+            let display = null;
+            
+            // Pattern 1: Explicit data-value-display attribute (recommended)
+            const displayId = range.getAttribute('data-value-display');
+            if (displayId) {
+                display = document.getElementById(displayId);
+            }
+            
+            // Pattern 2: Look for <span> in previous <label> sibling (automatic)
+            if (!display) {
+                const label = range.previousElementSibling;
+                if (label && label.tagName === 'LABEL') {
+                    const span = label.querySelector('span');
+                    if (span) {
+                        display = span;
+                    }
+                }
+            }
+            
+            // Wire up if display element found
+            if (display) {
+                // Set initial value
+                display.textContent = range.value;
+                
+                // Update on input event
+                range.addEventListener('input', function() {
+                    display.textContent = this.value;
+                });
+                
+                initializedCount++;
+            }
+        });
+        
+        if (initializedCount > 0) {
+            console.log(`✅ zTheme: Initialized ${initializedCount} range slider(s) with value displays`);
+        }
+    }
+
+    /**
+     * ═══════════════════════════════════════════════════════════
      * Initialize All Features
      * ═══════════════════════════════════════════════════════════
      * 
@@ -2189,6 +2259,9 @@
         // Initialize tooltips
         initTooltip();
         
+        // Initialize range sliders
+        initRangeSliders();
+        
         // TODO: Initialize other features here as they're added
         
         console.log('✅ zTheme: JavaScript initialization complete');
@@ -2232,6 +2305,7 @@
     window.zTheme.initScrollspy = initScrollspy;
     window.zTheme.initToast = initToast;
     window.zTheme.initTooltip = initTooltip;
+    window.zTheme.initRangeSliders = initRangeSliders;
     window.zTheme.version = '1.0.0';
 
 })();

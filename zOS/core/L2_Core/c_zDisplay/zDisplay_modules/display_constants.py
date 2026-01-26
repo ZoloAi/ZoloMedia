@@ -106,6 +106,7 @@ _EVENT_NAME_BUTTON = "button"
 _EVENT_READ_STRING = "read_string"
 _EVENT_READ_PASSWORD = "read_password"
 _EVENT_READ_BOOL = "read_bool"
+_EVENT_READ_RANGE = "read_range"
 _EVENT_BUTTON = "button"
 _EVENT_LINK = "zURL"  # Renamed from "link" to distinguish from zLink (inter-file navigation)
 
