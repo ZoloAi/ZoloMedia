@@ -1093,12 +1093,18 @@ export class ZDisplayOrchestrator {
         const defaultValue = eventData.default || '';
         const disabled = eventData.disabled || false;
         const readonly = eventData.readonly || false;
+        const multiple = eventData.multiple || false;
+        const title = eventData.title || '';
+        const datalist = eventData.datalist || null;
         
         // Build input classes from _zClass (defaults to zForm-control if not specified)
         const inputClasses = eventData._zClass || 'zForm-control';
         
         // Support zId (universal), _zId (Bifrost-only), and _id (legacy)
         const inputId = eventData.zId || eventData._zId || eventData._id || `input_${Math.random().toString(36).substr(2, 9)}`;
+        
+        // Generate datalist ID if datalist exists
+        const datalistId = datalist ? `${inputId}_datalist` : null;
         
         // Support aria-describedby for accessibility (link to help text)
         const ariaDescribedBy = eventData.aria_described_by || eventData.ariaDescribedBy || eventData['aria-describedby'];
@@ -1145,6 +1151,10 @@ export class ZDisplayOrchestrator {
             textareaAttrs.readonly = true;
           }
           
+          if (title) {
+            textareaAttrs.title = title;
+          }
+          
           inputElement = createTextarea(textareaAttrs);
           inputElement.textContent = defaultValue; // Use textContent for textarea, not value
         } else {
@@ -1156,6 +1166,11 @@ export class ZDisplayOrchestrator {
             value: defaultValue,
             class: inputClasses
           };
+          
+          // Add list attribute if datalist exists
+          if (datalistId) {
+            inputAttrs.list = datalistId;
+          }
           
           if (ariaDescribedBy) {
             inputAttrs['aria-describedby'] = ariaDescribedBy;
@@ -1169,6 +1184,14 @@ export class ZDisplayOrchestrator {
             inputAttrs.readonly = true;
           }
           
+          if (multiple) {
+            inputAttrs.multiple = true;
+          }
+          
+          if (title) {
+            inputAttrs.title = title;
+          }
+          
           inputElement = createInput(inputType, inputAttrs);
         }
         
@@ -1176,6 +1199,21 @@ export class ZDisplayOrchestrator {
         // Otherwise return input/textarea directly to avoid double-nesting in grid layouts
         if (wrapper) {
           wrapper.appendChild(inputElement);
+          
+          // Add datalist element if datalist exists
+          if (datalist && Array.isArray(datalist)) {
+            const datalistElement = document.createElement('datalist');
+            datalistElement.id = datalistId;
+            
+            datalist.forEach(optionValue => {
+              const option = document.createElement('option');
+              option.value = optionValue;
+              datalistElement.appendChild(option);
+            });
+            
+            wrapper.appendChild(datalistElement);
+          }
+          
           element = wrapper;
         } else {
           // When returning input/textarea directly, apply _zStyle if present
@@ -1183,7 +1221,26 @@ export class ZDisplayOrchestrator {
           if (eventData._zStyle) {
             inputElement.setAttribute('style', eventData._zStyle);
           }
-          element = inputElement;
+          
+          // If datalist exists but no wrapper, create minimal wrapper for datalist
+          if (datalist && Array.isArray(datalist)) {
+            const container = document.createElement('div');
+            container.appendChild(inputElement);
+            
+            const datalistElement = document.createElement('datalist');
+            datalistElement.id = datalistId;
+            
+            datalist.forEach(optionValue => {
+              const option = document.createElement('option');
+              option.value = optionValue;
+              datalistElement.appendChild(option);
+            });
+            
+            container.appendChild(datalistElement);
+            element = container;
+          } else {
+            element = inputElement;
+          }
         }
         
         this.logger.log(`[renderZDisplayEvent] Rendered ${event} ${inputType} (id=${inputId}, aria-describedby=${ariaDescribedBy || 'none'})`);

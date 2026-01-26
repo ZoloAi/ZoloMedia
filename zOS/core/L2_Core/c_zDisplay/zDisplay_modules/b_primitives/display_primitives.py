@@ -652,7 +652,114 @@ class zPrimitives:
                     pass
                 return '\n'.join(lines)
             
-            # Single-line input (all other types)
+            # File input (Terminal mode: enter file path with validation)
+            if input_type == 'file':
+                import os
+                multiple = kwargs.get('multiple', False)
+                
+                # Helper function to resolve and validate path using zParser
+                def resolve_and_validate_path(path_str: str) -> tuple:
+                    """
+                    Resolve and validate a file path using zParser.
+                    Returns (resolved_path, is_valid, error_message)
+                    """
+                    try:
+                        # Handle zPath formats: @.path.to.file or ~.path.to.file
+                        if path_str.startswith(('@.', '~.')):
+                            symbol = path_str[0]
+                            path_parts = path_str[1:].split('.')
+                            # Prepend symbol for resolve_symbol_path
+                            zRelPath_parts = [symbol] + path_parts
+                            
+                            # Use zParser to resolve path
+                            if hasattr(self.display, 'zcli') and hasattr(self.display.zcli, 'zparser'):
+                                resolved_path = self.display.zcli.zparser.resolve_symbol_path(symbol, zRelPath_parts)
+                            else:
+                                return None, False, "zParser not available"
+                        # Handle Unix path formats: ~/path/to/file or /absolute/path or relative/path
+                        else:
+                            resolved_path = os.path.expanduser(path_str)
+                        
+                        # Validate file exists
+                        if os.path.exists(resolved_path):
+                            return resolved_path, True, None
+                        else:
+                            return resolved_path, False, f"File does not exist: {path_str}"
+                    except Exception as e:
+                        return None, False, f"Path resolution error: {str(e)}"
+                
+                while True:
+                    if prompt:
+                        file_prompt = prompt if prompt.endswith(' ') else prompt + ' '
+                        print(file_prompt.strip())
+                        if multiple:
+                            print("  (Enter file paths, comma-separated for multiple files)")
+                            print("  (Formats: ~/path/file.txt, @.folder.file.txt, ~.home.folder.file.txt)")
+                        else:
+                            print("  (Formats: ~/path/file.txt, @.folder.file.txt, ~.home.folder.file.txt)")
+                    
+                    user_input = input("  Path: " if prompt else "").strip()
+                    
+                    if not user_input:
+                        print("  ❌ Error: File path cannot be empty. Please try again.")
+                        continue
+                    
+                    # Handle multiple files (comma-separated)
+                    if multiple:
+                        paths = [p.strip() for p in user_input.split(',')]
+                        invalid_paths = []
+                        valid_paths = []
+                        
+                        for path in paths:
+                            resolved, is_valid, error_msg = resolve_and_validate_path(path)
+                            
+                            if is_valid:
+                                valid_paths.append(resolved)
+                            else:
+                                invalid_paths.append((path, error_msg))
+                        
+                        if invalid_paths:
+                            print(f"  ❌ Error: The following paths are invalid:")
+                            for path, error_msg in invalid_paths:
+                                print(f"     - {path}: {error_msg}")
+                            print("  Please try again.")
+                            continue
+                        else:
+                            print(f"  ✓ Valid: {len(valid_paths)} file(s) selected")
+                            return ', '.join(valid_paths)
+                    else:
+                        # Single file
+                        resolved, is_valid, error_msg = resolve_and_validate_path(user_input)
+                        
+                        if is_valid:
+                            print(f"  ✓ Valid: {resolved}")
+                            return resolved
+                        else:
+                            print(f"  ❌ Error: {error_msg}")
+                            print("  Please try again.")
+                            continue
+            
+            # Datalist input (Terminal mode: show numbered options, allow free text)
+            datalist_options = kwargs.get('datalist', None)
+            if datalist_options and isinstance(datalist_options, list):
+                if prompt:
+                    print(prompt)
+                print("  (Type to search or select number. Free text allowed.)")
+                for idx, option in enumerate(datalist_options, 1):
+                    print(f"  {idx}. {option}")
+                
+                user_input = input("  " if prompt else "").strip()
+                
+                # Check if user entered a number (selecting from list)
+                if user_input.isdigit():
+                    option_num = int(user_input)
+                    if 1 <= option_num <= len(datalist_options):
+                        return datalist_options[option_num - 1]
+                
+                # Otherwise return what they typed (free text)
+                return user_input
+            
+            # Single-line input (all other types without datalist)
             if prompt:
                 # Ensure space after prompt for better UX in Terminal
                 terminal_prompt = prompt if prompt.endswith(' ') else prompt + ' '
