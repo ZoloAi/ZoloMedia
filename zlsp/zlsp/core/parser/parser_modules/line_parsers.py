@@ -228,6 +228,7 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                     emitter.update_zmd_blocks(indent, original_line_num)
                     emitter.update_zurl_blocks(indent, original_line_num)
                     emitter.update_header_blocks(indent, original_line_num)
+                    emitter.update_zselect_blocks(indent, original_line_num)
                     emitter.update_zmachine_blocks(indent, original_line_num)
                     emitter.update_zspark_blocks(indent, original_line_num)
                     emitter.update_znavbar_blocks(indent, original_line_num)
@@ -271,6 +272,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                         emitter.enter_zcheckbox_block(indent, original_line_num)
                     elif core_key == 'zBtn' and emitter.is_zui_file:
                         emitter.enter_zbtn_block(indent, original_line_num)
+                    elif core_key == 'zSelect' and emitter.is_zui_file:
+                        emitter.enter_zselect_block(indent, original_line_num)
                     elif core_key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'} and emitter.is_zui_file:
                         emitter.enter_header_block(indent, original_line_num)
                     
@@ -385,6 +388,7 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                     emitter.update_zmd_blocks(indent, original_line_num)
                     emitter.update_zurl_blocks(indent, original_line_num)
                     emitter.update_header_blocks(indent, original_line_num)
+                    emitter.update_zselect_blocks(indent, original_line_num)
                     emitter.update_zmachine_blocks(indent, original_line_num)
                     emitter.update_zspark_blocks(indent, original_line_num)
                     emitter.update_znavbar_blocks(indent, original_line_num)
@@ -428,6 +432,8 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                         emitter.enter_zcheckbox_block(indent, original_line_num)
                     elif core_key == 'zBtn' and emitter.is_zui_file:
                         emitter.enter_zbtn_block(indent, original_line_num)
+                    elif core_key == 'zSelect' and emitter.is_zui_file:
+                        emitter.enter_zselect_block(indent, original_line_num)
                     elif core_key in {'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6'} and emitter.is_zui_file:
                         emitter.enter_header_block(indent, original_line_num)
                     

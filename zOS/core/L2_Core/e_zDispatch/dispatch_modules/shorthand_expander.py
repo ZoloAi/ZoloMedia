@@ -25,6 +25,7 @@ Supported Shorthands:
     - Breadcrumbs: zCrumbs → zDisplay zCrumbs events ← BUG FIX
     - Inputs: zInput → zDisplay read_string events (default: type=text, required=false)
     - Checkboxes: zCheckbox → zDisplay read_bool events (default: checked=false, required=false)
+    - Selects: zSelect → zDisplay selection events (default: multi=false, default=none)
     - Plurals: zURLs, zTexts, zH1s-zH6s, zImages, zMDs → Implicit wizards
 
 Features:
@@ -123,7 +124,7 @@ class ShorthandExpander:
     """
     
     # UI element keys (for detection) - ALL shorthands that should NOT be recursively expanded
-    UI_ELEMENT_KEYS = ['zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zText', 'zMD', 'zImage', 'zURL', 'zUL', 'zOL', 'zDL', 'zTable', 'zBtn', 'zCrumbs', 'zInput', 'zCheckbox']
+    UI_ELEMENT_KEYS = ['zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zText', 'zMD', 'zImage', 'zURL', 'zUL', 'zOL', 'zDL', 'zTable', 'zBtn', 'zCrumbs', 'zInput', 'zCheckbox', 'zSelect']
     
     # Plural shorthand keys
     PLURAL_SHORTHANDS = ['zURLs', 'zTexts', 'zH1s', 'zH2s', 'zH3s', 'zH4s', 'zH5s', 'zH6s', 'zImages', 'zMDs']
@@ -388,6 +389,8 @@ class ShorthandExpander:
                 expanded = self._expand_zinput(value)
             elif clean_key == 'zCheckbox':
                 expanded = self._expand_zcheckbox(value)
+            elif clean_key == 'zSelect':
+                expanded = self._expand_zselect(value)
             
             # Apply expansion
             if expanded is not None:
@@ -569,6 +572,28 @@ class ShorthandExpander:
             value['prompt'] = ''
         
         return {KEY_ZDISPLAY: {'event': 'read_bool', **value}}
+    
+    def _expand_zselect(self, value: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Expand zSelect to selection event with defaults.
+        
+        Defaults:
+            options: [] (empty list, must be provided)
+            multi: False (single-select by default)
+            default: None (no default selection)
+            prompt: '' (empty prompt)
+        """
+        # Apply defaults if not provided
+        if 'options' not in value:
+            value['options'] = []
+        if 'multi' not in value:
+            value['multi'] = False
+        if 'default' not in value:
+            value['default'] = None
+        if 'prompt' not in value:
+            value['prompt'] = ''
+        
+        return {KEY_ZDISPLAY: {'event': 'selection', **value}}
     
     def _expand_zcrumbs(self, value: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """

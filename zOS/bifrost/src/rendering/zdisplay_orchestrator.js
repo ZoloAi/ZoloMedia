@@ -1292,6 +1292,127 @@ export class ZDisplayOrchestrator {
         break;
       }
 
+      case 'selection': {
+        // Select dropdown - render as bare semantic HTML (reboot style)
+        const { createLabel } = await import('./primitives/form_primitives.js');
+        
+        const prompt = eventData.prompt || '';
+        const options = eventData.options || [];
+        const multi = eventData.multi || false;
+        const defaultValue = eventData.default || null;
+        const disabled = eventData.disabled || false;
+        const required = eventData.required || false;
+        
+        // Build select classes from _zClass
+        const selectClasses = eventData._zClass || '';
+        
+        // Support zId (universal), _zId (Bifrost-only), and _id (legacy)
+        const selectId = eventData.zId || eventData._zId || eventData._id || `select_${Math.random().toString(36).substr(2, 9)}`;
+        
+        // Support aria-label for accessibility
+        const ariaLabel = eventData['_aria-label'] || eventData.ariaLabel || eventData['aria-label'];
+        
+        // Create wrapper div only if prompt exists
+        let wrapper = null;
+        
+        // Create label if prompt exists
+        if (prompt) {
+          wrapper = document.createElement('div');
+          // Use zLabel class for styled selects
+          const labelClass = selectClasses.includes('zSelect') ? 'zLabel' : '';
+          const labelAttrs = labelClass ? { class: labelClass } : {};
+          const label = createLabel(selectId, labelAttrs);
+          label.textContent = prompt;
+          wrapper.appendChild(label);
+          // Add line break after label (semantic HTML pattern)
+          wrapper.appendChild(document.createElement('br'));
+        }
+        
+        // Create select element
+        const selectElement = document.createElement('select');
+        selectElement.id = selectId;
+        
+        if (selectClasses) {
+          selectElement.className = selectClasses;
+        }
+        
+        if (disabled) {
+          selectElement.disabled = true;
+        }
+        
+        if (required) {
+          selectElement.required = true;
+        }
+        
+        if (multi) {
+          selectElement.multiple = true;
+        }
+        
+        // Support size attribute (number of visible options)
+        const size = eventData.size || null;
+        if (size !== null) {
+          selectElement.size = size;
+        }
+        
+        if (ariaLabel) {
+          selectElement.setAttribute('aria-label', ariaLabel);
+        }
+        
+        // Add autocomplete="off" to prevent browser from remembering selections
+        selectElement.setAttribute('autocomplete', 'off');
+        
+        // Apply inline styles if no wrapper (to avoid nesting issues)
+        if (!wrapper && eventData._zStyle) {
+          selectElement.setAttribute('style', eventData._zStyle);
+        }
+        
+        // Create option elements
+        options.forEach((optionValue, index) => {
+          const optionElement = document.createElement('option');
+          
+          // Handle both string options and object options {label: '', value: ''}
+          if (typeof optionValue === 'string') {
+            optionElement.textContent = optionValue;
+            optionElement.value = optionValue;
+          } else {
+            optionElement.textContent = optionValue.label || optionValue.value || '';
+            optionElement.value = optionValue.value || optionValue.label || '';
+          }
+          
+          // Set selected state based on default value
+          if (defaultValue !== null) {
+            if (multi && Array.isArray(defaultValue)) {
+              // Multi-select: check if option is in default array
+              if (defaultValue.includes(optionElement.value)) {
+                optionElement.selected = true;
+              }
+            } else {
+              // Single-select: check if option matches default
+              if (optionElement.value === defaultValue || optionElement.textContent === defaultValue) {
+                optionElement.selected = true;
+              }
+            }
+          }
+          
+          selectElement.appendChild(optionElement);
+        });
+        
+        // Assemble final element
+        if (wrapper) {
+          wrapper.appendChild(selectElement);
+          // Apply wrapper styles if specified
+          if (eventData._zStyle) {
+            wrapper.setAttribute('style', eventData._zStyle);
+          }
+          element = wrapper;
+        } else {
+          element = selectElement;
+        }
+        
+        this.logger.log(`[renderZDisplayEvent] Rendered ${event} select (id=${selectId}, options=${options.length}, multi=${multi})`);
+        break;
+      }
+
       default: {
         this.logger.warn(`Unknown zDisplay event: ${event}`);
         const { createDiv } = await import('./primitives/generic_containers.js');
