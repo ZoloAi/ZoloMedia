@@ -44,6 +44,10 @@ class KeyDetector:
         'zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zCrumbs', 'zInput', 'zCheckbox', 'zBtn', 'zSelect', 'zRange'
     }
     
+    CONTROL_FLOW_KEYS = {
+        'zWizard'  # Sequential UI flow control
+    }
+    
     UI_ELEMENT_PROPERTY_KEYS = {
         'src', 'alt_text', 'caption', 'color', 'open_prompt', 'indent',
         'label', 'style', 'semantic',
@@ -56,6 +60,7 @@ class KeyDetector:
         'prompt', 'type', 'placeholder', 'required', 'disabled', 'readonly',
         'min', 'max', 'step', 'pattern', 'autocomplete', 'value', 'checked',
         'name', 'id', 'maxlength', 'minlength', 'multiple', 'size', 'options', 'multi',
+        'prefix', 'suffix',  # Input group properties
         # Button-specific properties (zBtn)
         'action'
     }
@@ -100,6 +105,7 @@ class KeyDetector:
                 'prompt', 'type', 'placeholder', 'required', 'disabled', 'readonly',
                 'min', 'max', 'step', 'pattern', 'autocomplete', 'value', 'checked',
                 'name', 'id', 'maxlength', 'minlength', 'multiple', 'size',
+                'prefix', 'suffix',  # Input group properties
                 '_zClass', '_id', 'color', 'indent'
             ],
         },
@@ -291,6 +297,10 @@ class KeyDetector:
         # Bifrost keys (underscore-prefixed)
         if key.startswith('_'):
             return TokenType.BIFROST_KEY
+        
+        # Control flow construct keys (zWizard)
+        if emitter.is_zui_file and key in KeyDetector.CONTROL_FLOW_KEYS:
+            return TokenType.CONTROL_FLOW_KEY
         
         # Specific UI element keys
         if emitter.is_zui_file and key in KeyDetector.UI_ELEMENT_KEYS:

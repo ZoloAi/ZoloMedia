@@ -216,6 +216,11 @@ tokens:
     style: none
     description: "UI element keys in zUI files (zImage, zText, zURL, zH1-zH6, zNavBar, zUL, zOL, zDL)"
   
+  controlFlowKey:
+    color: light_green
+    style: none
+    description: "Control flow construct keys (zWizard for sequential UI flows)"
+  
   uiElementPropertyKey:
     color: lavender
     style: none

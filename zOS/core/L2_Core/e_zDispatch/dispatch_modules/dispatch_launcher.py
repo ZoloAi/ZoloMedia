@@ -676,21 +676,32 @@ class CommandLauncher:
         # ========================================================================
         # After shorthand expansion, we may have: {'zH1': {'zDisplay': {...}}, 'zText': {'zDisplay': {...}}}
         # These are organizational structures that need recursive launching, even if is_subsystem_call=True
-        if not is_crud_call and len(content_keys) > 0 and not has_explicit_subsystem_keys:
-            result = self._handle_organizational_structure(zHorizontal, content_keys, context, walker)
-            # If organizational structure was detected and processed, return immediately
-            # (even if result is None) to prevent fallthrough to implicit wizard
-            if result is not None:
-                return result
+        
+        # SPECIAL CASE: When zWizard is mixed with other content keys, process non-wizard keys first
+        # Example: {'zText': {...}, 'zWizard': {...}} should render zText then execute wizard
+        has_zwizard_key = KEY_ZWIZARD in zHorizontal
+        non_wizard_content_keys = [k for k in content_keys if k != KEY_ZWIZARD]
+        
+        if not is_crud_call and len(content_keys) > 0 and (not has_explicit_subsystem_keys or (has_zwizard_key and len(non_wizard_content_keys) > 0)):
+            # If zWizard is present with other keys, only process the non-wizard keys here
+            keys_to_process = non_wizard_content_keys if has_zwizard_key else content_keys
             
-            # Check if organizational structure was detected (all keys are nested)
-            all_nested = all(
-                isinstance(zHorizontal[k], (dict, list))
-                for k in content_keys
-            )
-            if all_nested:
-                # Organizational structure was processed, don't fall through to wizard
-                return result
+            if len(keys_to_process) > 0:
+                result = self._handle_organizational_structure(zHorizontal, keys_to_process, context, walker)
+                # If organizational structure was detected and processed, return immediately
+                # (even if result is None) to prevent fallthrough to implicit wizard
+                # UNLESS we have a zWizard to process after
+                if result is not None and not has_zwizard_key:
+                    return result
+                
+                # Check if organizational structure was detected (all keys are nested)
+                all_nested = all(
+                    isinstance(zHorizontal[k], (dict, list))
+                    for k in keys_to_process
+                )
+                if all_nested and not has_zwizard_key:
+                    # Organizational structure was processed, don't fall through to wizard
+                    return result
         
         # ========================================================================
         # IMPLICIT WIZARD DETECTION
@@ -848,8 +859,17 @@ class CommandLauncher:
             # Bifrost: Return zHat for API consumption
             return zHat
         
-        # Terminal/Walker: Return zBack for navigation (or zHat if no walker)
-        return NAV_ZBACK if walker else zHat
+        # Terminal/Walker: Check if nested in organizational container
+        # If nested, return zHat to allow parent to continue processing siblings
+        # If top-level, return zBack for navigation
+        is_nested = context and context.get('_is_nested_in_org_container', False)
+        
+        if is_nested:
+            # Nested wizard (e.g., demo in documentation) - return zHat to continue
+            return zHat
+        else:
+            # Top-level wizard - return zBack for navigation
+            return NAV_ZBACK if walker else zHat
 
     def _handle_read_string(
         self,

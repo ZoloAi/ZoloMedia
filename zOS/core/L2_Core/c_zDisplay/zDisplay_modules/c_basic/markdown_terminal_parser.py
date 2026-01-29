@@ -79,16 +79,20 @@ class MarkdownTerminalParser:
         # NOTE: Emoji conversion now happens upstream in display_event_outputs.py
         # via the DRY _convert_emojis_for_terminal() helper for ALL events (header, text, rich_text)
         
-        # Phase 1: Process markdown in order: code first (to protect backticks), then bold, then italic
+        # Phase 1: Process markdown in order: code first (to protect backticks), then links, then bold, then italic
         # This prevents interference between patterns
         
         # 1. Code blocks: `code` → cyan
         text = self._convert_code(text)
         
-        # 2. Bold: **text** → bold
+        # 2. Links: [text](url) → text (strip URL for Terminal)
+        # Special case: [*](url) → * with info color (footnote style)
+        text = self._convert_links(text)
+        
+        # 3. Bold: **text** → bold
         text = self._convert_bold(text)
         
-        # 3. Italic: *text* → italic/dim
+        # 4. Italic: *text* → italic/dim
         text = self._convert_italic(text)
         
         return text
@@ -130,6 +134,51 @@ class MarkdownTerminalParser:
         
         return re.sub(pattern, replacer, text)
     
+    def _convert_links(self, text: str) -> str:
+        """
+        Convert markdown links to plain text with optional color.
+        
+        Phase 7: Markdown link parsing
+        
+        Handles:
+        - [text](url) → text (strip URL for Terminal)
+        - [*](url) → * with info color (footnote style)
+        
+        Pattern: [text](url) → text
+        
+        Args:
+            text: Text with markdown links
+            
+        Returns:
+            Text with links converted (URLs stripped, footnote asterisks colored)
+        """
+        # Pattern: [text](url)
+        pattern = r'\[([^\]]+)\]\([^)]+\)'
+        
+        def replacer(match):
+            link_text = match.group(1)
+            
+            # Special case: footnote-style link [*](url) → * with info color
+            if link_text == '*':
+                try:
+                    from .....zSys.formatting.ztheme_to_ansi import (
+                        map_ztheme_classes_to_ansi,
+                        get_reset_code
+                    )
+                    # Apply zLink-info color (info blue)
+                    ansi_codes = map_ztheme_classes_to_ansi(['zLink-info'])
+                    if ansi_codes:
+                        return f"{ansi_codes}*{get_reset_code()}"
+                except ImportError:
+                    pass
+                # Fallback: just return asterisk
+                return '*'
+            
+            # Regular link: just return the text (URL stripped for Terminal)
+            return link_text
+        
+        return re.sub(pattern, replacer, text)
+    
     def _convert_italic(self, text: str) -> str:
         """
         Convert *italic* to ANSI italic (or dim fallback).
@@ -159,11 +208,14 @@ class MarkdownTerminalParser:
         Strip HTML tags and map zTheme classes to ANSI colors.
         
         Phase 2: HTML class mapping
+        Phase 7: Nested HTML tag support (recursive processing)
         
         Handles:
         - <span class="zText-error">text</span> → red ANSI text
         - <span class="zText-error zFont-bold">text</span> → red + bold ANSI
         - <div class="zCallout">text</div> → text (strip non-color classes)
+        - <sup><a href="#anchor" class="zLink-info">*</a></sup> → * (with info color)
+        - Nested HTML tags (recursively processed)
         
         Args:
             text: Text potentially containing HTML tags
@@ -174,6 +226,8 @@ class MarkdownTerminalParser:
         Example:
             >>> parser._strip_html_with_color_mapping('<span class="zText-error">Error!</span>')
             '\033[38;5;203mError!\033[0m'  # Red ANSI
+            >>> parser._strip_html_with_color_mapping('<sup><a href="#footnote" class="zLink-info">*</a></sup>')
+            '\033[38;5;111m*\033[0m'  # Info color (blue) asterisk
         """
         if not text or '<' not in text:
             return text
@@ -188,17 +242,48 @@ class MarkdownTerminalParser:
             # Fallback: just strip tags without color mapping
             return self._strip_all_html_tags(text)
         
-        # Pattern: <tag class="class1 class2">content</tag>
-        # Captures: tag name, class attribute value, content
-        pattern = r'<(\w+)(?:\s+class=["\']([^"\']+)["\'])?(?:\s+[^>]*)?>(.+?)</\1>'
+        # Recursively process nested HTML tags
+        # Pattern: <tag attributes>content</tag>
+        # Handles: class="...", href="...", style="...", and other attributes
+        pattern = r'<(\w+)((?:\s+[^>]*)?)>(.+?)</\1>'
         
-        def replacer(match):
+        def process_tag(match):
+            """Process a single HTML tag (recursively handles nested tags)."""
             tag_name = match.group(1)
-            classes_str = match.group(2) or ''
+            attrs_str = match.group(2) or ''
             content = match.group(3)
             
+            # Recursively process nested tags in content first (innermost tags first)
+            # This ensures inner tags are processed before outer tags
+            if '<' in content:
+                # Recursively call the main function on the content
+                content = self._strip_html_with_color_mapping(content)
+            
+            # Extract attributes
+            class_match = re.search(r'class=["\']([^"\']+)["\']', attrs_str)
+            href_match = re.search(r'href=["\']([^"\']+)["\']', attrs_str)
+            
+            classes_str = class_match.group(1) if class_match else ''
+            href = href_match.group(1) if href_match else ''
+            
+            # Handle anchor tags (<a>) - show link text, optionally with href in Terminal
+            if tag_name == 'a':
+                # For Terminal mode, we can show the link text with optional href
+                # For now, just show the text (Bifrost will handle the actual link)
+                link_text = content
+                
+                # Apply color classes if present
+                if classes_str:
+                    classes = classes_str.split()
+                    ansi_codes = map_ztheme_classes_to_ansi(classes)
+                    if ansi_codes:
+                        return f"{ansi_codes}{link_text}{get_reset_code()}"
+                
+                # No classes - just return link text
+                return link_text
+            
+            # Handle other tags with class attributes
             if classes_str:
-                # Split classes and map to ANSI
                 classes = classes_str.split()
                 ansi_codes = map_ztheme_classes_to_ansi(classes)
                 
@@ -209,8 +294,16 @@ class MarkdownTerminalParser:
             # No recognized classes - just return content without tags
             return content
         
-        # Apply the pattern
-        text = re.sub(pattern, replacer, text)
+        # Process all HTML tags recursively
+        # Keep processing until no more tags are found
+        max_iterations = 10  # Safety limit for deeply nested tags
+        iteration = 0
+        while '<' in text and iteration < max_iterations:
+            new_text = re.sub(pattern, process_tag, text)
+            if new_text == text:  # No more changes
+                break
+            text = new_text
+            iteration += 1
         
         # Clean up any remaining simple tags (no content or self-closing)
         text = self._strip_all_html_tags(text)
@@ -277,12 +370,8 @@ class MarkdownTerminalParser:
                     elif block_type == 'list':
                         self._emit_list(block_content, display, indent)
                     elif block_type == 'paragraph':
-                        # Phase 6: Strip markdown links first (Bifrost-only feature)
-                        # [text](url) → text
-                        link_pattern = r'\[([^\]]+)\]\([^)]+\)'
-                        block_content = re.sub(link_pattern, r'\1', block_content)
-                        
                         # Parse inline markdown and output
+                        # Links are now handled in parse_inline() with special footnote support
                         parsed_content = self.parse_inline(block_content)
                         self._emit_paragraph(parsed_content, indent, color)
                 except Exception as e:

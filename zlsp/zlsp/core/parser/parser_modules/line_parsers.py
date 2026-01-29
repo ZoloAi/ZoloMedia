@@ -18,6 +18,7 @@ from .multiline_collectors import (
     collect_triple_quote_multiline,
 )
 from .value_processors import detect_value_type
+from .escape_processors import decode_unicode_escapes
 from .token_emitters import emit_value_tokens, emit_string_with_escapes
 from .validators import validate_ascii_only
 from .key_detector import KeyDetector
@@ -453,6 +454,23 @@ def parse_lines_with_tokens(lines: list[str], line_mapping: dict, emitter: 'Toke
                 # Extract clean key (without modifiers) for the check
                 _, clean_key_for_check, _ = emitter.split_modifiers(key)
                 has_str_hint = KeyDetector.should_enable_auto_multiline(clean_key_for_check, emitter, indent)
+                
+                # ═══════════════════════════════════════════════════════════════
+                # NEW: zText/zMD SCALAR SHORTHAND MULTILINE SUPPORT (2026-01-28)
+                # Enables: zText: First line
+                #              continuation line (space-joined for zText)
+                # ═══════════════════════════════════════════════════════════════
+                if not has_str_hint and value:  # Has inline value, check for continuation
+                    if clean_key_for_check in ('zText', 'zMD'):
+                        # Check if next line is indented continuation (not a new key)
+                        if i + 1 < len(lines):
+                            next_line = lines[i + 1]
+                            next_indent = len(next_line) - len(next_line.lstrip())
+                            next_stripped = next_line.strip()
+                            # Continuation if: more indented, not empty, doesn't look like a key
+                            is_likely_key = ':' in next_stripped[:30] and not next_stripped.startswith('-')
+                            if next_indent > indent and next_stripped and not is_likely_key:
+                                has_str_hint = True
             
             # Handle (str) multi-line values OR check for YAML natural continuation
             if has_str_hint:
@@ -865,6 +883,26 @@ def parse_lines(lines: list[str], line_mapping: dict = None) -> dict:
                                     break
                             break  # Stop at first parent found
             
+            # ═══════════════════════════════════════════════════════════════
+            # NEW: zText/zMD SCALAR SHORTHAND MULTILINE SUPPORT (2026-01-28)
+            # Enables: zText: First line
+            #              continuation line (space-joined for zText)
+            # ═══════════════════════════════════════════════════════════════
+            if not has_str_hint and value:  # Has inline value, check for continuation
+                clean_key_check = key.split('(')[0].strip()
+                if clean_key_check in ('zText', 'zMD'):
+                    # Check if next line is indented continuation (not a new key)
+                    if i + 1 < len(lines):
+                        next_line = lines[i + 1]
+                        next_indent = len(next_line) - len(next_line.lstrip())
+                        next_stripped = next_line.strip()
+                        # Continuation if: more indented, not empty, doesn't look like a key
+                        # Keys have : within first 30 chars typically
+                        is_likely_key = ':' in next_stripped[:30] and not next_stripped.startswith('-')
+                        if next_indent > indent and next_stripped and not is_likely_key:
+                            has_str_hint = True
+                            parent_block_key = clean_key_check.lower()  # For semantic joining
+            
             # Multi-line enabled with (str) hint OR auto-multiline property
             if has_str_hint:
                 # (str) type hint: collect YAML-style indented multi-line
@@ -980,7 +1018,7 @@ def build_nested_dict(structured_lines: list[dict], start_idx: int, current_inde
         # UI event shorthands are exempt from duplicate key checks
         # These represent sequential UI elements, not dictionary keys
         is_ui_event_shorthand = (
-            clean_key in ['zText', 'zImage', 'zMD', 'zURL', 'zUL', 'zOL', 'zTable', 'zInput'] or
+            clean_key in ['zText', 'zImage', 'zMD', 'zURL', 'zUL', 'zOL', 'zTable', 'zInput', 'zWizard', 'zCheckbox', 'zButton', 'zBtn'] or
             (clean_key.startswith('zH') and len(clean_key) == 3 and clean_key[2].isdigit())
         )
         
@@ -1038,8 +1076,9 @@ def build_nested_dict(structured_lines: list[dict], start_idx: int, current_inde
                     # Multi-line array or dash list: run type detection on reconstructed value
                     typed_value = detect_value_type(value) if value else ''
                 else:
-                    # Multi-line string: already processed, use as-is
-                    typed_value = value
+                    # Multi-line string: decode escape sequences (\n, \t, etc.) but skip type detection
+                    # This ensures \n in markdown content becomes actual newlines
+                    typed_value = decode_unicode_escapes(value) if value else ''
             else:
                 # Detect value type (including \n escape sequences)
                 typed_value = detect_value_type(value) if value else ''

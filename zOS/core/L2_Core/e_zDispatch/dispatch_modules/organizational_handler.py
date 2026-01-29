@@ -146,14 +146,36 @@ class OrganizationalHandler:
         # Track what we find for logging
         ui_event_count = 0
         org_key_count = 0
+        input_event_count = 0
         processed_any = False
+        
+        # ═══════════════════════════════════════════════════════════════
+        # TERMINAL MODE CHECK (2026-01-28)
+        # Detect mode to skip terminal-suppressed content (_prefixed keys)
+        # ═══════════════════════════════════════════════════════════════
+        is_terminal_mode = True  # Default to Terminal
+        if walker and hasattr(walker, 'session'):
+            mode = walker.session.get('zMode', 'Terminal')
+            is_terminal_mode = (mode != 'zBifrost')
+        elif context and 'zMode' in context:
+            is_terminal_mode = (context.get('zMode') != 'zBifrost')
         
         for key in content_keys:
             val = zHorizontal[key]
             
             # Check for organizational container FIRST (before zDisplay check)
             if key.startswith('_'):
-                # Organizational container (not metadata)
+                # ═══════════════════════════════════════════════════════════════
+                # TERMINAL SUPPRESSION: Skip _ prefixed keys in Terminal mode
+                # These are Bifrost-only visual elements (e.g. _Visual_Progression)
+                # ═══════════════════════════════════════════════════════════════
+                if is_terminal_mode:
+                    self.logger.framework.debug(
+                        f"[OrganizationalHandler] Skipping terminal-suppressed key '{key}' (Terminal mode)"
+                    )
+                    continue
+                
+                # Bifrost mode: Organizational container (not metadata)
                 org_key_count += 1
                 self.logger.framework.debug(
                     f"[OrganizationalHandler] Processing organizational container '{key}' in order"
@@ -177,6 +199,7 @@ class OrganizationalHandler:
                 is_input_event = event_type in ('read_string', 'read_password', 'selection', 'button')
                 
                 if is_input_event:
+                    input_event_count += 1
                     self.logger.framework.debug(
                         f"[OrganizationalHandler] Skipping input event '{key}' (event: {event_type}) - will be handled by wizard"
                     )
@@ -219,6 +242,20 @@ class OrganizationalHandler:
         
         # If we processed anything, return None (success)
         if processed_any:
+            return None
+        
+        # Check if this is a wizard input container (all keys are input events)
+        # If so, treat it as an IMPLICIT WIZARD and route to wizard subsystem
+        if input_event_count > 0 and input_event_count == len(content_keys):
+            self.logger.framework.debug(
+                f"[OrganizationalHandler] Wizard input container detected ({input_event_count} input events) - routing as implicit wizard"
+            )
+            # Route as implicit wizard for sequential execution with if conditions
+            if command_router and hasattr(command_router, 'wizard_detector'):
+                # Mark as implicit wizard and route to wizard subsystem
+                self.logger.framework.debug("[OrganizationalHandler] Routing wizard input container to wizard subsystem")
+                return command_router._handle_implicit_wizard(zHorizontal, walker)
+            # Fallback: return None if no wizard detector available
             return None
         
         # Recurse into organizational structure
@@ -354,10 +391,26 @@ class OrganizationalHandler:
             - Processes each nested key individually
             - Checks for navigation signals (zBack, exit, etc.)
             - Stops on navigation signal
+            - Skips terminal-suppressed keys (_prefix) in Terminal mode
         """
         result = None
         
+        # Detect mode for terminal suppression
+        is_terminal_mode = True  # Default to Terminal
+        if walker and hasattr(walker, 'session'):
+            mode = walker.session.get('zMode', 'Terminal')
+            is_terminal_mode = (mode != 'zBifrost')
+        elif context and 'zMode' in context:
+            is_terminal_mode = (context.get('zMode') != 'zBifrost')
+        
         for key in content_keys:
+            # Skip terminal-suppressed keys in Terminal mode
+            if is_terminal_mode and key.startswith('_'):
+                self.logger.framework.debug(
+                    f"[OrganizationalHandler] Skipping terminal-suppressed key '{key}' in _recurse_nested_structure"
+                )
+                continue
+            
             value = zHorizontal[key]
             
             self.logger.framework.debug(
@@ -401,8 +454,11 @@ class OrganizationalHandler:
         Notes:
             - Applies shorthand expansion if needed
             - Recursively launches dicts and lists
+            - Supports 'if:' conditions on shorthands (wizard context)
         """
         # Apply shorthand expansion if dict
+        # The 'if' parameter will be passed through to zDisplay wrapper
+        # for the wizard to evaluate during sequential execution
         if isinstance(value, dict) and self.expander:
             # DEBUG: Log metadata before expansion
             if key.startswith('_Box_') or key.startswith('_Visual_'):
@@ -421,10 +477,20 @@ class OrganizationalHandler:
                     f"[OrganizationalHandler] 🎨 AFTER expansion of {key}: _zStyle present = {has_style_after}, keys = {list(value.keys())}"
                 )
         
+        # NOTE: 'if' conditions are NOT evaluated here during organizational preprocessing.
+        # They are evaluated by the wizard during sequential execution when zHat is available.
+        # The 'if' parameter passes through in the zDisplay wrapper for wizard handling.
+        
         # Recursively process
         if isinstance(value, dict) and command_router:
-            return command_router._launch_dict(value, context, walker)
+            # Mark nested content to prevent wizards from triggering navigation
+            nested_context = context.copy() if context else {}
+            nested_context['_is_nested_in_org_container'] = True
+            return command_router._launch_dict(value, nested_context, walker)
         elif isinstance(value, list) and command_router:
-            return command_router._launch_list(value, context, walker)
+            # Mark nested content to prevent wizards from triggering navigation
+            nested_context = context.copy() if context else {}
+            nested_context['_is_nested_in_org_container'] = True
+            return command_router._launch_list(value, nested_context, walker)
         
         return None

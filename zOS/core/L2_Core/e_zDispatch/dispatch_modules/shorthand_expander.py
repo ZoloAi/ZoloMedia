@@ -23,7 +23,7 @@ Supported Shorthands:
     - Tables: zTable → zDisplay zTable events
     - Buttons: zBtn → zDisplay button events (default: color=primary, action=#)
     - Breadcrumbs: zCrumbs → zDisplay zCrumbs events ← BUG FIX
-    - Inputs: zInput → zDisplay read_string events (default: type=text, required=false)
+    - Inputs: zInput → zDisplay read_string events (default: type=text, required=false, supports prefix/suffix for input groups)
     - Checkboxes: zCheckbox → zDisplay read_bool events (default: checked=false, required=false)
     - Selects: zSelect → zDisplay selection events (default: multi=false, type=dropdown)
     - Range Sliders: zRange → zDisplay read_range events (default: min=0, max=100, step=1)
@@ -36,19 +36,28 @@ Features:
     - Plural shorthand detection
     - LSP duplicate key handling (__dup suffix)
     - Organizational sibling detection
+    - Scalar shorthand support: zText: "string" → zText: {content: "string"}
+      (also works for zMD and zH1-zH6 with label field)
 
 Usage Example:
     expander = ShorthandExpander(logger)
     
-    # Expand shorthand to full zDisplay format
+    # Expand shorthand to full zDisplay format (object form)
     expanded = expander.expand(
-        {'zH1': {'content': 'Title'}, 'zText': {'content': 'Body'}},
+        {'zH1': {'label': 'Title'}, 'zText': {'content': 'Body'}},
         session={}
     )
     # Returns: {
-    #     'zH1': {'zDisplay': {'event': 'header', 'indent': 1, 'content': 'Title'}},
+    #     'zH1': {'zDisplay': {'event': 'header', 'indent': 1, 'label': 'Title'}},
     #     'zText': {'zDisplay': {'event': 'text', 'content': 'Body'}}
     # }
+    
+    # Scalar shorthand (NEW): Even simpler when only content/label needed
+    expanded = expander.expand(
+        {'zH1': 'Title', 'zText': 'Body'},
+        session={}
+    )
+    # Same result - scalar is normalized to {label: ...} or {content: ...}
 
 Integration:
     - Used by dict_commands.py for Terminal and Bifrost
@@ -355,6 +364,24 @@ class ShorthandExpander:
             clean_key = self._get_clean_key(key)
             value = zHorizontal[key]
             
+            # ═══════════════════════════════════════════════════════════════
+            # SCALAR SHORTHAND SUPPORT (2026-01-28)
+            # Allows: zText: "string" instead of zText: {content: "string"}
+            # ═══════════════════════════════════════════════════════════════
+            if isinstance(value, str):
+                # Normalize scalar to dict for supported shorthands
+                if clean_key == 'zText' or clean_key == 'zMD':
+                    # zText/zMD use 'content' field
+                    value = {'content': value}
+                    zHorizontal[key] = value  # Update in place
+                elif clean_key.startswith('zH') and len(clean_key) == 3 and clean_key[2].isdigit():
+                    # zH1-zH6 use 'label' field
+                    value = {'label': value}
+                    zHorizontal[key] = value  # Update in place
+                else:
+                    # Other shorthands don't support scalar form yet
+                    continue
+            
             # Skip if not a dict or already expanded
             if not isinstance(value, dict) or KEY_ZDISPLAY in value:
                 continue
@@ -474,6 +501,9 @@ class ShorthandExpander:
         Expand zUL to list event (bullet style).
         
         Handles plural shorthand zURLs by extracting and expanding each URL.
+        
+        Optional Parameters (Conditional Rendering):
+            if: Condition for displaying this list (evaluated by organizational handler with zHat context)
         """
         # If value contains zURLs plural shorthand, extract them into an 'items' list
         if 'zURLs' in value and isinstance(value['zURLs'], dict):
@@ -493,6 +523,9 @@ class ShorthandExpander:
         Expand zOL to list event (number style).
         
         Handles plural shorthand zURLs by extracting and expanding each URL.
+        
+        Optional Parameters (Conditional Rendering):
+            if: Condition for displaying this list (evaluated by organizational handler with zHat context)
         """
         # If value contains zURLs plural shorthand, extract them into an 'items' list
         if 'zURLs' in value and isinstance(value['zURLs'], dict):
@@ -512,11 +545,19 @@ class ShorthandExpander:
         Expand zDL to description list event.
         
         Description lists are used for term-definition pairs (HTML <dl>, <dt>, <dd>).
+        
+        Optional Parameters (Conditional Rendering):
+            if: Condition for displaying this list (evaluated by organizational handler with zHat context)
         """
         return {KEY_ZDISPLAY: {'event': 'dl', **value}}
     
     def _expand_ztable(self, value: Dict[str, Any]) -> Dict[str, Any]:
-        """Expand zTable to zTable event."""
+        """
+        Expand zTable to zTable event.
+        
+        Optional Parameters (Conditional Rendering):
+            if: Condition for displaying this table (evaluated by organizational handler with zHat context)
+        """
         return {KEY_ZDISPLAY: {'event': 'zTable', **value}}
     
     def _expand_zbtn(self, value: Dict[str, Any]) -> Dict[str, Any]:
@@ -544,6 +585,21 @@ class ShorthandExpander:
             default: '' (empty string)
             placeholder: '' (empty string)
             required: False (not required by default)
+        
+        Optional Parameters (Input Groups):
+            prefix: Text prefix (e.g., '$', 'https://', '+1')
+            suffix: Text suffix (e.g., '@company.com', '.com', '%')
+        
+        Optional Parameters (Conditional Rendering):
+            if: Condition for displaying this input (evaluated by wizard with zHat context)
+                Example: if: "zHat[0] == 'high'"
+        
+        Notes:
+            - prefix/suffix enable input group pattern (Terminal-first)
+            - Terminal: Shows prefix/suffix in prompt as context
+            - Bifrost: Renders as .zInputGroup with .zInputGroup-text spans
+            - User input is concatenated: prefix + input + suffix
+            - 'if' parameter is passed through to wizard for conditional evaluation
         """
         # Apply defaults if not provided
         if 'type' not in value:
@@ -565,6 +621,9 @@ class ShorthandExpander:
             checked: False (unchecked by default)
             required: False (not required by default)
             prompt: '' (empty prompt)
+        
+        Optional Parameters (Conditional Rendering):
+            if: Condition for displaying this checkbox (evaluated by wizard with zHat context)
         """
         # Apply defaults if not provided
         if 'checked' not in value:
@@ -591,6 +650,9 @@ class ShorthandExpander:
             - dropdown: Renders as <select> element (default)
             - radio: Renders as radio button group (single-select only)
             - checkbox: Renders as checkbox group (multi-select only)
+        
+        Optional Parameters (Conditional Rendering):
+            if: Condition for displaying this select (evaluated by wizard with zHat context)
         """
         # Apply defaults if not provided
         if 'options' not in value:
@@ -633,6 +695,9 @@ class ShorthandExpander:
                 max: 100
                 step: 5
                 value: 50
+        
+        Optional Parameters (Conditional Rendering):
+            if: Condition for displaying this range slider (evaluated by wizard with zHat context)
         """
         # Apply defaults if not provided
         if 'min' not in value:

@@ -1231,6 +1231,18 @@
     }
 
     /**
+     * Ensure WizardConditionalRenderer is loaded
+     */
+    async _ensureWizardConditionalRenderer() {
+      if (!this.wizardConditionalRenderer) {
+        const { WizardConditionalRenderer } = await import('./rendering/wizard_conditional_renderer.js');
+        this.wizardConditionalRenderer = new WizardConditionalRenderer(this.logger);
+        this.logger.log('[BifrostClient] WizardConditionalRenderer loaded and initialized');
+      }
+      return this.wizardConditionalRenderer;
+    }
+
+    /**
      * Ensure DeclarativeUILoader is loaded
      */
     async _ensureDeclarativeUILoader() {

@@ -1080,6 +1080,48 @@ class zWizard:
         # Bifrost mode: Only filter out metadata keys, keep terminal-suppressed content
         return [k for k in items_dict.keys() if k not in METADATA_KEYS]
 
+    def _evaluate_if_condition(self, condition: str, zHat: WizardHat) -> bool:
+        """
+        Evaluate an 'if' condition string against the current zHat context.
+        
+        Supports:
+        - Boolean checks: "zHat[0]"
+        - Equality: "zHat[0] == 'value'"
+        - Multiple conditions: "zHat[0] and zHat[1] == 'value'"
+        
+        Args:
+            condition: The condition string to evaluate
+            zHat: The current wizard context
+            
+        Returns:
+            bool: True if condition passes, False otherwise
+        """
+        try:
+            # Create a safe evaluation namespace with zHat access
+            # Instead of interpolating, provide zHat directly so Python can access values
+            import re
+            
+            # Build namespace with indexed access: zHat[0], zHat[1], etc.
+            namespace = {"__builtins__": {}}
+            
+            # Add zHat values by index
+            for i in range(len(zHat)):
+                namespace[f"zHat_{i}"] = zHat[i]
+            
+            # Replace zHat[N] with zHat_N in the condition string
+            # This converts "zHat[0] == 'high'" to "zHat_0 == 'high'"
+            evaluated_condition = re.sub(r'zHat\[(\d+)\]', r'zHat_\1', condition)
+            
+            # Evaluate the condition with the namespace
+            result = eval(evaluated_condition, namespace, {})
+            
+            self.logger.debug(f"[if] Condition '{condition}' → '{evaluated_condition}' → {result}")
+            return bool(result)
+            
+        except Exception as e:
+            self.logger.warning(f"[if] Failed to evaluate condition '{condition}': {e}")
+            return False
+
     def _execute_step(self, step_key: str, step_value: Any, step_context: Dict[str, Any]) -> Any:
         """Execute a single wizard step."""
         # DEBUG: Log step context to diagnose zHat passing
@@ -1257,6 +1299,29 @@ class zWizard:
             for step_key, step_value in zWizard_obj.items():
                 if step_key.startswith("_"):
                     continue
+
+                # Check for 'if' condition at step level (on the step container)
+                if isinstance(step_value, dict) and "if" in step_value:
+                    condition = step_value["if"]
+                    if not self._evaluate_if_condition(condition, zHat):
+                        self.logger.debug(f"[zWizard] Skipping step '{step_key}' - condition '{condition}' is false")
+                        continue
+                    
+                    # Remove 'if' key from step_value before execution (it's metadata)
+                    step_value = {k: v for k, v in step_value.items() if k != "if"}
+                
+                # ALSO check for 'if' condition inside zDisplay wrapper (expanded shorthands)
+                # This handles: zInput: {if: ..., prompt: ...} which becomes {zDisplay: {event: read_string, if: ...}}
+                if isinstance(step_value, dict) and 'zDisplay' in step_value:
+                    display_data = step_value['zDisplay']
+                    if isinstance(display_data, dict) and 'if' in display_data:
+                        condition = display_data['if']
+                        if not self._evaluate_if_condition(condition, zHat):
+                            self.logger.debug(f"[zWizard] Skipping step '{step_key}' - shorthand condition '{condition}' is false")
+                            continue
+                        
+                        # Remove 'if' from zDisplay before execution
+                        step_value['zDisplay'] = {k: v for k, v in display_data.items() if k != 'if'}
 
                 if display:
                     display.zDeclare(_MSG_WIZARD_STEP % step_key, color=SUBSYSTEM_COLOR, indent=_INDENT_LEVEL_2, style=_STYLE_SINGLE)

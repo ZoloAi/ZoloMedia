@@ -112,7 +112,7 @@ export default class ButtonRenderer {
 
     // Create button primitive (just the button, no container)
     const button = this._createButton(label, color, data._zClass, data._id, type);
-    this._attachClickHandler(button, requestId, label, true, type);
+    this._attachClickHandler(button, requestId, label, true, type, action);
 
     // ✅ NO cancel button in Bifrost! (Terminal-first: y/n, GUI: click or ignore)
     // In terminal, button is y/n prompt. In GUI, button is click or don't click.
@@ -209,11 +209,12 @@ export default class ButtonRenderer {
    * @param {string} originalLabel - Original button label
    * @param {boolean} value - Response value (true for primary, false for cancel)
    * @param {string} type - Button type (button, submit, reset)
+   * @param {string} action - Optional action string (e.g., "&plugin.func(zHat[0])")
    */
-  _attachClickHandler(button, requestId, originalLabel, value, type = 'button') {
+  _attachClickHandler(button, requestId, originalLabel, value, type = 'button', action = null) {
     button.addEventListener('click', (event) => {
-      console.log(`[ButtonRenderer] 🔘 Button clicked: "${button.textContent}" (type: ${type}, value: ${value})`);
-      this.logger.log(`[ButtonRenderer] Button clicked: ${button.textContent} (type: ${type}, value: ${value})`);
+      console.log(`[ButtonRenderer] 🔘 Button clicked: "${button.textContent}" (type: ${type}, value: ${value}, action: ${action})`);
+      this.logger.log(`[ButtonRenderer] Button clicked: ${button.textContent} (type: ${type}, value: ${value}, action: ${action})`);
 
       // For submit/reset buttons, let the form handle it naturally
       if (type === 'submit' || type === 'reset') {
@@ -224,11 +225,22 @@ export default class ButtonRenderer {
         return;
       }
 
-      // For regular buttons (type="button"), send WebSocket response
-      this.logger.log(`[ButtonRenderer] Regular button - sending WebSocket response`);
-      
-      // Send response to backend via WebSocket
-      this._sendResponse(requestId, value);
+      // For regular buttons (type="button"), check if it has an action
+      if (action && action.startsWith('&')) {
+        this.logger.log(`[ButtonRenderer] Button has plugin action - collecting wizard values`);
+        console.log(`[ButtonRenderer] 🎯 Button has plugin action: ${action}`);
+        
+        // Collect wizard input values (look for sibling inputs in same wizard container)
+        const collectedValues = this._collectWizardValues(button);
+        console.log(`[ButtonRenderer] 📦 Collected wizard values:`, collectedValues);
+        
+        // Send button action event with collected values
+        this._sendButtonAction(requestId, action, collectedValues);
+      } else {
+        // Regular button without action - send standard response
+        this.logger.log(`[ButtonRenderer] Regular button - sending WebSocket response`);
+        this._sendResponse(requestId, value);
+      }
 
       // Disable button after click to prevent double-submission
       button.disabled = true;
@@ -261,6 +273,96 @@ export default class ButtonRenderer {
       this.logger.log('[ButtonRenderer] Response sent:', { requestId, value });
     } catch (error) {
       this.logger.error('[ButtonRenderer] Failed to send response:', error);
+    }
+  }
+
+  /**
+   * Collect wizard input values from sibling inputs
+   * Looks for input elements in the same container as the button
+   * @private
+   * @param {HTMLElement} button - Button element
+   * @returns {Array} Array of input values in order
+   */
+  _collectWizardValues(button) {
+    const values = [];
+    
+    // Strategy: Look upward for wizard container markers, then fallback to parent
+    // 1. Try data-zwizard attribute (explicit wizard)
+    // 2. Try data-zkey containing "zWizard" (orchestrator pattern)
+    // 3. Fallback to nearest parent with multiple children
+    
+    let container = button.closest('[data-zwizard]');
+    
+    if (!container) {
+      // Try to find parent with data-zkey attribute (orchestrator pattern)
+      let current = button.parentElement;
+      while (current && !container) {
+        if (current.hasAttribute('data-zkey')) {
+          container = current;
+          break;
+        }
+        current = current.parentElement;
+      }
+    }
+    
+    // Fallback to direct parent
+    if (!container) {
+      container = button.parentElement;
+    }
+    
+    if (!container) {
+      console.warn('[ButtonRenderer] ⚠️  Could not find wizard container');
+      return values;
+    }
+    
+    console.log('[ButtonRenderer] 🔍 Searching for inputs in container:', container.getAttribute('data-zkey') || container.id || container.className);
+    
+    // Find all input elements in the same container (look for .zForm-control class from form_primitives)
+    const inputs = container.querySelectorAll('input.zForm-control, input[type="text"], input[type="email"], input[type="number"], textarea');
+    
+    console.log('[ButtonRenderer] 📝 Found', inputs.length, 'input(s)');
+    
+    inputs.forEach((input, index) => {
+      const value = input.value || '';
+      console.log(`[ButtonRenderer]   Input ${index}: "${value}" (id: ${input.id}, placeholder: ${input.placeholder})`);
+      values.push(value);
+    });
+    
+    return values;
+  }
+
+  /**
+   * Send button action event to backend
+   * @private
+   * @param {string} requestId - Request ID
+   * @param {string} action - Plugin action string (e.g., "&plugin.func(zHat[0])")
+   * @param {Array} collectedValues - Collected wizard input values
+   */
+  _sendButtonAction(requestId, action, collectedValues) {
+    // Try to get connection from client or global window object
+    const connection = this.client?.connection || window.bifrostClient?.connection;
+
+    if (!connection) {
+      this.logger.error('[ButtonRenderer] No WebSocket connection available');
+      console.error('[ButtonRenderer] ❌ No WebSocket connection');
+      return;
+    }
+
+    try {
+      const payload = {
+        event: 'button_action',
+        requestId: requestId,
+        action: action,
+        collected_values: collectedValues
+      };
+      
+      console.log('[ButtonRenderer] 📤 Sending button action:', payload);
+      connection.send(JSON.stringify(payload));
+
+      this.logger.log('[ButtonRenderer] Button action sent:', payload);
+    } catch (error) {
+      this.logger.error('[ButtonRenderer] Failed to send button action:', error);
+      console.error('[ButtonRenderer] ❌ Failed to send:', error);
     }
   }
 

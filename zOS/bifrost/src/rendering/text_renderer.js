@@ -141,6 +141,12 @@ export class TextRenderer {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
       
+      // Special case: ```pre renders as semantic <pre> without <code> wrapper
+      // Parallels zText semantic: pre option
+      if (language === 'pre') {
+        return `<pre class="zFont-mono">${escapedCode}</pre>`;
+      }
+      
       // Apply language class if specified
       const langClass = language ? ` language-${language}` : '';
       return `<pre class="zBg-dark zText-light zp-3 zRounded zOverflow-auto"><code class="zFont-mono${langClass}">${escapedCode}</code></pre>`;
@@ -156,6 +162,7 @@ export class TextRenderer {
     });
 
     // Links: [text](url) -> <a href="url">text</a>
+    // Special case: [*](url) -> <sup><a href="url" class="zLink-info">*</a></sup> (footnote style)
     // Convert zPaths to URLs for proper navigation
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
       // Convert zPath (@.UI...) to URL path (/path/to/page)
@@ -164,6 +171,12 @@ export class TextRenderer {
       const isInternal = url.startsWith('@') || url.startsWith('$') || url.startsWith('/') || url.startsWith('#');
       const target = isInternal ? '_self' : '_blank';
       const rel = target === '_blank' ? ' rel="noopener noreferrer"' : '';
+      
+      // Special handling for footnote-style links: [*](url) -> superscript with info color
+      if (text === '*') {
+        return `<sup><a href="${href}" class="zLink-info" target="${target}"${rel}>*</a></sup>`;
+      }
+      
       return `<a href="${href}" target="${target}"${rel}>${text}</a>`;
     });
 
@@ -258,10 +271,12 @@ export class TextRenderer {
     });
 
     // Bold: **text** -> <strong>text</strong>
-    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    // Use non-greedy .*? to allow nested italics (e.g., **text with *italic* inside**)
+    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 
     // Italic: *text* -> <em>text</em> (but not ** from bold)
-    html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    // Use non-greedy .*? for consistency
+    html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
 
     // Restore inline code blocks from placeholders BEFORE underline processing
     // (underline uses __ which would corrupt ___ placeholders)

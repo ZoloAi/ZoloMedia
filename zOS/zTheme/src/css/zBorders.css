@@ -227,3 +227,36 @@
     border-bottom-left-radius: var(--border-radius) !important;
 }
 
+/* ============================================
+   Section Breaks (Convenience Classes)
+   ============================================
+   
+   Reusable section dividers combining border + spacing.
+   Use for page headers, section separators, etc.
+   
+   Example:
+   <div class="zBreak-bottom">Page Header</div>
+   <div class="zBreak-top">Footer Section</div>
+   ============================================ */
+
+.zBreak-bottom {
+    border-bottom: 1px solid var(--color-dark) !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.zBreak-top {
+    border-top: 1px solid var(--color-dark) !important;
+    margin-top: 1.5rem !important;
+}
+
+/* Light variants for subtle breaks */
+.zBreak-bottom-light {
+    border-bottom: 1px solid var(--color-border) !important;
+    margin-bottom: 1rem !important;
+}
+
+.zBreak-top-light {
+    border-top: 1px solid var(--color-border) !important;
+    margin-top: 1rem !important;
+}
+

@@ -115,7 +115,7 @@ class VSCodeBasedInstaller:
         # All token types from our semantic token legend
         token_types = [
             'comment', 'rootKey', 'nestedKey', 'zmetaKey', 'zkernelDataKey',
-            'zschemaPropertyKey', 'bifrostKey', 'uiElementKey', 'uiElementPropertyKey',
+            'zschemaPropertyKey', 'bifrostKey', 'controlFlowKey', 'uiElementKey', 'uiElementPropertyKey',
             'zconfigKey', 'zsparkKey', 'zenvConfigKey', 'znavbarNestedKey', 'zsubKey',
             'zsparkNestedKey', 'zsparkModeValue', 'zsparkVaFileValue',
             'zsparkSpecialValue', 'envConfigValue', 'zrbacKey', 'zrbacOptionKey',

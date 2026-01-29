@@ -283,7 +283,8 @@ class BasicInputs:
     def selection(self, prompt: str, options: List[Union[str, Dict[str, Any]]], multi: bool = DEFAULT_MULTI, 
                   default: Optional[Union[str, List[str]]] = None, 
                   style: str = DEFAULT_STYLE,
-                  action_type: Optional[str] = None) -> Union[Optional[str], List[str], 'asyncio.Future']:
+                  action_type: Optional[str] = None,
+                  type: Optional[str] = None) -> Union[Optional[str], List[str], 'asyncio.Future']:
         """Display selection prompt and collect user's choice(s).
         
         Foundation method for interactive selection prompts. Implements dual-mode
@@ -318,6 +319,7 @@ class BasicInputs:
             action_type: Action to perform after selection (default: None)
                          - "link": Execute link action (open URL, navigate)
                          - None: Return selected value(s) only
+            type: Rendering hint for Bifrost (radio/checkbox/dropdown). Ignored in Terminal mode.
                 
         Returns:
             Terminal mode:
@@ -369,7 +371,7 @@ class BasicInputs:
             if gui_future is not None:
                 return gui_future
         else:
-            gui_future = self._try_gui_mode_future(prompt, display_options, multi, default, style)
+            gui_future = self._try_gui_mode_future(prompt, display_options, multi, default, style, type)
             if gui_future is not None:
                 return gui_future
 
@@ -393,7 +395,7 @@ class BasicInputs:
     # Helper Methods - Selection Logic (Extracted from selection() for refactoring)
 
     def _try_gui_mode_future(self, prompt: str, options: List[str], multi: bool, 
-                             default: Optional[Union[str, List[str]]], style: str) -> Optional['asyncio.Future']:
+                             default: Optional[Union[str, List[str]]], style: str, type: Optional[str] = None) -> Optional['asyncio.Future']:
         """Try to handle selection in GUI mode with Future return (extracted method).
         
         Creates and returns an asyncio.Future that will be resolved when the GUI
@@ -406,6 +408,7 @@ class BasicInputs:
             multi: Multi-select flag
             default: Default selection
             style: Display style
+            type: Rendering hint for Bifrost (radio/checkbox/dropdown)
             
         Returns:
             Optional[asyncio.Future]: Future that resolves to selection value(s),
@@ -422,7 +425,8 @@ class BasicInputs:
             options=options,
             multi=multi,
             default=default,
-            style=style
+            style=style,
+            type=type
         )
         
         return gui_future
@@ -680,9 +684,14 @@ class BasicInputs:
         - Terminal: Prompts "Click [Label]? (y/n): " with semantic color
         - Bifrost: Renders actual button → click returns True
         
+        NEW v1.6.2: Automatic Action Execution:
+        - If action starts with '&', executes plugin after button click
+        - Mirrors zDialog.onSubmit pattern for consistency
+        - Use with zWizard to pass zHat values: action="&plugin.func(zHat[0])"
+        
         Args:
             label: Button label text (e.g., "Submit", "Delete", "Save")
-            action: Optional action identifier or zVar name to store result
+            action: Optional plugin invocation (e.g., "&plugin.func(zHat[0])") or action identifier
             color: Button semantic color (primary, success, danger, warning, info, secondary)
                    - primary: Default action (cyan in terminal, blue button in Bifrost)
                    - success: Positive action (green in terminal and Bifrost)
@@ -746,6 +755,23 @@ class BasicInputs:
                     break_after=False,
                     indent=1
                 )
+                
+                # NEW v1.6.2: Execute action if provided (plugin invocation pattern like zDialog.onSubmit)
+                if action and isinstance(action, str) and action.startswith('&'):
+                    try:
+                        # Access zcli through display (parent zDisplay instance)
+                        if hasattr(self, 'display') and hasattr(self.display, 'zcli') and hasattr(self.display.zcli, 'zparser'):
+                            self.display.zcli.logger.debug(f"🎯 Executing button action: {action}")
+                            result = self.display.zcli.zparser.resolve_plugin_invocation(action, self.display.zcli)
+                            self.display.zcli.logger.debug(f"✅ Button action executed, result: {result}")
+                        else:
+                            self.logger.warning(f"⚠️  Cannot execute button action - zcli or zparser not available: {action}")
+                    except Exception as e:
+                        if hasattr(self, 'display') and hasattr(self.display, 'zcli') and hasattr(self.display.zcli, 'logger'):
+                            self.display.zcli.logger.error(f"❌ Button action execution failed: {e}", exc_info=True)
+                        else:
+                            self.logger.error(f"❌ Button action execution failed: {e}", exc_info=True)
+                
                 return True
             else:
                 self._output_text(

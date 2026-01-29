@@ -299,6 +299,99 @@ class ClientEvents(BaseEventHandler):
     
     # Note: _extract_user_context() method removed - now inherited from BaseEventHandler
     
+    async def handle_button_action(self, ws, data: Dict[str, Any]) -> None:
+        """
+        Handle button action execution from Bifrost (for buttons with plugin actions).
+        
+        When a button in a zWizard has an action parameter (e.g., "&plugin.func(zHat[0])"),
+        the frontend collects wizard input values and sends them here for execution.
+        
+        Args:
+            ws: WebSocket connection (used for user context extraction)
+            data: Event data containing:
+                - requestId (str): Unique identifier for the button
+                - action (str): Plugin action string (e.g., "&plugin.func(zHat[0])")
+                - collected_values (list): Collected wizard input values
+        
+        Process:
+            1. Extract user context and validate data
+            2. Substitute zHat[N] placeholders with collected values
+            3. Execute plugin action via zParser
+            4. Log result
+        
+        Example:
+            ```python
+            await client_events.handle_button_action(ws, {
+                "requestId": "req-button-123",
+                "action": "&input_group_demo.show_search_result(zHat[0])",
+                "collected_values": ["laptop"]
+            })
+            ```
+        """
+        self.logger.info(f"{_LOG_PREFIX_INPUT} 🎯 handle_button_action CALLED! Data: {data}")
+        
+        # Extract user context
+        user_context = self._extract_user_context(ws)
+        user_id = user_context.get(_CONTEXT_KEY_USER_ID, _DEFAULT_USER_ID)
+        app_name = user_context.get(_CONTEXT_KEY_APP_NAME, _DEFAULT_APP_NAME)
+        role = user_context.get(_CONTEXT_KEY_ROLE, _DEFAULT_ROLE)
+        
+        self.logger.debug(
+            f"{_LOG_PREFIX_INPUT} User: {user_id} | App: {app_name} | Role: {role}"
+        )
+        
+        # Validate data
+        request_id = data.get('requestId')
+        action = data.get('action')
+        collected_values = data.get('collected_values', [])
+        
+        if not action or not action.startswith('&'):
+            self.logger.warning(f"{_LOG_PREFIX_INPUT} Invalid or missing action: {action}")
+            return
+        
+        # Validate zCLI availability
+        if not self.zcli:
+            self.logger.warning(f"{_LOG_PREFIX_INPUT} {_ERR_NO_ZCLI}")
+            return
+        
+        # Substitute zHat[N] placeholders with collected values
+        import re
+        substituted_action = action
+        
+        # Find all zHat[N] references and replace with collected values
+        def replace_zhat(match):
+            index = int(match.group(1))
+            if 0 <= index < len(collected_values):
+                # Quote the value for safe execution
+                return f"'{collected_values[index]}'"
+            return match.group(0)  # Keep original if index out of range
+        
+        substituted_action = re.sub(r'zHat\[(\d+)\]', replace_zhat, substituted_action)
+        
+        self.logger.info(
+            f"{_LOG_PREFIX_INPUT} Substituted action: {action} → {substituted_action}"
+        )
+        
+        # Execute plugin action
+        try:
+            if hasattr(self.zcli, 'zparser') and hasattr(self.zcli.zparser, 'resolve_plugin_invocation'):
+                self.logger.info(f"{_LOG_PREFIX_INPUT} Executing plugin: {substituted_action}")
+                result = self.zcli.zparser.resolve_plugin_invocation(substituted_action, self.zcli)
+                self.logger.info(
+                    f"{_LOG_PREFIX_INPUT} ✅ Plugin executed successfully | "
+                    f"User: {user_id} | Result: {result}"
+                )
+            else:
+                self.logger.warning(
+                    f"{_LOG_PREFIX_INPUT} zParser not available - cannot execute action"
+                )
+        except Exception as e:
+            self.logger.error(
+                f"{_LOG_PREFIX_INPUT} ❌ Plugin execution failed: {e} | "
+                f"User: {user_id} | Action: {substituted_action}",
+                exc_info=True
+            )
+    
     async def handle_page_unload(self, ws, data: Dict[str, Any]) -> None:
         """
         Handle page unload notification from frontend (lifecycle cleanup).

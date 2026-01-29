@@ -594,27 +594,40 @@ class zPrimitives:
         
         Args:
             prompt: Prompt text to display (default: empty string)
-            **kwargs: Additional parameters for Bifrost mode (ignored in Terminal):
-                - type: Input type (text, email, number, tel, url)
+            **kwargs: Additional parameters:
+                - type: Input type (text, email, number, tel, url, textarea, file)
                 - placeholder: Placeholder text
                 - required: Whether input is required
                 - default: Default value
+                - prefix: Text prefix (e.g., '$', 'https://')
+                - suffix: Text suffix (e.g., '@company.com', '.com')
+                - disabled: Display only (no interaction)
+                - readonly: Display value, no editing
+                - datalist: List of suggestions
+                - multiple: Multiple file selection (for type='file')
         
         Returns:
             Union[str, asyncio.Future]: 
-                - str if in Terminal mode (actual user input)
+                - str if in Terminal mode (actual user input with prefix/suffix concatenated)
                 - str if in Bifrost mode (empty string, actual input handled by frontend)
         
         Notes:
             - Bifrost: Buffers input_request event for frontend rendering
-            - Terminal: Synchronous input() with auto-spaced prompt
+            - Terminal: Synchronous input() with prefix/suffix shown in prompt
+            - Prefix/suffix are concatenated with user input: prefix + input + suffix
             - Always has terminal fallback if GUI request fails
             - Strips whitespace from Terminal input
         
         Example:
+            # Basic input
             result = primitives.read_string("Enter name:", type="text")
-            # Terminal: Returns actual user input string
+            # Terminal: "Enter name: " → Returns "John"
             # Bifrost: Returns "" (input rendered on frontend)
+            
+            # Input with prefix/suffix (input groups)
+            result = primitives.read_string("Email:", suffix="@company.com")
+            # Terminal: "Email [...@company.com]: " → User types "sarah" → Returns "sarah@company.com"
+            # Bifrost: Returns "" (rendered as <span>@company.com</span><input>)
         """
         # Terminal input (always available as fallback)
         # Handle multi-line textarea with Ctrl+D (EOF)
@@ -765,11 +778,52 @@ class zPrimitives:
                 return user_input
             
             # Single-line input (all other types without datalist)
+            # Extract prefix/suffix for input groups (Terminal-first pattern)
+            # Helper to convert prefix/suffix values to strings intelligently
+            def _format_affix(value):
+                """Format prefix/suffix values, handling numbers intelligently."""
+                if not value and value != 0:  # Allow 0/0.0 to pass through
+                    return ''
+                if isinstance(value, str):
+                    return value
+                if isinstance(value, bool):
+                    return str(value)
+                if isinstance(value, (int, float)):
+                    # For decimals like 0.0, format with 2 decimal places
+                    if isinstance(value, float) and 0 <= abs(value) < 1:
+                        return f"{value:.2f}".lstrip('0') or '0'  # .00 or .50
+                    return str(value)
+                return str(value)
+            
+            prefix = _format_affix(kwargs.get('prefix'))
+            suffix = _format_affix(kwargs.get('suffix'))
+            
+            # Terminal-First: Generate prompt from placeholder if no prompt provided
+            # This ensures users know what they're entering (e.g., in grouped inputs)
+            if not prompt and kwargs.get('placeholder'):
+                prompt = str(kwargs.get('placeholder'))
+            
+            # Build enhanced prompt showing prefix/suffix context
             if prompt:
-                # Ensure space after prompt for better UX in Terminal
-                terminal_prompt = prompt if prompt.endswith(' ') else prompt + ' '
-                return input(terminal_prompt).strip()
-            return input().strip()
+                terminal_prompt = prompt
+                # Show prefix/suffix as visual context in prompt
+                if prefix and suffix:
+                    terminal_prompt = f"{prompt} [{prefix}...{suffix}]: "
+                elif prefix:
+                    terminal_prompt = f"{prompt} [{prefix}...]: "
+                elif suffix:
+                    terminal_prompt = f"{prompt} [...{suffix}]: "
+                else:
+                    # Ensure space after prompt for better UX in Terminal
+                    terminal_prompt = prompt if prompt.endswith(' ') else prompt + ' '
+                
+                user_input = input(terminal_prompt).strip()
+            else:
+                user_input = input().strip()
+            
+            # Concatenate prefix + user_input + suffix for final result
+            result = f"{prefix}{user_input}{suffix}"
+            return result
 
         # Bifrost mode - buffer read_string event and return empty string
         # The frontend will render the input and handle user interaction

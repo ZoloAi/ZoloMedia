@@ -327,7 +327,7 @@ class zEvents:
 
     # Convenience Delegates - BasicInputs
 
-    def selection(self, prompt: str, options: List[Any], multi: bool = False, default: Optional[Any] = None, style: str = DEFAULT_STYLE_NUMBERED, action_type: Optional[str] = None) -> Any:
+    def selection(self, prompt: str, options: List[Any], multi: bool = False, default: Optional[Any] = None, style: str = DEFAULT_STYLE_NUMBERED, action_type: Optional[str] = None, type: Optional[str] = None) -> Any:
         """Prompt user for selection from options.
         
         Convenience delegate to BasicInputs.selection for backward compatibility.
@@ -343,11 +343,12 @@ class zEvents:
             action_type: Action to perform after selection (default: None)
                          - "link": Execute link action (open URL, navigate)
                          - None: Return selected value(s) only
+            type: Rendering hint for Bifrost (radio/checkbox/dropdown). Ignored in Terminal mode.
             
         Returns:
             Any: Selected option(s) from BasicInputs.selection method
         """
-        return self.BasicInputs.selection(prompt, options, multi, default, style, action_type)
+        return self.BasicInputs.selection(prompt, options, multi, default, style, action_type, type)
 
     def button(self, label: str, action: Optional[str] = None, color: str = "primary", **kwargs) -> bool:
         """Display a button that requires confirmation to execute.

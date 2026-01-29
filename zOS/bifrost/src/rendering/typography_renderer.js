@@ -65,17 +65,39 @@ export class TypographyRenderer {
     // Block-level semantic elements (render as top-level container)
     const blockSemantics = ['div', 'span', 'pre', 'code', 'blockquote', 'label'];
     
-    if (blockSemantics.includes(semantic)) {
+    // ═══════════════════════════════════════════════════════════════
+    // LANGUAGE-SPECIFIC PRE SUPPORT (2026-01-28)
+    // Enables: semantic: pre-html, pre-css, pre-zolo, pre-js, etc.
+    // Creates <pre><code class="language-xxx">...</code></pre> for Prism.js
+    // ═══════════════════════════════════════════════════════════════
+    const preLanguageMatch = semantic && semantic.match(/^pre-(\w+)$/);
+    const isLanguagePre = !!preLanguageMatch;
+    const preLanguage = preLanguageMatch ? preLanguageMatch[1] : null;
+    
+    if (blockSemantics.includes(semantic) || isLanguagePre) {
       // Use semantic element directly instead of <p>
-      element = document.createElement(semantic);
+      const elementType = isLanguagePre ? 'pre' : semantic;
+      element = document.createElement(elementType);
       if (attrs.class) element.className = attrs.class;
       if (attrs.id) element.id = attrs.id;
       if (attrs.for) element.setAttribute('for', attrs.for);
+      
       const content = this._decodeUnicodeEscapes(eventData.content || '');
       
-      // For pre/code elements, use textContent to display HTML as literal text
-      // This escapes angle brackets automatically (<, >, etc.)
-      if (semantic === 'pre' || semantic === 'code') {
+      // For language-specific pre (pre-html, pre-zolo, etc.), use <pre><code> structure for Prism
+      if (isLanguagePre && preLanguage) {
+        const codeElement = document.createElement('code');
+        codeElement.className = `zFont-mono language-${preLanguage}`;
+        codeElement.textContent = content;
+        element.appendChild(codeElement);
+        
+        // Trigger Prism highlighting
+        if (window.Prism) {
+          Prism.highlightElement(codeElement);
+        }
+      }
+      // For plain pre/code elements, use textContent to display HTML as literal text
+      else if (semantic === 'pre' || semantic === 'code') {
         element.textContent = content;
       } else {
         element.innerHTML = this._convertNewlinesToBr(content);

@@ -123,6 +123,7 @@ _KEY_USER = "user"
 _EVENT_CONNECTION_INFO = "connection_info"
 _EVENT_SERVER_SHUTDOWN = "server_shutdown"
 _EVENT_INPUT_RESPONSE = "input_response"
+_EVENT_BUTTON_ACTION = "button_action"
 _EVENT_PAGE_UNLOAD = "page_unload"
 _EVENT_GET_SCHEMA = "get_schema"
 _EVENT_CLEAR_CACHE = "clear_cache"
@@ -293,6 +294,7 @@ class zBifrost:
         self._event_map = {
             # Client events
             _EVENT_INPUT_RESPONSE: self.events['client'].handle_input_response,
+            _EVENT_BUTTON_ACTION: self.events['client'].handle_button_action,
             _EVENT_CONNECTION_INFO: self.events['client'].handle_connection_info,
             _EVENT_PAGE_UNLOAD: self.events['client'].handle_page_unload,
 

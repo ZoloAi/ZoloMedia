@@ -1521,8 +1521,9 @@ class MessageHandler:
         elif isinstance(data, list):
             # Recursively process list items
             return [self._resolve_zpath_references(item, zcli) for item in data]
-        elif isinstance(data, str) and data.startswith(("@", "~")):
-            # Resolve zPath to web-relative URL
+        elif isinstance(data, str) and (data.startswith("@.") or data.startswith("~.")):
+            # Resolve zPath to web-relative URL (strict matching: @. or ~. only)
+            # This prevents false positives like "@company.com" being treated as paths
             try:
                 # Check if this is a navigation zPath (@.UI.*)
                 if data.startswith("@.UI."):

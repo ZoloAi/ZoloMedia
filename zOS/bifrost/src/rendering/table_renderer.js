@@ -140,8 +140,12 @@ export class TableRenderer {
       show_header = true,
       interactive = false,  // Enable navigation controls (First/Prev/Next/Last)
       indent = 0,
-      class: customClass
+      class: classAttr,
+      _zClass  // Support both 'class' and '_zClass' from .zolo files
     } = data;
+    
+    // Use _zClass if provided, fallback to class attribute
+    const customClass = _zClass || classAttr;
 
     // Get target container (optional for orchestrator pattern)
     let container = null;
@@ -194,15 +198,16 @@ export class TableRenderer {
     // Create responsive table wrapper (zTheme class)
     const tableWrapper = createElement('div', ['zTable-responsive']);
 
-    // Build zTheme table classes - only base zReboot class
-    // Additional styling (striped, hover, bordered) should come from _zClass parameter
-    const tableClasses = ['zTable'];
+    // Build table classes - NO automatic zTable injection (2026-01-28)
+    // User must explicitly declare _zClass: zTable if they want zTheme styling
+    // This keeps the table as pure semantic HTML by default
+    const tableClasses = [];
     if (customClass) {
       tableClasses.push(customClass);
     }
 
     // Create table element (using Layer 0 primitive)
-    const table = createTable({ class: tableClasses.join(' ') });
+    const table = createTable({ class: tableClasses.length > 0 ? tableClasses.join(' ') : undefined });
 
     // Render caption (if provided) - must come before thead per HTML spec
     if (caption) {

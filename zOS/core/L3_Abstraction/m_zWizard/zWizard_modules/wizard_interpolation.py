@@ -140,14 +140,14 @@ def interpolate_zhat(step_value: Any, zHat: Any, logger: Any) -> Any:
             # Handle numeric index (backward compatible)
             if key.isdigit():
                 idx = int(key)
-                return repr(zHat[idx]) if idx < len(zHat) else _ZHAT_FALLBACK
+                return str(zHat[idx]) if idx < len(zHat) else _ZHAT_FALLBACK
             
             # Handle string key (remove quotes if present)
             key_clean = key.strip(_STR_QUOTE_CHARS)
             
             # Check if key exists in zHat
             if key_clean in zHat:
-                return repr(zHat[key_clean])
+                return str(zHat[key_clean])
             
             # Key not found - return None
             logger.warning(_LOG_MSG_KEY_NOT_FOUND, key_clean)
@@ -158,7 +158,12 @@ def interpolate_zhat(step_value: Any, zHat: Any, logger: Any) -> Any:
     
     # Handle dicts (recursive case)
     elif isinstance(step_value, dict):
-        return {k: interpolate_zhat(v, zHat, logger) for k, v in step_value.items()}
+        # DON'T interpolate 'if' conditions - they are Python expressions to be evaluated
+        # Interpolating them would replace zHat[0] with the current value before evaluation
+        return {
+            k: (v if k == 'if' else interpolate_zhat(v, zHat, logger))
+            for k, v in step_value.items()
+        }
     
     # Handle lists (recursive case)
     elif isinstance(step_value, list):

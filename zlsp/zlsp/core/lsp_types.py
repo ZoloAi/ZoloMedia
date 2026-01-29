@@ -19,6 +19,7 @@ class TokenType(Enum):
     ZSCHEMA_PROPERTY_KEY = "zschemaPropertyKey"  # Field property keys in zSchema files (type, pk, rules, etc.) - purple 98
     BIFROST_KEY = "bifrostKey"  # Underscore-prefixed keys: _zClass, etc.
     UI_ELEMENT_KEY = "uiElementKey"  # z-prefixed UI keys: zImage, zNavBar, zUL, zSub, etc.
+    CONTROL_FLOW_KEY = "controlFlowKey"  # Control flow construct keys: zWizard (sequential UI flows) - light green
     UI_ELEMENT_PROPERTY_KEY = "uiElementPropertyKey"  # Property keys inside UI elements (src, label, color) - lavender
     ZCONFIG_KEY = "zconfigKey"  # z-prefixed root keys in zConfig.*.zolo files (e.g., zMachine) - light green
     ZSPARK_KEY = "zsparkKey"  # zSpark root key in zSpark.*.zolo files (light green)
