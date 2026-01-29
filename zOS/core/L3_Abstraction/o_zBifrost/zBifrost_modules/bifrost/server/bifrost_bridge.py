@@ -132,6 +132,7 @@ _EVENT_SET_CACHE_TTL = "set_cache_ttl"
 _EVENT_DISCOVER = "discover"
 _EVENT_INTROSPECT = "introspect"
 _EVENT_DISPATCH = "dispatch"
+_EVENT_EXECUTE_CODE = "execute_code"
 
 # Health Check Keys
 _HEALTH_RUNNING = "running"
@@ -297,6 +298,7 @@ class zBifrost:
             _EVENT_BUTTON_ACTION: self.events['client'].handle_button_action,
             _EVENT_CONNECTION_INFO: self.events['client'].handle_connection_info,
             _EVENT_PAGE_UNLOAD: self.events['client'].handle_page_unload,
+            _EVENT_EXECUTE_CODE: self.events['client'].handle_execute_code,
 
             # Cache events
             _EVENT_GET_SCHEMA: self.events['cache'].handle_get_schema,

@@ -1243,6 +1243,22 @@
     }
 
     /**
+     * Ensure TerminalRenderer is loaded
+     */
+    async _ensureTerminalRenderer() {
+      if (!this.terminalRenderer) {
+        const module = await import('./rendering/terminal_renderer.js');
+        const TerminalRenderer = module.default;
+        this.terminalRenderer = new TerminalRenderer(this.logger, this);
+        // Expose class to window for message handler to access static methods
+        // (handleInputRequest, handleExecutionResponse)
+        window._TerminalRenderer = TerminalRenderer;
+        this.logger.log('[BifrostClient] TerminalRenderer loaded and initialized');
+      }
+      return this.terminalRenderer;
+    }
+
+    /**
      * Ensure DeclarativeUILoader is loaded
      */
     async _ensureDeclarativeUILoader() {

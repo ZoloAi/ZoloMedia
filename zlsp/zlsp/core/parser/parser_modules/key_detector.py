@@ -135,6 +135,7 @@ class KeyDetector:
         'ztext': {'content'},         # Text content is always multiline
         'header': {'label'},          # Header labels can be multiline
         'zimage': {'caption'},        # Image captions can be multiline
+        'zterminal': {'content'},     # Terminal code content is always multiline
         # Add more as needed
     }
     

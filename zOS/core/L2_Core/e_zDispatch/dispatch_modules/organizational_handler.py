@@ -333,7 +333,6 @@ class OrganizationalHandler:
         # Check if all keys are UI events (after expansion)
         ui_event_count = 0
         for key in content_keys:
-            clean_key = key.split('__dup')[0] if '__dup' in key else key
             val = zHorizontal[key]
             
             # Check if already expanded (has zDisplay)
@@ -467,8 +466,24 @@ class OrganizationalHandler:
                     f"[OrganizationalHandler] 🎨 BEFORE expansion of {key}: _zStyle present = {has_style_before}, keys = {list(value.keys())}"
                 )
             
-            # Expand nested shorthands (returns tuple: expanded_value, is_subsystem_call)
-            value, _ = self.expander.expand(value, walker.session if walker else {}, False)
+            # ═══════════════════════════════════════════════════════════════
+            # KEY-LEVEL SHORTHAND EXPANSION (2026-01-29)
+            # If the KEY itself is a UI element shorthand (zTerminal, etc.),
+            # we need to wrap {key: value} before expansion so expander sees it
+            # ═══════════════════════════════════════════════════════════════
+            clean_key = key.split('__dup')[0] if '__dup' in key else key
+            if clean_key in self.expander.UI_ELEMENT_KEYS:
+                # Wrap key-value, expand, then extract result
+                wrapped = {key: value}
+                expanded, _ = self.expander.expand(wrapped, walker.session if walker else {}, False)
+                # Get the expanded value (might be wrapped in zDisplay now)
+                value = expanded.get(key, value)
+                self.logger.framework.debug(
+                    f"[OrganizationalHandler] Expanded UI element shorthand '{key}' -> {list(value.keys()) if isinstance(value, dict) else type(value)}"
+                )
+            else:
+                # Regular nested expansion (for non-UI element keys)
+                value, _ = self.expander.expand(value, walker.session if walker else {}, False)
             
             # DEBUG: Log metadata after expansion
             if key.startswith('_Box_') or key.startswith('_Visual_'):

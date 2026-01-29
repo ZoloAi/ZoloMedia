@@ -238,6 +238,32 @@ export class MessageHandler {
         return; // Handled internally by zDisplay
       }
 
+      // Handle execute_code_response for zTerminal
+      if (message.event === 'execute_code_response') {
+        this.logger.log('[MessageHandler] 🖥️ execute_code_response received:', message.requestId);
+        // Route to TerminalRenderer's static handler
+        const TerminalRenderer = window._TerminalRenderer;
+        if (TerminalRenderer && TerminalRenderer.handleExecutionResponse) {
+          TerminalRenderer.handleExecutionResponse(message.requestId, message);
+        } else if (window._zTerminalResponses && window._zTerminalResponses[message.requestId]) {
+          // Fallback to direct promise resolution
+          window._zTerminalResponses[message.requestId](message);
+          delete window._zTerminalResponses[message.requestId];
+        }
+        return;
+      }
+
+      // Handle request_input for zTerminal interactive input
+      if (message.event === 'request_input') {
+        this.logger.log('[MessageHandler] 🖥️ request_input received:', message.requestId, message.prompt, 'isPassword:', message.isPassword);
+        // Route to TerminalRenderer's static handler
+        const TerminalRenderer = window._TerminalRenderer;
+        if (TerminalRenderer && TerminalRenderer.handleInputRequest) {
+          TerminalRenderer.handleInputRequest(message.requestId, message.prompt, message.isPassword || false);
+        }
+        return;
+      }
+
       // Check for display events (supports multiple formats)
       // - Old: {event: 'display', data: {...}}
       // - New: {display_event: 'success', data: {...}}

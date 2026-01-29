@@ -87,6 +87,7 @@ from zOS.L1_Foundation.a_zConfig.zConfig_modules import SESSION_KEY_ZMODE, ZMODE
 
 from .dispatch_modules.dispatch_modifiers import ModifierProcessor
 from .dispatch_modules.dispatch_launcher import CommandLauncher
+from .dispatch_modules.shorthand_expander import ShorthandExpander
 
 # Import all constants from centralized location
 from .dispatch_modules.dispatch_constants import (
@@ -293,8 +294,20 @@ class zDispatch:
             result = self.modifiers.process(zModifiers, zKey, zHorizontal, context=context, walker=walker)
             self.logger.framework.debug(_LOG_MSG_MODIFIER_RESULT, result)
         else:
-            # Route to CommandLauncher
-            result = self.launcher.launch(zHorizontal, context=context, walker=walker)
+            # ═══════════════════════════════════════════════════════════════
+            # KEY-LEVEL SHORTHAND WRAPPING (2026-01-29)
+            # If the KEY is a UI element shorthand (zTerminal, zImage, etc.)
+            # and the VALUE is a dict, wrap {key: value} so expansion works
+            # ═══════════════════════════════════════════════════════════════
+            clean_key = zKey.split('__dup')[0] if '__dup' in zKey else zKey
+            if clean_key in ShorthandExpander.UI_ELEMENT_KEYS and isinstance(zHorizontal, dict):
+                # Wrap key-value pair so shorthand expansion can see the key
+                wrapped = {zKey: zHorizontal}
+                self.logger.framework.debug(f"[zDispatch] Wrapped UI element shorthand '{zKey}' for expansion")
+                result = self.launcher.launch(wrapped, context=context, walker=walker)
+            else:
+                # Route to CommandLauncher (normal flow)
+                result = self.launcher.launch(zHorizontal, context=context, walker=walker)
             self.logger.framework.debug(_LOG_MSG_DISPATCH_RESULT, result)
 
         self.logger.framework.debug(_LOG_MSG_COMPLETED, zKey)

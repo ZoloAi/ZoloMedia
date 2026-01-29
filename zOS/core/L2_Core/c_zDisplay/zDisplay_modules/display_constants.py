@@ -86,6 +86,7 @@ _EVENT_ZCRUMBS = "zCrumbs"
 _EVENT_ZMENU = "zMenu"
 _EVENT_ZDASH = "zDash"
 _EVENT_ZDIALOG = "zDialog"
+_EVENT_ZTERMINAL = "zTerminal"
 
 # Event Names - TimeBased/Widget Events (Internal)
 _EVENT_PROGRESS_BAR = "progress_bar"

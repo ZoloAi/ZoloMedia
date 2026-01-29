@@ -458,9 +458,14 @@ class zOS:
                 sys.exit(1)
         
         # Register handlers for SIGINT and SIGTERM
-        signal.signal(signal.SIGINT, signal_handler)
-        signal.signal(signal.SIGTERM, signal_handler)
-        self.logger.framework.debug(LOG_DEBUG_SIGNAL_HANDLERS)
+        # Only register if in main thread (signal handlers don't work in other threads)
+        import threading
+        if threading.current_thread() is threading.main_thread():
+            signal.signal(signal.SIGINT, signal_handler)
+            signal.signal(signal.SIGTERM, signal_handler)
+            self.logger.framework.debug(LOG_DEBUG_SIGNAL_HANDLERS)
+        else:
+            self.logger.framework.debug("[zCLI] Skipping signal handlers (not main thread)")
     
     def shutdown(self) -> Optional[Dict[str, bool]]:
         """

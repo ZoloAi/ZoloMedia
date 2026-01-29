@@ -126,6 +126,7 @@ from .zDisplay_modules.display_constants import (
     READY_MESSAGE,
     DEFAULT_COLOR,
     DEFAULT_MODE,
+    MODE_BIFROST,
     _EVENT_TEXT,
     _EVENT_RICH_TEXT,
     _EVENT_HEADER,
@@ -151,6 +152,7 @@ from .zDisplay_modules.display_constants import (
     _EVENT_ZMENU,
     _EVENT_ZDASH,
     _EVENT_ZDIALOG,
+    _EVENT_ZTERMINAL,
     _EVENT_PROGRESS_BAR,
     _EVENT_SPINNER,
     _EVENT_PROGRESS_ITERATOR,
@@ -285,6 +287,7 @@ class zDisplay(zDisplayDelegates):
             _EVENT_ZMENU: self.zEvents.zMenu,
             _EVENT_ZDASH: self.zEvents.zDash,
             _EVENT_ZDIALOG: self.zEvents.zDialog,
+            _EVENT_ZTERMINAL: self._handle_zterminal,
 
             # Widget events (progress, spinners)
             _EVENT_PROGRESS_BAR: self.zEvents.progress_bar,
@@ -370,6 +373,202 @@ class zDisplay(zDisplayDelegates):
             return handler(**params)
         except TypeError as error:
             self.logger.error(_ERR_INVALID_PARAMS, event, error)
+            return None
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # zTerminal Handler (Code Execution Sandbox)
+    # ═══════════════════════════════════════════════════════════════════════════
+
+    def _handle_zterminal(
+        self,
+        content: str,
+        language: str = "python",
+        title: Optional[str] = None,
+        **kwargs
+    ) -> Optional[str]:
+        """
+        Handle zTerminal event - execute code and display output.
+        
+        Args:
+            content: The code to execute
+            language: Code language (python, bash, zolo)
+            title: Optional title for the terminal block
+            **kwargs: Additional parameters
+        
+        Returns:
+            The captured output from code execution, or None on error
+            
+        Bifrost Mode:
+            In Bifrost mode, this handler does NOT execute code automatically.
+            The event data is passed through to the frontend, which renders a
+            code block with a Run button. Execution happens on-demand when the
+            user clicks Run, via the execute_code WebSocket event.
+        """
+        # ═══════════════════════════════════════════════════════════════════════════
+        # BIFROST MODE - Skip execution, let frontend handle rendering
+        # ═══════════════════════════════════════════════════════════════════════════
+        if self.mode == MODE_BIFROST:
+            # In Bifrost mode, don't execute - frontend renders code block with Run button
+            # The execute_code WebSocket event handles on-demand execution
+            return None
+        
+        # ═══════════════════════════════════════════════════════════════════════════
+        # SANDBOX MODE - Restricted execution environment for security
+        # ═══════════════════════════════════════════════════════════════════════════
+        # Safe builtins only - no file/network/system access
+        
+        # Wrap Python's input() to use zDisplay.read_string() for consistency
+        def sandbox_input(prompt=""):
+            """Interactive input via zDisplay.read_string()"""
+            return self.read_string(prompt)
+        
+        SAFE_BUILTINS = {
+            # Output
+            'print': print,
+            # Input (via zDisplay)
+            'input': sandbox_input,
+            # Types & conversions
+            'int': int, 'float': float, 'str': str, 'bool': bool,
+            'list': list, 'dict': dict, 'tuple': tuple, 'set': set,
+            'bytes': bytes, 'bytearray': bytearray,
+            # Iteration & sequences
+            'range': range, 'enumerate': enumerate, 'zip': zip,
+            'map': map, 'filter': filter, 'reversed': reversed, 'sorted': sorted,
+            'len': len, 'min': min, 'max': max, 'sum': sum,
+            'all': all, 'any': any,
+            # Math
+            'abs': abs, 'round': round, 'pow': pow, 'divmod': divmod,
+            # String
+            'chr': chr, 'ord': ord, 'repr': repr, 'format': format,
+            # Object inspection (safe subset)
+            'type': type, 'isinstance': isinstance, 'issubclass': issubclass,
+            'hasattr': hasattr, 'getattr': getattr,
+            'callable': callable, 'id': id, 'hash': hash,
+            # Exceptions (for try/except)
+            'Exception': Exception, 'TypeError': TypeError, 'ValueError': ValueError,
+            'KeyError': KeyError, 'IndexError': IndexError, 'AttributeError': AttributeError,
+            'RuntimeError': RuntimeError, 'StopIteration': StopIteration,
+            'ZeroDivisionError': ZeroDivisionError,
+            # Constants
+            'True': True, 'False': False, 'None': None,
+        }
+        # BLOCKED: open, exec, eval, compile, __import__, globals, locals,
+        #          setattr, delattr, vars, dir, breakpoint, memoryview, object, super
+        
+        # ═══════════════════════════════════════════════════════════════════════════
+        # Parse code fences from content (```python ... ```)
+        # ═══════════════════════════════════════════════════════════════════════════
+        import re
+        fence_match = re.match(r'^```(\w+)?\s*\n?(.*?)(`{3,})\s*$', content, re.DOTALL)
+        if fence_match:
+            detected_lang = (fence_match.group(1) or 'text').lower()
+            inner_content = fence_match.group(2)
+            closing_backticks = fence_match.group(3)
+            
+            # Handle nested fences (6+ backticks)
+            if len(closing_backticks) > 3:
+                remaining_backticks = '`' * (len(closing_backticks) - 3)
+                inner_content = inner_content.rstrip() + remaining_backticks
+            
+            code_content = inner_content.strip()
+            language = detected_lang
+        else:
+            code_content = content.strip()
+        
+        # Display title if provided
+        if title:
+            self.zEvents.header(f"[{title}]", color="CYAN", indent=0, style="single")
+        
+        # Display the code being executed
+        self.zEvents.text(f">>> {language} (sandbox)", indent=0)
+        for line in code_content.split('\n'):
+            self.zEvents.text(f"    {line}", indent=0)
+        
+        self.zEvents.text("─" * 40, indent=0)  # Separator
+        
+        if language.lower() == "python":
+            # Build execution globals with running zOS instance
+            exec_globals = {"__builtins__": SAFE_BUILTINS}
+            exec_globals['z'] = self.zcli  # Pre-configured running instance
+            
+            try:
+                # Terminal mode: Execute directly (no stdout redirect)
+                # This allows z.display methods and input() to work naturally
+                # Terminal mode: Execute directly (output flows to terminal naturally)
+                exec(code_content, exec_globals, {})
+                return None  # Output already displayed
+                
+            except NameError as e:
+                # Likely tried to use a blocked builtin
+                self.zEvents.error(f"Sandbox Error: {e} (blocked for security)", indent=0)
+                return None
+            except Exception as e:
+                self.zEvents.error(f"Error: {type(e).__name__}: {e}", indent=0)
+                return None
+        
+        elif language.lower() == "bash":
+            # ═══════════════════════════════════════════════════════════════════════
+            # BASH DISABLED IN SANDBOX MODE - Cannot be safely sandboxed
+            # ═══════════════════════════════════════════════════════════════════════
+            self.zEvents.error("Bash execution disabled in sandbox mode", indent=0)
+            self.zEvents.info("Use 'python' or 'zolo' instead", indent=0)
+            return None
+        
+        elif language.lower() == "zolo":
+            # ═══════════════════════════════════════════════════════════════════════
+            # ZOLO EXECUTION: Run through full zWalker pipeline like zTest.py
+            # ═══════════════════════════════════════════════════════════════════════
+            import os
+            import re as re_module
+            
+            try:
+                # Sanitize title for filename
+                sanitized_title = re_module.sub(r'[^a-zA-Z0-9]', '_', title or 'zTerminal_Swap')
+                sanitized_title = re_module.sub(r'_+', '_', sanitized_title).strip('_') or 'zTerminal_Swap'
+                
+                # Swap file goes directly in zSpace
+                zspace = self.zcli.session.get('zSpace', os.getcwd())
+                swap_filename = f"zUI.{sanitized_title}.zolo"
+                swap_path = os.path.join(zspace, swap_filename)
+                
+                # Write content to swap file
+                with open(swap_path, 'w') as swap_file:
+                    swap_file.write(code_content)
+                
+                try:
+                    from zOS import zOS as zOS_Class
+                    
+                    zSpark = {
+                        "deployment": "Production",
+                        "title": f"zTerminal: {title or 'Swap'}",
+                        "logger": "PROD",
+                        "zMode": "Terminal",
+                        "zSpace": zspace,
+                        "zVaFolder": "@",
+                        "zVaFile": f"zUI.{sanitized_title}",
+                        "zBlock": "zVaF",
+                    }
+                    
+                    # Run new zOS instance - output goes directly to terminal
+                    z_temp = zOS_Class(zSpark)
+                    z_temp.run()
+                    
+                finally:
+                    # Clean up swap file
+                    if os.path.exists(swap_path):
+                        os.unlink(swap_path)
+                
+                return None
+                    
+            except Exception as e:
+                self.zEvents.error(f"Zolo Error: {e}", indent=0)
+                return None
+            except Exception as e:
+                self.zEvents.error(f"Error: {type(e).__name__}: {e}", indent=0)
+                return None
+        
+        else:
+            self.zEvents.warning(f"Language '{language}' not yet supported", indent=0)
             return None
 
     # ═══════════════════════════════════════════════════════════════════════════

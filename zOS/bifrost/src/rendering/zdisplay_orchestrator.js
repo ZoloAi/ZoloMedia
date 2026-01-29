@@ -2207,6 +2207,14 @@ export class ZDisplayOrchestrator {
         break;
       }
 
+      case 'zTerminal': {
+        // Code execution sandbox with syntax highlighting and Run button
+        const terminalRenderer = await this.client._ensureTerminalRenderer();
+        element = terminalRenderer.render(eventData);
+        this.logger.log(`[renderZDisplayEvent] Rendered zTerminal: ${eventData.title || 'untitled'}`);
+        break;
+      }
+
       default: {
         this.logger.warn(`Unknown zDisplay event: ${event}`);
         const { createDiv } = await import('./primitives/generic_containers.js');

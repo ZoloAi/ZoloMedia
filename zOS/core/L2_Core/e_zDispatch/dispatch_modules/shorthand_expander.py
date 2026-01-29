@@ -134,7 +134,7 @@ class ShorthandExpander:
     """
     
     # UI element keys (for detection) - ALL shorthands that should NOT be recursively expanded
-    UI_ELEMENT_KEYS = ['zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zText', 'zMD', 'zImage', 'zURL', 'zUL', 'zOL', 'zDL', 'zTable', 'zBtn', 'zCrumbs', 'zInput', 'zCheckbox', 'zSelect']
+    UI_ELEMENT_KEYS = ['zH1', 'zH2', 'zH3', 'zH4', 'zH5', 'zH6', 'zText', 'zMD', 'zImage', 'zURL', 'zUL', 'zOL', 'zDL', 'zTable', 'zBtn', 'zCrumbs', 'zInput', 'zCheckbox', 'zSelect', 'zTerminal']
     
     # Plural shorthand keys
     PLURAL_SHORTHANDS = ['zURLs', 'zTexts', 'zH1s', 'zH2s', 'zH3s', 'zH4s', 'zH5s', 'zH6s', 'zImages', 'zMDs']
@@ -421,6 +421,8 @@ class ShorthandExpander:
                 expanded = self._expand_zselect(value)
             elif clean_key == 'zRange':
                 expanded = self._expand_zrange(value)
+            elif clean_key == 'zTerminal':
+                expanded = self._expand_zterminal(value)
             
             # Apply expansion
             if expanded is not None:
@@ -713,6 +715,26 @@ class ShorthandExpander:
         # Note: 'value' defaults to midpoint in read_range if not provided
         
         return {KEY_ZDISPLAY: {'event': 'read_range', **value}}
+    
+    def _expand_zterminal(self, value: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Expand zTerminal to zTerminal event.
+        
+        zTerminal is a code execution sandbox that runs code and displays output.
+        
+        Parameters:
+            title: Optional title for the terminal block
+            language: Code language (python, bash, zolo)
+            content: The code to execute
+        
+        Example:
+            zTerminal:
+                title: Python Demo
+                language: python
+                content: print("Hello from zTerminal!")
+                    print("2 + 2 =", 2 + 2)
+        """
+        return {KEY_ZDISPLAY: {'event': 'zTerminal', **value}}
     
     def _expand_zcrumbs(self, value: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         """

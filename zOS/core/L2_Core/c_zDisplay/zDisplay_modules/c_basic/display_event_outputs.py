@@ -666,13 +666,15 @@ class BasicOutputs:
             return  # GUI event sent successfully
 
         # Terminal mode - output text and optionally pause
-        # ALWAYS decode escape sequences for terminal (Unicode + basic escapes like \n, \t)
+        # Decode escape sequences for terminal UNLESS semantic="code"
+        # (code blocks should preserve literal escape sequences like \n, \t)
         # decode_unicode_escapes() handles ALL escape sequences:
         # - \uXXXX, \UXXXXXXXX (Unicode/emoji)
         # - \n (newline), \t (tab), \r (carriage return)
         # - \\, \", \' (quotes and backslashes)
-        from zlsp.core.parser.parser_modules.escape_processors import decode_unicode_escapes
-        content = decode_unicode_escapes(content)
+        if semantic != "code":
+            from zlsp.core.parser.parser_modules.escape_processors import decode_unicode_escapes
+            content = decode_unicode_escapes(content)
         
         # NEW: zText semantic multiline handling
         # Content from zlsp parser may contain:

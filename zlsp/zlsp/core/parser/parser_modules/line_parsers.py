@@ -1018,7 +1018,7 @@ def build_nested_dict(structured_lines: list[dict], start_idx: int, current_inde
         # UI event shorthands are exempt from duplicate key checks
         # These represent sequential UI elements, not dictionary keys
         is_ui_event_shorthand = (
-            clean_key in ['zText', 'zImage', 'zMD', 'zURL', 'zUL', 'zOL', 'zTable', 'zInput', 'zWizard', 'zCheckbox', 'zButton', 'zBtn'] or
+            clean_key in ['zText', 'zImage', 'zMD', 'zURL', 'zUL', 'zOL', 'zTable', 'zInput', 'zWizard', 'zCheckbox', 'zButton', 'zBtn', 'zTerminal'] or
             (clean_key.startswith('zH') and len(clean_key) == 3 and clean_key[2].isdigit())
         )
         
@@ -1078,7 +1078,12 @@ def build_nested_dict(structured_lines: list[dict], start_idx: int, current_inde
                 else:
                     # Multi-line string: decode escape sequences (\n, \t, etc.) but skip type detection
                     # This ensures \n in markdown content becomes actual newlines
-                    typed_value = decode_unicode_escapes(value) if value else ''
+                    # EXCEPTION: Code fence content (```...) should NOT have escapes decoded
+                    # because \n in code should remain literal \n for Python/JS/etc.
+                    if value and value.lstrip().startswith('```'):
+                        typed_value = value  # Preserve code fence content as-is
+                    else:
+                        typed_value = decode_unicode_escapes(value) if value else ''
             else:
                 # Detect value type (including \n escape sequences)
                 typed_value = detect_value_type(value) if value else ''

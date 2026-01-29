@@ -96,6 +96,11 @@ def detect_value_type(value: str) -> Any:
     # String (DEFAULT - everything else!)
     # This includes: 'YES', 'NO', 'yes', 'no', 'true value', 'false alarm', etc.
     
+    # EXCEPTION: Code fence content (```...) should NOT have escapes decoded
+    # because \n in code should remain literal \n for Python/JS/etc.
+    if value.lstrip().startswith('```'):
+        return value  # Preserve code fence content as-is
+    
     # Process ALL escape sequences (Unicode AND basic like \n, \t)
     # decode_unicode_escapes() handles:
     # - \uXXXX, \UXXXXXXXX (Unicode/emoji)
