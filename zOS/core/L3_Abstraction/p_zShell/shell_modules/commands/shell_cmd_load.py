@@ -172,7 +172,7 @@ ITEM_TYPE_TABLES: str = "tables"
 ITEM_TYPE_BLOCKS: str = "blocks"
 
 # Cache Meta Keys
-META_KEY: str = "Meta"
+META_KEY: str = "zMeta"
 
 # Error Messages
 ERROR_NO_ARGS: str = "Usage: load <zPath> | load show | load clear [pattern]"
@@ -370,7 +370,7 @@ def _count_resource_items(
         Tuple of (items_list, item_type_name)
         
     Example:
-        >>> result = {"users": {...}, "posts": {...}, "Meta": {...}}
+        >>> result = {"users": {...}, "posts": {...}, "zMeta": {...}}
         >>> items, item_type = _count_resource_items(result, "schema")
         >>> # items = ["users", "posts"], item_type = "tables"
     """

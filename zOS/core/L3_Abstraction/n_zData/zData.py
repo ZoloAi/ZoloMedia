@@ -180,7 +180,7 @@ from .zData_modules.shared.data_operations import DataOperations
 # ═══════════════════════════════════════════════════════════════════════════════════════
 
 # Schema keys (Meta section)
-_META_KEY = "Meta"
+_META_KEY = "zMeta"
 _META_KEY_DATA_TYPE = "Data_Type"
 _META_KEY_DATA_PATH = "Data_Path"
 _META_KEY_DATA_SOURCE = "Data_Source"  # NEW v1.5.12: Environment variable reference (security best practice)
@@ -215,7 +215,7 @@ _CONTEXT_KEY_WIZARD_MODE = "wizard_mode"
 _CONTEXT_KEY_SCHEMA_CACHE = "schema_cache"
 
 # Reserved schema keys (excluded from table lists)
-_RESERVED_KEY_META = "Meta"
+_RESERVED_KEY_META = "zMeta"
 _RESERVED_KEY_DB_PATH = "db_path"
 
 # Return values
@@ -714,7 +714,7 @@ class zData:
         Examples:
             # Load schema and execute operations
             schema = {
-                "Meta": {
+                "zMeta": {
                     "Data_Type": "sqlite",
                     "Data_Path": "~.zMachine.data/users.db",
                     "Data_Label": "users"
@@ -1607,7 +1607,7 @@ class zData:
         Convert zCLI native schema format to schema_diff.py expected format.
         
         zCLI Format (native):
-            {'Meta': {...}, 'users': {'id': {...}, 'name': {...}}, ...}
+            {'zMeta': {...}, 'users': {'id': {...}, 'name': {...}}, ...}
         
         Diff Engine Format (expected):
             {'Tables': {'users': {'Columns': {'id': {...}, 'name': {...}}}, ...}}
@@ -1621,10 +1621,10 @@ class zData:
         if not zcli_schema:
             return {'Tables': {}}
         
-        # Extract tables (all keys except 'Meta')
+        # Extract tables (all keys except 'zMeta')
         tables = {}
         for key, value in zcli_schema.items():
-            if key == 'Meta':
+            if key == _META_KEY:
                 continue
             # Wrap table columns in 'Columns' key for diff engine
             tables[key] = {'Columns': value}
@@ -1647,7 +1647,7 @@ class zData:
         Returns:
             Dict[str, Any]: Schema dict in zCLI format matching self.schema structure:
             {
-                'Meta': {...},  # Copied from loaded schema
+                'zMeta': {...},  # Copied from loaded schema
                 'Tables': {
                     'users': {
                         'Columns': {
@@ -1686,9 +1686,9 @@ class zData:
             # We don't want to detect "extra" tables in the database as candidates for dropping.
             # This ensures we only compare the schema-defined tables' reality vs. their YAML definition.
             
-            # zCLI schema format: tables are top-level keys (excluding 'Meta')
-            # Example: {'Meta': {...}, 'users': {...}, 'posts': {...}}
-            tables = [key for key in self.schema.keys() if key != 'Meta'] if self.schema else []
+            # zCLI schema format: tables are top-level keys (excluding 'zMeta')
+            # Example: {'zMeta': {...}, 'users': {...}, 'posts': {...}}
+            tables = [key for key in self.schema.keys() if key != _META_KEY] if self.schema else []
             
             self.logger.debug(f"[zMigrate] Introspecting {len(tables)} schema-defined tables: {tables}")
             
@@ -1709,7 +1709,7 @@ class zData:
             # Build complete schema structure matching zCLI format
             # Tables are at top level, NOT nested under 'Tables' key
             introspected_schema = {
-                'Meta': self.schema.get('Meta', {}) if self.schema else {}
+                _META_KEY: self.schema.get(_META_KEY, {}) if self.schema else {}
             }
             # Add each table as a top-level key
             introspected_schema.update(introspected_tables)
@@ -1864,7 +1864,7 @@ class zData:
         
         # Convert both schemas to diff engine format
         # schema_diff expects {'Tables': {'users': {'Columns': {...}}}}
-        # but zCLI uses {'Meta': {...}, 'users': {...}}
+        # but zCLI uses {'zMeta': {...}, 'users': {...}}
         self.logger.debug("[zMigrate] Converting schemas to diff engine format...")
         old_schema_diff = self._convert_zcli_to_diff_format(old_schema_zcli)
         new_schema_diff = self._convert_zcli_to_diff_format(new_schema)
@@ -2019,7 +2019,7 @@ class zData:
                     schema = self.zcli.loader.handle(schema_path)
                     
                     if schema:
-                        meta = schema.get('Meta', {})
+                        meta = schema.get(_META_KEY, {})
                         
                         # Get migration flag (defaults to True per zMigration guide)
                         migration_enabled = meta.get('zMigration', True)

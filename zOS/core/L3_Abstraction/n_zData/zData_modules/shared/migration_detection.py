@@ -28,7 +28,7 @@ def compute_schema_hash(schema: Dict[str, Any]) -> str:
         str: 64-character SHA256 hex digest
     
     Example:
-        >>> schema = {'Meta': {...}, 'users': {...}}
+        >>> schema = {'zMeta': {...}, 'users': {...}}
         >>> compute_schema_hash(schema)
         'abc123def456...'
     """
@@ -107,8 +107,8 @@ def detect_schema_changes(old_schema: Dict[str, Any], new_schema: Dict[str, Any]
     }
     
     # Get table definitions (skip Meta)
-    old_tables = {k: v for k, v in old_schema.items() if k != 'Meta'}
-    new_tables = {k: v for k, v in new_schema.items() if k != 'Meta'}
+    old_tables = {k: v for k, v in old_schema.items() if k != 'zMeta'}
+    new_tables = {k: v for k, v in new_schema.items() if k != 'zMeta'}
     
     # For each table, compare columns
     for table_name in new_tables.keys():

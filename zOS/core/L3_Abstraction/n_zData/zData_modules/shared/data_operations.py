@@ -115,7 +115,7 @@ Actions that REQUIRE ensure_tables:
 - read, update, delete, upsert, create: Need table to exist
 
 ensure_tables() creates missing tables:
-1. Filters out reserved keys ("Meta", "db_path")
+1. Filters out reserved keys ("zMeta", "db_path")
 2. Checks if table exists (adapter.table_exists)
 3. Creates missing tables (adapter.create_table)
 4. Logs success/failure for each table
@@ -125,8 +125,8 @@ SCHEMA INTEGRATION
 ═══════════════════════════════════════════════════════════════════════════════
 
 Schema Filtering:
-- Excludes "Meta" key (schema metadata, not a table)
-- Excludes "db_path" key (legacy, should be in Meta)
+- Excludes "zMeta" key (schema metadata, not a table)
+- Excludes "db_path" key (legacy, should be in zMeta)
 - Used by select() for auto-join detection
 - Used by ensure_tables() for table creation
 
@@ -211,7 +211,7 @@ ACTION_MIGRATE = "migrate"
 # ────────────────────────────────────────────────────────────────────────────
 # Reserved Schema Keys (Excluded from table operations)
 # ────────────────────────────────────────────────────────────────────────────
-RESERVED_META = "Meta"
+RESERVED_META = "zMeta"
 RESERVED_DB_PATH = "db_path"
 
 # ────────────────────────────────────────────────────────────────────────────
@@ -642,7 +642,7 @@ class DataOperations:
         
         This method checks if specified tables (or all tables from schema) exist
         in the database and creates missing tables using adapter.create_table().
-        It filters out reserved schema keys ("Meta", "db_path") and logs all
+        It filters out reserved schema keys ("zMeta", "db_path") and logs all
         operations.
         
         Table Selection:
@@ -651,8 +651,8 @@ class DataOperations:
         
         Schema Filtering:
             Excluded keys (not tables):
-            - "Meta": Schema metadata (schema name, version, etc.)
-            - "db_path": Legacy key (should be in Meta)
+            - "zMeta": Schema metadata (schema name, version, etc.)
+            - "db_path": Legacy key (should be in zMeta)
         
         Error Handling:
             - Adapter not initialized: Logs error, returns False
@@ -777,11 +777,11 @@ class DataOperations:
         Select rows from table with optional JOINs (adapter delegation).
         
         Pass-through method that delegates SELECT operations to the adapter with
-        auto-join support. Filters schema to exclude "Meta" key before passing
+        auto-join support. Filters schema to exclude "zMeta" key before passing
         to adapter for automatic JOIN detection.
         
         Schema Filtering:
-            - Excludes "Meta" key (schema metadata)
+            - Excludes "zMeta" key (schema metadata)
             - Passes remaining tables to adapter for auto-join detection
         
         Args:
@@ -810,7 +810,7 @@ class DataOperations:
         if not self.adapter:
             raise RuntimeError(ERR_RUNTIME_NO_ADAPTER)
 
-        # Filter schema: exclude "Meta" key for auto-join detection
+        # Filter schema: exclude "zMeta" key for auto-join detection
         schema_tables = {k: v for k, v in self.schema.items() if k != RESERVED_META}
         return self.adapter.select(
             table,

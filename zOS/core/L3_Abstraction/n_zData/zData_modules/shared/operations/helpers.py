@@ -148,7 +148,7 @@ _KEY_LIMIT = "limit"
 _KEY_ORDER = "order"
 _KEY_OFFSET = "offset"
 _KEY_JOINS = "joins"
-_KEY_META = "Meta"
+_KEY_META = "zMeta"
 _KEY_SCHEMA_NAME = "Schema_Name"
 
 # ────────────────────────────────────────────────────────────────────────────

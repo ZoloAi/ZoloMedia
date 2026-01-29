@@ -155,7 +155,7 @@ _KEY_SCHEMA = "schema"
 # Module Constants - Reserved Schema Keys
 # ============================================================
 
-_RESERVED_META = "Meta"
+_RESERVED_META = "zMeta"
 _RESERVED_DB_PATH = "db_path"
 
 # ============================================================

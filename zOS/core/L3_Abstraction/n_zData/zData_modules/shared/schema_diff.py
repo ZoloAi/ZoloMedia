@@ -117,7 +117,7 @@ KEY_TABLES = "Tables"
 KEY_COLUMNS = "Columns"
 KEY_CONSTRAINTS = "Constraints"
 KEY_HOOKS = "Hooks"
-KEY_META = "Meta"
+KEY_META = "zMeta"
 
 # Diff Result Keys
 KEY_TABLES_ADDED = "tables_added"

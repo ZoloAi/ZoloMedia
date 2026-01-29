@@ -244,7 +244,7 @@ KEY_USER: str = "user"
 # Database/Data keys
 TABLE_SESSIONS: str = "sessions"
 DATA_LABEL_AUTH: str = "auth"
-META_KEY: str = "Meta"
+META_KEY: str = "zMeta"
 DATA_LABEL_KEY: str = "Data_Label"
 
 # Configuration

@@ -63,7 +63,7 @@ _CMD_TYPE_HELP = "help"
 _FILE_TYPE_SERVER = "server"
 
 # Top-level keys
-_KEY_META = "Meta"
+_KEY_META = "zMeta"
 _KEY_ROUTES = "routes"
 
 # Meta keys

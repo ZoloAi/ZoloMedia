@@ -143,7 +143,7 @@ simple lists and JSON.
    ```python
    # Current: Not displayed
    # Future: Schema introspection command
-   schema_meta = ops.schema.get("Meta", {})
+   schema_meta = ops.schema.get("zMeta", {})
    ops.zcli.display.zEvents.BasicData.json_data(schema_meta, color=True)
    # Benefit: Developers can inspect database schema
    ```
@@ -306,7 +306,7 @@ table_names = ops.adapter.list_tables()
 ops.zcli.display.zEvents.BasicData.list(table_names, style="number")
 
 # Schema introspection (Week 6.6)
-schema_meta = ops.schema.get("Meta", {})
+schema_meta = ops.schema.get("zMeta", {})
 ops.zcli.display.zEvents.BasicData.json_data(schema_meta, color=True)
 ```
 """

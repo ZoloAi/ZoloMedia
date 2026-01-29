@@ -219,7 +219,7 @@ LIST_KEY_AGE: str = "age"
 LIST_KEY_TXN_ACTIVE: str = "transaction_active"
 
 # Schema Keys (for backend extraction)
-SCHEMA_KEY_META: str = "Meta"
+SCHEMA_KEY_META: str = "zMeta"
 SCHEMA_KEY_DATA_TYPE: str = "Data_Type"
 BACKEND_UNKNOWN: str = "unknown"
 
@@ -418,7 +418,7 @@ class SchemaCache:
                 - backend: Database type from schema metadata
 
         **Backend Detection**:
-            Extracts backend from `handler.schema["Meta"]["Data_Type"]`,
+            Extracts backend from `handler.schema["zMeta"]["Data_Type"]`,
             defaults to "unknown" if not found.
         """
         self.connections[alias_name] = handler

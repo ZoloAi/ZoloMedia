@@ -62,7 +62,7 @@ FIELD_GRANTED_AT = "granted_at"
 # Schema Configuration
 SCHEMAS_DIR = "Schemas"
 SCHEMA_FILE_NAME = "zSchema.auth.yaml"
-SCHEMA_META_KEY = "Meta"
+SCHEMA_META_KEY = "zMeta"
 SCHEMA_LABEL_KEY = "Data_Label"
 
 # Query Configuration

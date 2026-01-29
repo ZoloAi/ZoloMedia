@@ -374,7 +374,7 @@ class zServer:
                 self.zcli.data.load_schema(schema)
                 
                 # Get table names from schema (exclude Meta)
-                table_names = [k for k in schema.keys() if k != "Meta"]
+                table_names = [k for k in schema.keys() if k != "zMeta"]
                 
                 if not table_names:
                     self.logger.warning(f"[zServer] No tables found in schema: {filename}")

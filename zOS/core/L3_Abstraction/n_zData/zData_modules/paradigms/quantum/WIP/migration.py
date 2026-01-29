@@ -328,7 +328,7 @@ class ZMigrate:
         
         for table_name, table_fields in zForm.items():
             # Skip Meta and other non-table entries
-            if table_name in ("Meta", "db_path") or not isinstance(table_fields, dict):
+            if table_name in ("zMeta", "db_path") or not isinstance(table_fields, dict):
                 continue
             
             # Check if table exists in database

@@ -39,7 +39,7 @@ RBAC Integration:
 
 Examples:
     >>> data = {
-    ...     "Meta": {"base_path": "./public"},
+    ...     "zMeta": {"base_path": "./public"},
     ...     "routes": {
     ...         "/": {"type": "static", "file": "index.html"},
     ...         "/admin": {
@@ -153,7 +153,7 @@ def parse_server_file(
     
     Examples:
         >>> data = {
-        ...     "Meta": {"base_path": "./public"},
+        ...     "zMeta": {"base_path": "./public"},
         ...     "routes": {
         ...         "/": {"type": "static", "file": "index.html"}
         ...     }

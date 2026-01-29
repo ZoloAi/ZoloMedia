@@ -1,0 +1,49 @@
+---
+description: Require user approval before executing git commits
+alwaysApply: true
+---
+
+# Git Commit Approval Required
+
+**CRITICAL**: You MUST obtain explicit user approval before executing any git commit.
+
+## Workflow
+
+When the user asks to commit changes:
+
+1. **Analyze**: Run `git status` and `git diff` to review all changes
+2. **Draft**: Create a proposed commit message following project conventions
+3. **Present**: Show the user:
+   - List of files to be committed
+   - Full proposed commit message
+   - Summary of changes
+4. **Request Approval**: Explicitly ask "Do you approve this commit?"
+5. **Wait**: Do NOT execute the commit until user responds with explicit approval
+6. **Execute**: Only commit if user says "yes", "approve", "approved", "commit it", or similar affirmative
+
+## What Requires Approval
+
+- `git commit` commands (including `git commit -m`, `git commit --amend`)
+- Any git operation that creates or modifies commits
+
+## Example Flow
+
+```
+Assistant: Ready to commit. Here's what I propose:
+
+Files to commit:
+  - file1.py (modified)
+  - file2.js (modified)
+
+Proposed commit message:
+---
+feat(feature): Add new functionality
+
+- Implemented X
+- Fixed Y
+- Updated Z
+---
+
+Do you approve this commit?
+
+User: yes

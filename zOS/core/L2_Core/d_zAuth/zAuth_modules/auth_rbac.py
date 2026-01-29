@@ -678,7 +678,7 @@ class RBAC:
         
         Checks:
             - zData handler exists (self.zcli.data.handler)
-            - Auth schema is loaded (schema["Meta"]["Data_Label"] == "auth")
+            - Auth schema is loaded (schema["zMeta"]["Data_Label"] == "auth")
         
         Example:
             >>> if self._is_db_ready():
